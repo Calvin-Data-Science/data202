@@ -26,17 +26,17 @@ Students will gain practical experience using the Python data science ecosystem 
 
 The material for this course is adapted with permission from [CS 109a at Harvard](https://harvard-iacs.github.io/2018-CS109A/)
 
-We will use Piazza for Q&A. [Sign up here](https://piazza.com/class/jz4k2urbn8r199).
+We will use Piazza for Q&A. [Sign up here](https://piazza.com/class/jz4k2urbn8r199). TODO: pull in more details about this.
 
 # Projects
 
-There is no final exam for this course; instead, students will do two projects:
+There is no final exam for this course; instead, students will do two projects, both done in groups of 2 or 3.
 
-The **interim project** is replicating some part of some existing data science work (a blog post, report, research paper, etc.).
+The **interim project** is replicating some part of some existing data science work (a blog post, report, research paper, etc.). You will pick two or there potential options that interest you, talk about them with the course staff to determine what's feasible, and do them, all within the first few weeks of the semester.
 
 The **final project** requires doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (not actually posted unless you want to) and supporting code. Successful outcomes should include visual, analytical, and perspectival components.
 
-The final course meeting (during the designated final exam period) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
+The final course meeting (during the designated final exam period TODO WHEN IS THIS) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
 
 # Prerequisites
 
