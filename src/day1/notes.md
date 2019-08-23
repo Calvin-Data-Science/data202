@@ -24,3 +24,11 @@ title: Day 1 Notes
         * Homework: due Tue 8pm
     * Projects
 * Next class: we meet in lab.
+
+
+
+Randy's ideas:
+
+* First-day info sheet: https://rpruim.github.io/m252/S19/hw/info-sheet.pdf
+* Photos of small groups of people with their name cards
+
