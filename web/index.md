@@ -28,15 +28,15 @@ In this course we will focus on the analysis of data to perform predictions usin
 
 In DATA 202, you will learn computational and statistical tools for working with diverse sets of data and communicating the stories that the datasets tell. You will also grow in your ability to critically evaluate how others have used data in both ethical and correctness aspects.
 
-The class material integrates five facets of an investigation using data:
+* **Formulate** a question or problem that can be answered by data
+* **Acquire** data responsibly
+* **Transform** data faithfully into usable forms
+* **Explore** datasets to interrogate their representativeness, build intuition, and generate hypotheses
+* **Apply** predictive tools to draw conclusions, evaluating the suitability of these models
+* **Communicate** visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences
+* **Analyze** considerations of responsibility and justice in all of the above practices
 
-1. Formulating Questions - how to ask questions that are both feasible and responsible
-2. Data Collection - acquiring data responsibly; transforming it into usable forms.
-3. Exploratory Data Analysis – critically interrogating datasets, building intuition, and generating hypotheses
-4. Prediction or Statistical Learning - summarizing data using predictive models, evaluating model suitability
-5. Communication – crafting visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences
-
-Students will gain practical experience using the Python data science ecosystem (Pandas, Matplotlib, etc.).
+Since data vary greatly in form, we will be using programming to enable flexibility. Thus you will gain practical experience using the Python data science ecosystem (mainly Pandas and Matplotlib).
 
 The material for this course is adapted with permission from three prior courses:
 
@@ -44,7 +44,6 @@ The material for this course is adapted with permission from three prior courses
 * [CS 109a at Harvard](https://harvard-iacs.github.io/2018-CS109A/)
 * [Critical Thinking in Data Science at Harvard](https://www.youtube.com/watch?v=PDYGjDYTY1o) (links to YouTube because the course website is not public)
 
-TODO: reword these as clear and falsifiable learning objectives.
 
 # Prerequisites
 
@@ -101,7 +100,7 @@ The **interim project** is replicating some part of some existing data science w
 
 The **final project** requires doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (not actually posted unless you want to) and supporting code. Successful outcomes should include visual, analytical, and perspectival components.
 
-The final course meeting (during the designated final exam period TODO WHEN IS THIS) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
+The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
 
 # Software
 
@@ -119,10 +118,12 @@ There is no single textbook for this course; all needed material will be present
 # To include
 
 * Note about regular weekly due date (Tues 10pm?)
+* Academic integrity: what forms of collaboration are expected, permitted, and prohibited?
 * Note about graceful conduct when engaging issues that may be divisive or hurtful
 * Goals and logistics of ethics and critical thinking discussions
-* Schedule (link to spreadsheet)
+* Schedule (link to [spreadsheet](https://docs.google.com/spreadsheets/d/1JRDj1tIUPr89yfqL3OhZ5zqbjC8cm5hk8U1rHia1A3Y/edit#gid=0))
 * Calvin's statement on accommodations
+* Text inspired by the [CS179 syllabus](https://projects.iq.harvard.edu/cs179sp19/syllabus) on mental health and inclusion.
 
 
 # Meta
