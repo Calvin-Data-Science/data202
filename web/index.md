@@ -26,7 +26,7 @@ In this course we will focus on the analysis of data to perform predictions usin
 
 # Outcomes
 
-In DATA 202, you will learn computational and statistical tools for working with diverse sets of data and communicating the stories that the datasets tell. You will also grow in your ability to critically evaluate how others have used data in both ethical and correctness aspects.
+In DATA 202, you will build on what you learned in DATA 101 for computational and statistical tools for working with diverse sets of data and communicating the stories that the datasets tell. You will also grow in your ability to critically evaluate how others have used data in both ethical and correctness aspects.
 
 * **Formulate** a question or problem that can be answered by data
 * **Acquire** data responsibly
@@ -36,7 +36,8 @@ In DATA 202, you will learn computational and statistical tools for working with
 * **Communicate** visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences
 * **Analyze** considerations of responsibility and justice in all of the above practices
 
-Since data vary greatly in form, we will be using programming to enable flexibility. Thus you will gain practical experience using the Python data science ecosystem (mainly Pandas and Matplotlib).
+Since data vary greatly in form, we will be using programming to enable flexibility. Since Python is prevalent among data scientists, this course is designed to give you practical experience using the Python data science ecosystem (mainly Pandas and Matplotlib).
+(If a significant fraction of the students also know or are studying R, we will make some effort to show translations between the languages.)
 
 The material for this course is adapted with permission from three prior courses:
 
@@ -63,16 +64,15 @@ I am happy to discuss requests for individual accommodations regarding any aspec
 
 The overall grade distribution will be:
 
-* Labs (20%): weekly practice with basic computational tools. Graded by completion, due at noon the day after the lab (typically Saturday at noon, since labs will typically be Fridays). SOLO OR PAIR?
-* Homeworks (20%): weekly deeper practice.
+* Labs (15%): weekly practice with basic computational tools. Graded by completion, due at noon the day after the lab (typically Saturday at noon, since labs will typically be Fridays). SOLO OR PAIR?
+* Homeworks (15%): weekly deeper practice.
+* Quizzes (10%): regular short concept checks.
 * Project 1 (20%): replicate and critique some real-world data science (details below)
 * Project 2 (30%): ask and answer your own data science question (details below)
 * Participation in class discussions: (5%)
 * Feedback and participation in improving the course: (5%, including 1% for *visiting my office hours at least once* during the first 3 weeks)
 
-No student who submits something thoughtful (even if incorrect) for every assignment, on time, will receive a grade lower than a B-.
-
-Late assignments will not be accepted.
+Late assignments will receive a 0. The lowest 3 of each of labs and homeworks will be dropped.
 
 My current philosophy of assessment is that it should primarily be useful to you, the student. So the large majority of the numeric grading done in this course will be based on completion: on-time submissions to labs and homeworks that pass the automated tests and reflect an honest attempt to answer all questions will receive full credit.
 
@@ -122,9 +122,10 @@ There is no single textbook for this course; all needed material will be present
 * Note about graceful conduct when engaging issues that may be divisive or hurtful
 * Goals and logistics of ethics and critical thinking discussions
 * Schedule (link to [spreadsheet](https://docs.google.com/spreadsheets/d/1JRDj1tIUPr89yfqL3OhZ5zqbjC8cm5hk8U1rHia1A3Y/edit#gid=0))
+   * TODO: Unsupervised (k-means) and the contrast
+   * SQL should be priority.
 * Calvin's statement on accommodations
 * Text inspired by the [CS179 syllabus](https://projects.iq.harvard.edu/cs179sp19/syllabus) on mental health and inclusion.
 
 
 # Meta
-https://projects.iq.harvard.edu/cs179sp19/syllabus
