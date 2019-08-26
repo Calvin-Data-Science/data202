@@ -20,10 +20,16 @@ Unless otherwise announced:
 * On Mondays and Wednesdays, the course will meet in SB 382.
 * On Fridays, the course will meet in the TODO lab.
 
-# Context
-I intend this course to be one part of preparing students to be team members and leaders of responsible intelligent organizations. An organization behaves *intelligently* by *adapting its behavior* based on data. A *responsible* organization understands the broader impacts of its collection and aggregation of data. Team members within responsible intelligent organizations are adept at learning new ways of acquiring and using data while maintaining focus on the people who are the sources and ultimate beneficiaries of that data.
+# Course Description and Context
+Students in this course will
 
-In this course we will focus on the analysis of data to perform predictions using statistical and machine learning methods. You will get ample practice through weekly homework and lab assignments.
+* Gain technical proficiency in computational and statistical tools for data management and analytics
+* Grow skills in communicating data through both graphics and text
+* Practice critical thinking and mindfulness about responsible handling of data
+* Refine skills of teamwork, planning, help-seeking, and reflection
+
+This course contributes to a data science program that prepares students to be team members and leaders of responsible intelligent organizations. An organization behaves *intelligently* by *adapting its behavior* based on data. A *responsible* organization understands the broader impacts of its collection and aggregation of data. Team members within responsible intelligent organizations are adept at learning new ways of acquiring and using data while maintaining focus on the people who are the sources and ultimate beneficiaries of that data.
+
 
 # Outcomes
 
@@ -37,8 +43,10 @@ In DATA 202, you will build on what you learned in DATA 101 for computational an
 * **Communicate** visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences
 * **Analyze** considerations of responsibility and justice in all of the above practices
 
-Since data vary greatly in form, we will be using programming to enable flexibility. Since Python is prevalent among data scientists, this course is designed to give you practical experience using the Python data science ecosystem (mainly Pandas and Matplotlib).
+Since data vary greatly in form, we will be using programming to enable flexibility. Since Python is prevalent among data scientists, this course is designed to give you practical experience using the Python data science ecosystem (mainly Pandas, Matplotlib, and Scikit-Learn).
 (If a significant fraction of the students also know or are studying R, we will make some effort to show translations between the languages.)
+
+Resume keywords: Python, Pandas, Scikit-Learn (regression and classification, supervised and unsupervised learning), Matplotlib, SQL
 
 The material for this course is adapted with permission from three prior courses:
 
@@ -55,7 +63,7 @@ This course assumes programming experience at the level of CS 104/106/108 and da
 
 We will use Piazza for Q&A. [Sign up here](https://piazza.com/class/jz4k2urbn8r199). TODO: pull in more details about this.
 
-# Assignments and Grading
+# Policies
 
 Since this is the first time this course is being offered in this format, I am striving to keep logistics simple for everyone involved.
 
@@ -67,17 +75,20 @@ The overall grade distribution will be:
 
 * Labs (15%): weekly practice with basic computational tools. Graded by completion, due at noon the day after the lab (typically Saturday at noon, since labs will typically be Fridays). SOLO OR PAIR?
 * Homeworks (15%): weekly deeper practice.
-* Quizzes (10%): regular short concept checks.
+* Quizzes (10%)
 * Project 1 (20%): replicate and critique some real-world data science (details below)
 * Project 2 (30%): ask and answer your own data science question (details below)
-* Participation in class discussions: (5%)
+* Participation (5%) (details below)
 * Feedback and participation in improving the course: (5%, including 1% for *visiting my office hours at least once* during the first 3 weeks)
 
-Late assignments will receive a 0. The lowest 3 of each of labs and homeworks will be dropped.
+Late assignments will receive a 0 unless discussed in advance. The lowest 3 of each of labs and homeworks will be dropped.
 
 My current philosophy of assessment is that it should primarily be useful to you, the student. So the large majority of the numeric grading done in this course will be based on completion: on-time submissions to labs and homeworks that pass the automated tests and reflect an honest attempt to answer all questions will receive full credit.
 
 However, we will provide you feedback on assignments. This feedback takes significant time for us to create, so we expect you to take some time to respond to it. We will evaluate how well you have responded to feedback by questions on subsequent assignments and potentially other mechanisms.
+
+### Discussion
+can be met by either regularly raising points that others credit or build on, or regularly responding critically to others' points
 
 # Class Meetings
 
