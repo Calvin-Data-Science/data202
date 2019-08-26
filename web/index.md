@@ -6,6 +6,7 @@ Kenneth C. Arnold
 Calvin University
 North Hall NH298
 Preferred Contact: ka37@calvin.edu
+Office Phone: 616-526-8723. Home: 443-310-4402.
 Office Hours: TBA (to avoid conflicts with student schedules)
 
 Teaching Assistant: Joe Jinn
