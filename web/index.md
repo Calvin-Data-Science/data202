@@ -1,16 +1,14 @@
----
-title: DATA 202
-...
-
-Kenneth C. Arnold
-Calvin University
-North Hall NH298
-Preferred Contact: ka37@calvin.edu
-Office Phone: 616-526-8723. Home: 443-310-4402.
+Kenneth C. Arnold<br>
+Calvin University<br>
+North Hall NH298<br>
+Preferred Contact: ka37@calvin.edu<br>
+Office Phone: 616-526-8723. Home: 443-310-4402.<br>
 Office Hours: TBA (to avoid conflicts with student schedules)
 
 Teaching Assistant: Joe Jinn
-CONTACT
+(TODO CONTACT)
+
+Piazza site: TODO LINK
 
 # DATA 202: Visual and Predictive Analytics
 MWF 9-9:50am
@@ -18,7 +16,7 @@ MWF 9-9:50am
 Unless otherwise announced:
 
 * On Mondays and Wednesdays, the course will meet in SB 382.
-* On Fridays, the course will meet in the TODO lab.
+* On Fridays, the course will meet in SB 354.
 
 # Course Description and Context
 Students in this course will
@@ -65,30 +63,62 @@ We will use Piazza for Q&A. [Sign up here](https://piazza.com/class/jz4k2urbn8r1
 
 # Policies
 
-Since this is the first time this course is being offered in this format, I am striving to keep logistics simple for everyone involved.
-
 I am happy to discuss requests for individual accommodations regarding any aspects of the policies outlined here. The earlier the request, the more likely it is that we will be able to accommodate it. I reserve the right to change any of the policies listed here on a student-by-student or full class basis if necessary.
+
+## Collaboration
+
+Data science is a fundamentally collaborative endeavor. Collaboration brings the benefits of multiple perspectives, needed to tackle complex problems faithfully and responsibly. But teamwork also brings the risk of one person doing all of the "learning" for the other. And at the end of the day we need to evaluate each student's performance individually. Thus:
+
+* *Collaboration on homework and labs is encouraged.*
+* The *write-ups* for HW and lab submissions should be *your own work*. Particularly this means: **never copy and paste code**, from the web or another student! Even if you intend to write exactly the same thing, type it out yourself, from memory. Trust me that this is for your benefit.
+* **When** asking for help (and everyone *should* ask for help when they need it), *try to solve the problem on your own first*. This is critical. Then, when you ask for help, share *what you've tried* and *what leads you to think it's not working.* (not just "It's not working!!")
+* List what help you received for each problem. (e.g., `Joe helped me understand what this question is asking.`)
+
+(This is policy is drawn from several sources; some of the specific wording is inspired by http://www.datasciencecourse.org/policies/.)
 
 ## Grading
 
 The overall grade distribution will be:
 
-* Labs (15%): weekly practice with basic computational tools. Graded by completion, due at noon the day after the lab (typically Saturday at noon, since labs will typically be Fridays). SOLO OR PAIR?
-* Homeworks (15%): weekly deeper practice.
+* Labs (15%): weekly practice with basic computational tools.
+* Homeworks (15%): weekly deeper practice, including communication and reflection.
 * Quizzes (10%)
 * Project 1 (20%): replicate and critique some real-world data science (details below)
 * Project 2 (30%): ask and answer your own data science question (details below)
-* Participation (5%) (details below)
+* Participation and journal (5%) (details below)
 * Feedback and participation in improving the course: (5%, including 1% for *visiting my office hours at least once* during the first 3 weeks)
 
-Late assignments will receive a 0 unless discussed in advance. The lowest 3 of each of labs and homeworks will be dropped.
+TODO: revise these weights.
 
-My current philosophy of assessment is that it should primarily be useful to you, the student. So the large majority of the numeric grading done in this course will be based on completion: on-time submissions to labs and homeworks that pass the automated tests and reflect an honest attempt to answer all questions will receive full credit.
+## Assignments
 
-However, we will provide you feedback on assignments. This feedback takes significant time for us to create, so we expect you to take some time to respond to it. We will evaluate how well you have responded to feedback by questions on subsequent assignments and potentially other mechanisms.
+Although the schedule of topics and readings may shift (since this is my first time running this course in this format), I want to make sure those shifts don't hinder your ability to plan. So due dates will follow a consistent rhythm:
+
+* Each week's lab (if applicable) will be due at noon the day after the lab (typically Saturday at noon, since labs will typically be Fridays).
+* Homeworks and project check-ins will be due on Tuesdays at 10pm.
+* Reading / watching journals will be due by the beginning of the class where they're discussed. (This is *not* worth an all-nighter. Get some sleep.)
+
+Late assignments make it harder for us to give feedback fairly and efficiently, so any late assignment risks receiving a grade of 0, at the staff's discression. If you anticipate needing to submit an assignment late, please let us know at least 24 hours in advance and we can discuss. However, the lowest 3 of each of labs and homeworks will be dropped.
+
+Feedback on assignments takes significant time for us to create, so we expect you to take some time to respond to it. We will evaluate how well you have responded to feedback by questions on subsequent assignments and potentially other mechanisms.
 
 ### Discussion
+
 can be met by either regularly raising points that others credit or build on, or regularly responding critically to others' points
+
+TODO: flesh this out.
+
+
+## Projects
+
+There is no final exam for this course; instead, students will do two projects, both done in groups of 2 or 3.
+
+The **interim project** is replicating some part of some existing data science work (a blog post, report, research paper, etc.). You will pick two or there potential options that interest you, talk about them with the course staff to determine what's feasible, and do them, all within the first few weeks of the semester.
+
+The **final project** requires doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (not actually posted unless you want to) and supporting code. Successful outcomes should include visual, analytical, and perspectival components.
+
+The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
+
 
 # Class Meetings
 
@@ -103,16 +133,6 @@ Towards that end, we will meet approximately once per week in the lab (typically
 Meeting those goals requires that you come. So *attendance is required* unless you talk with me about it.
 
 TODO: policy statement about technology. Including "come and talk with me" about accommodations (needed for disability)
-
-# Projects
-
-There is no final exam for this course; instead, students will do two projects, both done in groups of 2 or 3.
-
-The **interim project** is replicating some part of some existing data science work (a blog post, report, research paper, etc.). You will pick two or there potential options that interest you, talk about them with the course staff to determine what's feasible, and do them, all within the first few weeks of the semester.
-
-The **final project** requires doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (not actually posted unless you want to) and supporting code. Successful outcomes should include visual, analytical, and perspectival components.
-
-The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
 
 # Software
 
@@ -129,7 +149,6 @@ There is no single textbook for this course; all needed material will be present
 
 # To include
 
-* Note about regular weekly due date (Tues 10pm?)
 * Academic integrity: what forms of collaboration are expected, permitted, and prohibited?
 * Note about graceful conduct when engaging issues that may be divisive or hurtful
 * Goals and logistics of ethics and critical thinking discussions

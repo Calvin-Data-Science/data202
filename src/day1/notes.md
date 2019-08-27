@@ -32,3 +32,5 @@ Randy's ideas:
 * First-day info sheet: https://rpruim.github.io/m252/S19/hw/info-sheet.pdf
 * Photos of small groups of people with their name cards
 
+
+https://resources.calvin.edu/selfservice/WebAdvisor?TOKENIDX=8988821176&SS=6&APP=ST&CONSTITUENCY=WBST
