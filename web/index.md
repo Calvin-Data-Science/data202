@@ -59,7 +59,15 @@ This course assumes programming experience at the level of CS 104/106/108 and da
 
 # Communication
 
-We will use Piazza for Q&A. [Sign up here](https://piazza.com/class/jz4k2urbn8r199). TODO: pull in more details about this.
+We will use Piazza for all communication. [Sign up here](https://piazza.com/class/jz4k2urbn8r199). Since it doesn't seem to be as common here at Calvin, here are some examples from my experience:
+
+* Most any questions you'd ask the course staff should actually go to Piazza.
+* If something is unclear on an assignment, you have some questions about a concept we discussed, or you're having trouble getting some software running, ask a public question. Another student might answer it before the course staff even sees it!
+* If you find an interesting article or event, feel free to post about it!
+* Posts can be public or private, anonymous or not.
+* In general, don't post code publicly. If you have to include code, make the post private first so the course staff can decide if it's ok to share.
+
+Please use email for requests for accommodations (missing class, disabilites, mental health, etc.).
 
 # Policies
 
