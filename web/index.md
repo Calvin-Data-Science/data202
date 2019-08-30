@@ -1,3 +1,4 @@
+
 ---
 title: "DATA 202: Visual and Predictive Analytics"
 ...
