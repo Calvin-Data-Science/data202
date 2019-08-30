@@ -1,3 +1,8 @@
+---
+title: "DATA 202: Visual and Predictive Analytics"
+...
+
+
 Kenneth C. Arnold<br>
 Calvin University<br>
 North Hall NH298<br>
@@ -8,17 +13,17 @@ Office Hours: TBA (to avoid conflicts with student schedules)
 Teaching Assistant: Joe Jinn
 (TODO CONTACT)
 
-Piazza site: TODO LINK
+[Piazza site]((https://piazza.com/class/jz4k2urbn8r199))
 
-# DATA 202: Visual and Predictive Analytics
 MWF 9-9:50am
 
 Unless otherwise announced:
 
-* On Mondays and Wednesdays, the course will meet in SB 382.
-* On Fridays, the course will meet in SB 354.
+* On **Wednesdays and Fridays**, we will meet in SB 382.
+* On **Mondays**, we will meet in SB 354 (the "Maroon" lab).
 
 # Course Description and Context
+
 Students in this course will
 
 * Gain technical proficiency in computational and statistical tools for data management and analytics
@@ -27,7 +32,6 @@ Students in this course will
 * Refine skills of teamwork, planning, help-seeking, and reflection
 
 This course contributes to a data science program that prepares students to be team members and leaders of responsible intelligent organizations. An organization behaves *intelligently* by *adapting its behavior* based on data. A *responsible* organization understands the broader impacts of its collection and aggregation of data. Team members within responsible intelligent organizations are adept at learning new ways of acquiring and using data while maintaining focus on the people who are the sources and ultimate beneficiaries of that data.
-
 
 # Outcomes
 
@@ -41,17 +45,10 @@ In DATA 202, you will build on what you learned in DATA 101 for computational an
 * **Communicate** visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences
 * **Analyze** considerations of responsibility and justice in all of the above practices
 
-Since data vary greatly in form, we will be using programming to enable flexibility. Since Python is prevalent among data scientists, this course is designed to give you practical experience using the Python data science ecosystem (mainly Pandas, Matplotlib, and Scikit-Learn).
+Since data vary greatly in form, we will be using programming to enable flexibility. Since Python is prevalent among data scientists, this course is designed to give you practical experience using the Python data science ecosystem.
 (If a significant fraction of the students also know or are studying R, we will make some effort to show translations between the languages.)
 
-Resume keywords: Python, Pandas, Scikit-Learn (regression and classification, supervised and unsupervised learning), Matplotlib, SQL
-
-The material for this course is adapted with permission from three prior courses:
-
-* [Data 100 at Berkley](http://www.ds100.org/)
-* [CS 109a at Harvard](https://harvard-iacs.github.io/2018-CS109A/)
-* [Critical Thinking in Data Science at Harvard](https://www.youtube.com/watch?v=PDYGjDYTY1o) (links to YouTube because the course website is not public)
-
+Resume keywords: Python, [Pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/stable/) (regression and classification, supervised and unsupervised learning), [Matplotlib](https://matplotlib.org/), SQL
 
 # Prerequisites
 
@@ -59,7 +56,7 @@ This course assumes programming experience at the level of CS 104/106/108 and da
 
 # Communication
 
-We will use Piazza for all communication. [Sign up here](https://piazza.com/class/jz4k2urbn8r199).
+We will use Piazza to communicate. [Sign up here](https://piazza.com/class/jz4k2urbn8r199).
 
 * Most any questions you'd ask the course staff should actually go to Piazza.
 * If something is unclear on an assignment, you have some questions about a concept we discussed, or you're having trouble getting some software running, ask a public question. Another student might answer it before the course staff even sees it!
@@ -67,7 +64,7 @@ We will use Piazza for all communication. [Sign up here](https://piazza.com/clas
 * Posts can be public or private, anonymous or not.
 * In general, don't post code publicly. If you have to include code, make the post private first so the course staff can decide if it's ok to share.
 
-Please use email for requests for accommodations (missing class, disabilites, mental health, etc.).
+Please use email for requests for accommodations (missing class, disabilities, mental health, etc.).
 
 # Policies
 
@@ -80,16 +77,15 @@ Data science is a fundamentally collaborative endeavor. Collaboration brings the
 * *Collaboration on homework and labs is encouraged.*
 * The *write-ups* for HW and lab submissions should be *your own work*. Particularly this means: **never copy and paste code**, from the web or another student! Even if you intend to write exactly the same thing, type it out yourself, from memory. Trust me that this is for your benefit.
 * **When** asking for help (and everyone *should* ask for help when they need it), *try to solve the problem on your own first*. This is critical. Then, when you ask for help, share *what you've tried* and *what leads you to think it's not working.* (not just "It's not working!!")
-* List what help you received for each problem. (e.g., `Joe helped me understand what this question is asking.`)
+* List what help you received for each problem. (e.g., "Joe helped me understand what this question is asking.")
 
-(This is policy is drawn from several sources; some of the specific wording is inspired by http://www.datasciencecourse.org/policies/.)
 
 ## Grading
 
 The overall grade distribution will be:
 
 * Labs (15%): weekly practice with basic computational tools.
-* Homeworks (15%): weekly deeper practice, including communication and reflection.
+* Homework (15%): weekly deeper practice, including communication and reflection.
 * Quizzes (10%)
 * Project 1 (20%): replicate and critique some real-world data science (details below)
 * Project 2 (30%): ask and answer your own data science question (details below)
@@ -102,11 +98,11 @@ TODO: revise these weights.
 
 Although the schedule of topics and readings may shift (since this is my first time running this course in this format), I want to make sure those shifts don't hinder your ability to plan. So due dates will follow a consistent rhythm:
 
-* Each week's lab (if applicable) will be due at noon the day after the lab (typically Saturday at noon, since labs will typically be Fridays).
-* Homeworks and project check-ins will be due on Tuesdays at 10pm.
+* Each week's lab (if applicable) will be due at noon the day after the lab (typically Tuesday at noon, since labs will typically be on Mondays).
+* Homework and project check-ins will be due on Thursdays at 10pm.
 * Reading / watching journals will be due by the beginning of the class where they're discussed. (This is *not* worth an all-nighter. Get some sleep.)
 
-Late assignments make it harder for us to give feedback fairly and efficiently, so any late assignment risks receiving a grade of 0, at the staff's discression. If you anticipate needing to submit an assignment late, please let us know at least 24 hours in advance and we can discuss. However, the lowest 3 of each of labs and homeworks will be dropped.
+Late assignments make it harder for us to give feedback fairly and efficiently, so any late assignment risks receiving a grade of 0 at the staff's discretion. If you anticipate needing to submit an assignment late, please let us know at least 24 hours in advance and we can discuss. However, the lowest 3 of each of labs and homework will be dropped.
 
 Feedback on assignments takes significant time for us to create, so we expect you to take some time to respond to it. We will evaluate how well you have responded to feedback by questions on subsequent assignments and potentially other mechanisms.
 
@@ -136,7 +132,7 @@ Our times together as a full class fulfill three purposes:
 * Hands-on practice in an environment where we can support each other
 * Practice articulating thoughtful critique of perspectives on data science.
 
-Towards that end, we will meet approximately once per week in the lab (typically Fridays).
+Towards that end, we will meet approximately once per week in the lab (typically Mondays).
 
 Meeting those goals requires that you come. So *attendance is required* unless you talk with me about it.
 
@@ -144,15 +140,15 @@ TODO: policy statement about technology. Including "come and talk with me" about
 
 # Software
 
-We will be using Python 3 and Jupyter Notebooks. The lab computers in SB 354 & 372 are pre-configured to support this course, so you are free to do all your course work there.
+We will be using Python 3 and Jupyter Notebooks. The lab computers in SB 354 & 372 are pre-configured to support this course, so you are free to do all your course work there. (You may use Linux or Windows, whichever you and your lab partner more comfortable with, but I recommend you pick one and stick with it.)
 
 If you would like to work on your own computer, you can install [Anaconda](https://www.anaconda.com/distribution/).
 
 # Textbooks and Other Resources
 
-There is no single textbook for this course; all needed material will be presented in lectures, labs, and homeworks. However, you may find the following texts useful:
+There is no single textbook for this course; all needed material will be presented in lectures, labs, and homework. However, you may find the following texts useful:
 
-* [Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/) with accompanying [lecture videos](https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/). 
+* [Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/) with accompanying [lecture videos](https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/).
 * [Principles and Techniques of Data Science](https://www.textbook.ds100.org/), the textbook for Berkeley's [DATA 100](http://www.ds100.org/su19/)
 
 # To include
@@ -161,10 +157,18 @@ There is no single textbook for this course; all needed material will be present
 * Note about graceful conduct when engaging issues that may be divisive or hurtful
 * Goals and logistics of ethics and critical thinking discussions
 * Schedule (link to [spreadsheet](https://docs.google.com/spreadsheets/d/1JRDj1tIUPr89yfqL3OhZ5zqbjC8cm5hk8U1rHia1A3Y/edit#gid=0))
-   * TODO: Unsupervised (k-means) and the contrast
-   * SQL should be priority.
+  * TODO: Unsupervised (k-means) and the contrast
+  * SQL should be priority.
 * Calvin's statement on accommodations
 * Text inspired by the [CS179 syllabus](https://projects.iq.harvard.edu/cs179sp19/syllabus) on mental health and inclusion.
 
 
-# Meta
+# Acknowledgments
+
+The material for this course is adapted with permission from three prior courses:
+
+* [Data 100 at Berkley](http://www.ds100.org/)
+* [CS 109a at Harvard](https://harvard-iacs.github.io/2018-CS109A/)
+* [Critical Thinking in Data Science at Harvard](https://www.youtube.com/watch?v=PDYGjDYTY1o) (links to YouTube because the course website is not public)
+
+Thanks also to Ofra Amir for sharing materials and thoughts. Wording of the collaboration policy was inspired by http://www.datasciencecourse.org/policies/.
