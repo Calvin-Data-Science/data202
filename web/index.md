@@ -53,7 +53,10 @@ Resume keywords: Python, [Pandas](https://pandas.pydata.org/), [scikit-learn](ht
 
 # Prerequisites
 
-This course assumes programming experience at the level of CS 104/106/108 and data experience at the level of DATA 101. A basic comfort with statistics will be very helpful but is not assumed.
+* DATA 175, or DATA 101, or both IS 141 and IS 171, and
+* CS 104, CS 106, or CS CS 108. (A minimum grade of C in CS 108, CS 104, or CS 106 is required.)
+
+A basic comfort with statistics will be very helpful but is not assumed.
 
 # Communication
 
