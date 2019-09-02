@@ -9,7 +9,7 @@ Calvin University<br>
 North Hall NH298<br>
 Preferred Contact: ka37@calvin.edu<br>
 Office Phone: 616-526-8723. Home: 443-310-4402.<br>
-Office Hours: TBA (to avoid conflicts with student schedules)
+Office Hours: Wed and Thurs 4:30-5:30pm or on request
 
 Teaching Assistant: Joe Jinn
 (TODO CONTACT)
