@@ -3,7 +3,6 @@
 title: "DATA 202: Visual and Predictive Analytics"
 ...
 
-
 Kenneth C. Arnold<br>
 Calvin University<br>
 North Hall NH298<br>
@@ -15,14 +14,7 @@ Teaching Assistant: Joe Jinn
 
 [Piazza site](https://piazza.com/class/jz4k2urbn8r199)
 
-MWF 9-9:50am
-
-Unless otherwise announced:
-
-* On **Wednesdays and Fridays**, we will meet in SB 382.
-* On **Mondays**, we will meet in SB 354 (the "Maroon" lab).
-
-# Course Description and Context
+# Overview
 
 Students in this course will
 
@@ -33,7 +25,7 @@ Students in this course will
 
 This course contributes to a data science program that prepares students to be team members and leaders of responsible intelligent organizations. An organization behaves *intelligently* by *adapting its behavior* based on data. A *responsible* organization understands the broader impacts of its collection and aggregation of data. Team members within responsible intelligent organizations are adept at learning new ways of acquiring and using data while maintaining focus on the people who are the sources and ultimate beneficiaries of that data.
 
-# Outcomes
+## Outcomes
 
 In DATA 202, you will build on what you learned in DATA 101 for computational and statistical tools for working with diverse sets of data and communicating the stories that the datasets tell. You will also grow in your ability to critically evaluate how others have used data in both ethical and correctness aspects.
 
@@ -50,14 +42,23 @@ Since data vary greatly in form, we will be using programming to enable flexibil
 
 Resume keywords: Python, [Pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/stable/) (regression and classification, supervised and unsupervised learning), [Matplotlib](https://matplotlib.org/), SQL
 
-# Prerequisites
+## Meeting Times
+
+MWF 9-9:50am
+
+Unless otherwise announced:
+
+* On **Wednesdays and Fridays**, we will meet in SB 382.
+* On **Mondays**, we will meet in SB 354 (the "Maroon" lab).
+
+## Prerequisites
 
 * DATA 175, or DATA 101, or both IS 141 and IS 171, and
 * CS 104, CS 106, or CS CS 108. (A minimum grade of C in CS 108, CS 104, or CS 106 is required.)
 
 A basic comfort with statistics will be very helpful but is not assumed.
 
-# Communication
+## Communication
 
 We will use Piazza to communicate. [Sign up here](https://piazza.com/class/jz4k2urbn8r199).
 
@@ -116,7 +117,6 @@ We will touch on controversial issues in this class. We want to create an enviro
 ## Lids Down Policy
 
 You may not use electronic devices during class, except when explicitly asked to do so by an instructor. Since [multitasking hinders learning for nearby peers](https://www.sciencedirect.com/science/article/pii/S0360131512002254), fasting from electronic devices during class is a simple way to love your fellow students (and also [helps your learning](https://journals.sagepub.com/doi/full/10.1177/0956797614524581)). Some students will legitimately need exceptions to this policy for one or more class meetings; please talk with me if you would like to request an exception, and please do not police other students.
-
 
 I am happy to discuss requests for individual accommodations regarding any aspects of the policies outlined here. The earlier the request, the more likely it is that we will be able to accommodate it. I reserve the right to change any of the policies listed here on a student-by-student or full class basis if necessary.
 
