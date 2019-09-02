@@ -1,3 +1,4 @@
+
 ---
 title: Day 1 Notes
 ...
@@ -34,3 +35,8 @@ Randy's ideas:
 
 
 https://resources.calvin.edu/selfservice/WebAdvisor?TOKENIDX=8988821176&SS=6&APP=ST&CONSTITUENCY=WBST
+
+
+Potential first-day videos:
+* Joy Buolamwini [WEF Video: Compassion Through Computation](https://www.youtube.com/watch?v=_sgji-Bladk)
+* [Dear Tech](https://www.youtube.com/watch?v=gNF8ObJR6K8) vs [Dear Tech Company](https://www.youtube.com/watch?v=CciZXbCsuxs): [direct response](https://www.dearbigtech.org/), [Slate article](https://slate.com/technology/2019/02/ibm-dear-tech-oscars-ad.html)
