@@ -23,3 +23,9 @@ Readings
 
 - https://nextjournal.com/mk/public-beta
 - http://www.whichfaceisreal.com/index.php
+
+# Data Carpentry Lessons
+
+* [All](https://datacarpentry.org/lessons/)
+* The [Social Science](https://datacarpentry.org/lessons/#social-science-curriculum) one links to OpenRefine, which looks useful
+* https://swcarpentry.github.io/python-novice-gapminder/
