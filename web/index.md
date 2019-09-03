@@ -8,7 +8,7 @@ Calvin University<br>
 North Hall NH298<br>
 Preferred Contact: ka37@calvin.edu<br>
 Office Phone: 616-526-8723. Home: 443-310-4402.<br>
-Office Hours: Wed and Thurs 4:30-5:30pm or on request
+Office Hours: Wed and Thurs 4:30-5:30pm or on request (beginning Sep 5)
 
 Teaching Assistant: Joe Jinn
 
@@ -23,8 +23,6 @@ Students in this course will
 * Practice critical thinking and mindfulness about responsible handling of data
 * Refine skills of teamwork, planning, help-seeking, and reflection
 
-This course contributes to a data science program that prepares students to be team members and leaders of responsible intelligent organizations. An organization behaves *intelligently* by *adapting its behavior* based on data. A *responsible* organization understands the broader impacts of its collection and aggregation of data. Team members within responsible intelligent organizations are adept at learning new ways of acquiring and using data while maintaining focus on the people who are the sources and ultimate beneficiaries of that data.
-
 ## Outcomes
 
 In DATA 202, you will build on what you learned in DATA 101 for computational and statistical tools for working with diverse sets of data and communicating the stories that the datasets tell. You will also grow in your ability to critically evaluate how others have used data in both ethical and correctness aspects.
@@ -38,9 +36,8 @@ In DATA 202, you will build on what you learned in DATA 101 for computational an
 * **Analyze** considerations of responsibility and justice in all of the above practices
 
 Since data vary greatly in form, we will be using programming to enable flexibility. Since Python is prevalent among data scientists, this course is designed to give you practical experience using the Python data science ecosystem.
-(If a significant fraction of the students also know or are studying R, we will make some effort to show translations between the languages.)
 
-Resume keywords: Python, [Pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/stable/) (regression and classification, supervised and unsupervised learning), [Matplotlib](https://matplotlib.org/), SQL
+Your work in this course will probably equip you to put the following keywords on your resume: Python, [Pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/stable/) (regression and classification, supervised and unsupervised learning), [Matplotlib](https://matplotlib.org/), SQL
 
 ## Meeting Times
 
@@ -54,7 +51,7 @@ Unless otherwise announced:
 ## Prerequisites
 
 * DATA 175, or DATA 101, or both IS 141 and IS 171, and
-* CS 104, CS 106, or CS CS 108. (A minimum grade of C in CS 108, CS 104, or CS 106 is required.)
+* CS 104, CS 106, or CS 108. (A minimum grade of C in CS 108, CS 104, or CS 106 is required.)
 
 A basic comfort with statistics will be very helpful but is not assumed.
 
@@ -98,9 +95,9 @@ Meeting those goals requires that you come. So *attendance is required* unless y
 
 There is no final exam for this course; instead, students will do two projects, both done in groups of 2 or 3.
 
-The **interim project** is replicating some part of some existing data science work (a blog post, report, research paper, etc.). You will pick two or there potential options that interest you, talk about them with the course staff to determine what's feasible, and do them, all within the first few weeks of the semester.
+**Project 1** involves replicating some part of some existing data science work (a blog post, report, research paper, etc.). You will pick 2 or 3 potential options that interest you, talk about them with the course staff to determine what's feasible, and do them, all within the first few weeks of the semester.
 
-The **final project** requires doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (not actually posted unless you want to) and supporting code. Successful outcomes should include visual, analytical, and perspectival components.
+**Project 2** requires doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (only posted publicly if want to), supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components.
 
 The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
 
