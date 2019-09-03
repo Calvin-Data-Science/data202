@@ -39,7 +39,7 @@ Your work in this course will probably equip you to put the following keywords o
 
 Unless otherwise announced:
 
-* On **Mondays**, we will meet in SB 354 (the "Maroon" lab).
+* On **Mondays**, we will meet in SB 354 (the "Gold" lab).
 * On **Wednesdays and Fridays**, we will meet in SB 382.
 
 ## Prerequisites
@@ -53,7 +53,7 @@ A basic comfort with statistics will be very helpful but is not assumed.
 
 We will use Piazza to communicate. [Sign up here](https://piazza.com/class/jz4k2urbn8r199).
 
-* Most any questions you'd ask the course staff should actually go to Piazza.
+* Most questions you'd ask the course staff should actually go to Piazza.
 * If something is unclear on an assignment, you have some questions about a concept we discussed, or you're having trouble getting some software running, ask a public question. Another student might answer it before the course staff even sees it!
 * If you find an interesting article or event, feel free to post a note about it!
 * Posts can be public or private, anonymous or not.
@@ -77,7 +77,9 @@ Meeting those goals requires that you come. So *attendance is required* unless y
 
 Labs will give us weekly practice with basic computational tools. Since there isn't a separate lab time in the schedule, we'll meet in the lab during one of our normal meeting times - typically Mondays.
 
-Our goal is that labs can be completed in the 50 minutes allotted. But if we mis-estimate, or something goes wrong, you'll have some extra time to finish them (see below).
+Labs will be graded by completeness. I encourage you to do labs in pairs, but (as with all assignments) what you submit should be typed by yourself. See the Collaboration section for details.
+
+Our goal is that labs can be completed in the 50 minutes allotted. But if we mis-estimate, or something goes wrong, you'll have some extra time to finish them (see the Due Dates section below).
 
 ## Homework
 
@@ -121,14 +123,18 @@ Milestones:
 I want to invite you into an ongoing discussion about data and society. Towards that end we will have one 20-minute discussion time during class each week. Your responsibility will be to:
 
 * Read or watch one or two pieces per week.
-* Write a brief (less than one page) journal entry about what you read, which might include:
+* Write a brief (less than one page) journal entry about what you read, which might include some of the following things:
   * a one-sentence summary of the article for your future self
   * a quote and your thoughts about it
   * something you found surprising or cool
-  * something you disagree with
+  * something you disagree with and/or an article that makes a counter-point
   * something you didn't understand
   * a question this raises for you
 * Be prepared to share your thoughts during class.
+
+Journal entries will form the main part of the Participation grade.
+
+To encourage you to read critically rather than memorizing details, quizzes will *not* include details from the readings. (Though quizzes may include something from our discussions.)
 
 Most of the readings will be from a worldview and perspective that is superficially quite different from what we would call a "Reformed Christian perspective". Part of my goal this semester is to start articulating such a perspective. Your thoughtful engagement in class discussions will be extremely helpful towards that end!
 
@@ -141,9 +147,9 @@ Grades will be determined as follows.
 * 10% Labs
 * 20% Homework
 * 20% Quizzes
-* 10% Project 1
-* 20% Project 2
-* 20% Participation
+* 20% Project 1
+* 25% Project 2
+* 10% Participation
 
 ## Due Dates
 
