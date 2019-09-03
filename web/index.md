@@ -1,18 +1,14 @@
 
 ---
-title: "DATA 202: Visual and Predictive Analytics"
+title: "DATA 202: Information Systems and Data Management, aka Visual and Predictive Analytics"
 ...
 
-Kenneth C. Arnold<br>
-Calvin University<br>
-North Hall NH298<br>
-Preferred Contact: ka37@calvin.edu<br>
-Office Phone: 616-526-8723. Home: 443-310-4402.<br>
-Office Hours: Wed and Thurs 4:30-5:30pm or on request (beginning Sep 5)
-
-Teaching Assistant: Joe Jinn
-
-[Piazza site](https://piazza.com/class/jz4k2urbn8r199)
+* **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298
+* **Meeting Time**: MWF 9-9:50am. **Rooms vary**, see below!
+* **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
+* **Office Hours**: Wed and Thurs 4:30-5:30pm (beginning Sep 5) or on request
+* Teaching Assistant: Joe Jinn
+* [Piazza site](https://piazza.com/class/jz4k2urbn8r199)
 
 # Overview
 
@@ -41,12 +37,10 @@ Your work in this course will probably equip you to put the following keywords o
 
 ## Meeting Times
 
-MWF 9-9:50am
-
 Unless otherwise announced:
 
-* On **Wednesdays and Fridays**, we will meet in SB 382.
 * On **Mondays**, we will meet in SB 354 (the "Maroon" lab).
+* On **Wednesdays and Fridays**, we will meet in SB 382.
 
 ## Prerequisites
 
@@ -69,6 +63,90 @@ Please use email for requests for accommodations (missing class, disabilities, m
 
 # Course Components
 
+## Class Meetings
+
+Our times together as a full class fulfill three purposes:
+
+* Learning technical content, in an environment where we can ask questions and learn from each others' misconceptions.
+* Hands-on practice in an environment where we can support each other
+* Practice articulating thoughtful critique of perspectives on data science.
+
+Meeting those goals requires that you come. So *attendance is required* unless you talk with me about it. If you have a choice, it will probably be easiest to skip a lab day.
+
+## Labs
+
+Labs will give us weekly practice with basic computational tools. Since there isn't a separate lab time in the schedule, we'll meet in the lab during one of our normal meeting times - typically Mondays.
+
+Our goal is that labs can be completed in the 50 minutes allotted. But if we mis-estimate, or something goes wrong, you'll have some extra time to finish them (see below).
+
+## Homework
+
+Weekly homework assignments will provide deeper practice with technical and conceptual tools, including communication and reflection.
+
+## Quizzes
+
+There will be frequent quizzes, usually short and at the beginning of class.
+
+## Projects
+
+There is no final exam for this course; instead, students will do two projects, both done in groups of 2 or 3.
+
+### **Project 1**: replicate and critique some real-world data science
+
+For this project you will pick some existing data science work (a blog post, report, research paper, etc.) and replicate a visual or some other part of it.
+
+Milestones due along with the corresponding week's homework:
+
+* Week 2: Propose 2 or 3 potential options that interest you, and write why you find them interesting. The course staff will help you determine what's feasible.
+* Week 3: Have the dataset in hand; give some basic descriptive statistics about it.
+* Week 4: Rough draft of the visual you want to make.
+* Week 5: Final visual, plus your critique of the original article and some follow-up questions.
+
+### **Project 2**: ask and answer your own data science question
+
+This project will require doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (only posted publicly if want to), supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components.
+
+The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
+
+Milestones:
+
+* Week 6: Draft of a project proposal including specific questions
+* Week 8: Revised project proposal
+* Week 10: Dataset and exploratory visualization done
+* Week 12: Initial modeling and visualization
+* Week 15: Final presentation
+
+## Participation: Class Discussions and Journals
+
+I want to invite you into an ongoing discussion about data and society. Towards that end we will have one 20-minute discussion time during class each week. Your responsibility will be to:
+
+* Read or watch one or two pieces per week.
+* Write a brief (less than one page) journal entry about what you read, which might include:
+  * a one-sentence summary of the article for your future self
+  * a quote and your thoughts about it
+  * something you found surprising or cool
+  * something you disagree with
+  * something you didn't understand
+  * a question this raises for you
+* Be prepared to share your thoughts during class.
+
+Most of the readings will be from a worldview and perspective that is superficially quite different from what we would call a "Reformed Christian perspective". Part of my goal this semester is to start articulating such a perspective. Your thoughtful engagement in class discussions will be extremely helpful towards that end!
+
+# Policies
+
+## Grading
+
+Grades will be determined as follows.
+
+* 10% Labs
+* 20% Homework
+* 20% Quizzes
+* 10% Project 1
+* 20% Project 2
+* 20% Participation
+
+## Due Dates
+
 Although the schedule of topics and readings may shift (since this is my first time running this course in this format), I want to make sure those shifts don't hinder your ability to plan. So due dates will follow a consistent rhythm:
 
 * Each week's lab (if applicable) will be due at noon the day after the lab (typically Tuesday at noon, since labs will typically be on Mondays).
@@ -78,30 +156,6 @@ Although the schedule of topics and readings may shift (since this is my first t
 Late assignments make it harder for us to give feedback fairly and efficiently, so any late assignment risks receiving a grade of 0 at the staff's discretion. If you anticipate needing to submit an assignment late, please let us know at least 24 hours in advance and we can discuss. However, the lowest 2 of each of labs and homework will be dropped.
 
 Feedback on assignments takes significant time for us, so we expect you to take some time to respond to it. We will evaluate how well you have responded to feedback by questions on subsequent assignments and potentially other mechanisms.
-
-## Class Meetings
-
-Our times together as a full class fulfill three purposes:
-
-* Learning technical content, in an environment where we can ask questions and learn from each others' misconceptions.
-* Hands-on practice in an environment where we can support each other
-* Practice articulating thoughtful critique of perspectives on data science.
-
-Towards that end, we will meet approximately once per week in the lab (typically Mondays).
-
-Meeting those goals requires that you come. So *attendance is required* unless you talk with me about it.
-
-## Projects
-
-There is no final exam for this course; instead, students will do two projects, both done in groups of 2 or 3.
-
-**Project 1** involves replicating some part of some existing data science work (a blog post, report, research paper, etc.). You will pick 2 or 3 potential options that interest you, talk about them with the course staff to determine what's feasible, and do them, all within the first few weeks of the semester.
-
-**Project 2** requires doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (only posted publicly if want to), supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components.
-
-The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
-
-# Policies
 
 ## Diversity, Inclusion, and Understanding
 
@@ -121,23 +175,12 @@ I am happy to discuss requests for individual accommodations regarding any aspec
 
 As the [Calvin Academic Integrity Policy](https://calvin.edu/directory/policies/academic-integrity-policy) says, "At Calvin, the student-faculty relationship is based on trust and mutual respect."
 
-Data science is a fundamentally collaborative endeavor. Collaboration brings the benefits of multiple perspectives, needed to tackle complex problems faithfully and responsibly. But teamwork also brings the risk of one person doing all of the "learning" for the other. And at the end of the day we need to evaluate each student's performance individually. Thus:
+Data science is a fundamentally collaborative endeavor. Collaboration brings the benefits of multiple perspectives, needed to tackle complex problems faithfully and responsibly. But teamwork also brings the risk of one person doing all of the "learning" for the other. And at the end of the day I need to evaluate each student's performance individually. Thus:
 
 * *Collaboration on homework and labs is encouraged.*
 * The *write-ups* for HW and lab submissions should be *your own work*. Particularly this means: **never copy and paste code**, from the web or another student! Even if you intend to write exactly the same thing, type it out yourself, from memory. Trust me that this is for your benefit.
 * **When** asking for help (and everyone *should* ask for help when they need it), *try to solve the problem on your own first*. This is critical. Then, when you ask for help, share *what you've tried* and *what leads you to think it's not working.* (not just "It's not working!!")
 * List what help you received for each problem. (e.g., "Joe helped me understand what this question is asking.")
-
-## Grading
-
-Grades will be determined as follows.
-
-* 10% Labs: weekly practice with basic computational tools.
-* 20% Homework: weekly deeper practice, including communication and reflection.
-* 20% Quizzes: regular, typically short, checks for conceptual understanding and individual work
-* 10% Project 1: replicate and critique some real-world data science (details below)
-* 20% Project 2: ask and answer your own data science question (details below)
-* 20% Participation: also includes discussion journals (see below)
 
 ## Accommodations
 
@@ -146,9 +189,14 @@ Please help us understand what accommodations you need.
 You can start either by talking with us or by meeting with a Disability Coordinator, located in 360 Spoelhof Center at the [Center for Student Success](https://calvin.edu/offices-services/center-for-student-success/disability-services/).
 Either way, please come and talk with me as soon as you can, ideally within the first two weeks of class, so we can put your accommodations in place within the classroom.
 
-## Mental Health
+## Wellness and Wholeness
 
-If you experience significant stress or worry, changes in mood, or problems eating or sleeping this semester, please do not hesitate to reach out to the instructors to discuss.
+If you experience significant stress or worry, changes in mood, or problems eating or sleeping this semester, please do not hesitate to reach out to the instructors to discuss how we can help. There are also several free resources available to you on campus:
+
+* [Center for Student Success](https://calvin.edu/offices-services/center-for-student-success/) (Tutoring, Coaching, Disability Services and more)
+* [Counseling and Wellness](https://calvin.edu/offices-services/counseling-and-wellness/) (confidential!)
+* [Health Services](https://calvin.edu/offices-services/health-services/)
+* [Career Center](https://calvin.edu/offices-services/career-center/)
 
 # Resources
 
