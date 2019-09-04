@@ -149,14 +149,16 @@ Grades will be determined as follows.
 * 20% Quizzes
 * 20% Project 1
 * 25% Project 2
-* 10% Participation
+* 10% Participation (reading journals and nano-feedback)
+
+We will be using [Moodle](http://moodle.calvin.edu/) for submitting and grading assignments. If something on Moodle doesn't seem right or disagrees with this syllabus (e.g., wrong due date / time), please let me know and assume that Moodle is wrong.
 
 ## Due Dates
 
-Although the schedule of topics and readings may shift (since this is my first time running this course in this format), I want to make sure those shifts don't hinder your ability to plan. So due dates will follow a consistent rhythm:
+Due dates will follow a consistent rhythm:
 
 * Each week's lab (if applicable) will be due at noon the day after the lab (typically Tuesday at noon, since labs will typically be on Mondays).
-* Homework and project check-ins will be due on Thursdays at 10pm.
+* Homework and project milestones will be due on Thursdays at 10pm.
 * Reading / watching journals will be due by the beginning of the class where they're discussed. (This is *not* worth an all-nighter. Get some sleep.)
 
 Late assignments make it harder for us to give feedback fairly and efficiently, so any late assignment risks receiving a grade of 0 at the staff's discretion. If you anticipate needing to submit an assignment late, please let us know at least 24 hours in advance and we can discuss. However, the lowest 2 of each of labs and homework will be dropped.
@@ -170,6 +172,8 @@ We will touch on controversial issues in this class. We want to create an enviro
 * If something is bothering you, please share it. Even (or especially) if it means disagreeing with the course staff.
 * Challenge the idea, not the person.
 * Honor each other.
+
+(I welcome suggestions about how to improve this policy.)
 
 ## Lids Down Policy
 
@@ -204,6 +208,8 @@ If you experience significant stress or worry, changes in mood, or problems eati
 * [Health Services](https://calvin.edu/offices-services/health-services/)
 * [Career Center](https://calvin.edu/offices-services/career-center/)
 
+Any student who has difficulty affording groceries or accessing sufficient food to eat every day, or who lacks a safe and stable place to live, and believes this may affect their performance in the course, is urged to contact the Dean of Students for support. Furthermore, please notify the professor if you are comfortable in doing so.
+
 # Resources
 
 ## Software
@@ -231,5 +237,6 @@ Significant inspiration for policy content and wording came from:
 
 * [http://www.datasciencecourse.org/policies/](http://www.datasciencecourse.org/policies/)
 * [CS 179 at Harvard](https://projects.iq.harvard.edu/cs179sp19/syllabus)
+* [this Medium post](https://medium.com/@saragoldrickrab/basic-needs-security-and-the-syllabus-d24cc7afe8c9)
 
 Thanks also to Ofra Amir for sharing materials and thoughts.
