@@ -3,6 +3,12 @@
 title: Day 1 Notes
 ...
 
+# Notes for next time
+
+* Way too much time on logistics. Don't go through the whole syllabus.
+* Photos worked well, but "let me know after class if you don't want shared" would be better.
+* didn't get to discussion about what is data science
+
 # Materials
 
 * Copies of info sheets
