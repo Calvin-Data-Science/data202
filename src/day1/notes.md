@@ -3,6 +3,14 @@
 title: Day 1 Notes
 ...
 
+# Materials
+
+* Name card paper (and card stock in case we run out)
+* Sharpies
+* Classroom computer logged on to github with this page
+
+# Outline
+
 * Who am I?
   * Micah 6:8: act justly.
   * My story of how God led me to ask what computing/data + justice might look like
@@ -11,7 +19,7 @@ title: Day 1 Notes
   * Make a name card
   * Go around and get introductions: name, year, major, something outside of “data” that you’re interested in. I take a photo of each person with their name card, for us all to share (privately).
   * Fill out info sheet
-* How does this course work?
+* How does this course work? (bring up the syllabus)
   * Goals (tech, communication, data&society, metacognition); **different from course catalog**
     * Technical tools for data science
       * Python data science stack
@@ -41,3 +49,5 @@ Other
   * Loving you means ceding power. I have a reasonably well considered idea of what would be useful, interesting, and feasible for you to study in this class, but I want to adapt what we cover to what's actually going to be interesting and feasible for you.
   * But I also hope that you can grow in responsible individual practices: not just putting in effort, but actually getting things done on time.
   * So in order to let you plan your routine, all the due dates will be the same, period.
+
+Although the schedule of topics and readings may shift (since this is my first time running this course in this format), I want to make sure those shifts don't hinder your ability to plan.
