@@ -3,40 +3,41 @@
 title: Day 1 Notes
 ...
 
-* My story
-    * Why I'm teaching this class
-    * Preview of why it's different from what's in the course catalog
-* Introductions
-    * Why are you taking this class?
-* Goals
-    * Responsible Intelligent Organizations
-    * Concrete Goals
-* Format
-    * Seminar and Lab meetings
-    * We will devote 20-30 min each week to a discussion of ethical issues and current events.
-        * Goal: Grow in our awareness of what responsible and irresponsible practices around data are.
-        * Eventual goal: articulate a Christian, even Reformed, perspective on data science.
+* Who am I?
+  * Micah 6:8: act justly.
+  * My story of how God led me to ask what computing/data + justice might look like
+  * Priestly prayer for students: may you become people who steward the power of data to act justly in the world.
+* Who are you (students)?
+  * Make a name card
+  * Go around and get introductions: name, year, major, something outside of “data” that you’re interested in. I take a photo of each person with their name card, for us all to share (privately).
+  * Fill out info sheet
+* How does this course work?
+  * Goals (tech, communication, data&society, metacognition); **different from course catalog**
+    * Technical tools for data science
+      * Python data science stack
+      * Data wrangling (80% of the work)
+      * Predictive modeling (many of the same tools as stats, but different goals)
+    * Communication skills (especially important for biz)
+    * Social and ethical implications of data collection, data processing, and data-driven action. (important for everyone)
+    * Metacognition: teamwork, planning, help-seeking, reflection.
+    * This will be challenging, especially for those with less coding experience. But if you work hard at it, and communicate about your struggles, I'm confident you can do it.
+  * Lids Down policy
+  * Overview of course components
+  * The weekly rhythm: due dates, meeting times, readings
     * Fixed weekly rhythm, variable and adaptive content.
-        * Why?
-            * Loving you means ceding power. I have a reasonably well considered idea of what would be useful, interesting, and feasible for you to study in this class, but I want to adapt what we cover to what's actually going to be interesting and feasible for you.
-            * But I also hope that you can grow in responsible individual practices: not just putting in effort, but actually getting things done on time.
-            * So in order to let you plan your routine, all the due dates will be the same, period.
-        * Labs: due Saturday noon (24 hrs plus grace, to make sure you can get some sleep)
-        * Homework: due Tue 8pm
-    * Projects
-* Next class: we meet in lab.
+  * Discussion: We will devote 20-30 min each week to a discussion of ethical issues and current events
+    * Goal: Grow in our awareness of what responsible and irresponsible practices around data are.
+      * Eventual goal: articulate a Christian, even Reformed, perspective on data science.
+    * assignment for Friday
+* What is data science?
+  * Fill out a question on info sheet: what comes to mind when you think Data Science? Any recent news? Ow has data science affected your life?
+  * Pair, share.
+  * Brief presentation, if time allows.
+  * Show the first 3 min of J.B.’s video, if time allows.
 
+Other
 
-
-Randy's ideas:
-
-* First-day info sheet: https://rpruim.github.io/m252/S19/hw/info-sheet.pdf
-* Photos of small groups of people with their name cards
-
-
-https://resources.calvin.edu/selfservice/WebAdvisor?TOKENIDX=8988821176&SS=6&APP=ST&CONSTITUENCY=WBST
-
-
-Potential first-day videos:
-* Joy Buolamwini [WEF Video: Compassion Through Computation](https://www.youtube.com/watch?v=_sgji-Bladk)
-* [Dear Tech](https://www.youtube.com/watch?v=gNF8ObJR6K8) vs [Dear Tech Company](https://www.youtube.com/watch?v=CciZXbCsuxs): [direct response](https://www.dearbigtech.org/), [Slate article](https://slate.com/technology/2019/02/ibm-dear-tech-oscars-ad.html)
+* Why?
+  * Loving you means ceding power. I have a reasonably well considered idea of what would be useful, interesting, and feasible for you to study in this class, but I want to adapt what we cover to what's actually going to be interesting and feasible for you.
+  * But I also hope that you can grow in responsible individual practices: not just putting in effort, but actually getting things done on time.
+  * So in order to let you plan your routine, all the due dates will be the same, period.
