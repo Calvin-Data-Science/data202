@@ -5,21 +5,27 @@ title: Day 1 Notes
 
 # Materials
 
+* Copies of info sheets
 * Name card paper (and card stock in case we run out)
 * Sharpies
 * Classroom computer logged on to github with this page
+* Moodle opened to Student role
 
 # Outline
 
 * Who am I?
+  * Show family photo
   * Micah 6:8: act justly.
   * My story of how God led me to ask what computing/data + justice might look like
+  * "this was abbreviated, happy to share more, including my doubts and wrestling with secular humanism"
+  * Invitation to talk with me; how to address me.
   * Priestly prayer for students: may you become people who steward the power of data to act justly in the world.
+  * 30 sec silence
 * Who are you (students)?
   * Make a name card
   * Go around and get introductions: name, year, major, something outside of “data” that you’re interested in. I take a photo of each person with their name card, for us all to share (privately).
   * Fill out info sheet
-* How does this course work? (bring up the syllabus)
+* How does this course work? (**bring up the syllabus** and Moodle)
   * Goals (tech, communication, data&society, metacognition); **different from course catalog**
     * Technical tools for data science
       * Python data science stack
@@ -40,7 +46,7 @@ title: Day 1 Notes
 * What is data science?
   * Fill out a question on info sheet: what comes to mind when you think Data Science? Any recent news? Ow has data science affected your life?
   * Pair, share.
-  * Brief presentation, if time allows.
+  * Let's think of examples of how data is used in lots of different places. Calvin? Journalism? Government? Retail? Medicine? Climate? ...
   * Show the first 3 min of J.B.’s video, if time allows.
 
 Other
