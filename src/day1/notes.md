@@ -97,6 +97,7 @@ Although the schedule of topics and readings may shift (since this is my first t
 * Logistics
   * First homework will be released shortly after class.
   * Monday will be in lab
+  * Interest in helping organize DS social?
 * Warm-up Discussion
   * Data science in the news recently?
     * [NYT: YouTube fined for targeting ads at kids](https://www.nytimes.com/2019/09/04/technology/google-youtube-fine-ftc.html?action=click&module=Well&pgtype=Homepage&section=Business)
