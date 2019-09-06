@@ -85,9 +85,12 @@ Although the schedule of topics and readings may shift (since this is my first t
 ## Materials
 
 * Name card paper (and card stock in case we run out)
-* Classroom computer opened to Joy Buolamwini's WEF video
-* Room set up for discussion
 * **A printout of these notes**
+* Tabs open:
+  * [GenderShades website](http://gendershades.org/overview.html)
+  * [GenderShades Paper](http://proceedings.mlr.press/v81/buolamwini18a/buolamwini18a.pdf)
+  * [Joy Buolamwini's WEF video](https://www.youtube.com/watch?v=_sgji-Bladk)
+* Room set up for discussion
 
 ## Outline
 
@@ -96,6 +99,7 @@ Although the schedule of topics and readings may shift (since this is my first t
   * Monday will be in lab
 * Warm-up Discussion
   * Data science in the news recently?
+    * [NYT: YouTube fined for targeting ads at kids](https://www.nytimes.com/2019/09/04/technology/google-youtube-fine-ftc.html?action=click&module=Well&pgtype=Homepage&section=Business)
   * Let's think of examples of how data is used in lots of different places. Calvin? Journalism? Government? Retail? Medicine? Climate? ...
 * First Ethics Discussion
   * Show the first few minutes (unless everyone submitted a journal)
@@ -124,7 +128,7 @@ Although the schedule of topics and readings may shift (since this is my first t
     * Acquired data (faces)
     * Did a lot of manual labeling (gender from titles/names, skin type by asking a dermatologist)
     * Augmented it with results of different APIs
-    * Computed metrics (error rate, etc.) aggregated in different ways
+    * Computed metrics (error rate, [Positive Predictive Value](https://en.wikipedia.org/wiki/Positive_and_negative_predictive_values), etc.) aggregated in different ways
     * **Communicated the results** through graphics, numbers, spoken and written language, poetry.
     * Was it effective? What made it effective?
   * We will do this too.
