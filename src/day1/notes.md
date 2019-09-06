@@ -125,6 +125,7 @@ Although the schedule of topics and readings may shift (since this is my first t
     * Augmented it with results of different APIs
     * Computed metrics (error rate, etc.) aggregated in different ways
     * **Communicated the results** through graphics, numbers, spoken and written language, poetry.
+    * Was it effective? What made it effective?
   * We will do this too.
 * If extra time (ha!)
   * draw a DataFrame
