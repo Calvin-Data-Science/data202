@@ -1,5 +1,8 @@
 Readings
 
+- Week 1: Joy Buolamwini WEF video
+
+
 # Overview
 
 - Harvard Data Science Review - https://hdsr.mitpress.mit.edu/
