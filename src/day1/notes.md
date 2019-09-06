@@ -87,6 +87,7 @@ Although the schedule of topics and readings may shift (since this is my first t
 * Name card paper (and card stock in case we run out)
 * Classroom computer opened to Joy Buolamwini's WEF video
 * Room set up for discussion
+* **A printout of these notes**
 
 ## Outline
 
