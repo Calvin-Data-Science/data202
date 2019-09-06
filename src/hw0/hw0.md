@@ -9,7 +9,10 @@ Complete the following. (You're welcome to share ideas of sites and organization
 - Online
   - Site 1
     - Example of data it's collecting about me:
+      - each record is a...:
+      - some of the fields in that record might be...:
     - Example of some decision the company is probably making (e.g., something I see on the site) based on that data:
+      - the specific decision (e.g., X vs Y, how many X, when to Z -- specify what the X/Y/Z are)
   - Site 2
 - Off-line
   - Organization 1
@@ -69,6 +72,10 @@ Now, compare and contrast the two datasets along the following axes:
 - Size (file size, record count, etc.)
 - Representation (column count, consistency, missing data, etc.)
 - Representativeness
+
+## For fun
+
+What was the favorite first-day-of-class this semester (or ever)?
 
 ## Submitting
 
