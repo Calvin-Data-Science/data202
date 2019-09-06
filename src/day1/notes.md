@@ -107,10 +107,16 @@ Although the schedule of topics and readings may shift (since this is my first t
     * [article about China](https://www.scmp.com/news/china/society/article/2157883/drones-facial-recognition-and-social-credit-system-10-ways-china)
     * other applications
       * skin cancer detection -- will it be as good for underrepresented minorities?
+  * Why is this news? Weren't we already evaluating accuracy?
   * Why does it matter if systems are inaccurate?
     * Gender classification isn't the main goal of most of these systems!
     * But error on an easy attribute (gender) suggests that other attributes may be wrong
   * Who is pointing this out? Who works at the tech companies?
+  * [9:25] take-aways.
+    * How we measure things matters.
+    * Data affects people.
+    * Need for diversity--datasets, employees
+    * a personal confession: I thought Joy was "just" an excited MIT undergrad. **I stereotyped.**
 * RESET THE ROOM.
 * THIS IS DATA SCIENCE.
   * What did Joy actually do?
