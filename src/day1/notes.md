@@ -3,13 +3,29 @@
 title: Day 1 Notes
 ...
 
-# Notes for next time
+# Day 1 (Wednesday)
+
+## Notes for next time
 
 * Way too much time on logistics. Don't go through the whole syllabus.
 * Photos worked well, but "let me know after class if you don't want shared" would be better.
 * didn't get to discussion about what is data science
 
-# Materials
+## Email afterwards
+
+Thanks for coming to the first day of DATA 202, my first class at Calvin! I sincerely apologize for running over time. The last few classes that I've both taught and taken have been 75-minute blocks, so it'll take me some time to get used to 50 minutes.
+
+A few reminders:
+
+* Sign up for Piazza.
+* There's a video (12.5 min) and journal to prepare us for a short class discussion on Friday.
+* I'll share class photos with all students on Thursday afternoon so we can start learning each other's names for the discussion. If you want to opt out, let me know before noon.
+
+You should also start thinking about what you might want to replicate in your first project, since the first milestone is next week.
+
+This class will be a lot of work for all of us, but God willing we will also learn a lot. I'm excited to be doing this and honored that you're doing it with me.
+
+## Materials
 
 * Copies of info sheets
 * Name card paper (and card stock in case we run out)
@@ -17,7 +33,7 @@ title: Day 1 Notes
 * Classroom computer logged on to github with this page
 * Moodle opened to Student role
 
-# Outline
+## Outline
 
 * Who am I?
   * Show family photo
@@ -63,3 +79,49 @@ Other
   * So in order to let you plan your routine, all the due dates will be the same, period.
 
 Although the schedule of topics and readings may shift (since this is my first time running this course in this format), I want to make sure those shifts don't hinder your ability to plan.
+
+# Day 2 (Friday)
+
+## Materials
+
+* Name card paper (and card stock in case we run out)
+* Classroom computer opened to Joy Buolamwini's WEF video
+* Room set up for discussion
+
+## Outline
+
+* Logistics
+  * First homework will be released shortly after class.
+  * Monday will be in lab
+* Warm-up Discussion
+  * Data science in the news recently?
+  * Let's think of examples of how data is used in lots of different places. Calvin? Journalism? Government? Retail? Medicine? Climate? ...
+* First Ethics Discussion
+  * Show the first few minutes (unless everyone submitted a journal)
+  * Why would governments or companies want face recognition?
+    * policing (surveillance, fugitives, aggression detection, ...)
+    * military (strike, surveillance)
+    * authentication (payment, entry, unlocking devices)
+    * hiring (watch how you behave during interview)
+    * education (are students paying attention?)
+    * [article about China](https://www.scmp.com/news/china/society/article/2157883/drones-facial-recognition-and-social-credit-system-10-ways-china)
+    * other applications
+      * skin cancer detection -- will it be as good for underrepresented minorities?
+  * Why does it matter if systems are inaccurate?
+    * Gender classification isn't the main goal of most of these systems!
+    * But error on an easy attribute (gender) suggests that other attributes may be wrong
+  * Who is pointing this out? Who works at the tech companies?
+* RESET THE ROOM.
+* THIS IS DATA SCIENCE.
+  * What did Joy actually do?
+    * Acquired data (faces)
+    * Did a lot of manual labeling (gender from titles/names, skin type by asking a dermatologist)
+    * Augmented it with results of different APIs
+    * Computed metrics (error rate, etc.) aggregated in different ways
+    * **Communicated the results** through graphics, numbers, spoken and written language, poetry.
+  * We will do this too.
+* If extra time (ha!)
+  * draw a DataFrame
+  * give some syntax examples
+    * how to get at data: columns and iloc for now.
+  * useful descriptive functions: info, describe, value_counts
