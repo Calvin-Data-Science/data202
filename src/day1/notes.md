@@ -30,7 +30,7 @@ This class will be a lot of work for all of us, but God willing we will also lea
 * Copies of info sheets
 * Name card paper (and card stock in case we run out)
 * Sharpies
-* Classroom computer logged on to github with this page
+* Classroom computer logged on to GitHub with this page
 * Moodle opened to Student role
 
 ## Outline
