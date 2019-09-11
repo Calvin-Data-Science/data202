@@ -6,7 +6,7 @@ title: "DATA 202: Information Systems and Data Management, aka Visual and Predic
 * **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298
 * **Meeting Time**: MWF 9-9:50am. **Rooms vary**, see below!
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
-* **Office Hours**: Wed and Thurs 4:30-5:30pm (beginning Sep 5) or on request
+* **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
 * Teaching Assistant: Joe Jinn
 * [Piazza site](https://piazza.com/class/jz4k2urbn8r199)
 
@@ -165,7 +165,7 @@ Late assignments make it harder for us to give feedback fairly and efficiently, 
 
 Feedback on assignments takes significant time for us, so we expect you to take some time to respond to it. We will evaluate how well you have responded to feedback by questions on subsequent assignments and potentially other mechanisms.
 
-## Diversity, Inclusion, and Understanding
+## Civil Discourse, Diversity, Inclusion, and Understanding
 
 We will touch on controversial issues in this class. We want to create an environment of mutual respect, even when discussing issues where there is vehement disagreement. So please:
 
