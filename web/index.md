@@ -225,6 +225,8 @@ There is no single textbook for this course; all needed material will be present
 * [Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/) with accompanying [lecture videos](https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/).
 * [Principles and Techniques of Data Science](https://www.textbook.ds100.org/), the textbook for Berkeley's [DATA 100](http://www.ds100.org/su19/)
 
+Lecture slides (when we do lectures) will be posted [here](https://drive.google.com/open?id=1JbmTGGeovUwqnWdi4FJARt630UWCuI70).
+
 # Acknowledgments
 
 The material for this course is adapted with permission from three prior courses:
