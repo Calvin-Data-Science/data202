@@ -225,13 +225,13 @@ There is no single textbook for this course; all needed material will be present
 * [Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/) with accompanying [lecture videos](https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/).
 * [Principles and Techniques of Data Science](https://www.textbook.ds100.org/), the textbook for Berkeley's [DATA 100](http://www.ds100.org/su19/)
 
-Lecture slides (when we do lectures) will be posted [here](https://drive.google.com/open?id=1JbmTGGeovUwqnWdi4FJARt630UWCuI70).
+Lecture slides (when we do lectures) will be posted [here](https://drive.google.com/open?id=1JbmTGGeovUwqnWdi4FJARt630UWCuI70). Many will be based on material from the courses below, so you can also refer to those resources.
 
 # Acknowledgments
 
 The material for this course is adapted with permission from three prior courses:
 
-* [Data 100 at Berkley](http://www.ds100.org/)
+* [Data 100 at Berkley](http://www.ds100.org/) (see especially the [syllabus from the summer 2019 version](http://www.ds100.org/su19/syllabus), which includes videos and lecture slides)
 * [CS 109a at Harvard](https://harvard-iacs.github.io/2018-CS109A/)
 * [Critical Thinking in Data Science at Harvard](https://www.youtube.com/watch?v=PDYGjDYTY1o) (links to YouTube because the course website is not public)
 
