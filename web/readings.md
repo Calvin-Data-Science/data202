@@ -2,9 +2,9 @@ Readings
 
 - Week 1: Joy Buolamwini WEF video
 
-
 # Overview
 
+- (Ten simple rules for responsible big data research)[https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005399]
 - Harvard Data Science Review - https://hdsr.mitpress.mit.edu/
 - ML for Climate Change paper https://www.technologyreview.com/s/613838/ai-climate-change-machine-learning/
 - CivilServant
@@ -29,6 +29,10 @@ Readings
 
 # Data Carpentry Lessons
 
-* [All](https://datacarpentry.org/lessons/)
-* The [Social Science](https://datacarpentry.org/lessons/#social-science-curriculum) one links to OpenRefine, which looks useful
-* https://swcarpentry.github.io/python-novice-gapminder/
+- [All](https://datacarpentry.org/lessons/)
+- The [Social Science](https://datacarpentry.org/lessons/#social-science-curriculum) one links to OpenRefine, which looks useful
+- https://swcarpentry.github.io/python-novice-gapminder/
+
+# Perception
+
+http://www2.psych.utoronto.ca/users/spence/Spence%20(2006).pdf
