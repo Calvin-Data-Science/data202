@@ -38,7 +38,7 @@
 
 6. Name one business decision that an organization you relate with is making based on data.
 
-And a few questions for feedback:
+Rate how much you agree with these statements on a scale of 1 (strongly disagree) to 5 (strongly agree). Any comments are welcome.
 
 * I'm finding the content of this course *interesting*:
 * I'm finding the content of this course *relevant*:
