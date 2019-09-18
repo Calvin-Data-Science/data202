@@ -91,32 +91,9 @@ There will be frequent quizzes, usually short and at the beginning of class.
 
 ## Projects
 
-There is no final exam for this course; instead, students will do two projects, both done in groups of 2 or 3.
-
-### **Project 1**: replicate and critique some real-world data science
-
-For this project you will pick some existing data science work (a blog post, report, research paper, etc.) and replicate a visual or some other part of it.
-
-Milestones due along with the corresponding week's homework:
-
-* Week 2: Propose 2 or 3 potential options that interest you, and write why you find them interesting. The course staff will help you determine what's feasible.
-* Week 3: Have the dataset in hand; give some basic descriptive statistics about it.
-* Week 4: Rough draft of the visual you want to make.
-* Week 5: Final visual, plus your critique of the original article and some follow-up questions.
-
-### **Project 2**: ask and answer your own data science question
-
-This project will require doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (only posted publicly if want to), supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components.
+There is no final exam for this course; instead, students will do two projects, [detailed here](projects.html).
 
 The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
-
-Milestones:
-
-* Week 6: Draft of a project proposal including specific questions
-* Week 8: Revised project proposal
-* Week 10: Dataset and exploratory visualization done
-* Week 12: Initial modeling and visualization
-* Week 15: Final presentation
 
 ## Participation: Class Discussions and Journals
 
