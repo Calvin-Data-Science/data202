@@ -39,8 +39,8 @@ Your work in this course will probably equip you to put the following keywords o
 
 Unless otherwise announced:
 
-* On **Mondays**, we will meet in SB 354 (the "Gold" lab).
-* On **Wednesdays and Fridays**, we will meet in SB 382.
+* On **Wednesdays**, we will meet in SB 354 (the "Gold" lab).
+* On **Mondays and Fridays**, we will meet in SB 382.
 
 ## Prerequisites
 
