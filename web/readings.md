@@ -1,6 +1,14 @@
-Readings
+# Readings
 
 - Week 1: Joy Buolamwini WEF video
+- Week 4:
+
+# Queue
+
+- Anonymity and Privacy
+  - Read this overview: https://georgetownlawtechreview.org/re-identification-of-anonymized-data/GLTR-04-2017/
+  - Watch the video on [this page](https://queue.acm.org/detail.cfm?id=2838930) for an example of the kind of concerns that come up when trying to anonymize data
+  - Bonus: read [Sweeny's original paper](https://dataprivacylab.org/projects/identifiability/paper1.pdf) for context
 
 # Overview
 
