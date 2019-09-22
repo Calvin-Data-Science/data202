@@ -98,3 +98,11 @@ Here is a Moodle Cloze format for Q2, generated with the help of [this tool](htt
 </tbody>
 </table>
 ```
+
+
+Some good example responses to Question 1:
+
+* "One other takeaway that I had from that presentation is that algorithms can easily become biased, even if nobody is actually attempting to make them biased; and to solve this issue in this situation, we need to have more diversity in the tech industry."
+* "We talked about how often we don't recognize bias that is towards group of people different from ourselves, and how those biases are dangerous, as they can easily slip through if we're not conscious and thinking about them."
+* "We as a future people in the technology field have to be conscious of the bias that we may accidentally program into our software."
+* "It is important to use a representative dataset and it's important to be mindful of ways that your dataset might not be representative by considering others' viewpoints."
