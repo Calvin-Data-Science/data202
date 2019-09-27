@@ -7,7 +7,7 @@ title: "DATA 202: Information Systems and Data Management, aka Visual and Predic
 * **Meeting Time**: MWF 9-9:50am. **Rooms vary**, see below!
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
 * **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
-* Teaching Assistant: Joe Jinn
+* Teaching Assistant / Grader: Joseph (Joe) Jinn
 * [Piazza site](https://piazza.com/class/jz4k2urbn8r199)
 
 # Overview
@@ -203,6 +203,8 @@ There is no single textbook for this course; all needed material will be present
 * [Principles and Techniques of Data Science](https://www.textbook.ds100.org/), the textbook for Berkeley's [DATA 100](http://www.ds100.org/su19/)
 
 Lecture slides (when we do lectures) will be posted [here](https://drive.google.com/open?id=1JbmTGGeovUwqnWdi4FJARt630UWCuI70). Many will be based on material from the courses below, so you can also refer to those resources.
+
+Here are a few [references](resources.html) for software we're using.
 
 # Acknowledgments
 
