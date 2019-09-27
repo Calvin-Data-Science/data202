@@ -9,6 +9,7 @@
   - Read this overview: https://georgetownlawtechreview.org/re-identification-of-anonymized-data/GLTR-04-2017/
   - Watch the video on [this page](https://queue.acm.org/detail.cfm?id=2838930) for an example of the kind of concerns that come up when trying to anonymize data
   - Bonus: read [Sweeny's original paper](https://dataprivacylab.org/projects/identifiability/paper1.pdf) for context
+- [Article](https://www.theguardian.com/technology/2019/sep/17/tech-climate-change-luddites-data) arguing we should do less data.
 
 # Overview
 
@@ -21,9 +22,12 @@
 # Use in industry
 
 - https://hbr.org/2018/08/what-data-scientists-really-do-according-to-35-data-scientists
-- Lots of time on wrangling: https://www.ibm.com/cloud/blog/ibm-data-catalog-data-scientists-productivity
+- Wrangling takes lots of time: https://www.ibm.com/cloud/blog/ibm-data-catalog-data-scientists-productivity
 - https://medium.com/airbnb-engineering Data Science section
 
+# Social Good Applications
+
+- https://khn.org/news/want-to-reduce-suicides-follow-the-data-to-medical-offices-motels-and-even-animal-shelters/
 
 # Data Ethics
 
@@ -44,3 +48,7 @@
 # Perception
 
 http://www2.psych.utoronto.ca/users/spence/Spence%20(2006).pdf
+
+# History
+
+- [Weather data collection](https://www.laphamsquarterly.org/roundtable/weather-record)
