@@ -57,3 +57,7 @@ For each assignment, what questions come up regarding:
 * methodology (assumptions? validity?)
 * inference (real-world connections)
 * communication (visuals? what wasn't clearly explained?)
+
+Stances:
+
+* Provenance: "How did this data get to me?" -- even to evaluate *Algorithms*, we wanted real data because we want to claim something about real-world performance, but if we don't know what got left out or got over-emphasized, we may make invalid conclusions about algorithm appropriateness.
