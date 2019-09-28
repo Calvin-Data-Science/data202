@@ -1,5 +1,7 @@
 # Objectives
 
+How can we listen to data and communicate what it says to other people?
+
 ## My personal goals with this course
 
 * Grow Christian perspectives in DS
