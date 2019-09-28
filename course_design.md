@@ -1,5 +1,14 @@
 # Objectives
 
+## My personal goals with this course
+
+* Grow Christian perspectives in DS
+* Prepare some students for 303 with us
+* Identify and equip potential student researchers
+* Get tutors for next year
+
+## Student goals
+
 * tech proficiency
   * specifics
     * computational tools (Python, Pandas, Matplotlib, sklearn)
