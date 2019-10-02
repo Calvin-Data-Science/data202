@@ -100,7 +100,7 @@ The final course meeting (during the designated final exam period on December 12
 I want to invite you into an ongoing discussion about data and society. Towards that end we will have one 20-minute discussion time during class each week. Your responsibility will be to:
 
 * Read or watch one or two pieces per week.
-* Write a brief (less than one page) journal entry about what you read, which might include some of the following things:
+* Write a brief (less than one page, a few bullet points is fine) journal entry about what you read, which might include some of the following things:
   * a one-sentence summary of the article for your future self
   * a quote and your thoughts about it
   * something you found surprising or cool
@@ -109,7 +109,10 @@ I want to invite you into an ongoing discussion about data and society. Towards 
   * a question this raises for you
 * Be prepared to share your thoughts during class.
 
-Journal entries will form the main part of the Participation grade.
+The goals of the journal submissions are:
+- To have some way of giving you credit for preparing for the discussions (Journal entries will form the main part of the Participation grade)
+- For the instructors to be able to read beforehand to see how people are thinking about the topic
+- To have something for your future self to refer to to remember what we talked about.
 
 To encourage you to read critically rather than memorizing details, quizzes will *not* include details from the readings. (Though quizzes may include something from our discussions.)
 
