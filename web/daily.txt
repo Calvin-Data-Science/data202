@@ -1,0 +1,153 @@
+---
+course:     Data 202
+instructor: Kenneth Arnold
+term:       Fall 2019
+time:       9 am
+days:       MWF
+---
+
+days:: MWF
+
+items::
+Topic;  b;      color=black;    T:
+Read;   i;      color=blue;     R:
+Assign; i;      color=green;    A:
+HW;     t;      color=green;    A:
+Due;    t;      color=red> Due: <!-- --;        D:
+Note;   b;      color=green;    N:
+Vocab;  t;      color=purple;   V:
+
+
+===10/22/2019
+
+Note:: Advising
+Note:: No Class
+
+===10/23/2019
+
+Note:: Advising
+Note:: No Class
+
+===12/09/2019
+
+Note:: Wednesday Class Schedule
+
+===12/10/2019
+
+Note:: Reading Recess
+
+===12/12/2019
+
+Note:: Final Project Presentations @ 1:30pm
+
+===09/04/2019
+
+Topic:: Course Intro
+
+===
+Topic:: Discussion on Bias in Facial Recognition
+Read:: [Compassion through Computation: Fighting Algorithmic Bias | Joy Buolamwini](https://www.youtube.com/watch?v=_sgji-Bladk)
+
+===
+Lab:: Jupyter Notebook + Pandas
+
+===
+Topic:: Pandas indexing syntax
+
+===
+Lab:: Homework debrief, Pandas indexing
+
+===
+Lab:: Pandas Indexing continued (project check-ins, lab/hw work)
+
+===
+Topic:: Project goals, communication (visual, computational notebooks), quiz, homework feedback
+
+===
+Lab:: broadcasting, functions, measuring prediction error
+
+===
+Topic:: Intro to predictive modeling
+
+===
+Topic:: Discussion: applications of predictions for climate change, measuring error
+Read:: [Machine Learning for Climate Change](https://www.technologyreview.com/s/613838/ai-climate-change-machine-learning/)
+
+===
+Topic:: Review
+
+===
+Topic:: Review, Python functions, error measurement
+
+===
+Topic:: Reidentification, linear regression intuition / squared error intuition
+Read:: [Reidentification of Anonymized Data](https://georgetownlawtechreview.org/re-identification-of-anonymized-data/GLTR-04-2017/)
+
+===
+Topic:: sklearn, model selection basics, Python patterns
+
+===
+Topic:: Data science lifecycle, project 2 intro, outline of rest of semester
+
+===
+Topic:: Linear regression exercises
+
+===
+Topic:: Linear regression (and review of error measurement)
+
+===
+Topic:: Multiple Linear Regression and Feature Engineering
+
+===
+Topic:: Multiple Linear Regression and Feature Engineering, continued
+
+===
+Lab:: Multiple Linear Regression, Feature Engineering, and Overfitting
+
+===
+Topic:: Linear Regression Review, open Q&A (e.g., how model fitting works)
+
+===
+(Advising)
+
+===
+Topic:: Data Wrangling 
+* Wrangling
+  * [Grammar of Data](https://dplyr.tidyverse.org/): grouping, aggregation, filtering
+  * Data cleaning
+
+===
+Topic:: Data Wrangling Continued
+
+===
+Topic:: Visualization
+
+===
+
+===
+
+* Visualization
+  * Principles
+  * Exploratory Analytics
+  * Practice / Critique
+
+===
+Topic:: Classification
+
+* Examples of Classification Problems
+* Measuring: what's a good classification?
+
+===
+Topic:: Model Selection continued
+
+* Cross validation
+* Modeling technique selection
+
+===
+Topic:: Unsupervised learning
+
+===
+
+Topic:: APIs
+
+===endofcal
