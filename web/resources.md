@@ -25,3 +25,8 @@ Complementary resources:
 
 * [Effective Computation in Physics](http://proquest.safaribooksonline.com/book/physics/9781491901564), by Kathryn D. Huff; Anthony Scopatz. [Notebooks to accompany the book](https://github.com/physics-codes/seminar). Don't be fooled by the title, it's a great book on modern computational practices with very little that's physics-specific.
 
+
+
+## Where to get data
+
+* https://data.world/
