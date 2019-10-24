@@ -31,7 +31,6 @@ library(magrittr)
 
 ----------
 
-
 ```{r, results = 'asis', echo = FALSE}
 daily2html(
   "daily.txt", 
@@ -41,3 +40,6 @@ daily2html(
   items = c("Topic", "Lab", "Read", "R", "Due", "Note")) %>%
   cat()
 ```
+
+<style>body td.even { background: #eee; }</style>
+

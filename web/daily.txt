@@ -111,6 +111,20 @@ Topic:: Linear Regression Review, open Q&A (e.g., how model fitting works)
 (Advising)
 
 ===
+Topic:: Model Selection (how to measure the impact of modeling decisions on *generalization*)
+
+* Cross validation
+* Modeling technique selection
+
+Note:: Homework on feature engineering and cross-validation
+
+===
+Topic:: Model Selection Continued
+
+===
+Topic:: Visualization Workshop
+
+===
 Topic:: Data Wrangling 
 * Wrangling
   * [Grammar of Data](https://dplyr.tidyverse.org/): grouping, aggregation, filtering
@@ -136,12 +150,6 @@ Topic:: Classification
 
 * Examples of Classification Problems
 * Measuring: what's a good classification?
-
-===
-Topic:: Model Selection continued
-
-* Cross validation
-* Modeling technique selection
 
 ===
 Topic:: Unsupervised learning
