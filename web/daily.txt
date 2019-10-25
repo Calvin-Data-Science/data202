@@ -110,19 +110,48 @@ Topic:: Linear Regression Review, open Q&A (e.g., how model fitting works)
 ===
 (Advising)
 
+===10/24/2019
+Due:: Lab 5 (feature engineering and overfitting)
+
 ===
 Topic:: Model Selection (how to measure the impact of modeling decisions on *generalization*)
 
-* Cross validation
-* Modeling technique selection
+Guiding questions:
+* What are some decisions we might make while modeling?
+  * Type of model to use (kNN vs Linreg vs ...)
+  * Features to include
+  * How to represent these features
+  * Hyperparameters (number of neighbors)
+* How might these decisions affect accuracy on training data?
+  * Looking at few neighbors can allow us to almost perfectly match the training data; looking at many forces smoother prediction
+  * Transformed features let us incorporate more information
+* How might these decisions affect generalization?
+  * Type of model: is there an underlying smooth relationship, or is similarity to examples best?
+  * Linreg: assumption that data *is* linear in the features
+  * Are features meaningful? How can features be transformed into something more meaningful?
+* How might we *measure* these impacts? What are some sources of *uncertainty* in these measures?
+
+Concepts:
+* Hyperparameters
+* Feature Engineering
+* generalization
+* Validation data, validation error
+* Cross-validation
+
 
 Note:: Homework on feature engineering and cross-validation
 
 ===
 Topic:: Model Selection Continued
 
+===10/29/2019
+Due:: Visualization Workshop Prep (reading)
+
 ===
 Topic:: Visualization Workshop
+
+===10/31/2019
+Due:: Project 1 Milestone: Visualization Workshop Aftermath
 
 ===
 Topic:: Data Wrangling 
