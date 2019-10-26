@@ -135,6 +135,7 @@ Concepts:
 * Hyperparameters
 * Feature Engineering
 * generalization
+* (Interpretability)
 * Validation data, validation error
 * Cross-validation
 
@@ -143,6 +144,13 @@ Note:: Homework on feature engineering and cross-validation
 
 ===
 Topic:: Model Selection Continued
+
+* I forgot to mention an important kind of feature engineering: **interactions**.
+
+* Measure effects of modeling decisions on accuracy in training, validation, and test
+  * Generalization error is a *noisy measurement*
+    * We get different errors for the *same* model on different validation splits
+    * We get different errors on the *same* validation data for models trained on different splits
 
 ===10/29/2019
 Due:: Visualization Workshop Prep (reading)
