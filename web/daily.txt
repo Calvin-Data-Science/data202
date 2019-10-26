@@ -165,6 +165,9 @@ Topic:: Data Wrangling Continued
 ===
 Topic:: Visualization
 
+===11/7/19
+Due:: Project 1
+
 ===
 
 ===
