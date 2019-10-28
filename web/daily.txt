@@ -125,11 +125,6 @@ Guiding questions:
 * How might these decisions affect accuracy on training data?
   * Looking at few neighbors can allow us to almost perfectly match the training data; looking at many forces smoother prediction
   * Transformed features let us incorporate more information
-* How might these decisions affect generalization?
-  * Type of model: is there an underlying smooth relationship, or is similarity to examples best?
-  * Linreg: assumption that data *is* linear in the features
-  * Are features meaningful? How can features be transformed into something more meaningful?
-* How might we *measure* these impacts? What are some sources of *uncertainty* in these measures?
 
 Concepts:
 * Hyperparameters
@@ -145,12 +140,30 @@ Note:: Homework on feature engineering and cross-validation
 ===
 Topic:: Model Selection Continued
 
+Guiding questions:
+* How might these modeling decisions affect generalization?
+  * we could **underfit** by not modeling real patterns in the data
+  * we could **overfit** by modeling patterns that only occur in the training data
+  * Type of model: is there an underlying smooth relationship, or is similarity to examples best?
+  * Linreg: assumption that data *is* linear in the features
+  * Are features meaningful? How can features be transformed into something more meaningful?
+* How might we *measure* these impacts? What are some sources of *uncertainty* in these measures?
+
 * I forgot to mention an important kind of feature engineering: **interactions**.
 
 * Measure effects of modeling decisions on accuracy in training, validation, and test
   * Generalization error is a *noisy measurement*
     * We get different errors for the *same* model on different validation splits
     * We get different errors on the *same* validation data for models trained on different splits
+
+* Bike-sharing example: When we get an accuracy score on the test set, what does that mean?
+  * Ideally we'd like it to be indicating generalization: is our model going to do well at predicting future rides?
+    * so that we can make decisions like which features to include, how to transform them, and what kind of model to use
+    * and so that we can have appropriate confidence when making decisions based on our model's conclusions
+      * like how many bikes to buy or which stations to expand
+  * But what if 2012 had unusual weather? Their sports teams had big games? The subway had a major failure?
+  * Upshot: test set performance is a *noisy* indicator of generalization performance
+
 
 ===10/29/2019
 Due:: Visualization Workshop Prep (reading)
