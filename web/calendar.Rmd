@@ -1,5 +1,5 @@
 ---
-title: "Calendar -- Fall 2019"
+title: "DATA 202 Calendar -- Fall 2019"
 author: ""
 date: ""
 output:
