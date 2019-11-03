@@ -9,7 +9,8 @@ title: "DATA 202: Information Systems and Data Management, aka Visual and Predic
 * **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
 * Teaching Assistant / Grader: Joseph (Joe) Jinn
 * [Piazza site](https://piazza.com/class/jz4k2urbn8r199)
-* [Course Calendar](calendar.html)
+
+## **[Course Calendar](calendar.html)**
 
 # Overview
 
