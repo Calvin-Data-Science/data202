@@ -41,5 +41,3 @@ daily2html(
   cat()
 ```
 
-<style>body td.even { background: #eee; }</style>
-
