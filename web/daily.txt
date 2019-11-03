@@ -29,6 +29,16 @@ Note:: No Class
 Note:: Advising
 Note:: No Class
 
+===11/27/2019
+
+Note:: Thanksgiving Break
+Note:: No Class
+
+===11/29/2019
+
+Note:: Thanksgiving Break
+Note:: No Class
+
 ===12/09/2019
 
 Note:: Wednesday Class Schedule
@@ -36,10 +46,6 @@ Note:: Wednesday Class Schedule
 ===12/10/2019
 
 Note:: Reading Recess
-
-===12/12/2019
-
-Note:: Final Project Presentations @ 1:30pm
 
 ===09/04/2019
 
@@ -165,6 +171,26 @@ Guiding questions:
   * But what if 2012 had unusual weather? Their sports teams had big games? The subway had a major failure?
   * Upshot: test set performance is a *noisy* indicator of generalization performance
 
+We looked at Edmunds' True Market Value tool (comparable to the Kelly Blue Book), which I used for determining what would be a fair price for the car I'm buying.
+It gives you a price prediction.
+We discussed where that price number came from, and concluded that it was likely based on *data* (namely, historical car title transfer data) that was used to train a *regression model*.
+(We have to be careful about *outliers* in that data, e.g., parents "selling" cars to their children, manufacturer buybacks aka "lemons", etc., and probably find ways of identifying and removing these outliers.)
+
+* Features of the regression model: 
+  * car make/model
+  * Year
+  * Mileage
+  * Condition and history (e.g., Carfax)
+* We discussed many considerations about how we might engineer these features into something that a linear model might need
+  * Mileage (or age) might need a non-linear transformation, since brand new cars depreciate much more rapidly
+  * Make/model probably needs one-hot encodings, but thought is needed to make sure we're modeling both overall brand-level characteristics and specific trim levels of specific models
+  * We might want to model *interaction effects*: some brands age better than others, so we might want a Toyota-specific mileage coefficient. We can model that using interaction terms (`make` * `mileage`).
+* We discussed how we might measure errors. MSE is a pretty good option, but maybe do we want to favor *overestimating* vs *underestimating*? Or do we want to worry more about *relative* vs *absolute* accuracy?
+* We discussed how to measure generalization.
+  * Any specific validation set may have issues, e.g., a major reliability issue crops up with a particular vehicle that happens to be in the validation set a lot.
+  * So we should use multiple validation sets.
+  * But how to do that when we have a fixed set of training data?
+  * So we discussed *cross-validation*: hold out some data, train on the rest, test on the held-out; repeat for different held-out data.
 
 ===10/29/2019
 Due:: Visualization Workshop Prep (reading)
@@ -176,21 +202,22 @@ Topic:: Visualization Workshop
 Due:: Project 1 Milestone: Visualization Workshop Aftermath
 
 ===
-Topic:: Data Wrangling 
+Topic:: Final Project proposal discussions
+
+===
+Topic:: Data Wrangling: Aggregation and Joining
 * Wrangling
   * [Grammar of Data](https://dplyr.tidyverse.org/): grouping, aggregation, filtering
   * Data cleaning
 
 ===
-Topic:: Data Wrangling Continued
+Topic:: Data Wrangling Continued: Coding it up
 
 ===
-Topic:: Visualization
+Topic:: Data Wrangling Lab
 
 ===11/7/19
-Due:: Project 1
-
-===
+Due:: Project 1 Final
 
 ===
 
@@ -206,10 +233,31 @@ Topic:: Classification
 * Measuring: what's a good classification?
 
 ===
+Topic:: Classification Continued
+
+===11/14/2019
+Due:: Project 2 Revised proposal
+
+===
+Topic:: Classification Lab
+
+===
 Topic:: Unsupervised learning
 
 ===
-
 Topic:: APIs
+
+===
+Topic:: Exploratory Visualization
+
+===11/21/2019
+Due:: Project 2 Dataset Exploration
+
+===12/5/2019
+Due:: Project 2 Initial modeling
+
+===12/12/2019
+Note:: Final Project Presentations @ 1:30pm
+Due:: Final Project Write-ups due 11:59pm
 
 ===endofcal
