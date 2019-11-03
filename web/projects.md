@@ -5,7 +5,7 @@ title: Projects
 
 There is no final exam for this course; instead, students will do two projects. Both may be done individually or in groups of 2 or 3.
 
-### **Project 1**: replicate and critique some real-world data science
+## **Project 1**: replicate and critique some real-world data science
 
 For this project you will pick some existing data science work (a blog post, report, research paper, etc.) and replicate a visual from it.
 
@@ -27,7 +27,7 @@ This project addresses our course-level learning objectives in this way:
 * **Communication**: analyzing choices made in visualization and text with respect to how it tells a story about data. Proposing and implementing changes to improve the clarity of communication.
 * **Ethics and Critical Thinking**: identify potential ethical questions (e.g., of transparency, diversity, etc.) that emerge in the process of obtaining, manipulating, and communicating with data.
 
-### Milestones
+### Project 1 Milestones
 
 Milestones are due along with the corresponding week's homework.
 
@@ -37,13 +37,13 @@ Milestones are due along with the corresponding week's homework.
 * **Week 5**: Provide feedback to other students.
 * **Week 6**: Final visual, plus your critique of the original article and some follow-up questions.
 
-### **Project 2**: ask and answer your own data science question
+## **Project 2**: ask and answer your own data science question
 
 This project will require doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (only posted publicly if want to), supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components.
 
 The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
 
-### Milestones
+### Project 2 Milestones
 
 * **Week 7**: Draft of a project proposal including specific questions
 * **Week 8**: Revised project proposal
