@@ -1,3 +1,5 @@
+/berkeley
+/harvard
 .ipynb_checkpoints
 web/index.html
 web/projects.html
@@ -7,3 +9,5 @@ web/timeline.html
 web/resources.html
 .Rproj.user
 .Rhistory
+names_by_state
+namesbystate.zip
