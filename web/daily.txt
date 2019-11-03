@@ -4,6 +4,7 @@ instructor: Kenneth Arnold
 term:       Fall 2019
 time:       9 am
 days:       MWF
+css:        calendar.css
 ---
 
 days:: MWF
