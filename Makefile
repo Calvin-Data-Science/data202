@@ -1,7 +1,7 @@
 %.html: %.md Makefile
 	pandoc -s --toc --css=pandoc.css -o $@ $<
 
-web/calendar.html: web/calendar.Rmd web/daily.txt
+web/calendar.html: web/calendar.Rmd web/daily.txt web/calendar.css
 	Rscript -e "rmarkdown::render('"$<"')"
 
 %.html: %.Rmd
