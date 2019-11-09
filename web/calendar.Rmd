@@ -19,6 +19,12 @@ if (! require(calendar)) {
 library(magrittr)
 ```
 
+### All Topics
+
+* [Linear Regression](topics/linreg.html)
+* [Data Wrangling](topics/wrangling.html)
+* [Classification](topics/classification.html)
+
 #### Key
 
 <!-- calendar converts Class:: into approprate span -->

@@ -1,12 +1,15 @@
 /berkeley
 /harvard
 .ipynb_checkpoints
+
 web/index.html
 web/projects.html
-student_data
-Ofra*
 web/timeline.html
 web/resources.html
+web/topics/*.html
+
+student_data
+Ofra*
 .Rproj.user
 .Rhistory
 names_by_state

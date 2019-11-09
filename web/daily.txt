@@ -97,7 +97,7 @@ Topic:: sklearn, model selection basics, Python patterns
 Topic:: Data science lifecycle, project 2 intro, outline of rest of semester
 
 ===
-Topic:: Linear regression exercises
+Topic:: Linear regression @@topics/linreg.html
 
 ===
 Topic:: Linear regression (and review of error measurement)
@@ -205,21 +205,8 @@ Due:: Project 1 Milestone: Visualization Workshop Aftermath
 Topic:: Final Project proposal discussions
 
 ===
-Topic:: Data Wrangling: Aggregation and Joining
+Topic:: Data Wrangling: Aggregation and Joining @@topics/wrangling.html
 
-* How many people share your birth month? groupby-transform
-* How many people were born each month? groupby-aggregate(sum)
-* What is your birthstone? join
-* What is the earliest birthday in each month? groupby-aggregate(first)
-* Who has the earliest birthday? groupby-aggregate(first)
-* What is the average height for each month?
-* How much above or below average are you for your month?
-* Repeat for grouping by semester number at Calvin (starting at 1)
-
-
-* Wrangling
-  * [Grammar of Data](https://dplyr.tidyverse.org/): grouping, aggregation, filtering
-  * Data cleaning
 
 ===
 Topic:: Data Wrangling Continued: Coding it up
@@ -238,7 +225,7 @@ Due:: Project 1 Final
   * Practice / Critique
 
 ===
-Topic:: Classification
+Topic:: Classification @@topics/classification.html
 
 * Examples of Classification Problems
 * Measuring: what's a good classification?
@@ -253,19 +240,43 @@ Due:: Project 2 Revised proposal
 Topic:: Classification Lab
 
 ===
-Topic:: Unsupervised learning
+Topic:: Exploratory Analysis and Visualization (EDA)
 
 ===
-Topic:: APIs
+Topic:: EDA lab
 
-===
-Topic:: Exploratory Visualization
+Yelp data?
 
 ===11/21/2019
 Due:: Project 2 Dataset Exploration
 
+===
+Topic:: Unsupervised learning
+
+===
+Topic:: APIs and Web Technology
+
+
+===
+(Thanksgiving)
+
+===
+(Thanksgiving)
+
+===
+Topic:: SQL and Big Data
+
+===
+Topic:: Reinforcement Learning its social impacts
+
 ===12/5/2019
 Due:: Project 2 Initial modeling
+
+===
+Topic:: SQL lab
+
+===
+Topic:: Neural Networks, Deep Learning, and beyond
 
 ===12/12/2019
 Note:: Final Project Presentations @ 1:30pm
