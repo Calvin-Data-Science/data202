@@ -37,5 +37,7 @@ class, so don\'t worry about every detail of this reading.
 * How much above or below average are you for your month?
 * Repeat for grouping by semester number at Calvin (starting at 1)
 
+## Extra Resources
 
-* [Grammar of Data](https://dplyr.tidyverse.org/): grouping, aggregation, filtering
+* [dplyr for R](https://dplyr.tidyverse.org/): grouping, aggregation, filtering
+* [compared with Pandas](https://gist.github.com/TomAugspurger/6e052140eaa5fdb6e8c0/)
