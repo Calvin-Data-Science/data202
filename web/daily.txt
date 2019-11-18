@@ -227,20 +227,35 @@ Due:: Project 1 Final
 ===
 Topic:: Classification @@topics/classification.html
 
-* Examples of Classification Problems
-* Measuring: what's a good classification?
+* COMPAS as an example of a classification problems
+* There are at least two ways to be wrong: false positive vs false negative. Difference matters.
 
 ===
-Topic:: Classification Continued
+Topic:: Discussion about fairness in classification
 
-===11/14/2019
-Due:: Project 2 Revised proposal
+* Correction of Precision / Recall
+* "Blind" classifiers may be unfair.
 
 ===
 Topic:: Classification Lab
 
 ===
-Topic:: Exploratory Analysis and Visualization (EDA)
+Topic:: Exploratory Analysis and Visualization (EDA) @@topics/eda_unsupervised.html
+
+Due:: Project 2 Revised proposal
+
+EDA is a frame of mind.
+
+* If you were actually doing this for a job, what might you do differently?
+
+* Review hw6, focusing on where EDA would have helped us
+  * What's the range of temperature?
+  * What's the range of rides?
+  * How many weekdays / holidays / working days do we have?
+  * What values are missing?
+* Other things we could ask
+  * Visualize the system network (locations?)
+
 
 ===
 Topic:: EDA lab
@@ -254,7 +269,7 @@ Due:: Project 2 Dataset Exploration
 Topic:: Unsupervised learning
 
 ===
-Topic:: APIs and Web Technology
+Topic:: Recommender Systems and Reinforcement Learning @@topics/actions.html
 
 
 ===
@@ -264,19 +279,24 @@ Topic:: APIs and Web Technology
 (Thanksgiving)
 
 ===
-Topic:: SQL and Big Data
+Topic:: SQL, aka, "My data doesn't fit in memory, now what?"
 
 ===
-Topic:: Reinforcement Learning its social impacts
+Topic:: Review
 
 ===12/5/2019
 Due:: Project 2 Initial modeling
 
 ===
-Topic:: SQL lab
+Topic:: Exam (proposed)
 
 ===
-Topic:: Neural Networks, Deep Learning, and beyond
+Topic:: Outlook
+
+* Neural Networks
+* Deep Learning
+* Recommender systems and RL
+* Q&A
 
 ===12/12/2019
 Note:: Final Project Presentations @ 1:30pm

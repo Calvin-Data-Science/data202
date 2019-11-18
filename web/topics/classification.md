@@ -6,6 +6,7 @@
 ## Evaluating classifiers
 
 * [slides](https://docs.google.com/presentation/d/1ZmEdhdUIA1Yvq7SxMnV41jrpxZd_S9lD0D23Qe7vFa0/edit) from DATA100 su19
+* [Sensitivity/Specificity / Confusion Matrix on Wikipedia](https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix)
 
 ### Extra resources
 
@@ -13,4 +14,4 @@
     * related: [Visualizing Information Theory](http://colah.github.io/posts/2015-09-Visual-Information/)
 * Area Under the Curve = chance of correctly ranking a random positive-negative pair
   * [A visual explanation](https://madrury.github.io/jekyll/update/statistics/2017/06/21/auc-proof.html)
-  * [A mathy explanation](https://www.alexejgossmann.com/auc/)
+  * [A math-y explanation](https://www.alexejgossmann.com/auc/)
