@@ -50,3 +50,17 @@ The final course meeting (during the designated final exam period on December 12
 * **Week 10**: Dataset and exploratory visualization done
 * **Week 12**: Initial modeling and visualization
 * **Week 15**: Final presentation
+
+## Detailed Expectations
+
+Projects should demonstrate proficiency in the primary learning outcomes of this course:
+
+| Learning outcome | Evidence in project |
+| ---- | ----- |
+| **Formulate** a question or problem that can be answered by data | Includes a statement of the goal of the project that clearly shows what a successful outcome looks like (e.g., how does the work answer the question? Did the work achieve the goal?) |
+| **Acquire** data responsibly | Describes where the data came from and evaluates the suitability of that source for that data |
+| **Transform** data faithfully into usable forms | Includes some data wrangling (merging multiple data sources, aggregating, re-coding data, identifying and dealing with missing data, etc.) |
+| * **Explore** datasets to interrogate their representativeness, build intuition, and generate hypotheses | Includes results of exploratory analytics about data values, completeness, etc. (e.g., exploratory visualizations and/or descriptive statistics); includes some reflection on how the actually available data shaped the project goal / question |
+| **Apply** predictive tools to draw conclusions, evaluating the suitability of these models | Includes a predictive model (regression or classification) that uses two or more features to predict an outcome. Includes a discussion of how modeling decisions were made and on how accurate the model should be on unseen (e.g., future) data, based on quantitative evidence (e.g., cross-validation). |
+| * **Communicate** visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences | Includes a blog post and a brief presentation |
+| **Analyze** considerations of responsibility and justice in all of the above practices | Demonstrates humility and awareness throughout the project, e.g., includes appropriate caveats with claims, includes discussion of implications of decisions that were made during acquisition / modeling / communication. Identifies potential ethical issues raised by existing data. |
