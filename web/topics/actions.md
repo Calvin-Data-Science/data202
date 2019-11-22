@@ -14,4 +14,4 @@
 
 ## Technical Approaches
 
-Do you use Pintrest? [Here's how it works](https://blog.acolyer.org/2018/05/23/pixie-a-system-for-recommending-3-billion-items-to-200-million-users-in-real-time/).
+Do you use Pinterest? [Here's how it works](https://blog.acolyer.org/2018/05/23/pixie-a-system-for-recommending-3-billion-items-to-200-million-users-in-real-time/).
