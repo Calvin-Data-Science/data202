@@ -258,18 +258,23 @@ EDA is a frame of mind.
 
 
 ===
-Topic:: EDA lab
+Topic:: Unsupervised learning lab 1
 
-Yelp data?
-
-===11/21/2019
-Due:: Project 2 Dataset Exploration
+Bike share station data - cluster by location
 
 ===
-Topic:: Unsupervised learning
+Topic:: Unsupervised learning and EDA lab 2
+
+Bike share data
+* cluster stations by traffic patterns
+* cluster days by system traffic pattern
+* predict by day, look at outliers
 
 ===
 Topic:: Recommender Systems and Reinforcement Learning @@topics/actions.html
+
+===11/26/2019
+Due:: Project 2 Dataset Exploration
 
 
 ===
@@ -281,14 +286,8 @@ Topic:: Recommender Systems and Reinforcement Learning @@topics/actions.html
 ===
 Topic:: SQL, aka, "My data doesn't fit in memory, now what?"
 
-===
-Topic:: Review
-
 ===12/5/2019
 Due:: Project 2 Initial modeling
-
-===
-Topic:: Exam (proposed)
 
 ===
 Topic:: Outlook
@@ -297,6 +296,12 @@ Topic:: Outlook
 * Deep Learning
 * Recommender systems and RL
 * Q&A
+
+===
+Topic:: Review
+
+===
+Topic:: Exam (proposed)
 
 ===12/12/2019
 Note:: Final Project Presentations @ 1:30pm
