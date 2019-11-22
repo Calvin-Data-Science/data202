@@ -10,7 +10,6 @@
 
 * Skim [this opinion piece on Wired](https://www.wired.com/story/creating-ethical-recommendation-engines/). Pick one of the other articles she links to and skim it.
 * Lest you think it's easy to identify and remove radicalizing content, [think again](https://reason.com/2018/07/03/facebook-algorithm-flags-removes-declara/).
-* Here's [a more marketing-related take](http://www.bbc.com/culture/story/20190416-smart-speakers-why-your-voice-is-a-major-battle-in-music) (optional)
 
 ## Technical Approaches
 
