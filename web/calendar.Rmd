@@ -25,6 +25,7 @@ library(magrittr)
 * [Data Wrangling](topics/wrangling.html)
 * [Classification](topics/classification.html)
 * [EDA and Unsupervised Learning](topics/eda_unsupervised.html)
+* [Recommender Systems and Reinforcement Learning](topics/actions.html)
 
 #### Key
 
