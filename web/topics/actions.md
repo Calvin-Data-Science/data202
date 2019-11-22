@@ -3,7 +3,7 @@
 ## Attention Engineering
 
 * Skim [this article](https://www.theverge.com/2019/7/30/20746878/josh-hawley-dark-patterns-platform-design-autoplay-youtube-videos-scrolling-snapstreaks-illegal) proposing that some recommender system functions be illegal. (Alternative coverage, if you're interested, on [the Federalist](https://thefederalist.com/2019/08/13/hawleys-smart-act-beginning-revolt-big-tech/))
-* Read `rsweeny21`'s [comment](https://news.ycombinator.com/item?id=20565141) about this article on Hacker News.
+* Read `rsweeny21`'s [comment](https://news.ycombinator.com/item?id=20566514) about this article on Hacker News.
 * Do you agree with [this author's analogy of Netflix as the "forbidden woman"](https://www.thegospelcoalition.org/article/quit-netflix/) of Proverbs?
 
 ## What content gets recommended?
