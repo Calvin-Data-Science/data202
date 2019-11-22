@@ -14,4 +14,6 @@ web/calendar.html: web/calendar.Rmd web/daily.txt web/calendar.css
 	Rscript -e "rmarkdown::render('"$<"')"
 
 deploy: web/index.html web/projects.html web/calendar.html web/resources.html $(topics)
+	mkdir -p web/src
+	cp src/unsupervised/unsupervised_bikeshare_extended.ipynb web/src/
 	rsync -Prx web/ cs-prod:/webroot/courses/data/202/ka37/
