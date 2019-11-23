@@ -13,4 +13,11 @@
 
 ## Technical Approaches
 
-Do you use Pinterest? [Here's how it works](https://blog.acolyer.org/2018/05/23/pixie-a-system-for-recommending-3-billion-items-to-200-million-users-in-real-time/).
+* Do you use Pinterest? [Here's how it works](https://blog.acolyer.org/2018/05/23/pixie-a-system-for-recommending-3-billion-items-to-200-million-users-in-real-time/).
+* [YouTube's Recommender System](https://blog.acolyer.org/2016/09/19/deep-neural-networks-for-youtube-recommendations/)
+
+Both of these papers are from a blog called The Morning Paper. If you can only read one CS blog, this one would be my recommendation.
+
+## Other 
+
+* [Auditing Radicalization Pathways on YouTube](https://arxiv.org/pdf/1908.08313.pdf)
