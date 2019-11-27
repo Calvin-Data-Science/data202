@@ -1,0 +1,16 @@
+{
+  "Diff": {
+    "Ignore": {
+      "/cells/*/outputs": true,
+      "/cells/*/attachments": false,
+      "/cells/*/metadata": [
+        "collapsed",
+        "autoscroll",
+        "deletable",
+        "editable"
+      ]
+    },
+    "outputs": false,
+    "metadata": false
+  }
+}
