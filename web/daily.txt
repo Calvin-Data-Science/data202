@@ -284,6 +284,9 @@ Due:: Project 2 Dataset Exploration
 (Thanksgiving)
 
 ===
+Topic:: Model Selection redux (and hw/quiz review)
+
+===
 Topic:: SQL, aka, "My data doesn't fit in memory, now what?"
 
 ===12/5/2019
@@ -296,12 +299,6 @@ Topic:: Outlook
 * Deep Learning
 * Recommender systems and RL
 * Q&A
-
-===
-Topic:: Review
-
-===
-Topic:: Exam (proposed)
 
 ===12/12/2019
 Note:: Final Project Presentations @ 1:30pm
