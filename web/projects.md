@@ -55,6 +55,40 @@ The final course meeting (during the designated final exam period on December 12
 
 ### Project 2 Detailed Expectations
 
+**NOTES**:
+
+* In all of the following analyses, you will likely need to make some choices regarding what variables to include, whether to do some pre-processing (e.g., addressing missing values, generating new variables), etc. Clearly state which decisions you made, explain why you made them and what might have been alternative choices. 
+* If you use any code from the internet, you should acknowledge its source and provide a link.
+* You should submit all of the code needed to replicate your results, but **your report should be understandable without looking at the code**.
+
+Your report should include the following elements:
+
+* **Dataset**
+  * A brief (2-4 sentences) verbal description of the dataset: what is the dataset about?
+  * A description of its *provenance*: where did the data come from originally? Where did you download it from? And (as much as you can tell or speculate) how did it end up available there?
+  * The number of records in the dataset
+  * A list of the features in the dataset and their [types](https://www.textbook.ds100.org/ch/04/eda_data_types.html))
+* **Question**(s)
+  * A **real-world question** that you'd like to explore. (This question should be stated in language that is understandable to someone who hasn't studied data science and doesn't know the details of your dataset.)
+  * A **prediction question** for which you'll use regression or classification. (This question should be stated in more specific technical terms and reference the particular features of your dataset.) This question ideally helps answer the real-world question, but it's okay if it doesn't.
+  * An analysis of the **appropriateness of your dataset** for addressing these questions.
+* **Exploratory Data Analysis**
+  * Show plots illustrating the distribution of at least 4 variables in your dataset. Comment on anything interesting you observe.
+  * Show plots illustrating bivariate relationships for at least 2 pairs of variables. Explain what you observe (e.g., positive/negative correlation, no correlation, etc.).
+* **Prediction**
+  * Clearly state what is the target variable you are trying to predict, which variables (features) you are using to predict it, and why you chose those features.
+  * Fit a basic predictive model using one of the techniques we discussed in class (*regression*: Nearest Neighbors or Linear Regression, *classification*: Nearest Neighbors or Logistic Regression; other choices such as Decision Trees are also fine)
+  * Report the results of your basic predictive model on held-out data or via cross-validation.
+  * Make one or more changes to the predictive model to improve the accuracy. Discuss what changes you made, why you made them, and what the results were.
+  * **Alternative**: instead of a supervised prediction task, you can define an unsupervised learning task and use clustering. In this case, clearly state what you want to understand through the clustering, and report your observations.
+* **Findings**: Summarize the analyses you performed and what the results told you. What do your findings say about the real-world and prediction (or clustering) questions you posed?
+* **Limitations**: What are some limitations of your analyses and potential biases of the data you used? 
+* **Future Directions**: What new questions came up following your exploration of this data? Describe at least one question that could not be answered using your data alone, and specify what additional data you would collect to address it.
+
+(Project descriptions thanks to [Ofra Amir](https://scholar.harvard.edu/oamir/home))
+
+#### Connection to Learning Objectives
+
 Projects should demonstrate proficiency in the primary learning outcomes of this course:
 
 | Learning outcome | Evidence in project |
