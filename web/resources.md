@@ -1,8 +1,9 @@
 
 ---
-title: "DATA 202: Programming Resources"
+title: "DATA 202: Resources"
 ...
 
+## Programming
 
 Introductory:
 
@@ -25,8 +26,7 @@ Complementary resources:
 
 * [Effective Computation in Physics](http://proquest.safaribooksonline.com/book/physics/9781491901564), by Kathryn D. Huff; Anthony Scopatz. [Notebooks to accompany the book](https://github.com/physics-codes/seminar). Don't be fooled by the title, it's a great book on modern computational practices with very little that's physics-specific.
 
-
-
 ## Where to get data
 
 * https://data.world/
+* [Data is Plural](https://tinyletter.com/data-is-plural/archive) newsletter ([structured archive](https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit#gid=0))
