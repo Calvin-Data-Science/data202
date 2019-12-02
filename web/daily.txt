@@ -288,13 +288,17 @@ Topic:: Model Selection redux (and hw/quiz review)
 
 * Announce final assignment
 * Clarify project logistics
+  * Everyone should have Proj 2 Milestone 3 feedback
+  * Expectations clarified: you need to do some kind of prediction or clustering.
+  * Share about projects (What kind of prediction / clustering can I do?)
 * Announce SQL lab Wed, prep
 * Review quiz 8
 * Project stuff:
-  * Tidy data (GDP, temperature quality codes, unclear missingness)
+  * Tidy data (GDP, temperature quality codes, unclear missing-ness)
   * Validation: time series vs exchangeable (and are countries exchangeable?)
-   - discussion about how to validate performance of time series prediction vs 
-  * Time series prediction: autoregressive features
+    - examples: bike ridership, car sale price, risk of extreme weather, loan defaults
+    - discussion about how to validate performance of each of these models
+  * Time series prediction: autoregressive (lag) features
 
 ===
 Topic:: SQL, aka, "My data doesn't fit in memory, now what?"
