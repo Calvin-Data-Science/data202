@@ -286,6 +286,16 @@ Due:: Project 2 Dataset Exploration
 ===
 Topic:: Model Selection redux (and hw/quiz review)
 
+* Announce final assignment
+* Clarify project logistics
+* Announce SQL lab Wed, prep
+* Review quiz 8
+* Project stuff:
+  * Tidy data (GDP, temperature quality codes, unclear missingness)
+  * Validation: time series vs exchangeable (and are countries exchangeable?)
+   - discussion about how to validate performance of time series prediction vs 
+  * Time series prediction: autoregressive features
+
 ===
 Topic:: SQL, aka, "My data doesn't fit in memory, now what?"
 
@@ -299,6 +309,8 @@ Topic:: Outlook
 * Deep Learning
 * Recommender systems and RL
 * Q&A
+
+Due:: Course Reflection
 
 ===12/12/2019
 Note:: Final Project Presentations @ 1:30pm
