@@ -33,7 +33,7 @@ Finally, **What is a topic that we should discuss (or discuss *more*) next time 
 
 ## Specific Assignments
 
-Pick 3 assignments from this course to answer the following questions:
+Pick 3 homework or lab assignments from this course to answer the following questions:
 
 * Which assignment?
 * What was something you did well?
@@ -42,4 +42,4 @@ Pick 3 assignments from this course to answer the following questions:
 
 ## Summary
 
-Overall, how much do you think you learned in this course?
+Overall, what did you learn in this course?
