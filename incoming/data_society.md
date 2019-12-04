@@ -1,5 +1,6 @@
 # Potential Data & Society
 
+* [Berkeley Human Contexts and Ethics](https://docs.google.com/presentation/d/1FQr5DwaTT_fkRufmxls44u9mCdMc8PmvtIA4kf3O8xw/edit#slide=id.g780d8ec9066d5f0b_10)
 * [Dear Tech](https://www.youtube.com/watch?v=gNF8ObJR6K8) vs [Dear Tech Company](https://www.youtube.com/watch?v=CciZXbCsuxs): [direct response](https://www.dearbigtech.org/), [Slate article](https://slate.com/technology/2019/02/ibm-dear-tech-oscars-ad.html)
 
 ## Bias

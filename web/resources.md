@@ -30,3 +30,7 @@ Complementary resources:
 
 * https://data.world/
 * [Data is Plural](https://tinyletter.com/data-is-plural/archive) newsletter ([structured archive](https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit#gid=0))
+
+## Maybe helpful tools
+
+* [dovpanda](https://github.com/dovpanda-dev/dovpanda)
