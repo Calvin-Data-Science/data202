@@ -301,7 +301,7 @@ Topic:: Model Selection redux (and hw/quiz review)
   * Time series prediction: autoregressive (lag) features
 
 ===
-Topic:: SQL, aka, "My data doesn't fit in memory, now what?"
+Topic:: SQL @@topics/sql.html
 
 ===12/5/2019
 Due:: Project 2 Initial modeling

@@ -26,6 +26,7 @@ library(magrittr)
 * [Classification](topics/classification.html)
 * [EDA and Unsupervised Learning](topics/eda_unsupervised.html)
 * [Recommender Systems and Reinforcement Learning](topics/actions.html)
+* [SQL](topics/sql.html)
 
 #### Key
 
