@@ -333,6 +333,7 @@ Topic:: What we didn't cover
 Topic:: Beyond DATA 202, continued
 
 * First 10 minutes: course evals
+* Remind students of Cathy O'Neil talk
 * Sharing interesting things students found
 * Answering questions from Friday's whirlwind
 
