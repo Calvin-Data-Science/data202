@@ -292,7 +292,6 @@ Topic:: Model Selection redux (and hw/quiz review)
   * Expectations clarified: you need to do some kind of prediction or clustering.
   * Share about projects (What kind of prediction / clustering can I do?)
 * Announce SQL lab Wed, prep
-* Review quiz 8
 * Project stuff:
   * Tidy data (GDP, temperature quality codes, unclear missing-ness)
   * Validation: time series vs exchangeable (and are countries exchangeable?)
@@ -307,12 +306,35 @@ Topic:: SQL @@topics/sql.html
 Due:: Project 2 Initial modeling
 
 ===
-Topic:: Outlook
+Topic:: What we didn't cover
 
-* Neural Networks
-* Deep Learning
-* Recommender systems and RL
-* Q&A
+* Answer questions in Excel sheet
+* Missing data
+* Repeat cross-validation (perhaps motivated by a Kaggle competition?)
+* Inference (e.g., bootstrapping)
+* Time series
+* Text features
+  * easy: bag of words
+  * fancy: dense representations (word2vec etc.)
+* Image features
+* Advanced modeling
+  * predictive
+    * how logistic regression works
+    * tree-based
+    * ensembles
+    * neural Networks
+  * clustering algorithms
+  * reinforcement learning
+* Scraping, web, APIs, regular expressions, ...
+* Visualization: interactivity (see D3 interim)
+
+
+===
+Topic:: Beyond DATA 202, continued
+
+* First 10 minutes: course evals
+* Sharing interesting things students found
+* Answering questions from Friday's whirlwind
 
 Due:: Course Reflection
 
