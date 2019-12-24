@@ -5,6 +5,8 @@
 * We struggled to balance coding and intuition.
 * Predictive analytics ≠ time series prediction, but many students didn't appreciate this.
 * Many students didn't appreciate how our predictive toolkit allows much more than just fitting a trend line
+* Need more practice asking and refining real-world and modeling questions.
+* Many students asked inference questions for their projects. We could have given them at least the bootstrap as an inference tool.
 
 ## Projects
 
@@ -64,3 +66,16 @@
   * Results replicable
   * Presented
   * Responsibility and Justice
+
+
+# Note to students
+
+* I've given feedback for all the project 2 final reports. It took quite a while because I tried to be constructive and identify generalizable take-aways that you can apply to future data-centered work, even if it uses very different tools than we used in DATA 202.
+  * See detailed comments within the rubric and, for some people, in attached files.
+* Each rubric item has 4 levels, basically: bad (0), moderate, good, exceptional (3). By design, few people will get exceptional ratings on many items. But for how Moodle calculates grades, everything must be exceptional in order to be 100%. So I did some Moodle gradebook tricks to effectively make each item out of 2 instead of out of 3. 
+* Common issues with projects
+  * Skipping the motivation, jumping right into the weeds.
+  * Partially because of the order that I'd listed the elements in, but still... this is basic communication skill.
+  * Including copy-pastes / screenshots of coding stuff in the presentation. Amateur. Design for the viewer: what's going to be easy for *them* to understand, not the same as what's easy for you to produce.
+  * Not explaining why you made the decisions you did--both low-level things like what models to try and also high-level things like why you chose your question, why you think the modeling/prediction question you chose was a good one in light of your real-world question, why you set up the modeling task the way you did (e.g., why that train-test split?), etc.
+* Remember Cathy O'Neil talk
