@@ -63,15 +63,16 @@ The final course meeting (during the designated final exam period on December 12
 
 Your report should include the following elements:
 
+* A succinct but descriptive **title**
+* **Question**(s)
+  * A **real-world question** that you'd like to explore, and *why* it's interesting. (This question should be stated in language that is understandable to someone who hasn't studied data science and doesn't know the details of your dataset.)
+  * A **modeling question** for which you'll use regression, classification, or some other kind of modeling. (This question should be stated in more specific technical terms and reference the particular features of your dataset.) This question ideally helps answer the real-world question, but it's okay if it doesn't.
+  * An analysis of the **appropriateness of your dataset** for addressing these questions.
 * **Dataset**
   * A brief (2-4 sentences) verbal description of the dataset: what is the dataset about?
   * A description of its *provenance*: where did the data come from originally? Where did you download it from? And (as much as you can tell or speculate) how did it end up available there?
   * The number of records in the dataset, and what each one represents
   * A list of the features in the dataset and their [types](https://www.textbook.ds100.org/ch/04/eda_data_types.html)
-* **Question**(s)
-  * A **real-world question** that you'd like to explore. (This question should be stated in language that is understandable to someone who hasn't studied data science and doesn't know the details of your dataset.)
-  * A **modeling question** for which you'll use regression, classification, or some other kind of modeling. (This question should be stated in more specific technical terms and reference the particular features of your dataset.) This question ideally helps answer the real-world question, but it's okay if it doesn't.
-  * An analysis of the **appropriateness of your dataset** for addressing these questions.
 * **Exploratory Data Analysis**
   * Show plots illustrating the distribution of at least 4 variables in your dataset. Comment on anything interesting you observe.
   * Show plots illustrating bivariate relationships for at least 2 pairs of variables. Explain what you observe (e.g., positive/negative correlation, no correlation, etc.).
