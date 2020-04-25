@@ -1,5 +1,7 @@
 # For Fall 2020
 
+See also "overall_notes.md" !
+
 Definitely start with review of programming and data concepts
 
 * Basic R / Python code logical thinking
@@ -20,23 +22,17 @@ Definitely start with review of programming and data concepts
 * More "use" and "apply", less nitty-gritty details
 
 
-## Textbooks
+## Textbooks and Resources
 
 * [Fundamentals of Data Visualization](https://serialmentor.com/dataviz/) - Claus O. Wilke
 * [Data wrangling, exploration, and analysis with R](https://stat545.com/) - Jenny Bryan
-
+* Software Carpentry (including Instructor materials and Inclusive Pedagogy talk)
+* RStudio website resources
 
 ## First Week
 
 * Info sheet
-  * nix "words"
-  * ask for pronouns
-  * Refer to TLN example infosheets (see packet)
+    * nix "words"
+    * ask for pronouns
+     * Refer to TLN example infosheets (see packet)
 
-* Do a homework assignment to assess prereqs
-  * Python functions
-  * Methods
-
-
-Quiz 3
-- Python function question: not all code works; be clearer about what the options mean.
