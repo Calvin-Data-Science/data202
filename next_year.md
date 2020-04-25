@@ -1,4 +1,18 @@
-# For Next Year
+# For Fall 2020
+
+Definitely start with review of programming and data concepts
+
+* Basic R / Python code logical thinking
+* re-introduction to tabular data and the data frame
+* git bootcamp
+* review of visualization concepts
+
+## Aspects to retain
+
+* Ethics / social impact readings and discussions (but maybe make them *pairs* of articles to compare/contrast?)
+* Frequent formative assessment
+* Projects (reproduce, then extend) (but maybe make it be reproducing 2 or 3 visuals with contrasting forms?)
+
 
 ## First Week
 
