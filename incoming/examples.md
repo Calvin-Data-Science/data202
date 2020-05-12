@@ -8,3 +8,5 @@
 
 - https://r4ds.had.co.nz/exploratory-data-analysis.html#exploratory-data-analysis
 - https://r4ds.had.co.nz/graphics-for-communication.html
+
+* https://github.com/veltman/principles

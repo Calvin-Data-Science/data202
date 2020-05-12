@@ -1,6 +1,6 @@
 # For Fall 2020
 
-See also "overall_notes.md" !
+See also "overall_notes.md" ! And my OmniFocus.
 
 Definitely start with review of programming and data concepts
 
@@ -25,6 +25,7 @@ Definitely start with review of programming and data concepts
 ## Textbooks and Resources
 
 * [Fundamentals of Data Visualization](https://serialmentor.com/dataviz/) - Claus O. Wilke
+* <plotly-r.com>
 * [Data wrangling, exploration, and analysis with R](https://stat545.com/) - Jenny Bryan
 * Software Carpentry (including Instructor materials and Inclusive Pedagogy talk)
 * RStudio website resources
