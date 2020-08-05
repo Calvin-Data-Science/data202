@@ -13,6 +13,7 @@ Definitely start with review of programming and data concepts
 
 * Ethics / social impact readings and discussions (but maybe make them *pairs* of articles to compare/contrast?)
 * Frequent formative assessment
+* Reproduce, as a tool
 * Projects (reproduce, then extend) (but maybe make it be reproducing 2 or 3 visuals with contrasting forms?)
 
 ## Aspects to change
@@ -20,7 +21,11 @@ Definitely start with review of programming and data concepts
 * Faster feedback to students
 * More ramp-up on coding and math
 * More "use" and "apply", less nitty-gritty details
+* Multiple representations
 
+Grading: quick feedback, clear distinction between what needs to be "right" (autograded?) and what is craft.
+
+Predict the results of making certain changes.
 
 ## Textbooks and Resources
 
