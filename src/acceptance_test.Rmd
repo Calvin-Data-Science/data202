@@ -8,18 +8,31 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-library(tidymodels)  # for the parsnip package, along with the rest of tidymodels
-
-# Helper packages
-library(readr)       # for importing data
-library(forcats)
+# Core stuff
+library(tidyverse)
+library(tidymodels)
 library(ggformula)
-#library(broom.mixed) # for converting bayesian models to tidy tibbles
+library(plotly)
+library(reticulate)
+
+# Other
+library(devtools)
+library(usethis)
+library(keras)
+library(forcats)
+library(rvest)
 library(nycflights13)
 library(skimr)
 library(pins)
 library(timeDate)
+library(qualtRics)
 ```
+
+
+# A simple tidymodels example
+
+From their tutorial
+
 
 ```{r}
 urchins <-
@@ -33,11 +46,33 @@ urchins <-
   mutate(food_regime = factor(food_regime, levels = c("Initial", "Low", "High")))
 ```
 
+Visualize using `ggformula`
+
 ```{r}
 urchins %>% 
   gf_point(width ~ initial_volume, color = ~ food_regime) %>% 
   gf_smooth(method=lm)
 ```
+Visualize using plotly
+
+```{r}
+urchins %>% 
+  gf_point(width ~ initial_volume, color = ~ food_regime) %>% 
+  gf_smooth(method=lm) %>% 
+  ggplotly()
+```
+Low-level interface
+
+```{r}
+plot_ly(urchins) %>% 
+  add_markers(
+    x = ~ initial_volume,
+    y = ~width,
+    color = ~ food_regime
+  )
+```
+
+## Fit tidy model
 
 ```{r}
 lm_mod <- 
@@ -71,7 +106,7 @@ bind_cols(
   gf_errorbar(.pred_lower + .pred_upper ~ food_regime, width = .2)
 ```
 
-
+# Flight data example (also from tidymodels)
 
 ```{r}
 set.seed(123)
@@ -93,8 +128,12 @@ flight_data <-
   na.omit() %>% 
   # For creating models, it is better to have qualitative columns
   # encoded as factors (instead of character strings)
-  mutate_if(is.character, as.factor)
+  mutate_if(is.character, as.factor) %>% 
+  
+  # Keep a small subset so this runs quickly.
+  slice_sample(n = 10000)
 ```
+
 
 ```{r}
 flight_data %>% 
@@ -153,5 +192,65 @@ flights_pred <-
 flights_pred %>% 
   roc_curve(truth = arr_delay, event_level = "second", .pred_late) %>% 
   autoplot()
+```
+
+
+# Reticulate
+
+```{r}
+py_discover_config()
+```
+
+```{r}
+py_config()
+```
+
+
+```{r eval=FALSE}
+py_install(c(
+  "scikit-learn",
+  "matplotlib==3.2",
+  "pandas"
+))
+```
+
+
+```{r}
+stopifnot(py_module_available("sklearn"))
+stopifnot(py_module_available("pandas"))
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.compose import make_column_transformer, make_column_selector
+```
+
+```{python}
+train_data = r.train_data
+y_train = train_data['arr_delay']
+X_train = train_data.drop('arr_delay', axis=1)
+```
+
+```{python}
+transformer = make_column_transformer(
+  (StandardScaler(), make_column_selector(dtype_include=np.number)),
+  remainder='drop')
+
+pipeline = make_pipeline(
+  transformer,
+  LogisticRegression()
+)
+pipeline.fit(X_train, y_train)
+```
+
+```{python}
+test_data = r.test_data
+y_test = test_data['arr_delay']
+X_test = test_data.drop('arr_delay', axis=1)
+pipeline.score(X_test, y_test)
 ```
 
