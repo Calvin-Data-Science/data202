@@ -1,19 +1,9 @@
-topics := $(patsubst %.md,%.html,$(wildcard web/topics/*.md))
+ALL: deploy
 
-web/topics/%.html: web/topics/%.md Makefile
-	pandoc -s -o $@ $<
-
-
-%.html: %.md Makefile
-	pandoc -s --toc --css=pandoc.css -o $@ $<
-
-web/calendar.html: web/calendar.Rmd web/daily.txt web/calendar.css
-	Rscript -e "rmarkdown::render('"$<"')"
+docs := $(patsubst %.Rmd,%.html,$(wildcard docs/*.Rmd))
 
 %.html: %.Rmd
 	Rscript -e "rmarkdown::render('"$<"')"
 
-deploy: web/index.html web/projects.html web/calendar.html web/resources.html $(topics)
-	mkdir -p web/src
-	cp src/unsupervised/unsupervised_bikeshare_extended.ipynb web/src/
-	rsync -Prx web/ cs-prod-viassh:/webroot/courses/data/202/ka37/
+deploy: $(docs)
+	rsync -Prx docs/ cs-prod:/webroot/courses/data/202/ka37/
