@@ -49,6 +49,17 @@ Information Systems and Data Management, aka Visual and Predictive Analytics
 * Teaching Assistant / Grader: Yejae Kim
 * [Piazza site](TODO) TODO
 
+# Objectives
+
+* Planning e.g., Refine a data-based question based on the characteristics of available data and client needs.
+* Data Acquisition, e.g., Evaluate potential data sources based on utility and biases
+* Generating hypotheses: e.g., identify potential issues of bias and representation in a dataset based on exploratory analyses
+* Wrangling, e.g., Apply Grammar of Data operations to transform data into a form appropriate to analysis.
+* Modeling, e.g., contrast the suitability of linear vs nearest-neighbor models for a given modeling task
+* Validation, e.g., identify whether a reported accuracy number might be misleading because of overfitting
+* Visualization, e.g., refine a given visualization to improve its effectiveness and faithfulness
+* Communication, e.g., write intelligible and faithful interpretations of the process and results of a predictive modeling process
+
 # Communication
 
 We will use the following communication tools:
