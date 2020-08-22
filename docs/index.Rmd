@@ -11,9 +11,9 @@ library(lubridate)
 ```{r include=FALSE, eval=FALSE}
 tribble(
   ~gid, ~name,
-  '97370056', 'timeline',
-  '650664066', 'week'
-) %>% 
+  "97370056", "timeline",
+  "650664066", "week"
+) %>%
   pwalk(function(gid, name) {
     download.file(
       url = glue("https://docs.google.com/spreadsheets/d/1JRDj1tIUPr89yfqL3OhZ5zqbjC8cm5hk8U1rHia1A3Y/export?format=csv&gid={gid}"),
@@ -24,11 +24,10 @@ tribble(
 
 ```{r include=FALSE}
 # https://stackoverflow.com/questions/16193549/how-can-i-create-a-vector-containing-the-days-of-the-week
-days.of.week <- weekdays(as.Date(4,"1970-01-01",tz="GMT") + 0:6)
-spec <- read_csv('../week.csv') %>%
+days.of.week <- weekdays(as.Date(4, "1970-01-01", tz = "GMT") + 0:6)
+spec <- read_csv("../week.csv") %>%
   mutate(
     day = days.of.week[(Offset %% 7) + 1],
-    
   )
 ```
 
@@ -69,7 +68,7 @@ We will use the following communication tools:
 We will use the following materials. All are available freely online, but some may also be purchased in hardcover if desired.
 
 * [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke: *for foundational concepts of data visualization*
-* [ModernDive](https://moderndive.com/index.html): *for data wrangling and some applied visualization
+* [ModernDive](https://moderndive.com/index.html): *for data wrangling and some applied visualization*
 * [Interactive web-based data visualization with R, plotly, and shiny](https://plotly-r.com/): *for more visualization*
 * Course notes (WIP) for predictive modeling.
   
@@ -137,10 +136,10 @@ About two weeks will be dedicated to each of the following topics:
 
 ```{r echo=FALSE, message=FALSE, results='asis'}
 read_csv("../timeline.csv") %>%
-  filter(!is.na(Topic)) %>% 
-  select(Topic) %>% 
-  transmute(entry = paste0("* ", Topic, "\n")) %>% 
-  pull(entry) %>% 
+  filter(!is.na(Topic)) %>%
+  select(Topic) %>%
+  transmute(entry = paste0("* ", Topic, "\n")) %>%
+  pull(entry) %>%
   cat(sep = "")
 ```
 
