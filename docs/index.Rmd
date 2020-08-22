@@ -2,6 +2,45 @@
 title: "DATA 202 Fall 2020"
 ---
 
+```{r setup, include=FALSE}
+library(tidyverse)
+library(glue)
+library(lubridate)
+```
+
+```{r include=FALSE, eval=FALSE}
+tribble(
+  ~gid, ~name,
+  '97370056', 'timeline',
+  '650664066', 'week'
+) %>% 
+  pwalk(function(gid, name) {
+    download.file(
+      url = glue("https://docs.google.com/spreadsheets/d/1JRDj1tIUPr89yfqL3OhZ5zqbjC8cm5hk8U1rHia1A3Y/export?format=csv&gid={gid}"),
+      destfile = glue("../{name}.csv")
+    )
+  })
+```
+
+```{r include=FALSE}
+# https://stackoverflow.com/questions/16193549/how-can-i-create-a-vector-containing-the-days-of-the-week
+days.of.week <- weekdays(as.Date(4,"1970-01-01",tz="GMT") + 0:6)
+spec <- read_csv('../week.csv') %>%
+  mutate(
+    day = days.of.week[(Offset %% 7) + 1],
+    
+  )
+```
+
+```{r include=FALSE}
+getDueDay <- function(category) {
+  match <- spec %>% filter(Category == category)
+  stopifnot(nrow(match) == 1)
+  match$day
+}
+```
+
+
 Information Systems and Data Management, aka Visual and Predictive Analytics
 
 * **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298
@@ -10,3 +49,105 @@ Information Systems and Data Management, aka Visual and Predictive Analytics
 * **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
 * Teaching Assistant / Grader: Yejae Kim
 * [Piazza site](TODO) TODO
+
+# Communication
+
+We will use the following communication tools:
+
+* *MS Teams*: All synchronous meetings will happen on our class Team (with the hopeful exception of some lectures; see below)
+* *Moodle* is the main source of course material.
+  * Many Moodle segments will actually link to this website.
+  * Some material will be duplicated in other places. If there are inconsistencies, please let the instructors know and treat Moodle as the reference.
+  * Moodle will also be the home of our discussion forums.
+* We will use *Piazza* for the following:
+  * General announcements
+  * Q&A (you can be anonymous if you want to)
+  * Anonymous feedback or raising concerns
+
+# Materials
+
+We will use the following materials. All are available freely online, but some may also be purchased in hardcover if desired.
+
+* [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke: *for foundational concepts of data visualization*
+* [ModernDive](https://moderndive.com/index.html): *for data wrangling and some applied visualization
+* [Interactive web-based data visualization with R, plotly, and shiny](https://plotly-r.com/): *for more visualization*
+* Course notes (WIP) for predictive modeling.
+  
+# Weekly expectations
+
+**Each week is the same(ish)**. Each week you will be expected to:
+
+* **Be ready**: Prep readings due `r getDueDay("prep")`
+* **Be present** at Monday/Wednesday lectures and Friday labs
+  * Lab reports are due on `r getDueDay("lab")`
+* **Practice**: Homework (or project milestone) due `r getDueDay("hw")`
+* **Check in**: Quizzes on `r getDueDay("quiz")`
+* **Look around**: Discussion forum posts due `r getDueDay("disc")`
+
+
+## Lecture and Lab
+
+Lectures are held Mondays and Wednesdays at 9-9:50am. Labs will be held Fridays at the same time, always on Teams.
+
+Location *note*:
+
+* On the first day of class (9/2), we will meet in SB 010. Please bring your laptops.
+* The next two weeks will be held online via Teams.
+* If the Calvin community demonstrates its ability to stay healthy for the first two weeks, we will again meet in person (SB 010).
+
+Lab assignments will be due on the following `r getDueDay("lab")`.
+
+# Grading
+
+Unless otherwise arranged, grade weighting is as follows:
+
+* 5% Preparation activities
+* 10% Discussion forum participation
+* 10% Lab exercises
+* 20% Homework
+* 20% Quizzes
+* 10% Project 1
+* 25% Project 2
+
+Your lowest quiz score will get thrown out.
+
+As the [Calvin Academic Integrity Policy](https://calvin.edu/directory/policies/academic-integrity-policy) says, "At Calvin, the student-faculty relationship is based on trust and mutual respect."
+
+Data science is a fundamentally collaborative endeavor. Collaboration brings the benefits of multiple perspectives, needed to tackle complex problems faithfully and responsibly. But teamwork also brings the risk of one person doing all of the "learning" for the other. Thus:
+
+* *Collaboration on homework and labs is encouraged.*
+* The *write-ups* for homework and lab submissions should be *your own work*. Particularly this means: **never copy and paste code**, from the web or another student! Even if you intend to write exactly the same thing, type it out yourself, from memory. Trust me that this is for your benefit.
+* **When** asking for help (and everyone *should* ask for help when they need it), *try to solve the problem on your own first*. This is critical. Then, when you ask for help, share *what you've tried* and *what leads you to think it's not working.* (not just "It's not working!!")
+* List what help you received for each problem. (e.g., "Joe helped me understand what this question is asking.")
+
+
+# Special Circumstances
+
+Occasionally there are special circumstances that require that course policies be adjusted for a particular student. In such cases, it is the responsibility of the student to inform me of the situation as soon as possible, so that the appropriate arrangements can be made. This includes, but is not limited to, students with documented disabilities.
+
+Calvin University has a continuing commitment to providing reasonable accommodations for students with documented disabilities. Like so many things this fall, the need for accommodations and the process for arranging them may be altered by the COVID-19 changes we are experiencing and the safety protocols currently in place. Students with disabilities who may need some accommodation in order to fully participate in this class are urged to contact Disability Services in the Center for Student Success (disabilityservices@calvin.edu) as soon as possible to explore what arrangements need to be made to assure access. The three of us (student, instructor, and Disability Services) will work together to come up with an appropriate solution.
+
+We will give an incomplete grade (I) only in unusual circumstances, and only if those circumstances have been confirmed by the Student Life office.
+
+
+
+# Topics
+
+About two weeks will be dedicated to each of the following topics:
+
+```{r echo=FALSE, message=FALSE, results='asis'}
+read_csv("../timeline.csv") %>%
+  filter(!is.na(Topic)) %>% 
+  select(Topic) %>% 
+  transmute(entry = paste0("* ", Topic, "\n")) %>% 
+  pull(entry) %>% 
+  cat(sep = "")
+```
+
+We will also be discussing a variety of human contexts and ethics topics. We will curate this list of topics together in the first week of class.
+
+
+# Acknowledgments
+
+* https://introds.org/
+* https://datasciencebox.org/
