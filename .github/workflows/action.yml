@@ -8,10 +8,10 @@ jobs:
     steps:
     - name: Check for broken links
       id: link-report
-      uses: celinekurpershoek/github-actions-link-checker@1.0.0
+      uses: celinekurpershoek/link-checker@v1.0.0
       with:
         # Required:
-        url: 'https://...'
+        url: 'https://cs.calvin.edu/courses/data/202/ka37/'
         # optional:
         honorRobotExclusions: false
         ignorePatterns: 'github,google'
