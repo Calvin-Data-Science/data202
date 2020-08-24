@@ -47,7 +47,6 @@ Information Systems and Data Management, aka Visual and Predictive Analytics
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
 * **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
 * Teaching Assistant / Grader: Yejae Kim
-* [Piazza site](TODO) TODO
 
 # Objectives
 
@@ -64,15 +63,17 @@ Information Systems and Data Management, aka Visual and Predictive Analytics
 
 We will use the following communication tools:
 
-* *MS Teams*: All synchronous meetings will happen on our class Team (with the hopeful exception of some lectures; see below)
+* Email (ka37@calvin.edu)
+  * When in doubt, email me. I may redirect you to one of these other places.
+  * Expect a weekly "heads-up" email from me.
+* *MS Teams*
+  * All synchronous meetings will happen on our class Team (with the hopeful exception of some lectures; see below)
+  * Please use Teams for Q&A that may be relevant to others in the class. If I get such a question by email, I will probably direct you to post it on Teams so I can answer there.
 * *Moodle* is the main source of course material.
   * Many Moodle segments will actually link to this website.
   * Some material will be duplicated in other places. If there are inconsistencies, please let the instructors know and treat Moodle as the reference.
   * Moodle will also be the home of our discussion forums.
-* We will use *Piazza* for the following:
-  * General announcements
-  * Q&A (you can be anonymous if you want to)
-  * Anonymous feedback or raising concerns
+
 
 # Materials
 
@@ -107,6 +108,24 @@ Location *note*:
 
 Lab assignments will be due on the following `r getDueDay("lab")`.
 
+## Projects
+
+You will complete two multi-week projects in this class.
+
+In *Project 1*, you will practice some parts of the data science lifecycle by *reproducing a published visualization of your choice* from source data. 
+In *Project 2*, you will additionally *apply predictive analytics*. You may choose to use the same or different dataset.
+[Details about the projects](projects.html)
+
+
+Projects may be completed in teams of up to 3. Teams will have the following additional expectations:
+
+* Teams must submit a team contract about how they will work together
+* Teams must convince the instructional staff that each team member learned something substantial from completing the project.
+* Each team member must submit an assessment of how they and other team members fulfilled their contract.
+
+Details of these expectations are forthcoming.
+
+
 # Grading
 
 Unless otherwise arranged, grade weighting is as follows:
@@ -137,7 +156,7 @@ Occasionally there are special circumstances that require that course policies b
 
 Calvin University has a continuing commitment to providing reasonable accommodations for students with documented disabilities. Like so many things this fall, the need for accommodations and the process for arranging them may be altered by the COVID-19 changes we are experiencing and the safety protocols currently in place. Students with disabilities who may need some accommodation in order to fully participate in this class are urged to contact Disability Services in the Center for Student Success (disabilityservices@calvin.edu) as soon as possible to explore what arrangements need to be made to assure access. The three of us (student, instructor, and Disability Services) will work together to come up with an appropriate solution.
 
-We will give an incomplete grade (I) only in unusual circumstances, and only if those circumstances have been confirmed by the Student Life office.
+We will give an incomplete grade (`I`) only in unusual circumstances, and only if those circumstances have been confirmed by the Student Life office.
 
 
 
@@ -154,7 +173,7 @@ read_csv("../timeline.csv") %>%
   cat(sep = "")
 ```
 
-We will also be discussing a variety of human contexts and ethics topics. We will curate this list of topics together in the first week of class.
+See Moodle for details. We will also be discussing a variety of human contexts and ethics topics. We will curate this list of topics together in the first week of class.
 
 
 # Acknowledgments

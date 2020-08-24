@@ -11,7 +11,7 @@
 
 
 
-<title>DATA 202 Fall 2020</title>
+<title>Projects</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -374,138 +374,147 @@ summary {
 
 
 
-<h1 class="title toc-ignore">DATA 202 Fall 2020</h1>
+<h1 class="title toc-ignore">Projects</h1>
 
 </div>
 
 
-<p>Information Systems and Data Management, aka Visual and Predictive Analytics</p>
+<div id="project-1-replicate-and-critique-some-real-world-data-science" class="section level2">
+<h2><strong>Project 1</strong>: replicate and critique some real-world data science</h2>
+<p>For this project you will pick some existing data science work (a blog post, report, research paper, etc.) and replicate a visual from it.</p>
+<p>The project will explore the intersection between three things:</p>
 <ul>
-<li><strong>Instructor</strong>: Kenneth C. Arnold, Calvin University, North Hall NH298</li>
-<li><strong>Meeting Time</strong>: MWF 9-9:50am</li>
-<li><strong>Contact</strong>: Preferred: <a href="mailto:ka37@calvin.edu" class="email">ka37@calvin.edu</a>, Office: 616-526-8723, Cell: 443-310-4002.</li>
-<li><strong>Office Hours</strong>: See <a href="https://kenarnold.org/calendar.html">my Google Calendar</a>, or by appointment</li>
-<li>Teaching Assistant / Grader: Yejae Kim</li>
+<li>The data</li>
+<li>The visualization</li>
+<li>The story that the visualization tells about the data (and, indirectly, about the world)</li>
 </ul>
-<div id="objectives" class="section level1">
-<h1>Objectives</h1>
+<p>The three components to this project involve each of these three things:</p>
 <ul>
-<li>Planning e.g., Refine a data-based question based on the characteristics of available data and client needs.</li>
-<li>Data Acquisition, e.g., Evaluate potential data sources based on utility and biases</li>
-<li>Generating hypotheses: e.g., identify potential issues of bias and representation in a dataset based on exploratory analyses</li>
-<li>Wrangling, e.g., Apply Grammar of Data operations to transform data into a form appropriate to analysis.</li>
-<li>Modeling, e.g., contrast the suitability of linear vs nearest-neighbor models for a given modeling task</li>
-<li>Validation, e.g., identify whether a reported accuracy number might be misleading because of overfitting</li>
-<li>Visualization, e.g., refine a given visualization to improve its effectiveness and faithfulness</li>
-<li>Communication, e.g., write intelligible and faithful interpretations of the process and results of a predictive modeling process</li>
+<li><strong>Data</strong>: Obtain some real-world dataset. Trace where it came from and how it’s structured. Load it and process it using the Python data science toolkit to a form that’s appropriate for making the visualization.</li>
+<li><strong>Visualization</strong>: Replicate (re-create) a visualization that someone else already made based on that data. Evaluate some of the choices and assumptions that were made in the visualization process: in what ways does the visualization faithfully represent the data (or not)? What sort of stories does the chosen visualization amplify?</li>
+<li><strong>Story</strong>: Consider the story that the original source told using the visualization. Is that story accurate? complete? clearly articulated? How did choices in the data collection, preparation, and visualization affect the storytelling? Are there other stories that the data might also be telling?</li>
+</ul>
+<p>This project addresses our course-level learning objectives in this way:</p>
+<ul>
+<li><strong>Technical skills</strong>: manipulating data, constructing visualizations, and creating reports.</li>
+<li><strong>Communication</strong>: analyzing choices made in visualization and text with respect to how it tells a story about data. Proposing and implementing changes to improve the clarity of communication.</li>
+<li><strong>Ethics and Critical Thinking</strong>: identify potential ethical questions (e.g., of transparency, diversity, etc.) that emerge in the process of obtaining, manipulating, and communicating with data.</li>
+</ul>
+<div id="project-1-milestones" class="section level3">
+<h3>Project 1 Milestones</h3>
+<p>Milestones are due along with the corresponding week’s homework.</p>
+<ul>
+<li><strong>Week 2</strong>: Propose 2 or 3 potential options that interest you, and write why you find them interesting. The course staff will help you determine what’s feasible.</li>
+<li><strong>Week 3</strong>: Pick a specific visualization to recreate and identify concrete steps towards obtaining the data.</li>
+<li><strong>Week 4</strong>: Create a rough-draft visualization, including brief notes on how the data were obtained and story was originally told using that data. We will workshop some visualizations in class.</li>
+<li><strong>Week 5</strong>: Provide feedback to other students.</li>
+<li><strong>Week 6</strong>: Final visual, plus your critique of the original article and some follow-up questions.</li>
 </ul>
 </div>
-<div id="communication" class="section level1">
-<h1>Communication</h1>
-<p>We will use the following communication tools:</p>
+</div>
+<div id="project-2-ask-and-answer-your-own-data-science-question" class="section level2">
+<h2><strong>Project 2</strong>: ask and answer your own data science question</h2>
+<p>This project will require doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (only posted publicly if want to), supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components.</p>
+<p>The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others’ projects will be part of your final project grade, so attendance is mandatory.</p>
+<div id="project-2-milestones" class="section level3">
+<h3>Project 2 Milestones</h3>
 <ul>
-<li>Email (<a href="mailto:ka37@calvin.edu" class="email">ka37@calvin.edu</a>)
+<li><strong>Week 7</strong>: Draft of a project proposal including specific questions</li>
+<li><strong>Week 8</strong>: Revised project proposal</li>
+<li><strong>Week 10</strong>: Dataset and exploratory visualization done</li>
+<li><strong>Week 12</strong>: Initial modeling and visualization</li>
+<li><strong>Week 15</strong>: Final presentation</li>
+</ul>
+</div>
+<div id="project-2-detailed-expectations" class="section level3">
+<h3>Project 2 Detailed Expectations</h3>
+<p><strong>NOTES</strong>:</p>
 <ul>
-<li>When in doubt, email me. I may redirect you to one of these other places.</li>
-<li>Expect a weekly “heads-up” email from me.</li>
+<li>In all of the following analyses, you will likely need to make some choices regarding what variables to include, whether to do some pre-processing (e.g., addressing missing values, generating new variables), etc. Clearly state which decisions you made, explain why you made them and what might have been alternative choices.</li>
+<li>If you use any code from the internet, you should acknowledge its source and provide a link.</li>
+<li>You should submit all of the code needed to replicate your results, but <strong>your report should be understandable without looking at the code</strong>.</li>
+</ul>
+<p>Your report should include the following elements:</p>
+<ul>
+<li>A succinct but descriptive <strong>title</strong></li>
+<li><strong>Question</strong>(s)
+<ul>
+<li>A <strong>real-world question</strong> that you’d like to explore, and <em>why</em> it’s interesting. (This question should be stated in language that is understandable to someone who hasn’t studied data science and doesn’t know the details of your dataset.)</li>
+<li>A <strong>modeling question</strong> for which you’ll use regression, classification, or some other kind of modeling. (This question should be stated in more specific technical terms and reference the particular features of your dataset.) This question ideally helps answer the real-world question, but it’s okay if it doesn’t.</li>
+<li>An analysis of the <strong>appropriateness of your dataset</strong> for addressing these questions.</li>
 </ul></li>
-<li><em>MS Teams</em>
+<li><strong>Dataset</strong>
 <ul>
-<li>All synchronous meetings will happen on our class Team (with the hopeful exception of some lectures; see below)</li>
-<li>Please use Teams for Q&amp;A that may be relevant to others in the class. If I get such a question by email, I will probably direct you to post it on Teams so I can answer there.</li>
+<li>A brief (2-4 sentences) verbal description of the dataset: what is the dataset about?</li>
+<li>A description of its <em>provenance</em>: where did the data come from originally? Where did you download it from? And (as much as you can tell or speculate) how did it end up available there?</li>
+<li>The number of records in the dataset, and what each one represents</li>
+<li>A list of the features in the dataset and their <a href="https://www.textbook.ds100.org/ch/04/eda_data_types.html">types</a></li>
 </ul></li>
-<li><em>Moodle</em> is the main source of course material.
+<li><strong>Exploratory Data Analysis</strong>
 <ul>
-<li>Many Moodle segments will actually link to this website.</li>
-<li>Some material will be duplicated in other places. If there are inconsistencies, please let the instructors know and treat Moodle as the reference.</li>
-<li>Moodle will also be the home of our discussion forums.</li>
+<li>Show plots illustrating the distribution of at least 4 variables in your dataset. Comment on anything interesting you observe.</li>
+<li>Show plots illustrating bivariate relationships for at least 2 pairs of variables. Explain what you observe (e.g., positive/negative correlation, no correlation, etc.).</li>
 </ul></li>
-</ul>
-</div>
-<div id="materials" class="section level1">
-<h1>Materials</h1>
-<p>We will use the following materials. All are available freely online, but some may also be purchased in hardcover if desired.</p>
+<li><strong>Modeling</strong>
 <ul>
-<li><a href="https://clauswilke.com/dataviz/">Fundamentals of Data Visualization</a> by Claus O. Wilke: <em>for foundational concepts of data visualization</em></li>
-<li><a href="https://moderndive.com/index.html">ModernDive</a>: <em>for data wrangling and some applied visualization</em></li>
-<li><a href="https://plotly-r.com/">Interactive web-based data visualization with R, plotly, and shiny</a>: <em>for more visualization</em></li>
-<li>Course notes (WIP) for predictive modeling.</li>
-</ul>
-</div>
-<div id="weekly-expectations" class="section level1">
-<h1>Weekly expectations</h1>
-<p><strong>Each week is the same(ish)</strong>. Each week you will be expected to:</p>
-<ul>
-<li><strong>Be ready</strong>: Prep readings due Monday</li>
-<li><strong>Be present</strong> at Monday/Wednesday lectures and Friday labs
-<ul>
-<li>Lab reports are due on Monday</li>
+<li>Clearly state what is the target variable you are trying to predict, which variables (features) you are using to predict it, and why you chose those features.</li>
+<li>Fit a basic predictive model using one of the techniques we discussed in class (<em>regression</em>: Nearest Neighbors or Linear Regression, <em>classification</em>: Nearest Neighbors or Logistic Regression; other choices such as Decision Trees are also fine)</li>
+<li>Report the results of your basic predictive model on held-out data or via cross-validation.</li>
+<li>Make one or more changes to the predictive model to improve the accuracy. Discuss what changes you made, why you made them, and what the results were.</li>
+<li><strong>Alternative</strong>: instead of a supervised prediction task, you can define an unsupervised learning task and use clustering. In this case, clearly state what you want to understand through the clustering, and report your observations.</li>
 </ul></li>
-<li><strong>Practice</strong>: Homework (or project milestone) due Tuesday</li>
-<li><strong>Check in</strong>: Quizzes on Thursday</li>
-<li><strong>Look around</strong>: Discussion forum posts due Thursday</li>
+<li><strong>Findings</strong>: Summarize the analyses you performed and what the results told you. What do your findings say about the real-world and prediction (or clustering) questions you posed?</li>
+<li><strong>Limitations</strong>: What are some limitations of your analyses and potential biases of the data you used?</li>
+<li><strong>Future Directions</strong>: What new questions came up following your exploration of this data? Describe at least one question that could not be answered using your data alone, and specify what additional data you would collect to address it.</li>
 </ul>
-<div id="lecture-and-lab" class="section level2">
-<h2>Lecture and Lab</h2>
-<p>Lectures are held Mondays and Wednesdays at 9-9:50am. Labs will be held Fridays at the same time, always on Teams.</p>
-<p>Location <em>note</em>:</p>
-<ul>
-<li>On the first day of class (9/2), we will meet in SB 010. Please bring your laptops.</li>
-<li>The next two weeks will be held online via Teams.</li>
-<li>If the Calvin community demonstrates its ability to stay healthy for the first two weeks, we will again meet in person (SB 010).</li>
-</ul>
-<p>Lab assignments will be due on the following Monday.</p>
+<p>(Project descriptions thanks to <a href="https://scholar.harvard.edu/oamir/home">Ofra Amir</a>)</p>
+<div id="connection-to-learning-objectives" class="section level4">
+<h4>Connection to Learning Objectives</h4>
+<p>Projects should demonstrate proficiency in the primary learning outcomes of this course:</p>
+<table>
+<colgroup>
+<col width="44%" />
+<col width="55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Learning outcome</th>
+<th>Evidence in project</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Formulate</strong> a question or problem that can be answered by data</td>
+<td>Includes a statement of the goal of the project that clearly shows what a successful outcome looks like (e.g., how does the work answer the question? Did the work achieve the goal?)</td>
+</tr>
+<tr class="even">
+<td><strong>Acquire</strong> data responsibly</td>
+<td>Describes where the data came from and evaluates the suitability of that source for that data</td>
+</tr>
+<tr class="odd">
+<td><strong>Transform</strong> data faithfully into usable forms</td>
+<td>Includes some data wrangling (merging multiple data sources, aggregating, re-coding data, identifying and dealing with missing data, etc.)</td>
+</tr>
+<tr class="even">
+<td><strong>Explore</strong> datasets to interrogate their representativeness, build intuition, and generate hypotheses</td>
+<td>Includes results of exploratory analytics about data values, completeness, etc. (e.g., exploratory visualizations and/or descriptive statistics); includes some reflection on how the actually available data shaped the project goal / question</td>
+</tr>
+<tr class="odd">
+<td><strong>Apply</strong> predictive tools to draw conclusions, evaluating the suitability of these models</td>
+<td>Includes a predictive model (regression or classification) that uses two or more features to predict an outcome. Includes a discussion of how modeling decisions were made and on how accurate the model should be on unseen (e.g., future) data, based on quantitative evidence (e.g., cross-validation).</td>
+</tr>
+<tr class="even">
+<td><strong>Communicate</strong> visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences</td>
+<td>Includes a blog post and a brief presentation</td>
+</tr>
+<tr class="odd">
+<td><strong>Analyze</strong> considerations of responsibility and justice in all of the above practices</td>
+<td>Demonstrates humility and awareness throughout the project, e.g., includes appropriate caveats with claims, includes discussion of implications of decisions that were made during acquisition / modeling / communication. Identifies potential ethical issues raised by existing data.</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="grading" class="section level1">
-<h1>Grading</h1>
-<p>Unless otherwise arranged, grade weighting is as follows:</p>
-<ul>
-<li>5% Preparation activities</li>
-<li>10% Discussion forum participation</li>
-<li>10% Lab exercises</li>
-<li>20% Homework</li>
-<li>20% Quizzes</li>
-<li>10% Project 1</li>
-<li>25% Project 2</li>
-</ul>
-<p>Your lowest quiz score will get thrown out.</p>
-<p>As the <a href="https://calvin.edu/directory/policies/academic-integrity-policy">Calvin Academic Integrity Policy</a> says, “At Calvin, the student-faculty relationship is based on trust and mutual respect.”</p>
-<p>Data science is a fundamentally collaborative endeavor. Collaboration brings the benefits of multiple perspectives, needed to tackle complex problems faithfully and responsibly. But teamwork also brings the risk of one person doing all of the “learning” for the other. Thus:</p>
-<ul>
-<li><em>Collaboration on homework and labs is encouraged.</em></li>
-<li>The <em>write-ups</em> for homework and lab submissions should be <em>your own work</em>. Particularly this means: <strong>never copy and paste code</strong>, from the web or another student! Even if you intend to write exactly the same thing, type it out yourself, from memory. Trust me that this is for your benefit.</li>
-<li><strong>When</strong> asking for help (and everyone <em>should</em> ask for help when they need it), <em>try to solve the problem on your own first</em>. This is critical. Then, when you ask for help, share <em>what you’ve tried</em> and <em>what leads you to think it’s not working.</em> (not just “It’s not working!!”)</li>
-<li>List what help you received for each problem. (e.g., “Joe helped me understand what this question is asking.”)</li>
-</ul>
-</div>
-<div id="special-circumstances" class="section level1">
-<h1>Special Circumstances</h1>
-<p>Occasionally there are special circumstances that require that course policies be adjusted for a particular student. In such cases, it is the responsibility of the student to inform me of the situation as soon as possible, so that the appropriate arrangements can be made. This includes, but is not limited to, students with documented disabilities.</p>
-<p>Calvin University has a continuing commitment to providing reasonable accommodations for students with documented disabilities. Like so many things this fall, the need for accommodations and the process for arranging them may be altered by the COVID-19 changes we are experiencing and the safety protocols currently in place. Students with disabilities who may need some accommodation in order to fully participate in this class are urged to contact Disability Services in the Center for Student Success (<a href="mailto:disabilityservices@calvin.edu" class="email">disabilityservices@calvin.edu</a>) as soon as possible to explore what arrangements need to be made to assure access. The three of us (student, instructor, and Disability Services) will work together to come up with an appropriate solution.</p>
-<p>We will give an incomplete grade (I) only in unusual circumstances, and only if those circumstances have been confirmed by the Student Life office.</p>
-</div>
-<div id="topics" class="section level1">
-<h1>Topics</h1>
-<p>About two weeks will be dedicated to each of the following topics:</p>
-<ul>
-<li>Visualization: Start with Seeing</li>
-<li>Wrangling: because data doesn’t come clean</li>
-<li>Predictive Modeling: because we want to know</li>
-<li>Model Validation: because it’s easy to get it wrong</li>
-<li>EDA: because datasets don’t come with instruction manuals</li>
-<li>Data Acquisition and Management: because getting data isn’t as easy as opening a file your instructor hands you</li>
-<li>Experiment Design: because it helps to have a plan</li>
-<li>Communication</li>
-</ul>
-<p>We will also be discussing a variety of human contexts and ethics topics. We will curate this list of topics together in the first week of class.</p>
-</div>
-<div id="acknowledgments" class="section level1">
-<h1>Acknowledgments</h1>
-<ul>
-<li><a href="https://introds.org/" class="uri">https://introds.org/</a></li>
-<li><a href="https://datasciencebox.org/" class="uri">https://datasciencebox.org/</a></li>
-</ul>
 </div>
 
 
