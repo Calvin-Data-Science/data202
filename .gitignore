@@ -1,20 +1,10 @@
-/berkeley
-/harvard
 .ipynb_checkpoints
 
-web/index.html
-web/projects.html
-web/timeline.html
-web/resources.html
-web/topics/*.html
-
 student_data
-Ofra*
 .Rproj.user
 .Rhistory
 names_by_state
 namesbystate.zip
-web/calendar.html
 src/data/capital_bikeshare
-src/hw6/2011-capitalbikeshare-tripdata.zip
 fa19
+.DS_Store
