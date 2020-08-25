@@ -1,0 +1,50 @@
+---
+title: "HW 1"
+output: 
+  tufte::tufte_html:
+    css: ../hw.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggformula)
+```
+
+## Learning Goals
+
+## Getting Help
+
+If you have any questions about the assignment, please post them on Teams!
+
+## Getting started
+
+Click HERE to claim your repo for this assignment.
+
+First, open the R Markdown document `hw-01.Rmd` and Knit it. Make sure it compiles without errors. The output will be in the `.md` file with the same name.
+
+```{r}
+daily_rides <- read_csv("../../data/bikeshare/day.csv") %>%
+  mutate(workingday = as.factor(workingday))
+```
+
+```{r}
+daily_rides %>% glimpse()
+```
+
+```{r}
+daily_rides %>% 
+  gf_point(registered ~ dteday, color = ~ workingday) %>% 
+  gf_smooth()
+```
+
+Make a similar plot showing the how the number of rides varies with temperature.
+
+```{r}
+daily_rides %>%
+  gf_point(registered ~ temp, color = ~ workingday) %>% 
+  gf_smooth()
+```
+
