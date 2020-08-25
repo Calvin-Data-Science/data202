@@ -1,0 +1,14 @@
+---
+book_filename: "_main"
+output_dir: "../docs/notes"
+site: bookdown::bookdown_site
+language:
+  ui:
+    chapter_name: ""
+delete_merged_file: true
+new_session: yes
+rmd_files: [
+    "index.Rmd",
+    "setup.Rmd"
+]
+---
