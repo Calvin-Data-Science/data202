@@ -45,8 +45,14 @@ Information Systems and Data Management, aka Visual and Predictive Analytics
 * **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298
 * **Meeting Time**: MWF 9-9:50am
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
-* **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
+* **Office Hours**: **Poll will be taken to determine best times**. Then: see [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
 * Teaching Assistant / Grader: Yejae Kim
+
+# Pandemic-Related Policies
+
+In this time we expect you to take responsibility for both your own health and also your peers’ health. If you are feeling at all “under the weather” (even if it’s just from not getting enough sleep) or have any reason to suspect that you might have been exposed to Covid or another communicable disease, please feel free to stay home and join our class remotely, no questions asked.
+ 
+Your instructor will be following the same policy. I will let you know by Teams before each class day if that day will be held online. I hope to give as much notice as possible, but this decision may need to be made at the last minute.
 
 # Objectives
 
@@ -76,6 +82,14 @@ We will use the following communication tools:
 
 
 # Materials
+
+## Technology
+
+* [GitHub](https://github.com/)
+  * As part of our objective of reproducibility, we will be using `git` for distributing assignments, collaboration, and tracking progress.
+* [RStudio Server](https://rstudio.calvin.edu/)
+
+## Textbooks
 
 We will use the following materials. All are available freely online, but some may also be purchased in hardcover if desired.
 
