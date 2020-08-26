@@ -5,33 +5,31 @@
 
 ## R and RStudio
 
-
-### Access
-
-#### rstudio.calvin.edu
+### rstudio.calvin.edu
 
 Your Calvin login and password should get you onto <https://rstudio.calvin.edu>
 
-#### RStudio on the Linux machines
+### RStudio on the Linux machines
 
 R and RStudio are also installed on the Linux machines in the Maroon and Gold Labs.
+They are accessible via <https://remote.cs.calvin.edu>.
 
-#### Rstudio on your own machine
+### Rstudio on your own machine
 
 You can download and install
 [RStudio](https://rstudio.org/download/desktop)
 and [R](http://cran.r-project.org/)
-on your personal computer. Both installations are straightforward.
+on your personal computer.
 
 
-### R packages
+## R packages
 
-In addition, to R, you will need a number of R packages. We will have these installed for
+You will need a number of R packages. We will have these installed for
 your on <https://rstudio.calvin.edu>, but if you work on your own machine or on the Linux
 lab machines, you will need to install these yourself.
 
 Individual packages can be installed from within RStudio by clicking on the install icon
-in the packages tab. Altenatively, you can run the following code from the command line.
+in the packages tab. Alternatively, you can run the following code from the command line.
 
 
 ```r
@@ -57,3 +55,13 @@ pkgs <- setdiff(pkgs, installed.packages()[,1])
 # install what's left
 install.packages(pkgs)
 ```
+
+
+We're additionally using these packages for development; they're optional for you.
+
+
+```r
+if (!("emo" %in% installed.packages()[, 1]))
+  devtools::install_github("hadley/emo")
+```
+

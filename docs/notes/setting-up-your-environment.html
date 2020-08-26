@@ -135,9 +135,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.1" data-path="setting-up-your-environment.html"><a href="setting-up-your-environment.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> R and RStudio</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="setting-up-your-environment.html"><a href="setting-up-your-environment.html#access"><i class="fa fa-check"></i><b>1.1.1</b> Access</a></li>
-<li class="chapter" data-level="1.1.2" data-path="setting-up-your-environment.html"><a href="setting-up-your-environment.html#r-packages"><i class="fa fa-check"></i><b>1.1.2</b> R packages</a></li>
+<li class="chapter" data-level="1.1.1" data-path="setting-up-your-environment.html"><a href="setting-up-your-environment.html#rstudio.calvin.edu"><i class="fa fa-check"></i><b>1.1.1</b> rstudio.calvin.edu</a></li>
+<li class="chapter" data-level="1.1.2" data-path="setting-up-your-environment.html"><a href="setting-up-your-environment.html#rstudio-on-the-linux-machines"><i class="fa fa-check"></i><b>1.1.2</b> RStudio on the Linux machines</a></li>
+<li class="chapter" data-level="1.1.3" data-path="setting-up-your-environment.html"><a href="setting-up-your-environment.html#rstudio-on-your-own-machine"><i class="fa fa-check"></i><b>1.1.3</b> Rstudio on your own machine</a></li>
 </ul></li>
+<li class="chapter" data-level="1.2" data-path="setting-up-your-environment.html"><a href="setting-up-your-environment.html#r-packages"><i class="fa fa-check"></i><b>1.2</b> R packages</a></li>
 </ul></li>
 </ul>
 
@@ -160,31 +162,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">1</span> Setting up your environment</h1>
 <div id="r-and-rstudio" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> R and RStudio</h2>
-<div id="access" class="section level3" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> Access</h3>
-<div id="rstudio.calvin.edu" class="section level4" number="1.1.1.1">
-<h4><span class="header-section-number">1.1.1.1</span> rstudio.calvin.edu</h4>
+<div id="rstudio.calvin.edu" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> rstudio.calvin.edu</h3>
 <p>Your Calvin login and password should get you onto <a href="https://rstudio.calvin.edu" class="uri">https://rstudio.calvin.edu</a></p>
 </div>
-<div id="rstudio-on-the-linux-machines" class="section level4" number="1.1.1.2">
-<h4><span class="header-section-number">1.1.1.2</span> RStudio on the Linux machines</h4>
-<p>R and RStudio are also installed on the Linux machines in the Maroon and Gold Labs.</p>
+<div id="rstudio-on-the-linux-machines" class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> RStudio on the Linux machines</h3>
+<p>R and RStudio are also installed on the Linux machines in the Maroon and Gold Labs.
+They are accessible via <a href="https://remote.cs.calvin.edu" class="uri">https://remote.cs.calvin.edu</a>.</p>
 </div>
-<div id="rstudio-on-your-own-machine" class="section level4" number="1.1.1.3">
-<h4><span class="header-section-number">1.1.1.3</span> Rstudio on your own machine</h4>
+<div id="rstudio-on-your-own-machine" class="section level3" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Rstudio on your own machine</h3>
 <p>You can download and install
 <a href="https://rstudio.org/download/desktop">RStudio</a>
 and <a href="http://cran.r-project.org/">R</a>
-on your personal computer. Both installations are straightforward.</p>
+on your personal computer.</p>
 </div>
 </div>
-<div id="r-packages" class="section level3" number="1.1.2">
-<h3><span class="header-section-number">1.1.2</span> R packages</h3>
-<p>In addition, to R, you will need a number of R packages. We will have these installed for
+<div id="r-packages" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> R packages</h2>
+<p>You will need a number of R packages. We will have these installed for
 your on <a href="https://rstudio.calvin.edu" class="uri">https://rstudio.calvin.edu</a>, but if you work on your own machine or on the Linux
 lab machines, you will need to install these yourself.</p>
 <p>Individual packages can be installed from within RStudio by clicking on the install icon
-in the packages tab. Altenatively, you can run the following code from the command line.</p>
+in the packages tab. Alternatively, you can run the following code from the command line.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="setting-up-your-environment.html#cb1-1" aria-hidden="true"></a><span class="co"># make sure all current packages are up-to-date</span></span>
 <span id="cb1-2"><a href="setting-up-your-environment.html#cb1-2" aria-hidden="true"></a><span class="kw">update.packages</span>()</span>
 <span id="cb1-3"><a href="setting-up-your-environment.html#cb1-3" aria-hidden="true"></a></span>
@@ -206,8 +207,10 @@ in the packages tab. Altenatively, you can run the following code from the comma
 <span id="cb1-19"><a href="setting-up-your-environment.html#cb1-19" aria-hidden="true"></a></span>
 <span id="cb1-20"><a href="setting-up-your-environment.html#cb1-20" aria-hidden="true"></a><span class="co"># install what&#39;s left</span></span>
 <span id="cb1-21"><a href="setting-up-your-environment.html#cb1-21" aria-hidden="true"></a><span class="kw">install.packages</span>(pkgs)</span></code></pre></div>
+<p>We’re additionally using these packages for development; they’re optional for you.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="setting-up-your-environment.html#cb2-1" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span>(<span class="st">&quot;emo&quot;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="dv">1</span>]))</span>
+<span id="cb2-2"><a href="setting-up-your-environment.html#cb2-2" aria-hidden="true"></a>  devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;hadley/emo&quot;</span>)</span></code></pre></div>
 
-</div>
 </div>
 </div>
             </section>
