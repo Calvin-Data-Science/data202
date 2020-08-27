@@ -1,5 +1,4 @@
 .ipynb_checkpoints
-
 student_data
 .Rproj.user
 .Rhistory
@@ -8,3 +7,6 @@ namesbystate.zip
 src/data/capital_bikeshare
 fa19
 .DS_Store
+testlearnr
+test-website
+ids-website
