@@ -1,0 +1,56 @@
+---
+title: "Assignment Management"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# remotes::install_github("rundel/ghclass")
+library(ghclass)
+library(tidyverse)
+```
+
+
+```{r}
+ghorg <- "Calvin-DS202-FA20"
+(members <- org_members(ghorg))
+students <- members %>% setdiff(c("kcarnold"))
+paste(students, collapse = " ") %>% cat()
+```
+
+# Set up assignment templates
+
+```{r}
+org_repos(ghorg)
+```
+
+
+```{r}
+system2("git", "ls-files", stdout = TRUE) %>% 
+  tibble(filename = .) %>% 
+  filter(str_detect(filename, "hw01")) %>% 
+  extract(filename, "basename", "hw/hw01-warmup/(.*)")
+```
+
+
+## Set up a journal assignment
+
+### Set up the template
+
+```{r create-template-repo eval=FALSE}
+template_name <- "hw10-validation"
+template_files <- "hw10-validation/hw10-validation.Rmd"
+
+# Create template repo (if it doesn't exist)
+repo_name <- org_repos(ghorg, paste0(template_name, "$"))
+if (length(repo_name) == 0) {
+  repo_create(ghorg, template_name)
+  repo_name <- org_repos(ghorg, template_name)
+
+  # Add some files to the template repo
+  repo_add_file(repo_name, file = template_files)
+
+  # Now go to GitHub and make it a template repo
+  cat(glue::glue("https://github.com/{repo_name}"))
+}
+stopifnot(length(repo_name) == 1)
+```
