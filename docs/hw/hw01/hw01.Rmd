@@ -1,5 +1,5 @@
 ---
-title: "HW 1"
+title: "HW 1: Warmup"
 output: 
   tufte::tufte_html:
     css: ../hw.css
@@ -64,7 +64,7 @@ Practice reading that out loud: "`daily_rides` gets `read_csv` of `data/day_simp
 
 1. Take a quick look at the data: you'll write R code that will be read "take `daily_rides` and then `glimpse()` it."
 
-The columns are:
+The variables and their descriptions are given below:
 
 * `date`
 * `day_of_week`: an integer between 0 and 6 inclusive. In a later exercise, you will decode which number represents Monday, etc.
@@ -76,8 +76,26 @@ The columns are:
 
 2. How many rows does the dataset contain? What does each row represent?
 
-3. Fill in the blanks provided to create the following plot, a scatter plot showing the number of rides by *registered* users each day.
-(Try removing `geom_point()` and `geom_smooth()` one at a time to make sure you understand what each one does.)
+`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+
+3. Create a scatter plot showing the number of rides by *registered* users each day. Sample code is provided below, but you will need to fill in the blanks.
+
+```{r eval=FALSE}
+ggplot(data = ____, mapping = aes(x = ___, y = ___)) +
+  geom_point() +
+  geom_smooth() +
+  labs(x = "___", y = "___")
+```
+
+Let's deconstruct this code: 
+
+- `ggplot()` is the function we are using to build our plot, in layers.
+- In the first layer we always define the data frame as the first argument. Then, we define the mappings between the variables in the dataset and the **aes**thetics of the plot (e.g. x and y coordinates, colors, etc.). 
+- In the next layer we represent the data with **geom**etric shapes, in this case with points.
+- In the next layer we add a smoothing "trend" line. (Try removing `geom_point()` and `geom_smooth()` one at a time to make sure you understand what each one does.)
+- Finally, we make the visualization more hospitable by adding labels for each aesthetic of the plot.
+
+The result should look like:
 
 ```{r registered-by-day, echo=FALSE, message=FALSE}
 daily_rides %>% 
@@ -87,7 +105,9 @@ daily_rides %>%
     labs(x = "date", y = "number of rides by registered users")
 ```
 
-`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+
+`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Commit and push your changes again.*
+
 
 4. Make the same plot again here, but add a mapping of `workingday` to the `color` aesthetic. Your result should look like:
 
@@ -114,3 +134,4 @@ daily_rides %>%
 ```
 
 
+`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Commit and push your changes again.*
