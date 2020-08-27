@@ -1,0 +1,63 @@
+---
+title: "Welcome to DATA 202!"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-dark
+      countIncrementalSlides: false
+---
+
+class: center, middle
+
+# Hello world!
+
+---
+
+## What is data science?
+
+--
+
+- Data science is an exciting discipline that allows you to turn raw data into understanding, insight, and knowledge. 
+
+---
+
+## Where is this course?
+
+<br><br><br><br>
+
+.large[
+.center[
+[tiny.cc/data202](http://tiny.cc/data202)
+]
+]
+
+---
+
+## Who am I?
+
+.pull-left[
+```{r fig.align="center", echo=FALSE, alt="Ken", out.width="70%"}
+#knitr::include_graphics("img/mine.png")
+```
+pic
+]
+.pull-right[
+.midi[
+- **Office:** TODO
+- **Office hours:** TODO
+- **Email:** ka37@calvin.edu (but post course questions on Teams!)
+  ]
+]
+
+---
+
+# Acknowledgments
+
+Much of the first weeks of this course is adapted from [introds.org](https://introds.org/)
+by the excellent [Dr. Mine Çetinkaya-Rundel](https://www2.stat.duke.edu/~mc301/) at University of Edinburgh.
