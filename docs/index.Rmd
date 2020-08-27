@@ -48,11 +48,16 @@ Information Systems and Data Management, aka Visual and Predictive Analytics
 * **Office Hours**: **Poll will be taken to determine best times**. Then: see [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
 * Teaching Assistant / Grader: Yejae Kim
 
-# Pandemic-Related Policies
+# Pandemic-Related Attendance Policy
 
-In this time we expect you to take responsibility for both your own health and also your peers’ health. If you are feeling at all “under the weather” (even if it’s just from not getting enough sleep) or have any reason to suspect that you might have been exposed to Covid or another communicable disease, please feel free to stay home and join our class remotely, no questions asked.
- 
-Your instructor will be following the same policy. I will let you know by Teams before each class day if that day will be held online. I hope to give as much notice as possible, but this decision may need to be made at the last minute.
+In this time we expect you to take responsibility for both your own health and also your peers’ health. If you are feeling at all “under the weather” (even if it’s just from not getting enough sleep) or have any reason to suspect that you might have been exposed to Covid or another communicable disease, please feel free to stay home and join our class remotely, no questions asked. But **you must let me know by email** by class time.
+
+I will be following the same policy. I will let you know by Teams and email before each class day if that day will be held online. I hope to give as much notice as possible, but this decision may need to be made at the last minute.
+
+However you're expected to be *cognitively present*. That means:
+
+* **In person**: use laptops or phones only as instructed.
+* **Remotely**: keep your video on unless you've discussed this with me in advance
 
 # Objectives
 
@@ -112,15 +117,14 @@ We will use the following materials. All are available freely online, but some m
 
 ## Lecture and Lab
 
-Lectures are held Mondays and Wednesdays at 9-9:50am. Labs will be held Fridays at the same time, always on Teams.
+* Lectures are held Mondays and Wednesdays at 9-9:50am. If you have a laptop, please bring it.
+  * On the first day of class (9/2), we will meet in SB 010. Please bring your laptops.
+  * Based on how the Calvin community is doing managing Covid, we will decide whether to hold class in person or not.
+    We may make more conservative decisions than the university requires overall.
+  * So **please check Teams** for class location before coming in person. You may always join online.
+* Labs will be held Fridays at 9-9:50am, always on *Teams*. 
 
-Location *note*:
-
-* On the first day of class (9/2), we will meet in SB 010. Please bring your laptops.
-* The next two weeks will be held online via Teams.
-* If the Calvin community demonstrates its ability to stay healthy for the first two weeks, we will again meet in person (SB 010).
-
-Lab assignments will be due on the following `r getDueDay("lab")`.
+Lab reports will be due on the following `r getDueDay("lab")`.
 
 ## Projects
 
@@ -162,6 +166,14 @@ Data science is a fundamentally collaborative endeavor. Collaboration brings the
 * The *write-ups* for homework and lab submissions should be *your own work*. Particularly this means: **never copy and paste code**, from the web or another student! Even if you intend to write exactly the same thing, type it out yourself, from memory. Trust me that this is for your benefit.
 * **When** asking for help (and everyone *should* ask for help when they need it), *try to solve the problem on your own first*. This is critical. Then, when you ask for help, share *what you've tried* and *what leads you to think it's not working.* (not just "It's not working!!")
 * List what help you received for each problem. (e.g., "Joe helped me understand what this question is asking.")
+
+# Diversity and Inclusion
+
+I came to Calvin because I wanted to explore what our Christian calling to “act justly” means in the context of data and the technologies that we use with it. Engaging that question wholeheartedly requires that each of us, me included, engage respectfully with perspectives very different from our own. For example, we must question those who abuse data for selfish gain, but we also must question the perspectives of those who challenge those abuses on purely secular grounds.
+
+I intend for this class to be an environment where we equally respect people of every ethnicity, gender, socioeconomic background, political learning, religious background, etc. I will try to create that community by having us read diverse voices, engage with issues of importance to people unlike ourselves, and structure discussions that require students to engage respectfully with perspectives different from their own. I invite your help.
+
+We will not always do this well. If you or someone else in this class is hurt by something I say or do in class, I would like to work to remedy it. I’ll welcome this feedback in whatever way is comfortable for you: in public, in private, via another person (such as our TA or my department chair, Keith Vander Linden), or via a report to [Safer Spaces](https://calvin.edu/offices-services/safer-spaces/) or the [provost's office](http://www.calvin.edu/go/comments-on-faculty/).
 
 
 # Special Circumstances
