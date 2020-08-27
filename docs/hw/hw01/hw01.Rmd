@@ -21,7 +21,7 @@ If you have any questions about the assignment, please post them on Teams!
 
 ## Getting started
 
-Click HERE to claim your repo for this assignment.
+Click [HERE](https://classroom.github.com/a/eLXKhluX) to claim your repo for this assignment.
 
 First, open the R Markdown document `hw-01-welcome.Rmd` and Knit it. Make sure it compiles without errors. The output will be in the `.md` file with the same name.
 
@@ -56,7 +56,7 @@ The data for this problem were collected from the Capital Bikeshare program over
 
 The data is in a CSV (comma separated values) file called `day.csv` in the `data/` folder in your repository. You can load this file into R using the `read_csv()` function. The following code block is already included.
 
-```{r eval=FALSE, message=FALSE}
+```{r load-data, eval=FALSE, message=FALSE}
 daily_rides <- read_csv("data/day_simple.csv")
 ```
 
@@ -79,7 +79,7 @@ The columns are:
 3. Fill in the blanks provided to create the following plot, a scatter plot showing the number of rides by *registered* users each day.
 (Try removing `geom_point()` and `geom_smooth()` one at a time to make sure you understand what each one does.)
 
-```{r echo=FALSE, message=FALSE}
+```{r registered-by-day, echo=FALSE, message=FALSE}
 daily_rides %>% 
   ggplot(aes(x = date, y = registered)) +
     geom_point() +
@@ -91,7 +91,7 @@ daily_rides %>%
 
 4. Make the same plot again here, but add a mapping of `workingday` to the `color` aesthetic. Your result should look like:
 
-```{r echo=FALSE, message=FALSE}
+```{r registered-by-day-workingday, echo=FALSE, message=FALSE}
 daily_rides %>% 
   ggplot(aes(x = date, y = registered, color = workingday)) +
     geom_point() +
@@ -104,7 +104,7 @@ daily_rides %>%
 6. Make a scatter plot showing the how the number of rides by registered users varies with temperature.
 Design the plot so that it shows the difference between weekends and weekdays.
 
-```{r echo=FALSE, message=FALSE}
+```{r registered-by-temp, echo=FALSE, message=FALSE}
 daily_rides %>% 
   ggplot(aes(x = temp, y = registered, color = workingday)) +
     geom_point() +
