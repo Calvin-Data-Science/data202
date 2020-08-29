@@ -9,17 +9,20 @@ library(lubridate)
 ```
 
 ```{r include=FALSE}
-tribble(
-  ~gid, ~name,
-  "97370056", "timeline",
-  "650664066", "week"
-) %>%
-  pwalk(function(gid, name) {
-    download.file(
-      url = glue("https://docs.google.com/spreadsheets/d/1JRDj1tIUPr89yfqL3OhZ5zqbjC8cm5hk8U1rHia1A3Y/export?format=csv&gid={gid}"),
-      destfile = glue("../{name}.csv")
-    )
-  })
+updateFiles <- FALSE
+if (updateFiles) {
+  tribble(~ gid, ~ name,
+          "97370056", "timeline",
+          "650664066", "week") %>%
+    pwalk(function(gid, name) {
+      download.file(
+        url = glue(
+          "https://docs.google.com/spreadsheets/d/1JRDj1tIUPr89yfqL3OhZ5zqbjC8cm5hk8U1rHia1A3Y/export?format=csv&gid={gid}"
+        ),
+        destfile = glue("../{name}.csv")
+      )
+    })
+}
 ```
 
 ```{r include=FALSE}
@@ -48,7 +51,7 @@ Information Systems and Data Management, aka Visual and Predictive Analytics
 * **Office Hours**: **Poll will be taken to determine best times**. Then: see [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
 * Teaching Assistant / Grader: Yejae Kim
 
-# Pandemic-Related Attendance Policy
+# Pandemic-Related Policies
 
 In this time we expect you to take responsibility for both your own health and also your peers’ health. If you are feeling at all “under the weather” (even if it’s just from not getting enough sleep) or have any reason to suspect that you might have been exposed to Covid or another communicable disease, please feel free to stay home and join our class remotely, no questions asked. But **you must let me know by email** by class time.
 
@@ -58,6 +61,10 @@ However you're expected to be *cognitively present*. That means:
 
 * **In person**: use laptops or phones only as instructed.
 * **Remotely**: keep your video on unless you've discussed this with me in advance
+
+We will ask for one in-person student each class to volunteer to represent the remote students by monitoring the Teams chat and alerting the instructor to any questions or problems.
+
+If anything about this pandemic is stressing you out, please feel free to talk with me. The [Center for Counseling and Wellness](https://calvin.edu/offices-services/counseling-and-wellness/) is also super well equipped to help.
 
 # Objectives
 

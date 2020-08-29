@@ -13,17 +13,21 @@ output:
       countIncrementalSlides: false
 ---
 
-class: center, middle
+class: middle
 
-# Hello world!
+## Pandemic!
+
+1. Please show your *CampusClear* completion as you enter.
+
+2. We need a volunteer: Remote Student Representative
+  * Watch the Teams chat
+  * Alert instructor to questions or problems
+
+3. (remote) attendance policy
 
 ---
 
-## What is data science?
-
---
-
-- Data science is an exciting discipline that allows you to turn raw data into understanding, insight, and knowledge. 
+## Data Science: augmenting our sight
 
 ---
 
@@ -54,6 +58,13 @@ pic
 - **Email:** ka37@calvin.edu (but post course questions on Teams!)
   ]
 ]
+
+---
+
+## Let's do some data science!
+
+Go here TODO
+
 
 ---
 
