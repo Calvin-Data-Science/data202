@@ -7,6 +7,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # remotes::install_github("rundel/ghclass")
 library(ghclass)
 library(tidyverse)
+library(glue)
 ```
 
 ```{r}
@@ -33,14 +34,28 @@ org_sitrep(ghorg)
 
 
 ```{r eval=FALSE}
+assignment_src <- "lab/lab01-hello"
 system2("git", "ls-files", stdout = TRUE) %>%
   tibble(filename = .) %>%
-  filter(str_detect(filename, "hw01")) %>%
-  extract(filename, "basename", "hw/hw01-warmup/(.*)")
+  filter(str_detect(filename, assignment_src)) %>%
+  extract(filename, "basename", paste0(assignment_src, "/(.*)"))
 ```
 
 
 ## Set up an assignment
+
+```{r}
+assignmentName <- "lab01-hello"
+assignmentPath <- glue("lab/{assignmentName}")
+repo_name <- glue("{ghorg}/{assignmentName}")
+repo_create(org = ghorg, name = assignmentName, gitignore_template = "")
+```
+
+```{r}
+system()
+```
+
+
 
 ```{r create-template-repo eval=FALSE}
 template_name <- "hw10-validation"
