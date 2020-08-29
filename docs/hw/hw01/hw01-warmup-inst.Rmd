@@ -15,6 +15,8 @@ library(ggformula)
 
 ## Learning Goals
 
+When you've finished this exercise, you'll have some basic experience with RStudio, data frames, and the Grammar of Graphics.
+
 ## Getting Help
 
 If you have any questions about the assignment, please post them on Teams!
@@ -121,7 +123,7 @@ daily_rides %>%
 
 5. Write a one or two sentence interpretation of the graph, focusing on the following question: *How do the number of rides by registered users compare for weekdays vs weekends?*
 
-6. Make a scatter plot showing the how the number of rides by registered users varies with temperature.
+6. *Optional*: Make a scatter plot showing the how the number of rides by registered users varies with temperature.
 Design the plot so that it shows the difference between weekends and weekdays.
 
 ```{r registered-by-temp, echo=FALSE, message=FALSE}
@@ -133,5 +135,4 @@ daily_rides %>%
 
 ```
 
-
-`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Commit and push your changes again.*
+`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Commit and push your changes again.* Make sure that your "git" pane is clean; you may need to Add some files that were newly created.
