@@ -1,0 +1,20 @@
+---
+title: "Lab 1: Hello R"
+author: "YOUR NAME HERE"
+date: "TODAY'S DATE HERE"
+output: github_document
+---
+
+We'll use the following packages:
+
+
+```{r}
+library(tidyverse) 
+library(datasauRus)
+library(usethis)
+```
+
+```{r}
+write_csv(datasaurus_dozen, "datasaurus_dozen.csv")
+```
+
