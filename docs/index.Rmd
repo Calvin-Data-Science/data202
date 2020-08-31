@@ -1,5 +1,5 @@
 ---
-title: "DATA 202 Fall 2020"
+title: "DATA 202 (Data Science 2)---Fall 2020"
 ---
 
 ```{r setup, include=FALSE}
@@ -42,14 +42,29 @@ getDueDay <- function(category) {
 }
 ```
 
-
-Information Systems and Data Management, aka Visual and Predictive Analytics
+# Staff
 
 * **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298
 * **Meeting Time**: MWF 9-9:50am
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
 * **Office Hours**: **Poll will be taken to determine best times**. Then: see [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment
 * Teaching Assistant / Grader: Yejae Kim
+
+# Objectives
+
+This course integrates the data acumen and visualization skills you developed in DATA 101 with the computational and mathematical/statistical skills you have been developing in other classes. We will emphasize data wrangling, predictive modeling, and visualization.
+
+Upon completing this class, you should be able to work through each part of the data science lifecycle, including:
+
+* Planning e.g., Refine a data-based question based on the characteristics of available data and client needs.
+* Data Acquisition, e.g., Evaluate potential data sources based on utility and biases
+* Generating hypotheses: e.g., identify potential issues of bias and representation in a dataset based on exploratory analyses
+* Wrangling, e.g., Apply Grammar of Data operations to transform data into a form appropriate to analysis.
+* Modeling, e.g., contrast the suitability of linear vs nearest-neighbor models for a given modeling task
+* Validation, e.g., identify whether a reported accuracy number might be misleading because of overfitting
+* Visualization, e.g., refine a given visualization to improve its effectiveness and faithfulness
+* Communication, e.g., write intelligible and faithful interpretations of the process and results of a predictive modeling process
+
 
 # Pandemic-Related Policies
 
@@ -64,18 +79,7 @@ However you're expected to be *cognitively present*. That means:
 
 We will ask for one in-person student each class to volunteer to represent the remote students by monitoring the Teams chat and alerting the instructor to any questions or problems.
 
-If anything about this pandemic is stressing you out, please feel free to talk with me. The [Center for Counseling and Wellness](https://calvin.edu/offices-services/counseling-and-wellness/) is also super well equipped to help.
-
-# Objectives
-
-* Planning e.g., Refine a data-based question based on the characteristics of available data and client needs.
-* Data Acquisition, e.g., Evaluate potential data sources based on utility and biases
-* Generating hypotheses: e.g., identify potential issues of bias and representation in a dataset based on exploratory analyses
-* Wrangling, e.g., Apply Grammar of Data operations to transform data into a form appropriate to analysis.
-* Modeling, e.g., contrast the suitability of linear vs nearest-neighbor models for a given modeling task
-* Validation, e.g., identify whether a reported accuracy number might be misleading because of overfitting
-* Visualization, e.g., refine a given visualization to improve its effectiveness and faithfulness
-* Communication, e.g., write intelligible and faithful interpretations of the process and results of a predictive modeling process
+If anything about this pandemic or this course (or both!) is stressing you out, please feel free to talk with me. The [Center for Counseling and Wellness](https://calvin.edu/offices-services/counseling-and-wellness/) is also super well equipped to help.
 
 # Communication
 
@@ -153,14 +157,14 @@ Details of these expectations are forthcoming.
 
 # Grading
 
-Unless otherwise arranged, grade weighting is as follows:
+Unless otherwise arranged, grades will be weighted as follows:
 
 * 5% Preparation activities
-* 10% Discussion forum participation
+* 10% Discussion forums
 * 10% Lab exercises
 * 20% Homework
 * 20% Quizzes
-* 10% Project 1
+* 10% Midterm (week 8, exact date to be set by poll)
 * 25% Project 2
 
 Your lowest quiz score will get thrown out.
