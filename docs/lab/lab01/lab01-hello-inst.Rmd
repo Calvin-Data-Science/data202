@@ -50,14 +50,18 @@ and link that account with our class.
 
 ## Create a GitHub account
 
-Go to [github.com](https://github.com/) and create an account (unless you already have one). Below are some tips for selecting a username:^[[Happy git with R](http://happygitwithr.com/github-acct.html#username-advice) by Jenny Bryan]
+Go to [github.com](https://github.com/) and create an account (unless you already have one).
+
+```{marginpar}
+Below are some tips for selecting a username:^[[Happy git with R](http://happygitwithr.com/github-acct.html#username-advice) by Jenny Bryan]
 
 - Incorporate your actual name.
 - Reuse username from other contexts, e.g. Twitter.
-- Pick a username you'll be comfortable revealing to your future boss.
+- Pick a username you will ll be comfortable revealing to your future boss.
 - Shorter is better than longer.
 - Be as unique as possible in as few characters as possible.
 - Make it timeless. Don’t highlight your current university, employer, etc.
+```
 
 ## Join the course organization
 
@@ -66,7 +70,7 @@ Go to [github.com](https://github.com/) and create an account (unless you alread
 - Go to https://classroom.github.com/a/CrmxfqIs to accept your lab assignment. Since this is the first assignment, clicking on this link will also allow you to join the course GitHub organization. Log in with your GitHub username and password and click on **Authorize github**.
 
 ```{r github-classroom, fig.margin = TRUE, echo = FALSE}
-knitr::include_graphics("img/github-classroom.png")
+#knitr::include_graphics("img/github-classroom.png")
 ```
 
 - In the next screen you will see a course roster with last names and student ID numbers of students enrolled in this course. Select your last name from the list. Note that there may be other students with the same last name, so make sure to confirm your student ID number before making your selection.
