@@ -3,7 +3,7 @@ title: "Welcome to DATA 202!"
 author: "K Arnold"
 output:
   xaringan::moon_reader:
-    css: "slides.css"
+    css: xaringan-themer.css
     self_contained: FALSE
     lib_dir: libs
     nature:
@@ -13,7 +13,27 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent(
+#  base_color = "#1c5253",
+  base_color = "#8C2131",
+  #header_font_google = google_font("Josefin Sans"),
+  #text_font_google   = google_font("Montserrat", "300", "300i"),
+  #text_font_google =   google_font("Domine"),
+  code_font_google   = google_font("Fira Mono"),
+  header_h1_font_size = "2.75rem",
+  header_h2_font_size = "2.5rem",
+  text_font_size = "1.5rem",
+)
+style_extra_css(list(
+    ".small" = list("font-size" = "90%")
+))
+```
+
 class: middle
+
+# DATA 202: Data Science 2
 
 ## Pandemic!
 
@@ -27,16 +47,20 @@ class: middle
 
 ---
 
-## Data Science: a lens for seeing
+# Data Science
 
 * **Data**: information, collected systematically
 * **Science**: systematic study of that data
 
 ---
 
+# Data Science: a lens for seeing
+
+---
+
 class: middle, center
 
-## Visualization
+# Visualization
 
 ---
 
@@ -62,7 +86,7 @@ Source: https://fred.stlouisfed.org/graph/?g=v4rP
 
 ---
 
-## Inference
+# Inference
 
 ```{r fig.align='center', echo=FALSE, alt="Impact of Mask Policies", out.width="70%"}
 knitr::include_graphics("img/mask_policy.jpeg")
@@ -73,7 +97,7 @@ Wei Lyu and George L. Wehby. *Community Use Of Face Masks And COVID-19: Evidence
 ]
 ---
 
-## Prediction
+# Prediction
 
 ```{r fig.align="center", echo=FALSE, alt="Frequently Bought With", out.width="50%"}
 knitr::include_graphics("img/instacart-boughtwith.png")
@@ -85,7 +109,7 @@ Source: https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d2
 
 ---
 
-## The DS Life Cycle
+# The DS Life Cycle
 
 ```{r fig.align='center', echo=FALSE, alt="Data Science Life Cycle", out.width="70%"}
 knitr::include_graphics("img/moderndive-flowchart.png")
@@ -94,6 +118,21 @@ knitr::include_graphics("img/moderndive-flowchart.png")
 .small[
 Source: https://moderndive.com/preface.html
 ]
+
+---
+
+## Data Science 2 focuses on
+
+* wrangling
+* predictive modeling and validation
+* visualization and communication
+
+but touches on all of the DS lifecycle.
+
+Uses:
+
+* R (tidyverse, tidymodels, ggplot/plotly) the *first* time we see something
+* Python (Pandas, sklearn) the *second* time we see something
 
 ---
 
@@ -164,7 +203,6 @@ So we will:
 * Study examples of how harm might be mitigated or revealed
 
 
-
 ---
 
 ## Where is this course?
@@ -188,6 +226,7 @@ knitr::include_graphics("img/ken.jpg")
 ]
 .pull-right[
 .midi[
+- Ken Arnold
 - **Office:** NH 298
 - **Office hours:** TBD (fill out the poll!)
 - **Email:** ka37@calvin.edu (but post course questions on Teams!)
@@ -201,6 +240,7 @@ class: middle, center
 ## Let's do some data science!
 
 Go [here](https://rsconnect.calvin.edu:3939/content/96/)
+
 
 
 ---
