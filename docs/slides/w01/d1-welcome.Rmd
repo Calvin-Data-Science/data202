@@ -34,18 +34,43 @@ class: middle
 
 ---
 
+class: middle, center
+
 ## Visualization
 
-* COVID Unemployment
-* Global temperature
-* ...
+---
+
+```{r fig.align='center', echo=FALSE, alt="Health vs Economy?", out.width="90%"}
+knitr::include_graphics("img/q2-gdp-growth-vs-confirmed-deaths-due-to-covid-19-per-million-people.png")
+```
+
+.small[
+Source: https://ourworldindata.org/covid-health-economy
+]
+
+---
+
+class: center, middle
+
+```{r fig.align='center', echo=FALSE, alt="Unemployment", out.width="100%"}
+knitr::include_graphics("img/unemployment.png")
+```
+
+.small[
+Source: https://fred.stlouisfed.org/graph/?g=v4rP
+]
 
 ---
 
 ## Inference
 
-* Mask policy
+```{r fig.align='center', echo=FALSE, alt="Impact of Mask Policies", out.width="70%"}
+knitr::include_graphics("img/mask_policy.jpeg")
+```
 
+.small[
+Wei Lyu and George L. Wehby. *Community Use Of Face Masks And COVID-19: Evidence From A Natural Experiment Of State Mandates In The US*. https://doi.org/10.1377/hlthaff.2020.00818
+]
 ---
 
 ## Prediction
@@ -158,23 +183,24 @@ So we will:
 
 .pull-left[
 ```{r fig.align="center", echo=FALSE, alt="Ken", out.width="70%"}
-#knitr::include_graphics("img/mine.png")
+knitr::include_graphics("img/ken.jpg")
 ```
-pic
 ]
 .pull-right[
 .midi[
-- **Office:** TODO
-- **Office hours:** TODO
+- **Office:** NH 298
+- **Office hours:** TBD (fill out the poll!)
 - **Email:** ka37@calvin.edu (but post course questions on Teams!)
   ]
 ]
 
 ---
 
+class: middle, center
+
 ## Let's do some data science!
 
-Go here TODO
+Go [here](https://rsconnect.calvin.edu:3939/content/96/)
 
 
 ---
