@@ -1,0 +1,87 @@
+---
+title: "Compare Weather"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+library(rnoaa)
+```
+
+
+```{r}
+stations <- ghcnd_stations()
+```
+
+
+```{r}
+# See https://www.ncdc.noaa.gov/cdo-web/results
+
+grr_airport_id <- "USW00094860"
+boston_airport_id <- "USW00014739"
+```
+
+```{r}
+grr_data <- rnoaa::ghcnd_search(grr_airport_id, var = c("TMAX", "TMIN", "PRCP"))
+```
+
+```{r}
+grr_data$tmax %>% pull(tmax) %>% is.na() %>% mean()
+```
+
+
+
+```{r}
+precip_grr <- rnoaa::ncdc(
+  datasetid = "GHCND",
+  stationid = grr_airport_id,
+  datatypeid = "PRCP",
+  startdate = "2019-09-01",
+  enddate = "2020-09-01",
+  limit = 500,
+  add_units = TRUE)
+```
+
+```{r}
+precip_bos <- rnoaa::ncdc(
+  datasetid = "GHCND",
+  stationid = boston_airport_id,
+  datatypeid = "PRCP",
+  startdate = "2019-09-01",
+  enddate = "2020-09-01",
+  limit = 500,
+  add_units = TRUE)
+```
+
+```{r}
+ncdc_plot(precip_grr)
+```
+
+
+```{r}
+rnoaa:::ncdc_plot.ncdc_data
+```
+
+```{r}
+
+bind_rows(
+  bos = precip_bos$data,
+  grr = precip_grr$data,
+  .id = "city"
+) %>% mutate(
+  date = ymd_hms(date)
+) %>%
+  group_by(city, month = round_date(date, unit = "month")) %>% 
+  summarise(total_precip = sum(value)) %>% 
+  ggplot(aes(x = month, y = total_precip, color = city)) +
+  geom_line()
+```
+```{r}
+ymd_hms("2019-09-01T00:00:00")
+```
