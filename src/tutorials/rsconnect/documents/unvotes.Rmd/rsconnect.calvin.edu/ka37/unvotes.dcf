@@ -1,0 +1,13 @@
+name: unvotes
+title: unvotes
+username: ka37
+account: ka37
+server: rsconnect.calvin.edu
+hostUrl: https://rsconnect.calvin.edu:3939/__api__
+appId: 96
+bundleId: 211
+url: https://rsconnect.calvin.edu:3939/content/96/
+when: 1598987975.57005
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: unvotes.html|weather.Rmd|unvotes_files/figure-html/plot-yearly-yes-issue-1.png

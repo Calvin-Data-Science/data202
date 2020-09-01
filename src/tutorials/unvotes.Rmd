@@ -1,0 +1,112 @@
+---
+title: "UN Votes"
+author: "Mine Çetinkaya-Rundel, adapted by Kenneth Arnold"
+date: "`r Sys.Date()`"
+output: 
+  learnr::tutorial:
+    progressive: false
+    allow_skip: true
+    toc: false
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+```
+
+## Introduction
+
+Let's take a look at the voting history of countries in the United Nations 
+General Assembly. We will be using data from the `unvotes` package. 
+Additionally, we will make use of the `tidyverse` and `lubridate` packages 
+for the analysis, and the `DT` package for interactive display of tabular 
+output.
+
+```{r load-packages, warning=FALSE, message=FALSE}
+library(unvotes)
+library(tidyverse)
+library(lubridate)
+library(DT)
+theme_set(theme_bw())
+```
+
+The `unvotes` package provides three datasets we can work with: 
+
+1. `un_roll_calls`: Each roll call vote of the United Nations General Assembly
+2. `un_roll_call_issues`: Topic classifications of roll call votes of the United Nations General Assembly
+3. `un_votes`: Information on the voting history of the United Nations General Assembly
+
+Each of these datasets contains a variable called `rcid` (roll call id) which 
+can be used as a unique identifier to join them with each other.
+
+```{r}
+un_votes %>% head(10)
+un_roll_calls %>% head(10)
+un_roll_call_issues %>% head(10)
+```
+
+
+## Wrangle and Visualize
+
+Let's create a data visualization that displays how the voting record of the 
+US changed over time on a variety of issues, and compares it to two other 
+countries: the United Kingdom and Turkey.
+
+```{r plot-yearly-yes-issue, fig.width=10, warning=FALSE, exercise=TRUE}
+un_votes %>%
+  mutate(country =
+           case_when(
+             country == "United Kingdom of Great Britain and Northern Ireland" ~ "UK & NI",
+             country == "United States of America"                             ~ "US",
+             TRUE                                                              ~ country
+             )) %>%
+  filter(country %in% c("UK & NI", "US", "Turkey")) %>%
+  inner_join(un_roll_calls, by = "rcid") %>%
+  inner_join(un_roll_call_issues, by = "rcid") %>%
+  group_by(country, year = year(date), issue) %>%
+  summarize(
+    votes = n(),
+    percent_yes = mean(vote == "yes"),
+    .groups = 'keep'
+    ) %>%
+  filter(votes > 5) %>%  # only use records where there are more than 5 votes
+  ggplot(mapping = aes(x = year, y = percent_yes, color = country)) +
+    geom_point() +
+    geom_smooth(method = "loess", formula = y ~ x, se = FALSE) +
+    facet_wrap(~ issue) +
+    labs(
+      title = "Percentage of 'Yes' votes in the UN General Assembly",
+      subtitle = "1946 to 2015",
+      y = "% Yes",
+      x = "Year",
+      color = "Country"
+    ) +
+  theme(legend.position = "bottom")
+```
+
+We can easily change which countries are being plotted by changing which 
+countries the code above `filter`s for. Note that the country name should be 
+spelled and capitalized exactly the same way as it appears in the data. See 
+the [Appendix](#appendix) for a list of the countries in the data.
+
+## References
+
+1. David Robinson (2017). unvotes: United Nations General Assembly Voting Data. 
+R package version 0.2.0. https://CRAN.R-project.org/package=unvotes.
+2. Erik Voeten "Data and Analyses of Voting in the UN General Assembly" 
+Routledge Handbook of International Organization, edited by Bob Reinalda 
+(published May 27, 2013).
+3. Much of the analysis has been modeled on the examples presented in the 
+[unvotes package vignette](https://cran.r-project.org/web/packages/unvotes/vignettes/unvotes.html).
+
+## Appendix {#appendix}
+
+Below is a list of countries in the dataset:
+
+```{r list-countries}
+un_votes %>% 
+  select(country) %>%
+  arrange(country) %>% 
+  distinct() %>%
+  datatable()
+```
