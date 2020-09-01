@@ -27,7 +27,8 @@ style_mono_accent(
   text_font_size = "1.5rem",
 )
 style_extra_css(list(
-    ".small" = list("font-size" = "90%")
+    ".small" = list("font-size" = "70%"),
+    ".large" = list("font-size" = "120%")
 ))
 ```
 
@@ -66,7 +67,7 @@ class: middle, center
 
 ---
 
-```{r fig.align='center', echo=FALSE, alt="Health vs Economy?", out.width="90%"}
+```{r fig.align='center', echo=FALSE, alt="Health vs Economy?", out.width="85%"}
 knitr::include_graphics("img/q2-gdp-growth-vs-confirmed-deaths-due-to-covid-19-per-million-people.png")
 ```
 
@@ -88,9 +89,13 @@ Source: https://fred.stlouisfed.org/graph/?g=v4rP
 
 ---
 
+class: middle, center
+
 # Inference
 
-```{r fig.align='center', echo=FALSE, alt="Impact of Mask Policies", out.width="70%"}
+---
+
+```{r fig.align='center', echo=FALSE, alt="Impact of Mask Policies", out.width="60%"}
 knitr::include_graphics("img/mask_policy.jpeg")
 ```
 
@@ -99,7 +104,11 @@ Wei Lyu and George L. Wehby. *Community Use Of Face Masks And COVID-19: Evidence
 ]
 ---
 
+class: middle, center
+
 # Prediction
+
+---
 
 ```{r fig.align="center", echo=FALSE, alt="Frequently Bought With", out.width="50%"}
 knitr::include_graphics("img/instacart-boughtwith.png")
@@ -123,7 +132,7 @@ Source: https://moderndive.com/preface.html
 
 ---
 
-## Data Science 2 focuses on
+## Data Science 2 focuses on...
 
 * wrangling
 * predictive modeling and validation
@@ -135,6 +144,7 @@ Uses:
 
 * R (tidyverse, tidymodels, ggplot/plotly) the *first* time we see something
 * Python (Pandas, sklearn) the *second* time we see something
+* occasionally: SQL, other tools according to student interest
 
 ---
 
@@ -143,13 +153,13 @@ Uses:
 
 * *Skill*: how to do these things
 * *Knowledge*: understanding the underlying concepts
-* *Character*: how to practice these skills wisely
+* *Character*: wisdom in practicing these skills
 
 ---
 
 ## Character??
 
-DS is a lens. We must learn to see rightly. Some areas:
+DS is a lens. How can we see rightly through it? Some areas:
 
 * Humility
 * Integrity / Honesty

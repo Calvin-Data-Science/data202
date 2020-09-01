@@ -256,5 +256,8 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 
 /* Extra CSS */
 .small {
-  font-size: 90%;
+  font-size: 70%;
+}
+.large {
+  font-size: 120%;
 }
