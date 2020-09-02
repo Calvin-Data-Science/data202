@@ -61,16 +61,39 @@ From the apostle Paul's letter to the Philippians:
 
 class: middle
 
-# Data Science
+# What is Data Science?
+
+--
 
 * **Data**: information, collected systematically
 * **Science**: systematic study of that data
 
 ---
 
+class: middle
+
+.pull-left[
+```{r echo=FALSE, fig.align='center', out.width="85%"}
+knitr::include_graphics("img/DataScienceDisciplines.png")
+```
+
+.small[https://commons.wikimedia.org/wiki/File:DataScienceDisciplines.png]
+]
+
+.pull-right[
+```{r echo=FALSE, fig.align='center', out.width="85%"}
+knitr::include_graphics("img/Data_scientist_Venn_diagram.png")
+```
+
+.small[https://commons.wikimedia.org/wiki/File:Data_scientist_Venn_diagram.png]
+]
+---
+
 class: middle, center
 
-# Data Science: a lens for seeing
+# How does data science help you see?
+
+--
 
 Visualization
 
