@@ -42,6 +42,11 @@ getDueDay <- function(category) {
 }
 ```
 
+# Quick Links
+
+* [Calvin RStudio](https://rstudio.calvin.edu)
+* [Moodle](https://moodle.calvin.edu/course/view.php?id=51571)
+
 # Staff
 
 * **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298

@@ -52,7 +52,7 @@ and link that account with our class.
 
 Go to [github.com](https://github.com/) and create an account (unless you already have one).
 
-```{marginpar}
+```{marginfigure}
 Below are some tips for selecting a username:^[[Happy git with R](http://happygitwithr.com/github-acct.html#username-advice) by Jenny Bryan]
 
 - Incorporate your actual name.
@@ -65,15 +65,14 @@ Below are some tips for selecting a username:^[[Happy git with R](http://happygi
 
 ## Join the course organization
 
-**TODO Update below here**
 
-- Go to https://classroom.github.com/a/CrmxfqIs to accept your lab assignment. Since this is the first assignment, clicking on this link will also allow you to join the course GitHub organization. Log in with your GitHub username and password and click on **Authorize github**.
+- Go to https://classroom.github.com/a/tyhssTGy to accept your lab assignment. Since this is the first assignment, clicking on this link will also allow you to join the course GitHub organization. Log in with your GitHub username and password and click on **Authorize github**.
 
 ```{r github-classroom, fig.margin = TRUE, echo = FALSE}
 #knitr::include_graphics("img/github-classroom.png")
 ```
 
-- In the next screen you will see a course roster with last names and student ID numbers of students enrolled in this course. Select your last name from the list. Note that there may be other students with the same last name, so make sure to confirm your student ID number before making your selection.
+- In the next screen you will see a course roster with names of students enrolled in this course. Select your name from the list.
 
 - Then, in the next screen, click on **Accept this assignment**. This will create the  GitHub repo for the assignment. This repo contains a template you can build on to complete your assignment. Click on the repository link created for you to get started.
 
@@ -93,60 +92,47 @@ The next few steps will walk you through the process of getting information of t
 
 
 ```{r clone-repo-link, fig.margin = TRUE, echo = FALSE, fig.width=3}
-knitr::include_graphics("img/clone-repo-link.png")
+#knitr::include_graphics("img/clone-repo-link.png")
 ```
 
 On GitHub, click on the green **Clone or download** button, select **Use HTTPS** (this might already be selected by default, and if it is, you'll see the text **Clone with HTTPS** as in the image below). Click on the clipboard icon to copy the repo URL.
 
 ## 2. Launch RStudio
 
-This step is a bit tedious, but it'll soon become second nature. Note that you can access RStudio anywhere using these steps, you don't need to be in the computer lab for it.
+Note that you can access RStudio anywhere using these steps.
 
-- Go to the [course webpage](https://introds.org/), and click on R. 
-  - Note, if you're not already logged in to Learn this step will prompt you to log in.
-  - If this happens, you may need to click on the RStudio link again in Learn.
-  - And if you have pop-up windows blocked, you might need to explicitly allow RStudio to open in a new window.
-  
+- Go to the [course webpage](https://tiny.cc/data202) or the class Moodle, and click on "RStudio". Log in with your Calvin credentials.
+
 ```{r noteable-step-1, fig.margin = TRUE, echo = FALSE, fig.width=3}
-knitr::include_graphics("img/noteable-step-1.png")
+#knitr::include_graphics("img/noteable-step-1.png")
 ```
-
-- In the next window, select RStudio under "Start Personal Notebook", and hit Start. 
-
-```{r noteable-step-2, fig.margin = TRUE, echo = FALSE, fig.width=2}
-knitr::include_graphics("img/noteable-step-2.png")
-```
-
-- And finally, on the top right, click on New, and choose RStudio again. And voila!
-
-<br><br>
 
 ## 3. Clone the repo
 
 And finally we clone the GitHub repo into an RStudio project.
 
 ```{r clone-repo-rstudio, fig.fullwidth=TRUE, echo = FALSE}
-knitr::include_graphics("img/clone-repo-rstudio.png")
+#knitr::include_graphics("img/clone-repo-rstudio.png")
 ```
 
 - In RStudio, click on File > New Project
 - In the next window, select Git
 - In the final window:
-  - Repository URL: Paste repo url you grabbed from GitHub here
+  - Repository URL: Paste the repo url you grabbed from GitHub here
   - Click the tab button on your keyboard, and the project name will be filled in for you
-  - Hit Create Project
-- Enter your GitHub username and password, and you're good to go!
+  - Click Create Project
+- Enter your GitHub username and password when prompted, and you're good to go!
 
 ## 4. Get working!
 
-Open the R Markdown (Rmd) file called `lab-01-hello-r.Rmd`. It will likely ask you if you would like to install a package that is required, click Install.
+Open the R Markdown (`Rmd`) file called `lab-01-hello-r.Rmd`. It will likely ask you if you would like to install a package that is required, click Install.
 
 # Hello RStudio!
 
 RStudio is comprised of four panes.
 
 ```{r rstudio-anatomy, fig.fullwidth=TRUE, echo = FALSE}
-knitr::include_graphics("img/rstudio-anatomy.png")
+#knitr::include_graphics("img/rstudio-anatomy.png")
 ```
 
 - On the bottom left is the Console, this is where you can write code that will be evaluated. Try typing `2 + 2` here and hit enter, what do you get?
@@ -190,26 +176,22 @@ use_git_config(user.name = "Your Name",
 
 Before we introduce the data, let's warm up with some simple exercises.
 
-```{marginfigure}
-The top portion of your R Markdown file (between the three dashed lines) is called YAML. It stands for "YAML Ain't Markup Language". It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
-```
-
-## YAML
+## Metadata
 
 Open the R Markdown (Rmd) file in your project, change the author name to your name, and knit the document.
 
 ```{r yaml-raw-to-rendered, fig.fullwidth=TRUE, echo = FALSE}
-knitr::include_graphics("img/yaml-raw-to-rendered.png")
+#knitr::include_graphics("img/yaml-raw-to-rendered.png")
 ```
 
 ## Commit
 
-Then Go to the Git pane in your RStudio.
+Then go to the Git pane in your RStudio.
 
 If you have made changes to your Rmd file, you should see it listed here. Click on it to select it in this list and then click on **Diff**. This shows you the *diff*erence between the last committed state of the document and its current state that includes your changes. If you're happy with these changes, write "Update author name" in the **Commit message** box and hit **Commit**.
 
 ```{r update-author-name-commit, fig.fullwidth=TRUE, echo = FALSE}
-knitr::include_graphics("img/update-author-name-commit.png")
+#knitr::include_graphics("img/update-author-name-commit.png")
 ```
 
 You don't have to commit after every change, this would get quite cumbersome. You should consider committing states that are *meaningful to you* for inspection, comparison, or restoration. In the first few assignments we will tell you exactly when to commit and in some cases, what commit message to use. As the semester progresses we will let you make these decisions.
@@ -230,7 +212,7 @@ For which of the above steps (changing project name, making updates to the docum
 If it's confusing that the data frame is called `datasaurus_dozen` when it contains 13 datasets, you're not alone! Have you heard of a [baker's dozen](https://en.wikipedia.org/wiki/Dozen#Baker's_dozen)?
 ```
 
-The data frame we will be working with today is called `datasaurus_dozen` and it's in the `datasauRus` package. Actually, this single data frame contains 13 datasets, designed to show us  why data visualisation is important and how summary statistics alone can be misleading. The different datasets are maked by the `dataset` variable.
+The data frame we will be working with today is called `datasaurus_dozen` and it's in the `datasauRus` package. Actually, this single data frame contains 13 datasets, designed to show us why data visualization is important and how summary statistics alone can be misleading. The different datasets are marked by the `dataset` variable.
 
 To find out more about the dataset, type the following in your Console: `?datasaurus_dozen`. A question mark before the name of an object will always bring up its help file. This command must be ran in the Console.
 
@@ -264,9 +246,11 @@ dino_data <- datasaurus_dozen %>%
 
 There is a lot going on here, so let's slow down and unpack it a bit. 
 
-First, the pipe operator: `%>%`, takes what comes before it and sends it as the first argument to what comes after it. So here, we're saying `filter` the `datasaurus_dozen` data frame for observations where `dataset == "dino"`.
+First, the pipe operator: `%>%`, takes what comes before it and sends it as the first argument to what comes after it. We can pronounce it "then". So here, we're saying to take the `datasaurus_dozen` data frame and then `filter` it for observations where `dataset == "dino"`.
 
-Second, the assignment operator: `<-`, assigns the name `dino_data` to the filtered data frame.
+Second, the assignment operator: `<-`, assigns the name `dino_data` to the filtered data frame. We can pronounce it "gets" or "gets assigned"
+
+We can read this statement out loud like this: "What `dino_data` gets is: take `datasaurus_dozen` then `filter` where `dataset` is the string `dino`."
 
 Next, we need to visualize these data. We will use the `ggplot` function for this. Its first argument is the data you're visualizing. Next we define the `aes`thetic mappings. In other words, the columns of the data that get mapped to certain aesthetic features of the plot, e.g. the `x` axis will represent the variable called `x` and the `y` axis will represent the variable called `y`. Then, we add another layer to this plot where we define which `geom`etric shapes we want to use to represent each observation in the data. In this case we want these to be points,m hence `geom_point`.
 
@@ -275,7 +259,7 @@ ggplot(data = dino_data, mapping = aes(x = x, y = y)) +
   geom_point()
 ```
 
-If this seems like a lot, it is. And you will learn about the philosophy of building data visualizations in layer in detail in the next class. For now, follow along with the code that is provided.
+If this seems like a lot, it is. And you will learn about the philosophy of building data visualizations in layer in detail next week. For now, follow along with the code that is provided.
 
 For the second part of this exercises, we need to calculate a summary statistic: the correlation coefficient. Correlation coefficient, often referred to as $r$ in statistics, measures the linear association between two variables. You will see that some of the pairs of variables we plot do not have a linear relationship between them. This is exactly why we want to visualize first: visualize to assess the form of the relationship, and calculate $r$ only if relevant. In this case, calculating a correlation coefficient really doesn't make sense since the relationship between `x` and `y` is definitely not linear -- it's dinosaurial!
 
@@ -292,7 +276,7 @@ dino_data %>%
 
 *This is a good place to pause, commit changes with the commit message "Added answer for Ex 2", and push.*
 
-3. Plot `y` vs. `x` for the `star` dataset. You can (and should) reuse code we introduced above, just replace the dataset name with the desired dataset. Then, calculate the correlation coefficient between `x` and `y` for this dataset. How does this value compare to the `r` of `dino`?
+3. Plot `y` vs. `x` for the `star` dataset. You can (and should) copy and paste the code we introduced above, just replace the dataset name with the desired dataset. Then, calculate the correlation coefficient between `x` and `y` for this dataset. How does this value compare to the `r` of `dino`?
 
 *This is another good place to pause, commit changes with the commit message "Added answer for Ex 3", and push.*
 
@@ -307,8 +291,8 @@ Facet by the dataset variable, placing the plots in a 3 column grid, and don't a
 5. Finally, let's plot all datasets at once. In order to do this we will make use of facetting.
 
 ```{r all-viz, eval=FALSE, fig.fullwidth=TRUE}
-ggplot(datasaurus_dozen, aes(x = x, y = y, color = dataset))+
-  geom_point()+
+ggplot(datasaurus_dozen, aes(x = x, y = y, color = dataset)) +
+  geom_point() +
   facet_wrap(~ dataset, ncol = 3) +
   theme(legend.position = "none")
 ```
@@ -321,35 +305,6 @@ datasaurus_dozen %>%
   summarize(r = cor(x, y))
 ```
 
-You're done with the data analysis exercises, but we'd like you to do two more things:
-
-```{r fig-resize-global, fig.margin = TRUE, echo = FALSE, fig.width=3}
-knitr::include_graphics("img/fig-resize-global.png")
-```
-
-- **Resize your figures:** 
-
-Click on the gear icon in on top of the R Markdown document, and select "Output Options..." in the dropdown menu. In the pop up dialogue box go to the Figures tab and change the height and width of the figures, and hit OK when done. Then, knit your document and see how you like the new sizes. Change and knit again and again until you're happy with the figure sizes. Note that these values get saved in the YAML.
-
-```{r fig-resize-local, fig.margin = TRUE, echo = FALSE, fig.width=3}
-knitr::include_graphics("img/fig-resize-local.png")
-```
-
-You can also use different figure sizes for differen figures. To do so click on the gear icon within the chunk where you want to make a change. Changing the figure sizes added new options to these chunks: `fig.width` and `fig.height`. You can change them by defining different values directly in your R Markdown document as well.
-
-```{r theme-highlight, fig.margin = TRUE, echo = FALSE, fig.width=3}
-knitr::include_graphics("img/theme-highlight.png")
-```
-
-- **Change the look of your report:** 
-
-Once again click on the gear icon in on top of the R Markdown document, and select "Output Options..." in the dropdown menu. In the General tab of the pop up dialogue box try out different syntax highlighting and theme options. Hit OK and knit your document to see how it looks. Play around with these until you're happy with the look.
-
-<br>
-
-```{marginfigure}
-Not sure how to use emojis on your computer? Maybe a class mate can help? Or you can ask your tutor as well!
-```
 
 *Yay, you're done! Commit all remaining changes, use the commit message "Done with Lab 1! `r emo::ji("muscle")`", and push. Before you wrap up the assignment, make sure all documents are updated on your GitHub repo.*
 
@@ -359,4 +314,4 @@ Not sure how to use emojis on your computer? Maybe a class mate can help? Or you
 
 # Getting to know you
 
-If you're done with your lab, use the remaining time to take the [Getting to know you survey TODO](). If time is up for the lab session, complete the survey at home before tomorrow's class.
+If you're done with your lab, use the remaining time to take the Intro survey on Moodle. If time is up for the lab session, complete the survey at home by Monday.
