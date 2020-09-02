@@ -145,6 +145,13 @@ knitr::include_graphics("img/edmunds-estimate.png")
 
 ---
 
+## Classification
+
+![](https://medical.mit.edu/sites/default/files/SensSpecTwitter.png)
+.small[https://medical.mit.edu/covid-19-updates/2020/06/how-accurate-diagnostic-tests-covid-19]
+
+---
+
 # The DS Life Cycle
 
 ```{r fig.align='center', echo=FALSE, alt="Data Science Life Cycle", out.width="70%"}
