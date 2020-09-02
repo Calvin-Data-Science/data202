@@ -6,6 +6,7 @@ output:
     css: xaringan-themer.css
     self_contained: FALSE
     lib_dir: libs
+    seal: false
     nature:
       ratio: "16:9"
       highlightLines: true
@@ -34,11 +35,9 @@ style_extra_css(list(
 
 class: middle
 
-# DATA 202: Data Science 2
+# Welcome to DATA 202: Data Science 2
 
-## Pandemic!
-
-1. Please show your *CampusClear* completion as you enter.
+1. Please show your *CampusClear* status and green wristband as you enter.
 
 2. We need a volunteer *Remote Student Representative*
   * Watch the Teams chat
@@ -50,6 +49,18 @@ class: middle
 
 ---
 
+class: middle
+
+# An opening prayer for a unique semester
+
+From the apostle Paul's letter to the Philippians:
+
+> This is my prayer: <br>that your love may abound more and more<br> in knowledge and depth of insight,<br>so that you may be able to discern what is best and may be pure and blameless for the day of Christ, filled with the fruit of righteousness that comes through Jesus Christ—to the glory and praise of God.
+
+---
+
+class: middle
+
 # Data Science
 
 * **Data**: information, collected systematically
@@ -57,7 +68,15 @@ class: middle
 
 ---
 
+class: middle, center
+
 # Data Science: a lens for seeing
+
+Visualization
+
+Inference
+
+Prediction
 
 ---
 
@@ -110,6 +129,7 @@ class: middle, center
 
 ---
 
+<!--
 ```{r fig.align="center", echo=FALSE, alt="Frequently Bought With", out.width="50%"}
 knitr::include_graphics("img/instacart-boughtwith.png")
 ```
@@ -117,6 +137,11 @@ knitr::include_graphics("img/instacart-boughtwith.png")
 .small[
 Source: https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2
 ]
+-->
+
+```{r fig.align='center', echo=FALSE, alt="Edmunds car price estimate", out.width="35%"}
+knitr::include_graphics("img/edmunds-estimate.png")
+```
 
 ---
 
