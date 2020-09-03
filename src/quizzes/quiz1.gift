@@ -1,0 +1,8 @@
+::office-hours:: When are office hours? {}
+
+::how-questions:: How should you ask questions about course content? Check all that apply. {
+  ~%-50%Email the instructor#Only email about things that are very specific to your situation.
+  ~%34%Post in the Q&A channel on Teams#Yes, that's where we can all help each other!
+  ~%33%Ask at office hours
+  ~%33%Ask classmates
+}
