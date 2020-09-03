@@ -179,7 +179,15 @@ As the [Calvin Academic Integrity Policy](https://calvin.edu/directory/policies/
 Data science is a fundamentally collaborative endeavor. Collaboration brings the benefits of multiple perspectives, needed to tackle complex problems faithfully and responsibly. But teamwork also brings the risk of one person doing all of the "learning" for the other. Thus:
 
 * *Collaboration on homework and labs is encouraged.*
-* The *write-ups* for homework and lab submissions should be *your own work*. Particularly this means: **never copy and paste code**, from the web or another student! Even if you intend to write exactly the same thing, type it out yourself, from memory. Trust me that this is for your benefit.
+* *Some assignments will be pair or team work.* The assignment will indicate which.
+* The *write-ups* for homework and lab submissions should be exclusively the work of the named authors.
+  * Every named author should be able to point to substantive contribution to the write-up. Trade off whose computer you're working on.
+  * All of the work should be *your own words and code*.
+  * It is okay and sometimes encouraged to look up how to do something online! But if you do:
+    1. Record the exact URL that had the information that helped you. (This will help improve our instructional materials for next year.)
+    2. Retype any code yourself, from memory, even if you have to switch back and forth a lot. (This will help *you* internalize what you're borrowing.)
+    3. Beware that there is lots of *bad* R code out there. Strive to do better.
+  * A similar policy applies for asking other students for help.
 * **When** asking for help (and everyone *should* ask for help when they need it), *try to solve the problem on your own first*. This is critical. Then, when you ask for help, share *what you've tried* and *what leads you to think it's not working.* (not just "It's not working!!")
 * List what help you received for each problem. (e.g., "Joe helped me understand what this question is asking.")
 
