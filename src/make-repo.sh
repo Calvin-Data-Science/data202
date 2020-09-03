@@ -14,9 +14,8 @@ if [ -e "$repodir" ]; then
     exit 1
 fi
 
+# Include common data
 rsync -a "${COMMON_DIR}/" "$repodir"
-
-rsync -a "${SOURCE_PATH}/" "$repodir"
 
 cat > "$repodir/${REPO_NAME}.Rproj" <<EOF
 Version: 1.0
@@ -37,6 +36,11 @@ AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
 EOF
 
+# Include specific data
+rsync -a "${SOURCE_PATH}/" "$repodir"
+
+
+# Create and push the repo
 (
     cd "$repodir"
     git init
