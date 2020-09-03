@@ -125,7 +125,7 @@ And finally we clone the GitHub repo into an RStudio project.
 
 ## 4. Get working!
 
-Open the R Markdown (`Rmd`) file called `lab-01-hello-r.Rmd`. It will likely ask you if you would like to install a package that is required, click Install.
+Open the R Markdown (`Rmd`) file called `lab-01-hello.Rmd`. It will likely ask you if you would like to install a package that is required, click Install.
 
 # Hello RStudio!
 
@@ -137,7 +137,7 @@ RStudio is comprised of four panes.
 
 - On the bottom left is the Console, this is where you can write code that will be evaluated. Try typing `2 + 2` here and hit enter, what do you get?
 
-- On the bottom right is the Files pane, as well as other panes that will come handy as we start our analysis.
+- On the bottom right is the Files pane, as well as other panes that will come handy as we start our analysis. It also includes the Help and Viewer tabs, which you'll use a lot.
 
 - If you click on a file, it will open in the editor, on the top left pane.
 
@@ -145,17 +145,26 @@ RStudio is comprised of four panes.
 
 # Packages
 
-R is an open-source language, and developers contribute functionality to R via packages. In this lab we will work with three packages: `datasauRus` which contains the dataset, `tidyverse` which is a collection of packages for doing data analysis in a "tidy" way, and `usethis` for setting our Git credentials.
+R is an open-source language, and developers contribute functionality to R via packages. In this lab we will work with two packages: `tidyverse`, which is a collection of packages for doing data analysis in a "tidy" way, and `usethis`, for setting our Git credentials.
+
 
 Load these packages by running the following in the Console.
 
 ```{r message=FALSE}
 library(tidyverse) 
-library(datasauRus)
 library(usethis)
 ```
 
 Note that the packages are also loaded with the same commands in your R Markdown document.
+
+Packages can also distribute datasets, which is convenient for examples like this one. We'll use the "datasauRus" package, so run this command to load our dataset from it:
+
+```{r}
+datasaurus_dozen <- datasauRus::datasaurus_dozen
+```
+
+(If you get an error, run `install.packages("datasauRus")` in the Console and try again.)
+
 
 # Hello Git!
 
@@ -163,7 +172,7 @@ Note that the packages are also loaded with the same commands in your R Markdown
 Your email address is the address tied to your GitHub account and your name should be first and last name.
 ```
 
-Before we can get started we need to take care of some required housekeeping. Specifically,  we need to do some configuration so that RStudio can communicate with GitHub. This requires two pieces of information: your email address and your name.
+Before we can get started we need to take care of some required housekeeping. Specifically, we need to do some configuration so that RStudio can communicate with GitHub. This requires two pieces of information: your email address and your name.
 
 Run the following (but update it for your name and email!) in the Console to configure git:
 
