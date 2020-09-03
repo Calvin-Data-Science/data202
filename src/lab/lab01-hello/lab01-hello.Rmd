@@ -14,18 +14,10 @@ library(tidyverse)
 library(usethis)
 ```
 
-Then, read the data from the provided data file.
+Then, load the data from the `datasauRus` package. (Later we'll use functions like `read_csv` to read data from files, databases, websites, etc.)
 
 ```{r}
-datasaurus_dozen <- read_csv(
-  "datasaurus_dozen.csv",
-  col_types = cols(
-    dataset = col_factor(),
-    x = col_double(),
-    y = col_double()
-  )
-)
-# Note: this file was initially created using:
-# write_csv(datasauRus::datasaurus_dozen, "datasaurus_dozen.csv")
+datasaurus_dozen <- datasauRus::datasaurus_dozen
 ```
+
 

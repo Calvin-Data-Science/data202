@@ -6,20 +6,13 @@ TODAY’S DATE HERE
 Packages and Data
 =================
 
-We’ll use the following packages:
+First, load the packages we’ll need.
 
     library(tidyverse) 
     library(usethis)
 
-Read the data from the CSV
+Then, load the data from the `datasauRus` package. (Later we’ll use
+functions like `read_csv` to read data from files, databases, websites,
+etc.)
 
-    # This file was initially created using:
-    # write_csv(datasauRus::datasaurus_dozen, "datasaurus_dozen.csv")
-    datasaurus_dozen <- read_csv(
-      "datasaurus_dozen.csv",
-      col_types = cols(
-        dataset = col_factor(),
-        x = col_double(),
-        y = col_double()
-      )
-    )
+    datasaurus_dozen <- datasauRus::datasaurus_dozen
