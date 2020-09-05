@@ -40,13 +40,18 @@ pkgs <- c(
   "rmarkdown",
   "tidyverse",
   "ggformula",
-  "stringr",
   "plotly",
   "tidymodels",
   "pins",
   "reticulate",
   "mosaic",
-  "devtools"
+  "devtools",
+  "usethis",
+  "keras",
+  "nycflights13",
+  "skimr",
+  "timeDate",
+  "qualtRics"
 )
 
 # skip package you already have to save time
