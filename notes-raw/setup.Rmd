@@ -1,8 +1,26 @@
 
-# Setting up your environment
+# Tools
 
 ```{r setup-setup, include = FALSE}
 ```
+
+## Why these tools?
+
+* R
+  * It uses nouns and verbs where Python/Pandas uses syntax
+  * Its operations map pretty cleanly onto generalizable concepts
+  * It has an extensive library of useful packages
+  * It plays well with Python
+* Python
+  * It's very commonly used.
+  * It's extremely versatile.
+  * It's reasonably fast.
+* RMarkdown
+  * It embodies reproducibility
+  * ... which helps us practice integrity and humility.
+* Git and GitHub
+  * It helps us be hospitable to teammates and future readers
+  * It's very commonly used.
 
 ## R and RStudio
 

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2 Visualization | DATA 202 Fall 2020</title>
-  <meta name="description" content="2 Visualization | DATA 202 Fall 2020" />
+  <title>1 Tools | DATA 202 Fall 2020</title>
+  <meta name="description" content="1 Tools | DATA 202 Fall 2020" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2 Visualization | DATA 202 Fall 2020" />
+  <meta property="og:title" content="1 Tools | DATA 202 Fall 2020" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2 Visualization | DATA 202 Fall 2020" />
+  <meta name="twitter:title" content="1 Tools | DATA 202 Fall 2020" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="tools.html"/>
-
+<link rel="prev" href="index.html"/>
+<link rel="next" href="visualization.html"/>
 <script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -168,28 +168,91 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="visualization" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Visualization</h1>
-<p>We start with visualization because, well, you can see the results.</p>
-<div id="reading" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Reading</h2>
-<p>To design good visuals, you need both <em>why</em>s and <em>how</em>s. You may have come here for the <em>how</em>s, but both are important. Our tools are changing more rapidly than ever, so if we want knowledge that lasts, we really need to know the <em>why</em>.</p>
-<div id="why" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> Why</h3>
-<p>Read <strong><a href="https://socviz.co/lookatdata.html">Look at Data</a></strong> from Healy “Data Visualization”.</p>
-<p>The text is wordy but well organized, so your speed reading skills should work well. Look at the examples: can you explain to someone else what those examples show?</p>
-</div>
-<div id="how" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> How</h3>
-<p>Read <a href="https://moderndive.com/2-viz.html"><strong>Data Visualization</strong></a> from ModernDive.</p>
-<p>Try to actually answer the “Learning Check” questions for yourself. Yes this takes longer than just skimming right past them. But they may show up on a quiz…</p>
-</div>
-</div>
-<div id="application" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Application</h2>
+<div id="tools" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Tools</h1>
+<div id="why-these-tools" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Why these tools?</h2>
 <ul>
-<li>You did some visualization in Lab 1. How did that exercise relate to the “why” reading?</li>
+<li>R
+<ul>
+<li>It uses nouns and verbs where Python/Pandas uses syntax</li>
+<li>Its operations map pretty cleanly onto generalizable concepts</li>
+<li>It has an extensive library of useful packages</li>
+<li>It plays well with Python</li>
+</ul></li>
+<li>Python
+<ul>
+<li>It’s very commonly used.</li>
+<li>It’s extremely versatile.</li>
+<li>It’s reasonably fast.</li>
+</ul></li>
+<li>RMarkdown
+<ul>
+<li>It embodies reproducibility</li>
+<li>… which helps us practice integrity and humility.</li>
+</ul></li>
+<li>Git and GitHub
+<ul>
+<li>It helps us be hospitable to teammates and future readers</li>
+<li>It’s very commonly used.</li>
+</ul></li>
 </ul>
+</div>
+<div id="r-and-rstudio" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> R and RStudio</h2>
+<div id="rstudio.calvin.edu" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> rstudio.calvin.edu</h3>
+<p>Your Calvin login and password should get you onto <a href="https://rstudio.calvin.edu" class="uri">https://rstudio.calvin.edu</a></p>
+</div>
+<div id="rstudio-on-the-linux-machines" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> RStudio on the Linux machines</h3>
+<p>R and RStudio are also installed on the Linux machines in the Maroon and Gold Labs.
+They are accessible via <a href="https://remote.cs.calvin.edu" class="uri">https://remote.cs.calvin.edu</a>.</p>
+</div>
+<div id="rstudio-on-your-own-machine" class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Rstudio on your own machine</h3>
+<p>You can download and install
+<a href="https://rstudio.org/download/desktop">RStudio</a>
+and <a href="http://cran.r-project.org/">R</a>
+on your personal computer.</p>
+</div>
+</div>
+<div id="r-packages" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> R packages</h2>
+<p>You will need a number of R packages. We will have these installed for
+your on <a href="https://rstudio.calvin.edu" class="uri">https://rstudio.calvin.edu</a>, but if you work on your own machine or on the Linux
+lab machines, you will need to install these yourself.</p>
+<p>Individual packages can be installed from within RStudio by clicking on the install icon
+in the packages tab. Alternatively, you can run the following code from the command line.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tools.html#cb1-1" aria-hidden="true"></a><span class="co"># make sure all current packages are up-to-date</span></span>
+<span id="cb1-2"><a href="tools.html#cb1-2" aria-hidden="true"></a><span class="kw">update.packages</span>()</span>
+<span id="cb1-3"><a href="tools.html#cb1-3" aria-hidden="true"></a></span>
+<span id="cb1-4"><a href="tools.html#cb1-4" aria-hidden="true"></a>pkgs &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb1-5"><a href="tools.html#cb1-5" aria-hidden="true"></a>  <span class="st">&quot;rmarkdown&quot;</span>,</span>
+<span id="cb1-6"><a href="tools.html#cb1-6" aria-hidden="true"></a>  <span class="st">&quot;tidyverse&quot;</span>,</span>
+<span id="cb1-7"><a href="tools.html#cb1-7" aria-hidden="true"></a>  <span class="st">&quot;ggformula&quot;</span>,</span>
+<span id="cb1-8"><a href="tools.html#cb1-8" aria-hidden="true"></a>  <span class="st">&quot;plotly&quot;</span>,</span>
+<span id="cb1-9"><a href="tools.html#cb1-9" aria-hidden="true"></a>  <span class="st">&quot;tidymodels&quot;</span>,</span>
+<span id="cb1-10"><a href="tools.html#cb1-10" aria-hidden="true"></a>  <span class="st">&quot;pins&quot;</span>,</span>
+<span id="cb1-11"><a href="tools.html#cb1-11" aria-hidden="true"></a>  <span class="st">&quot;reticulate&quot;</span>,</span>
+<span id="cb1-12"><a href="tools.html#cb1-12" aria-hidden="true"></a>  <span class="st">&quot;mosaic&quot;</span>,</span>
+<span id="cb1-13"><a href="tools.html#cb1-13" aria-hidden="true"></a>  <span class="st">&quot;devtools&quot;</span>,</span>
+<span id="cb1-14"><a href="tools.html#cb1-14" aria-hidden="true"></a>  <span class="st">&quot;usethis&quot;</span>,</span>
+<span id="cb1-15"><a href="tools.html#cb1-15" aria-hidden="true"></a>  <span class="st">&quot;keras&quot;</span>,</span>
+<span id="cb1-16"><a href="tools.html#cb1-16" aria-hidden="true"></a>  <span class="st">&quot;nycflights13&quot;</span>,</span>
+<span id="cb1-17"><a href="tools.html#cb1-17" aria-hidden="true"></a>  <span class="st">&quot;skimr&quot;</span>,</span>
+<span id="cb1-18"><a href="tools.html#cb1-18" aria-hidden="true"></a>  <span class="st">&quot;timeDate&quot;</span>,</span>
+<span id="cb1-19"><a href="tools.html#cb1-19" aria-hidden="true"></a>  <span class="st">&quot;qualtRics&quot;</span></span>
+<span id="cb1-20"><a href="tools.html#cb1-20" aria-hidden="true"></a>)</span>
+<span id="cb1-21"><a href="tools.html#cb1-21" aria-hidden="true"></a></span>
+<span id="cb1-22"><a href="tools.html#cb1-22" aria-hidden="true"></a><span class="co"># skip package you already have to save time</span></span>
+<span id="cb1-23"><a href="tools.html#cb1-23" aria-hidden="true"></a>pkgs &lt;-<span class="st"> </span><span class="kw">setdiff</span>(pkgs, <span class="kw">installed.packages</span>()[,<span class="dv">1</span>])</span>
+<span id="cb1-24"><a href="tools.html#cb1-24" aria-hidden="true"></a></span>
+<span id="cb1-25"><a href="tools.html#cb1-25" aria-hidden="true"></a><span class="co"># install what&#39;s left</span></span>
+<span id="cb1-26"><a href="tools.html#cb1-26" aria-hidden="true"></a><span class="kw">install.packages</span>(pkgs)</span></code></pre></div>
+<p>We’re additionally using these packages for development; they’re optional for you.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="tools.html#cb2-1" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span>(<span class="st">&quot;emo&quot;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="dv">1</span>]))</span>
+<span id="cb2-2"><a href="tools.html#cb2-2" aria-hidden="true"></a>  devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;hadley/emo&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>
@@ -198,8 +261,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="tools.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
