@@ -1,0 +1,36 @@
+---
+title: "A Reproducible Visualization Toolkit"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-dark
+      countIncrementalSlides: false
+---
+
+```{r child="../slides-common.Rmd"}
+```
+
+```{r include=FALSE}
+slideSetup()
+```
+
+## Review
+
+Quiz review
+
+* Expressions vs statements
+* Vis types
+
+---
+
+## Logistics
+
+* Discussion 1 due tomorrow (responses next week)
+* Moodle activity completion checklist
+
