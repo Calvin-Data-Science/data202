@@ -327,6 +327,15 @@ datasaurus_dozen %>%
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")`  *Yay, you're done! Commit all remaining changes, use the commit message "Done with Lab 1! `r emo::ji("muscle")`", and push. Before you wrap up the assignment, make sure all documents are updated on your GitHub repo.*
 
+`r emo::ji("heavy_check_mark")` Checklist:
+
+* `r emo::ji("yarn")` I **knit** the most recent version of the document.
+* `r emo::ji("white_check_mark")` I **commit**ted all files: my "Git" tab doesn't list any files in it.
+* `r emo::ji("arrow_up")` I **push**ed to GitHub
+* `r emo::ji("eyes")` I **look**ed at the `.md` file on my repo on GitHub to make sure everything looks right
+
+Repeat after me: "knit-commit-push".
+
 <br>
 
 ---
