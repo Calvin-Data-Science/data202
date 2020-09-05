@@ -44,6 +44,7 @@ getDueDay <- function(category) {
 
 # Quick Links
 
+* [Notes](notes/)
 * [Calvin RStudio](https://rstudio.calvin.edu)
 * [Moodle](https://moodle.calvin.edu/course/view.php?id=51571)
 
