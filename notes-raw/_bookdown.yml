@@ -9,7 +9,7 @@ delete_merged_file: true
 new_session: yes
 rmd_files: [
     "index.Rmd",
-    "setup.Rmd",
-    "01-Vis.Rmd"
+    "01-Tools.Rmd",
+    "02-Vis.Rmd"
 ]
 ---
