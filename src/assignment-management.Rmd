@@ -33,54 +33,11 @@ org_sitrep(ghorg)
 ```
 
 
-```{r eval=FALSE}
-assignment_src <- "lab/lab01-hello"
-system2("git", "ls-files", stdout = TRUE) %>%
-  tibble(filename = .) %>%
-  filter(str_detect(filename, assignment_src)) %>%
-  extract(filename, "basename", paste0(assignment_src, "/(.*)"))
-```
-
-
-## Set up an assignment
-
-```{r}
-assignmentName <- "lab01-hello"
-assignmentPath <- glue("lab/{assignmentName}")
-repo_name <- glue("{ghorg}/{assignmentName}")
-repo_create(org = ghorg, name = assignmentName, gitignore_template = "")
-```
-
-```{r}
-system()
-```
-
-
-
-```{r create-template-repo eval=FALSE}
-template_name <- "hw10-validation"
-template_files <- "hw10-validation/hw10-validation.Rmd"
-
-# Create template repo (if it doesn't exist)
-repo_name <- org_repos(ghorg, paste0(template_name, "$"))
-if (length(repo_name) == 0) {
-  repo_create(ghorg, template_name)
-  repo_name <- org_repos(ghorg, template_name)
-
-  # Add some files to the template repo
-  repo_add_file(repo_name, file = template_files)
-
-  # Now go to GitHub and make it a template repo
-  cat(glue::glue("https://github.com/{repo_name}"))
-}
-stopifnot(length(repo_name) == 1)
-```
-
 # Harvest Student Work
 
 ```{r}
 all_repos <- org_repos(ghorg)
-assignmentName <- "hw01"
+assignmentName <- "lab01"
 assignments_root <- "../fa20/"
 
 # Clone or update repos for all students
