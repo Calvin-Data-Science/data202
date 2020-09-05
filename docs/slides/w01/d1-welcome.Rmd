@@ -309,6 +309,29 @@ class: middle, center
 Go [here](https://rsconnect.calvin.edu:3939/content/96/)
 
 
+---
+
+## Why R?
+
+**R gives names to concepts**.
+
+Python:
+
+`data[data.column_name > value]`
+
+R:
+
+`data %>% filter(column_name > value)`
+
+etc.
+
+---
+
+## Why git?
+
+* Reproducibility
+* Hospitality
+* Everybody uses it
 
 ---
 
