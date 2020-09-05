@@ -1,4 +1,6 @@
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(tidyverse)
+
 slideSetup <- function() {
   library(xaringanthemer)
   style_mono_accent(
@@ -13,6 +15,7 @@ slideSetup <- function() {
     text_font_size = "1.5rem",
   )
   style_extra_css(list(
+      ".tiny" = list("font-size" = "40%"),
       ".small" = list("font-size" = "70%"),
       ".large" = list("font-size" = "120%")
   ))
