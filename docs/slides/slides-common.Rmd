@@ -17,7 +17,8 @@ slideSetup <- function() {
   style_extra_css(list(
       ".tiny" = list("font-size" = "40%"),
       ".small" = list("font-size" = "70%"),
-      ".large" = list("font-size" = "120%")
+      ".large" = list("font-size" = "120%"),
+      ".white-pre" = list("white-space" = "pre")
   ))
 }
 ```

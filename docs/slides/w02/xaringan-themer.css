@@ -264,3 +264,6 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 .large {
   font-size: 120%;
 }
+.white-pre {
+  white-space: pre;
+}

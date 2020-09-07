@@ -20,6 +20,24 @@ output:
 slideSetup()
 ```
 
+class: middle
+
+<div class="white-pre">
+Everyone should be 
+  quick to listen,
+  slow to speak and
+  slow to become angry,
+because human anger does not produce the righteousness that God desires.
+</div>
+
+.right[
+James 1:19-20
+]
+
+*What disagreements have you had recently?*
+
+---
+
 
 ## So far this week...
 
@@ -27,14 +45,6 @@ slideSetup()
 - First look at visualizing and summarizing data in R
 - Why summary statistics alone are not sufficient for data exploration
 
----
-
-## Review
-
-Quiz review
-
-* Expressions vs statements
-* Vis types
 
 ---
 
@@ -94,30 +104,6 @@ Long-term goals:
 class: center, middle
 
 # Toolkit overview
-
----
-
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/whole-game-01.png")
-```
-
----
-
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/whole-game-02.png")
-```
-
----
-
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/whole-game-03.png")
-```
-
----
-
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/whole-game-04.png")
-```
 
 ---
 
@@ -248,6 +234,30 @@ knitr::include_graphics("img/r-help.png")
 .tiny[
 Source: http://socviz.co/appendix.html#a-little-more-about-r
 ]
+
+---
+
+```{r echo=FALSE, out.width="100%"}
+knitr::include_graphics("img/whole-game-01.png")
+```
+
+---
+
+```{r echo=FALSE, out.width="100%"}
+knitr::include_graphics("img/whole-game-02.png")
+```
+
+---
+
+```{r echo=FALSE, out.width="100%"}
+knitr::include_graphics("img/whole-game-03.png")
+```
+
+---
+
+```{r echo=FALSE, out.width="100%"}
+knitr::include_graphics("img/whole-game-04.png")
+```
 
 ---
 
