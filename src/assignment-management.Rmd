@@ -35,13 +35,13 @@ org_sitrep(ghorg)
 
 # Harvest Student Work
 
-```{r}
+```{r message=FALSE}
 all_repos <- org_repos(ghorg)
 assignmentName <- "lab01"
 assignments_root <- "../fa20/"
 
 # Clone or update repos for all students
-students %>% purrr::walk(function(student) {
+repos_for_assignment <- students %>% purrr::map_chr(function(student) {
   student_repo_name <- paste0(assignmentName, "-", student)
   student_repo_fullname <- paste0(ghorg, "/", student_repo_name)
   assignment_path <- file.path(assignments_root, assignmentName)
@@ -58,6 +58,26 @@ students %>% purrr::walk(function(student) {
     )
   } else {
     message(paste0("Missing ", assignmentName, " for ", student))
+    return(NA)
   }
+  return(student_repo_fullname)
 })
 ```
+
+```{r}
+all_repos <- org_repos(ghorg)
+```
+
+```{r}
+repo_unwatch(all_repos)
+```
+
+
+```{r}
+repo_unwatch(repos_for_assignment)
+```
+
+```{r}
+repo_watching()
+```
+
