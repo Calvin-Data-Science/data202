@@ -18,7 +18,8 @@ slideSetup <- function() {
       ".tiny" = list("font-size" = "40%"),
       ".small" = list("font-size" = "70%"),
       ".large" = list("font-size" = "120%"),
-      ".white-pre" = list("white-space" = "pre")
+      ".white-pre" = list("white-space" = "pre"),
+      "p" = list("padding" = 0, "margin" = 0)
   ))
 }
 ```

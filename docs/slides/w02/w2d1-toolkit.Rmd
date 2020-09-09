@@ -22,13 +22,13 @@ slideSetup()
 
 class: middle
 
-<div class="white-pre">
+.white-pre[
 Everyone should be 
   quick to listen,
   slow to speak and
   slow to become angry,
 because human anger does not produce the righteousness that God desires.
-</div>
+]
 
 .right[
 James 1:19-20
@@ -39,7 +39,7 @@ James 1:19-20
 ---
 
 
-## So far this week...
+## So far...
 
 - Hands on practice with R, RStudio, Git, GitHub
 - First look at visualizing and summarizing data in R
@@ -50,9 +50,10 @@ James 1:19-20
 
 ## Logistics
 
-* Discussion 1 due tomorrow (responses next week)
+* Discussion 1 due tomorrow (responses due next week)
 * Moodle activity completion checklist
 * Try a different technology for lab on Friday
+* Log your daily temperature?
 
 ---
 
