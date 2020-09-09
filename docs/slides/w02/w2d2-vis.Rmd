@@ -13,10 +13,8 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r child="../slides-common.Rmd"}
-```
-
-```{r include=FALSE}
+```{r include=FALSE, message=FALSE}
+source("../slides-common.R")
 slideSetup()
 ```
 
@@ -123,13 +121,17 @@ gapminder %>% head(5) %>% knitr::kable()
 
 ---
 
-```{r echo=FALSE}
+### We'll make this chart
+
+```{r health-and-wealth, echo=FALSE, out.width="50%", fig.align='center'}
 gapminder %>% 
   filter(year == 2007) %>% 
   ggplot(data = ., mapping = aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) + 
     geom_point() + 
     coord_cartesian(ylim = c(20, 90)) + 
     scale_x_continuous(breaks = c(400, 4000, 40000), trans = "log10") +
+    labs(x = "GDP per Capita", y = "Life Expectancy (years)", color = "Continent", size = "Population") +
+    scale_size_area(labels = function(breaks) format(breaks, big.mark = ",", scientific = FALSE)) +
     theme_bw() + 
     annotation_logticks(sides = "b")
 ```
