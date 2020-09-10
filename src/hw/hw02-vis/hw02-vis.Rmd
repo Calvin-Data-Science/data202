@@ -28,6 +28,7 @@ hourly_rides <- read_csv("data/hour.csv") %>%
   mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type, member_type), as.factor))
 hourly_rides %>% glimpse()
 ```
+
 ## Exercise 1: Label days of week
 
 ```{r label-weekdays}
@@ -43,11 +44,9 @@ ride_totals <- hourly_rides %>%
   summarize(rides = sum(rides))
 ```
 
-
 ```{r ride-totals-by-weekday}
 # your code here
 ```
-
 
 ## Exercise 3: Distribution of Rides by Weekday
 
@@ -56,7 +55,6 @@ ride_totals <- hourly_rides %>%
 ```
 
 ## Exercise 4: Distribution of Rides by Hour
-
 
 ```{r ride-distributions-by-hour, fig.height=8}
 # YOUR CODE HERE
@@ -86,4 +84,3 @@ ggplot(hourly_rides, aes(x = temp, y = rides)) +
 ### Comparison
 
 *Which do you prefer, and why?*
-
