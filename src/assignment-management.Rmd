@@ -37,14 +37,14 @@ org_sitrep(ghorg)
 
 ```{r message=FALSE}
 all_repos <- org_repos(ghorg)
-assignmentName <- "lab01"
+assignmentName <- "hw01"
 assignments_root <- "../fa20/"
+assignment_path <- file.path(assignments_root, assignmentName)
 
 # Clone or update repos for all students
 repos_for_assignment <- students %>% purrr::map_chr(function(student) {
   student_repo_name <- paste0(assignmentName, "-", student)
   student_repo_fullname <- paste0(ghorg, "/", student_repo_name)
-  assignment_path <- file.path(assignments_root, assignmentName)
   repo_path <- file.path(assignment_path, student_repo_name)
   if (file.exists(repo_path)) {
     # Update (pull)
