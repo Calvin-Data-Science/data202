@@ -1,0 +1,190 @@
+---
+title: "HW 2: More Visualization Practice"
+output: 
+  tufte::tufte_html:
+    css: ../hw.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+options(dplyr.summarise.inform = FALSE)
+```
+
+We will be continuing our work with the Capital Bikeshare dataset. Our goal
+continues to be to understand the pattern of ridership better to evaluate the
+current system and suggest potential improvements.
+
+Towards that end, we will construct some more visualizations, this time using
+the more fine-grained *hourly* ridership data.
+
+## Learning goals
+
+Upon completing this homework, you will have greater comfort making and refining
+visualizations using the Grammar of Graphics. You will also gain some initial
+exposure to data wrangling, which we will study in depth next week.
+
+## Collaboration
+
+This homework may be done individually or in pairs.
+
+If done in pairs, each student in the pair should have at least one substantive
+commit to the project repository.
+
+## Getting help
+
+As always, if you need help, post in Teams or come to office hours!
+
+See also the "Data Visualization with ggplot2" cheatsheet available under the RStudio Help menu.
+
+## Getting started
+
+[Claim your repo.]() TODO
+
+You will notice that the report starts with a code block that reads the data and sets the
+correct data types for several of the columns. You do not need to understand how this code works at the moment.
+
+```{r read-data, message=FALSE, include=FALSE}
+hourly_rides <- read_csv("../../data/bikeshare/hour.csv") %>%
+  mutate(workingday = case_when(workingday == 1 ~ "workday",
+                                          TRUE ~ "weekend"),
+         ) %>%
+  select(
+    date = dteday,
+    hour = hr,
+    season,
+    year = yr,
+    holiday,
+    workingday = workingday,
+    day_of_week = weekday,
+    weather_type = weathersit,
+    temp,
+    feels_like = atemp,
+    humidity = hum,
+    windspeed,
+    casual,
+    registered
+  ) %>%
+  pivot_longer(c(casual, registered),
+               names_to = "member_type",
+               values_to = "rides") %>% 
+  mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type, member_type), as.factor))
+
+hourly_rides %>% write_csv("../../../src/hw/hw02-vis/data/hour.csv")
+
+# mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat")))
+#hourly_rides %>% glimpse()
+```
+
+
+# Exercise 1: Label days of week
+
+The data set uses the integers 0 through 6 to label days of the week. It does not
+document, however, what 0 means, or what 6 means. If we want to make understandable
+plots, we should label these days of the week.
+
+Fill in the blank in the given code block to give labels to the weekdays.
+Include a brief description of how you concluded that those were the correct labels.
+
+Use abbreviations ("Wed", "Fri", ...).
+
+Hint: look at the data. (`View()`, `head()`, ...)
+
+```{r label-weekdays, include=FALSE}
+hourly_rides <- hourly_rides %>%
+  mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat")))
+```
+
+
+# Exercise 2: Overall counts by weekday
+
+The following code (also in your template) totals the number of rides by each
+member by each day of week. We will be learning how to write code like this
+next week:
+
+```{r ride-totals}
+ride_totals <- hourly_rides %>%
+  group_by(member_type, day_of_week) %>% 
+  summarize(rides = sum(rides))
+```
+
+Make the following plot. (You may choose to refine it, but a plot like this is acceptable.)
+
+```{r ride-totals-by-weekday, echo=FALSE}
+ggplot(ride_totals, aes(x = day_of_week, fill = member_type, y = rides)) +
+  geom_col(position = position_dodge()) +
+  labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
+```
+
+Hints:
+
+* Use `geom_col`.
+* To put the bars side-by-side instead of stacked, use `position = position_dodge()`.
+
+
+# Exercise 3: Distribution of Rides by Weekday
+
+The bar plot shows a single number for each weekday. Refine the graph to show
+the *distribution* of rides each hour.
+
+To do this:
+
+* Use the original `hourly_rides` dataset.
+* Use a box plot
+
+Your plot might look something like this:
+
+```{r ride-distributions-by-weekday, echo=FALSE}
+hourly_rides %>%
+  ggplot(aes(x = day_of_week, y = rides, fill = member_type)) +
+  geom_boxplot() +
+  labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
+```
+
+# Exercise 4: Distribution of Rides by Hour
+
+Instead of variation by day of week, plot the variation by hour, distinguishing the type of rider and between working days and weekends. Details:
+
+* The x axis should be hour. (Feel free to try flipping the axes too.)
+* Use side-by-side box plots for casual and registered members.
+* Label the plot.
+* Use `facet_wrap` to make separate graphs for working days and weekends. Try different settings for the scales and number of rows / columns until you find a layout that looks good. (Read the help page for `facet_wrap` to find out what arguments to use.)
+* Set the `fig.height` and/or `fig.width` cell options to make a comfortably sized graph.
+
+```{r ride-distributions-by-hour, fig.height=10, fig.width=10, eval=FALSE, include=FALSE}
+ggplot(hourly_rides, aes(x = hour, y = rides, fill = member_type)) + 
+  geom_boxplot() +
+  facet_wrap(~ workingday, scales = "free_y", nrow = 2)
+```
+
+# Exercise 5: Overplotting
+
+The following plot attempts to show how temperature affects ridership. However, it suffers
+from *overplotting*.
+
+```{r rides-by-temp-overplot}
+ggplot(hourly_rides, aes(x = temp, y = rides)) +
+  geom_point() +
+  facet_wrap(~ member_type) + 
+  labs(x = "Normalized temperature", y = "Rides")
+```
+
+Pick at least two of the following methods to try to fix the overplotting issue. Which do you prefer, and why? Include the code and results of both plots you tried.
+
+* `geom_density_2d`
+* Making points transparent (`alpha = 0.05`) or very small (`shape = '.'`)
+* binning the x axis (`group = cut_width(temp, ___)`)
+* any other approach you want to try!
+
+Note: you don't need to make proper labels for these plots, though it's always nice.
+
+```{r binned-x, include=FALSE}
+hourly_rides %>%
+  ggplot(aes(x = temp, y = rides, group = cut_width(temp, .1))) +
+    geom_boxplot() +
+    facet_wrap(~ member_type)
+```

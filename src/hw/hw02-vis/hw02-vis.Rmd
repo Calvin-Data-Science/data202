@@ -1,78 +1,89 @@
 ---
-title: "hw01-warmup"
+title: "Homework 2: Bike Sharing Data Visualization"
+author: "YOUR NAME"
+date: "TODAY'S DATE"
 output: github_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-# Setup
-
-```{r packages, message=FALSE}
 library(tidyverse)
 library(ggplot2)
+
+# Disable a warning message.
+options(dplyr.summarise.inform = FALSE)
 ```
 
-# Read Data
+We will be continuing our work with the Capital Bikeshare dataset. Our goal
+continues to be to understand the pattern of ridership better to evaluate the
+current system and suggest potential improvements.
+
+Towards that end, we will construct some more visualizations, this time using
+the more fine-grained *hourly* ridership data.
+
+## Read Data
 
 ```{r read-data, message=FALSE}
 hourly_rides <- read_csv("data/hour.csv") %>%
-  mutate(workingday = case_when(workingday == 1 ~ "workday",
-                                          TRUE ~ "weekend"),
-         ) %>%
-  select(
-    date = dteday,
-    hour = hr,
-    season,
-    year = yr,
-    holiday,
-    workingday = workingday,
-    day_of_week = weekday,
-    weather_type = weathersit,
-    temp,
-    feels_like = atemp,
-    humidity = hum,
-    windspeed,
-    casual,
-    registered,
-    total = cnt
-  ) %>%
-  mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type), as.factor)) %>% 
-  pivot_longer(c(casual, registered, total),
-               names_to = "member_type",
-               values_to = "rides")
+  mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type, member_type), as.factor))
 hourly_rides %>% glimpse()
 ```
+## Exercise 1: Label days of week
 
-# Overall summary
+```{r label-weekdays}
+hourly_rides <- hourly_rides %>%
+  mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("DAY", "ANOTHER DAY", "...", "...", "...", "...", "...")))
+```
 
-```{r}
-library(skimr)
-skim(hourly_rides)
+## Exercise 2: Overall counts by weekday
+
+```{r ride-totals}
+ride_totals <- hourly_rides %>%
+  group_by(member_type, day_of_week) %>% 
+  summarize(rides = sum(rides))
 ```
 
 
-```{r}
-hourly_rides %>%
-  filter(member_type != "total") %>% 
-  ggplot(aes(x = day_of_week, y = rides, color = member_type)) +
-  geom_boxplot()
+```{r ride-totals-by-weekday}
+# your code here
 ```
 
-```{r fig.height=10}
-hourly_rides %>%
-  filter(member_type != "total") %>% 
-  ggplot(aes(y = hour, x = rides, color = member_type)) + 
-    geom_boxplot() +
-    facet_wrap(~ member_type, scales = "free_x")
+
+## Exercise 3: Distribution of Rides by Weekday
+
+```{r ride-distributions-by-weekday}
+# Your code here
 ```
 
-```{r}
-hourly_rides %>%
-  filter(member_type != "total") %>%
-  ggplot(aes(x = temp, y = rides, color = member_type)) +
-    geom_point() +
-    geom_smooth()
+## Exercise 4: Distribution of Rides by Hour
+
+
+```{r ride-distributions-by-hour, fig.height=8}
+# YOUR CODE HERE
 ```
+
+## Exercise 5: Overplotting
+
+```{r rides-by-temp-overplot}
+ggplot(hourly_rides, aes(x = temp, y = rides)) +
+  geom_point() +
+  facet_wrap(~ member_type) + 
+  labs(x = "Normalized temperature", y = "Rides")
+```
+
+### Approach 1
+
+```{r overplot-fix-1}
+
+```
+
+### Approach 2
+
+```{r overplot-fix-2}
+
+```
+
+### Comparison
+
+*Which do you prefer, and why?*
 
