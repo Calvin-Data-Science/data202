@@ -47,5 +47,5 @@ rsync -a "${SOURCE_PATH}/" "$repodir"
     git add .
     git commit -m "Initial import"
     git remote add origin "git@github.com:Calvin-DS202-FA20/${REPO_NAME}.git"
-    git push -u origin master
+    git push --force -u origin master
 )
