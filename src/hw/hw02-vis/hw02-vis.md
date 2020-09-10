@@ -3,12 +3,7 @@ Homework 2: Bike Sharing Data Visualization
 YOUR NAME
 TODAY’S DATE
 
-We will be continuing our work with the Capital Bikeshare dataset. Our
-goal continues to be to understand the pattern of ridership better to
-evaluate the current system and suggest potential improvements.
-
-Towards that end, we will construct some more visualizations, this time
-using the more fine-grained *hourly* ridership data.
+*Your introduction here*
 
 Read Data
 ---------

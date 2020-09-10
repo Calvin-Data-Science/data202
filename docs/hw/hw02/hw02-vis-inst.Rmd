@@ -43,7 +43,7 @@ See also the "Data Visualization with ggplot2" cheatsheet available under the RS
 
 ## Getting started
 
-[Claim your repo.]() TODO
+**Click to [Claim your repo.](https://classroom.github.com/a/DQbjzvvK)**
 
 You will notice that the report starts with a code block that reads the data and sets the
 correct data types for several of the columns. You do not need to understand how this code works at the moment.
