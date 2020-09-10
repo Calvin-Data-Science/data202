@@ -1,0 +1,78 @@
+---
+title: "hw01-warmup"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Setup
+
+```{r packages, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+# Read Data
+
+```{r read-data, message=FALSE}
+hourly_rides <- read_csv("data/hour.csv") %>%
+  mutate(workingday = case_when(workingday == 1 ~ "workday",
+                                          TRUE ~ "weekend"),
+         ) %>%
+  select(
+    date = dteday,
+    hour = hr,
+    season,
+    year = yr,
+    holiday,
+    workingday = workingday,
+    day_of_week = weekday,
+    weather_type = weathersit,
+    temp,
+    feels_like = atemp,
+    humidity = hum,
+    windspeed,
+    casual,
+    registered,
+    total = cnt
+  ) %>%
+  mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type), as.factor)) %>% 
+  pivot_longer(c(casual, registered, total),
+               names_to = "member_type",
+               values_to = "rides")
+hourly_rides %>% glimpse()
+```
+
+# Overall summary
+
+```{r}
+library(skimr)
+skim(hourly_rides)
+```
+
+
+```{r}
+hourly_rides %>%
+  filter(member_type != "total") %>% 
+  ggplot(aes(x = day_of_week, y = rides, color = member_type)) +
+  geom_boxplot()
+```
+
+```{r fig.height=10}
+hourly_rides %>%
+  filter(member_type != "total") %>% 
+  ggplot(aes(y = hour, x = rides, color = member_type)) + 
+    geom_boxplot() +
+    facet_wrap(~ member_type, scales = "free_x")
+```
+
+```{r}
+hourly_rides %>%
+  filter(member_type != "total") %>%
+  ggplot(aes(x = temp, y = rides, color = member_type)) +
+    geom_point() +
+    geom_smooth()
+```
+
