@@ -51,13 +51,13 @@ ride_totals <- hourly_rides %>%
 ## Exercise 3: Distribution of Rides by Weekday
 
 ```{r ride-distributions-by-weekday}
-# Your code here
+# your code here
 ```
 
 ## Exercise 4: Distribution of Rides by Hour
 
 ```{r ride-distributions-by-hour, fig.height=8}
-# YOUR CODE HERE
+# your code here
 ```
 
 ## Exercise 5: Overplotting

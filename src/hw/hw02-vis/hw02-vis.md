@@ -52,12 +52,12 @@ Exercise 2: Overall counts by weekday
 Exercise 3: Distribution of Rides by Weekday
 --------------------------------------------
 
-    # Your code here
+    # your code here
 
 Exercise 4: Distribution of Rides by Hour
 -----------------------------------------
 
-    # YOUR CODE HERE
+    # your code here
 
 Exercise 5: Overplotting
 ------------------------
