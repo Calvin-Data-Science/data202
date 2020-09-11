@@ -1,0 +1,12 @@
+---
+title: "r-exams"
+---
+
+```{r}
+library(exams)
+```
+
+```{r}
+exams2moodle("dataframes.Rmd", name = "example")
+```
+

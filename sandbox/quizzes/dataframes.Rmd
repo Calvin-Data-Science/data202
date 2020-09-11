@@ -1,0 +1,40 @@
+```{r data generation, echo = FALSE, results = "hide"}
+
+## QUESTION/ANSWER GENERATION
+questions <- c(
+  "500 diamonds",
+  "Price of a diamond",
+  "A diamond"
+)
+solutions <- c(FALSE, FALSE, TRUE)
+explanations <- character(3)
+```
+
+Question
+========
+The following data frame contains prices and other attributes of 500 diamonds._
+\
+```{r dataframe, echo = FALSE, fig.height = 4, fig.width = 5, fig.path = "", fig.cap = ""}
+diamonds %>% head(500)
+```
+
+What does each row in this data frame represent?
+
+```{r questionlist, echo = FALSE, results = "asis"}
+answerlist(questions, markup = "markdown")
+```
+
+
+Solution
+========
+
+```{r solutionlist, echo = FALSE, results = "asis"}
+answerlist(ifelse(solutions, "True", "False"), explanations, markup = "markdown")
+```
+
+Meta-information
+================
+extype: mchoice
+exsolution: `r mchoice2string(solutions)`
+exname: Parallel boxplots
+
