@@ -60,7 +60,7 @@ getDueDay <- function(category) {
 
 # Objectives
 
-This course integrates the data acumen and visualization skills you developed in DATA 101 with the computational and mathematical/statistical skills you have been developing in other classes. We will emphasize data wrangling, predictive modeling, and visualization.
+This course integrates the data acumen and visualization skills you developed in DATA 101 or 175 with the computational and mathematical/statistical skills you have been developing in other classes. We will emphasize data wrangling, predictive modeling, and visualization.
 
 Upon completing this class, you should be able to work through each part of the data science lifecycle, including:
 
