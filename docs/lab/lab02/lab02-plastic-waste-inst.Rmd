@@ -29,6 +29,17 @@ Learning goals for this lab are:
 - Recreate visualizations.
 - Get more practice using with Git and GitHub.
 
+## A time-saver
+
+Are you getting tired of typing your GitHub username and password? Try running
+this code in your RStudio Console before you start:
+
+```{r eval=FALSE}
+usethis::use_git_config(scope = "user", "credential.helper" = "cache --timeout=10000000")
+```
+
+This tells git to remember your credentials for 10 million seconds, or about 115 days.
+
 ## Getting started
 
 Click [here](https://classroom.github.com/g/3LZemoVC) to claim your repo and get the URL to clone.
