@@ -31,7 +31,7 @@ Learning goals for this lab are:
 
 ## Getting started
 
-Click [here](https://classroom.github.com/a/pO1dXVzj) to claim your repo and get the URL to clone.
+Click [here](https://classroom.github.com/g/3LZemoVC) to claim your repo and get the URL to clone.
 
 Refer to Lab 01 if you would like to see step-by-step instructions for cloning a repo into an RStudio project.
 

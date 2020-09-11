@@ -490,7 +490,7 @@ text-align: center;
 </ul>
 <div id="getting-started" class="section level2">
 <h2>Getting started</h2>
-<p>Click <a href="https://classroom.github.com/a/pO1dXVzj">here</a> to claim your repo and get the URL to clone.</p>
+<p>Click <a href="https://classroom.github.com/g/3LZemoVC">here</a> to claim your repo and get the URL to clone.</p>
 <p>Refer to Lab 01 if you would like to see step-by-step instructions for cloning a repo into an RStudio project.</p>
 <p>First, open the R Markdown document <code>lab02-plastic-waste.Rmd</code> and Knit it. Make sure it compiles without errors. The output will be in the file markdown <code>.md</code> file with the same name.</p>
 </div>
@@ -562,8 +562,8 @@ text-align: center;
 <p>✅ ⬆️ <em>Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.</em></p>
 <p>And yet another way to visualize this relationship is using side-by-side box plots.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> plastic_waste, </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> continent, </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>                     <span class="dt">y =</span> plastic_waste_per_cap)) <span class="op">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">y =</span> continent, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>                     <span class="dt">x =</span> plastic_waste_per_cap)) <span class="op">+</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Learn something new: violin plots! Read about them at <a href="http://ggplot2.tidyverse.org/reference/geom_violin.html" class="uri">http://ggplot2.tidyverse.org/reference/geom_violin.html</a>, and convert your side-by-side box plots from the previous task to violin plots. What do the violin plots reveal that box plots do not? What features are apparent in the box plots but not in the violin plots?</li>
