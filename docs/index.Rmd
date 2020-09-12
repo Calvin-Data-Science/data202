@@ -173,7 +173,7 @@ Unless otherwise arranged, grades will be weighted as follows:
 * 20% Homework
 * 20% Quizzes
 * 10% Midterm (week 8, exact date to be set by poll)
-* 25% Project 2
+* 25% Final Project
 
 Your lowest quiz score will get thrown out.
 
