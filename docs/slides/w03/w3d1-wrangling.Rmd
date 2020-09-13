@@ -193,3 +193,390 @@ knitr::include_graphics("img/dplyr-part-of-tidyverse.png")
 - Subsequent arguments say what to do with that data frame
 - Always return a data frame
 - Don't modify in place
+
+---
+
+## Bike crashes in NC 2007 - 2014
+
+```{r include=FALSE}
+ncbikecrash <- read_csv(here::here("docs/data/ncbikecrash.csv"))
+```
+
+```{r eval=FALSE}
+ncbikecrash <- read_csv("data/ncbikecrash.csv")
+```
+
+```{r}
+glimpse(ncbikecrash)
+```
+
+
+---
+
+## Variables
+
+View the names of variables via
+```{r}
+names(ncbikecrash)
+```
+
+and see detailed descriptions [here](https://introds.org/hw/hw-02/hw-02-bike-crash.html).
+
+---
+
+## Select columns
+
+.midi[
+```{r}
+select(ncbikecrash, county, bike_age)
+```
+]
+
+--
+
+.question[
+What if we wanted to select these columns, and then arrange the data in ascending order of biker age?
+]
+
+---
+
+## Data wrangling, step-by-step
+
+.midi[
+.pull-left[
+Select:
+```{r}
+ncbikecrash %>%
+  select(county, bike_age)
+```
+]
+.pull-right[
+Select, then arrange:
+```{r}
+ncbikecrash %>%
+  select(county, bike_age) %>%
+  arrange(bike_age)
+```
+]
+]
+
+---
+
+class: center, middle
+
+# Pipes
+
+---
+
+## What is a pipe?
+
+In programming, a pipe is a technique for passing information from one process to another.
+
+--
+
+.pull-left[
+- Start with the data frame `ncbikecrash`
+]
+.pull-right[
+```{r}
+ncbikecrash %>% #<<
+  select(county, bike_age) %>%
+  arrange(bike_age)
+```
+]
+
+---
+
+## What is a pipe?
+
+In programming, a pipe is a technique for passing information from one process to another.
+
+.pull-left[
+- Start with the data frame `ncbikecrash`,
+- then we `select` the variables `county` and `bike_age`,
+]
+.pull-right[
+```{r}
+ncbikecrash %>%
+  select(county, bike_age) %>% #<<
+  arrange(bike_age)
+```
+]
+
+---
+
+## What is a pipe?
+
+In programming, a pipe is a technique for passing information from one process to another.
+
+.pull-left[
+- Start with the data frame `ncbikecrash`,
+- then we `select` the variables `county` and `bike_age`,
+- and then we `arrange` the data frame by `bike_age` in ascending order.
+]
+.pull-right[
+```{r}
+ncbikecrash %>%
+  select(county, bike_age) %>%
+  arrange(bike_age) #<<
+```
+]
+
+---
+
+## How does a pipe work?
+
+- You can think about the following sequence of actions - find key, 
+unlock car, start car, drive to school, park.
+- Expressed as a set of nested functions in R pseudocode:
+```{r eval=FALSE}
+park(drive(start_car(find("keys")), to = "campus"))
+```
+- Writing it out using pipes: more natural structure (and easier to read)
+
+```{r eval=FALSE}
+find("keys") %>%
+  start_car() %>%
+  drive(to = "campus") %>%
+  park()
+```
+
+---
+
+## What about other arguments?
+
+Use the dot to
+
+- send results to a function argument other than first one or 
+- use the previous result for multiple arguments
+
+```{r fig.height=1.8, fig.width = 3.75}
+starwars %>%
+  filter(., species == "Human") %>%
+  lm(mass ~ height, data = .) #<<
+```
+
+---
+
+## A note on piping and layering
+
+- The `%>%` operator in **dplyr** functions is called the *pipe* operator. This means you "pipe" the output of the previous line of code as the first input of the next line of code.
+- The `+` operator in **ggplot2** functions is used for "*layering*". This means you create the plot in layers, separated by `+`.
+- Many of the styling principles are consistent across `%>%` and `+`:
+  - always a space before
+  - always a line break after (for pipelines with more than 2 lines)
+
+---
+
+class: center, middle
+
+# Data wrangling with dplyr
+
+---
+
+## `select` to keep variables
+
+```{r}
+ncbikecrash %>%
+  select(locality, speed_limit) #<<
+```
+
+---
+
+## `select` to exclude variables
+
+```{r}
+ncbikecrash %>%
+  select(-object_id) #<<
+```
+
+---
+
+## `select` variables with certain characteristics
+
+```{r}
+ncbikecrash %>%
+  select(starts_with("bike_")) #<<
+```
+
+---
+
+## `select` variables with certain characteristics
+
+```{r}
+ncbikecrash %>%
+  select(ends_with("age")) #<<
+```
+
+---
+
+## Select helpers
+
+- `starts_with()`: Starts with a prefix
+- `ends_with()`: Ends with a suffix
+- `contains()`: Contains a literal string
+- `num_range()`: Matches a numerical range like x01, x02, x03
+- `one_of()`: Matches variable names in a character vector
+- `everything()`: Matches all variables
+- `last_col()`: Select last variable, possibly with an offset
+- `matches()`: Matches a regular expression (a sequence of symbols/characters expressing a string/pattern to be searched for within text)
+
+.footnote[
+See help for any of these functions for more info, e.g. `?everything`.
+]
+
+---
+
+## `arrange` in ascending / descending order
+
+.pull-left[
+```{r}
+ncbikecrash %>%
+  select(ends_with("age")) %>%
+  arrange(bike_age) #<<
+```
+]
+.pull-right[
+```{r}
+ncbikecrash %>%
+  select(ends_with("age")) %>%
+  arrange(desc(bike_age)) #<<
+```
+]
+
+---
+
+## `slice` for certain row numbers
+
+First five
+
+```{r}
+ncbikecrash %>%
+  slice(1:5) #<<
+```
+
+---
+
+## `slice` for certain row numbers
+
+Last five
+ 
+```{r}
+last_row <- nrow(ncbikecrash)
+ncbikecrash %>%
+  slice((last_row - 4):last_row) #<<
+```
+
+---
+
+## `sample_n` / `sample_frac` for a random sample
+
+- `slice_sample`: randomly sample `n = 5` observations
+
+```{r}
+ncbikecrash_n5 <- ncbikecrash %>%
+  slice_sample(n = 5, replace = FALSE) #<<
+dim(ncbikecrash_n5)
+```
+
+--
+
+- `sample_frac`: randomly sample `prop = 20%` of observations
+
+```{r}
+ncbikecrash_perc20 <-ncbikecrash %>%
+  slice_sample(prop = 0.2, replace = FALSE) #<<
+dim(ncbikecrash_perc20)
+```
+
+---
+
+## `filter` to select a subset of rows
+
+Crashes in Durham County
+
+```{r}
+ncbikecrash %>%
+  filter(county == "Durham") #<<
+```
+
+---
+
+## `filter` for many conditions at once
+
+Crashes in Durham County where biker is 0-5 years old
+
+```{r}
+ncbikecrash %>%
+  filter( #<<
+    county == "Durham",     #<<
+    bike_age_group == "0-5" #<<
+    ) #<<
+```
+
+---
+
+## Logical operators in R
+
+operator    | definition                   || operator     | definition
+------------|------------------------------||--------------|----------------
+`<`         | less than                    ||`x`&nbsp;&#124;&nbsp;`y`     | `x` OR `y` 
+`<=`        |	less than or equal to        ||`is.na(x)`    | test if `x` is `NA`
+`>`         | greater than                 ||`!is.na(x)`   | test if `x` is not `NA`
+`>=`        |	greater than or equal to     ||`x %in% y`    | test if `x` is in `y`
+`==`        |	exactly equal to             ||`!(x %in% y)` | test if `x` is not in `y`
+`!=`        |	not equal to                 ||`!x`          | not `x`
+`x & y`     | `x` AND `y`                  ||              |
+
+---
+
+.question[
+Fill in the blanks for filtering for crashes **not** in Durham County where crash year is after 2014 and `bike_position` is not `NA`.
+]
+
+```{r eval=FALSE}
+ncbikecrash %>%
+  filter(
+    county ____ "Durham", 
+    crash_year ____ 2014,
+    ____
+    )
+```
+
+---
+
+.question[
+Fill in the blanks for filtering for crashes **not** in Durham County where crash year is after 2014 and `bike_position` is not `NA`.
+]
+
+```{r}
+ncbikecrash %>%
+  filter(
+    county != "Durham",   #<<
+    crash_year > 2014,    #<<
+    !is.na(bike_position) #<<
+    )
+```
+
+---
+
+## `distinct` to filter for unique rows
+
+... and `arrange` to order alphabetically
+
+.pull-left[
+```{r}
+ncbikecrash %>% 
+  distinct(county) %>% #<<
+  arrange(county)
+```
+]
+.pull-right[
+```{r}
+ncbikecrash %>% 
+  select(county, city) %>% 
+  distinct() %>% #<<
+  arrange(county, city)
+```
+]
+
