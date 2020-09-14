@@ -5,9 +5,9 @@ account: ka37
 server: rsconnect.calvin.edu
 hostUrl: https://rsconnect.calvin.edu:3939/__api__
 appId: 105
-bundleId: 237
+bundleId: 243
 url: https://rsconnect.calvin.edu:3939/content/105/
-when: 1599942026.88675
+when: 1600086318.18686
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: hotels-wrangling.html|unvotes.html|unvotes.Rmd|weather.Rmd|unvotes_files/figure-html/plot-yearly-yes-issue-1.png
