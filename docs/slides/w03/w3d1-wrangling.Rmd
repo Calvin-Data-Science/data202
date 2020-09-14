@@ -1,5 +1,5 @@
 ---
-title: "Tidy Data and Wrangling"
+title: "Grammar of Data Transformation"
 author: "K Arnold, based on IntroDS.org"
 output:
   xaringan::moon_reader:
@@ -20,144 +20,48 @@ slideSetup()
 
 ## Week 3
 
+* Lab 2 end-of-day today
+* Discussion 1 replies by tomorrow
+* Hw 2 due Wednesday
+  * Check that your `.md` file is on GitHub
+  * What does each row represent?
+  * How many rows *should* there be?
 * Office Hours: [kca] Mon 8-9am, Fri 3-4pm; [yk] Wed 4:30-5:30pm
 
 ---
 
-## Code Style
+## Questions for you
 
->"Good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread."
->
->Hadley Wickham
+- How is week 3 of Fall 2020?
+- What's working well in DATA 202? What's challenging?
 
-- Recommended: Tidyverse style guide <https://style.tidyverse.org/>
+--
 
----
 
-## Summary
+- How are the readings and prep exercises?
+- How long are you spending on labs outside of class?
+- How hard are labs compared with homework?
 
-* File names and code chunks: `data-wrangling`, not `Data Wrangling`.
-* Variable names: `hourly_rides`, not `hourlyRides` or `hourly.rides` or `rides_by_hour_with_weather`
-  * Informative but short. Don't reuse.
 
 ---
 
-## Spacing
+## So far
 
-- Put a space before and after all infix operators (=, +, -, <-, etc.), and when 
-naming arguments in function calls
-- Always put a space after a comma, and never before (just like in regular English)
+* *R/RStudio/Rmarkdown/Git*: a toolkit for reproducible collaborative analysis and reporting
+* `ggplot2`: a *Grammar of Graphics*
+  * a language for describing, and building, visualizations
+  * concepts apply to many other toolkits
 
-```{r eval = FALSE}
-# Good
-average <- mean(feet / 12 + inches, na.rm = TRUE)
+This week:
 
-# Bad
-average<-mean(feet/12+inches,na.rm=TRUE)
-```
-
----
-
-## ggplot2
-
-- Always end a line with `+`
-- Always indent the next line
-
-```{r eval = FALSE}
-# Good
-ggplot(diamonds, mapping = aes(x = price)) +
-  geom_histogram()
-
-# Bad
-ggplot(diamonds,mapping=aes(x=price))+geom_histogram()
-```
-
+* `dplyr`: a *Grammar of Data Transformation*
+  * basic concepts will show up again in Python (Pandas) and SQL.
 
 ---
 
 class: center, middle
 
-# Tidy data
-
----
-
-## Tidy data
-
->Happy families are all alike; every unhappy family is unhappy in its own way. 
->
->Leo Tolstoy
-
---
-
-.pull-left[
-**Characteristics of tidy data:**
-
-- Each variable forms a column.
-- Each observation forms a row.
-- Each type of observational unit forms a table.
-]
---
-.pull-right[
-**Characteristics of untidy data:**
-
-!@#$%^&*()
-]
-
----
-
-## 
-
-.question[
-What makes this data not tidy?
-]
-
-```{r hyperwar-airplanes-on-hand, echo=FALSE, out.width="90%", fig.align = "center", caption = "WW2 Army Air Force combat aircraft"}
-knitr::include_graphics("img/untidy-data/hyperwar-airplanes-on-hand.png")
-```
-
-.footnote[
-Source: [Army Air Forces Statistical Digest, WW II](https://www.ibiblio.org/hyperwar/AAF/StatDigest/aafsd-3.html)
-]
-
----
-
-.question[
-What makes this data not tidy?
-]
-
-<br>
-
-```{r hiv-est-prevalence-15-49, echo=FALSE, out.width="95%", fig.align = "center", caption = "Estimated HIV prevalence among 15-49 year olds"}
-knitr::include_graphics("img/untidy-data/hiv-est-prevalence-15-49.png")
-```
-
-.footnote[
-Source: [Gapminder, Estimated HIV prevalence among 15-49 year olds](https://www.gapminder.org/data)
-]
-
----
-
-.question[
-What makes this data not tidy?
-]
-
-<br>
-
-```{r us-general-economic-characteristic-acs-2017, echo=FALSE, out.width="95%", fig.align = "center", caption = "US General Economic Characteristics, ACS 2017"}
-knitr::include_graphics("img/untidy-data/us-general-economic-characteristic-acs-2017.png")
-```
-
-.footnote[
-Source: [US Census Fact Finder, General Economic Characteristics, ACS 2017](https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_17_5YR_DP03&src=pt)
-]
-
-
----
-
-class: center, middle
-
-# Data wrangling and summarizing 
-# with **dplyr**
+# Data wrangling and summarizing<br> with *dplyr*
 
 ---
 
@@ -326,26 +230,25 @@ ncbikecrash %>%
 
 ## How does a pipe work?
 
-- You can think about the following sequence of actions - find key, 
-unlock car, start car, drive to school, park.
-- Expressed as a set of nested functions in R pseudocode:
-```{r eval=FALSE}
-park(drive(start_car(find("keys")), to = "campus"))
-```
-- Writing it out using pipes: more natural structure (and easier to read)
+Conventional (nested functions):
 
 ```{r eval=FALSE}
-find("keys") %>%
-  start_car() %>%
-  drive(to = "campus") %>%
-  park()
+arrange(select(ncbikecrash, county, bike_age), bike_age)
+```
+
+With pipes:
+
+```{r eval=FALSE}
+ncbikecrash %>%
+  select(county, bike_age) %>%
+  arrange(bike_age)
 ```
 
 ---
 
 ## What about other arguments?
 
-Use the dot to
+Use the dot (`.`) to
 
 - send results to a function argument other than first one or 
 - use the previous result for multiple arguments
@@ -371,6 +274,12 @@ starwars %>%
 class: center, middle
 
 # Data wrangling with dplyr
+
+---
+
+class: center, middle
+
+[Exercise: Hotel Wrangling](https://rsconnect.calvin.edu:3939/content/105)
 
 ---
 
@@ -580,3 +489,134 @@ ncbikecrash %>%
 ```
 ]
 
+
+
+
+---
+
+## Code Style
+
+>"Good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread."
+>
+>Hadley Wickham
+
+- Recommended: Tidyverse style guide <https://style.tidyverse.org/>
+
+---
+
+## Summary
+
+* File names and code chunks: `data-wrangling`, not `Data Wrangling`.
+* Variable names: `hourly_rides`, not `hourlyRides` or `hourly.rides` or `rides_by_hour_with_weather`
+  * Informative but short. Don't reuse.
+
+---
+
+## Spacing
+
+- Put a space before and after all infix operators (=, +, -, <-, etc.), and when 
+naming arguments in function calls
+- Always put a space after a comma, and never before (just like in regular English)
+
+```{r eval = FALSE}
+# Good
+average <- mean(feet / 12 + inches, na.rm = TRUE)
+
+# Bad
+average<-mean(feet/12+inches,na.rm=TRUE)
+```
+
+---
+
+## ggplot2
+
+- Always end a line with `+`
+- Always indent the next line
+
+```{r eval = FALSE}
+# Good
+ggplot(diamonds, mapping = aes(x = price)) +
+  geom_histogram()
+
+# Bad
+ggplot(diamonds,mapping=aes(x=price))+geom_histogram()
+```
+
+
+---
+
+class: center, middle
+
+# Tidy data
+
+---
+
+## Tidy data
+
+>Happy families are all alike; every unhappy family is unhappy in its own way. 
+>
+>Leo Tolstoy
+
+--
+
+.pull-left[
+**Characteristics of tidy data:**
+
+- Each variable forms a column.
+- Each observation forms a row.
+- Each type of observational unit forms a table.
+]
+--
+.pull-right[
+**Characteristics of untidy data:**
+
+- Varies.
+]
+
+---
+
+## 
+
+.question[
+What makes this data not tidy?
+]
+
+```{r hyperwar-airplanes-on-hand, echo=FALSE, out.width="90%", fig.align = "center", caption = "WW2 Army Air Force combat aircraft"}
+knitr::include_graphics("img/untidy-data/hyperwar-airplanes-on-hand.png")
+```
+
+.footnote[
+Source: [Army Air Forces Statistical Digest, WW II](https://www.ibiblio.org/hyperwar/AAF/StatDigest/aafsd-3.html)
+]
+
+---
+
+.question[
+What makes this data not tidy?
+]
+
+<br>
+
+```{r hiv-est-prevalence-15-49, echo=FALSE, out.width="95%", fig.align = "center", caption = "Estimated HIV prevalence among 15-49 year olds"}
+knitr::include_graphics("img/untidy-data/hiv-est-prevalence-15-49.png")
+```
+
+.footnote[
+Source: [Gapminder, Estimated HIV prevalence among 15-49 year olds](https://www.gapminder.org/data)
+]
+
+---
+
+.question[
+What makes this data not tidy?
+]
+
+<br>
+
+```{r us-general-economic-characteristic-acs-2017, echo=FALSE, out.width="95%", fig.align = "center", caption = "US General Economic Characteristics, ACS 2017"}
+knitr::include_graphics("img/untidy-data/us-general-economic-characteristic-acs-2017.png")
+```
+
+.footnote[
+Source: [US Census Fact Finder, General Economic Characteristics, ACS 2017](https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_17_5YR_DP03&src=pt)
+]

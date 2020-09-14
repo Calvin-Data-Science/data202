@@ -12,6 +12,7 @@ slideSetup <- function() {
     header_h1_font_size = "2.75rem",
     header_h2_font_size = "2.5rem",
     text_font_size = "1.5rem",
+    code_highlight_color = "#A7D5E8"
   )
   style_extra_css(list(
       ".tiny" = list("font-size" = "40%"),
