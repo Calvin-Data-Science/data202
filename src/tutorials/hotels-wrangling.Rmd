@@ -13,9 +13,14 @@ runtime: shiny_prerendered
 ```{r setup, include=FALSE}
 library(learnr)
 options(dplyr.summarise.inform = FALSE)
+library(tidyverse)
+library(skimr)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r load-pkg, message = FALSE}
+# Introduction
+
+```{r load-pkg, echo = TRUE, message = FALSE}
 library(tidyverse)
 library(skimr)
 ```
@@ -47,7 +52,7 @@ skim(hotels)
 ```
 
 
-### Exercise 2.
+## Exercise 1.
 
 Are people traveling on a whim? Let's see... 
 
@@ -71,7 +76,7 @@ hotels %>%
     )
 ```
 
-### Exercise 3.
+## Exercise 2
 
 How many bookings involve at least 1 child **or** baby?
 
@@ -95,7 +100,7 @@ hotels %>%
     )
 ```
 
-### Exercise 4.
+## Exercise 3
 
 Do you think it's more likely to find bookings with children or babies in city 
 hotels or resort hotels? Test your intuition. Using `filter()` and `nrow()`, determine the 
@@ -121,7 +126,7 @@ rows in the resulting filtered tibbles.
 ```{r city-children, exercise=TRUE}
 ```
 
-### Exercise 5.
+## Exercise 4
 
 Create a frequency table of the number of `adults` in a booking. (Use `count`.) Display the 
 results in descending order so the most common observation is on top. What is 
@@ -138,7 +143,7 @@ hotels %>%
   arrange(desc(n))
 ```
 
-### Exercise 6.
+## Exercise 5
 
 Repeat Exercise 5, once for canceled bookings (`is_canceled` coded as 1) and 
 once for not canceled bookings (`is_canceled` coded as 0). What does this 
@@ -159,7 +164,7 @@ hotels %>%
   arrange(desc(n))
 ```
 
-### Exercise 7.
+## Exercise 6
 
 Calculate minimum, mean, median, and maximum average daily rate (`adr`) grouped 
 by `hotel` type so that you can get these statistics separately for the resort and 
@@ -182,7 +187,7 @@ hotels %>%
   # summarize(across(adr, list(min = min, mean = mean, median = median, max = max)))
 ```
 
-### Exercise 8.
+## Exercise 7
 
 We observe two unusual values in the summary statistics above -- a negative 
 minimum, and a very high maximum). What types of hotels are these? Locate 
