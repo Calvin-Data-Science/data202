@@ -30,6 +30,24 @@ slideSetup()
 
 ---
 
+## Question-answers
+
+> Am I submitting my labs and homework correctly?
+
+* See checklist at end of Lab 1.
+* Main point: Check your `.md` file on GitHub.
+
+> When will we get feedback?
+
+* General feedback already given in class.
+* A bit backed up on specific feedback.
+
+> Can we make animated plots like in the video/
+
+* Stay tuned for Plotly.
+
+---
+
 ## Questions for you
 
 - How is week 3 of Fall 2020?
