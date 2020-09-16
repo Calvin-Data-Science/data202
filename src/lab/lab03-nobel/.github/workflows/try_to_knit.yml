@@ -4,7 +4,7 @@ on:
     - master
     paths:
     - 'lab03-nobel-laureates.Rmd'
-name: Check Repo
+name: Try Knitting
 jobs:
   check-rmd:
     runs-on: ubuntu-latest
