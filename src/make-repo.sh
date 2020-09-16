@@ -37,7 +37,7 @@ StripTrailingWhitespace: Yes
 EOF
 
 # Include specific data
-rsync -a "${SOURCE_PATH}/" "$repodir"
+rsync -a "${SOURCE_PATH}/" --exclude "*solution*" "$repodir"
 
 
 # Create and push the repo
