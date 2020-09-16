@@ -62,3 +62,11 @@ results %>%
     labs(x = "Time taken by lab minus time taken by homework")
 ```
 
+```{r}
+results %>% 
+  select(-which_harder) %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(y = name, x = value)) +
+    geom_boxplot()
+```
+
