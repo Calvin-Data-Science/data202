@@ -1,0 +1,32 @@
+---
+title: "Population Weirdness"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(janitor)
+```
+
+```{r message=FALSE}
+waste_vs_gdp <- read_csv("waste-vs-gdp.csv") %>% janitor::clean_names()
+mismanaged_vs_gdp <- read_csv("mismanaged_vs_gdp.csv") %>% janitor::clean_names()
+coast_vs_waste <- read_csv("coast_vs_waste.csv") %>% janitor::clean_names()
+```
+
+```{r}
+skimr::skim(coast_vs_waste)
+```
+
+```{r}
+coast_vs_waste %>% 
+  filter(!is.na(coastal_population) & !is.na(total_population_gapminder)) %>% 
+  #filter(coastal_population > total_population_gapminder)
+
+  glimpse() %>%
+  ggplot(aes(x = total_population_gapminder, y = coastal_population, color = year)) +
+    geom_point() + 
+    geom_abline(slope = 1, intercept = 0)
+```
+
