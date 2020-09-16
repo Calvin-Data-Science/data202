@@ -18,6 +18,35 @@ source("../slides-common.R")
 slideSetup()
 ```
 
+## Q&A
+
+> How to sort in descending order?
+
+`?arrange` says: "Use `desc()` to sort a variable in descending order."
+
+> When to fix data types?
+
+Lecture forthcoming :)
+
+> ggformula?
+
+Our books don't cover it, but you're welcome to use it.
+
+---
+
+class: middle
+
+## The RStudio Server...
+
+... has been giving us trouble.
+
+### Workarounds
+
+* Install on your own computer 
+* [`remote.cs.calvin.edu`](https://remote.cs.calvin.edu/)
+
+---
+
 layout: true
 
 ## Proposed Structure Changes
