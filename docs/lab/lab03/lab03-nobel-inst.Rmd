@@ -30,7 +30,7 @@ The learning goals of this lab are:
 
 ## Getting started
 
-* Claim your repo *here*.
+* Claim your repo [*here*](https://classroom.github.com/g/C-ns_9JZ).
 * Grab the URL of the repo, and clone it in RStudio. Refer to Lab 01 for step-by-step instructions for cloning a repo into an RStudio project.
 * Open the R Markdown document `lab03-nobel-laureates.Rmd` and Knit it. Make sure it compiles without errors. The output will be in the file markdown `.md` file with the same name.
 

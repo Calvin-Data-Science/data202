@@ -490,7 +490,7 @@ text-align: center;
 <div id="getting-started" class="section level2">
 <h2>Getting started</h2>
 <ul>
-<li>Claim your repo <em>here</em>.</li>
+<li>Claim your repo <a href="https://classroom.github.com/g/C-ns_9JZ"><em>here</em></a>.</li>
 <li>Grab the URL of the repo, and clone it in RStudio. Refer to Lab 01 for step-by-step instructions for cloning a repo into an RStudio project.</li>
 <li>Open the R Markdown document <code>lab03-nobel-laureates.Rmd</code> and Knit it. Make sure it compiles without errors. The output will be in the file markdown <code>.md</code> file with the same name.</li>
 </ul>
@@ -575,7 +575,7 @@ text-align: center;
 </ol>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">You will probably need the <code>position_dodge()</code> function. To avoid a strange bar width, try telling it <code>preserve = “single”</code>.</span></span></p>
 <ol start="5" style="list-style-type: decimal">
-<li>Remake your visualization from Exercise 3 and add a second variable: whether the laureate was born in the US or not. Your final visualization should contain a facet for each category, within each facet a bar for whether they won the award in the US or not, and within each bar whether they were born in the US or not. Based on your visualization, do the data appear to support Buzzfeed’s claim? Explain your reasoning in 1-2 sentences.</li>
+<li>Remake your visualization from Exercise 3 and add a second variable: whether the laureate was born in the US or not. Your final visualization should contain a facet for each category, within each facet a bar for whether they won the award in the US or not, and within each bar whether they were born in the US or not. (Don’t over-think this: you can do this by just adding another aesthetic mapping!) Based on your visualization, do the data appear to support Buzzfeed’s claim? Explain your reasoning in 1-2 sentences.</li>
 </ol>
 <p>✅ ⬆️ <em>Commit and push your changes to GitHub with an appropriate commit message again. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.</em></p>
 </div>
@@ -583,7 +583,7 @@ text-align: center;
 <h3>Here’s where those immigrant Nobelists were born</h3>
 <p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">Note that your bar plot won’t exactly match the one from the Buzzfeed article. This is likely because the data has been updated since the article was published.</span></span></p>
 <ol start="6" style="list-style-type: decimal">
-<li>In a single pipeline, filter for laureates who won their prize in the US, but were born outside of the US, and then create a frequency table (with the <code>count()</code>) function for their birth country, <code>born_country</code>, and arrange the resulting data frame in descending order of number of observations for each country.</li>
+<li>In a single pipeline, filter for living STEM laureates who won their prize in the US, but were born outside of the US, and then create a frequency table (with the <code>count()</code>) function for their birth country, <code>born_country</code>, and arrange the resulting data frame in descending order of number of observations for each country.</li>
 </ol>
 <p>✅ ⬆️ <em>Commit and push your changes to GitHub with an appropriate commit message again. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.</em></p>
 </div>
@@ -592,11 +592,10 @@ text-align: center;
 <h2>Wrapping up</h2>
 <p>Go back through your write up to make sure you’re following coding style guidelines we discussed in class. Make any edits as needed.</p>
 <p>Also, make sure all of your R chunks are properly labeled, and your figures are reasonably sized.</p>
-<p>Once the team leader for the week pushes their final changes, others should also clone the team repo (or if you’ve already done so, <em>pull</em> on the Git pane) and knit the R Markdown document to confirm that they can reproduce the report.</p>
 </div>
 <div id="interested-in-how-buzzfeed-made-their-visualizations" class="section level2">
 <h2>Interested in how Buzzfeed made their visualizations?</h2>
-<p>The plots in the Buzzfeed article are called waffle plots. You can find the code used for making these plots in Buzzfeed’s GitHub repo (yes, they have one!) <a href="https://buzzfeednews.github.io/2017-01-immigration-and-science/">here</a>. You’re not expected to recreate them as part of your assignment, but you’re welcomed to do so for fun!</p>
+<p>The plots in the Buzzfeed article are called waffle plots. You can find the code used for making these plots in Buzzfeed’s GitHub repo (yes, they have one!) <a href="https://buzzfeednews.github.io/2017-01-immigration-and-science/">here</a>. You’re not expected to recreate them as part of your assignment, but you’re welcome to do so for fun!</p>
 </div>
 
 
