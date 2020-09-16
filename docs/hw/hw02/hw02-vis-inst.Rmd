@@ -92,7 +92,7 @@ Include a brief description of how you concluded that those were the correct lab
 
 Use abbreviations ("Wed", "Fri", ...).
 
-Hint: look at the data. (`View()`, `head()`, ...)
+Hint: look at the data. (`View()`, `head()`, ... but leave a small, coherent set of evidence for your conclusion.)
 
 ```{r label-weekdays, include=FALSE}
 hourly_rides <- hourly_rides %>%
