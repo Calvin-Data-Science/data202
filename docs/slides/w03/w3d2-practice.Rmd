@@ -47,6 +47,23 @@ class: middle
 
 ---
 
+## `learnr` tutorials
+
+* **Initial setup**:
+`install.packages(c("learnr", "remotes"))`
+
+* **Update**: `remotes::install_github("CalvinData/ds202calvin")`
+
+* **Run**:
+
+```{r eval=FALSE, echo=TRUE}
+learnr::available_tutorials("ds202calvin")
+learnr::run_tutorial("hotels-wrangling", package = "ds202calvin")
+```
+
+
+---
+
 layout: true
 
 ## Proposed Structure Changes
@@ -100,3 +117,12 @@ layout: false
 * Next week: Covid-19 cases
 
 Propose datasets or analyses you're interested in!
+
+---
+
+class: center, middle
+
+## How to contribute to a GitHub package
+
+
+*demo*
