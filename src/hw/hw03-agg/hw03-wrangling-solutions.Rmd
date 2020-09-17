@@ -1,0 +1,69 @@
+---
+title: "Homework 3: Bike Sharing Data Wrangling"
+author: "YOUR NAME"
+date: "TODAY'S DATE"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+
+# Disable a warning message.
+options(dplyr.summarise.inform = FALSE)
+```
+
+
+## Load Data
+
+```{r load-data}
+# Read the file, specifying data types for each column.
+rides_2011 <- read_csv("data/rides_2011.csv.gz", col_types = cols(
+  start_time = col_datetime(),
+  duration = col_double(),
+  member_type = col_factor()
+))
+rides_2012 <- read_csv("data/rides_2012.csv.gz", col_types = cols(
+  start_time = col_datetime(),
+  duration = col_double(),
+  member_type = col_factor()
+))
+```
+
+## Exercise 1
+
+```{r bind-rows}
+rides <- bind_rows(
+  rides_2011,
+  rides_2012
+)
+```
+
+There are `r nrow(rides)` rides in this dataset.
+
+## Exercise 2
+
+`duration` is probably measured in seconds, because most rides are less than 30 * 60 seconds (30 minutes), but 
+some are as long as `r format(max(rides$duration), scientific = FALSE, big.mark = ",")`, which is most of a day (86,400 seconds).
+
+```{r duration-hist}
+rides %>% 
+  ggplot(aes(x = duration)) +
+    geom_histogram(binwidth = 30 * 60)
+```
+
+## Exercise 3
+
+```{r count-member-type}
+rides %>%
+  count(member_type)
+```
+
+## Exercise 4
+
+```{r aggregate-hourly}
+hourly_rides <- rides %>%
+  group_by(start_hour = floor_date(start_time, unit = "hours")) %>% 
+  count()
+```
