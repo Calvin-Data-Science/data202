@@ -21,10 +21,55 @@ org_outside_collaborators <- function(org) {
 
 ```{r}
 ghorg <- "Calvin-DS202-FA20"
-(members <- org_members(ghorg))
-students <- members %>% setdiff(org_admins(ghorg))
-students <- union(students, org_outside_collaborators(ghorg))
-paste(students, collapse = " ") %>% cat()
+```
+
+```{r}
+students <- tibble::tribble(
+                    ~name,            ~github_username,
+                 "Adam DenHaan",             "adamddh",
+                "Advait Scaria",             "ajs2440",
+                  "Alex Visser",            "awvisser",
+               "Ashley Pigatti",            "apigatti",
+                   "Ben Steves",           "bensteves",
+                 "Boyoung Jung",   "Cora-Boyoung-Jung",
+                 "Brad Ritzema",            "britzema",
+                  "Brea Koenes",         "brea-koenes",
+                  "Caleb Roper",          "calebroper",
+                 "Carson Ellis",                "cde3",
+               "Curtis DeZwaan",                "cdd5",
+                "Esther Baidoo",           "NanaAma-B",
+                "Ethan Walters",          "ewalters47",
+                     "Hyein Oh",                "ho24",
+                 "Jacob Gregor",               "jpg26",
+                 "Jared Mulder",         "Jaredmulder",
+                     "Jenn Lau",               "jl99s",
+                 "Joe Pastucha",         "JoePastucha",
+                "Joe Wilkinson",               "jrw53",
+                "Jordan Decker",            "jdecks35",
+               "Kaitlyn Westra",               "kew24",
+                "Danish Ansari",      "danishansari71",
+                      "Kj Kane",           "Fishering",
+                  "Krista Hoek",          "KristaHoek",
+               "Lauren Steffen",           "lmsteffen",
+                  "Luca Seazzu",             "lseazzu",
+               "Lucas Holcombe",           "lholcombe",
+                  "Matt Lobbes",          "mattlobbes",
+                "Rebekah Cross",          "RJCross315",
+                "Ricky Padilla", "RickyPadillaRIcky23",
+                  "Sonali Bola",         "sonali-bola",
+              "Tomoki Takeuchi",                "tt35",
+                   "Wendy Wang",          "wendyW-104",
+                "Won-Seok Park",          "AriadustWP",
+                       "Yue He",          "haoping-he"
+              )
+```
+
+```{r}
+nrow(students)
+```
+
+```{r}
+org_members(ghorg) %>% setdiff(org_admins(ghorg)) %>% setdiff(students$github_username)
 ```
 
 # Set up assignment templates
@@ -69,12 +114,48 @@ for f in file_list:
 
 # Harvest Student Work
 
-```{r message=FALSE}
-all_repos <- org_repos(ghorg)
-assignmentName <- "hw01"
-assignments_root <- "../fa20/"
-assignment_path <- file.path(assignments_root, assignmentName)
+```{r message=FALSE, eval=FALSE}
+assignmentName <- "hw02"
 
+assignments_root <- "../fa20/"
+all_repos <- org_repos(ghorg)
+assignment_path <- file.path(assignments_root, assignmentName)
+students %>% 
+  mutate(
+    repo_name = glue("{ghorg}/{assignmentName}-{github_username}"),
+    repo_url = glue("https://github.com/{repo_name}"),
+    repo_path = fs::path_expand(file.path(assignment_path, glue("{assignmentName}-{name}")))
+  ) %>%
+  rowwise() %>% 
+  mutate(status = {
+    if (file.exists(repo_path)) {
+      # Update (pull)
+      local_repo_pull(repo_path)
+    } else if (repo_name %in% all_repos) {
+      # Clone
+      gert::git_clone(url = repo_url, path = repo_path, 
+        branch = "master", verbose = TRUE)
+    } else {
+      message(paste0("Missing ", assignmentName, " for ", name))
+    }
+    "ok"
+  })
+```
+
+```{r results='asis'}
+assignmentName <- "hw02"
+
+students %>% 
+  mutate(
+    repo_name = glue("{ghorg}/{assignmentName}-{github_username}"),
+    repo_url = glue("https://github.com/{repo_name}"),
+    md = glue("* [{name}]({repo_url})")
+  ) %>% pull(md) %>% cat(sep = "\n")
+```
+
+
+
+```{r message=FALSE, eval=FALSE}
 # Clone or update repos for all students
 repos_for_assignment <- students %>% purrr::map_chr(function(student) {
   student_repo_name <- paste0(assignmentName, "-", student)
@@ -98,20 +179,9 @@ repos_for_assignment <- students %>% purrr::map_chr(function(student) {
 })
 ```
 
-```{r}
-all_repos <- org_repos(ghorg)
-```
-
-```{r}
-repo_unwatch(all_repos)
-```
 
 
 ```{r}
-repo_unwatch(repos_for_assignment)
-```
-
-```{r}
-repo_watching()
+#repo_watching()
 ```
 
