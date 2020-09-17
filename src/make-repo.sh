@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 REPO_NAME="$1"
 SOURCE_PATH="$2"
@@ -9,9 +9,16 @@ COMMON_DIR="$(dirname "$0")/repo-common"
 
 repodir="repos/${REPO_NAME}"
 
+FORCE=1
+
 if [ -e "$repodir" ]; then
-    echo "Repo already exists!"
-    exit 1
+    if [ "$FORCE" == 1 ]; then
+        echo "Removing existing repo"
+        rm -rf "$repodir"
+    else
+        echo "Repo already exists!"
+        exit 1
+    fi
 fi
 
 # Include common data
