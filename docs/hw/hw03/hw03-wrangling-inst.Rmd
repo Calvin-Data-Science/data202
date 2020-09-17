@@ -15,6 +15,12 @@ knitr::opts_chunk$set(echo = TRUE)
 options(dplyr.summarise.inform = FALSE)
 ```
 
+## Getting started
+
+**[Claim your repo!](https://classroom.github.com/a/AoHHom3-)**
+
+As usual, clone the repo and try to knit the template `Rmd`.
+
 The template uses the following packages.
 
 ```{r packages, message=FALSE}
