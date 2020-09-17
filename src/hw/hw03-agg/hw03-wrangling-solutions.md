@@ -60,3 +60,55 @@ Exercise 4
     hourly_rides <- rides %>%
       group_by(start_hour = floor_date(start_time, unit = "hours")) %>% 
       count()
+
+Exercise 5
+----------
+
+    hourly_rides <- rides %>%
+      group_by(hour = floor_date(start_time, unit = "hours"), member_type) %>% 
+      summarize(rides = n())
+
+Exercise 6
+----------
+
+    daily_rides <- rides %>%
+      group_by(day = floor_date(start_time, unit = "days"), member_type) %>% 
+      summarize(rides = n())
+
+Exercise 7
+----------
+
+    hourly_rides %>%
+      filter(member_type != "Unknown") %>% 
+      ggplot(aes(x = wday(hour, label = TRUE), y = rides, fill = member_type)) +
+      geom_boxplot() +
+      labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
+
+![](hw03-wrangling-solutions_files/figure-gfm/rides-by-weekday-1.png)<!-- -->
+
+Exercise 8
+----------
+
+| weekday | Member | Casual |
+|:--------|-------:|-------:|
+| Sun     |     88 |     27 |
+| Mon     |    111 |     18 |
+| Tue     |    120 |     18 |
+| Wed     |    121 |     17 |
+| Thu     |    128 |     18 |
+| Fri     |    134 |     21 |
+| Sat     |     99 |     29 |
+
+Exercise 9
+----------
+
+    hourly_rides %>% 
+      filter(member_type != "Unknown") %>% 
+      mutate(is_weekend = if_else(
+        wday(hour, label = TRUE) %in% c("Sat", "Sun"),
+        "Weekend", "Weekday")) %>% 
+      ggplot(aes(x = as_factor(lubridate::hour(hour)), y = rides, fill = member_type)) + 
+        geom_boxplot() +
+        facet_wrap(~ is_weekend, scales = "free_y", nrow = 2)
+
+![](hw03-wrangling-solutions_files/figure-gfm/ride-distributions-by-hour-1.png)<!-- -->

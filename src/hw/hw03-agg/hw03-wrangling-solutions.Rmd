@@ -67,3 +67,54 @@ hourly_rides <- rides %>%
   group_by(start_hour = floor_date(start_time, unit = "hours")) %>% 
   count()
 ```
+
+## Exercise 5
+
+```{r count-by-hour-and-member-type}
+hourly_rides <- rides %>%
+  group_by(hour = floor_date(start_time, unit = "hours"), member_type) %>% 
+  summarize(rides = n())
+```
+
+## Exercise 6
+
+```{r count-by-day-and-member-type}
+daily_rides <- rides %>%
+  group_by(day = floor_date(start_time, unit = "days"), member_type) %>% 
+  summarize(rides = n())
+```
+
+## Exercise 7
+
+```{r rides-by-weekday}
+hourly_rides %>%
+  filter(member_type != "Unknown") %>% 
+  ggplot(aes(x = wday(hour, label = TRUE), y = rides, fill = member_type)) +
+  geom_boxplot() +
+  labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
+```
+
+## Exercise 8
+
+```{r rides-by-weekday-table, echo=FALSE}
+hourly_rides %>% 
+  filter(member_type != "Unknown") %>% 
+  group_by(weekday = wday(hour, label = TRUE), member_type) %>% 
+  summarize(median_rides = median(rides)) %>% 
+  pivot_wider(names_from = member_type, values_from = median_rides) %>% 
+  knitr::kable()
+```
+
+
+## Exercise 9
+
+```{r ride-distributions-by-hour, fig.height=10, fig.width=10}
+hourly_rides %>% 
+  filter(member_type != "Unknown") %>% 
+  mutate(is_weekend = if_else(
+    wday(hour, label = TRUE) %in% c("Sat", "Sun"),
+    "Weekend", "Weekday")) %>% 
+  ggplot(aes(x = as_factor(lubridate::hour(hour)), y = rides, fill = member_type)) + 
+    geom_boxplot() +
+    facet_wrap(~ is_weekend, scales = "free_y", nrow = 2)
+```

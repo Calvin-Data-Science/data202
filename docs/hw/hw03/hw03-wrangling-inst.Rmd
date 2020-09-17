@@ -10,6 +10,9 @@ link-citations: yes
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+# Disable a warning message.
+options(dplyr.summarise.inform = FALSE)
 ```
 
 The template uses the following packages.
@@ -22,9 +25,9 @@ library(lubridate)
 
 # Load Data
 
-We download the data from the [Capital BikeShare program](https://www.capitalbikeshare.com/system-data). Note the license agreement there. We removed some columns of the data that we aren't using to reduce the size of the dataset you have to download.
+We downloaded the data from the [Capital BikeShare program](https://www.capitalbikeshare.com/system-data). Note the license agreement there. We removed some columns of the data that we aren't using to reduce the size of the dataset you have to download.
 
-The data files are broken up by year. Here we read in the data for both 2011 and 2012, the same two years that you worked with in Homework 1 and 2.
+The data files are broken up by year. Here we read in the data for both 2011 and 2012, the same two years that you worked with in Homework 1 and 2. The template already includes these lines, so you can just Run All to get the data loaded.
 
 ```{r load-data}
 # Read the file, specifying data types for each column.
@@ -40,6 +43,13 @@ rides_2012 <- read_csv("data/rides_2012.csv.gz", col_types = cols(
 ))
 ```
 
+
+Each row is a *ride*. For each ride we're given the start time of the trip, its duration, and "member type".
+According to the website:
+
+> Member Type – Indicates whether user was a "registered" member (Annual Member, 30-Day Member or Day Key Member) or a "casual" rider (Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass)
+
+
 1. Combine the data from these two years into a single data frame called `rides`. (Hint: `bind_rows`).
 Report some basic information about its shape.
 
@@ -50,57 +60,51 @@ rides <- bind_rows(
 )
 ```
 
-
-Each row is a *ride*. For each ride we're given the start time of the trip, its duration, and "member type".
-According to the website:
-
-> Member Type – Indicates whether user was a "registered" member (Annual Member, 30-Day Member or Day Key Member) or a "casual" rider (Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass)
-
-
 2. What units is `duration` probably measured in? Make a visualization to justify your answer.
 
 
+3. Make a table that shows how many rides were taken by members and how many were taken by non-members.
 
-3. Make a table that shows how many rides were taken by members and non-members.
-
-```{r count-member-type}
+```{r count-member-type, echo=FALSE}
 rides %>%
   count(member_type)
 ```
 
 4. Create a dataframe like the one used in Homework 2 that includes the number of rides in each hour. How many rows does this data frame have? How many *should* it have? (Don't try to fix this right now.)
 
+```{marginfigure}
+See the `lubridate` [cheat sheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf) and the ["dates and times" chapter](https://r4ds.had.co.nz/dates-and-times.html) of "R for Data Science".
+```
+
 * The `floor_date` function can be used to round dates to the nearest hour (see its `unit` parameter).
 * You may use `count`, but also try using `summarize(n = n())`
 
-```{r aggregate-hourly}
+```{r aggregate-hourly, echo=FALSE}
 hourly_rides <- rides %>%
   group_by(start_hour = floor_date(start_time, unit = "hours")) %>% 
   count()
 ```
 
-```{marginfigure}
-See the `lubridate` [cheat sheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf) and the ["dates and times" chapter](https://r4ds.had.co.nz/dates-and-times.html) of "R for Data Science".
-```
 
-1. Break down the result by casual vs registered member.
+5. Break down the result by casual vs registered member. The result should look like:
 
-```{r}
+```{r count-by-hour-and-member-type, echo=FALSE}
 hourly_rides <- rides %>%
   group_by(hour = floor_date(start_time, unit = "hours"), member_type) %>% 
   summarize(rides = n())
+hourly_rides
 ```
 
-1. Repeat, aggregating by date instead.
+6. Repeat, aggregating by date instead. 
 
-1. Recreate the "Distribution of Rides by Weekday" plot from Homework 2 using this dataset.
+7. Recreate the "Distribution of Rides by Weekday" plot from Homework 2 using this dataset.
 
 Notes:
 
 * You will need the `wday` function (from the `lubridate` package) to get the day of week. Give it `label = TRUE` to get "Sun", "Mon" instead of numbers.
 * Omit the "Unknown" member type.
 
-```{r}
+```{r rides-by-weekday, echo=FALSE}
 hourly_rides %>%
   filter(member_type != "Unknown") %>% 
   ggplot(aes(x = wday(hour, label = TRUE), y = rides, fill = member_type)) +
@@ -108,20 +112,24 @@ hourly_rides %>%
   labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
 ```
 
-1. Make a tabular summary of this same dataset: what is the median number of rides taken by each type of rider for each day of the week?
+8. Make a tabular summary of this same dataset: what is the median number of rides taken by each type of rider for each day of the week?
 
 * Bonus: once you get the basic table, try adding as the last step of your pipeline `pivot_wider(names_from = ___, values_from = ___)`, filling in the blanks appropriately.
+* Bonus 2: end your pipeline with `knitr::kable()` for a nice-looking table.
 
-```{r}
+Following the bonuses will make a table that looks like:
+
+```{r rides-by-weekday-table, echo=FALSE}
 hourly_rides %>% 
   filter(member_type != "Unknown") %>% 
   group_by(weekday = wday(hour, label = TRUE), member_type) %>% 
   summarize(median_rides = median(rides)) %>% 
-  pivot_wider(names_from = member_type, values_from = median_rides)
+  pivot_wider(names_from = member_type, values_from = median_rides) %>% 
+  knitr::kable()
 ```
 
 
-1. Recreate the "Distribution of Rides by Hour" plot using this dataset.
+9. Recreate the "Distribution of Rides by Hour" plot using this dataset.
 
 * Note: the hw2 dataset had marked some holidays as non-working days. For this plot, let's ignore
   that and just assume that Saturday and Sunday are the only non-working days.
@@ -130,7 +138,7 @@ hourly_rides %>%
   * `as_factor`
   * `if_else` or `case_when`.
 
-```{r ride-distributions-by-hour, fig.height=10, fig.width=10}
+```{r ride-distributions-by-hour, fig.height=10, fig.width=10, echo=FALSE}
 hourly_rides %>% 
   filter(member_type != "Unknown") %>% 
   mutate(is_weekend = if_else(
@@ -144,6 +152,8 @@ hourly_rides %>%
 
 
 ## Appendix: Preprocessing
+
+This is the code that I used to download and preprocess the dataset.
 
 ```{r eval=FALSE, include=FALSE}
 datafiles <- tribble(
