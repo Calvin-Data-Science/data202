@@ -71,9 +71,19 @@ rides <- bind_rows(
 
 3. Make a table that shows how many rides were taken by members and how many were taken by non-members.
 
+```{marginfigure}
+Note that `summarize` and `summarise` are synonyms.
+```
+
+Make the same result in two ways: once with `count`, and once with `group_by` and `summarize`.
+Your result should look like this (use `knitr::kable()` at the end of your pipe if you want the nice formatting).
+
 ```{r count-member-type, echo=FALSE}
 rides %>%
-  count(member_type)
+  group_by(member_type) %>% 
+  summarize(n = n()) %>% 
+#  count(member_type) %>%
+  knitr::kable()
 ```
 
 4. Create a dataframe like the one used in Homework 2 that includes the number of rides in each hour. How many rows does this data frame have? How many *should* it have? (Don't try to fix this right now.)
