@@ -1,0 +1,35 @@
+---
+title: "W3 Notes"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+---
+
+```{r include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+```
+
+<style>.remark-slide-number {display: none; }</style>
+
+## Inline R code
+
+R Markdown input
+
+```{r eval=FALSE}
+The `mtcars` dataset has data about `r nrow(mtcars)` cars.
+```
+
+.center[
+`r emo::ji("arrow_down_small")`
+]
+
+> The `mtcars` dataset has data about `r nrow(mtcars)` cars.
+
