@@ -12,7 +12,12 @@ library(gapminder)
 ```
 
 ```{r}
+# coronavirus::update_dataset()
 cases <- coronavirus::coronavirus
+```
+
+```{r}
+cases %>% summarise(max(date))
 ```
 
 

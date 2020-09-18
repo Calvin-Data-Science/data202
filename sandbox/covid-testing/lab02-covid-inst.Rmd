@@ -99,9 +99,11 @@ latest_data
 ggplot(latest_data, aes(x = total_tests_per_thousand, y = reorder(continent, total_tests_per_thousand, median))) +
   geom_boxplot()
 ```
+
 ```{r}
 latest_data$total_tests_per_thousand %>% skim()
 ```
+
 ```{r}
 testing_countries <- latest_data %>% filter(total_tests_per_thousand > 15) %>% pull(location)
 top_testers <- latest_data %>% 
