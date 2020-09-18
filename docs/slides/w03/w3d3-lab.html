@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Practice with Data Transformation</title>
+    <title>Lab</title>
     <meta charset="utf-8" />
     <meta name="author" content="K Arnold" />
     <script src="libs/header-attrs-2.3/header-attrs.js"></script>
@@ -11,7 +11,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Practice with Data Transformation
+# Lab
 ### K Arnold
 
 ---
@@ -21,106 +21,66 @@ class: center, middle, inverse, title-slide
 
 ## Q&amp;A
 
-&gt; How to sort in descending order?
+&gt; Grading? Feedback?
 
-`?arrange` says: "Use `desc()` to sort a variable in descending order."
+We're catching up. HW1 and Quiz 1--2 are done.
 
-&gt; When to fix data types?
+&gt; New structure? Grading?
 
-Lecture forthcoming :)
+We'll implement slowly. By default everything is same. No changes to due dates 
+or grading distribution
 
-&gt; ggformula?
+&gt; (When) do I need to physically attend class?
 
-Our books don't cover it, but you're welcome to use it.
-
----
-
-class: middle
-
-## The RStudio Server...
-
-... has been giving us trouble.
-
-### Workarounds
-
-* Install on your own computer 
-* [`remote.cs.calvin.edu`](https://remote.cs.calvin.edu/)
+Physical attendance always optional (see policy). We'll try in-person every day and see
+how that goes.
 
 ---
 
-## `learnr` tutorials
+## Q&amp;A
 
-* **Initial setup**:
-`install.packages(c("learnr", "remotes"))`
+&gt; When Python?
 
-* **Update**: `remotes::install_github("CalvinData/ds202calvin")`
+In a couple weeks.
 
-* **Run**:
+---
+
+## Git Tab
+
+No:
+
+&lt;img src="img/messy-git-tab.png" width="100%" /&gt;
+
+---
+
+## Git Tab
+
+No:
 
 
-```r
-learnr::available_tutorials("ds202calvin")
-learnr::run_tutorial("hotels-wrangling", package = "ds202calvin")
-```
+&lt;img src="img/need-to-push.png" width="100%" /&gt;
 
 
 ---
 
-layout: true
+## Git Tab
 
-## Proposed Structure Changes
+Yes:
 
-Feedback welcome!
-
----
+&lt;img src="img/clean-git-tab.png" width="100%" /&gt;
 
 ---
 
-* Lab
-  * still due on Monday
-  * But instead of working on it only on Fridays...
-  * we'll be working a little each class meeting.
-  
----
+## Work through Lab 3
 
-* Lab
-* Quizzes
-  * Prep quiz: unlimited attempts, categorized as Prep
-  * Post-class quizzes will sometimes include add an easy but graded question from the day's Lab,
-    closes beginning of next class meeting (unless you ask me)
-  * "Real" quiz: one attempt, closes Friday
+Some highlights:
 
----
-
-* Lab
-* Quizzes
-* New semester-long discussion forums
-  * *enrichment activities*: Do one or two optional activities throughout the semester, report back to the class
-      * [ICPSR Data Fair](https://www.icpsr.umich.edu/web/pages/membership/datafair/index.html) next week, ["Philosophy of Data Science" podcast](https://www.podofasclepius.com/philosophy-of-data-science), propose others!
-  * *Data Science in the News*: share current events related to DS
-      * Articles that *use* data science to tell a story
-      * Articles *about* data science
-
----
-layout: false
-
-## Resources
-
-* [Cheatsheets](https://rstudio.com/resources/cheatsheets/)
-  * [Data Transformation](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) (dplyr)
-  * [Data Visualization](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
-  * [R Markdown](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
-
----
-
-## Weekly Labs
-
-* This week: [Nobel Laureates](../lab/lab03-nobel/)
-* Next week: Covid-19 cases
-
-Propose datasets or analyses you're interested in!
-
----
+* Inline R code (see Additional Notes on Moodle)
+* Forgetting to Knit or to stage
+* pipeline gotchas (like forgetting a `%&gt;%`)
+* ggplot gotchas (like forgetting a `+`)
+* multiline function gotchas (like forgetting a `,`)
+* aesthetic mappings for bar plots (Lab exercises 3 and 5)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
