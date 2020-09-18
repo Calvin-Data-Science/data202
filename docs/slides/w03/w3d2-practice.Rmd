@@ -159,6 +159,28 @@ No:
 knitr::include_graphics("img/messy-git-tab.png")
 ```
 
+---
+
+## Git Tab
+
+No:
+
+
+```{r echo=FALSE, out.width="100%"}
+knitr::include_graphics("img/need-to-push.png")
+```
+
+
+---
+
+## Git Tab
+
+Yes:
+
+```{r echo=FALSE, out.width="100%"}
+knitr::include_graphics("img/messy-git-tab.png")
+```
+
 
 ---
 

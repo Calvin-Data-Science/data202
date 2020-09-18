@@ -510,7 +510,7 @@ hotels %>%
 # bookings in City Hotels
 hotels %>%
   filter(hotel == "City Hotel") #<<
-````
+```
 ]
 
 ---
