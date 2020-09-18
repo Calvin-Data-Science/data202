@@ -15,9 +15,21 @@ knitr::opts_chunk$set(echo = TRUE)
 options(dplyr.summarise.inform = FALSE)
 ```
 
+In this exercise, we'll continue our study of the bike sharing data, but we’re
+starting to take off the training wheels: rather than using
+pre-wrangled data, you’ll be doing some of the data wrangling yourself!
+
+In this exercise you'll:
+
+* *refine* your skills in creating reproducible documents (R Markdown), graphics (ggplot2), and filtering functions
+* *learn* grouping and aggregation functions, and one pivoting operation (`pivot_wider`)
+* *see* some ways to work with dates
+
 ## Getting started
 
-**[Claim your repo!](https://classroom.github.com/a/AoHHom3-)**
+Go to [our GitHub org](https://github.com/Calvin-DS202-FA20/) and find your `hw03` repo.
+
+(The "GitHub Classroom" approach has stopped working for us.)
 
 As usual, clone the repo and try to knit the template `Rmd`.
 
@@ -56,10 +68,10 @@ According to the website:
 > Member Type – Indicates whether user was a "registered" member (Annual Member, 30-Day Member or Day Key Member) or a "casual" rider (Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass)
 
 
-1. Combine the data from these two years into a single data frame called `rides`. (Hint: `bind_rows`).
+1. Use the code below to combine the data from these two years into a single data frame called `rides`.
 Report some basic information about its shape.
 
-```{r bind-rows, echo=FALSE}
+```{r bind-rows}
 rides <- bind_rows(
   rides_2011,
   rides_2012
@@ -130,10 +142,10 @@ hourly_rides %>%
 
 8. Make a tabular summary of this same dataset: what is the median number of rides taken by each type of rider for each day of the week?
 
-* Bonus: once you get the basic table, try adding as the last step of your pipeline `pivot_wider(names_from = ___, values_from = ___)`, filling in the blanks appropriately.
-* Bonus 2: end your pipeline with `knitr::kable()` for a nice-looking table.
+* Once you get the basic table, try adding as the last step of your pipeline `pivot_wider(names_from = ___, values_from = ___)`, filling in the blanks appropriately.
+* End your pipeline with `knitr::kable()` for a nice-looking table.
 
-Following the bonuses will make a table that looks like:
+The result should look like:
 
 ```{r rides-by-weekday-table, echo=FALSE}
 hourly_rides %>% 
