@@ -9,7 +9,6 @@ output:
     nature:
       ratio: "16:9"
       highlightLines: true
-      highlightStyle: solarized-dark
       countIncrementalSlides: false
 ---
 
@@ -117,6 +116,49 @@ layout: false
 * Next week: Covid-19 cases
 
 Propose datasets or analyses you're interested in!
+
+---
+
+class: center, middle
+
+## Friday
+
+---
+
+## Q&A
+
+> Grading? Feedback?
+
+We're catching up. HW1 is done.
+
+> New structure? Grading?
+
+We'll implement slowly. By default everything is same. No changes to due dates 
+or grading distribution
+
+> (When) do I need to physically attend class?
+
+Physical attendance always optional (see policy). We'll try in-person every day and see
+how that goes.
+
+---
+
+## Q&A
+
+> When Python?
+
+In a couple weeks.
+
+---
+
+## Git Tab
+
+No:
+
+```{r echo=FALSE, out.width="100%"}
+knitr::include_graphics("img/messy-git-tab.png")
+```
+
 
 ---
 
