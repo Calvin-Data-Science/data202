@@ -1,9 +1,13 @@
 ALL: deploy
 
-docs := $(patsubst %.Rmd,%.html,$(wildcard docs/*.Rmd))
+docs := $(patsubst %.Rmd,%.html,$(shell find docs -iname '*.Rmd'))
+slide_pdfs := $(patsubst %.Rmd,%.pdf,$(shell find docs/slides -iname '*.Rmd'))
 
 %.html: %.Rmd
 	Rscript -e "rmarkdown::render('"$<"')"
 
-deploy: $(docs)
+%.pdf: %.html
+	decktape --chrome-arg=--allow-file-access-from-files "$<" "$@"
+
+deploy: $(docs) $(slide_pdfs)
 	rsync -rx --exclude="*.Rmd" --delete-after docs/ cs-prod:/webroot/courses/data/202/fa20
