@@ -24,7 +24,7 @@ ghorg <- "Calvin-DS202-FA20"
 ```
 
 ```{r}
-students <- tibble::tribble(
+roster <- tibble::tribble(
                     ~name,            ~github_username,
                  "Adam DenHaan",             "adamddh",
                 "Advait Scaria",             "ajs2440",
@@ -65,11 +65,11 @@ students <- tibble::tribble(
 ```
 
 ```{r}
-nrow(students)
+nrow(roster)
 ```
 
 ```{r}
-org_members(ghorg) %>% setdiff(org_admins(ghorg)) %>% setdiff(students$github_username)
+org_members(ghorg) %>% setdiff(org_admins(ghorg)) %>% setdiff(roster$github_username)
 ```
 
 # Set up assignment templates
@@ -86,7 +86,10 @@ createAssignment <- function(assignmentTemplatePath) {
   message(glue("Creating assignment {assignmentName}"))
   repoName <- paste0(assignmentName, "-template")
   repo_create(ghorg, repoName, gitignore_template = "")
-  repo_set_template(paste0(ghorg, "/", repoName))
+  
+  # If we have big data files, can't use template repos.
+  # repo_set_template(paste0(ghorg, "/", repoName))
+  
   message("Pushing local repo")
   system2("./make-repo.sh", c(repoName, assignmentTemplatePath))
   message(glue("Pushed repo to https:://github.com/{ghorg}/{repoName}"))
@@ -110,6 +113,22 @@ for f in file_list:
   
 ```
 
+
+# Push repo to students
+
+```{r}
+org_repos(ghorg, "hw03")
+```
+
+
+```{r}
+org_create_assignment(
+  org = ghorg,
+  user = roster$github_username,
+  repo = paste0("hw03-", roster$github_username),
+  source_repo = paste0(ghorg, "/", "hw03-template")
+)
+```
 
 
 # Harvest Student Work
