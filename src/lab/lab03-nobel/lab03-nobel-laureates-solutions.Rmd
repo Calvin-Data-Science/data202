@@ -23,7 +23,7 @@ provides `r ncol(nobel)` variables.
 
 ### Exercise 2
 
-```{r}
+```{r nobel-living}
 nobel_living <- nobel %>%
   filter(!is.na(country),
          gender != "org",
@@ -44,7 +44,7 @@ nobel_living_science <- nobel_living %>%
 
 ### Exercise 3
 
-```{r}
+```{r country-living}
 ggplot(nobel_living_science, aes(y = country_us)) +
   geom_bar() +
   facet_wrap(~ category) +
@@ -60,7 +60,7 @@ the US than in any other country at the time the prize was awarded.
 
 ### Exercise 5
 
-```{r}
+```{r country-living-and-born}
 ggplot(nobel_living_science, aes(y = country_us, fill = born_country_us)) +
   geom_bar(position = position_dodge(preserve = "single")) +
   facet_wrap(~ category) +
@@ -70,7 +70,7 @@ ggplot(nobel_living_science, aes(y = country_us, fill = born_country_us)) +
 
 ### Exercise 6
 
-```{r}
+```{r other-countries}
 nobel_living_science %>% 
   filter(country == "USA" & born_country_us != "USA") %>% 
   count(born_country) %>% 
