@@ -62,14 +62,10 @@ roster <- tibble::tribble(
                 "Won-Seok Park",          "AriadustWP",
                        "Yue He",          "haoping-he"
               )
-```
-
-```{r}
 nrow(roster)
-```
-
-```{r}
-org_members(ghorg) %>% setdiff(org_admins(ghorg)) %>% setdiff(roster$github_username)
+stopifnot(
+  0 == length(org_members(ghorg) %>% setdiff(org_admins(ghorg)) %>% setdiff(roster$github_username))
+)
 ```
 
 # Set up assignment templates
