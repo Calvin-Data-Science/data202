@@ -17,14 +17,19 @@ source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(janitor)
 library(lubridate)
 # Disable a warning message.
 options(dplyr.summarise.inform = FALSE)
-
 ```
 
-## Facial Recognition
+## Homework 3
+
+* GitHub repos created for you!
+* Comment out 2012 data if it's giving you trouble
+
+---
+
+## Facial Recognition (Discussion 2)
 
 ---
 
@@ -85,25 +90,19 @@ GitHub renders CSVs in a fancy way, but you can get the plain old CSV if you cli
 We're mostly interested in the URL for this file, since that will let us pull the data into R.
 
 ```{r}
-base_url <-           # it's long, so I'm pasting it together to avoid ugly long lines
-  paste0('https://raw.githubusercontent.com/',
-         'CSSEGISandData/COVID-19/master/',
-         'csse_covid_19_data/csse_covid_19_time_series/')
-
-# not done yet, now we need to add the file name from that folder
-filename <- 
-  paste0('time_series_covid19_', c('confirmed', 'deaths', 'recovered'), '_global.csv')
-
-# OK. Let's put it all together
-url <- paste0(base_url, filename)
-url
+confirmed_global_url <- paste0(
+  "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/",
+  "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_",
+  "confirmed", # also: "deaths", "recovered"
+  "_global.csv"
+)
 ```
 
-Let's read in the first one. (We could be fancier and read all three at once.)
+Read it in.
 
 ```{r read_confirmed}
-confirmed_global <- url[1] %>% 
-  pins::pin() %>% 
+confirmed_global <- confirmed_global_url %>%
+  pins::pin() %>%
   read_csv(col_types = cols(
     .default = col_double(),
     `Province/State` = col_character(),
@@ -112,26 +111,33 @@ confirmed_global <- url[1] %>%
   rename(
     country_or_region = `Country/Region`,
     province_or_state = `Province/State`
-    )
+  )
 ```
 
 ---
 
-### Exploring the data
-
-Let's a take a look at what we have:
-
-```{r explore-data}
-reactable::reactable(confirmed_global, searchable = TRUE)
+.tiny[
+```{r explore-data, echo=FALSE}
+reactable::reactable(confirmed_global, searchable = TRUE, defaultPageSize = 5)
 ```
+]
 
 Notice that each day's count of confirmed cases is in a separate column.
 
-Suppose we want to plot the number of cases over time. What problems might come up?
+Suppose we want to plot the number of cases over time. What about the structure
+of this table might give us trouble?
 
 --
 
 How many observations does each row represent?
+
+---
+
+## Think and discuss
+
+Suppose we want to plot the number of cases over time.
+
+What *should* the table look like?
 
 ---
 
@@ -146,16 +152,16 @@ How many observations does each row represent?
 ---
 
 ```{r pivot-longer-1}
-confirmed_global %>% 
+confirmed_global %>%
   pivot_longer(
-    -(1:4)   # the first 4 columns are not part of the pivot
+    -(1:4) # the first 4 columns are not part of the pivot
   )
 ```
 
 ---
 
 ```{r pivot-longer-2}
-confirmed_global %>% 
+confirmed_global %>%
   pivot_longer(
     -(1:4),
     names_to = "date"
@@ -165,8 +171,8 @@ confirmed_global %>%
 ---
 
 ```{r pivot-longer-3}
-confirmed_global_long <- 
-  confirmed_global %>% 
+confirmed_global_long <-
+  confirmed_global %>%
   pivot_longer(
     -(1:4),
     names_to = "date",
@@ -176,17 +182,39 @@ confirmed_global_long <-
 
 ---
 
-```{r broken-date}
-confirmed_global_long %>% 
-  ggplot(aes(x = date, y = confirmed)) + geom_point()
+```{r broken-date, cache=TRUE}
+confirmed_global_long %>%
+  ggplot(aes(x = date, y = confirmed)) +
+  geom_point()
 ```
 
 ???
 
 ---
 
+## This happens!
+
+```{r out.width="50%"}
+knitr::include_graphics("img/georgia-misleading.png")
+```
+
+.small[
+Source: https://www.vox.com/covid-19-coronavirus-us-response-trump/2020/5/18/21262265/georgia-covid-19-cases-declining-reopening
+]
+
+---
+
+## Aside: lots of Covid visualizations are problematic
+
+* https://sirota.substack.com/p/georgias-misleading-covid-map
+* https://medium.com/nightingale/ten-considerations-before-you-create-another-chart-about-covid-19-27d3bd691be8
+
+---
+
 ```{r successful-parse-date}
-"2020-02-01" %>% parse_date() %>% lubridate::month()
+"2020-02-01" %>%
+  parse_date() %>%
+  lubridate::month()
 ```
 
 ```r
@@ -195,22 +223,52 @@ confirmed_global_long %>%
 
 
 ```{r successful-parse-special-date}
-"2/1/20" %>% parse_date_time("%m/%d/%y!*") %>% lubridate::month()
+"2/1/20" %>%
+  parse_date_time("%m/%d/%y!*") %>%
+  lubridate::month()
 ```
 
 ---
 
 ```{r}
 confirmed_global_long <-
-  confirmed_global %>% 
+  confirmed_global %>%
   pivot_longer(
-    -(1:4),                        # the first 4 columns are not part of the pivot
-    names_to = "date",             # names of the remaining columns will be put into a date column
-    values_to = "confirmed") %>%   # values will be put into a column called confirmed
-  mutate(date = lubridate::parse_date_time(date, "%m/%d/%y!*"))  # convert to date objects
+    -(1:4), # the first 4 columns are not part of the pivot
+    names_to = "date", # names of the remaining columns will be put into a date column
+    values_to = "confirmed"
+  ) %>% # values will be put into a column called confirmed
+  mutate(date = lubridate::parse_date_time(date, "%m/%d/%y!*")) # convert to date objects
 
 confirmed_global_long
 ```
+
+---
+
+## Plotting the data
+
+---
+
+```{r total-cases-by-date, out.width="40%", fig.align='center'}
+confirmed_global_long %>%
+  group_by(date) %>%  #<<
+  summarize(confirmed = sum(confirmed)) %>% #<<
+  ggplot(aes(x = date, y = confirmed)) +
+    geom_line() +
+    labs(title="Worldwide cases over time")
+```
+
+---
+
+```{r cases-by-country-broken, fig.width=15, fig.height=6}
+confirmed_global_long %>%
+  filter(country_or_region %in%
+    c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")) %>%
+  ggplot(aes(x = date, y = confirmed)) +
+  geom_line() +
+  facet_wrap(~country_or_region, scales = "free_y")
+```
+
 
 ---
 
@@ -222,44 +280,15 @@ confirmed_global %>%
 
 ---
 
-## Plotting the data
-
-### Worldwide cases
-
-To see the worldwide number of confirmed cases over time, we can group the data by date and 
-add up all the confirmed counts.
-
-```{r total-cases-by-date}
+```{r cases-by-country, fig.width=15, fig.height=6}
 confirmed_global_long %>%
-  group_by(date) %>% 
-  summarize(confirmed = sum(confirmed)) %>% 
+  filter(country_or_region %in%
+    c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")) %>%
+  group_by(country_or_region, date) %>% # <<
+  summarize(confirmed = sum(confirmed)) %>% # <<
   ggplot(aes(x = date, y = confirmed)) +
-    geom_line()
-```
-
----
-
-```{r cases-by-country-broken, fig.width=15, fig.height=7}
-confirmed_global_long %>%
-  filter(country_or_region %in% 
-           c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")) %>%
-  ggplot(aes(x = date, y = confirmed)) +
-    geom_line() +
-    facet_wrap(~ country_or_region, scales = "free_y")
-```
-
-
----
-
-```{r cases-by-country}
-confirmed_global_long %>%
-  filter(country_or_region %in% 
-           c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")) %>%
-  group_by(country_or_region, date) %>%   #<<
-  summarize(confirmed = sum(confirmed)) %>%  #<<
-  ggplot(aes(x = date, y = confirmed)) +
-    geom_line() +
-    facet_wrap(~ country_or_region, scales = "free_y")
+  geom_line() +
+  facet_wrap(~country_or_region, scales = "free_y")
 ```
 
 ---
@@ -269,13 +298,35 @@ confirmed_global_long %>%
 A data source: the [World Bank](https://data.worldbank.org/indicator/SP.POP.TOTL).
 
 ```{r get-population}
-population <- wbstats::wb_data(
-  "SP.POP.TOTL",
-  mrnev = 1 # most recent non-empty value
-) %>% 
+reload_data <- FALSE
+if (reload_data) {
+  wbstats::wb_data("SP.POP.TOTL",
+    mrnev = 1 # most recent non-empty value
+  ) %>% write_csv("data/worldbank_sp_pop_totl.csv")
+}
+
+population <-
+  read_csv(
+    "data/worldbank_sp_pop_totl.csv",
+    col_types = cols_only(
+      iso2c = col_character(),
+      iso3c = col_character(),
+      country = col_character(),
+      date = col_double(),
+      SP.POP.TOTL = col_double(),
+      footnote = col_character()
+    )
+  ) %>%
   select(iso2c, iso3c, country, population = SP.POP.TOTL)
+```
+
+---
+
+.tiny[
+```{r show-population}
 population %>% reactable::reactable()
 ```
+]
 
 ---
 
@@ -292,13 +343,13 @@ cases_with_population <- inner_join(
 
 ```{r join-plot-broken}
 cases_with_population %>%
-  filter(country %in% 
-           c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")) %>%
-  group_by(country, date) %>%   #<<
-  summarize(confirmed = sum(confirmed)) %>%  #<<
+  filter(country %in%
+    c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")) %>%
+  group_by(country, date) %>% # <<
+  summarize(confirmed = sum(confirmed)) %>% # <<
   ggplot(aes(x = date, y = confirmed)) +
-    geom_line() +
-    facet_wrap(~ country, scales = "free_y")
+  geom_line() +
+  facet_wrap(~country, scales = "free_y")
 ```
 
 ---
@@ -306,7 +357,7 @@ cases_with_population %>%
 ### Debugging a join
 
 ```{r join-debug}
-anti_join(  #<<
+anti_join( # <<
   confirmed_global_long %>% select(country = country_or_region, date, confirmed),
   population %>% select(country, population),
   by = "country"
@@ -327,27 +378,29 @@ anti_join(  #<<
 
 
 ```{r, include = FALSE, eval = FALSE}
-US <- readr::read_csv("../../data/USstates.csv") 
+US <- readr::read_csv("../../data/USstates.csv")
 
 Confirmed_long %>%
   filter(country_or_region %in% c("US")) %>%
-  filter(date > lubridate::ymd('2020-03-08')) %>%
+  filter(date > lubridate::ymd("2020-03-08")) %>%
   filter(confirmed > 0) %>%
   rename(state = `Province/State`) %>%
   left_join(US) %>%
-  group_by(state, date, population2019) %>% 
-  summarise(confirmed = sum(confirmed)) %>% 
+  group_by(state, date, population2019) %>%
+  summarise(confirmed = sum(confirmed)) %>%
   mutate(percap = 100000 * confirmed / population2019) %>%
   ungroup() %>%
   mutate(state = reorder(state, percap, max)) %>%
   # filter(population2019 > 8000000) %>%
-  gf_line(percap ~ date, color = ~(state == "Michigan"), 
-          group = ~state, show.legend = FALSE,
-          size = 1, alpha = 0.8
-          ) %>%
+  gf_line(percap ~ date,
+    color = ~ (state == "Michigan"),
+    group = ~state, show.legend = FALSE,
+    size = 1, alpha = 0.8
+  ) %>%
   gf_refine(scale_y_log10()) %>%
-  gf_labs(title = "Per capita confirmed cases by state",
-          subtitle = "MI highlighted",
-          caption = "Source: JHU data repository")
+  gf_labs(
+    title = "Per capita confirmed cases by state",
+    subtitle = "MI highlighted",
+    caption = "Source: JHU data repository"
+  )
 ```
-
