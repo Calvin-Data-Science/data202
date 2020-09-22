@@ -24,47 +24,12 @@ ghorg <- "Calvin-DS202-FA20"
 ```
 
 ```{r}
-roster <- tibble::tribble(
-                    ~name,            ~github_username,
-                 "Adam DenHaan",             "adamddh",
-                "Advait Scaria",             "ajs2440",
-                  "Alex Visser",            "awvisser",
-               "Ashley Pigatti",            "apigatti",
-                   "Ben Steves",           "bensteves",
-                 "Boyoung Jung",   "Cora-Boyoung-Jung",
-                 "Brad Ritzema",            "britzema",
-                  "Brea Koenes",         "brea-koenes",
-                  "Caleb Roper",          "calebroper",
-                 "Carson Ellis",                "cde3",
-               "Curtis DeZwaan",                "cdd5",
-                "Esther Baidoo",           "NanaAma-B",
-                "Ethan Walters",          "ewalters47",
-                     "Hyein Oh",                "ho24",
-                 "Jacob Gregor",               "jpg26",
-                 "Jared Mulder",         "Jaredmulder",
-                     "Jenn Lau",               "jl99s",
-                 "Joe Pastucha",         "JoePastucha",
-                "Joe Wilkinson",               "jrw53",
-                "Jordan Decker",            "jdecks35",
-               "Kaitlyn Westra",               "kew24",
-                "Danish Ansari",      "danishansari71",
-                      "Kj Kane",           "Fishering",
-                  "Krista Hoek",          "KristaHoek",
-               "Lauren Steffen",           "lmsteffen",
-                  "Luca Seazzu",             "lseazzu",
-               "Lucas Holcombe",           "lholcombe",
-                  "Matt Lobbes",          "mattlobbes",
-                "Rebekah Cross",          "RJCross315",
-                "Ricky Padilla", "RickyPadillaRIcky23",
-                  "Sonali Bola",         "sonali-bola",
-              "Tomoki Takeuchi",                "tt35",
-                   "Wendy Wang",          "wendyW-104",
-                "Won-Seok Park",          "AriadustWP",
-                       "Yue He",          "haoping-he"
-              )
+roster <- read_csv("../roster.csv", col_types = cols(
+  .default = col_character()
+)) %>% janitor::clean_names()
 nrow(roster)
 stopifnot(
-  0 == length(org_members(ghorg) %>% setdiff(org_admins(ghorg)) %>% setdiff(roster$github_username))
+  0 == length(org_members(ghorg) %>% setdiff(org_admins(ghorg)) %>% setdiff(roster$github))
 )
 ```
 
@@ -72,6 +37,40 @@ stopifnot(
 
 ```{r}
 org_sitrep(ghorg)
+```
+
+# Assign Teams
+
+```{r assign-teams}
+set.seed(0)
+roster_withteams <- roster %>%
+  slice_sample(prop=1) %>% 
+  group_by(cohort) %>% 
+  mutate(
+    team = glue("{cohort}{if_else((row_number() - 1) / n() < .5, 1, 2)}")
+  ) %>%
+  ungroup()
+
+
+danish_team <- roster_withteams %>% filter(str_detect(student_name, "Danish")) %>% pull(team)
+if (3 != roster_withteams %>% filter(team == danish_team) %>% nrow()) {
+  stop("Danish should always be on a team of 3.")
+}
+```
+
+Run this to copy team membership to clipboard. Paste into Excel and copy back out again for easy formatting as HTML table.
+
+```{r copy-team-membership, eval=FALSE}
+roster_withteams %>%
+  select(Name = preferred_full_name, Team = team) %>%
+  arrange(Team) %>% 
+  clipr::write_clip()
+```
+
+
+
+```{r team-member-count}
+roster_withteams %>% count(team)
 ```
 
 # Create Assignment
@@ -96,7 +95,7 @@ createAssignment <- function(assignmentTemplatePath) {
 createAssignment("hw/hw03-agg/")
 ```
 
-```{python}
+```python
 import subprocess, pathlib
 file_list = subprocess.run(
   ["git", "ls-files", "-z"], stdout=subprocess.PIPE, cwd=str(pathlib.Path("hw/hw03-agg"))
@@ -112,15 +111,20 @@ for f in file_list:
 
 # Push repo to students
 
+
 ```{r}
-org_repos(ghorg, "hw03")
+#repo_create(org = ghorg, name = "hw03-kcarnold")
+#repo_mirror(
+#  source_repo = paste0(ghorg, "/", "hw03-template"),
+#  target_repo = paste0(ghorg, '/', 'hw03-kcarnold'))
 ```
 
 
-```{r}
+```{r eval=FALSE}
+users <- c(roster$github, "kcarnold")
 org_create_assignment(
   org = ghorg,
-  user = roster$github_username,
+  user = users,
   repo = paste0("hw03-", roster$github_username),
   source_repo = paste0(ghorg, "/", "hw03-template")
 )
