@@ -80,6 +80,8 @@ rides <- bind_rows(
 
 2. What units is `duration` probably measured in? Make a visualization to justify your answer.
 
+*Supplemental exercise*: Try making a new column with `duration` in a different unit. For example, if `duration` was in years, 
+you could create a column `duration_months` by computing `duration * 12`.
 
 3. Make a table that shows how many rides were taken by members and how many were taken by non-members.
 
@@ -100,12 +102,14 @@ rides %>%
 
 4. Create a dataframe like the one used in Homework 2 that includes the number of rides in each hour. How many rows does this data frame have? How many *should* it have? (Don't try to fix this right now.)
 
+*Hint*: If you're having any trouble with this, go back to Exercise 2 and do the Supplemental Exercise there. You'll need a very similar approach here.
+
 ```{marginfigure}
 See the `lubridate` [cheat sheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf) and the ["dates and times" chapter](https://r4ds.had.co.nz/dates-and-times.html) of "R for Data Science".
 ```
 
 * The `floor_date` function can be used to round dates to the nearest hour (see its `unit` parameter).
-* You may use `count`, but also try using `summarize(n = n())`
+* You may use `count`, but I really recommend you use `summarize(n = n())`--overall it's less confusing.
 
 ```{r aggregate-hourly, echo=FALSE}
 hourly_rides <- rides %>%
@@ -125,20 +129,43 @@ hourly_rides
 
 6. Repeat, aggregating by date instead. 
 
+```{r count-by-day-and-member-type}
+daily_rides <- rides %>%
+  group_by(day = floor_date(start_time, unit = "days"), member_type) %>% 
+  summarize(rides = n())
+```
+
 7. Recreate the "Distribution of Rides by Weekday" plot from Homework 2 using this dataset.
 
 Notes:
 
 * You will need the `wday` function (from the `lubridate` package) to get the day of week. Give it `label = TRUE` to get "Sun", "Mon" instead of numbers.
 * Omit the "Unknown" member type.
+* Tip: The most straightforward approach is to make a new column for the day of
+week and map that to an aesthetic. But you can skip a step: the `aes` function
+lets you specify an *expression*, not just a column name, for the aesthetics,
+so you can calculate it right where you need it.
+* The original instructions were slightly ambiguous: your plot data could be one row per hour:
 
-```{r rides-by-weekday, echo=FALSE}
+```{r rides-by-weekday-hour, echo=FALSE}
 hourly_rides %>%
   filter(member_type != "Unknown") %>% 
   ggplot(aes(x = wday(hour, label = TRUE), y = rides, fill = member_type)) +
   geom_boxplot() +
   labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
 ```
+
+or one row per day:
+
+```{r rides-by-weekday, echo=FALSE}
+daily_rides %>%
+  filter(member_type != "Unknown") %>% 
+  ggplot(aes(x = wday(day, label = TRUE), y = rides, fill = member_type)) +
+  geom_boxplot() +
+  labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
+```
+
+Either is fine.
 
 8. Make a tabular summary of this same dataset: what is the median number of rides taken by each type of rider for each day of the week?
 
