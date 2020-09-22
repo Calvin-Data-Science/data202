@@ -1,0 +1,50 @@
+---
+title: "Lab 04 - Covid Wrangling"
+output: 
+  tufte::tufte_html:
+    css: ../lab.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+Covid-19 case counts frequently make headlines these days, but the actual data
+is notoriously difficult to work with. The main problems are statistical: testing
+is extremely biased, so most case counts are substantial *under*estimates.
+But even if we assume that reported counts are somehow useful, there are
+problems that come up in analyzing and modeling them that are well suited
+to the tools that we are studying this week.
+
+In this lab we will work with Covid-19 case count data from one of the most
+prominent sources, the Systems group at Johns Hopkins ([CSEE](https://systems.jhu.edu/)).
+In the process of making a few simple plots with this data, we will face and
+solve several important data wrangling challenges.
+
+The learning goals of this lab are:
+
+- Recognize some of the issues that come up in real-world data and apply common
+  approaches to resolving them
+- Manipulate and transform data to prepare it for visualization.
+- Start to work together in teams.
+
+## Getting started
+
+Go to [our GitHub org](https://github.com/Calvin-DS202-FA20/) and find your `hw03` repo.
+
+(The "GitHub Classroom" approach has stopped working for us.)
+
+As usual, clone the repo and try to knit the template `Rmd`.
+
+
+```{r}
+library(tidyverse)
+library(lubridate)
+# Disable a warning message.
+options(dplyr.summarise.inform = FALSE)
+```
+
+
