@@ -139,6 +139,7 @@ daily_rides <- rides %>%
 
 Notes:
 
+* There was a reason that Exercise 5 and 6 come right before this one.
 * You will need the `wday` function (from the `lubridate` package) to get the day of week. Give it `label = TRUE` to get "Sun", "Mon" instead of numbers.
 * Omit the "Unknown" member type.
 * Tip: The most straightforward approach is to make a new column for the day of
