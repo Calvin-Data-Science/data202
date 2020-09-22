@@ -178,6 +178,7 @@ confirmed_global_long <-
     names_to = "date",
     values_to = "confirmed"
   )
+confirmed_global_long
 ```
 
 ---
