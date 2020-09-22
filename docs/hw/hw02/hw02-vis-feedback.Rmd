@@ -33,3 +33,22 @@ hourly_rides <- hourly_rides %>%
 ```
 
 
+# Exercise 5
+
+Note the difference between specifying an attribute:
+
+```{r overplot-attr}
+ggplot(hourly_rides, aes(x = temp, y = rides)) +
+  geom_point(color = "blue") +
+  facet_wrap(~ member_type) + 
+  labs(x = "Normalized temperature", y = "Rides")
+```
+
+... and mapping an aesthetic:
+
+```{r overplot-aes}
+ggplot(hourly_rides, aes(x = temp, y = rides)) +
+  geom_point(aes(color = "blue")) +
+  facet_wrap(~ member_type) + 
+  labs(x = "Normalized temperature", y = "Rides")
+```
