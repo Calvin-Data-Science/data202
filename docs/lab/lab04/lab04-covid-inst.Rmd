@@ -9,7 +9,7 @@ link-citations: yes
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(eval = TRUE)
 ```
 
 Covid-19 case counts frequently make headlines these days, but the actual data
@@ -33,14 +33,26 @@ The learning goals of this lab are:
 
 ## Getting started
 
-Go to [our GitHub org](https://github.com/Calvin-DS202-FA20/) and find your `hw03` repo.
+Go to [our GitHub org](https://github.com/Calvin-DS202-FA20/) and find your team's `lab04` repo.
 
-(The "GitHub Classroom" approach has stopped working for us.)
+Each person on the team should clone the repo and try to knit the template `Rmd`, as usual.
 
-As usual, clone the repo and try to knit the template `Rmd`.
+## Warm up
 
+**Pick one team member to complete the steps in this section while the others contribute to the discussion but do not actually touch the files on their computer.**
 
-```{r}
+Before we dive into the data, let's warm up with some simple exercises.
+
+### Metadata
+
+* Open the R Markdown (Rmd) file in your project, change the author name to your **team** name, and knit the document.
+* Knit, commit, push.
+
+### Pulling changes
+
+Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
+
+```{r packages, include=FALSE}
 library(tidyverse)
 library(lubridate)
 # Disable a warning message.
@@ -48,3 +60,184 @@ options(dplyr.summarise.inform = FALSE)
 ```
 
 
+## Get the data
+
+As you might imagine, keeping a comprehensive list of all COVID-19 cases
+worldwide involves pulling data from numerous sources (and frequent updating).
+Fortunately, some folks at Johns Hopkins have been doing that work and putting
+the resulting data into a github repository that anyone can access.
+
+### Navigating the GitHub Repo
+
+You can visit their GitHub project at <https://github.com/CSSEGISandData/COVID-19>.
+There you will find 
+
+* details about what sources were used for the data,
+* what sorts of data are available, and 
+* some places the data have been used
+
+You will also see this note:
+
+> The Website relies upon publicly available data from multiple sources, that do not always agree. 
+
+### Finding some data
+
+You could clone the repository, but you also just pull the data directly 
+from their repository. They've split the data into "daily reports" (one CSV per
+day, all measures) and "time series" (one CSV per measure, all days).
+Here is an example page showing 
+[one of the data sets](https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv)
+available to you.
+
+
+```{r github-csv, echo=FALSE}
+knitr::include_graphics("../../slides/w04/img/covid-github-csv.png")
+```
+
+### We want raw data
+
+GitHub renders CSVs in a fancy way, but you can get the plain old CSV if you click the Raw button.
+We're mostly interested in the URL for this file, since that will let us pull the data into R.
+
+We split the URL into multiple lines so it's easier to read it.
+
+```{r}
+confirmed_global_url <- paste0(
+  "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/",
+  "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_",
+  "confirmed", # also: "deaths", "recovered"
+  "_global.csv"
+)
+```
+
+Read it in.
+
+```{r read_confirmed}
+confirmed_global <- confirmed_global_url %>%
+  pins::pin() %>%   # Make or update a local cached copy. Comment this line out if you want.
+  read_csv(col_types = cols(
+    .default = col_double(),
+    `Province/State` = col_character(),
+    `Country/Region` = col_character()
+  )) %>%
+  rename(
+    country_or_region = `Country/Region`,
+    province_or_state = `Province/State`
+  )
+```
+
+Let's have a look.
+
+```{r explore-data}
+reactable::reactable(confirmed_global, searchable = TRUE)
+```
+
+Here are all of the unique country names in the dataset, for future reference:
+
+```{r}
+unique(confirmed_global$country_or_region) %>% paste(collapse = ", ")
+```
+
+
+## Tidy data
+
+1. Make a *tidy* data frame with this data. Each row should be a case count for a country on a particular day. All columns should have the correct data type.
+
+You will need the `pivot_longer` function from `tidyr` and the `parse_date_time` function from `lubridate`.
+
+```{r echo=FALSE}
+confirmed_global_long <-
+  confirmed_global %>%
+  pivot_longer(
+    -(1:4),
+    names_to = "date",
+    values_to = "confirmed"
+  ) %>% 
+  mutate(date = lubridate::parse_date_time(date, "%m/%d/%y!*"))
+```
+
+**Switch who's committing here.** Current person needs to Commit and Push, everyone else Pull.
+
+## Plotting
+
+2. Plot the total number of confirmed cases worldwide by date.
+
+For nice *x*-axis labels, add `scale_x_datetime(date_breaks = "1 month", date_labels = "%b")` to the plot.
+
+```{r total-cases-by-date, echo=FALSE}
+confirmed_global_long %>%
+  group_by(date) %>%  #<<
+  summarize(confirmed = sum(confirmed)) %>% #<<
+  ggplot(aes(x = date, y = confirmed)) +
+    geom_line() +
+    scale_x_datetime(date_breaks = "1 month", date_labels = "%b") +
+    labs(title="Worldwide cases over time", y = "Confirmed cases", x = "Date")
+```
+
+3. Plot the total number of cases over time in the following countries:
+
+* China
+* United States
+* Canada
+* Italy
+* UK
+* Russia
+* other countries of your choice
+
+You may need to search the data table to find the country names.
+
+```{r totals-by-country, echo=FALSE}
+countries_to_plot <- c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")
+confirmed_global_long %>%
+  filter(country_or_region %in% countries_to_plot) %>%
+  group_by(country_or_region, date) %>% # <<
+  summarize(confirmed = sum(confirmed)) %>% # <<
+  ggplot(aes(x = date, y = confirmed)) +
+  geom_line() +
+  facet_wrap(~country_or_region, scales = "free_y")
+```
+
+## Per Capita
+
+Per-capita case counts would allow us to compare across countries in a different
+way. But we'll need population data.
+
+Here is some code to get some data. We've already run the first one for you,
+so all you need to do is run the second one (which is already in your repo).
+
+```{r}
+pop_data_filename <- "data/worldbank_sp_pop_totl.csv"
+if (!file.exists(pop_data_filename)) {
+  wbstats::wb_data(
+    "SP.POP.TOTL",
+    mrnev = 1    # this stands for: "most recent non-empty value"
+  ) %>%
+    write_csv(pop_data_filename)
+}
+```
+
+
+```{r load-population}
+pop_data_filename <- "data/worldbank_sp_pop_totl.csv"
+population <-
+  read_csv(
+    pop_data_filename,
+    col_types = cols_only(
+      iso2c = col_character(),
+      iso3c = col_character(),
+      country = col_character(),
+      date = col_double(),
+      SP.POP.TOTL = col_double(),
+      footnote = col_character()
+    )
+  ) %>%
+  select(iso2c, iso3c, country, population = SP.POP.TOTL)
+```
+
+4. Plot number of cases per capita for the same countries as you chose above.
+
+
+## Appendix
+
+This exercise was adapted from one that Randall Pruim and Kenneth Arnold constructed for DATA 303 in Spring 2020.
+The team Git coaching is adapted from <https://datasciencebox.org>.

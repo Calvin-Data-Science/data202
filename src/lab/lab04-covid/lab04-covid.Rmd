@@ -1,0 +1,94 @@
+---
+title: "Lab 04 - Covid-19 Cases"
+author: "YOUR TEAM NAME"
+date: "TODAY'S DATE"
+output: github_document
+---
+
+### Load packages and data
+
+We will work with Covid-19 case count data from one of the most
+prominent sources, the Systems group at Johns Hopkins ([CSEE](https://systems.jhu.edu/)).
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(lubridate)
+# Disable a warning message.
+options(dplyr.summarise.inform = FALSE)
+```
+
+First we construct the URL for the data that we want.
+
+```{r}
+confirmed_global_url <- paste0(
+  "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/",
+  "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_",
+  "confirmed", # also: "deaths", "recovered"
+  "_global.csv"
+)
+```
+
+Then we read it in and rename a few columns.
+
+```{r read_confirmed}
+confirmed_global <- confirmed_global_url %>%
+  #pins::pin() %>%   # Uncomment this line if you want to keep a local cache.
+  read_csv(col_types = cols(
+    .default = col_double(),
+    `Province/State` = col_character(),
+    `Country/Region` = col_character()
+  )) %>%
+  rename(
+    country_or_region = `Country/Region`,
+    province_or_state = `Province/State`
+  )
+```
+
+Let's have a look at the first few rows
+
+```{r explore-data}
+confirmed_global %>% 
+  head(10) %>%
+  knitr::kable()
+```
+
+```{r}
+names(confirmed_global)
+```
+
+
+### Exercise 1
+
+
+
+### Exercise 2
+
+
+
+### Exercise 3
+
+
+
+### Exercise 4
+
+We use [population data](https://data.worldbank.org/indicator/SP.POP.TOTL) from
+the [World Bank](https://data.worldbank.org/).
+
+```{r load-population}
+pop_data_filename <- "data/worldbank_sp_pop_totl.csv"
+population <-
+  read_csv(
+    pop_data_filename,
+    col_types = cols_only(
+      iso2c = col_character(),
+      iso3c = col_character(),
+      country = col_character(),
+      date = col_double(),
+      SP.POP.TOTL = col_double(),
+      footnote = col_character()
+    )
+  ) %>%
+  select(iso2c, iso3c, country, population = SP.POP.TOTL)
+```
+
+
