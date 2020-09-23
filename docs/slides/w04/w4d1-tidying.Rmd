@@ -223,7 +223,7 @@ confirmed_global_long %>%
 
 ## This happens!
 
-```{r out.width="50%"}
+```{r out.width="50%", echo=FALSE}
 knitr::include_graphics("img/georgia-misleading.png")
 ```
 
