@@ -154,18 +154,6 @@ lab04_repodata %>%
 # )
 ```
 
-```{r}
-repo_delete(lab04_repodata$repo_full)
-```
-
-
-```{r}
-repo_add_team(
-  repo = lab04_repodata$repo_full,
-  team = lab04_repodata$team
-)
-```
-
 
 # Harvest Student Work
 
