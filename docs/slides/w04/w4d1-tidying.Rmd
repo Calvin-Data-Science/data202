@@ -33,6 +33,34 @@ options(dplyr.summarise.inform = FALSE)
 
 ---
 
+.center[
+## Sit near your team<br>(see attandance sheet)
+]
+
+## Why cohorts?
+
+* Relationships in a socially distant time
+* Teamwork as a "soft skill"
+* Learn collaborative workflow using GitHub
+* Help each other within a cohort
+* Course staff can meet with cohorts together
+* Possible final project teams
+
+For each assignment, each *cohort* randomly split into 2 *teams*.
+
+---
+
+class: middle
+
+.center[
+## Slow it down...
+]
+
+* HW 3 due date extension
+* HW 4 small
+
+---
+
 ## Tidying and Joining Data
 
 Outline:
