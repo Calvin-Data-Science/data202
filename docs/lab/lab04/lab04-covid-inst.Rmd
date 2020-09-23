@@ -156,7 +156,10 @@ confirmed_global_long <-
   mutate(date = lubridate::parse_date_time(date, "%m/%d/%y!*"))
 ```
 
+<!--
 **Switch who's committing here.** Current person needs to Commit and Push, everyone else Pull.
+-->
+
 
 ## Plotting
 
