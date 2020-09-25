@@ -61,6 +61,33 @@ class: middle
 
 ---
 
+## Friday
+
+* Reminder: Quiz (including feedback)
+* Discussion: reply instructions posted
+* HW4 and Prep 4 posted this afternoon.
+* Which two cohorts want to meet with me next week?
+
+---
+
+## Facial Recognition Surveillance
+
+* What good points did others raise?
+
+---
+
+
+## Ethical Frameworks
+
+* Utilitarian ("do the benefits outweigh the harms? to whom?")
+* Virtue ("does this align with my core values?")
+* Analogical ("is there a simpler situation I can compare this to?")
+* Deontological ("is this decision lawful?")
+
+Which did you use? Which did your peers use?
+
+---
+
 ## Tidying and Joining Data
 
 Outline:
