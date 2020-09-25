@@ -1,0 +1,80 @@
+---
+title: "Homework 4: Other tools"
+author: "YOUR NAME HERE"
+date: "TODAY'S DATE HERE"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Setup
+
+We're using two new packages:
+
+* `plotly` is the R interface to the [Plotly graphing library](https://plotly.com/r/)
+* [`reticulate`](https://rstudio.github.io/reticulate/) allows us to run Python code from within R.
+
+```{r packages, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(plotly)
+library(reticulate)
+```
+
+This chunk is just a quick demo of running Python code and showing the result.
+
+```{python}
+# https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula
+import math
+sum(16 ** -k * (4/(8*k+1) - 2/(8*k+4) - 1/(8*k+5) - 1/(8*k+6)) for k in range(100)) - math.pi
+```
+
+# Read Data
+
+```{r read-data, message=FALSE}
+daily_rides <- read_csv("data/day.csv")
+```
+
+```{r}
+daily_rides_long <- 
+  daily_rides %>% 
+  pivot_longer(c(casual, registered, total),
+               names_to = "type", values_to = "rides") %>% 
+  filter(type != "total")
+daily_rides_long
+```
+
+
+```{python}
+rides = r.daily_rides_long
+rides.info()
+```
+
+```{python}
+rides['date'].iloc[0]
+```
+
+
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.relplot(x = "date", y = "rides", hue="workingday", col="type", kind = "line", data = rides);
+plt.show()
+```
+
+```{r fig.width=10}
+(ggplot(daily_rides, aes(x = date, y = registered, color = workingday)) +
+  geom_line() +
+  geom_smooth() + 
+  theme_minimal()) %>% 
+  plotly::ggplotly()
+```
+
+```{r}
+daily_rides %>% 
+  plot_ly(x = ~date, y = ~registered, color = ~workingday) %>% 
+  add_lines() %>% 
+  layout(title = list(text = "Test"))
+```
