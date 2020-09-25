@@ -521,6 +521,7 @@ padding-left: 1em;
 <div id="getting-started" class="section level2">
 <h2>Getting Started</h2>
 <p>Clone your repo as usual. Knit and make sure that the Python code block runs. Then, Run All in your R Markdown editor and make sure that the Python code runs there too.</p>
+<p><em>Note</em>: Since plotly generates HTML, we need to use the <code>html_document</code> output format instead of <code>github_document</code>. (The template already reflects this change.) The downside of this is that you won’t be able to preview the HTML on GitHub.</p>
 <p>The repo includes our HW 1 data. (You’re welcome to use the re-wrangling of it that we did for HW3 instead.)</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>daily_rides &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/day.csv&quot;</span>)</span></code></pre></div>
 </div>

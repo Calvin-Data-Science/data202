@@ -65,6 +65,10 @@ To make it easy to insert a Python code chunk:
 Clone your repo as usual. Knit and make sure that the Python code block runs.
 Then, Run All in your R Markdown editor and make sure that the Python code runs there too.
 
+*Note*: Since plotly generates HTML, we need to use the `html_document` output format
+instead of `github_document`. (The template already reflects this change.)
+The downside of this is that you won't be able to preview the HTML on GitHub.
+
 The repo includes our HW 1 data. (You're welcome to use the re-wrangling of it
 that we did for HW3 instead.)
 
