@@ -45,26 +45,28 @@ org_sitrep(ghorg)
 ```{r assign-teams}
 team_seeds <- tribble(
   ~assignment, ~seed,
-  "lab04", 0
+  "lab04", 0,
+  "lab05", 1
 )
-```
 
-
-```{r assign-teams}
-assignment <- "lab04"
-seed <- 0
-roster_withteams <- roster %>%
-  { withr::with_seed(seed, slice_sample(., prop=1)) } %>% 
-  group_by(cohort) %>% 
-  mutate(
-    team = glue("{assignment}-{cohort}{if_else((row_number() - 1) / n() < .5, 1, 2)}")
-  ) %>%
-  ungroup()
+roster_withteams <- team_seeds %>% 
+  pmap_dfr(function(assignment, seed) {
+    roster %>%
+    { withr::with_seed(seed, slice_sample(., prop=1)) } %>% 
+    group_by(cohort) %>% 
+    mutate(
+      team = glue("{assignment}-{cohort}{if_else((row_number() - 1) / n() < .5, 1, 2)}")
+    ) %>%
+    ungroup() %>% 
+    mutate(assignment, .before = everything())
+  })
 roster_withteams
 
-
-danish_team <- roster_withteams %>% filter(str_detect(student_name, "Danish")) %>% pull(team)
-if (3 != roster_withteams %>% filter(team == danish_team) %>% nrow()) {
+team_sizes <- roster_withteams %>% 
+  group_by(assignment, team) %>% 
+  mutate(team_size = n()) %>% 
+  filter(str_detect(student_name, "Danish"))
+if (any(team_sizes$team_size != 3)) {
   stop("Danish should always be on a team of 3.")
 }
 ```
@@ -107,7 +109,7 @@ createAssignment <- function(assignmentTemplatePath, use_template_repo = TRUE) {
 ```
 
 ```{r, eval=FALSE}
-createAssignment("lab/lab04-covid/")
+createAssignment("hw/hw04-other-tools")
 ```
 
 ```python
@@ -127,7 +129,20 @@ for f in file_list:
 # Push repo to students
 
 
-```{r eval=FALSE}
+```{r solo-assignment, eval=FALSE}
+pushSoloAssignment <- function(assignmentName) {
+  org_create_assignment(
+    org = ghorg,
+    user = roster$github,
+    repo = paste0(assignmentName, '-', roster$github),
+    source_repo = paste0(ghorg, '/', assignmentName, '-template')
+  )
+}
+pushSoloAssignment('hw04')
+```
+
+
+```{r team-assignment eval=FALSE}
 lab04_repodata <- roster_withteams %>%
   select(github, team) %>% 
   bind_rows(tibble(github = c("kcarnold", "kimyejae"), team = "lab04-staff")) %>% 
@@ -156,6 +171,64 @@ lab04_repodata %>%
 
 
 # Harvest Student Work
+
+```{r}
+all_repos <- org_repos(ghorg)
+```
+
+
+```{r}
+update_repos = FALSE
+local_repo_status <- tibble(repo_full = all_repos) %>% 
+  separate(repo_full, c(NA, "repo"), "/", remove = FALSE) %>% 
+  mutate(
+    repo_url = glue("https://github.com/{repo_full}"),
+    local_path = fs::path_expand(file.path("../fa20/all_repos", repo)) %>% fs::path_abs(),
+    exists = file.exists(local_path)
+  )
+local_repo_status %>%
+  filter(!exists) %>% 
+  select(repo_url, local_path) %>% 
+  pmap(~ purrr::safely(gert::git_clone)(url = .1, path = .2, branch = "master", verbose = TRUE))
+if (update_repos)
+  updates <- local_repo_status %>% 
+    filter(exists) %>% 
+    pull(local_path) %>% 
+    map(local_repo_pull)
+```
+
+```{r get-collaborators}
+repo_to_user <-
+  all_repos %>% 
+  map_dfr(~ repo_collaborators(.x, include_admins = FALSE))
+```
+
+```{r}
+local_repo_owners <- full_join(
+  local_repo_status,
+  repo_to_user,
+  by = c("repo_full" = "repo")
+) %>% left_join(
+  roster,
+  by = c("username" = "github")
+) %>%
+  select(repo, local_path, name = preferred_full_name)
+local_repo_owners
+```
+
+```{r}
+local_repo_owners %>%
+  drop_na() %>% 
+  pwalk(function(repo, local_path, name) {
+    user_path <- fs::path_wd(paste0("../fa20/", name))
+    fs::dir_create(user_path)
+    fs::link_create(
+      path = local_path,
+      new_path = file.path(user_path, repo)
+    )
+  })
+```
+
 
 ```{r message=FALSE, eval=FALSE}
 assignmentName <- "hw02"
@@ -220,11 +293,5 @@ repos_for_assignment <- students %>% purrr::map_chr(function(student) {
   }
   return(student_repo_fullname)
 })
-```
-
-
-
-```{r}
-#repo_watching()
 ```
 
