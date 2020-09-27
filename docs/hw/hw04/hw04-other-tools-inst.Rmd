@@ -36,13 +36,27 @@ library(reticulate)
 py_discover_config()
 ```
 
-If you are on the RStudio server or one of the lab machines, you should see something like:
+What happens next depends on whether you're on a Calvin machine or your own computer.
 
-TODO
+**If you are on the RStudio server or one of the lab machines**, you should see something like:
 
+```
+python:         /opt/anaconda/bin/python
+libpython:      /opt/anaconda/lib/libpython3.7m.so
+pythonhome:     /opt/anaconda:/opt/anaconda
+version:        3.7.4 (default, Aug 13 2019, 20:35:49)  [GCC 7.3.0]
+numpy:          /opt/anaconda/lib/python3.7/site-packages/numpy
+numpy_version:  1.17.2
 
+NOTE: Python version was forced by RETICULATE_PYTHON
+```
 
-If you're on your own computer, you'll probably see a message about installing
+That means everything is already configured. (*Note*: there's currently a problem
+with Python chunks on the RStudio server. Until we resolve it, please use <https://remote.cs.calvin.edu>
+or install RStudio on your own machine.)
+
+**If you're on your own computer**, you may need to `install.packages("reticulate")`.
+Once you've done that and run the above lines, you'll probably see a message about installing
 Miniconda. Answer "yes". When installation is done, run the following line to
 ensure that the Python libraries we'll be using are installed (they should be
 already installed on the RStudio server and lab machines).
