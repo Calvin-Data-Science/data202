@@ -51,9 +51,14 @@ numpy_version:  1.17.2
 NOTE: Python version was forced by RETICULATE_PYTHON
 ```
 
-That means everything is already configured. (*Note*: there's currently a problem
-with Python chunks on the RStudio server. Until we resolve it, please use <https://remote.cs.calvin.edu>
-or install RStudio on your own machine.)
+That means everything is already configured.
+
+**IMPORTANT**: To avoid crashes on the RStudio server, add the following line
+directly below `library(reticulate)` in your `Rmd`:
+
+```r
+py_run_string("import matplotlib.pyplot as plt; plt.switch_backend('agg')")
+```
 
 **If you're on your own computer**, you may need to `install.packages("reticulate")`.
 Once you've done that and run the above lines, you'll probably see a message about installing
@@ -78,6 +83,7 @@ To make it easy to insert a Python code chunk:
 
 Clone your repo as usual. Knit and make sure that the Python code block runs.
 Then, Run All in your R Markdown editor and make sure that the Python code runs there too.
+
 
 *Note*: Since plotly generates HTML, we need to use the `html_document` output format
 instead of `github_document`. (The template already reflects this change.)

@@ -21,6 +21,9 @@ library(tidyverse)
 library(ggplot2)
 library(plotly)
 library(reticulate)
+# This is needed to avoid a crash on the RStudio server
+# https://github.com/rstudio/reticulate/issues/849
+py_run_string("import matplotlib.pyplot as plt; plt.switch_backend('agg')")
 ```
 
 This chunk is just a quick demo of running Python code and showing the result.
