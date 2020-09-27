@@ -130,11 +130,16 @@ for f in file_list:
 
 
 ```{r solo-assignment, eval=FALSE}
-pushSoloAssignment <- function(assignmentName) {
+pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = NULL) {
+  if (is.null(usernames)) {
+    usernames <- roster$github
+    if (includeStaff)
+      usernames <- c(usernames, "kcarnold", "kimyejae")
+  }
   org_create_assignment(
     org = ghorg,
-    user = roster$github,
-    repo = paste0(assignmentName, '-', roster$github),
+    user = usernames,
+    repo = paste0(assignmentName, '-', usernames),
     source_repo = paste0(ghorg, '/', assignmentName, '-template')
   )
 }
