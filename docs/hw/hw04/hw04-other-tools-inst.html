@@ -515,10 +515,9 @@ numpy_version:  1.17.2
 
 NOTE: Python version was forced by RETICULATE_PYTHON</code></pre>
 <p>That means everything is already configured.</p>
-<p><strong>IMPORTANT</strong>: To avoid crashes on the RStudio server, add the following line directly below <code>library(reticulate)</code> in your <code>Rmd</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">py_run_string</span>(<span class="st">&quot;import matplotlib.pyplot as plt; plt.switch_backend(&#39;agg&#39;)&quot;</span>)</span></code></pre></div>
 <p><strong>If you’re on your own computer</strong>, you may need to <code>install.packages(&quot;reticulate&quot;)</code>. Once you’ve done that and run the above lines, you’ll probably see a message about installing Miniconda. Answer “yes”. When installation is done, run the following line to ensure that the Python libraries we’ll be using are installed (they should be already installed on the RStudio server and lab machines).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">py_module_available</span>(<span class="st">&quot;seaborn&quot;</span>)) <span class="kw">py_install</span>(<span class="st">&quot;seaborn&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">py_module_available</span>(<span class="st">&quot;seaborn&quot;</span>)) <span class="kw">py_install</span>(<span class="st">&quot;seaborn&quot;</span>)</span></code></pre></div>
+<p>You may need to restart your R session (or RStudio) for everything to work.</p>
 </div>
 <div id="tips" class="section level2">
 <h2>Tips</h2>
@@ -531,7 +530,10 @@ NOTE: Python version was forced by RETICULATE_PYTHON</code></pre>
 </div>
 <div id="getting-started" class="section level2">
 <h2>Getting Started</h2>
-<p>Clone your repo as usual. Knit and make sure that the Python code block runs. Then, Run All in your R Markdown editor and make sure that the Python code runs there too.</p>
+<p>Find your repo in <a href="https://github.com/Calvin-DS202-FA20/">our GitHub organization</a> and clone it as usual.</p>
+<p><strong>IMPORTANT</strong>: To avoid crashes on the RStudio server, add the following line directly below <code>library(reticulate)</code> in your <code>Rmd</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">py_run_string</span>(<span class="st">&quot;import matplotlib.pyplot as plt; plt.switch_backend(&#39;agg&#39;)&quot;</span>)</span></code></pre></div>
+<p>Once you’ve added that, Knit and make sure that the Python code block runs. Then, Run All in your R Markdown editor and make sure that the Python code runs there too.</p>
 <p><em>Note</em>: Since plotly generates HTML, we need to use the <code>html_document</code> output format instead of <code>github_document</code>. (The template already reflects this change.) The downside of this is that you won’t be able to preview the HTML on GitHub.</p>
 <p>The repo includes our HW 1 data. (You’re welcome to use the re-wrangling of it that we did for HW3 instead.)</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>daily_rides &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/day.csv&quot;</span>)</span></code></pre></div>
