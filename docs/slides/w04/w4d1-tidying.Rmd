@@ -412,13 +412,17 @@ cases_with_population %>%
 
 ### Debugging a join
 
+
 ```{r join-debug}
-anti_join( # <<
-  confirmed_global_long %>% select(country = country_or_region, date, confirmed),
+most_recent_cases <- confirmed_global_long %>% 
+  group_by(country = country_or_region) %>% 
+  slice_tail(n = 1)
+full_join( # <<
   population %>% select(country, population),
+  most_recent_cases %>% select(country, confirmed),
   by = "country"
 ) %>%
-  distinct(country)
+  filter(is.na(confirmed))
 ```
 
 ---
@@ -426,11 +430,35 @@ anti_join( # <<
 ## Recoding
 
 ```{r}
-
+recoded_cases <-
+  confirmed_global_long %>% 
+  mutate(country = case_when( #<<
+    country_or_region == "Russia" ~ "Russian Federation",
+    country_or_region == "US" ~ "United States",
+    country_or_region == "Korea, South" ~ "Korea, Rep.",
+    TRUE ~ country_or_region
+  ))
+cases_with_population <- inner_join(
+  recoded_cases %>% select(country, date, confirmed),
+  population %>% select(country, population),
+  by = "country"
+)
 ```
 
 
 ---
+
+```{r}
+cases_with_population %>%
+  filter(country %in%
+    c("United States", "Canada", "China", "Japan", "Korea, Rep.", "Italy", "Germany", "Spain", "United Kingdom")) %>%
+  group_by(country, population, date) %>% # <<
+  summarize(confirmed = sum(confirmed)) %>% # <<
+  ggplot(aes(x = date, y = confirmed / population)) +
+  geom_line() +
+  facet_wrap(~country, scales = "fixed")
+```
+
 
 
 ```{r, include = FALSE, eval = FALSE}
