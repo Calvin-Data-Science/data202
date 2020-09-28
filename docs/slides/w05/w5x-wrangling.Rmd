@@ -1,0 +1,144 @@
+---
+title: "Wrangling Tools"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+## `case_when`
+
+.pull-left[
+`if-elif` version (Python):
+
+```python
+if age < 0:
+    return "invalid"
+elif age < 18:
+    return "child"
+else:
+    return "adult"
+```
+]
+
+.pull-right[
+`case_when` version:
+
+```{r}
+age <- 18
+case_when(
+  age < 0   ~ "invalid",
+  age < 18  ~ "child",
+  TRUE      ~ "adult"
+)
+```
+]
+
+* first to `True` wins in both versions
+* `TRUE` corresponds to `else` (the default)
+
+---
+
+## `case_when` vectorizes
+
+Like many R functions, it actually applies to all elements of a vector.
+
+```{r}
+age <- c(-1, 0, 17, 18) # a vector #<<
+case_when(
+  age < 0   ~ "invalid",
+  age < 18  ~ "child",
+  TRUE      ~ "adult"
+)
+```
+
+---
+
+## `case_when` vs `if_else`
+
+You can write the same thing using both. Which do you prefer?
+
+.pull-left[
+`if_else`:
+```{r}
+if_else(age < 0, "invald", "other")
+if_else(
+  age < 0, "invald",
+  if_else(age < 18, "child", "other"))
+```
+]
+
+.pull-right[
+`case_when`:
+```{r}
+case_when(
+  age < 0   ~ "invalid",
+  age < 18  ~ "child",
+  TRUE      ~ "adult"
+)
+```
+
+]
+
+
+---
+
+## `case_when` in a data frame
+
+```{r}
+people <- tribble(
+  ~name, ~age,
+  "Allen Linford", -1,
+  "Seb Dodds", 0,
+  "Charleen Lockwood", 17,
+  "Ridley Burgin", 18,
+)
+people %>% mutate(
+  adult = case_when( #<<
+    age < 0   ~ "invalid",
+    age < 18  ~ "child",
+    TRUE      ~ "adult"
+  )
+)
+```
+
+---
+
+## The recoding pattern
+
+```{r message=FALSE}
+population <- read_csv("../../data/worldbank_sp_pop_totl.csv")
+population %>% mutate(
+  country = case_when(
+    country == "United States" ~ "USA",  #<<
+    iso3c == "GBR"             ~ "UK",   # LHS conditions may use different variables #<<
+    TRUE                       ~ country # so can RHS #<<
+  )
+) %>% filter(str_starts(country, "U")) # Just to see the results
+```
+
+---
+
+## More `case_when` tricks
+
+See `?case_when` for how to:
+
+* Deal with inconsistent data types
+* Efficiently encode complicated conditionals
+* Reuse `case_when` expressions by making a function
+
+and more!
