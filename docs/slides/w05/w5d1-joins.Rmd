@@ -19,6 +19,31 @@ knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 ```
 
+## Logistics
+
+* Lab 3 due today
+* Discussion 2 reply due tomorrow
+  * Not just: "you made a good point"
+  * Some good examples: Krista, Lauren (replies to Kaitlyn)
+  * Final post not officially due till next week, but some done already. Good
+  examples: Advait, Ricky.
+* hw3 and hw4 due Wed
+* Quiz 5 on Thursday: no more infinite tries.
+
+.center[One month till Election Day! Are you registered to vote?]
+---
+
+## Discussion 3: Critique a graph you find
+
+Draft proposal:
+
+* *Collect* examples of visualizations that have been used to make a political
+  or social argument (whether or not you agree!)
+* *Post a critique* as Discussion 3
+* later (as Homework): replicate the visual yourself, write up your response
+
+---
+
 ## A note on `mutate`
 
 * Badly named. Think "add_computed_column".
@@ -28,13 +53,66 @@ flooring the start time)
 
 ---
 
+## Q&A
+
+> `count` vs `group_by %>% summarize`?
+
+`count(x)` is (mostly) shorthand for `group_by(x) %>% summarize(n = n())`
+
+> `select` vs `filter`?
+
+Maybe should have been named `select_columns` and `select_rows`.
+
+> Where do I get the specific lines of code I need?
+
+Good question *only if* you have a clear idea of what you want to do. Sketch out
+a very specific example of the output you want.
+
+---
+
+## Q&A
+
+> What's on the tests?
+
+* All assessments are open-everything (except for getting help from other people).
+* Quizzes will become 1-attempt and timed soon.
+* Midterm and final are both (mainly) projects.
+
+> uh, `lubridate`??
+
+Most confusions I've seen have actually been about data manipulation concepts,
+not  `lubridate` itself.
+
+If the assignment instructions don't give you all the syntax and parameters you
+need, let me know.
+
+---
+
+## Q&A
+
+> Cohorts?
+
+* If your repo has your own name on it, it's solo. Team name? It's team.
+
+> Merge conflicts?
+
+* We'll deliberately make one together this week so you know how to deal with it.
+
+---
+
+## Q&A
+
+> joins?
+
+---
+
 ## Joining data frames
 
 
 * I have a data frame `x` (e.g., Covid confirmed cases)
 * I want extra information about things in `x` (e.g., population)
 * Some other table, `y`, has that information. "Joins" let me look it up.
-* Needs a <span style="background: blue; color: white; padding: 5px;">key</span> : what has to match. Must match exactly.
+* Needs a <span style="background: blue; color: white; padding: 5px;">key</span> : what has to match. Must match *exactly*.
 
 ```{r echo=FALSE, out.width="30%", fig.align='center'}
 include_graphics("https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/static/png/original-dfs.png")
