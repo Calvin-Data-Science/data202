@@ -1,6 +1,6 @@
 ---
 title: "Joining data from multiple sources"
-author: "K Arnold"
+author: "K Arnold, based on DSBox"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
