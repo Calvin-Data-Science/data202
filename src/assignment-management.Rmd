@@ -181,26 +181,29 @@ lab04_repodata %>%
 all_repos <- org_repos(ghorg)
 ```
 
+Maintain local clones of all student repos:
 
 ```{r}
-update_repos = FALSE
+assignment_to_update = "lab04"
 local_repo_status <- tibble(repo_full = all_repos) %>% 
   separate(repo_full, c(NA, "repo"), "/", remove = FALSE) %>% 
   mutate(
     repo_url = glue("https://github.com/{repo_full}"),
-    local_path = fs::path_expand(file.path("../fa20/all_repos", repo)) %>% fs::path_abs(),
+    local_path = fs::path_expand(file.path("../fa20/all_repos", repo)) %>% fs::path_abs() %>% as.character(),
     exists = file.exists(local_path)
   )
 local_repo_status %>%
   filter(!exists) %>% 
   select(repo_url, local_path) %>% 
-  pmap(~ purrr::safely(gert::git_clone)(url = .1, path = .2, branch = "master", verbose = TRUE))
-if (update_repos)
-  updates <- local_repo_status %>% 
-    filter(exists) %>% 
-    pull(local_path) %>% 
-    map(local_repo_pull)
+  pwalk(function(repo_url, local_path) 
+    purrr::safely(gert::git_clone)(url = repo_url, path = local_path, branch = "master", verbose = TRUE))
+updates <- local_repo_status %>% 
+  filter(exists, str_detect(repo, assignment_to_update)) %>%
+  pull(local_path) %>% 
+  map(local_repo_pull)
 ```
+
+Get all students who are on all repos
 
 ```{r get-collaborators}
 repo_to_user <-
@@ -208,7 +211,7 @@ repo_to_user <-
   map_dfr(~ repo_collaborators(.x, include_admins = FALSE))
 ```
 
-```{r}
+```{r lookup-names}
 local_repo_owners <- full_join(
   local_repo_status,
   repo_to_user,
@@ -218,8 +221,9 @@ local_repo_owners <- full_join(
   by = c("username" = "github")
 ) %>%
   select(repo, local_path, name = preferred_full_name)
-local_repo_owners
 ```
+
+Make links to each student's work.
 
 ```{r}
 local_repo_owners %>%
@@ -234,34 +238,7 @@ local_repo_owners %>%
   })
 ```
 
-
-```{r message=FALSE, eval=FALSE}
-assignmentName <- "hw02"
-
-assignments_root <- "../fa20/"
-all_repos <- org_repos(ghorg)
-assignment_path <- file.path(assignments_root, assignmentName)
-roster %>% 
-  mutate(
-    repo_name = glue("{ghorg}/{assignmentName}-{github}"),
-    repo_url = glue("https://github.com/{repo_name}"),
-    repo_path = fs::path_expand(file.path(assignment_path, glue("{assignmentName}-{preferred_full_name}")))
-  ) %>%
-  rowwise() %>% 
-  mutate(status = {
-    if (file.exists(repo_path)) {
-      # Update (pull)
-      local_repo_pull(repo_path)
-    } else if (repo_name %in% all_repos) {
-      # Clone
-      gert::git_clone(url = repo_url, path = repo_path, 
-        branch = "master", verbose = TRUE)
-    } else {
-      message(paste0("Missing ", assignmentName, " for ", preferred_name))
-    }
-    "ok"
-  })
-```
+Make a table for everyone's work
 
 ```{r results='asis'}
 assignmentName <- "hw02"
@@ -272,31 +249,5 @@ students %>%
     repo_url = glue("https://github.com/{repo_name}"),
     md = glue("* [{name}]({repo_url})")
   ) %>% pull(md) %>% cat(sep = "\n")
-```
-
-
-
-```{r message=FALSE, eval=FALSE}
-# Clone or update repos for all students
-repos_for_assignment <- students %>% purrr::map_chr(function(student) {
-  student_repo_name <- paste0(assignmentName, "-", student)
-  student_repo_fullname <- paste0(ghorg, "/", student_repo_name)
-  repo_path <- file.path(assignment_path, student_repo_name)
-  if (file.exists(repo_path)) {
-    # Update (pull)
-    local_repo_pull(repo_path)
-  } else if (student_repo_fullname %in% all_repos) {
-    # Clone
-    local_repo_clone(
-      repo = student_repo_fullname,
-      local_path = assignment_path,
-      verbose = TRUE
-    )
-  } else {
-    message(paste0("Missing ", assignmentName, " for ", student))
-    return(NA)
-  }
-  return(student_repo_fullname)
-})
 ```
 
