@@ -63,7 +63,7 @@ Then, using `plot_ly`:
 ```{r riding-with-plot_ly}
 daily_rides %>% 
   plot_ly(x = ~date, y = ~total) %>% 
-  add_lines() %>% 
+  add_markers() %>% 
   layout(title = "YOUR TITLE HERE")
 ```
 
