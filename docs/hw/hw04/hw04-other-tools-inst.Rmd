@@ -137,7 +137,7 @@ we need `~` before each variable name):
 ```{r eval=FALSE}
 daily_rides %>% 
   plot_ly(x = ~..., y = ~...) %>% 
-  add_points() %>% 
+  add_markers() %>% 
   layout(title = "")
 ```
 

@@ -560,7 +560,7 @@ NOTE: Python version was forced by RETICULATE_PYTHON</code></pre>
 <p>The second approach will look like (note that we use <code>%&gt;%</code> instead of <code>+</code> and we need <code>~</code> before each variable name):</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>daily_rides <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">plot_ly</span>(<span class="dt">x =</span> <span class="op">~</span>..., <span class="dt">y =</span> <span class="op">~</span>...) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">add_points</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">add_markers</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">layout</span>(<span class="dt">title =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><em>Note</em>: Replicating the <code>geom_smooth</code> with <code>plot_ly</code> requires advanced tricks. So just don’t plot the smooth.</p>
 </div>
