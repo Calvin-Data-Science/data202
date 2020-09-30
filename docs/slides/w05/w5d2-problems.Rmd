@@ -36,6 +36,25 @@ will (eventually) bear fruit, no matter what language / library.
 
 ---
 
+## Cooperation vs Collaboration
+
+"It is also important for the teams to understand the difference between cooperation and collaboration.
+
+* *Cooperation* is where the multiple tasks of a project are divided among the team members, but each person works independently.
+* *Collaboration* is the process where the finished product is produced via interactions among all of the members of the group  working  together 
+
+True training in teamwork will come from collaboration, not cooperation."
+
+<br>
+
+.right[
+.small[
+Ekblaw. [Effective Use Of Group Projects In Online Learning](https://files.eric.ed.gov/fulltext/EJ1106897.pdf). Contemporary Issues in Education Research. 2016
+]
+]
+
+---
+
 ## Where we are
 
 * We visualized. We wrangled. Now we'll get more practice bringing those together.
