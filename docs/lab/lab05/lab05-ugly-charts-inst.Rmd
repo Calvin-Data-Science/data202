@@ -61,10 +61,13 @@ Take turns in completing the exercise, only one member at a time.
   * Commit, and push.  
 
 `r emo::ji("stop_sign")` Wait for instructions before moving on to the next step.
+
 - **Member 3:** Add a label to the first code chunk, knit, commit, push. You should get an error. Pull. No merge conflicts should occur. Now push.  
 `r emo::ji("stop_sign")` Wait for instructions before moving on to the next step.
+
 - **Member 4:** Add a different label to the first code chunk, knit, commit, push. You should get an error. Pull. Take a look at the document with the merge conflict. Clear the merge conflict by choosing the correct/preferred change. Commit, and push.  
 `r emo::ji("stop_sign")` Wait for instructions before moving on to the next step.  
+
 - **All members:** Pull, and observe the changes in your document.
 
 ### Tips for collaborating via GitHub
@@ -145,7 +148,7 @@ Let's take a look at what the new longer data frame looks like.
 staff_long
 ```
 
-And now let's plot is as a line plot. A possible approach for creating 
+And now let's plot it as a line plot. A possible approach for creating 
 a line plot where we color the lines by faculty type is the following:
 
 ```{r eval=TRUE, fig.width=10}
@@ -156,13 +159,17 @@ staff_long %>%
 
 But note that this results in a message as well as an unexpected plot. The 
 message is saying that there is only one observation for each faculty type 
-year combination. We can fix this using the `group` aesthetic following.
+year combination. We can fix this by telling ggplot explicitly how to group things:
+the `group` aesthetic.
 
 ```{r eval=FALSE, fig.width=10}
 staff_long %>%
   ggplot(aes(x = year, y = value, group = faculty_type, color = faculty_type)) +
   geom_line()
 ```
+
+*Note*: Those who are colorblind will have trouble seeing this chart. For their sake,
+you might want to add a `geom_point` layer with `aes(shape = faculty_type)`.
 
 1. Include the line plot you made above in your report and make sure the 
 figure width is large enough to make it legible. Also fix the title, axis 
@@ -171,10 +178,7 @@ labels, and legend label.
 2. Suppose the objective of this plot was to show that the proportion of 
 part-time faculty have gone up over time compared to other instructional 
 staff types. What changes would you propose making to this plot to tell this 
-story. (You don't need to implement these changes now, you will get to do 
-that as part of this week's homework. But work as a team to come up with ideas 
-and list them as bullet points. The more precise you are, the easier your 
-homework will be.)
+story. (You don't need to implement these changes now.)
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Commit and push your changes to GitHub with an appropriate commit message again. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
@@ -197,8 +201,8 @@ knitr::include_graphics("img/fisheries.png")
 3. Can you help them make improve it? First, brainstorm how you would improve 
 it. Then create the improved visualization and write up the changes/decisions 
 you made as bullet points. It's ok if some of your improvements are aspirational, 
-i.e. you don't know how to implement it, but you think it's a good idea. Ask a 
-tutor for help, but also keep an eye on the time. Implement what you can and 
+i.e. you don't know how to implement it, but you think it's a good idea. Ask
+the staff for help, but also keep an eye on the time. Implement what you can and 
 leave note identifying the aspirational improvements.
 
 ```{r load-data-fisheries, eval=FALSE}
