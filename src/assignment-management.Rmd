@@ -110,8 +110,10 @@ roster_withteams %>% filter(assignment == "lab05") %>% count(team)
 
 # Create Assignment
 
+First make the template repo
+
 ```{r}
-createAssignment <- function(assignmentTemplatePath, use_template_repo = TRUE) {
+createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo = TRUE) {
   assignmentName <- stringr::str_match(assignmentTemplatePath, r"{\w+/([a-z0-9]+)}")[,2]
   message(glue("Creating assignment {assignmentName}"))
   repoName <- paste0(assignmentName, "-template")
@@ -128,8 +130,11 @@ createAssignment <- function(assignmentTemplatePath, use_template_repo = TRUE) {
 ```
 
 ```{r, eval=FALSE}
-createAssignment("hw/hw04-other-tools")
+#createAssignmentTemplate("hw/hw04-other-tools")
+createAssignmentTemplate("lab/lab05-ugly-charts")
 ```
+
+(This is a WIP Python replacement for the shell script)
 
 ```python
 import subprocess, pathlib
@@ -145,7 +150,7 @@ for f in file_list:
 ```
 
 
-# Push repo to students
+## Push repo to students
 
 
 ```{r solo-assignment, eval=FALSE}
@@ -162,35 +167,35 @@ pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = 
     source_repo = paste0(ghorg, '/', assignmentName, '-template')
   )
 }
-pushSoloAssignment('hw04')
+#pushSoloAssignment('hw04')
 ```
 
 
 ```{r team-assignment eval=FALSE}
-lab04_repodata <- roster_withteams %>%
-  select(github, team) %>% 
-  bind_rows(tibble(github = c("kcarnold", "kimyejae"), team = "lab04-staff")) %>% 
-  mutate(
-    repo_base = team,
-    repo_full = paste0(ghorg, "/", repo_base)
-  )
+pushTeamAssignment <- function(assignmentName) {
+  templateRepoName <- paste0(ghorg, "/", assignmentName, "-template")
+  stopifnot(repo_exists(templateRepoName))
+  roster_withteams %>%
+    filter(assignment == assignmentName) %>% 
+    select(github, team) %>% 
+    # Add the staff
+    bind_rows(tibble(github = c("kcarnold", "kimyejae"), team = paste0(assignmentName, "-staff"))) %>% 
+    mutate(
+      repo_base = team,
+      repo_full = paste0(ghorg, "/", repo_base)
+    ) %>% 
+    {
+      org_create_assignment(
+        org = ghorg,
+        user = .$github,
+        repo = .$repo_base,
+        team = .$team,
+        source_repo = templateRepoName
+      )
+    }
+}
+pushTeamAssignment("lab05")
 
-lab04_repodata %>% 
-  {
-    org_create_assignment(
-      org = ghorg,
-      user = .$github,
-      repo = .$repo_base,
-      team = .$team,
-      source_repo = paste0(ghorg, "/", "lab04-template")
-    )
-  }
-# org_create_assignment(
-#   org = ghorg,
-#   user = users,
-#   repo = paste0("hw03-", roster$github_username),
-#   source_repo = paste0(ghorg, "/", "hw03-template")
-# )
 ```
 
 
