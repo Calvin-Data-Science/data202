@@ -1,5 +1,5 @@
 ---
-title: "Lab 06 - Ugly Charts"
+title: "Lab 05 - Ugly Charts"
 output: 
   tufte::tufte_html:
     css: ../lab.css
