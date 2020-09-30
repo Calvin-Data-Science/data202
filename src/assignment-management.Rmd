@@ -42,6 +42,24 @@ org_sitrep(ghorg)
 # Assign Teams
 
 
+```{r}
+fix_roster <- function(roster, assignment, seed) {
+  if (assignment != "lab04") {
+    roster %>% mutate(
+      cohort = case_when(
+        str_detect(preferred_email, "bdr22") ~ "H",
+        str_detect(preferred_email, "wp22") ~ "B",
+        TRUE ~ cohort
+      )
+    )
+  } else {
+    roster
+  }
+}
+fix_roster(roster, "lab05", 1) %>% filter(cohort %in% c("B", "H"))
+```
+
+
 ```{r assign-teams}
 team_seeds <- tribble(
   ~assignment, ~seed,
@@ -52,6 +70,7 @@ team_seeds <- tribble(
 roster_withteams <- team_seeds %>% 
   pmap_dfr(function(assignment, seed) {
     roster %>%
+      fix_roster(assignment, seed) %>% 
     { withr::with_seed(seed, slice_sample(., prop=1)) } %>% 
     group_by(cohort) %>% 
     mutate(
@@ -65,28 +84,28 @@ roster_withteams
 team_sizes <- roster_withteams %>% 
   group_by(assignment, team) %>% 
   mutate(team_size = n()) %>% 
-  filter(str_detect(student_name, "Danish"))
+  filter(str_detect(student_name, "Danish") | (assignment != "lab04" & str_detect(student_name, "Brad")))
 if (any(team_sizes$team_size != 3)) {
-  stop("Danish should always be on a team of 3.")
+  stop("Danish and Brad should always be on a team of 3.")
 }
 ```
 
 Run this to copy team membership to clipboard. Paste into Excel and copy back out again for easy formatting as HTML table.
 
 ```{r copy-team-membership, eval=FALSE}
-roster_withteams %>%
-  select(Name = preferred_full_name, Team = team) %>%
-  arrange(Team) %>% 
-  clipr::write_clip()
-```
-
-```{r}
-roster_withteams %>% filter(cohort == "H") %>% select(student_name, preferred_email, cohort)
+copy_team_membership <- function(assignment) {
+  roster_withteams %>%
+    filter(assignment == !!assignment) %>% 
+    select(Name = preferred_full_name, Cohort = cohort, Team = team) %>%
+    arrange(Team) %>% 
+    clipr::write_clip()
+}
+copy_team_membership("lab05")
 ```
 
 
 ```{r team-member-count}
-roster_withteams %>% count(team)
+roster_withteams %>% filter(assignment == "lab05") %>% count(team)
 ```
 
 # Create Assignment
