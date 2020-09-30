@@ -1,4 +1,4 @@
-Lab 06 - Ugly charts
+Lab 05 - Ugly charts
 ================
 YOUR TEAM NAME
 TODAY’S DATE
