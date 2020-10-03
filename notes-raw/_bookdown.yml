@@ -10,6 +10,8 @@ new_session: yes
 rmd_files: [
     "index.Rmd",
     "01-Tools.Rmd",
-    "02-Vis.Rmd"
+    "02-Vis.Rmd",
+    "03-Wrangling.Rmd",
+    "04-Modeling.Rmd"
 ]
 ---
