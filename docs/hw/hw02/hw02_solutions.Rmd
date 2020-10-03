@@ -1,0 +1,102 @@
+---
+title: "Homework 02: Bike Sharing Data Visualization"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(tidyverse)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Homework 02: More Visualization
+## Getting Started
+
+```{r read_data, echo=FALSE, warning=FALSE}
+# Read Data
+hourly_rides <- read_csv("../../data/bikeshare/hour.csv") %>% 
+  mutate(workingday = case_when(workingday == 1 ~ "workday",
+                                TRUE ~ "weekend"),
+         ) %>% 
+  select(
+    date = dteday,
+    hour = hr,
+    season,
+    year = yr,
+    holiday,
+    workingday = workingday,
+    day_of_week = weekday,
+    weather_type = weathersit,
+    temp,
+    feels_like = atemp,
+    humidity = hum,
+    windspeed,
+    casual,
+    registered
+  ) %>% 
+  pivot_longer(c(casual, registered),
+               names_to = "member_type",
+               values_to = "rides") %>% 
+  mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type, member_type), as.factor))
+
+hourly_rides %>% 
+  write_csv("../../../src/hw/hw02-vis/data/hour.csv")
+```
+
+## Exercise 1: Label Days of Week
+
+```{r label_days, warning=FALSE}
+# Label Days of the Week
+hourly_rides <- hourly_rides %>% 
+  mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6),
+                              labels = c("Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat")))
+```
+
+* We can conclude that those were the correct labels by looking at what day 1 January 2011 and 2 January 2011 was. Seeing that 1 January 2011 was a **Saturday**, which is labeled as *6*, and also seeing that 2 January 2011 was a **Sunday**, which is labeled as *0*, we can then assume that *1 through 5* are **Monday through Friday**.
+
+## Exercise 2: Overall Counts by Weekday
+
+```{r overall_counts_weekday, fig.align='center', fig.height=8, fig.width=10, warning=FALSE}
+ride_totals <- hourly_rides %>% 
+  group_by(member_type, day_of_week) %>% 
+  summarise(rides = sum(rides))
+
+ggplot(ride_totals, aes(x = day_of_week, y = rides, fill = member_type)) +
+  geom_col(position = position_dodge()) +
+  labs(x = "Day of Week", y = "Rides", fill = "Type of Rider")
+```
+
+* By using `geom_col(position = position_dodge())`, we avoid the bar plot from being stacked.
+* As seen in the plot, there are more **registered** riders than **casual** riders in every single day of the week. There are more riders in the weekday which can be the result of people biking to and from work.
+
+## Exercise 3: Distribution of Rides by Weekday
+
+```{r distribution_rides_weekday, fig.align='center', fig.height=8, fig.width=10, warning=FALSE}
+hourly_rides %>% 
+  ggplot(aes(x = day_of_week, y = rides, fill = member_type)) +
+  geom_boxplot() +
+  labs(x = "Day of Week", y = "Rides", fill = "Type of Rider")
+```
+
+* The same pattern can be noted in the boxplot, yet the boxplot allows us to see *Median*, *Interquartile Range*, and *Outliers*. 
+
+## Exercise 4: Distribution of Rides by Hour
+```{r distribution_rides_hour, fig.align='center', fig.height=8, fig.width=10, warning=FALSE}
+hourly_rides %>% 
+  ggplot(aes(x = hour, y = rides, fill = member_type)) +
+  geom_boxplot() +
+  facet_wrap(~workingday, nrow = 2) +
+  labs(x = "Hour", y = "Number of Rides")
+```
+
+* There is an interesting pattern with these plots. While the *weekend* plot has a **unimodal**, the *workday* plot is **bimodal**. This might be the case as workers use bikes to get to work in the morning and use them again to go back home in the afternoon.
+
+## Exercise 5: Overplotting
+```{r over_plot_fix_1, fig.align='center', warning=FALSE}
+hourly_rides %>% 
+  ggplot(aes(x = temp, y = rides)) +
+  geom_point(alpha = 0.3) +
+  facet_wrap(~member_type) + 
+  labs(x = "Normalized Temperature", y = "Rides")
+```
