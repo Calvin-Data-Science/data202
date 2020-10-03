@@ -18,7 +18,7 @@ Data Science includes, but goes far beyond, predictive modeling.
 
 ### Prediction as a Goal
 
-Here is an interactive visual introduction to some of the basic concepts of
+Below you'll find links to an interactive visual introduction to some of the basic concepts of
 predictive modeling. As you read, don't worry about the details of
 the classification model they're using, but read to answer questions like these:
 
