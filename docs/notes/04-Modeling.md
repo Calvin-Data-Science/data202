@@ -41,8 +41,12 @@ so learning about how those models work will be helpful even though we'll use th
 If you're already well familiar with these kinds of models from your stats background,
 you can just skim these for a refresher:
 
-* Introduction to Modern Statistics (OpenIntro)
+* **Read**: Introduction to Modern Statistics (OpenIntro)
   * [3.1 Fitting a Line](https://openintro-ims.netlify.app/intro-linear-models.html#fit-line-res-cor)
   * [3.2 Least Squares Regression](https://openintro-ims.netlify.app/intro-linear-models.html#least-squares-regression)
   
-  
+* **Try**: Introduction to Linear Models [tutorials](https://openintrostat.github.io/ims-tutorials/03-introduction-to-linear-models/), specifically:
+  * Review: [Visualizing two variables](https://openintro.shinyapps.io/ims-03-introduction-to-linear-models-01/)
+  * Focus on: [Simple linear regression](https://openintro.shinyapps.io/ims-03-introduction-to-linear-models-03/)
+  * continue to others if you have time or curiosity
+
