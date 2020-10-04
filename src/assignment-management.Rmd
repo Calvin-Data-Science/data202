@@ -208,7 +208,7 @@ all_repos <- org_repos(ghorg)
 Maintain local clones of all student repos:
 
 ```{r}
-assignment_to_update = "lab04"
+assignment_to_update = "hw03"
 local_repo_status <- tibble(repo_full = all_repos) %>% 
   separate(repo_full, c(NA, "repo"), "/", remove = FALSE) %>% 
   mutate(
@@ -273,5 +273,74 @@ students %>%
     repo_url = glue("https://github.com/{repo_name}"),
     md = glue("* [{name}]({repo_url})")
   ) %>% pull(md) %>% cat(sep = "\n")
+```
+
+
+## Feedback PRs
+
+A feedback PR is a PR from `master` into a branch called `feedback`, which refs the
+template code.
+
+To make them:
+
+1. Identify the appropritae ref for the `feedback` branch.
+2. Create the `feedback` branch on the repo.
+3. Open a PR.
+
+The ref for the feedback branch should be the corresponding SHA from the template repo.
+
+```{r}
+assignment <- "hw03"
+template_repo <- glue("{ghorg}/{assignment}-template")
+template_sha <- ghclass:::github_api_repo_branches(template_repo) %>%
+  pluck(1, "commit", "sha")
+```
+
+Having computed that, create the branches on student repos.
+
+```{r}
+all_repos %>% 
+  purrr::keep(~ str_detect(., assignment)) %>% 
+  purrr::walk(function(full_repo) {
+    owner <- ghclass:::get_repo_owner(full_repo)
+    repo <- ghclass:::get_repo_name(full_repo)
+    res <- purrr::safely(ghclass:::ghclass_api_v3_req)("POST /repos/:owner/:repo/git/refs", 
+      owner = ghorg, repo = repo, 
+      ref = paste0("refs/heads/", "feedback"), sha = template_sha)
+    ghclass:::status_msg(res, fail = "Failed to create feedback branch for repo {.val {repo}}.")
+  })
+```
+
+Now open the PRs.
+
+```{r}
+ghclass:::ghclass_api_v3_req(endpoint = "GET /repos/:owner/:repo/pulls/:pull_number", 
+    owner = ghorg, repo = "lab01-adamddh", pull_number = 1,
+    .send_headers = c(Accept = "application/vnd.github.shadow-cat-preview+json"))
+```
+
+```{r}
+make_pr_body <- function(repo) {
+  subscribers <- repo_to_user %>%
+    filter(repo == paste0(ghorg, "/", !!repo)) %>% 
+    pull(username) %>% 
+    map_chr(~ paste0('@', .)) %>% 
+    paste0(collapse = ", ")
+  paste0("This is a place for the course staff to leave feedback on your work. It will update automatically. **Don't close or merge this pull request** unless instructed to do so by your instructor.\n\nSubscribed: ", subscribers)
+}
+
+all_repos %>% 
+  purrr::keep(~ str_detect(., assignment)) %>% 
+  purrr::walk(function(full_repo) {
+    owner <- ghclass:::get_repo_owner(full_repo)
+    repo <- ghclass:::get_repo_name(full_repo)
+    pr_body <- make_pr_body(repo)
+    ghclass::pr_create(paste0(ghorg, "/", repo), "Feedback", head = "master", base = "feedback", body = pr_body)
+  })
+
+```
+
+
+```{r}
 ```
 
