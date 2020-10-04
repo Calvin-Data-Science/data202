@@ -208,7 +208,7 @@ all_repos <- org_repos(ghorg)
 Maintain local clones of all student repos:
 
 ```{r}
-assignment_to_update = "hw03"
+assignment_to_update = "lab04"
 local_repo_status <- tibble(repo_full = all_repos) %>% 
   separate(repo_full, c(NA, "repo"), "/", remove = FALSE) %>% 
   mutate(
@@ -264,6 +264,7 @@ local_repo_owners %>%
 
 Make a table for everyone's work
 
+
 ```{r results='asis'}
 assignmentName <- "hw02"
 
@@ -289,8 +290,21 @@ To make them:
 
 The ref for the feedback branch should be the corresponding SHA from the template repo.
 
+**FIXME**: GitHub template repos don't seem to work this way. So we'll need to
+actually query the earliest commit from each of the repos. Fortunately we have local repos.
+
 ```{r}
-assignment <- "hw03"
+local_repo_status %>%
+  filter(repo == "lab04-E1") %>%
+  pull(local_path) %>%
+  gert::git_log(repo = .) %>%
+  slice_tail(n = 1) %>% 
+  pull(commit)
+```
+
+
+```{r}
+assignment <- "hw04"
 template_repo <- glue("{ghorg}/{assignment}-template")
 template_sha <- ghclass:::github_api_repo_branches(template_repo) %>%
   pluck(1, "commit", "sha")
@@ -304,6 +318,12 @@ all_repos %>%
   purrr::walk(function(full_repo) {
     owner <- ghclass:::get_repo_owner(full_repo)
     repo <- ghclass:::get_repo_name(full_repo)
+    template_sha <- local_repo_status %>%
+      filter(repo == !!repo) %>%
+      pull(local_path) %>%
+      gert::git_log(repo = .) %>%
+      slice_tail(n = 1) %>% 
+      pull(commit)
     res <- purrr::safely(ghclass:::ghclass_api_v3_req)("POST /repos/:owner/:repo/git/refs", 
       owner = ghorg, repo = repo, 
       ref = paste0("refs/heads/", "feedback"), sha = template_sha)
@@ -312,12 +332,6 @@ all_repos %>%
 ```
 
 Now open the PRs.
-
-```{r}
-ghclass:::ghclass_api_v3_req(endpoint = "GET /repos/:owner/:repo/pulls/:pull_number", 
-    owner = ghorg, repo = "lab01-adamddh", pull_number = 1,
-    .send_headers = c(Accept = "application/vnd.github.shadow-cat-preview+json"))
-```
 
 ```{r}
 make_pr_body <- function(repo) {
@@ -338,9 +352,5 @@ all_repos %>%
     ghclass::pr_create(paste0(ghorg, "/", repo), "Feedback", head = "master", base = "feedback", body = pr_body)
   })
 
-```
-
-
-```{r}
 ```
 
