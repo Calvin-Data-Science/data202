@@ -33,6 +33,8 @@ Now the readings:
 * [Part 1](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/)
 * [Part 2](http://www.r2d3.us/visual-intro-to-machine-learning-part-2/) (we won't get here for another week, so it's optional for now)
 
+Here's a fun application to try out: Google's [Teachable Machine](https://teachablemachine.withgoogle.com/v1/).
+(They made a [v2](https://teachablemachine.withgoogle.com/) that's less fun but more practical.)
 
 ### Linear models for regression
 
