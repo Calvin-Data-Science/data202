@@ -7,10 +7,15 @@
 You'll see people calling the approaches we'll discuss here by a lot of different names:
 
 * "*Predictive Modeling*": my current preferred term, since our goal is to *predict* and our approach is *modeling*.
-* "*Predictive Analytics*":
+* "*Predictive Analytics*": I'm unclear exactly what this means, apparently it's used a bit more broadly than "predictive modeling".
 * "*Statistical Learning*": probably the most broadly used technical term
-* "*Machine Learning*" or "*AI*"
-* "*Data Science*": some people think (wrongly) that this is all of what data science is about.
+* "*Machine Learning*": focuses on the math and engineering of predictive modeling. I see this as a good name for the internals of statistical learning; but when you also are considering the context of the data (where it came from and the story you'll tell with it), I think "predictive modeling" and "data science" are more holistic terms.
+
+Here are some names I don't like:
+
+* "*AI*": it does have a specific meaning, but it's become both overused (to mean anything with data in it) and underused (discounting a lot of good work in intelligent systems that doesn't happen to need tons of data)
+* "*Big Data*": a popular but (in my opinion) not very helpful umbrella term
+* "*Data Science*": some people think (wrongly) that predictive modeling is all of what data science is about.
 Data Science includes, but goes far beyond, predictive modeling.
 
 
