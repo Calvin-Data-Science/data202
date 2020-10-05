@@ -36,7 +36,7 @@ class: center, middle
 
 * **Medicine**: wearable monitor for seizures or falls, detect malaria from blood smears, find effective drug regimens from medical records
 * **Drug Discovery**: predict the efficacy of a synthesis plan for a drug
-* **Precision Agriculture**: predict effect of microclimate on plant growth
+* **Precision Agriculture**: predict effect of micro-climate on plant growth
 * **Urban Planning**: forecast resource needs, extreme weather risks, ...
 * **Government**: classify feedback from constituents
 * **Retail**: predict items in a grocery order
@@ -123,10 +123,31 @@ Leek, Jeffery T., and Roger D. Peng. "What is the question?." Science 347.6228 (
   * Predict something unknown from something known. Specifically: complete-the-table model
   * Mostly we'll *assume independent observations* (e.g., generalize across people)
   * Sometimes we'll *forecast* (e.g., predict how a time series will continue)
-* **How**: We’ll look at
+* **How**: We’ll look at...
   * methods that consider similar examples (Nearest Neighbors)
   * methods that look at overall trends (linear/logistic regression)
   * more advanced methods, time permitting
 
 ---
 
+## Example: Home Sale Prices
+
+```{r include=FALSE}
+ames_home_sales <- AmesHousing::make_ames()
+```
+
+From Ames, Iowa home sales, 2006-2010. (De Cock, 2011)
+
+.small[
+```{r echo=FALSE}
+ames_home_sales %>%
+  select(Lot_Area, Total_Bsmt_SF, Gr_Liv_Area, Garage_Cars, Sale_Price) %>% 
+  head(5) %>% 
+  kableExtra::kbl() %>% 
+    kableExtra::column_spec(5, background = "#8C2131", color = "white")
+```
+]
+(`r nrow(ames_home_sales)` total rows)
+
+* *Y*: *response* variable (aka *outcome*, *dependent variable*): `Sale_Price`
+* *X*: *features* (aka *predictors*, *covariates*, etc.): everything else
