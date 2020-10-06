@@ -10,9 +10,9 @@ slide_pdfs := $(patsubst %.Rmd,%.pdf,$(shell find docs/slides -iname '*.Rmd' -an
 	decktape --pause 500 --chrome-arg=--allow-file-access-from-files "$<" "$@"
 
 deploy-rmarkdown: $(docs)
-	rsync -rx --exclude="*.Rmd" --delete-after docs/ cs-prod:/webroot/courses/data/202/fa20
+	rsync -rxi --times --exclude="*.Rmd" --delete-after --delete-excluded docs/ cs-prod:/webroot/courses/data/202/fa20
 
 deploy-pdf: $(slide_pdfs)
-	rsync -rx --exclude="*.Rmd" --delete-after docs/ cs-prod:/webroot/courses/data/202/fa20
+	rsync -rxi --times --exclude="*.Rmd" --delete-after docs/ cs-prod:/webroot/courses/data/202/fa20
 
 deploy-all: deploy-rmarkdown deploy-pdf
