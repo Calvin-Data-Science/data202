@@ -141,10 +141,11 @@ available to you.
 
 ### We want raw data
 
+.small[
 GitHub renders CSVs in a fancy way, but you can get the plain old CSV if you click the Raw button.
 We're mostly interested in the URL for this file, since that will let us pull the data into R.
 
-```{r}
+```{r construct-url}
 confirmed_global_url <- paste0(
   "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/",
   "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_",
@@ -168,6 +169,7 @@ confirmed_global <- confirmed_global_url %>%
     province_or_state = `Province/State`
   )
 ```
+]
 
 ---
 
@@ -219,7 +221,7 @@ confirmed_global %>%
 confirmed_global %>%
   pivot_longer(
     -(1:4),
-    names_to = "date"
+    names_to = "date" #<<
   )
 ```
 
@@ -231,16 +233,15 @@ confirmed_global_long <-
   pivot_longer(
     -(1:4),
     names_to = "date",
-    values_to = "confirmed"
+    values_to = "confirmed" #<<
   )
 confirmed_global_long
 ```
 
 ---
 
-```{r broken-date, cache=TRUE}
-confirmed_global_long %>%
-  ggplot(aes(x = date, y = confirmed)) +
+```{r broken-date, cache=TRUE, out.width="80%"}
+ggplot(confirmed_global_long, aes(x = date, y = confirmed)) +
   geom_point()
 ```
 
@@ -250,7 +251,7 @@ confirmed_global_long %>%
 
 ## This happens!
 
-```{r out.width="50%", echo=FALSE}
+```{r georgia-misleading, out.width="50%", echo=FALSE}
 knitr::include_graphics("img/georgia-misleading.png")
 ```
 
@@ -286,7 +287,7 @@ Source: https://www.vox.com/covid-19-coronavirus-us-response-trump/2020/5/18/212
 
 ---
 
-```{r}
+```{r successful-pivot-date}
 confirmed_global_long <-
   confirmed_global %>%
   pivot_longer(
@@ -305,7 +306,7 @@ confirmed_global_long
 
 ---
 
-```{r total-cases-by-date, out.width="40%", fig.align='center'}
+```{r total-cases-by-date, out.width="80%", fig.align='center'}
 confirmed_global_long %>%
   group_by(date) %>%  #<<
   summarize(confirmed = sum(confirmed)) %>% #<<
@@ -316,17 +317,19 @@ confirmed_global_long %>%
 
 ---
 
-```{r cases-by-country-broken, fig.width=15, fig.height=6}
+```{r cases-by-country-broken, out.width="80%"}
 confirmed_global_long %>%
   filter(country_or_region %in%
     c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")) %>%
   ggplot(aes(x = date, y = confirmed)) +
-  geom_line() +
-  facet_wrap(~country_or_region, scales = "free_y")
+    geom_line() +
+    facet_wrap(~country_or_region, scales = "free_y")
 ```
 
 
 ---
+
+Why are the plots for Canada, China, and the UK so weird? Let's look at the data...
 
 ```{r explain-weird-plots}
 confirmed_global %>%
@@ -336,7 +339,7 @@ confirmed_global %>%
 
 ---
 
-```{r cases-by-country, fig.width=15, fig.height=6}
+```{r cases-by-country, out.width="80%"}
 confirmed_global_long %>%
   filter(country_or_region %in%
     c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")) %>%
@@ -386,24 +389,26 @@ population %>% reactable::reactable()
 
 ---
 
-```{r try-join}
-cases_with_population <- inner_join(
-  confirmed_global_long %>% select(country = country_or_region, date, confirmed),
-  population %>% select(country, population),
-  by = "country"
-)
+## Join cases table with population table
+
+```{r join-with-pop-broken}
+cases_with_population <- confirmed_global_long %>%
+  rename(country = country_or_region) %>%
+  left_join(
+    population,
+    by = "country"
+  )
 ```
 
 ---
 
-
-```{r join-plot-broken}
+```{r join-plot-broken, out.width="80%"}
 cases_with_population %>%
   filter(country %in%
     c("US", "Canada", "China", "Japan", "Korea, South", "Italy", "Germany", "Spain", "United Kingdom")) %>%
-  group_by(country, date) %>% # <<
+  group_by(country, date, population) %>% # <<
   summarize(confirmed = sum(confirmed)) %>% # <<
-  ggplot(aes(x = date, y = confirmed)) +
+  ggplot(aes(x = date, y = confirmed / population)) +
   geom_line() +
   facet_wrap(~country, scales = "free_y")
 ```
@@ -412,29 +417,45 @@ cases_with_population %>%
 
 ### Debugging a join
 
-
+.small[
 ```{r join-debug}
-most_recent_cases <- confirmed_global_long %>% 
-  group_by(country = country_or_region) %>% 
-  slice_tail(n = 1)
-full_join( # <<
-  population %>% select(country, population),
-  most_recent_cases %>% select(country, confirmed),
-  by = "country"
-) %>%
-  filter(is.na(confirmed))
+full_join_results <- confirmed_global_long %>%
+  rename(country = country_or_region) %>%
+  full_join( # <<
+    population,
+    by = "country"
+  )
 ```
+
+.pull-left[
+Countries with population but no case count:
+```{r join-debug-left}
+full_join_results %>%
+  filter(is.na(confirmed)) %>%
+  distinct(country)
+```
+]
+
+.pull-right[
+Countries with case count but no population:
+```{r join-debug-right}
+full_join_results %>%
+  filter(is.na(population)) %>%
+  distinct(country)
+```
+]
+]
 
 ---
 
 ## Recoding
 
-```{r}
+```{r recode-example}
 recoded_cases <-
   confirmed_global_long %>% 
   mutate(country = case_when( #<<
-    country_or_region == "Russia" ~ "Russian Federation",
     country_or_region == "US" ~ "United States",
+    country_or_region == "Russia" ~ "Russian Federation",
     country_or_region == "Korea, South" ~ "Korea, Rep.",
     TRUE ~ country_or_region
   ))
@@ -448,7 +469,7 @@ cases_with_population <- inner_join(
 
 ---
 
-```{r}
+```{r fixed-plot, out.width="80%"}
 cases_with_population %>%
   filter(country %in%
     c("United States", "Canada", "China", "Japan", "Korea, Rep.", "Italy", "Germany", "Spain", "United Kingdom")) %>%
@@ -461,7 +482,7 @@ cases_with_population %>%
 
 
 
-```{r, include = FALSE, eval = FALSE}
+```{r example-US-state-data, include = FALSE, eval = FALSE}
 US <- readr::read_csv("../../data/USstates.csv")
 
 Confirmed_long %>%
