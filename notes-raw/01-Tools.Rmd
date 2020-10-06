@@ -3,6 +3,7 @@
 
 ## Useful Resources
 
+* [Markdown Cheatsheet](https://commonmark.org/help/), [Tutorial](https://commonmark.org/help/tutorial/)
 * [Getting Used to R, RStudio, and R Markdown](https://ismayc.github.io/rbasics-book/index.html): Screenshots and screencasts (with no audio)
 * [Tidyverse Style Guide](https://style.tidyverse.org/index.html)
 
