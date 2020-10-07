@@ -64,7 +64,8 @@ fix_roster(roster, "lab05", 1) %>% filter(cohort %in% c("B", "H"))
 team_seeds <- tribble(
   ~assignment, ~seed,
   "lab04", 0,
-  "lab05", 1
+  "lab05", 1,
+  "lab06", 8
 )
 
 roster_withteams <- team_seeds %>% 
