@@ -29,55 +29,284 @@ class: center, middle, inverse, title-slide
 
 ## Types of Tasks
 
-* **regression**
-* **classification**
+* **regression**: predict a *number* ("continuous")
+  * number should be "close" in some sense to the correct number
+* **classification**: predict a *category*
+  * which one of these two groups? three groups? 500,000 groups?
+  * could ask: "how likely is it to be in group *i*"
+
+---
+
+## Examples of regression tasks?
+
+--
+
+* How much time will this person spend watching this video?
+* How much will it rain in GR next year?
+* How big a fruit will this plant produce?
+* How much will this home sell for?
+
+...
+
+&lt;br&gt;
+
+Running regression problem: housing prices in Ames, Iowa. Details:
+
+* [Paper](http://jse.amstat.org/v19n3/decock.pdf)
+* [Data Dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
+
+---
+
+## Examples of classification tasks?
+
+--
+
+* Which word did this person mean to type?
+* Will this person "Like" this post?
+* Is this a picture of the inside or outside of the restaurant?
+* Is this person having a seizure?
+
+Running example: *seizure classification*.
+
+First FDA-approved AI-powered medical device: Empatica [Embrace2](https://www.empatica.com/embrace2/),
+company founded by MIT data scientist Rosalind Picard
+
+&lt;img src="https://www.empatica.com/assets/images/embrace/features_em2_mb_a-lg-xhdpi.png" width="20%" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
 ## What makes a good prediction? *Regression*
 
+For a single observation:
+
 * **residual**: actual minus predicted
-  * If home sold for \$200k but we predicted \$250k, residual is ____
-* (statistical) *bias*: overpredicts vs underpredicts
-* absolute error
-* squared error
+  * If home sold for $200k but we predicted $250k, residual is _______
+* **absolute error**
+* **squared error**
+
+--
+
+Across the entire dataset:
+
+* **average error**: do we tend to predict too high? too low? "*bias*"
+* **max** absolute error
+* **mean** absolute error
+* **mean squared error** (MSE)
 * normalized squared error: MSE / Variance
-  * The confusingly named "R-two": 1 - normalized squared error
+  * The confusingly named "R-two" = 1 - normalized squared error
 
 ---
 
 ## What makes a good prediction? *Classification*
 
 
-|                        | Email is spam                 | Email is not spam             |
-|------------------------|-------------------------------|-------------------------------|
-| Email labeled spam     | True positive                 | False positive (Type 1 error) |
-| Email labeled not spam | False negative (Type 2 error) | True negative                 |
+|                      | Seizure happens               | No seizure happens            |
+|----------------------|-------------------------------|-------------------------------|
+| Seizure predicted    | True positive                 | False positive (Type 1 error) |
+| No seizure predicted | False negative (Type 2 error) | True negative                 |
 
 --
-- **Accuracy** (% correct) = (TP + TN) / (# emails)
-- **False negative** ("miss") **rate** = FN / (# true spam)
-- **False positive** ("false alarm") **rate** = FP / (# true not-spam)
+- **Accuracy** (% correct) = (TP + TN) / (# episodes)
+- **False negative** ("miss") **rate** = FN / (# actual seizures)
+- **False positive** ("false alarm") **rate** = FP / (# true non-seizures)
 
 --
-- **Sensitivity** ("true positive rate") = TP / (# true spam)
+- **Sensitivity** ("true positive rate") = TP / (# actual seizures)
   - Sensitivity = 1 − False negative rate
-- **Specificity** ("true negative rate") = TN / (# true spam)
+- **Specificity** ("true negative rate") = TN / (# actual seizures)
   - Specificity = 1 − False positive rate
 - [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
 
 ---
 
 .question[
-If you were designing a spam filter, would you want sensitivity and specificity to be high or low? What are the trade-offs associated with each decision? 
+If you were designing a seizure alert system, would you want sensitivity and specificity to be high or low? What are the trade-offs associated with each decision? 
 ]
 
 ---
 
+class: middle, center
+
 ## Validation
 
-*Example: perfectly predicting home price from irrelevant predictors*
+.large[**Key point**: you *must* evaluate predictions on *unseen* data]
 
+---
+
+
+Hey look! I can exactly predict how much a home will sell for!
+
+
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Lot_Area &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sale_Price &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 31770 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 215000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 11622 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 105000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+sale price = 41548.54 + 5.459599 * lot area
+
+&lt;img src="w6d2-accuracy_files/figure-html/perfect-prediction-1-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Validation: *unseen* data
+
+.pull-left[
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Lot_Area &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sale_Price &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 31770 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 215000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 11622 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 105000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 14267 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 172000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]
+
+.pull-right[
+&lt;img src="w6d2-accuracy_files/figure-html/perfectly-wrong-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+--
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Lot_Area &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sale_Price &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; predicted &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; residual &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 31770 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 215000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 215000.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 11622 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 105000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 105000.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 14267 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 172000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 119440.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52559.36 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Oh ok, I'll just fix that one...
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Lot_Area &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Bsmt_Unf_SF &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sale_Price &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 31770 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 441 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 215000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 11622 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 270 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 105000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 14267 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 406 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 172000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+
+
+
+
+sale price = -37769.46 + 1.5311432 \* lot area + **462.8685748 \* basement sq ft**
+
+### and look, it works!
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Lot_Area &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Bsmt_Unf_SF &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sale_Price &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; predicted &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; residual &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 31770 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 441 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 215000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 215000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 11622 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 270 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 105000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 105000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 14267 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 406 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 172000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 172000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+*Do you really think so?*
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

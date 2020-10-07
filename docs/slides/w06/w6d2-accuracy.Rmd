@@ -122,7 +122,7 @@ Across the entire dataset:
 ---
 
 .question[
-If you were designing a seizure warning system, would you want sensitivity and specificity to be high or low? What are the trade-offs associated with each decision? 
+If you were designing a seizure alert system, would you want sensitivity and specificity to be high or low? What are the trade-offs associated with each decision? 
 ]
 
 ---
