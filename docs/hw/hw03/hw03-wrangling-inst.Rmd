@@ -108,7 +108,7 @@ rides %>%
 See the `lubridate` [cheat sheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf) and the ["dates and times" chapter](https://r4ds.had.co.nz/dates-and-times.html) of "R for Data Science".
 ```
 
-* The `floor_date` function can be used to round dates to the nearest hour (see its `unit` parameter).
+* The `floor_date` function can be used to round dates to the hour (see its `unit` parameter).
 * You may use `count`, but I really recommend you use `summarize(n = n())`--overall it's less confusing.
 
 ```{r aggregate-hourly, echo=FALSE}
@@ -129,7 +129,7 @@ hourly_rides
 
 6. Repeat, aggregating by date instead. 
 
-```{r count-by-day-and-member-type}
+```{r count-by-day-and-member-type, echo=FALSE}
 daily_rides <- rides %>%
   group_by(day = floor_date(start_time, unit = "days"), member_type) %>% 
   summarize(rides = n())
