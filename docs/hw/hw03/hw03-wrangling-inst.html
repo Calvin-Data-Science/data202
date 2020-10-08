@@ -606,7 +606,26 @@ padding-left: 1em;
 <ol start="8" style="list-style-type: decimal">
 <li><em>Part A</em>: Make a tabular summary of this same dataset: what is the median number of rides taken by each type of rider for each day of the week?</li>
 </ol>
-<p>The result should look like:</p>
+<p>The result depends on whether you look at daily rides…</p>
+<pre><code>## # A tibble: 14 x 3
+## # Groups:   weekday [7]
+##    weekday member_type median_rides
+##    &lt;ord&gt;   &lt;fct&gt;              &lt;dbl&gt;
+##  1 Sun     Member             2845 
+##  2 Sun     Casual             1353 
+##  3 Mon     Member             3551 
+##  4 Mon     Casual              688 
+##  5 Tue     Member             3888 
+##  6 Tue     Casual              542.
+##  7 Wed     Member             3980.
+##  8 Wed     Casual              524.
+##  9 Thu     Member             3900 
+## 10 Thu     Casual              569 
+## 11 Fri     Member             3788.
+## 12 Fri     Casual              725 
+## 13 Sat     Member             3104 
+## 14 Sat     Casual             1447</code></pre>
+<p>or hourly rides:</p>
 <pre><code>## # A tibble: 14 x 3
 ## # Groups:   weekday [7]
 ##    weekday member_type median_rides
@@ -630,7 +649,54 @@ padding-left: 1em;
 <li>Once you get the basic table, try adding as the last step of your pipeline <code>pivot_wider(names_from = ___, values_from = ___)</code>, filling in the blanks appropriately.</li>
 <li>End your pipeline with <code>knitr::kable()</code> for a nice-looking table.</li>
 </ul>
-<p>The result should look like:</p>
+<p>The result should look like (daily):</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">weekday</th>
+<th align="right">Member</th>
+<th align="right">Casual</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Sun</td>
+<td align="right">2845.0</td>
+<td align="right">1353.0</td>
+</tr>
+<tr class="even">
+<td align="left">Mon</td>
+<td align="right">3551.0</td>
+<td align="right">688.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Tue</td>
+<td align="right">3888.0</td>
+<td align="right">542.5</td>
+</tr>
+<tr class="even">
+<td align="left">Wed</td>
+<td align="right">3980.5</td>
+<td align="right">523.5</td>
+</tr>
+<tr class="odd">
+<td align="left">Thu</td>
+<td align="right">3900.0</td>
+<td align="right">569.0</td>
+</tr>
+<tr class="even">
+<td align="left">Fri</td>
+<td align="right">3788.5</td>
+<td align="right">725.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Sat</td>
+<td align="right">3104.0</td>
+<td align="right">1447.0</td>
+</tr>
+</tbody>
+</table>
+<p>(hourly):</p>
 <table>
 <thead>
 <tr class="header">
@@ -693,31 +759,31 @@ padding-left: 1em;
 <div id="appendix-preprocessing" class="section level2">
 <h2>Appendix: Preprocessing</h2>
 <p>This is the code that I used to download and preprocess the dataset.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>preprocFile &lt;-<span class="st"> </span><span class="cf">function</span>(url, destFile) {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  url <span class="op">%&gt;%</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="st">    </span><span class="kw">pin</span>() <span class="op">%&gt;%</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="st">    </span><span class="kw">map_dfr</span>( <span class="op">~</span><span class="st"> </span><span class="kw">read_csv</span>(</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>      .,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>      <span class="dt">col_types =</span> <span class="kw">cols_only</span>(</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>        <span class="dt">Duration =</span> <span class="kw">col_double</span>(),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>        <span class="st">`</span><span class="dt">Start date</span><span class="st">`</span> =<span class="st"> </span><span class="kw">col_datetime</span>(<span class="dt">format =</span> <span class="st">&quot;&quot;</span>),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>        <span class="st">`</span><span class="dt">Member type</span><span class="st">`</span> =<span class="st"> </span><span class="kw">col_character</span>()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>      )</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>    )) <span class="op">%&gt;%</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a><span class="st">    </span><span class="kw">select</span>(<span class="dt">start_time =</span> <span class="st">`</span><span class="dt">Start date</span><span class="st">`</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>         <span class="dt">duration =</span> <span class="st">`</span><span class="dt">Duration</span><span class="st">`</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>         <span class="dt">member_type =</span> <span class="st">`</span><span class="dt">Member type</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a><span class="st">    </span><span class="kw">write_csv</span>(destFile)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a>  <span class="kw">system2</span>(<span class="st">&quot;gzip&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;-9v&quot;</span>, destFile))</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a>}</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a><span class="kw">preprocFile</span>(</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a>  <span class="st">&quot;https://s3.amazonaws.com/capitalbikeshare-data/2011-capitalbikeshare-tripdata.zip&quot;</span>,</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a>  <span class="st">&quot;rides_2011.csv&quot;</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a>)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a><span class="kw">preprocFile</span>(</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a>  <span class="st">&quot;https://s3.amazonaws.com/capitalbikeshare-data/2012-capitalbikeshare-tripdata.zip&quot;</span>,</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true"></a>  <span class="st">&quot;rides_2012.csv&quot;</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>preprocFile &lt;-<span class="st"> </span><span class="cf">function</span>(url, destFile) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>  url <span class="op">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="st">    </span><span class="kw">pin</span>() <span class="op">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a><span class="st">    </span><span class="kw">map_dfr</span>( <span class="op">~</span><span class="st"> </span><span class="kw">read_csv</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>      .,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>      <span class="dt">col_types =</span> <span class="kw">cols_only</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>        <span class="dt">Duration =</span> <span class="kw">col_double</span>(),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>        <span class="st">`</span><span class="dt">Start date</span><span class="st">`</span> =<span class="st"> </span><span class="kw">col_datetime</span>(<span class="dt">format =</span> <span class="st">&quot;&quot;</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>        <span class="st">`</span><span class="dt">Member type</span><span class="st">`</span> =<span class="st"> </span><span class="kw">col_character</span>()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>      )</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>    )) <span class="op">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a><span class="st">    </span><span class="kw">select</span>(<span class="dt">start_time =</span> <span class="st">`</span><span class="dt">Start date</span><span class="st">`</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>         <span class="dt">duration =</span> <span class="st">`</span><span class="dt">Duration</span><span class="st">`</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>         <span class="dt">member_type =</span> <span class="st">`</span><span class="dt">Member type</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a><span class="st">    </span><span class="kw">write_csv</span>(destFile)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a>  <span class="kw">system2</span>(<span class="st">&quot;gzip&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;-9v&quot;</span>, destFile))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a>}</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a><span class="kw">preprocFile</span>(</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a>  <span class="st">&quot;https://s3.amazonaws.com/capitalbikeshare-data/2011-capitalbikeshare-tripdata.zip&quot;</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>  <span class="st">&quot;rides_2011.csv&quot;</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a><span class="kw">preprocFile</span>(</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a>  <span class="st">&quot;https://s3.amazonaws.com/capitalbikeshare-data/2012-capitalbikeshare-tripdata.zip&quot;</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a>  <span class="st">&quot;rides_2012.csv&quot;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a>)</span></code></pre></div>
 </div>
 </div>
 

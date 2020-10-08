@@ -170,14 +170,24 @@ Either is fine.
 
 8. *Part A*: Make a tabular summary of this same dataset: what is the median number of rides taken by each type of rider for each day of the week?
 
-The result should look like:
+The result depends on whether you look at daily rides...
+
+```{r weekday-rides-daily-medians, echo=FALSE}
+weekday_rides_medians_daily <- daily_rides %>% 
+  filter(member_type != "Unknown") %>% 
+  group_by(weekday = wday(day, label = TRUE), member_type) %>% 
+  summarize(median_rides = median(rides))
+weekday_rides_medians_daily
+```
+
+or hourly rides:
 
 ```{r weekday-rides-medians, echo=FALSE}
-weekday_rides_medians <- hourly_rides %>% 
+weekday_rides_medians_hourly <- hourly_rides %>% 
   filter(member_type != "Unknown") %>% 
   group_by(weekday = wday(hour, label = TRUE), member_type) %>% 
   summarize(median_rides = median(rides))
-weekday_rides_medians
+weekday_rides_medians_hourly
 ```
 
 *Part B*: now that you've gotten the basic table, let's tweak it to make the result look better:
@@ -185,10 +195,19 @@ weekday_rides_medians
 * Once you get the basic table, try adding as the last step of your pipeline `pivot_wider(names_from = ___, values_from = ___)`, filling in the blanks appropriately.
 * End your pipeline with `knitr::kable()` for a nice-looking table.
 
-The result should look like:
+The result should look like (daily):
 
-```{r rides-by-weekday-table, echo=FALSE}
-weekday_rides_medians %>% 
+```{r rides-by-weekday-table-daily, echo=FALSE}
+weekday_rides_medians_daily %>% 
+  pivot_wider(names_from = member_type, values_from = median_rides) %>% 
+  knitr::kable()
+```
+
+
+(hourly):
+
+```{r rides-by-weekday-table-hourly, echo=FALSE}
+weekday_rides_medians_hourly %>% 
   pivot_wider(names_from = member_type, values_from = median_rides) %>% 
   knitr::kable()
 ```
