@@ -31,15 +31,58 @@ There are 3255678 rides in this dataset.
 Exercise 2
 ----------
 
-`duration` is probably measured in seconds, because most rides are less
-than 30 \* 60 seconds (30 minutes), but some are as long as 86,355,
-which is most of a day (86,400 seconds).
+`duration` is probably measured in seconds.
+
+    median_ride_duration <- median(rides$duration)
+
+1.  The median of `duration` is 658.
+2.  If duration were measured in seconds, the median ride duration would
+    be 658 sec / (60 sec/min) = 10.97 minutes (i.e., half of all rides
+    would be shorter than 11 minutes).
+3.  If duration were measured in the next smaller unit (milliseconds),
+    the median ride length would be 0.658 seconds.
+4.  If duration were measured in the next larger unit (minutes), half of
+    all rides would be longer than 658 min / (60 min / hr) = 10.97
+    hours.
+5.  Of these possibilities, 10 minutes is the most plausible, given my
+    own experience riding bikes (1 sec isn’t long enough to get
+    anywhere, and 11 hours is a very long ride).
+6.  Since interpreting duration as being reported in seconds gave the
+    most realistic median ride duration when compared with both the next
+    smaller and larger common units, I infer that seconds is the most
+    plausible unit.
+
+Some rides are as short as 60 seconds (1 minute), and others are as long
+as 86,355, which is most of a day (86,400 seconds).
+
+We can also visualize the order of magnitude of duration using a
+histogram of the base-10 log of the duration. We’ll go ahead and divide
+by 60 so the scale is in minutes:
 
     rides %>% 
-      ggplot(aes(x = duration)) +
-        geom_histogram(binwidth = 30 * 60)
+      ggplot(aes(x = log10(duration / 60))) +
+        geom_histogram(binwidth = .5)
 
 ![](hw03-wrangling-solutions_files/figure-gfm/duration-hist-1.png)<!-- -->
+
+or a boxplot drawn on a log scale:
+
+    ggplot(rides, aes(x = duration / 60)) +
+      geom_boxplot() +
+      scale_x_log10()
+
+![](hw03-wrangling-solutions_files/figure-gfm/duration-boxplot-1.png)<!-- -->
+
+Let’s also look at the quantiles (the edges of the box) directly:
+
+    quantile(rides$duration / 60, c(.25, .75))
+
+    ##   25%   75% 
+    ##  6.65 18.20
+
+If we assume that duration is measured in seconds, both graphs show us
+that the bulk of rides were between 6 and 20 minutes, which seems very
+reasonable.
 
 Exercise 3
 ----------
