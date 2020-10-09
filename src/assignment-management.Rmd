@@ -8,19 +8,17 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ghclass)
 library(tidyverse)
 library(glue)
-library(reticulate)
+library(R.cache)
 ```
 
-```{r}
-org_outside_collaborators <- function(org) {
-  ghclass:::ghclass_api_v3_req(endpoint = "GET /orgs/:org/outside_collaborators", org = org) %>%
-    purrr::map_chr("login")
-}
-```
-
+# Read and verify roster
 
 ```{r}
 ghorg <- "Calvin-DS202-FA20"
+```
+
+```{r}
+org_sitrep(ghorg)
 ```
 
 ```{r}
@@ -33,11 +31,6 @@ stopifnot(
 )
 ```
 
-# Set up assignment templates
-
-```{r}
-org_sitrep(ghorg)
-```
 
 # Assign Teams
 
@@ -109,6 +102,13 @@ copy_team_membership("lab06")
 roster_withteams %>% filter(assignment == "lab05") %>% count(team)
 ```
 
+```{r}
+getTeammates <- function(name) {
+  roster_withteams %>% filter(preferred_name == name) %>% select(team) %>% left_join(roster_withteams, by="team")
+}
+```
+
+
 # Create Assignment
 
 First make the template repo
@@ -133,7 +133,7 @@ createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo =
 ```{r, eval=FALSE}
 #createAssignmentTemplate("hw/hw04-other-tools")
 #createAssignmentTemplate("lab/lab05-ugly-charts")
-createAssignmentTemplate("proj/datavis")
+#createAssignmentTemplate("proj/datavis")
 ```
 
 (This is a WIP Python replacement for the shell script)
@@ -169,11 +169,11 @@ pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = 
     source_repo = paste0(ghorg, '/', assignmentName, '-template')
   )
 }
-pushSoloAssignment('datavis')
+#pushSoloAssignment('datavis')
 ```
 
 
-```{r team-assignment eval=FALSE}
+```{r team-assignment, eval=FALSE}
 pushTeamAssignment <- function(assignmentName) {
   templateRepoName <- paste0(ghorg, "/", assignmentName, "-template")
   stopifnot(repo_exists(templateRepoName))
@@ -196,7 +196,7 @@ pushTeamAssignment <- function(assignmentName) {
       )
     }
 }
-pushTeamAssignment("lab05")
+#pushTeamAssignment("lab05")
 
 ```
 
@@ -210,7 +210,6 @@ all_repos <- org_repos(ghorg)
 Maintain local clones of all student repos:
 
 ```{r}
-assignment_to_update = "lab04"
 local_repo_status <- tibble(repo_full = all_repos) %>% 
   separate(repo_full, c(NA, "repo"), "/", remove = FALSE) %>% 
   mutate(
@@ -218,35 +217,58 @@ local_repo_status <- tibble(repo_full = all_repos) %>%
     local_path = fs::path_expand(file.path("../fa20/all_repos", repo)) %>% fs::path_abs() %>% as.character(),
     exists = file.exists(local_path)
   )
+```
+
+Check out missing repos:
+
+```{r checkout-missing-repos}
 local_repo_status %>%
   filter(!exists) %>% 
   select(repo_url, local_path) %>% 
   pwalk(function(repo_url, local_path) 
     purrr::safely(gert::git_clone)(url = repo_url, path = local_path, branch = "master", verbose = TRUE))
-updates <- local_repo_status %>% 
-  filter(exists, str_detect(repo, assignment_to_update)) %>%
-  pull(local_path) %>% 
-  map(local_repo_pull)
+```
+
+
+```{r}
+updateLocalClones <- function(assignment_to_update) {
+  updates <- local_repo_status %>% 
+    filter(exists, str_detect(repo, assignment_to_update)) %>%
+    pull(local_path) %>% 
+    map(local_repo_pull)
+}
 ```
 
 Get all students who are on all repos
 
-```{r get-collaborators}
-repo_to_user <-
+```{r}
+get_collaborators_by_assignment <- function(assignment) {
   all_repos %>% 
-  map_dfr(~ repo_collaborators(.x, include_admins = FALSE))
+    keep(~ str_detect(., assignment)) %>% 
+    map_dfr(~ repo_collaborators(.x, include_admins = FALSE))
+}
+cached_collaborators <- function(assignment) {
+  evalWithMemoization({
+    get_collaborators_by_assignment(assignment)
+  }, key = assignment)
+}
+cached_collaborators("lab04")
 ```
 
 ```{r lookup-names}
-local_repo_owners <- full_join(
-  local_repo_status,
-  repo_to_user,
-  by = c("repo_full" = "repo")
-) %>% left_join(
+local_repo_owners <- tibble(assignment = c("hw01", "hw02", "hw03", "hw04", "lab01", "lab02", "lab03", "lab04", "lab05", "datavis")) %>% 
+  rowwise() %>% 
+  mutate(collaborators = list(cached_collaborators(assignment))) %>% 
+  unnest(collaborators) %>% 
+  select(-c(pull,push,admin)) %>% 
+  full_join(
+    local_repo_status %>% rename(repo_short = repo, repo = repo_full),
+    by = c("repo")
+  ) %>% left_join(
   roster,
   by = c("username" = "github")
 ) %>%
-  select(repo, local_path, name = preferred_full_name)
+  select(repo_short, assignment, local_path, name = preferred_full_name)
 ```
 
 Make links to each student's work.
@@ -254,28 +276,29 @@ Make links to each student's work.
 ```{r}
 local_repo_owners %>%
   drop_na() %>% 
-  pwalk(function(repo, local_path, name) {
+  pwalk(function(repo_short, assignment, local_path, name) {
     user_path <- fs::path_wd(paste0("../fa20/", name))
     fs::dir_create(user_path)
     fs::link_create(
       path = local_path,
-      new_path = file.path(user_path, repo)
+      new_path = file.path(user_path, repo_short)
     )
   })
 ```
 
-Make a table for everyone's work
 
+Make a table for everyone's work.
 
 ```{r results='asis'}
-assignmentName <- "hw02"
-
-students %>% 
+local_repo_owners %>% 
   mutate(
-    repo_name = glue("{ghorg}/{assignmentName}-{github_username}"),
-    repo_url = glue("https://github.com/{repo_name}"),
-    md = glue("* [{name}]({repo_url})")
-  ) %>% pull(md) %>% cat(sep = "\n")
+    repo_url = glue("https://github.com/{ghorg}/{repo_short}"),
+    pr_url = glue("{repo_url}/pull/1/"),
+    md = glue("* [{name}]({repo_url}) ([feedback]({pr_url}))")
+  ) %>%
+  group_by(assignment) %>% 
+  summarize(md = paste0(c("### ", first(assignment), "\n", paste0(md, collapse = "\n"), "\n\n"), collapse = ""), .groups = "drop") %>% 
+  pull(md) %>% cat(sep = "\n")
 ```
 
 
@@ -295,7 +318,7 @@ The ref for the feedback branch should be the corresponding SHA from the templat
 **FIXME**: GitHub template repos don't seem to work this way. So we'll need to
 actually query the earliest commit from each of the repos. Fortunately we have local repos.
 
-```{r}
+```{r eval=FALSE}
 local_repo_status %>%
   filter(repo == "lab04-E1") %>%
   pull(local_path) %>%
@@ -305,16 +328,14 @@ local_repo_status %>%
 ```
 
 
-```{r}
+```{r eval=FALSE}
 assignment <- "hw04"
 template_repo <- glue("{ghorg}/{assignment}-template")
-template_sha <- ghclass:::github_api_repo_branches(template_repo) %>%
-  pluck(1, "commit", "sha")
 ```
 
 Having computed that, create the branches on student repos.
 
-```{r}
+```{r eval=FALSE}
 all_repos %>% 
   purrr::keep(~ str_detect(., assignment)) %>% 
   purrr::walk(function(full_repo) {
@@ -335,7 +356,7 @@ all_repos %>%
 
 Now open the PRs.
 
-```{r}
+```{r eval=FALSE}
 make_pr_body <- function(repo) {
   subscribers <- repo_to_user %>%
     filter(repo == paste0(ghorg, "/", !!repo)) %>% 
