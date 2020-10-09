@@ -101,7 +101,7 @@ copy_team_membership <- function(assignment) {
     arrange(Team) %>% 
     clipr::write_clip()
 }
-copy_team_membership("lab05")
+copy_team_membership("lab06")
 ```
 
 
@@ -125,14 +125,15 @@ createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo =
     repo_set_template(paste0(ghorg, "/", repoName))
   
   message("Pushing local repo")
-  system2("./make-repo.sh", c(repoName, assignmentTemplatePath))
+  system2("./make-repo.sh", c(repoName, assignmentTemplatePath, assignmentName))
   message(glue("Pushed repo to https:://github.com/{ghorg}/{repoName}"))
 }
 ```
 
 ```{r, eval=FALSE}
 #createAssignmentTemplate("hw/hw04-other-tools")
-createAssignmentTemplate("lab/lab05-ugly-charts")
+#createAssignmentTemplate("lab/lab05-ugly-charts")
+createAssignmentTemplate("proj/datavis")
 ```
 
 (This is a WIP Python replacement for the shell script)
@@ -168,7 +169,7 @@ pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = 
     source_repo = paste0(ghorg, '/', assignmentName, '-template')
   )
 }
-#pushSoloAssignment('hw04')
+pushSoloAssignment('datavis')
 ```
 
 
