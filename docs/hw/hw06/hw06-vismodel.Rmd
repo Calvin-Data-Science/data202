@@ -47,7 +47,7 @@ If this proves too easy, consider challenging yourself with a more interesting c
 
 ### Submission
 
-* Place your code in an R Markdown file in your `hw06` repo.
+* Place your code in an R Markdown file in your `datavis` repo.
 * If your data is less than 10 MB, place it in a `data` folder in your repo
 (just like in our past assignments).
 * If your data is larger or has distribution restrictions that keep you from sharing it,
