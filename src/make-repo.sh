@@ -4,6 +4,7 @@ set -ex
 
 REPO_NAME="$1"
 SOURCE_PATH="$2"
+ASSIGNMENT_NAME="$3"
 
 COMMON_DIR="$(dirname "$0")/repo-common"
 
@@ -24,7 +25,7 @@ fi
 # Include common data
 rsync -a "${COMMON_DIR}/" "$repodir"
 
-cat > "$repodir/${REPO_NAME}.Rproj" <<EOF
+cat > "$repodir/${ASSIGNMENT_NAME}.Rproj" <<EOF
 Version: 1.0
 
 RestoreWorkspace: No
