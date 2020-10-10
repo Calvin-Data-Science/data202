@@ -8,6 +8,7 @@ You'll see people calling the approaches we'll discuss here by a lot of differen
 
 * "*Predictive Modeling*": my current preferred term, since our goal is to *predict* and our approach is *modeling*.
 * "*Predictive Analytics*": I'm unclear exactly what this means, apparently it's used a bit more broadly than "predictive modeling".
+* "*Data Mining*": emphasizes the observational (rather than experimental) focus. Similar to "predictive analytics" in scope I think.
 * "*Statistical Learning*": probably the most broadly used technical term
 * "*Machine Learning*": focuses on the math and engineering of predictive modeling. I see this as a good name for the internals of statistical learning; but when you also are considering the context of the data (where it came from and the story you'll tell with it), I think "predictive modeling" and "data science" are more holistic terms.
 
@@ -56,4 +57,37 @@ you can just skim these for a refresher:
   * Review: [Visualizing two variables](https://openintro.shinyapps.io/ims-03-introduction-to-linear-models-01/)
   * Focus on: [Simple linear regression](https://openintro.shinyapps.io/ims-03-introduction-to-linear-models-03/)
   * continue to others if you have time or curiosity
+
+## Modeling Goals
+
+(Note: a better discussion of this is found in [Brieman 2001](https://projecteuclid.org/download/pdf_1/euclid.ss/1009213726))
+
+Most of what is studied in statistics classes is modeling for the sake of *inference*:
+you want to make conclusions about a *population* in general based on what you
+observe in a *sample*. For example, if 1 person who received a vaccine later gets Covid
+compared with 2 people who didn't, how effective is the vaccine in general?
+What about if it were 100 people vs 200? Is it more effective for certain demographic
+groups, or were they just more likely to have gotten the vaccine in the first place?
+Inferential stats helps you think through what information you need to know to be able to start to answer a question
+like that and how to design a controlled experiment so that you can actually give
+a robust answer, and gives you mathematical tools to compute those answers from
+observed data.
+
+In general, a controlled experimental setting with randomization is needed to
+make robust inferences about a population from a sample. And in many cases we
+can do this: for example, most large websites are constantly running hundreds
+of controlled experiments on their visitors. But in many other cases, we can't
+make the experimental intervention we might want but we still observe a lot of
+data; is that data useless?
+
+Predictive modeling is one of several angles with which to make useful conclusions
+from data that was collected without randomized interventions. (Other approaches
+include instrumental variables analysis, propensity matching, and small
+confirmatory controlled experiments to evaluate hypothesis generated from
+observational studies.) The key idea is to change the goal: instead of trying
+to make an inference about a proposed relationship in isolation (like "does being male
+make you more likely to get a severe case of Covid, all else being equal?", which
+is complicated by difference in underlying health conditions, lifestyle, etc.),
+a predictive model only tries to make a prediction about the outcome ("here is a 70-year-old man; how
+severe is his disease likely to be?").
 
