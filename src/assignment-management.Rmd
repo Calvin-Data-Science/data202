@@ -301,6 +301,18 @@ local_repo_owners %>%
   pull(md) %>% cat(sep = "\n")
 ```
 
+```{r results='asis'}
+local_repo_owners %>% 
+  mutate(
+    repo_url = glue("https://github.com/{ghorg}/{repo_short}"),
+    pr_url = glue("{repo_url}/pull/1/"),
+    md = glue("[{repo_short}]({repo_url}) ([feedback]({pr_url}))")
+  ) %>%
+  group_by(name) %>% 
+  summarize(md = paste0(c("* ", first(name), ": ", paste0(md, collapse = ", ")), collapse = ""), .groups = "drop") %>% 
+  pull(md) %>% cat(sep = "\n")
+```
+
 
 ## Feedback PRs
 
