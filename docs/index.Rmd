@@ -54,8 +54,8 @@ getDueDay <- function(category) {
 * **Meeting Time**: MWF 9-9:50am
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
 * Teaching Assistant / Grader: Yejae Kim
-* **Office Hours** on Teams
-  * Prof Arnold: See [my Google Calendar](https://kenarnold.org/calendar.html) (Generally on Teams [Mon 8-9am](https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjU5ZDY2NjgtMDczMy00YjQ2LWFlZDctZjM0NjgxMDJhNTZi%40thread.v2/0?context=%7b%22Tid%22%3a%22756349b9-0610-4b01-917b-2a4ac10df947%22%2c%22Oid%22%3a%22610c1b0d-2276-4369-a7a1-6323b42b5de8%22%7d>), [Fri 3-4pm](https://teams.microsoft.com/l/meetup-join/19%3ameeting_NmJkODUzYzItYjhlNC00OTU3LWE2ZDgtMjIwNTA5NjYxYjkx%40thread.v2/0?context=%7b%22Tid%22%3a%22756349b9-0610-4b01-917b-2a4ac10df947%22%2c%22Oid%22%3a%22610c1b0d-2276-4369-a7a1-6323b42b5de8%22%7d), sometimes also outside), or by appointment
+* **Office Hours**
+  * Prof Arnold: Wed 3-4pm in [this Teams meeting](https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjU5ZDY2NjgtMDczMy00YjQ2LWFlZDctZjM0NjgxMDJhNTZi%40thread.v2/0?context=%7b%22Tid%22%3a%22756349b9-0610-4b01-917b-2a4ac10df947%22%2c%22Oid%22%3a%22610c1b0d-2276-4369-a7a1-6323b42b5de8%22%7d) or in NH 295. See [my Google Calendar](https://kenarnold.org/calendar.html) for exceptions. I'm also available by appointment.
   * Yejae: Wed 4:30-5:30pm in Teams (General channel)
 
 ## Objectives
