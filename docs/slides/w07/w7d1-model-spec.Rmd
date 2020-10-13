@@ -16,7 +16,7 @@ output:
 source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
-library(broom)
+library(glue)
 ```
 
 ## HW 06 notes
@@ -66,9 +66,10 @@ We subset the data as De Cock suggests:
 
 ```{r}
 ames_raw <- AmesHousing::make_ames()
-ames <- ames %>% 
+ames <- ames_raw %>% 
   filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal")
 nrow(ames)
+names(ames)
 #ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, color = Fireplaces > 0))+geom_point()
 ```
 
@@ -115,7 +116,7 @@ tibble(Lot_Area = c(32000, 12000), Sale_Price = c(239000, 185000)) %>%
 Hold out some data to use for validation:
 
 ```{r}
-set.seed(0)
+set.seed(10)
 ames_split <- initial_split(ames, prop = 3/4)
 ames_train <- training(ames_split)
 ames_test <- testing(ames_split)
@@ -128,7 +129,7 @@ Specify and train the model **on the training set**:
 ```{r}
 my_trained_model <- 
   my_model_spec %>% 
-  fit(Sale_Price ~ Lot_Area, data = ames_train) #<<
+  fit(Sale_Price ~ Lot_Area + Gr_Liv_Area + Full_Bath, data = ames_train) #<<
 ```
 
 Make predictions:
@@ -142,7 +143,14 @@ train_predictions <-
 
 ```{r}
 train_predictions %>% 
-  yardstick::mae(Sale_Price, .pred)
+  yardstick::metrics(truth = Sale_Price, estimate = .pred)
+```
+
+```{r}
+my_trained_model %>% 
+  predict(ames_test) %>% 
+  bind_cols(ames_test) %>% 
+  metrics(truth = Sale_Price, estimate = .pred)
 ```
 
 
