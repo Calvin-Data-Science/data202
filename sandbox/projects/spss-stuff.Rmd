@@ -1,0 +1,16 @@
+---
+title: "SPSS Stuff"
+author: "K Arnold, based on DSBox"
+date: "10/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+```{r}
+atp_w34 <- haven::read_sav("~/Downloads/W34_Apr18/ATP W34.sav")
+```
+
