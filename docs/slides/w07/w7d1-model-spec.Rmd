@@ -28,6 +28,41 @@ library(glue)
   * On January 23, the number of Covid cases in Afghanistan was 0.
   * ...
 * For bar charts, use `geom_col` (not `geom_bar`) unless you know exactly what you're doing.
+* If you're having trouble getting data, talk with me!
+
+---
+
+## Q&A
+
+> Should I look at (root) mean squared error, mean absolute error, or what?
+
+Analogous question: Would I use the mean or the median to summarize the errors?
+
+* If the model is mostly good but makes a few large errors, is that bad (use MSE!), or
+  does it mean we should probably ignore those points as outliers (use MAE!).
+* **Median** minimizes MAE. **Mean** minimizes MSE.
+* Most *models* try to minimize MSE. (but that doesn't mean *you* have to.)
+
+.small[A nice discussion, including concrete examples, [here](https://medium.com/human-in-a-machine-world/mae-and-rmse-which-metric-is-better-e60ac3bde13d).]
+
+---
+
+## Q&A
+
+> We found coefficients by guess-and-check... is there a better way?
+
+**Practically**: machine learning / stats software include efficient algorithms
+for exactly this. But it can still take weeks on supercomputers for big
+models and data.
+
+**Mathematically**: Most common algorithm is *gradient descent*:
+
+1. From your data, randomly pick a batch of a few observations.
+2. Put those X's through your model, tracing the computations on the way.
+3. Compute error (e.g., MSE) on that batch.
+4. Compute *what small change to each coefficient would have reduced error*?
+5. Make all of those small changes, repeat.
+
 
 ---
 
@@ -39,30 +74,61 @@ library(glue)
 
 ---
 
-## A Grammar of Predictive Modeling
+```{r echo=FALSE}
+include_graphics("img/modeling-process-FES.svg")
+```
 
-1. What problem are you trying to solve? (predict *what*, based on *what*?)
-2. Which type of model do you want to use?
-3. How do you want to transform your data before giving it the model?
-4. How will you measure how well your models work?
-5. How will you split up your data between training and validation?
+.small[Source: [Feature Engineering and Selection ch1](https://bookdown.org/max/FES/important-concepts.html)]
+
+---
+
+## Predictive Modeling Workflow
+
+Preliminaries:
+
+1. **Define the problem**: predict *what*, based on *what*? What *metrics* will indicate success? (Measure success in multiple ways!)
+2. **Explore your data** (EDA): understand its structure, make lots of plots
+
+Modeling:
+
+1. **Pick a model**: Which type(s) of models are appropriate for task and data?
+2. **Transform the data** as needed by the model ("feature engineering", preprocessing", "recipe")
+3. **Split the data** to allow for validation.
+4. **Fit and evaluate the model**
+5. **Tune**: adjust model hyperparameters
+6. **Analyze model errors** and refine all earlier steps
+
+---
+
 
 ```{r}
 library(tidymodels)
 ```
 
-Basic steps:
+Packages:
 
 * `parsnip`: **Specify** and **train** the model you want
 * `recipes`: **Prepare** the data
-* `rsample`: **Sample** training and validation data
+* `rsample`: **Split** data into training and validation
 * `yardstick`: Compute **metrics** for performance
+* `tune`: Helps you set the dials.
+
+---
+
+## Where to find documentation
+
+* <https://www.tidymodels.org/start/>
+* <https://www.tidymodels.org/learn/>
+* <https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/>
+* <https://juliasilge.com/blog/intro-tidymodels/>
+
 
 ---
 
 ## Example data
 
-We subset the data as De Cock suggests:
+We subset the data as [De Cock](http://jse.amstat.org/v19n3/decock.pdf) suggests.
+Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
 
 ```{r}
 ames_raw <- AmesHousing::make_ames()
@@ -80,16 +146,14 @@ names(ames)
 Specify the model:
 
 ```{r}
-my_model_spec <- 
-  parsnip::linear_reg() %>% 
+my_model_spec <-  parsnip::linear_reg() %>% #<<
   set_engine("lm")
 ```
 
 Train it ("fit") on data:
 
 ```{r}
-my_trained_model <- 
-  my_model_spec %>% 
+my_trained_model <- my_model_spec %>% 
   fit(Sale_Price ~ Lot_Area, data = ames)
 ```
 
@@ -106,7 +170,6 @@ augment.model_fit <- function(x, ...) {
 ```{r}
 tibble(Lot_Area = c(32000, 12000), Sale_Price = c(239000, 185000)) %>%
   predict(my_trained_model, new_data = .)  
-  #augment(my_trained_model, newdata = .)
 ```
 
 ---
