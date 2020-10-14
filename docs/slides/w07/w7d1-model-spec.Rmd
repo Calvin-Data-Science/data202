@@ -19,7 +19,9 @@ knitr::opts_chunk$set(echo = TRUE)
 library(glue)
 ```
 
-## HW 06 notes
+## Homework 6 notes
+
+Remember to **connect with the claim**: what point was the author making?
 
 * Get as *close to the source* as you can
   * e.g., "Our World in Data" is great, but often data is pre-wrangled. See "Source" tab.
@@ -32,15 +34,28 @@ library(glue)
 
 ---
 
+## Recap: regression error measures
+
+* MAE: mean absolute error
+* MSE: mean *squared* error
+
+### Units
+
+* If sale price is in $'s, what *units* is MAE in?
+* MSE?
+* What unit would the square root of MSE (RMSE) be in?
+
+---
+
 ## Q&A
 
 > Should I look at (root) mean squared error, mean absolute error, or what?
 
-Analogous question: Would I use the mean or the median to summarize the errors?
+Think: Would I use the mean or the median to summarize the errors?
 
 * If the model is mostly good but makes a few large errors, is that bad (use MSE!), or
   does it mean we should probably ignore those points as outliers (use MAE!).
-* **Median** minimizes MAE. **Mean** minimizes MSE.
+* For a single number: **Median** minimizes MAE. **Mean** minimizes MSE. (Think: what would minimize max *absolute* error?)
 * Most *models* try to minimize MSE. (but that doesn't mean *you* have to.)
 
 .small[A nice discussion, including concrete examples, [here](https://medium.com/human-in-a-machine-world/mae-and-rmse-which-metric-is-better-e60ac3bde13d).]
@@ -89,6 +104,8 @@ Preliminaries:
 1. **Define the problem**: predict *what*, based on *what*? What *metrics* will indicate success? (Measure success in multiple ways!)
 2. **Explore your data** (EDA): understand its structure, make lots of plots
 
+--
+
 Modeling:
 
 1. **Pick a model**: Which type(s) of models are appropriate for task and data?
@@ -112,6 +129,8 @@ Packages:
 * `rsample`: **Split** data into training and validation
 * `yardstick`: Compute **metrics** for performance
 * `tune`: Helps you set the dials.
+
+Analogous Python package: `scikit-learn`.
 
 ---
 
@@ -155,7 +174,7 @@ nrow(ames)
 .pull-right[
 Exploratory analysis:
 
-```{r}
+```{r eda-living-area}
 ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, color = Fireplaces > 0)) +
   geom_point()
 ```
@@ -163,13 +182,11 @@ ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, color = Fireplaces > 0)) +
 
 ---
 
-```{r}
-ames %>% 
-  select(Sale_Price, Gr_Liv_Area, Lot_Area, Full_Bath, Half_Bath, Fireplaces) %>% 
+```{r eda-several-predictors}
+ames %>% select(Sale_Price, Gr_Liv_Area, Lot_Area, Full_Bath, Half_Bath, Fireplaces) %>% 
   pivot_longer(-c(Sale_Price, Fireplaces), names_to = "predictor", values_to = "predictor_value") %>% 
-  ggplot(aes(x = predictor_value, y = Sale_Price, color = Fireplaces > 0)) +
-  geom_point() +
-  facet_wrap(vars(predictor), scales = "free")
+  ggplot(aes(x = predictor_value, y = Sale_Price, color = Fireplaces > 0)) + geom_point() +
+  facet_wrap(vars(predictor), scales = "free") + theme_bw()
 ```
 
 ---
@@ -183,12 +200,16 @@ my_model_spec <-  parsnip::linear_reg() %>% #<<
   set_engine("lm")
 ```
 
+--
+
 Train it ("fit") on data:
 
 ```{r}
 my_trained_model <- my_model_spec %>% 
   fit(Sale_Price ~ Lot_Area, data = ames)
 ```
+
+--
 
 Predict on new data:
 
@@ -209,7 +230,7 @@ tibble(Lot_Area = c(32000, 12000), Sale_Price = c(239000, 185000)) %>%
 
 ## Example, with validation
 
-Hold out some data to use for validation:
+1. Hold out some data to use for validation:
 
 ```{r}
 set.seed(10)
@@ -219,28 +240,48 @@ ames_test <- testing(ames_split)
 glue("Using {nrow(ames_train)} sales to train, {nrow(ames_test)} to test")
 ```
 
+---
 
-Specify and train the model **on the training set**:
+1. Hold out some data to use for validation:
+2. Specify the model to use.
+3. Train the model **on the training set**:
 
 ```{r}
-my_trained_model <- 
-  my_model_spec %>% 
+my_trained_model <- my_model_spec %>% 
   fit(Sale_Price ~ Lot_Area + Gr_Liv_Area + Full_Bath, data = ames_train) #<<
 ```
 
-Make predictions:
+---
 
+1. Hold out some data to use for validation:
+2. Specify the model to use.
+3. Train the model **on the training set**
+4. Make predictions on training set:
+
+.pull-left[
 ```{r}
 train_predictions <- 
   my_trained_model %>% 
-    predict(ames_train) %>% 
-    bind_cols(ames_train) # Put back the original data
+    predict(ames_train)
+train_predictions
 ```
+]
 
+.pull-right[
 ```{r}
 train_predictions %>% 
+  bind_cols(ames_train) %>% # Put back the original data
   yardstick::metrics(truth = Sale_Price, estimate = .pred)
 ```
+]
+
+---
+
+1. Hold out some data to use for validation:
+2. Specify the model to use.
+3. Train the model **on the training set**
+4. Make predictions on training set:
+5. **Evaluate on test** set:
 
 ```{r}
 my_trained_model %>% 
@@ -270,13 +311,22 @@ my_trained_model %>%
 
 The *formula interface*
 
-don't get confused: they "forgot" the coefficients!
+* `y ~ x`
+  * predict *y* using *x*. `Sale_Price ~ Lot_Area`
+* `y ~ x1 + x2 + x3`
+  * predict *y* using *x1* and *x2* and *x3*
+  * `Sale_Price ~ Lot_Area + Gr_Liv_Area + Full_Bath`
+
+Don't get confused: they "forgot" the coefficients! A fitted linear model will actually look like:
+<br>
+<br>
+Sale_Price = .red[c1] \* Lot_Area + .red[c2] \* Gr_Liv_Area + .red[c3] \* Full_Bath + intercept
+
+<br>
+
 
 But this works for specifying even models that aren't linear.
 
-This is `+` like `ggplot` or like "determination + perseverance + grit = success",
-not like "2x + y = 4".
-
----
-
+<!--This is `+` like `ggplot` or like "determination + perseverance + grit = success",
+not like "2x + y = 4".-->
 
