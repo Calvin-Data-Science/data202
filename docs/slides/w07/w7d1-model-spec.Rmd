@@ -117,11 +117,16 @@ Packages:
 
 ## Where to find documentation
 
-* <https://www.tidymodels.org/start/>
-* <https://www.tidymodels.org/learn/>
+* TidyModels website: [Getting Started](https://www.tidymodels.org/start/),
+  [vignettes](https://www.tidymodels.org/learn/)
+* [Tidy Modeling with R](https://www.tmwr.org/) book (work in progress)
+
+.small[
+Some others:
+
 * <https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/>
 * <https://juliasilge.com/blog/intro-tidymodels/>
-
+]
 
 ---
 
