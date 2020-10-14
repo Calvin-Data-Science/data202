@@ -117,6 +117,13 @@ Packages:
 
 ## Where to find documentation
 
+### Theory
+
+* [Feature Engineering and Selection](https://bookdown.org/max/FES/)
+* [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/)
+
+### Practice
+
 * TidyModels website: [Getting Started](https://www.tidymodels.org/start/),
   [vignettes](https://www.tidymodels.org/learn/)
 * [Tidy Modeling with R](https://www.tmwr.org/) book (work in progress)
@@ -132,16 +139,37 @@ Some others:
 
 ## Example data
 
+
+.pull-left[
 We subset the data as [De Cock](http://jse.amstat.org/v19n3/decock.pdf) suggests.
 Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
 
 ```{r}
-ames_raw <- AmesHousing::make_ames()
-ames <- ames_raw %>% 
+data(ames, package = "modeldata")
+ames <- ames %>% 
   filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal")
 nrow(ames)
-names(ames)
-#ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, color = Fireplaces > 0))+geom_point()
+```
+]
+
+.pull-right[
+Exploratory analysis:
+
+```{r}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, color = Fireplaces > 0)) +
+  geom_point()
+```
+]
+
+---
+
+```{r}
+ames %>% 
+  select(Sale_Price, Gr_Liv_Area, Lot_Area, Full_Bath, Half_Bath, Fireplaces) %>% 
+  pivot_longer(-c(Sale_Price, Fireplaces), names_to = "predictor", values_to = "predictor_value") %>% 
+  ggplot(aes(x = predictor_value, y = Sale_Price, color = Fireplaces > 0)) +
+  geom_point() +
+  facet_wrap(vars(predictor), scales = "free")
 ```
 
 ---
