@@ -5,7 +5,7 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
-#devtools::install_github("rundel/learnrhash")
+#remotes::install_github("rundel/learnrhash")
 library(learnr)
 library(tidyverse)
 library(nycflights13)
