@@ -10,7 +10,22 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
+Read in the data:
+
 ```{r}
 atp_w34 <- haven::read_sav("~/Downloads/W34_Apr18/ATP W34.sav")
+```
+
+Get party affiliations and leanings:
+
+```{r}
+atp_w34 %>% 
+  mutate(
+    party = as_factor(F_PARTY_FINAL),
+    party_lean = as_factor(F_PARTYLN_FINAL)) %>% 
+  select(party, party_lean)
+```
+```{r}
+atp_w34$F_PARTYSUM_FINAL %>% attributes()
 ```
 
