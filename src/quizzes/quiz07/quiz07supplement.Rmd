@@ -10,7 +10,6 @@ knitr::opts_chunk$set(echo = FALSE)
 #remotes::install_github("rundel/learnrhash")
 library(learnr)
 library(tidyverse)
-library(nycflights13)
 library(lubridate)
 # Disable a warning message.
 options(dplyr.summarise.inform = FALSE)
@@ -21,7 +20,9 @@ data("ames", package = "modeldata")
 
 ## Visualization
 
-Question 1: Write code to reproduce the following visualization, intended to show
+### Reproduce a plot
+
+Write code to reproduce the following visualization, intended to show
 how home sale price (`Sale_Price`) varies with the number of bathrooms.
 Use the `Full_Bath` and `Half_Bath` columns of the `ames` data frame, and count
 a half bath as 0.5 bathrooms.
@@ -37,50 +38,36 @@ ames %>%
 
 ```
 
-Question 2: A scatterplot is not the most appropriate choice for this exploratory visualization.
+## Data Wrangling
 
-```{r plot-choice, echo=FALSE}
-question(
-  "Which plot would be better choice?",
-  random_answer_order = TRUE, allow_retry = TRUE,
-  answer("Point plot"),
-  answer("Box plot (grouped by bathroom count)", correct = TRUE),
-  answer("Bar chart (grouped by bathroom count)"),
-  answer("Stacked bar chart (grouped by bathroom count)")
-)
-```
-
-Question 3: Make this better plot. (Hint: you may need `group = as_factor(___)`.)
-
-```{r bedroom-plot-improved, exercise=TRUE}
-
-```
-
-```{r bedroom-plot-improved-solution, exercise=TRUE}
-ames %>% 
-  mutate(baths = Full_Bath + .5 * Half_Bath) %>% 
-  ggplot(aes(x = baths, y = Sale_Price, group = as_factor(baths))) +
-    geom_boxplot()
-```
-
-Question 4: In which neighborhood (`Neighborhood` column) was the home with the
+In which neighborhood (`Neighborhood` column) was the home with the
 highest `Sale_Price`?
 
-```{r}
+```{r most-expensive-neighborhood, exercise=TRUE}
+ames %>% ...
+```
+
+
+```{r most-expensive-neighborhood-sol, include=FALSE}
 ames %>%
   arrange(desc(Sale_Price)) %>% 
   select(Neighborhood, Sale_Price)
 ```
 
-Question 5: Which neighborhood has the lowest median `Sale_Price`?
+Which neighborhood has the lowest median `Sale_Price`?
 
-```{r}
+```{r lowest-median-neighborhood, exercise=TRUE}
+
+```
+
+
+```{r lowest-median-neighborhood-sol, include=FALSE}
 ames %>%
   group_by(Neighborhood) %>%
   summarize(m = median(Sale_Price)) %>% 
   arrange(m)
 ```
-
+<!--
 
 
 ## Submit
@@ -101,3 +88,4 @@ shiny::tags$div(
   shiny::tags$br(), learnrhash:::wrapped_verbatim_text_output("hash_output", TRUE),
   shiny::tags$br())
 ```
+-->
