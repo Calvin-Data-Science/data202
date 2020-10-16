@@ -1,67 +1,57 @@
 ---
-title: "Cooking with Models"
-author: "K Arnold"
+title: "Lab 07: Making Predictive Models"
+author: "TEAM"
+date: "DATE"
+output: github_document
 ---
 
 ```{r setup, include=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(glue)
- options(scipen = 5) # encourage metrics to print in fixed-point notation
-```
-
-```{r}
 library(tidymodels)
+ options(scipen = 5) # encourage metrics to print in fixed-point notation
 ```
 
 ## Load data
 
-We subset the data as [De Cock](http://jse.amstat.org/v19n3/decock.pdf) suggests.
-Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
-
-```{r}
+```{r load-and-subset-data}
 data(ames, package = "modeldata")
 ames <- ames %>% 
   filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal")
-nrow(ames)
 ```
+
+After filtering, we are left with data for `r nrow(ames)` home sales.
 
 ## Exploratory analysis
 
 ```{r eda-living-area}
-ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, color = Fireplaces > 0)) +
-  geom_point()
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(size = .1, alpha = .25) +
+  labs(x = "above-grade living area (ft^2)", y = "Sale Price ($)")
 ```
 
-```{r eda-several-predictors}
-ames %>% select(Sale_Price, Gr_Liv_Area, Lot_Area, Full_Bath, Half_Bath, Fireplaces) %>% 
-  pivot_longer(-c(Sale_Price, Fireplaces), names_to = "predictor", values_to = "predictor_value") %>% 
-  ggplot(aes(x = predictor_value, y = Sale_Price, color = Fireplaces > 0)) + geom_point() +
-  facet_wrap(vars(predictor), scales = "free") + theme_bw()
-```
 
 ## Modeling
 
 ### Hold out some data to use for validation
 
-```{r}
+```{r train-test-split}
+# Seed the random number generator
 set.seed(10)
-ames_split <- initial_split(ames, prop = 1/2)
+# Split our data randomly
+ames_split <- initial_split(ames, prop = 2/3)
 ames_train <- training(ames_split)
 ames_test <- testing(ames_split)
-glue("Using {nrow(ames_train)} sales to train, {nrow(ames_test)} to test")
 ```
-
-* What does `set.seed` do? Why might it be a good idea?
-* Why might 3/4 be a reasonable proportion?
 
 ### Specify the model
 
-We want a linear regression, which we'll fit with the normal `lm` engine.
+We want a linear regression, which we'll fit with the `lm` ("linear model") engine that's built-in to R.
 
-```{r}
-my_model_spec <-
-  parsnip::linear_reg() %>%
+```{r model-spec}
+my_model_spec <- 
+  parsnip::linear_reg() %>% 
+  set_mode("regression") %>% 
   set_engine("lm")
 ```
 
