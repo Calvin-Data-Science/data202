@@ -181,7 +181,8 @@ my_trained_model %>%
 ### How well did it do... on *unseen* data?
 
 Now have the model `predict` on the test set and compute your estimates.
-```{r}
+
+```{r eval-model-1}
 my_trained_model %>% 
   predict(ames_test) %>% 
   bind_cols(ames_test) %>% 

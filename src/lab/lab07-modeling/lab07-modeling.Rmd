@@ -1,0 +1,103 @@
+---
+title: "Lab 07: Making Predictive Models"
+author: "TEAM"
+date: "DATE"
+output: github_document
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidymodels)
+ options(scipen = 5) # encourage metrics to print in fixed-point notation
+```
+
+
+## Data
+
+```{r load-and-subset-data}
+data(ames, package = "modeldata")
+ames <- ames %>% 
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal")
+```
+
+The data contains sale prices for ____ homes.
+
+## Exploratory analysis
+
+
+## Modeling
+
+### Hold out some data to use for validation
+
+```{r train-test-split}
+# Seed the random number generator
+set.seed(10)
+# Split our data randomly
+ames_split <- initial_split(ames, prop = 2/3)
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+*Your narrative answers here*
+
+### Specify the model
+
+```{r model-spec}
+my_model_spec <- 
+  parsnip::linear_reg() %>% 
+  set_mode("regression") %>% 
+  set_engine("lm")
+```
+
+
+### Fit the model on data
+
+```{r train-model-1}
+# code here
+```
+
+*Your narrative answers here*
+
+### How well did it do?
+
+```{r predict-model-1}
+# code here
+```
+
+
+*Your narrative answers here*
+
+On average, this model's predictions were off by about $___ on its training data.
+
+
+### How well did it do... on *unseen* data?
+
+
+```{r eval-model-1}
+# code
+```
+
+### Is that good?
+
+On average, this model's predictions were off by about $___.
+
+*Your narrative answers here.*
+
+## More features
+
+```{r}
+# code
+```
+
+*Your narrative answers here.*
+
+
+## LOTS more features!
+
+```{r}
+# code
+```
+
+
+*Your narrative answers here.*
