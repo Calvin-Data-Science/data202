@@ -1,0 +1,196 @@
+---
+title: "Lab 07: Making Predictive Models"
+output: 
+  tufte::tufte_html:
+    css: ../lab.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(glue)
+ options(scipen = 5) # encourage metrics to print in fixed-point notation
+```
+
+## Goals
+
+* Apply a basic `tidymodels` workflow to fit and evaluate a linear regression model
+* Practice *model validation* on held-out data
+* Practice more visualization (as always!)
+
+## Getting started
+
+Find your repo in [our GitHub organization](https://github.com/Calvin-DS202-FA20/)
+and clone it as usual.
+
+### Optional, experimental workflow
+
+The RStudio server lets multiple people edit a single project at the same time!
+This can be confusing since it's different from collaborating using GitHub, so
+try it only if all of your team is game to try:
+
+1. The person whose name appears first on the Attendance sheet (or someone else if needed)
+  clones the team's repo on the RStudio Server.
+2. They 
+
+We'll be using `tidymodels`:
+
+```{r message=FALSE}
+library(tidymodels)
+```
+
+## Load data
+
+We subset the data as [De Cock](http://jse.amstat.org/v19n3/decock.pdf) suggests.
+Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
+
+```{r}
+data(ames, package = "modeldata")
+ames <- ames %>% 
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal")
+nrow(ames)
+```
+
+## Exploratory analysis
+
+```{r eda-living-area}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, color = Fireplaces > 0)) +
+  geom_point()
+```
+
+```{r eda-several-predictors}
+ames %>% select(Sale_Price, Gr_Liv_Area, Lot_Area, Full_Bath, Half_Bath, Fireplaces) %>% 
+  pivot_longer(-c(Sale_Price, Fireplaces), names_to = "predictor", values_to = "predictor_value") %>% 
+  ggplot(aes(x = predictor_value, y = Sale_Price, color = Fireplaces > 0)) + geom_point() +
+  facet_wrap(vars(predictor), scales = "free") + theme_bw()
+```
+
+## Modeling
+
+### Hold out some data to use for validation
+
+```{r}
+set.seed(10)
+ames_split <- initial_split(ames, prop = 1/2)
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+glue("Using {nrow(ames_train)} sales to train, {nrow(ames_test)} to test")
+```
+
+* What does `set.seed` do? Why might it be a good idea?
+* Why might 3/4 be a reasonable proportion?
+
+### Specify the model
+
+We want a linear regression, which we'll fit with the `lm` ("linear model") engine that's built-in to R.
+
+```{r}
+# my_model_spec <-
+#   parsnip::rand_forest() %>%
+#   set_mode("regression") %>% 
+#   set_engine("ranger")
+my_model_spec <- 
+  parsnip::linear_reg() %>% 
+  set_mode("regression") %>% 
+  set_engine("lm")
+```
+
+### Fit the model on data
+
+```{r}
+my_trained_model <-
+  my_model_spec %>% 
+  fit(Sale_Price ~ Lot_Area, data = ames_train)
+my_trained_model
+```
+
+* What **coefficients** do you see?
+* Try re-running the `fit`. Do the coefficients change?
+* Try re-running the `initial_split` and then the `fit`. Do the coefficients change?
+* Try changing the seed, then re-running. What changes?
+
+### How well did it do?
+
+On data it saw already (the **training set**):
+
+```{r}
+train_predictions <- 
+  my_trained_model %>% 
+    predict(ames_train)
+train_predictions
+```
+* How many predictions did it make? Why might that make sense?
+
+
+```{r}
+train_predictions %>% 
+  bind_cols(ames_train) %>% # Put back the original data
+  yardstick::metrics(truth = Sale_Price, estimate = .pred)
+```
+
+* Why does this table have 3 rows? What does each row mean?
+* Ignore the ".estimator" column for now.
+
+### How well did it do... on *unseen* data?
+
+
+```{r}
+my_trained_model %>% 
+  predict(ames_test) %>% 
+  bind_cols(ames_test) %>% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+### Is that good?
+
+Finish the sentence: "On average, this model's predictions were off by about $___".
+
+Can we do better?
+
+* What data about a house did this model use to make its prediction?
+* What kinds of computations could it do to that data?
+
+## More features, part 1
+
+Try using `Lot_Area`, 
+
+```{r}
+my_trained_model <- my_model_spec %>% 
+  fit(Sale_Price ~ Lot_Area + Gr_Liv_Area + Full_Bath, data = ames_train) #<<
+```
+
+```{r}
+my_trained_model %>% 
+  predict(ames_test) %>% 
+  bind_cols(ames_test) %>% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+### LOTS more features!
+
+Here's how to get a list of *all* the numeric features in formula-like format:
+
+```{r}
+ames %>% select(where(is.numeric), -Sale_Price) %>% names() %>% paste0(collapse = " + ")
+```
+
+
+```{r}
+my_trained_model <- my_model_spec %>% 
+  fit(Sale_Price ~ Lot_Frontage + Lot_Area + Year_Built + Year_Remod_Add + Mas_Vnr_Area + BsmtFin_SF_1 + BsmtFin_SF_2 + Bsmt_Unf_SF + Total_Bsmt_SF + First_Flr_SF + Second_Flr_SF + Gr_Liv_Area + Bsmt_Full_Bath + Bsmt_Half_Bath + Full_Bath + Half_Bath + Bedroom_AbvGr + Kitchen_AbvGr + TotRms_AbvGrd + Fireplaces + Garage_Cars + Garage_Area + Wood_Deck_SF + Open_Porch_SF + Enclosed_Porch + Three_season_porch + Screen_Porch + Pool_Area + Misc_Val + Mo_Sold + Year_Sold + Longitude + Latitude, data = ames_train)
+```
+
+```{r}
+my_trained_model %>% 
+  predict(ames_test) %>% 
+  bind_cols(ames_test) %>% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+
+
+
+
