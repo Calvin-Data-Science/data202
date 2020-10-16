@@ -1,5 +1,5 @@
 ---
-title: "Cooking with Models"
+title: "How to Make a Predictive Model"
 author: "K Arnold"
 output:
   xaringan::moon_reader:
@@ -156,11 +156,11 @@ Some others:
 
 ---
 
-## Example data
+## Example data: Ames home sales
 
 
 .pull-left[
-We subset the data as [De Cock](http://jse.amstat.org/v19n3/decock.pdf) suggests.
+Like before, but we subset the data as [De Cock](http://jse.amstat.org/v19n3/decock.pdf) suggests.
 Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
 
 ```{r}
@@ -309,7 +309,7 @@ my_trained_model %>%
 
 ## Which variables mean what?
 
-The *formula interface*
+The *formula interface*:
 
 * `y ~ x`
   * predict *y* using *x*. `Sale_Price ~ Lot_Area`
