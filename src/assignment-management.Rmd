@@ -49,7 +49,7 @@ fix_roster <- function(roster, assignment, seed) {
     roster
   }
 }
-fix_roster(roster, "lab05", 1) %>% filter(cohort %in% c("B", "H"))
+#fix_roster(roster, "lab05", 1) %>% filter(cohort %in% c("B", "H"))
 ```
 
 
@@ -58,7 +58,8 @@ team_seeds <- tribble(
   ~assignment, ~seed,
   "lab04", 0,
   "lab05", 1,
-  "lab06", 8
+  "lab06", 8, # there wasn't really a lab06, so we reuse this seed. 
+  "lab07", 8 
 )
 
 roster_withteams <- team_seeds %>% 
@@ -92,14 +93,10 @@ copy_team_membership <- function(assignment) {
     filter(assignment == !!assignment) %>% 
     select(Name = preferred_full_name, Cohort = cohort, Team = team) %>%
     arrange(Team) %>% 
-    clipr::write_clip()
+    clipr::write_clip() %>% 
+    count(Team)
 }
-copy_team_membership("lab06")
-```
-
-
-```{r team-member-count}
-roster_withteams %>% filter(assignment == "lab05") %>% count(team)
+copy_team_membership("lab07")
 ```
 
 ```{r}
