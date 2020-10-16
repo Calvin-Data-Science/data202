@@ -1,6 +1,6 @@
 ---
 title: "SPSS Stuff"
-author: "K Arnold, based on DSBox"
+author: "K Arnold"
 date: "10/12/2020"
 output: html_document
 ---
@@ -27,5 +27,10 @@ atp_w34 %>%
 ```
 ```{r}
 atp_w34$F_PARTYSUM_FINAL %>% attributes()
+```
+
+
+```{r}
+cts_2018 <- haven::read_sav("/Users/ka37/Downloads/January 3-10, 2018 - Core Trends Survey/January 3-10, 2018 - Core Trends Survey - SPSS.sav")
 ```
 
