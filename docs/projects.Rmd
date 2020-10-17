@@ -2,7 +2,7 @@
 title: Projects
 ---
 
-## **Project 1**: replicate and critique some real-world data science
+## **Midterm Project**: replicate and critique a visual
 
 For this project you will pick some existing data science work (a blog post, report, research paper, etc.) and replicate a visual from it.
 
@@ -34,7 +34,7 @@ Milestones are due along with the corresponding week's homework.
 * **Week 5**: Provide feedback to other students.
 * **Week 6**: Final visual, plus your critique of the original article and some follow-up questions.
 
-## **Project 2**: ask and answer your own data science question
+## **Final Project**: ask and answer your own data science question
 
 This project will require doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (only posted publicly if want to), supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components.
 
