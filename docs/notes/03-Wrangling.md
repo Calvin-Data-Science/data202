@@ -1,8 +1,13 @@
 
 # Data Wrangling
 
-## Reading Guide
+## Resources
 
+See the previous chapter. Also:
+
+* [dplyr](https://dplyr.tidyverse.org/): [cheat sheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
+* [lubridate](https://lubridate.tidyverse.org/): [cheat sheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf)
+* Some [tips for working with SPSS data](https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html) (e.g., Pew)
 
 ## Afterward
 

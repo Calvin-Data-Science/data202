@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Predictive Modeling | DATA 202 Fall 2020</title>
   <meta name="description" content="4 Predictive Modeling | DATA 202 Fall 2020" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Predictive Modeling | DATA 202 Fall 2020" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="K Arnold" />
 
 
-<meta name="date" content="2020-10-04" />
+<meta name="date" content="2020-10-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="data-wrangling.html"/>
 
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -151,20 +151,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1.2" data-path="visualization.html"><a href="visualization.html#how"><i class="fa fa-check"></i><b>2.1.2</b> How</a></li>
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#application"><i class="fa fa-check"></i><b>2.2</b> Application</a></li>
+<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#references"><i class="fa fa-check"></i><b>2.3</b> References</a></li>
+<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#tweaks"><i class="fa fa-check"></i><b>2.4</b> Tweaks</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#reordering-bars-in-a-bar-plot"><i class="fa fa-check"></i><b>2.4.1</b> Reordering bars in a bar plot</a></li>
+<li class="chapter" data-level="2.4.2" data-path="visualization.html"><a href="visualization.html#tweaking-scales"><i class="fa fa-check"></i><b>2.4.2</b> Tweaking scales</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="data-wrangling.html"><a href="data-wrangling.html#reading-guide"><i class="fa fa-check"></i><b>3.1</b> Reading Guide</a></li>
+<li class="chapter" data-level="3.1" data-path="data-wrangling.html"><a href="data-wrangling.html#resources"><i class="fa fa-check"></i><b>3.1</b> Resources</a></li>
 <li class="chapter" data-level="3.2" data-path="data-wrangling.html"><a href="data-wrangling.html#afterward"><i class="fa fa-check"></i><b>3.2</b> Afterward</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="predictive-modeling.html"><a href="predictive-modeling.html"><i class="fa fa-check"></i><b>4</b> Predictive Modeling</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="predictive-modeling.html"><a href="predictive-modeling.html#lingo"><i class="fa fa-check"></i><b>4.1</b> Lingo</a></li>
-<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#reading-guide"><i class="fa fa-check"></i><b>4.2</b> Reading Guide</a>
+<li class="chapter" data-level="4.2" data-path="predictive-modeling.html"><a href="predictive-modeling.html#reading-guide"><i class="fa fa-check"></i><b>4.2</b> Reading Guide</a>
 <ul>
 <li class="chapter" data-level="4.2.1" data-path="predictive-modeling.html"><a href="predictive-modeling.html#prediction-as-a-goal"><i class="fa fa-check"></i><b>4.2.1</b> Prediction as a Goal</a></li>
 <li class="chapter" data-level="4.2.2" data-path="predictive-modeling.html"><a href="predictive-modeling.html#linear-models-for-regression"><i class="fa fa-check"></i><b>4.2.2</b> Linear models for regression</a></li>
 </ul></li>
+<li class="chapter" data-level="4.3" data-path="predictive-modeling.html"><a href="predictive-modeling.html#modeling-goals"><i class="fa fa-check"></i><b>4.3</b> Modeling Goals</a></li>
 </ul></li>
 </ul>
 
@@ -191,6 +198,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>“<em>Predictive Modeling</em>”: my current preferred term, since our goal is to <em>predict</em> and our approach is <em>modeling</em>.</li>
 <li>“<em>Predictive Analytics</em>”: I’m unclear exactly what this means, apparently it’s used a bit more broadly than “predictive modeling”.</li>
+<li>“<em>Data Mining</em>”: emphasizes the observational (rather than experimental) focus. Similar to “predictive analytics” in scope I think.</li>
 <li>“<em>Statistical Learning</em>”: probably the most broadly used technical term</li>
 <li>“<em>Machine Learning</em>”: focuses on the math and engineering of predictive modeling. I see this as a good name for the internals of statistical learning; but when you also are considering the context of the data (where it came from and the story you’ll tell with it), I think “predictive modeling” and “data science” are more holistic terms.</li>
 </ul>
@@ -243,8 +251,38 @@ you can just skim these for a refresher:</p>
 <li>continue to others if you have time or curiosity</li>
 </ul></li>
 </ul>
-
 </div>
+</div>
+<div id="modeling-goals" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Modeling Goals</h2>
+<p>(Note: a better discussion of this is found in <a href="https://projecteuclid.org/download/pdf_1/euclid.ss/1009213726">Brieman 2001</a>)</p>
+<p>Most of what is studied in statistics classes is modeling for the sake of <em>inference</em>:
+you want to make conclusions about a <em>population</em> in general based on what you
+observe in a <em>sample</em>. For example, if 1 person who received a vaccine later gets Covid
+compared with 2 people who didn’t, how effective is the vaccine in general?
+What about if it were 100 people vs 200? Is it more effective for certain demographic
+groups, or were they just more likely to have gotten the vaccine in the first place?
+Inferential stats helps you think through what information you need to know to be able to start to answer a question
+like that and how to design a controlled experiment so that you can actually give
+a robust answer, and gives you mathematical tools to compute those answers from
+observed data.</p>
+<p>In general, a controlled experimental setting with randomization is needed to
+make robust inferences about a population from a sample. And in many cases we
+can do this: for example, most large websites are constantly running hundreds
+of controlled experiments on their visitors. But in many other cases, we can’t
+make the experimental intervention we might want but we still observe a lot of
+data; is that data useless?</p>
+<p>Predictive modeling is one of several angles with which to make useful conclusions
+from data that was collected without randomized interventions. (Other approaches
+include instrumental variables analysis, propensity matching, and small
+confirmatory controlled experiments to evaluate hypothesis generated from
+observational studies.) The key idea is to change the goal: instead of trying
+to make an inference about a proposed relationship in isolation (like “does being male
+make you more likely to get a severe case of Covid, all else being equal?”, which
+is complicated by difference in underlying health conditions, lifestyle, etc.),
+a predictive model only tries to make a prediction about the outcome (“here is a 70-year-old man; how
+severe is his disease likely to be?”).</p>
+
 </div>
 </div>
             </section>
