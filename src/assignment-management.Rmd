@@ -18,10 +18,6 @@ ghorg <- "Calvin-DS202-FA20"
 ```
 
 ```{r}
-org_sitrep(ghorg)
-```
-
-```{r}
 roster <- read_csv("../roster.csv", col_types = cols(
   .default = col_character()
 )) %>% janitor::clean_names()
@@ -131,6 +127,7 @@ createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo =
 #createAssignmentTemplate("hw/hw04-other-tools")
 #createAssignmentTemplate("lab/lab05-ugly-charts")
 #createAssignmentTemplate("proj/datavis")
+createAssignmentTemplate("lab/lab07-modeling")
 ```
 
 (This is a WIP Python replacement for the shell script)
@@ -193,7 +190,7 @@ pushTeamAssignment <- function(assignmentName) {
       )
     }
 }
-#pushTeamAssignment("lab05")
+#pushTeamAssignment("lab07")
 
 ```
 
@@ -290,7 +287,7 @@ Make a table for everyone's work.
 local_repo_owners %>% 
   mutate(
     repo_url = glue("https://github.com/{ghorg}/{repo_short}"),
-    pr_url = glue("{repo_url}/pull/1/"),
+    pr_url = glue("{repo_url}/pull/1/files"),
     md = glue("* [{name}]({repo_url}) ([feedback]({pr_url}))")
   ) %>%
   group_by(assignment) %>% 
@@ -298,13 +295,33 @@ local_repo_owners %>%
   pull(md) %>% cat(sep = "\n")
 ```
 
+```{r}
+local_repo_owners %>%
+  rowwise() %>% 
+  mutate(html = paste0({
+    files <- Sys.glob(file.path(local_path, "*.html"))
+    bn <- basename(files)
+    glue("[{bn}]({files})")
+    }, collapse = ', ')) %>%
+  filter(assignment == "datavis") %>% 
+  ungroup() %>% pull(html)
+```
+
 ```{r results='asis'}
 local_repo_owners %>% 
   mutate(
     repo_url = glue("https://github.com/{ghorg}/{repo_short}"),
     pr_url = glue("{repo_url}/pull/1/"),
-    md = glue("[{repo_short}]({repo_url}) ([feedback]({pr_url}))")
   ) %>%
+  rowwise() %>% 
+  mutate(html = paste0({
+    files <- Sys.glob(file.path(local_path, "*.html"))
+    bn <- basename(files)
+    glue("[{bn}]({files})")
+    }, collapse = ', ')) %>%
+  mutate(
+    md = glue("[{repo_short}]({repo_url}) ([feedback]({pr_url})) {html}")
+  ) %>% 
   group_by(name) %>% 
   summarize(md = paste0(c("* ", first(name), ": ", paste0(md, collapse = ", ")), collapse = ""), .groups = "drop") %>% 
   pull(md) %>% cat(sep = "\n")
@@ -318,71 +335,50 @@ template code.
 
 To make them:
 
-1. Identify the appropritae ref for the `feedback` branch.
+1. Identify the appropriate ref for the `feedback` branch based on the earliest commit from the local checkout.
 2. Create the `feedback` branch on the repo.
 3. Open a PR.
 
-The ref for the feedback branch should be the corresponding SHA from the template repo.
-
-**FIXME**: GitHub template repos don't seem to work this way. So we'll need to
-actually query the earliest commit from each of the repos. Fortunately we have local repos.
-
 ```{r eval=FALSE}
-local_repo_status %>%
-  filter(repo == "lab04-E1") %>%
-  pull(local_path) %>%
-  gert::git_log(repo = .) %>%
-  slice_tail(n = 1) %>% 
-  pull(commit)
-```
-
-
-```{r eval=FALSE}
-assignment <- "hw04"
-template_repo <- glue("{ghorg}/{assignment}-template")
-```
-
-Having computed that, create the branches on student repos.
-
-```{r eval=FALSE}
-all_repos %>% 
-  purrr::keep(~ str_detect(., assignment)) %>% 
-  purrr::walk(function(full_repo) {
-    owner <- ghclass:::get_repo_owner(full_repo)
-    repo <- ghclass:::get_repo_name(full_repo)
-    template_sha <- local_repo_status %>%
-      filter(repo == !!repo) %>%
-      pull(local_path) %>%
-      gert::git_log(repo = .) %>%
-      slice_tail(n = 1) %>% 
-      pull(commit)
-    res <- purrr::safely(ghclass:::ghclass_api_v3_req)("POST /repos/:owner/:repo/git/refs", 
-      owner = ghorg, repo = repo, 
-      ref = paste0("refs/heads/", "feedback"), sha = template_sha)
-    ghclass:::status_msg(res, fail = "Failed to create feedback branch for repo {.val {repo}}.")
-  })
-```
-
-Now open the PRs.
-
-```{r eval=FALSE}
-make_pr_body <- function(repo) {
-  subscribers <- repo_to_user %>%
-    filter(repo == paste0(ghorg, "/", !!repo)) %>% 
-    pull(username) %>% 
-    map_chr(~ paste0('@', .)) %>% 
-    paste0(collapse = ", ")
-  paste0("This is a place for the course staff to leave feedback on your work. It will update automatically. **Don't close or merge this pull request** unless instructed to do so by your instructor.\n\nSubscribed: ", subscribers)
+createFeedbackPRs <- function(assignment) {
+  all_repos %>% 
+    purrr::keep(~ str_detect(., assignment)) %>% 
+    purrr::walk(function(full_repo) {
+      owner <- ghclass:::get_repo_owner(full_repo)
+      repo <- ghclass:::get_repo_name(full_repo)
+      # Find the first commit hash
+      first_commit_sha <- local_repo_status %>%
+        filter(repo == !!repo) %>%
+        pull(local_path) %>%
+        gert::git_log(repo = .) %>%
+        slice_tail(n = 1) %>% 
+        pull(commit)
+      # Create the branch
+      res <- purrr::safely(ghclass:::ghclass_api_v3_req)("POST /repos/:owner/:repo/git/refs", 
+        owner = ghorg, repo = repo, 
+        ref = paste0("refs/heads/", "feedback"), sha = first_commit_sha)
+      ghclass:::status_msg(res, fail = "Failed to create feedback branch for repo {.val {repo}}.")
+    })
+  
+  make_pr_body <- function(repo) {
+    subscribers <- cached_collaborators(repo) %>%
+      filter(repo == paste0(ghorg, "/", !!repo)) %>% 
+      pull(username) %>% 
+      map_chr(~ paste0('@', .)) %>% 
+      paste0(collapse = ", ")
+    paste0("This is a place for the course staff to leave feedback on your work. It will update automatically. **Don't close or merge this pull request** unless instructed to do so by your instructor.\n\nSubscribed: ", subscribers)
+  }
+  
+  all_repos %>% 
+    purrr::keep(~ str_detect(., assignment)) %>% 
+    purrr::walk(function(full_repo) {
+      owner <- ghclass:::get_repo_owner(full_repo)
+      repo <- ghclass:::get_repo_name(full_repo)
+      pr_body <- make_pr_body(repo)
+      ghclass::pr_create(paste0(ghorg, "/", repo), "Feedback", head = "master", base = "feedback", body = pr_body)
+    })
 }
-
-all_repos %>% 
-  purrr::keep(~ str_detect(., assignment)) %>% 
-  purrr::walk(function(full_repo) {
-    owner <- ghclass:::get_repo_owner(full_repo)
-    repo <- ghclass:::get_repo_name(full_repo)
-    pr_body <- make_pr_body(repo)
-    ghclass::pr_create(paste0(ghorg, "/", repo), "Feedback", head = "master", base = "feedback", body = pr_body)
-  })
-
 ```
+
+
 
