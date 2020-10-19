@@ -225,7 +225,7 @@ Now, let's "throw in the kitchen sink": we'll use all the features!
 Well, we haven't discussed how to use categorical features like `Neighborhood`
 yet. But at least let's use all the *numeric* features, because why not?
 
-Here's how to get a list of *all* the numeric features in formula-like format:
+Here's how to get a list of *all* the numeric features in formula-like format (you do *not* need to understand this code!):
 
 ```{r get-all-numerics}
 ames %>%
