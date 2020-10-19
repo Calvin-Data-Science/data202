@@ -175,7 +175,12 @@ my_trained_model %>%
 ```
 
 * Why does this table have 3 rows? Write an English sentence for each row. (You may need to look at the `yardstick` package documentation if you can't guess what the metric abbreviations mean.) (Ignore the ".estimator" column for now.)
-* Finish the sentence: "On average, this model's predictions were off by about $___ on its training data".
+* Finish the sentence: "On average, this model's predictions were off by about $___ on the sales it saw during training".
+
+Preview for later: can we do better? Think about the following:
+
+* What information about a house did this model use to make its prediction?
+* What mathematical operations could it do with kinds of computations could it do to that data?
 
 
 ### How well did it do... on *unseen* data?
@@ -191,12 +196,7 @@ my_trained_model %>%
 
 ### Is that good?
 
-Finish the sentence: "On average, this model's predictions were off by about $___".
-
-Can we do better?
-
-* What data about a house did this model use to make its prediction?
-* What kinds of computations could it do to that data?
+Finish the sentence: "On average, this model's predictions were off by about $___ on homes it hadn't seen before".
 
 ## More features
 
