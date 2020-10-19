@@ -15,4 +15,7 @@ deploy-rmarkdown: $(docs)
 deploy-pdf: $(slide_pdfs)
 	rsync -rxi --times --exclude="*.Rmd" --delete-after docs/ cs-prod:/webroot/courses/data/202/fa20
 
+book:
+	Rscript -e 'withr::with_dir("notes-raw", bookdown::render_book("."))'
+
 deploy-all: deploy-rmarkdown deploy-pdf
