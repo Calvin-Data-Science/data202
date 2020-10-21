@@ -283,35 +283,11 @@ local_repo_owners %>%
 
 Make a table for everyone's work.
 
-```{r results='asis'}
-local_repo_owners %>% 
+```{r collect-repo-data}
+repos_display <- local_repo_owners %>% 
   mutate(
     repo_url = glue("https://github.com/{ghorg}/{repo_short}"),
     pr_url = glue("{repo_url}/pull/1/files"),
-    md = glue("* [{name}]({repo_url}) ([feedback]({pr_url}))")
-  ) %>%
-  group_by(assignment) %>% 
-  summarize(md = paste0(c("### ", first(assignment), "\n", paste0(md, collapse = "\n"), "\n\n"), collapse = ""), .groups = "drop") %>% 
-  pull(md) %>% cat(sep = "\n")
-```
-
-```{r}
-local_repo_owners %>%
-  rowwise() %>% 
-  mutate(html = paste0({
-    files <- Sys.glob(file.path(local_path, "*.html"))
-    bn <- basename(files)
-    glue("[{bn}]({files})")
-    }, collapse = ', ')) %>%
-  filter(assignment == "datavis") %>% 
-  ungroup() %>% pull(html)
-```
-
-```{r results='asis'}
-local_repo_owners %>% 
-  mutate(
-    repo_url = glue("https://github.com/{ghorg}/{repo_short}"),
-    pr_url = glue("{repo_url}/pull/1/"),
   ) %>%
   rowwise() %>% 
   mutate(html = paste0({
@@ -321,7 +297,42 @@ local_repo_owners %>%
     }, collapse = ', ')) %>%
   mutate(
     md = glue("[{repo_short}]({repo_url}) ([feedback]({pr_url})) {html}")
-  ) %>% 
+  )
+```
+
+```{r}
+openStudentWork <- function(assignment, name) {
+  repos <- local_repo_owners %>% 
+    filter(assignment == !!assignment, str_detect(name, !!name))
+  stopifnot(nrow(repos) == 1)
+
+  files <- Sys.glob(file.path(repos$local_path, "*.Rmd"))
+  
+  stopifnot(length(files) == 1)
+  
+  usethis::edit_file(files)
+}
+openStudentWork("datavis", "Wang")
+```
+
+
+
+## By assignment
+
+```{r results='asis'}
+repos_display %>% 
+  mutate(
+    md = glue("* {name}: {md}")
+  ) %>%
+  group_by(assignment) %>% 
+  summarize(md = paste0(c("### ", first(assignment), "\n", paste0(md, collapse = "\n"), "\n\n"), collapse = ""), .groups = "drop") %>% 
+  pull(md) %>% cat(sep = "\n")
+```
+
+## By Student
+
+```{r results='asis'}
+repos_display %>% 
   group_by(name) %>% 
   summarize(md = paste0(c("* ", first(name), ": ", paste0(md, collapse = ", ")), collapse = ""), .groups = "drop") %>% 
   pull(md) %>% cat(sep = "\n")
