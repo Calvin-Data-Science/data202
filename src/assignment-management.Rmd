@@ -226,10 +226,17 @@ local_repo_status %>%
 
 ```{r}
 updateLocalClones <- function(assignment_to_update) {
-  updates <- local_repo_status %>% 
-    filter(exists, str_detect(repo, assignment_to_update)) %>%
+  updatesToDo <- 
+    local_repo_status %>% 
+    filter(exists, str_detect(repo, assignment_to_update))
+  updateStatus <-
+    updatesToDo %>%
     pull(local_path) %>% 
     map(local_repo_pull)
+
+  updatesToDo %>% 
+    mutate(update_failed = !(u %>% map(list(1, 'error')) %>% map_lgl(is_null))) %>% 
+    filter(update_failed)
 }
 ```
 
