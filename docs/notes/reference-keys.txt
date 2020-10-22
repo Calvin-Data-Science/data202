@@ -15,6 +15,10 @@ references
 tweaks
 reordering-bars-in-a-bar-plot
 tweaking-scales
+mapping
+plotly
+markers
+choropleths
 data-wrangling
 resources
 afterward

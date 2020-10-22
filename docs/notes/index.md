@@ -1,7 +1,7 @@
 ---
 title: "DATA 202 Fall 2020"
 author: "K Arnold"
-date: "2020-10-19"
+date: "2020-10-21"
 site: bookdown::bookdown_site
 output:
   bookdown::gitbook: default
