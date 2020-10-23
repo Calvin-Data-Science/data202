@@ -1,0 +1,153 @@
+---
+title: "Quiz 8 Supplement"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(learnr)
+library(tidyverse)
+library(tidymodels)
+# Disable a warning message.
+options(dplyr.summarise.inform = FALSE)
+
+car_prices <- readxl::read_excel("data/kuiper.xlsx")
+```
+
+## Visualization
+
+This quiz uses a dataset from [Kuiper 2017](https://www.tandfonline.com/doi/full/10.1080/10691898.2008.11889579)
+of car sale prices from Kelly Blue Book for several hundred 2005 used General Motors (GM) cars.
+
+The [link to the data set](http://ww2.amstat.org/publications/jse/v16n3/kuiper.xls) can be found at the bottom of the article,
+if you're interested in running this analysis on your own computer.
+
+```{r load-data, eval=FALSE}
+car_prices <- readxl::read_excel("data/kuiper.xlsx")
+```
+
+
+```{r show-data}
+car_prices %>% head()
+car_prices %>% glimpse()
+```
+
+
+### Reproduce a plot
+
+Write code to reproduce the following visualization, intended to show that
+lower-mileage cars tend to be valued more highly.
+
+Tips:
+
+* See the [Visualization Tweaks](https://cs.calvin.edu/courses/data/202/fa20/notes/visualization.html#tweaks)
+  section of the course notes for tips on the scales.
+* Add in `theme_light()` to get the plot styling (optional).
+
+```{r mileage-plot, echo=FALSE}
+car_prices %>% 
+  ggplot(aes(x = Mileage, y = Price / 1000, color = Make, shape = Make)) +
+  geom_point() +
+  scale_x_continuous(labels = scales::comma) +
+  labs(x = "Mileage (mi)", y = "Price ($1000)") + 
+  theme_light()
+```
+
+```{r mileage-plot-reproduce, exercise=TRUE}
+car_prices %>% ___
+```
+
+
+
+Extra credit: can you figure out how to make this plot? Email me your answer.
+Tip: two `geom_point` layers, one with `data` set to `car_prices` *without the `Make` column*.
+
+```{r mileage-plot-improved, echo=FALSE}
+car_prices %>%
+  ggplot(aes(x = Mileage, y = Price)) +
+  geom_point(data = car_prices %>% select(-Make), color = "grey", size = .5) + 
+  geom_point(size = 1) +
+  facet_wrap(vars(Make)) + 
+  theme_minimal()
+```
+
+<!--
+
+Write code to reproduce the following visualization, intended to show how
+
+
+```{r mileage-plot, echo=FALSE}
+car_prices %>% 
+  group_by(Make) %>% 
+  mutate(low_mileage = Mileage < median(Mileage)) %>% 
+  ggplot(aes(y = fct_reorder(Make, Price), x = Price, color = low_mileage)) +
+    geom_boxplot()
+
+car_prices %>% 
+  mutate(low_mileage = Mileage < median(Mileage)) %>% 
+  ggplot(aes(y = fct_reorder(Make, Price), x = Price, color = low_mileage)) +
+    geom_boxplot()
+```
+
+-->
+
+## Data Wrangling
+
+What was the most common car `Make` in this data set?
+
+```{r echo=FALSE}
+car_prices %>% 
+  group_by(Make, Model, Trim) %>%
+  summarize(n = n()) %>% 
+  arrange(desc(n))
+```
+
+<!--
+Which car (`Make` and `Model`) has the most different trim levels?
+
+```{r}
+car_prices %>% 
+  group_by(Make, Model, Trim) %>%
+  summarize(n = n()) %>% 
+  group_by(Make, Model) %>% 
+  summarize(n = n()) %>% 
+  arrange(n)
+```
+
+-->
+
+Do 2-door cars or 4-door (`Doors`) cars have bigger engines (`Liter` column) on average in this data set?
+
+```{r}
+car_prices %>%
+  #distinct(Make, Model, Trim, Doors, Liter) %>% 
+  group_by(Doors) %>% 
+  summarize(size = mean(Liter))
+```
+
+## Modeling
+
+Let's try to make some models to predict `Price`.
+
+We'll hold out a testing set so we can validate our model.
+
+```{r train-test-split}
+set.seed(0)
+cars_split <- initial_split(car_prices, prop = 3/4, strata = "Make")
+cars_train <- training(cars_split)
+cars_test <- testing(cars_split)
+```
+
+
+Create a `tidymodels` model called `model` that predicts `Price` from `Mileage` 
+using linear regression on the training set.
+
+```{r}
+trained_model <- 
+  parsnip::linear_reg() %>% 
+  set_engine('lm') %>% 
+  fit(Price ~ Mileage, data = cars_train)
+```
+
