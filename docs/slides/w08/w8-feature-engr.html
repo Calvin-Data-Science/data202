@@ -53,10 +53,7 @@ class: center, middle, inverse, title-slide
 * Wrangling
   * What does the *input* look like? (Translate the first row into a data sentence in English.)
   * What does the *output* need to look like? (Again, write a sentence.)
-  * What *sequence of steps* needs to happen?
-    * filter-groupby-summarize-arrange
-    * mutate-groupby-summarize-filter
-    * etc.
+  * What *sequence of steps* needs to happen? (e.g., `filter-group_by-summarize-arrange`)
 * Modeling
   * What *quantity* are you trying to predict?
   * What *error measure* will tell you the prediction is good / bad?
@@ -304,7 +301,7 @@ fitted_workflow2 %&gt;%
 
 ---
 
-## What can a linear model do?
+## What computations can a linear model do?
 
 * *Add* up terms.
 * Each term: *multiply* a number by a constant.
@@ -343,9 +340,10 @@ ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
 
 ---
 
-## An interesting observation...
+## Do remodeled homes sell for more?
 
 `Year Remod/Add`: Remodel date *(same as construction date if no remodeling or additions)*
+(from dataset documentation)
 
 
 ```r
@@ -395,6 +393,8 @@ ames_train_2 &lt;- ames_train %&gt;%
   )
 ```
 
+.small[
+
 
 ```r
 ames_recipe_3 &lt;- 
@@ -402,22 +402,71 @@ ames_recipe_3 &lt;-
 * step_dummy(remodeled) %&gt;%
   step_range(all_numeric(), -all_outcomes(), min = 0, max = 1) %&gt;%
   prep()
-ames_recipe_3 %&gt;% bake(new_data = ames_train_2)
+ames_recipe_3 %&gt;% bake(new_data = ames_train_2) %&gt;% head(10) %&gt;% knitr::kable(format = "html")
 ```
 
-```
-## # A tibble: 1,608 x 3
-##   Gr_Liv_Area Sale_Price remodeled_yes
-##         &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
-## 1       0.161     105000             0
-## 2       0.285     172000             0
-## 3       0.371     189900             1
-## 4       0.364     195500             0
-## 5       0.422     189000             0
-## 6       0.379     175900             1
-## # … with 1,602 more rows
-```
-
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Gr_Liv_Area &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sale_Price &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; remodeled_yes &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.1612163 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 105000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.2854274 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 172000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.3714859 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 189900 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.3643144 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 195500 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.4216867 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 189000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.3789443 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 175900 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.3244406 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180400 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.2888698 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 171500 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.3350545 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 212000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.8448078 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 538000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -52,10 +52,7 @@ knitr::opts_chunk$set(echo = TRUE)
 * Wrangling
   * What does the *input* look like? (Translate the first row into a data sentence in English.)
   * What does the *output* need to look like? (Again, write a sentence.)
-  * What *sequence of steps* needs to happen?
-    * filter-groupby-summarize-arrange
-    * mutate-groupby-summarize-filter
-    * etc.
+  * What *sequence of steps* needs to happen? (e.g., `filter-group_by-summarize-arrange`)
 * Modeling
   * What *quantity* are you trying to predict?
   * What *error measure* will tell you the prediction is good / bad?
@@ -219,7 +216,7 @@ fitted_workflow2 %>%
 
 ---
 
-## What can a linear model do?
+## What computations can a linear model do?
 
 * *Add* up terms.
 * Each term: *multiply* a number by a constant.
@@ -249,9 +246,10 @@ ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
 
 ---
 
-## An interesting observation...
+## Do remodeled homes sell for more?
 
 `Year Remod/Add`: Remodel date *(same as construction date if no remodeling or additions)*
+(from dataset documentation)
 
 ```{r remodeled, out.width = "70%"}
 ames %>% 
@@ -297,13 +295,14 @@ ames_train_2 <- ames_train %>%
   )
 ```
 
+.small[
+
 ```{r}
 ames_recipe_3 <- 
   recipe(Sale_Price ~ Gr_Liv_Area + remodeled, data = ames_train_2) %>% 
   step_dummy(remodeled) %>% #<<
   step_range(all_numeric(), -all_outcomes(), min = 0, max = 1) %>%
   prep()
-ames_recipe_3 %>% bake(new_data = ames_train_2)
-
+ames_recipe_3 %>% bake(new_data = ames_train_2) %>% head(10) %>% knitr::kable(format = "html")
 ```
-
+]
