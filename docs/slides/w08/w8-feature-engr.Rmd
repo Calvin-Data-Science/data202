@@ -20,22 +20,26 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Feedback
 
-Good things:
+.pull-left[
+**Good**
 
 * Coding together
 * Motivating: lab, hw, visualizations, applications
+* Connecting with me (and, sometimes, connecting with others)
+]
 
-To improve:
+.pull-right[
+**To improve**
 
 * Structure in class
-  * Weekly plan is on Moodle
-* Lots of different things to do. So simplifying:
+* Lots of different things to do. So:
   * Check-in quizzes open at beginning of class. Will leave 1 min at end to fill out.
   * Flexible teamwork: each cohort will get 5 repos. Split up as you desire.
   * Goal: no required teamwork outside of class time
 * Support outside of class
   * Many students have reached out on Teams at all hours.
   * Feedback / grading
+]
 
 ---
 
@@ -43,8 +47,8 @@ To improve:
 
 * Visualization:
   * What *glyph* represents each *observation*? 
-  * What *attributes* ("aesthetics") does that glyph have? (x, y, width, color, ...)
-  * What *controls* each aesthetic? ("different political parties have different *y* positions", ...)
+  * What *attributes*/aesthetics does that glyph have? (x, y, width, color, ...)
+  * What *controls* each aesthetic? ("each party has a *y* position", ...)
 * Wrangling
   * What does the *input* look like? (Translate the first row into a data sentence in English.)
   * What does the *output* need to look like? (Again, write a sentence.)
@@ -67,6 +71,14 @@ To improve:
 * `tidymodels` gives a unified interface to lots of different models
 * Formulas support some kinds of feature engineering (e.g., `y ~ x1 * x2`) but limited.
 
+> Can we use categorical (nominal) variables in predictive models?
+
+Yes, we'll do that today!
+
+> Can we see that dashboard?
+
+<https://rsconnect.calvin.edu/mi-covid/>
+
 ---
 
 ## Recipes
@@ -80,7 +92,11 @@ Recipes can help us:
 
 ### What
 
-A **recipe** is a data processing *pipeline* (like `%>%`) with "smart" steps.
+A **recipe** is a data processing *pipeline* (like `%>%`) where the steps can be "smart".
+
+> Smart?
+
+like learning what range the data values fall in, to be able to scale them.
 
 ---
 
@@ -93,10 +109,8 @@ ames <- ames %>%
 ```
 
 ```{r train-test-split}
-# Seed the random number generator
-set.seed(10)
-# Split our data randomly
-ames_split <- initial_split(ames, prop = 2/3)
+set.seed(10) # Seed the random number generator
+ames_split <- initial_split(ames, prop = 2/3) # Split our data randomly
 ames_train <- training(ames_split)
 ames_test <- testing(ames_split)
 ```
@@ -114,7 +128,6 @@ example_home %>% select(Gr_Liv_Area, Sale_Price)
 ```{r}
 ames_recipe_1 <- 
   recipe(Sale_Price ~ Gr_Liv_Area + Latitude + Longitude, data = ames_train) %>% 
-#  step_range(Gr_Liv_Area, min = 0, max = 1) %>% 
   prep()
 ames_recipe_1 %>% summary()
 ames_recipe_1 %>% bake(new_data = ames_train)
@@ -129,15 +142,19 @@ ames_recipe_1 %>% bake(new_data = ames_train)
 
 ```{r}
 workflow1 <- workflow() %>%
-  add_model(linear_reg()) %>% 
+  add_model(linear_reg() %>% set_engine("lm")) %>% 
   add_recipe(ames_recipe_1)
 ```
 
-Workflows can `fit` and `predict`.
+Workflows can `fit` and `predict`. First let's `fit` it on our training data...
 
-```{r message=FALSE}
+```{r fit-workflow1-on-train}
 fitted_workflow1 <- fit(workflow1, data = ames_train)
+```
 
+Now let's see what it predicts for our example home. (write this down)
+
+```{r predict-workflow1-on-example}
 fitted_workflow1 %>% predict(example_home)
 ```
 
@@ -147,7 +164,7 @@ fitted_workflow1 %>% predict(example_home)
 fitted_workflow1 %>% 
   tidy() %>%
   filter(term != "(Intercept)") %>% 
-  ggplot(aes(x = estimate, y = fct_reorder(term, estimate))) + geom_col()
+  ggplot(aes(x = estimate, y = term)) + geom_col()
 ```
 
 
@@ -156,16 +173,21 @@ fitted_workflow1 %>%
 ```{r}
 ames_recipe_2 <- 
   recipe(Sale_Price ~ Gr_Liv_Area + Latitude + Longitude, data = ames_train) %>% 
-  step_range(all_numeric(), min = 0, max = 1) %>% #<<
+  step_range(all_numeric(), -all_outcomes(), min = 0, max = 1) %>% #<<
   prep()
-ames_recipe_2 %>% bake(new_data = ames_train)
+ames_recipe_2 %>% bake(new_data = ames_train) %>% summary()
 
-workflow2 <- workflow() %>%
-  add_model(linear_reg()) %>% 
-  add_recipe(ames_recipe_2)
-
-fitted_workflow2 <- fit(workflow2, data = ames_train)
+fitted_workflow2 <- workflow() %>%
+  add_model(linear_reg() %>% set_engine("lm")) %>% 
+  add_recipe(ames_recipe_2) %>% 
+  fit(data = ames_train)
 ```
+
+```{r}
+fitted_workflow2 %>% predict(example_home)
+```
+
+---
 
 ```{r scaled-latlong}
 fitted_workflow2 %>% 
@@ -174,6 +196,25 @@ fitted_workflow2 %>%
   ggplot(aes(x = estimate, y = fct_reorder(term, estimate))) + geom_col()
 ```
 
+---
+
+## Recipe steps remember things from training data
+
+* Remember we had: `step_range(..., min = 0, max = 1)`
+* `output = (input - input_min) / (input_max - input_min)`
+* It had to remember `input_min` and `input_max`!
+
+**Question**: Suppose we apply this recipe to the **test set**. *What do
+we expect the minimum and maximum values to be* for `Gr_Liv_Area` etc.?
+
+--
+
+```{r}
+fitted_workflow2 %>%
+  pull_workflow_prepped_recipe() %>% 
+  bake(new_data = ames_test) %>% #<<
+  summary()
+```
 
 
 ---
@@ -205,9 +246,64 @@ ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
   geom_function(fun = function(x) intercept + coef_living_area * x, color = "blue")
 ```
 ]
+
+---
+
+## An interesting observation...
+
+`Year Remod/Add`: Remodel date *(same as construction date if no remodeling or additions)*
+
+```{r remodeled, out.width = "70%"}
+ames %>% 
+  mutate(remodeled = Year_Remod_Add != Year_Built) %>% #<< 
+  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+
 ---
 
 ## Conditional Logic: Simple Conditions
 
-How could a linear model 
+How could a *linear model* treat remodeled homes differently from non-remodeled?
+
+```
+if remodeled:
+  Sale_Price = intercept_remodeled + coef_sqft * Gr_Liv_Arera
+else:
+  Sale_Price = intercept_other + coef_sqft * Gr_Liv_Arera
+```
+
+--
+
+### Solution: "**dummy encoding**"
+
+```
+Sale_Price = 
+   intercept_other 
+   + coef_remodeled * (1 if remodeled)
+   + coef_sqft      * Gr_Liv_Area
+```
+
+---
+
+```{r}
+ames_train_2 <- ames_train %>% 
+  mutate(remodeled = case_when(
+    Year_Built == Year_Remod_Add ~ "no",
+    TRUE                         ~ "yes") %>%
+    as_factor()
+  )
+```
+
+```{r}
+ames_recipe_3 <- 
+  recipe(Sale_Price ~ Gr_Liv_Area + remodeled, data = ames_train_2) %>% 
+  step_dummy(remodeled) %>% #<<
+  step_range(all_numeric(), -all_outcomes(), min = 0, max = 1) %>%
+  prep()
+ames_recipe_3 %>% bake(new_data = ames_train_2)
+
+```
 

@@ -21,22 +21,26 @@ class: center, middle, inverse, title-slide
 
 ## Feedback
 
-Good things:
+.pull-left[
+**Good**
 
 * Coding together
 * Motivating: lab, hw, visualizations, applications
+* Connecting with me (and, sometimes, connecting with others)
+]
 
-To improve:
+.pull-right[
+**To improve**
 
 * Structure in class
-  * Weekly plan is on Moodle
-* Lots of different things to do. So simplifying:
+* Lots of different things to do. So:
   * Check-in quizzes open at beginning of class. Will leave 1 min at end to fill out.
   * Flexible teamwork: each cohort will get 5 repos. Split up as you desire.
   * Goal: no required teamwork outside of class time
 * Support outside of class
   * Many students have reached out on Teams at all hours.
   * Feedback / grading
+]
 
 ---
 
@@ -44,8 +48,8 @@ To improve:
 
 * Visualization:
   * What *glyph* represents each *observation*? 
-  * What *attributes* ("aesthetics") does that glyph have? (x, y, width, color, ...)
-  * What *controls* each aesthetic? ("different political parties have different *y* positions", ...)
+  * What *attributes*/aesthetics does that glyph have? (x, y, width, color, ...)
+  * What *controls* each aesthetic? ("each party has a *y* position", ...)
 * Wrangling
   * What does the *input* look like? (Translate the first row into a data sentence in English.)
   * What does the *output* need to look like? (Again, write a sentence.)
@@ -68,6 +72,14 @@ To improve:
 * `tidymodels` gives a unified interface to lots of different models
 * Formulas support some kinds of feature engineering (e.g., `y ~ x1 * x2`) but limited.
 
+&gt; Can we use categorical (nominal) variables in predictive models?
+
+Yes, we'll do that today!
+
+&gt; Can we see that dashboard?
+
+&lt;https://rsconnect.calvin.edu/mi-covid/&gt;
+
 ---
 
 ## Recipes
@@ -81,7 +93,11 @@ Recipes can help us:
 
 ### What
 
-A **recipe** is a data processing *pipeline* (like `%&gt;%`) with "smart" steps.
+A **recipe** is a data processing *pipeline* (like `%&gt;%`) where the steps can be "smart".
+
+&gt; Smart?
+
+like learning what range the data values fall in, to be able to scale them.
 
 ---
 
@@ -96,10 +112,8 @@ ames &lt;- ames %&gt;%
 
 
 ```r
-# Seed the random number generator
-set.seed(10)
-# Split our data randomly
-ames_split &lt;- initial_split(ames, prop = 2/3)
+set.seed(10) # Seed the random number generator
+ames_split &lt;- initial_split(ames, prop = 2/3) # Split our data randomly
 ames_train &lt;- training(ames_split)
 ames_test &lt;- testing(ames_split)
 ```
@@ -126,7 +140,6 @@ example_home %&gt;% select(Gr_Liv_Area, Sale_Price)
 ```r
 ames_recipe_1 &lt;- 
   recipe(Sale_Price ~ Gr_Liv_Area + Latitude + Longitude, data = ames_train) %&gt;% 
-#  step_range(Gr_Liv_Area, min = 0, max = 1) %&gt;% 
   prep()
 ames_recipe_1 %&gt;% summary()
 ```
@@ -167,20 +180,19 @@ ames_recipe_1 %&gt;% bake(new_data = ames_train)
 
 ```r
 workflow1 &lt;- workflow() %&gt;%
-  add_model(linear_reg()) %&gt;% 
+  add_model(linear_reg() %&gt;% set_engine("lm")) %&gt;% 
   add_recipe(ames_recipe_1)
 ```
 
-Workflows can `fit` and `predict`.
+Workflows can `fit` and `predict`. First let's `fit` it on our training data...
 
 
 ```r
 fitted_workflow1 &lt;- fit(workflow1, data = ames_train)
 ```
 
-```
-## Warning: Engine set to `lm`.
-```
+Now let's see what it predicts for our example home. (write this down)
+
 
 ```r
 fitted_workflow1 %&gt;% predict(example_home)
@@ -200,7 +212,7 @@ fitted_workflow1 %&gt;% predict(example_home)
 fitted_workflow1 %&gt;% 
   tidy() %&gt;%
   filter(term != "(Intercept)") %&gt;% 
-  ggplot(aes(x = estimate, y = fct_reorder(term, estimate))) + geom_col()
+  ggplot(aes(x = estimate, y = term)) + geom_col()
 ```
 
 &lt;img src="w8-feature-engr_files/figure-html/unscaled-latlong-1.png" width="100%" style="display: block; margin: auto;" /&gt;
@@ -212,35 +224,41 @@ fitted_workflow1 %&gt;%
 ```r
 ames_recipe_2 &lt;- 
   recipe(Sale_Price ~ Gr_Liv_Area + Latitude + Longitude, data = ames_train) %&gt;% 
-* step_range(all_numeric(), min = 0, max = 1) %&gt;%
+* step_range(all_numeric(), -all_outcomes(), min = 0, max = 1) %&gt;%
   prep()
-ames_recipe_2 %&gt;% bake(new_data = ames_train)
+ames_recipe_2 %&gt;% bake(new_data = ames_train) %&gt;% summary()
 ```
 
 ```
-## # A tibble: 1,608 x 4
-##   Gr_Liv_Area Latitude Longitude Sale_Price
-##         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-## 1       0.161    0.865     0.634      0.119
-## 2       0.285    0.861     0.637      0.232
-## 3       0.371    0.968     0.469      0.263
-## 4       0.364    0.966     0.469      0.272
-## 5       0.422    0.946     0.467      0.261
-## 6       0.379    0.936     0.486      0.239
-## # … with 1,602 more rows
+##   Gr_Liv_Area        Latitude        Longitude        Sale_Price    
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   : 35000  
+##  1st Qu.:0.2206   1st Qu.:0.4558   1st Qu.:0.2724   1st Qu.:129000  
+##  Median :0.3148   Median :0.6248   Median :0.4488   Median :159898  
+##  Mean   :0.3297   Mean   :0.6141   Mean   :0.4355   Mean   :176011  
+##  3rd Qu.:0.4016   3rd Qu.:0.7987   3rd Qu.:0.6192   3rd Qu.:205000  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :625000
 ```
 
 ```r
-workflow2 &lt;- workflow() %&gt;%
-  add_model(linear_reg()) %&gt;% 
-  add_recipe(ames_recipe_2)
-
-fitted_workflow2 &lt;- fit(workflow2, data = ames_train)
+fitted_workflow2 &lt;- workflow() %&gt;%
+  add_model(linear_reg() %&gt;% set_engine("lm")) %&gt;% 
+  add_recipe(ames_recipe_2) %&gt;% 
+  fit(data = ames_train)
 ```
 
+
+```r
+fitted_workflow2 %&gt;% predict(example_home)
 ```
-## Warning: Engine set to `lm`.
+
 ```
+## # A tibble: 1 x 1
+##     .pred
+##     &lt;dbl&gt;
+## 1 193865.
+```
+
+---
 
 
 ```r
@@ -252,6 +270,36 @@ fitted_workflow2 %&gt;%
 
 &lt;img src="w8-feature-engr_files/figure-html/scaled-latlong-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
+---
+
+## Recipe steps remember things from training data
+
+* Remember we had: `step_range(..., min = 0, max = 1)`
+* `output = (input - input_min) / (input_max - input_min)`
+* It had to remember `input_min` and `input_max`!
+
+**Question**: Suppose we apply this recipe to the **test set**. *What do
+we expect the minimum and maximum values to be* for `Gr_Liv_Area` etc.?
+
+--
+
+
+```r
+fitted_workflow2 %&gt;%
+  pull_workflow_prepped_recipe() %&gt;% 
+* bake(new_data = ames_test) %&gt;%
+  summary()
+```
+
+```
+##   Gr_Liv_Area         Latitude           Longitude          Sale_Price    
+##  Min.   :0.02983   Min.   :0.0001431   Min.   :0.002473   Min.   : 45000  
+##  1st Qu.:0.21916   1st Qu.:0.4561704   1st Qu.:0.276807   1st Qu.:130438  
+##  Median :0.31268   Median :0.6255804   Median :0.464684   Median :157000  
+##  Mean   :0.32349   Mean   :0.6145951   Mean   :0.445049   Mean   :173960  
+##  3rd Qu.:0.39472   3rd Qu.:0.8007264   3rd Qu.:0.619621   3rd Qu.:207500  
+##  Max.   :0.90620   Max.   :0.9994147   Max.   :0.806102   Max.   :615000
+```
 
 
 ---
@@ -292,11 +340,83 @@ ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
 
 &lt;img src="w8-feature-engr_files/figure-html/price-vs-liv-area-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
+
+---
+
+## An interesting observation...
+
+`Year Remod/Add`: Remodel date *(same as construction date if no remodeling or additions)*
+
+
+```r
+ames %&gt;% 
+* mutate(remodeled = Year_Remod_Add != Year_Built) %&gt;%
+  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+&lt;img src="w8-feature-engr_files/figure-html/remodeled-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+
 ---
 
 ## Conditional Logic: Simple Conditions
 
-How could a linear model 
+How could a *linear model* treat remodeled homes differently from non-remodeled?
+
+```
+if remodeled:
+  Sale_Price = intercept_remodeled + coef_sqft * Gr_Liv_Arera
+else:
+  Sale_Price = intercept_other + coef_sqft * Gr_Liv_Arera
+```
+
+--
+
+### Solution: "**dummy encoding**"
+
+```
+Sale_Price = 
+   intercept_other 
+   + coef_remodeled * (1 if remodeled)
+   + coef_sqft      * Gr_Liv_Area
+```
+
+---
+
+
+```r
+ames_train_2 &lt;- ames_train %&gt;% 
+  mutate(remodeled = case_when(
+    Year_Built == Year_Remod_Add ~ "no",
+    TRUE                         ~ "yes") %&gt;%
+    as_factor()
+  )
+```
+
+
+```r
+ames_recipe_3 &lt;- 
+  recipe(Sale_Price ~ Gr_Liv_Area + remodeled, data = ames_train_2) %&gt;% 
+* step_dummy(remodeled) %&gt;%
+  step_range(all_numeric(), -all_outcomes(), min = 0, max = 1) %&gt;%
+  prep()
+ames_recipe_3 %&gt;% bake(new_data = ames_train_2)
+```
+
+```
+## # A tibble: 1,608 x 3
+##   Gr_Liv_Area Sale_Price remodeled_yes
+##         &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+## 1       0.161     105000             0
+## 2       0.285     172000             0
+## 3       0.371     189900             1
+## 4       0.364     195500             0
+## 5       0.422     189000             0
+## 6       0.379     175900             1
+## # … with 1,602 more rows
+```
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
