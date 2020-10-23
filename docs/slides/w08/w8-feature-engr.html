@@ -27,6 +27,8 @@ class: center, middle, inverse, title-slide
 * Coding together
 * Motivating: lab, hw, visualizations, applications
 * Connecting with me (and, sometimes, connecting with others)
+
+(Oops, accidentally asked these questions twice!)
 ]
 
 .pull-right[
@@ -41,6 +43,22 @@ class: center, middle, inverse, title-slide
   * Many students have reached out on Teams at all hours.
   * Feedback / grading
 ]
+
+---
+
+## Logistics
+
+* Project: finish next week
+  * Delve into the *data*: source? assumptions?
+  * Delve into the vis *design*: which retinal variables chosen for which data variables, and why?
+* Midterm Quiz: Quiz 8 open for a week, similar structure to Quiz 7
+* Review sessions on Teams: ask about any past assignment!
+
+Plan:
+
+* Mon: decision tree regression
+* Wed: decision tree classification
+* Fri: lab about **overfitting**
 
 ---
 
@@ -98,6 +116,12 @@ like learning what range the data values fall in, to be able to scale them.
 
 ---
 
+class: center, middle
+
+# Setup
+
+---
+
 
 ```r
 library(tidymodels)
@@ -130,6 +154,11 @@ example_home %&gt;% select(Gr_Liv_Area, Sale_Price)
 ## 1        1656     215000
 ```
 
+---
+
+class: center, middle
+
+# Recipes
 
 ---
 
@@ -204,6 +233,12 @@ fitted_workflow1 %&gt;% predict(example_home)
 
 ---
 
+class: center, middle
+
+## Let's peek inside the model...
+
+---
+
 
 ```r
 fitted_workflow1 %&gt;% 
@@ -213,6 +248,57 @@ fitted_workflow1 %&gt;%
 ```
 
 &lt;img src="w8-feature-engr_files/figure-html/unscaled-latlong-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle
+
+## Feature Engineering 101: Scaling the features
+
+---
+
+## The features have very different ranges
+
+
+
+```r
+ames_train %&gt;% 
+  select(Gr_Liv_Area, Latitude, Longitude) %&gt;% 
+  summary()
+```
+
+```
+##   Gr_Liv_Area      Latitude       Longitude     
+##  Min.   : 334   Min.   :41.99   Min.   :-93.69  
+##  1st Qu.:1103   1st Qu.:42.02   1st Qu.:-93.66  
+##  Median :1432   Median :42.03   Median :-93.64  
+##  Mean   :1483   Mean   :42.03   Mean   :-93.64  
+##  3rd Qu.:1734   3rd Qu.:42.05   3rd Qu.:-93.62  
+##  Max.   :3820   Max.   :42.06   Max.   :-93.58
+```
+
+So the coefficients need to have very different scales to have a similar effect.
+
+
+```r
+tidy(fitted_workflow1) %&gt;% select(1:2)
+```
+
+```
+## # A tibble: 4 x 2
+##   term          estimate
+##   &lt;chr&gt;            &lt;dbl&gt;
+## 1 (Intercept) -70302361.
+## 2 Gr_Liv_Area       101.
+## 3 Latitude       580250.
+## 4 Longitude     -490579.
+```
+
+---
+
+class: center, middle
+
+## Solution: scale the features to all be in the same range
 
 
 ---

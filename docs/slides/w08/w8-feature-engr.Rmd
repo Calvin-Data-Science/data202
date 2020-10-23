@@ -26,6 +26,8 @@ knitr::opts_chunk$set(echo = TRUE)
 * Coding together
 * Motivating: lab, hw, visualizations, applications
 * Connecting with me (and, sometimes, connecting with others)
+
+(Oops, accidentally asked these questions twice!)
 ]
 
 .pull-right[
@@ -40,6 +42,22 @@ knitr::opts_chunk$set(echo = TRUE)
   * Many students have reached out on Teams at all hours.
   * Feedback / grading
 ]
+
+---
+
+## Logistics
+
+* Project: finish next week
+  * Delve into the *data*: source? assumptions?
+  * Delve into the vis *design*: which retinal variables chosen for which data variables, and why?
+* Midterm Quiz: Quiz 8 open for a week, similar structure to Quiz 7
+* Review sessions on Teams: ask about any past assignment!
+
+Plan:
+
+* Mon: decision tree regression
+* Wed: decision tree classification
+* Fri: lab about **overfitting**
 
 ---
 
@@ -97,6 +115,12 @@ like learning what range the data values fall in, to be able to scale them.
 
 ---
 
+class: center, middle
+
+# Setup
+
+---
+
 ```{r}
 library(tidymodels)
 data(ames, package = "modeldata")
@@ -119,6 +143,11 @@ example_home <- ames_test %>% slice(1)
 example_home %>% select(Gr_Liv_Area, Sale_Price)
 ```
 
+---
+
+class: center, middle
+
+# Recipes
 
 ---
 
@@ -157,12 +186,47 @@ fitted_workflow1 %>% predict(example_home)
 
 ---
 
+class: center, middle
+
+## Let's peek inside the model...
+
+---
+
 ```{r unscaled-latlong}
 fitted_workflow1 %>% 
   tidy() %>%
   filter(term != "(Intercept)") %>% 
   ggplot(aes(x = estimate, y = term)) + geom_col()
 ```
+
+---
+
+class: center, middle
+
+## Feature Engineering 101: Scaling the features
+
+---
+
+## The features have very different ranges
+
+
+```{r}
+ames_train %>% 
+  select(Gr_Liv_Area, Latitude, Longitude) %>% 
+  summary()
+```
+
+So the coefficients need to have very different scales to have a similar effect.
+
+```{r}
+tidy(fitted_workflow1) %>% select(1:2)
+```
+
+---
+
+class: center, middle
+
+## Solution: scale the features to all be in the same range
 
 
 ---
