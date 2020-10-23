@@ -1,0 +1,213 @@
+---
+title: "Feature Engineering"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Feedback
+
+Good things:
+
+* Coding together
+* Motivating: lab, hw, visualizations, applications
+
+To improve:
+
+* Structure in class
+  * Weekly plan is on Moodle
+* Lots of different things to do. So simplifying:
+  * Check-in quizzes open at beginning of class. Will leave 1 min at end to fill out.
+  * Flexible teamwork: each cohort will get 5 repos. Split up as you desire.
+  * Goal: no required teamwork outside of class time
+* Support outside of class
+  * Many students have reached out on Teams at all hours.
+  * Feedback / grading
+
+---
+
+## General Hints
+
+* Visualization:
+  * What *glyph* represents each *observation*? 
+  * What *attributes* ("aesthetics") does that glyph have? (x, y, width, color, ...)
+  * What *controls* each aesthetic? ("different political parties have different *y* positions", ...)
+* Wrangling
+  * What does the *input* look like? (Translate the first row into a data sentence in English.)
+  * What does the *output* need to look like? (Again, write a sentence.)
+  * What *sequence of steps* needs to happen?
+    * filter-groupby-summarize-arrange
+    * mutate-groupby-summarize-filter
+    * etc.
+* Modeling
+  * What *quantity* are you trying to predict?
+  * What *error measure* will tell you the prediction is good / bad?
+  * What *features* can help you make that prediction?
+
+---
+
+## Q&A
+
+> Why don't we just use `lm(y ~ x)` like other stats classes?
+
+* We'll be using many other kinds of models; we're starting with linear models because many people have seen them before.
+* `tidymodels` gives a unified interface to lots of different models
+* Formulas support some kinds of feature engineering (e.g., `y ~ x1 * x2`) but limited.
+
+---
+
+## Recipes
+
+### Why
+
+Recipes can help us:
+
+* Add expressive power (like conditional logic) to simple models
+* Make the model more (or less!) understandable
+
+### What
+
+A **recipe** is a data processing *pipeline* (like `%>%`) with "smart" steps.
+
+---
+
+```{r}
+library(tidymodels)
+data(ames, package = "modeldata")
+ames <- ames %>% 
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>% 
+  mutate(across(where(is.integer), as.double))
+```
+
+```{r train-test-split}
+# Seed the random number generator
+set.seed(10)
+# Split our data randomly
+ames_split <- initial_split(ames, prop = 2/3)
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+We'll use one example home from the test set.
+
+```{r example-home}
+example_home <- ames_test %>% slice(1)
+example_home %>% select(Gr_Liv_Area, Sale_Price)
+```
+
+
+---
+
+```{r}
+ames_recipe_1 <- 
+  recipe(Sale_Price ~ Gr_Liv_Area + Latitude + Longitude, data = ames_train) %>% 
+#  step_range(Gr_Liv_Area, min = 0, max = 1) %>% 
+  prep()
+ames_recipe_1 %>% summary()
+ames_recipe_1 %>% bake(new_data = ames_train)
+
+```
+
+---
+
+## Workflows
+
+`workflow` = `recipe` + `model`
+
+```{r}
+workflow1 <- workflow() %>%
+  add_model(linear_reg()) %>% 
+  add_recipe(ames_recipe_1)
+```
+
+Workflows can `fit` and `predict`.
+
+```{r message=FALSE}
+fitted_workflow1 <- fit(workflow1, data = ames_train)
+
+fitted_workflow1 %>% predict(example_home)
+```
+
+---
+
+```{r unscaled-latlong}
+fitted_workflow1 %>% 
+  tidy() %>%
+  filter(term != "(Intercept)") %>% 
+  ggplot(aes(x = estimate, y = fct_reorder(term, estimate))) + geom_col()
+```
+
+
+---
+
+```{r}
+ames_recipe_2 <- 
+  recipe(Sale_Price ~ Gr_Liv_Area + Latitude + Longitude, data = ames_train) %>% 
+  step_range(all_numeric(), min = 0, max = 1) %>% #<<
+  prep()
+ames_recipe_2 %>% bake(new_data = ames_train)
+
+workflow2 <- workflow() %>%
+  add_model(linear_reg()) %>% 
+  add_recipe(ames_recipe_2)
+
+fitted_workflow2 <- fit(workflow2, data = ames_train)
+```
+
+```{r scaled-latlong}
+fitted_workflow2 %>% 
+  tidy() %>%
+  filter(term != "(Intercept)") %>% 
+  ggplot(aes(x = estimate, y = fct_reorder(term, estimate))) + geom_col()
+```
+
+
+
+---
+
+## What can a linear model do?
+
+* *Add* up terms.
+* Each term: *multiply* a number by a constant.
+
+.pull-left[
+```{r coefs-from-fitted-model}
+intercept <- 15793
+coef_living_area <- 108
+```
+
+
+```{r}
+intercept + coef_living_area * 1610
+```
+]
+
+.pull-right[
+```{r price-vs-liv-area, out.width="100%"}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point() +
+  geom_hline(yintercept = example_home$Sale_Price, color = "red") +
+  geom_vline(xintercept = example_home$Gr_Liv_Area, color = "red") +
+  geom_point(data = example_home, color = 'red', size = 5) +
+  geom_function(fun = function(x) intercept + coef_living_area * x, color = "blue")
+```
+]
+---
+
+## Conditional Logic: Simple Conditions
+
+How could a linear model 
+
