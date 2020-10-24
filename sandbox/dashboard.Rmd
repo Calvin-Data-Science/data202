@@ -1,0 +1,307 @@
+---
+title: "Calvin Context"
+date: "`r lubridate::now()`"
+output: 
+  html_document:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, 
+  fig.width = 10, fig.height = 4, 
+  warning = FALSE, message = FALSE
+)
+library(labelled)
+# library(flexdashboard)
+library(ggformula)
+library(lubridate)
+library(tidyr)
+library(dplyr)
+library(cowplot)
+library(reactable)
+theme_set(theme_bw())
+
+# library(odbc)
+# library(dbplyr)
+
+library(readxl)
+library(readr)
+library(rvest)
+library(httr)
+library(zoo)  # for rollmean()
+
+```
+
+```{r}
+spectrum_url <- 
+  "https://docs.google.com/spreadsheets/d/1emAYXREE195wnGbe_iWNlMpGDzOrv5VgMeEruLc9l_I/export?format=csv&gid=777006588"
+
+Spectrum_raw <- readr::read_csv(spectrum_url)
+```
+
+
+```{r}
+Spectrum <- 
+  Spectrum_raw %>% 
+  select(1:3) %>%
+  set_names(c("date", "cum_tests", "cum_pos")) %>% 
+  mutate(
+    date = lubridate::ymd(date),
+    delta_tests = cum_tests - lag(cum_tests, 1),
+    delta_pos   = cum_pos - lag(cum_pos, 1),
+    frac_pos_new = delta_pos / delta_tests,
+    days_since_last = as.numeric(date - lag(date, 1), units = "days"),
+    tests_per_day = delta_tests / days_since_last,
+    new_pos_per_day = delta_pos / days_since_last,
+    centered_date = date - ddays(days_since_last / 2),
+    new_pos7 = rollmean(new_pos_per_day, 7, fill = NA, align = "right"),
+    frac_pos7 = rollmean(frac_pos_new, 7, fill = NA, align = "right")
+)
+spectrum_tests_plot <- Spectrum %>% 
+  gf_point(new_pos_per_day ~ centered_date, size = 0.5, alpha = 0.4) %>%
+  gf_smooth(color = "maroon") %>% 
+  gf_line(new_pos7 ~ centered_date, color = "blue") %>% 
+  gf_labs(
+    title = "Spectrum Health Positive Tests Per Day",
+    y = "",
+    x = ""
+  ) %>%
+  gf_lims(y = c(0, NA))
+
+spectrum_positivity_plot <- 
+  Spectrum %>%
+  gf_point(frac_pos_new ~ centered_date, size = 0.5, alpha = 0.4) %>%
+  gf_smooth(color = "maroon") %>%
+  gf_line(frac_pos7 ~ centered_date, color = "blue") %>%
+  gf_labs(
+    title = "Spectrum Health Positivity Rate",
+    y = "",
+    x = ""
+  ) %>%
+  gf_refine(scale_y_continuous(labels = scales::percent, limits = c(0, NA))) 
+
+plot_grid(spectrum_tests_plot, spectrum_positivity_plot)
+```
+
+
+```{r}
+orig_names <- names(Spectrum)
+names(Spectrum) <- c('date', 'cum_tests', 'cum_pos', 'delta_tests', 'delta_pos', 'perc_pos_new',
+                      'tests_per_day', 'new_pos_per_day')
+names(orig_names) = names(Spectrum)
+orig_names <- as.list(orig_names)
+
+Spectrum <-
+  Spectrum %>%
+  set_variable_labels(.labels = orig_names)
+
+Spectrum <-
+  Spectrum %>%
+  mutate(
+    perc_pos_new = readr::parse_number(perc_pos_new) / 100,
+    date = lubridate::mdy(paste(date, '/2020')))
+
+spectrum_plot1 <-
+  Spectrum %>%
+  gf_point(new_pos_per_day ~ date, size = 0.5, alpha = 0.4) %>%
+  gf_smooth(color = "maroon") %>%
+  gf_labs(
+    title = "Spectrum Health Positive Tests",
+    y = get_variable_labels(Spectrum)[['new_pos_per_day']],
+    x = ""
+  ) %>%
+  gf_lims(y = c(0, NA))
+
+spectrum_plot2 <-
+  Spectrum %>%
+  gf_point(perc_pos_new ~ date, size = 0.5, alpha = 0.4) %>%
+  gf_smooth(color = "maroon") %>%
+  gf_labs(
+    title = "Spectrum Health Positivity Rate",
+    y = get_variable_labels(Spectrum)[['perc_pos_new']],
+    x = ""
+  ) %>%
+  gf_refine(scale_y_continuous(labels = scales::percent, limits = c(0, NA))) 
+```
+
+
+```{r include = FALSE}
+lag_days <- 3
+tailna <- function(x, n = 3) {
+  x[(length(x) - n + 1): length(x)] <- NA
+  x
+}
+```
+
+Kent County and Michigan plots show daily counts and 7-day rolling averages
+using data available at <https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html>
+
+Notes: 
+
+* The most recent few days of COVID reports from the State of Michigan are typically incomplete. 
+For this reason, the rolling average is not computed using data from the last `r lag_days` days.
+* The availability of tests and the criteria determining who gets tested have changed over time.
+
+```{r root, include = FALSE}
+root_url <- "https://www.michigan.gov/coronavirus/"
+```
+
+```{r today-path, include = FALSE}
+toplevel_html <- read_html(root_url)
+today_path <- toplevel_html %>%
+  html_node(".stat-container .moreLink a") %>%
+  html_attr("href") %>% 
+  url_absolute(root_url)
+```
+
+```{r details, include = FALSE}
+details_html <- read_html(today_path)
+```
+
+```{r read-excel-url, include = FALSE}
+read_excel_url <- function(url) {
+  temp <- tempfile(fileext = ".xlsx")
+  httr::GET(url, httr::write_disk(temp))
+  res <- read_excel(temp)
+  unlink(temp)
+  res
+}
+```
+
+```{r spreadsheets, include = FALSE}
+spreadsheets <- details_html %>%
+  html_nodes(xpath = "//a[contains(@href, \".xlsx\")]") %>%
+  {
+    tibble(
+      title = html_text(.),
+      url = html_attr(., "href")
+    )
+  }
+```
+
+```{r retrieved, include = FALSE}
+retrieved <- 
+  spreadsheets %>%
+  mutate(
+    full_url = xml2::url_absolute(url, root_url),
+    contents = purrr::map(full_url, ~ read_excel_url(.))
+  )
+names(retrieved$contents) <- retrieved$title
+```
+
+
+```{r MI-Kent, include = FALSE}
+MI <- 
+  retrieved$contents[["Cases and Deaths by County by Date"]]  %>% 
+  mutate(Date = lubridate::as_date(Date))
+
+Kent <- 
+  MI %>% dplyr::filter(COUNTY == "Kent") %>% 
+  group_by(CASE_STATUS) %>%
+  mutate(
+    Cases7 = rollmean(tailna(Cases, lag_days), k = 7, fill = NA),
+    Deaths7 = rollmean(Deaths, k = 7, fill = NA)
+  ) %>%
+  set_variable_labels(
+    Cases7 = "Cases",
+    Deaths7 = "Deaths"
+  )
+
+MI <- 
+  MI %>% 
+  arrange(Date) %>%
+  group_by(COUNTY, CASE_STATUS) %>% 
+  mutate(
+    Cases7 = rollmean(tailna(Cases, lag_days), k = 7, fill = NA),
+    Deaths7 = rollmean(tailna(Deaths, lag_days), k = 7, fill = NA)
+  ) %>% 
+  set_variable_labels(
+    Cases7 = "Cases",
+    Deaths7 = "Deaths"
+  )
+```
+
+<!-- Date range (Kent County): `r range(Kent$Date, na.rm = TRUE) %>% paste(collapse = " - ")` -->
+
+<!-- Date range (MI): `r range(MI$Date, na.rm = TRUE) %>% paste(collapse = " - ")` -->
+
+
+```{r, Kent-plots, echo = FALSE, message = FALSE}
+kent1 <- 
+  Kent %>% arrange(Date) %>% filter(CASE_STATUS == "Confirmed") %>%
+  # dashplot(value = Cases7, time = Date, breaks = c(0, 50, 100, 200)) %>%
+  gf_line(Cases7 ~ Date, color = "maroon") %>%
+  gf_point(Cases ~ Date, alpha = 0.3, color = "black", size = 0.5) %>%
+  gf_lims(y = c(0, NA)) %>%
+  gf_labs(title = "Kent County Confirmed COVID Cases", y = "Cases", x = "")
+```
+
+```{r, kent-plots-generate, echo = FALSE, message = FALSE}
+kent2 <- 
+  Kent %>% arrange(Date) %>% filter(CASE_STATUS == "Confirmed") %>%
+  # dashplot(value = Deaths7, time = Date, breaks = c(0, 4, 8, 20)) %>%
+  gf_line(Deaths7 ~ Date, color = "maroon") %>%
+  gf_point(Deaths ~ Date, alpha = 0.3, color = "black", size = 0.5) %>%
+  gf_lims(y = c(0, NA)) %>%
+  gf_labs(title = "Kent County Confirmed COVID Deaths", y = "Deaths", x = "")
+```
+
+
+```{r, mi-plots-generate, echo = FALSE, message = FALSE}
+mi1 <- MI %>% filter(CASE_STATUS == "Confirmed") %>%
+  group_by(Date) %>% 
+  summarise(Cases = sum(Cases), Deaths = sum(Deaths)) %>%
+  arrange(Date) %>% 
+  gf_point(Cases ~ Date, alpha = 0.3, size = 0.4, show.legend = FALSE) %>%
+  gf_line(rollmean(tailna(Cases, lag_days), k = 7, fill = NA) ~ Date, 
+          na.rm = TRUE, color = 'maroon') %>%
+  gf_lims(y = c(0, NA)) %>%
+  gf_labs(title = "Michigan Confirmed COVID Cases", x = "")
+
+mi2 <- MI %>% filter(CASE_STATUS == "Confirmed") %>%
+  group_by(Date) %>% 
+  summarise(Cases = sum(Cases), Deaths = sum(Deaths)) %>%
+  arrange(Date) %>% 
+  gf_point(Deaths ~ Date, alpha = 0.3, size = 0.4, show.legend = FALSE) %>%
+  gf_line(rollmean(tailna(Deaths, lag_days), k = 7, fill = NA) ~ Date, 
+          na.rm = TRUE, color = 'maroon') %>%
+  gf_lims(y = c(0, NA)) %>%
+  gf_labs(title = "Michigan Confirmed COVID Deaths", x = "")
+```
+
+### Michigan
+
+```{r, mi-plots, fig.width = 9, fig.height = 2.5}
+plot_grid(mi1, mi2, ncol = 2)
+```
+
+### Kent County
+
+```{r, kent-plots, fig.width = 9, fig.height = 2.5}
+plot_grid(kent1, kent2, ncol = 2)
+```
+
+### Spectrum Health
+
+```{r, spectrum-plots, fig.width = 9, fig.height = 2.5}
+plot_grid(spectrum_plot1, spectrum_plot2, ncol = 2)
+```
+
+```{r include = FALSE}
+spectrum_plot1 
+spectrum_plot2 
+```
+
+
+```{r, include = FALSE}
+MI %>% 
+  filter(CASE_STATUS == "Confirmed") %>%
+  arrange(desc(Date)) %>%
+  mutate(Cases7 = round(Cases7, 1)) %>%
+  mutate(Deaths7 = round(Deaths7, 1)) %>%
+  select(County = COUNTY, Date, matches('Cases'), matches('Deaths')) %>% 
+  reactable(filterable = TRUE, striped = TRUE, searchable = TRUE)
+```
+
