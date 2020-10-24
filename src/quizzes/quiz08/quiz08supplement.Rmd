@@ -12,30 +12,39 @@ library(tidyverse)
 library(tidymodels)
 # Disable a warning message.
 options(dplyr.summarise.inform = FALSE)
+theme_set(theme_light())
 
-car_prices <- readxl::read_excel("data/kuiper.xlsx")
+car_prices <- readxl::read_excel("data/kuiper.xlsx") %>% janitor::clean_names()
+fuel_eco <- read_csv("data/guide2005-2004oct15.csv") %>% janitor::clean_names()
+
+set.seed(0)
+cars_split <- initial_split(car_prices, prop = 3/4, strata = "make")
+cars_train <- training(cars_split)
+cars_test <- testing(cars_split)
 ```
 
 ## Visualization
 
 This quiz uses a dataset from [Kuiper 2017](https://www.tandfonline.com/doi/full/10.1080/10691898.2008.11889579)
 of car sale prices from Kelly Blue Book for several hundred 2005 used General Motors (GM) cars.
-
 The [link to the data set](http://ww2.amstat.org/publications/jse/v16n3/kuiper.xls) can be found at the bottom of the article,
 if you're interested in running this analysis on your own computer.
 
 ```{r load-data, eval=FALSE}
-car_prices <- readxl::read_excel("data/kuiper.xlsx")
+car_prices <- readxl::read_excel("data/kuiper.xlsx") %>% 
+  janitor::clean_names()
 ```
 
+Let's take a quick look at the data:
 
-```{r show-data}
+```{r show-data, echo=TRUE}
 car_prices %>% head()
 car_prices %>% glimpse()
 ```
 
-
 ### Reproduce a plot
+
+#### Mileage
 
 Write code to reproduce the following visualization, intended to show that
 lower-mileage cars tend to be valued more highly.
@@ -44,11 +53,10 @@ Tips:
 
 * See the [Visualization Tweaks](https://cs.calvin.edu/courses/data/202/fa20/notes/visualization.html#tweaks)
   section of the course notes for tips on the scales.
-* Add in `theme_light()` to get the plot styling (optional).
 
 ```{r mileage-plot, echo=FALSE}
 car_prices %>% 
-  ggplot(aes(x = Mileage, y = Price / 1000, color = Make, shape = Make)) +
+  ggplot(aes(x = mileage, y = price / 1000, color = type, shape = type)) +
   geom_point() +
   scale_x_continuous(labels = scales::comma) +
   labs(x = "Mileage (mi)", y = "Price ($1000)") + 
@@ -62,92 +70,250 @@ car_prices %>% ___
 
 
 Extra credit: can you figure out how to make this plot? Email me your answer.
-Tip: two `geom_point` layers, one with `data` set to `car_prices` *without the `Make` column*.
+Tip: two `geom_point` layers, one with `data` set to `car_prices` *without the `make` column*.
 
 ```{r mileage-plot-improved, echo=FALSE}
 car_prices %>%
-  ggplot(aes(x = Mileage, y = Price)) +
-  geom_point(data = car_prices %>% select(-Make), color = "grey", size = .5) + 
+  ggplot(aes(x = mileage / 1000, y = price / 1000, color = make, shape = make)) +
+  geom_point(data = car_prices %>% select(-"type"), color = "grey", size = .5) + 
   geom_point(size = 1) +
-  facet_wrap(vars(Make)) + 
-  theme_minimal()
+  facet_wrap(vars(type)) + 
+  labs(x = "Mileage (1000 mi)", y = "Price ($1000)")
 ```
 
-<!--
 
-Write code to reproduce the following visualization, intended to show how
+### Mileage effect by price
+
+Write code to reproduce the following visualization, intended to show whether
+mileage affects price differently for different types of cars.
+Consider a car to be "low mileage" if its mileage is less than the median
+mileage.
 
 
-```{r mileage-plot, echo=FALSE}
+```{r mileage-lo-hi, echo=FALSE}
 car_prices %>% 
-  group_by(Make) %>% 
-  mutate(low_mileage = Mileage < median(Mileage)) %>% 
-  ggplot(aes(y = fct_reorder(Make, Price), x = Price, color = low_mileage)) +
-    geom_boxplot()
-
-car_prices %>% 
-  mutate(low_mileage = Mileage < median(Mileage)) %>% 
-  ggplot(aes(y = fct_reorder(Make, Price), x = Price, color = low_mileage)) +
-    geom_boxplot()
+  #group_by(type) %>% 
+  mutate(low_mileage = mileage < median(mileage)) %>% 
+  ggplot(aes(y = fct_reorder(type, price), x = price / 1000, color = low_mileage)) +
+    geom_boxplot() +
+    labs(y = "", x = "Price ($1000)", color = "Low mileage") +
+    xlim(c(0, NA))
 ```
 
--->
+```{r mileage-lo-hi-reproduce, exercise=TRUE}
+
+```
 
 ## Data Wrangling
 
-What was the most common car `Make` in this data set?
+What was the most common car `make` in this data set?
 
-```{r echo=FALSE}
+```{r most-common-make, echo=FALSE}
 car_prices %>% 
-  group_by(Make, Model, Trim) %>%
+  group_by(make) %>%
   summarize(n = n()) %>% 
   arrange(desc(n))
 ```
 
+```{r most-common-make-repro, exercise=TRUE}
+
+```
+
+Make a table showing, for each car `type`, what fraction of the listed cars had
+cruise control. Note that the `cruise` column contains a 1 if the listed car
+has cruise control, 0 if it doesn't. Your table should have 5 rows.
+**Sort the table from highest to lowest fraction**.
+
+Which car type **least frequently** had cruise control?
+
+```{r include=FALSE}
+car_prices %>%
+  group_by(type) %>% 
+  summarise(frac_cruise = mean(cruise)) %>% 
+  arrange(desc(frac_cruise))
+```
+
+```{r cruise-control-rep, exercise=TRUE}
+
+```
+
+
+Do 2-door cars or 4-door (`doors`) cars have bigger engines (`liter` column) on average in this data set?
+
+```{r include=FALSE}
+car_prices %>%
+  #distinct(Make, Model, Trim, Doors, Liter) %>% 
+  group_by(doors) %>% 
+  summarize(mean_engine_size = mean(liter))
+```
+
+```{r doors-engine-size, exercise=TRUE}
+
+```
+
 <!--
-Which car (`Make` and `Model`) has the most different trim levels?
+Which car (`make` and `model`) has the most different trim levels?
 
 ```{r}
 car_prices %>% 
-  group_by(Make, Model, Trim) %>%
+  group_by(make, model, trim) %>%
   summarize(n = n()) %>% 
-  group_by(Make, Model) %>% 
+  group_by(make, model) %>% 
   summarize(n = n()) %>% 
-  arrange(n)
+  arrange(desc(n))
+```
+```{r}
+car_prices %>%
+  group_by(make, trim) %>% 
+  summarise(n = n()) %>% 
+  group_by(make) %>% 
+  summarise(n = sum(n))
 ```
 
 -->
 
-Do 2-door cars or 4-door (`Doors`) cars have bigger engines (`Liter` column) on average in this data set?
+### Joining
 
-```{r}
-car_prices %>%
-  #distinct(Make, Model, Trim, Doors, Liter) %>% 
-  group_by(Doors) %>% 
-  summarize(size = mean(Liter))
+For increasingly many consumers, fuel economy is a deciding factor in purchasing
+decisions. However, the Kelly Blue Book data set doesn't include any fuel economy
+data. Fortunately the US Department of Energy and the EPA put together
+<https://www.fueleconomy.org>. That site provides both consumer-facing tools
+to compare the monetary and environmental fuel costs of various vehicles.
+Fortunately they also release machine-readable [data files](https://www.fueleconomy.gov/feg/download.shtml).
+According to the Kuiper 2017 article, all of the vehicles were 2005 model year
+and less than a year old, so the 2005 data has been downloaded for you:
+
+```{r load-mpg, eval=FALSE, echo=TRUE}
+fuel_eco <- read_csv("data/guide2005-2004oct15.csv") %>% janitor::clean_names()
 ```
+
+Notable columns are (descriptions are quoted from the EPA's [guide](https://www.fueleconomy.gov/feg/pdfs/guides/FEG2005.pdf)):
+
+* `manufacturer` and `carline_name`: the make and model of the car tested.
+* `cty`: *City* represents urban driving, in which a vehicle is started in the morning (after being parked all night) and driven in stop-and-go rush hour traffic
+* `hwy`: *Highway* represents a mixture of rural and interstate highway driving in warmed-up vehicles, typical of longer trips in free-flowing traffic.
+* `cmb`: *Combined* city and highway MPG estimates ... assume you will drive 55% in the city and 45% on the highway.
+
+Full documentation from the source is available [here](https://www.fueleconomy.gov/feg/epadata/Readme.txt).
+
+We first briefly verify that the *carline name* is sufficiently unique to describe a car; there
+are no cars with the same name but different manufacturers:
+
+```{r echo=TRUE}
+fuel_eco %>% distinct(carline_name) %>% nrow()
+fuel_eco %>% distinct(manufacturer, carline_name) %>% nrow()
+```
+
+Good to go. But a brief look at the dataset immediately reveals two potential problems:
+
+```{r echo=TRUE}
+fuel_eco %>% select(manufacturer, carline_name, cty, hwy, cmb) %>% head(5)
+```
+
+First problem: each car may be reported several times in the EPA dataset, once
+for each different engine option or transmission type. We could work out
+some of that data from the `trim` column 
+
+Let's look at `car_prices` again for reference:
+
+```{r echo=TRUE}
+car_prices %>% distinct(make, model) %>% head(5)
+```
+
+
+Second problem: the EPA uses all-caps for car names but the Kelly Blue Book didn't.
+So none of the EPA's `carline_name`s in `fuel_eco` will match the `model`s in `car_prices`.
+But we won't let that stop us! Here's a strategy: ignore case. Specifically, 
+let's *upper-case* (`str_to_upper()`) the models in `car_prices` and  put the result in a *new column*. 
+Then we can use that new column to match up the cars between the two data frames.
+
+1. Use this case-ignoring strategy to **look up the highway fuel economy** for
+   all of the cars with matching model names. This strategy should work for
+   some but not all of the `r nrow(car_prices)` cars in the Blue Book dataset.
+   **How many cars matched**?
+2. For the cars in the Blue Book dataset that the case-ignoring strategy successfully matched,
+  which `type` of car (convertible, coupe, ...) has the highest median highway MPG?
+3. Give an example of a car for which the lookup failed.
+4. Name a strategy for fixing the mismatch.
+
+```{r include=FALSE}
+car_prices_and_eco <- 
+  car_prices %>% 
+  mutate(carline_name = str_to_upper(model)) %>% 
+  left_join(
+    fuel_eco %>% 
+      group_by(carline_name) %>% 
+      summarize(hwy = mean(hwy)),
+    by = "carline_name")
+
+car_prices_and_eco %>% 
+  summarize(sum(!is.na(hwy)))
+
+car_prices_and_eco %>% 
+  drop_na(hwy) %>% 
+  ggplot(aes(x = hwy, y = price, color = type)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+car_prices_and_eco %>% 
+  drop_na(hwy) %>% 
+  group_by(type) %>% 
+  summarize(median_hwy = median(hwy))
+
+car_prices_and_eco %>% 
+  drop_na(hwy) %>% 
+  distinct(type, model, hwy) %>% 
+  group_by(type) %>% 
+  summarize(median_hwy = median(hwy))
+
+car_prices_and_eco %>% 
+  filter(is.na(hwy)) %>% 
+  distinct(make, model)
+```
+
 
 ## Modeling
 
-Let's try to make some models to predict `Price`.
+Let's try to make some models to predict `price`.
 
 We'll hold out a testing set so we can validate our model.
 
-```{r train-test-split}
+```{r train-test-split, echo=TRUE}
 set.seed(0)
-cars_split <- initial_split(car_prices, prop = 3/4, strata = "Make")
+cars_split <- initial_split(car_prices, prop = 3/4, strata = "make")
 cars_train <- training(cars_split)
 cars_test <- testing(cars_split)
 ```
 
 
-Create a `tidymodels` model called `model` that predicts `Price` from `Mileage` 
-using linear regression on the training set.
+First, create a `tidymodels` model called `model` that predicts `price` from `mileage` 
+using linear regression on the training set. (You do not need a recipe here.)
 
-```{r}
-trained_model <- 
+Then, write code to recreate the following plot, which shows how the 
+*residuals* (actual minus predicted) depend on the car type.
+Plots like this can be useful for showing whether it's helpful to add additional
+features to the predictive model.
+
+(Note: because of the limitations of this platform, you'll need to do both the
+model fitting and the graph creation in the same cell.)
+
+```{r residual-by-type-plot, eval=TRUE}
+model <- 
   parsnip::linear_reg() %>% 
   set_engine('lm') %>% 
-  fit(Price ~ Mileage, data = cars_train)
+  fit(price ~ mileage, data = cars_train)
+
+model %>% 
+  predict(cars_train) %>% 
+  bind_cols(cars_train) %>% 
+  mutate(residual = price - .pred) %>% 
+  ggplot(aes(y = fct_reorder(type, residual), x = residual)) +
+    geom_vline(xintercept = 0) +
+    geom_boxplot() +
+    labs(y = "")
+```
+
+```{r residual-by-type-repro, exercise=TRUE}
+
 ```
 
