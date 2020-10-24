@@ -127,7 +127,7 @@ createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo =
 #createAssignmentTemplate("hw/hw04-other-tools")
 #createAssignmentTemplate("lab/lab05-ugly-charts")
 #createAssignmentTemplate("proj/datavis")
-createAssignmentTemplate("lab/lab07-modeling")
+createAssignmentTemplate("lab/lab08-feat-engr")
 ```
 
 (This is a WIP Python replacement for the shell script)
@@ -319,7 +319,7 @@ openStudentWork <- function(assignment, name) {
   
   usethis::edit_file(files)
 }
-openStudentWork("datavis", "Wang")
+#openStudentWork("datavis", "Wang")
 ```
 
 
