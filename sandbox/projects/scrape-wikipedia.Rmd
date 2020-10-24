@@ -1,0 +1,28 @@
+---
+title: "Scrape Wikipedia"
+author: "K Arnold"
+date: "10/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rvest)
+```
+
+
+```{r}
+html <- read_html('https://en.wikipedia.org/wiki/Democracy_Index')
+```
+
+```{r}
+tables <- html %>% html_nodes(".wikitable")
+table <- tables[[1]]
+table %>%
+  html_table() %>%
+  select(2:3) %>% 
+  janitor::clean_names() %>% 
+  slice_head(n = nrow(.) - 1) %>% 
+  mutate(score = as.numeric(score))
+```
