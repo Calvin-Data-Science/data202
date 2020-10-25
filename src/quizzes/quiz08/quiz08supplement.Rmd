@@ -1,5 +1,5 @@
 ---
-title: "Quiz 8 Supplement"
+title: "Midterm"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
@@ -16,6 +16,22 @@ theme_set(theme_light())
 
 car_prices <- readxl::read_excel("data/kuiper.xlsx") %>% janitor::clean_names()
 fuel_eco <- read_csv("data/guide2005-2004oct15.csv") %>% janitor::clean_names()
+
+fuel_eco_avg <- 
+  fuel_eco %>% 
+  group_by(manufacturer, carline_name) %>% 
+  summarize(
+    city = mean(cty),
+    highway = mean(hwy),
+    combined = mean(cmb)
+  )
+
+car_prices_and_eco <- 
+  car_prices %>% 
+  mutate(carline_name = str_to_upper(model)) %>% 
+  left_join(
+    fuel_eco_avg,
+    by = "carline_name")
 
 set.seed(0)
 cars_split <- initial_split(car_prices, prop = 3/4, strata = "make")
@@ -44,9 +60,9 @@ car_prices %>% glimpse()
 
 ### Reproduce a plot
 
-#### Mileage
+#### Price by Mileage
 
-Write code to reproduce the following visualization, intended to show that
+**Write code to reproduce the following visualization**, intended to show that
 lower-mileage cars tend to be valued more highly.
 
 Tips:
@@ -69,8 +85,10 @@ car_prices %>% ___
 
 
 
-Extra credit: can you figure out how to make this plot? Email me your answer.
-Tip: two `geom_point` layers, one with `data` set to `car_prices` *without the `make` column*.
+**Extra credit (save this for last!)**: can you figure out how to make this plot? It shows the same data in 
+each pane, but highlights the cars of each given type. 
+
+Tip: two `geom_point` layers, one with `data` set to `car_prices` *without the `type` column*.
 
 ```{r mileage-plot-improved, echo=FALSE}
 car_prices %>%
@@ -80,11 +98,13 @@ car_prices %>%
   facet_wrap(vars(type)) + 
   labs(x = "Mileage (1000 mi)", y = "Price ($1000)")
 ```
+```{r mileage-plot-improved-repro, exercise=TRUE}
 
+```
 
-### Mileage effect by price
+### High or Low Mileage
 
-Write code to reproduce the following visualization, intended to show whether
+**Write code to reproduce the following visualization**, intended to show whether
 mileage affects price differently for different types of cars.
 Consider a car to be "low mileage" if its mileage is less than the median
 mileage.
@@ -106,9 +126,9 @@ car_prices %>%
 
 ## Data Wrangling
 
-What was the most common car `make` in this data set?
+**What was the most common car `make` in this data set?**
 
-```{r most-common-make, echo=FALSE}
+```{r most-common-make-sol, include=FALSE}
 car_prices %>% 
   group_by(make) %>%
   summarize(n = n()) %>% 
@@ -119,28 +139,28 @@ car_prices %>%
 
 ```
 
-Make a table showing, for each car `type`, what fraction of the listed cars had
+**Make a table** showing, for each car `type`, what fraction of the listed cars had
 cruise control. Note that the `cruise` column contains a 1 if the listed car
 has cruise control, 0 if it doesn't. Your table should have 5 rows.
 **Sort the table from highest to lowest fraction**.
 
 Which car type **least frequently** had cruise control?
 
-```{r include=FALSE}
+```{r cruise-control-by-type-sol, include=FALSE}
 car_prices %>%
   group_by(type) %>% 
   summarise(frac_cruise = mean(cruise)) %>% 
   arrange(desc(frac_cruise))
 ```
 
-```{r cruise-control-rep, exercise=TRUE}
+```{r cruise-control-repro, exercise=TRUE}
 
 ```
 
 
 Do 2-door cars or 4-door (`doors`) cars have bigger engines (`liter` column) on average in this data set?
 
-```{r include=FALSE}
+```{r doors-engine-size-sol, include=FALSE}
 car_prices %>%
   #distinct(Make, Model, Trim, Doors, Liter) %>% 
   group_by(doors) %>% 
@@ -151,28 +171,8 @@ car_prices %>%
 
 ```
 
-<!--
-Which car (`make` and `model`) has the most different trim levels?
 
-```{r}
-car_prices %>% 
-  group_by(make, model, trim) %>%
-  summarize(n = n()) %>% 
-  group_by(make, model) %>% 
-  summarize(n = n()) %>% 
-  arrange(desc(n))
-```
-```{r}
-car_prices %>%
-  group_by(make, trim) %>% 
-  summarise(n = n()) %>% 
-  group_by(make) %>% 
-  summarise(n = sum(n))
-```
-
--->
-
-### Joining
+## Align, Combine, and Reshape
 
 For increasingly many consumers, fuel economy is a deciding factor in purchasing
 decisions. However, the Kelly Blue Book data set doesn't include any fuel economy
@@ -194,82 +194,89 @@ Notable columns are (descriptions are quoted from the EPA's [guide](https://www.
 * `hwy`: *Highway* represents a mixture of rural and interstate highway driving in warmed-up vehicles, typical of longer trips in free-flowing traffic.
 * `cmb`: *Combined* city and highway MPG estimates ... assume you will drive 55% in the city and 45% on the highway.
 
-Full documentation from the source is available [here](https://www.fueleconomy.gov/feg/epadata/Readme.txt).
+(Full documentation from the source is available [here](https://www.fueleconomy.gov/feg/epadata/Readme.txt)
+but is not needed for these exercises.)
 
 We first briefly verify that the *carline name* is sufficiently unique to describe a car; there
 are no cars with the same name but different manufacturers:
 
-```{r echo=TRUE}
+```{r verify-distinct, echo=TRUE}
 fuel_eco %>% distinct(carline_name) %>% nrow()
 fuel_eco %>% distinct(manufacturer, carline_name) %>% nrow()
 ```
 
 Good to go. But a brief look at the dataset immediately reveals two potential problems:
 
-```{r echo=TRUE}
+```{r show-fuel-eco-caps, echo=TRUE}
 fuel_eco %>% select(manufacturer, carline_name, cty, hwy, cmb) %>% head(5)
 ```
 
-First problem: each car may be reported several times in the EPA dataset, once
+*First problem*: *each car may be reported several times* in the EPA dataset, once
 for each different engine option or transmission type. We could work out
-some of that data from the `trim` column 
+some of that data from the `trim` column, but for a first pass, let's just
+take the *average* mileages for a given `carline_name`.
 
+**Make a table called `fuel_eco_avg`** that gives the average `cty`, `hwy`, and `cmb`
+fuel economy for each `manufacturer` and `carline_name`. While you're at it, use more sensible names:
+`city`, `highway`, and `combined`. The result should look like:
+
+```{r show-fuel-eco-avg, eval=TRUE}
+fuel_eco_avg
+```
+```{r fuel-eco-avg-repro, exercise=TRUE}
+
+```
+
+
+*Second problem*: the EPA uses all-caps for car names but the Kelly Blue Book didn't.
+So none of the EPA's `carline_name`s in `fuel_eco` will match the `model`s in `car_prices`.
 Let's look at `car_prices` again for reference:
 
-```{r echo=TRUE}
+```{r show-car-prices-head, echo=TRUE}
 car_prices %>% distinct(make, model) %>% head(5)
 ```
 
+But we won't let that stop us! Here's a strategy: ignore case. Specifically:
 
-Second problem: the EPA uses all-caps for car names but the Kelly Blue Book didn't.
-So none of the EPA's `carline_name`s in `fuel_eco` will match the `model`s in `car_prices`.
-But we won't let that stop us! Here's a strategy: ignore case. Specifically, 
-let's *upper-case* (`str_to_upper()`) the models in `car_prices` and  put the result in a *new column*. 
-Then we can use that new column to match up the cars between the two data frames.
+**Make a table called `car_prices_and_eco`** that has the city, highway, and
+combined fuel economy for all of the cars in `car_prices`.
+To ignore case in the matching, *upper-case* (`str_to_upper()`) the models in
+`car_prices` and  put the result in a *new column*, which you can then use to
+look up fuel economies in `fuel_eco_avg`. For cars that don't match the EPA
+data even after
+ignoring case, leave the fuel economies at `NA` (don't drop the row).
 
-1. Use this case-ignoring strategy to **look up the highway fuel economy** for
-   all of the cars with matching model names. This strategy should work for
-   some but not all of the `r nrow(car_prices)` cars in the Blue Book dataset.
-   **How many cars matched**?
-2. For the cars in the Blue Book dataset that the case-ignoring strategy successfully matched,
-  which `type` of car (convertible, coupe, ...) has the highest median highway MPG?
-3. Give an example of a car for which the lookup failed.
-4. Name a strategy for fixing the mismatch.
+Tip: how many rows should the result have?
 
-```{r include=FALSE}
-car_prices_and_eco <- 
-  car_prices %>% 
-  mutate(carline_name = str_to_upper(model)) %>% 
-  left_join(
-    fuel_eco %>% 
-      group_by(carline_name) %>% 
-      summarize(hwy = mean(hwy)),
-    by = "carline_name")
+**How many distinct car models didn't match the EPA data?**
 
-car_prices_and_eco %>% 
-  summarize(sum(!is.na(hwy)))
+```{r join-repro, exercise=TRUE}
 
-car_prices_and_eco %>% 
-  drop_na(hwy) %>% 
-  ggplot(aes(x = hwy, y = price, color = type)) +
-  geom_point() +
-  geom_smooth(method = "lm")
-
-car_prices_and_eco %>% 
-  drop_na(hwy) %>% 
-  group_by(type) %>% 
-  summarize(median_hwy = median(hwy))
-
-car_prices_and_eco %>% 
-  drop_na(hwy) %>% 
-  distinct(type, model, hwy) %>% 
-  group_by(type) %>% 
-  summarize(median_hwy = median(hwy))
-
-car_prices_and_eco %>% 
-  filter(is.na(hwy)) %>% 
-  distinct(make, model)
 ```
+
+
+```{r distinct-non-matches, include=FALSE}
+car_prices_and_eco %>% 
+  #distinct(model, combined) %>% 
+  summarise(n = sum(is.na(combined)), frac = mean(is.na(combined)))
+```
+
+**Reproduce the following graph** using the `car_prices_and_eco` dataset.
+
+```{r price-by-eco}
+car_prices_and_eco %>% 
+  pivot_longer(c(city, highway, combined), names_to = "measure", values_to = "economy") %>% 
+  drop_na(economy) %>% 
+  ggplot(aes(x = economy, y = price / 1000, color = fct_relevel(measure, "city", "highway", "combined"))) +
+  geom_point() +
+  geom_smooth() +
+  labs(x = "Fuel Economy", y = "Price ($1000)", color = "Measure")
+```
+
+```{r price-by-eco-repro, exercise=TRUE}
+
+```
+
 
 
 ## Modeling
@@ -295,7 +302,7 @@ Plots like this can be useful for showing whether it's helpful to add additional
 features to the predictive model.
 
 (Note: because of the limitations of this platform, you'll need to do both the
-model fitting and the graph creation in the same cell.)
+model fitting and the graph creation in the same "Code" box below:)
 
 ```{r residual-by-type-plot, eval=TRUE}
 model <- 
@@ -317,3 +324,24 @@ model %>%
 
 ```
 
+*Note*: We're stopping short of a full predictive modeling workflow to keep this midterm
+at a manageable length.
+
+## Submit
+
+```{r context="server"}
+learnrhash::encoder_logic()
+```
+
+If you have completed this quiz and are happy with all of your solutions,
+please *click the button below* to generate (or update) your hash. Then,
+copy-paste the entire hash into Moodle.
+
+```{r encode, echo=FALSE}
+shiny::tags$div(
+  shiny::fixedRow(shiny::column(width = 3, 
+                                shiny::actionButton("hash_generate", "Generate Submission")), 
+                  shiny::column(width = 7), shiny::column(width = 2)), 
+  shiny::tags$br(), learnrhash:::wrapped_verbatim_text_output("hash_output", TRUE),
+  shiny::tags$br())
+```
