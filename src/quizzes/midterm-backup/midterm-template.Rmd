@@ -1,0 +1,51 @@
+---
+title: "Midterm"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(tidymodels)
+# Disable a warning message.
+options(dplyr.summarise.inform = FALSE)
+
+theme_set(theme_light())
+```
+
+## Visualization
+
+```{r load-data, eval=TRUE}
+car_prices <- readxl::read_excel("data/kuiper.xlsx") %>% 
+  janitor::clean_names()
+```
+
+```{r show-data, echo=TRUE}
+car_prices %>% head()
+car_prices %>% glimpse()
+```
+
+### Reproduce a plot
+
+#### Price by Mileage
+
+### High or Low Mileage
+
+## Data Wrangling
+
+## Align, Combine, and Reshape
+
+```{r load-mpg, echo=TRUE, message=FALSE}
+fuel_eco <- read_csv("data/guide2005-2004oct15.csv") %>% janitor::clean_names()
+```
+
+## Modeling
+
+```{r train-test-split, echo=TRUE}
+set.seed(0)
+cars_split <- initial_split(car_prices, prop = 3/4, strata = "make")
+cars_train <- training(cars_split)
+cars_test <- testing(cars_split)
+```
+
