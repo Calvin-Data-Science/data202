@@ -235,8 +235,9 @@ updateLocalClones <- function(assignment_to_update) {
     map(local_repo_pull)
 
   updatesToDo %>% 
-    mutate(update_failed = !(u %>% map(list(1, 'error')) %>% map_lgl(is_null))) %>% 
-    filter(update_failed)
+    mutate(update_failed = !(updateStatus %>% map(list(1, 'error')) %>% map_lgl(is_null))) %>% 
+    filter(update_failed) %>% 
+    select(repo, local_path)
 }
 ```
 
