@@ -399,7 +399,7 @@ summary {
 </ul>
 <p>The three components to this project involve each of these three things:</p>
 <ul>
-<li><strong>Data</strong>: Obtain some real-world dataset. Trace where it came from and how it’s structured. Load it and process it using the Python data science toolkit to a form that’s appropriate for making the visualization.</li>
+<li><strong>Data</strong>: Obtain some real-world dataset. Trace where it came from and how it’s structured. Load it and process it using one of the data science toolkits we’re studying to a form that’s appropriate for making the visualization.</li>
 <li><strong>Visualization</strong>: Replicate (re-create) a visualization that someone else already made based on that data. Evaluate some of the choices and assumptions that were made in the visualization process: in what ways does the visualization faithfully represent the data (or not)? What sort of stories does the chosen visualization amplify?</li>
 <li><strong>Story</strong>: Consider the story that the original source told using the visualization. Is that story accurate? complete? clearly articulated? How did choices in the data collection, preparation, and visualization affect the storytelling? Are there other stories that the data might also be telling?</li>
 </ul>
@@ -409,6 +409,88 @@ summary {
 <li><strong>Communication</strong>: analyzing choices made in visualization and text with respect to how it tells a story about data. Proposing and implementing changes to improve the clarity of communication.</li>
 <li><strong>Ethics and Critical Thinking</strong>: identify potential ethical questions (e.g., of transparency, diversity, etc.) that emerge in the process of obtaining, manipulating, and communicating with data.</li>
 </ul>
+<div id="report-outline" class="section level3">
+<h3>Report Outline</h3>
+<p>Your report should be:</p>
+<ul>
+<li><em>understandable by itself</em>: a reader should not need to see your discussion posts or prior submissions.</li>
+<li><em>reproducible</em> (no paths that only work on your computer, for example)</li>
+<li><em>understandable without the code</em>: a reader should be able to skip over all of the code and understand all of the results.</li>
+</ul>
+<p>Please follow this general outline (though you may add or remove aspects if needed).</p>
+<ul>
+<li>Overview
+<ul>
+<li>Introduce the article you’ve found and the specific visualization you’re replicating, including:
+<ul>
+<li>A complete URL to the article</li>
+<li>A screenshot of the visualization.</li>
+<li>A concise statement (ideally a quote) of the claim that the article uses the visualization to make (or the claim you invented if there wasn’t a clear one)</li>
+</ul></li>
+</ul></li>
+<li>Design
+<ul>
+<li>What overall type of visualization was chosen? Why might the author have chosen it?</li>
+<li>What variables are being shown?</li>
+<li>What retinal variables and/or aesthetics were chosen to represent those data variables?
+<ul>
+<li>For at least one of these variables, describe what makes that choice appropriate or inappropriate.</li>
+</ul></li>
+<li>Overall, what about the visual makes it effective, or ineffective, for making its claim?</li>
+</ul></li>
+<li>Data
+<ul>
+<li>A high-level overview of the data you’re working with, including:
+<ul>
+<li>Whether you were able to find the original data (if not, why not?)</li>
+<li>Where the data came from
+<ul>
+<li>Direct URL and/or specific instructions for how to obtain it.</li>
+<li>Under what terms is the source allowing you to use the data?</li>
+<li>Try to trace it upstream as close to the source as you can.</li>
+<li>Who worked with the data on its way to you? (Include names and roles, if applicable.)</li>
+<li>What processing may have happened to it: was it aggregated? Anonymized? etc.</li>
+</ul></li>
+<li>What might we need to know about the data collection process in order to interpret the data correctly? (e.g., If it’s from a survey–who was surveyed?)</li>
+</ul></li>
+<li>A low-level description of the size and structure of the data (include your data-loading code here)
+<ul>
+<li>What does each row represent?</li>
+<li>How many rows are there? (use inline code)</li>
+<li>What might be interesting to know about what information the data does, and doesn’t, provide?</li>
+</ul></li>
+</ul></li>
+<li>Wrangling
+<ul>
+<li>Describe, at a broad level, what you need to do to the data to make it into the form you need for the plot</li>
+<li>Include code blocks, with appropriate names, for wrangling steps.</li>
+</ul></li>
+<li>Replication
+<ul>
+<li>Include your code to replicate the visual, and the result.</li>
+<li>Briefly describe any difficulties you encountered, both those you overcame and those you still have not. (It’s ok to not have a perfect graph.)</li>
+</ul></li>
+<li>Alternative Designs
+<ul>
+<li>Describe at least two alternative design choices that could be made in visualizing your data. For each design, include:
+<ul>
+<li>What choice did the original visual make? (e.g., to use a particular aesthetic mapping or glyph)</li>
+<li>What’s an alternative choice? (It should be a <em>reasonable</em> choice, but it doesn’t have to be an <em>improvement</em>.)</li>
+<li>How does that change affect how the visual supports the original claim? Can your redesign now support some <em>different</em> claim?</li>
+</ul></li>
+<li>Attempt to implement your best alternative design.</li>
+</ul></li>
+<li>Summary
+<ul>
+<li>Now that you’ve gone through the whole process, <em>how has your understanding of, and belief in, the original article’s claim changed</em>?</li>
+<li>How faithful was your replication?</li>
+<li>How successful was your alternative design?</li>
+<li>What follow-up questions and ideas do you have about the data or visualization you worked with?</li>
+<li>What opportunities do you see for extending this work into a final project? e.g., is there some way you could apply predictive modeling? Get better data? Do a more rigorous analysis? etc. “This seems like a dead end” is valid.</li>
+<li>How do you feel about this whole experience?</li>
+</ul></li>
+</ul>
+</div>
 <div id="project-1-milestones" class="section level3">
 <h3>Project 1 Milestones</h3>
 <p>Milestones are due along with the corresponding week’s homework.</p>

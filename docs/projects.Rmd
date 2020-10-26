@@ -14,7 +14,7 @@ The project will explore the intersection between three things:
 
 The three components to this project involve each of these three things:
 
-* **Data**: Obtain some real-world dataset. Trace where it came from and how it's structured. Load it and process it using the Python data science toolkit to a form that's appropriate for making the visualization.
+* **Data**: Obtain some real-world dataset. Trace where it came from and how it's structured. Load it and process it using one of the data science toolkits we're studying to a form that's appropriate for making the visualization.
 * **Visualization**: Replicate (re-create) a visualization that someone else already made based on that data. Evaluate some of the choices and assumptions that were made in the visualization process: in what ways does the visualization faithfully represent the data (or not)? What sort of stories does the chosen visualization amplify?
 * **Story**: Consider the story that the original source told using the visualization. Is that story accurate? complete? clearly articulated? How did choices in the data collection, preparation, and visualization affect the storytelling? Are there other stories that the data might also be telling?
 
@@ -23,6 +23,76 @@ This project addresses our course-level learning objectives in this way:
 * **Technical skills**: manipulating data, constructing visualizations, and creating reports.
 * **Communication**: analyzing choices made in visualization and text with respect to how it tells a story about data. Proposing and implementing changes to improve the clarity of communication.
 * **Ethics and Critical Thinking**: identify potential ethical questions (e.g., of transparency, diversity, etc.) that emerge in the process of obtaining, manipulating, and communicating with data.
+
+### Report Outline
+
+Your report should be:
+
+* *understandable by itself*: a reader should not need to see your discussion posts or prior submissions.
+* *reproducible* (no paths that only work on your computer, for example)
+* *understandable without the code*: a reader should be able to skip over all of the code and understand all of the results.
+
+Please follow this general outline (though you may add or remove aspects if needed).
+
+* Overview
+  * Introduce the article you've found and the specific visualization you're replicating, including:
+    * A complete URL to the article
+    * A screenshot of the visualization.
+    * A concise statement (ideally a quote) of the claim that the article uses the visualization to make
+      (or the claim you invented if there wasn't a clear one)
+* Design
+  * What overall type of visualization was chosen? Why might the author have chosen it?
+  * What variables are being shown?
+  * What retinal variables and/or aesthetics were chosen to represent those data variables?
+    * For at least one of these variables, describe what makes that choice appropriate or inappropriate.
+  * Overall, what about the visual makes it effective, or ineffective, for making its claim?
+* Data
+  * A high-level overview of the data you're working with, including:
+    * Whether you were able to find the original data (if not, why not?)
+    * Where the data came from
+      * Direct URL and/or specific instructions for how to obtain it.
+      * Under what terms is the source allowing you to use the data?
+      * Try to trace it upstream as close to the source as you can.
+      * Who worked with the data on its way to you? (Include names and roles, if applicable.)
+      * What processing may have happened to it: was it aggregated? Anonymized? etc.
+    * What might we need to know about the data collection process in order to interpret the data correctly?
+      (e.g., If it's from a survey--who was surveyed?)
+  * A low-level description of the size and structure of the data  (include your data-loading code here)
+    * What does each row represent?
+    * How many rows are there? (use inline code)
+    * What might be interesting to know about what information the data does, and doesn't, provide?
+* Wrangling
+  * Describe, at a broad level, what you need to do to the data to make it into the form you need for the plot
+  * Include code blocks, with appropriate names, for wrangling steps.
+* Replication
+  * Include your code to replicate the visual, and the result.
+  * Briefly describe any difficulties you encountered, both those you
+    overcame and those you still have not. (It's ok to not have a perfect graph.)
+* Alternative Designs
+  * Describe at least two alternative design choices that could be made in
+    visualizing your data. For each design, include:
+    * What choice did the original visual make? (e.g., to use a particular aesthetic mapping or glyph)
+    * What's an alternative choice? (It should be a *reasonable* choice, but it
+      doesn't have to be an *improvement*.)
+    * How does that change affect how the visual supports the original claim?
+      Can your redesign now support some *different* claim?
+  * Attempt to implement your best alternative design.
+* Summary
+  * Now that you've gone through the whole process, *how has your
+    understanding of, and belief in, the original article's claim changed*?
+  * How faithful was your replication?
+  * How successful was your alternative design?
+  * What follow-up questions and ideas do you have about the data or visualization you worked with?
+  * What opportunities do you see for extending this work into a final project?
+    e.g., is there some way you could apply predictive modeling? Get better data?
+    Do a more rigorous analysis? etc. "This seems like a dead end" is valid.
+  * How do you feel about this whole experience?
+  
+
+
+
+
+
 
 ### Project 1 Milestones
 
