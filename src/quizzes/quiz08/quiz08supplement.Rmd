@@ -8,8 +8,14 @@ runtime: shiny_prerendered
 knitr::opts_chunk$set(echo = FALSE)
 
 library(learnr)
-library(tidyverse)
-library(tidymodels)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(stringr)
+library(forcats)
+library(ggplot2)
+library(parsnip)
+library(rsample)
 # Disable a warning message.
 options(dplyr.summarise.inform = FALSE)
 theme_set(theme_light())
@@ -50,6 +56,10 @@ if you're interested in running this analysis on your own computer.
 car_prices <- readxl::read_excel("data/kuiper.xlsx") %>% 
   janitor::clean_names()
 ```
+
+(The [`janitor`](http://sfirke.github.io/janitor/) package provides some convenient
+[utilities](http://sfirke.github.io/janitor/articles/janitor.html) for cleaning data.
+Here we used `clean_names` to make sane formatting for all of the names.)
 
 Let's take a quick look at the data:
 
@@ -139,7 +149,7 @@ car_prices %>%
 
 ```
 
-**Make a table** showing, for each car `type`, what fraction of the listed cars had
+**Make a table** showing, for each car `type`, what proportion of the listed cars had
 cruise control. Note that the `cruise` column contains a 1 if the listed car
 has cruise control, 0 if it doesn't, so you can use math functions here. Your table should have 5 rows.
 **Sort the table from highest to lowest fraction**.
@@ -173,6 +183,11 @@ car_prices %>%
 
 
 ## Align, Combine, and Reshape
+
+**Note**: This section includes several steps. To allow you to make progress
+even if you're struggling with an earlier step, each Code cell runs in a fresh
+environment with a correct answer for the two intermediate variables
+(`fuel_eco_avg` and `car_prices_and_eco`) pre-loaded.
 
 For increasingly many consumers, fuel economy is a deciding factor in purchasing
 decisions. However, the Kelly Blue Book data set doesn't include any fuel economy
