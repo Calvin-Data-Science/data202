@@ -223,7 +223,9 @@ fuel_eco %>% distinct(manufacturer, carline_name) %>% nrow()
 Good to go. But a brief look at the dataset immediately reveals two potential problems:
 
 ```{r show-fuel-eco-caps, echo=TRUE}
-fuel_eco %>% select(manufacturer, carline_name, cty, hwy, cmb) %>% head(5)
+fuel_eco %>% 
+  arrange(manufacturer, carline_name) %>% 
+  select(manufacturer, carline_name, cty, hwy, cmb) %>% head(5)
 ```
 
 *First problem*: *each car may be reported several times* in the EPA dataset, once
@@ -232,7 +234,8 @@ some of that data from the `trim` column, but for a first pass, let's just
 take the *average* mileages for a given `carline_name`.
 
 **Make a table called `fuel_eco_avg`** that gives the average `cty`, `hwy`, and `cmb`
-fuel economy for each `manufacturer` and `carline_name`. While you're at it, use more sensible names:
+fuel economy for each car. (Use `manufacturer` and `carline_name` to identify cars.)
+While you're at it, use more sensible names:
 `city`, `highway`, and `combined`. The result should look like:
 
 ```{r show-fuel-eco-avg, eval=TRUE}
