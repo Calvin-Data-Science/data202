@@ -1,0 +1,216 @@
+---
+title: "Feature Engineering and Review"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Logistics
+
+* Project: outline is posted
+* Midterm Quiz posted
+
+
+Plan:
+
+* TODAY: review
+* Wed: decision trees
+* Fri: lab about **overfitting**
+
+---
+
+## General Hints
+
+* Visualization:
+  * What *glyph* represents each *observation*? 
+  * What *attributes*/aesthetics does that glyph have? (x, y, width, color, ...)
+  * What *controls* each aesthetic? ("each party has a *y* position", ...)
+* Wrangling
+  * What does the *input* look like? (Translate the first row into a data sentence in English.)
+  * What does the *output* need to look like? (Again, write a sentence.)
+  * What *sequence of steps* needs to happen? (e.g., `filter-group_by-summarize-arrange`)
+* Modeling
+  * What *quantity* are you trying to predict?
+  * What *error measure* will tell you the prediction is good / bad?
+  * What *features* can help you make that prediction?
+
+---
+
+## Q&A
+
+> Recipes vs Data Wrangling Pipelines?
+
+* recipe (from `recipes` package) = data wrangling pipeline
+  * ... that can be easily applied to new data (e.g., *test set*)
+  * ... that can have learnable state (like ranges of data values)
+  
+> Why did the prediction on the example test set house come out the same when we re-scaled the data?
+
+* We'd applied *exactly the same* transformation to the example house
+  as we did to the training data.
+* Linear regression is *linear*: it doesn't care what units the data is in.
+* (So the specific *range* didn't matter.)
+
+> Are we still going to work in cohorts/teams?
+
+Friday's lab, hopefully.
+
+---
+
+```{r}
+library(tidymodels)
+data(ames, package = "modeldata")
+ames <- ames %>% 
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>% 
+  mutate(across(where(is.integer), as.double))
+```
+
+```{r train-test-split}
+set.seed(10) # Seed the random number generator
+ames_split <- initial_split(ames, prop = 2/3) # Split our data randomly
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+We'll use one example home from the test set.
+
+```{r example-home}
+example_home <- ames_test %>% slice(1)
+example_home %>% select(Gr_Liv_Area, Sale_Price)
+```
+
+---
+
+class: center, middle
+
+# Recipes
+
+---
+
+```{r}
+ames_recipe <- 
+  recipe(
+    Sale_Price ~ Latitude + Longitude + Neighborhood + Year_Sold + Gr_Liv_Area,
+    data = ames_train
+  ) %>% 
+  step_other(Neighborhood) %>% 
+  step_dummy(all_nominal()) %>% 
+  #step_interact(~ starts_with("Neighborhood_") : Year_Sold) %>% 
+  step_center(all_predictors()) %>% 
+  step_scale(all_predictors()) %>% 
+  step_log(Sale_Price, base = 10) %>% 
+  prep(trainig = ames_train, retain = TRUE)
+ames_recipe %>% summary()
+```
+
+---
+
+```{r}
+ames_recipe %>% bake(new_data = ames_train)
+```
+
+---
+
+## What computations can a linear model do?
+
+* *Add* up terms.
+* Each term: *multiply* a number by a constant.
+
+.pull-left[
+```{r coefs-from-fitted-model}
+intercept <- 15793
+coef_living_area <- 108
+```
+
+
+```{r}
+intercept + coef_living_area * 1610
+```
+]
+
+.pull-right[
+```{r price-vs-liv-area, out.width="100%"}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point() +
+  geom_hline(yintercept = example_home$Sale_Price, color = "red") +
+  geom_vline(xintercept = example_home$Gr_Liv_Area, color = "red") +
+  geom_point(data = example_home, color = 'red', size = 5) +
+  geom_function(fun = function(x) intercept + coef_living_area * x, color = "blue")
+```
+]
+
+---
+
+## Do remodeled homes sell for more?
+
+`Year Remod/Add`: Remodel date *(same as construction date if no remodeling or additions)*
+(from dataset documentation)
+
+```{r remodeled, out.width = "70%"}
+ames %>% 
+  mutate(remodeled = Year_Remod_Add != Year_Built) %>% #<< 
+  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+
+---
+
+## Conditional Logic: Simple Conditions
+
+How could a *linear model* treat remodeled homes differently from non-remodeled?
+
+```
+if remodeled:
+  Sale_Price = intercept_remodeled + coef_sqft * Gr_Liv_Arera
+else:
+  Sale_Price = intercept_other + coef_sqft * Gr_Liv_Arera
+```
+
+--
+
+### Solution: "**dummy encoding**"
+
+```
+Sale_Price = 
+   intercept_other 
+   + coef_remodeled * (1 if remodeled)
+   + coef_sqft      * Gr_Liv_Area
+```
+
+---
+
+```{r}
+ames_train_2 <- ames_train %>% 
+  mutate(remodeled = case_when(
+    Year_Built == Year_Remod_Add ~ "no",
+    TRUE                         ~ "yes") %>%
+    as_factor()
+  )
+```
+
+.small[
+
+```{r}
+ames_recipe_3 <- 
+  recipe(Sale_Price ~ Gr_Liv_Area + remodeled, data = ames_train_2) %>% 
+  step_dummy(remodeled) %>% #<<
+  step_range(all_numeric(), -all_outcomes(), min = 0, max = 1) %>%
+  prep()
+ames_recipe_3 %>% bake(new_data = ames_train_2) %>% head(10) %>% knitr::kable(format = "html")
+```
+]
