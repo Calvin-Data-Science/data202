@@ -5,8 +5,8 @@ account: ka37
 server: rsconnect.calvin.edu
 hostUrl: https://rsconnect.calvin.edu:3939/__api__
 appId: 120
-bundleId: 291
+bundleId: 292
 url: https://rsconnect.calvin.edu:3939/content/120/
-when: 1603661367.07454
+when: 1603664068.38882
 asMultiple: FALSE
 asStatic: FALSE

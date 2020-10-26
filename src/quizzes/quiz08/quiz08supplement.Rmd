@@ -141,7 +141,7 @@ car_prices %>%
 
 **Make a table** showing, for each car `type`, what fraction of the listed cars had
 cruise control. Note that the `cruise` column contains a 1 if the listed car
-has cruise control, 0 if it doesn't. Your table should have 5 rows.
+has cruise control, 0 if it doesn't, so you can use math functions here. Your table should have 5 rows.
 **Sort the table from highest to lowest fraction**.
 
 Which car type **least frequently** had cruise control?
@@ -257,7 +257,7 @@ Tip: how many rows should the result have?
 
 ```{r distinct-non-matches, include=FALSE}
 car_prices_and_eco %>% 
-  #distinct(model, combined) %>% 
+  distinct(model, combined) %>% 
   summarise(n = sum(is.na(combined)), frac = mean(is.na(combined)))
 ```
 
@@ -277,7 +277,8 @@ car_prices_and_eco %>%
 
 ```
 
-
+*Note*: I used `fct_relevel` to adjust the order of the measures, but you may 
+leave it at the default order for full credit.
 
 ## Modeling
 
@@ -326,22 +327,3 @@ model %>%
 
 *Note*: We're stopping short of a full predictive modeling workflow to keep this midterm
 at a manageable length.
-
-## Submit
-
-```{r context="server"}
-learnrhash::encoder_logic()
-```
-
-If you have completed this quiz and are happy with all of your solutions,
-please *click the button below* to generate (or update) your hash. Then,
-copy-paste the entire hash into Moodle.
-
-```{r encode, echo=FALSE}
-shiny::tags$div(
-  shiny::fixedRow(shiny::column(width = 3, 
-                                shiny::actionButton("hash_generate", "Generate Submission")), 
-                  shiny::column(width = 7), shiny::column(width = 2)), 
-  shiny::tags$br(), learnrhash:::wrapped_verbatim_text_output("hash_output", TRUE),
-  shiny::tags$br())
-```
