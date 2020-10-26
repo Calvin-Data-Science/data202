@@ -19,6 +19,7 @@ library(ggformula)
 library(lubridate)
 library(tidyr)
 library(dplyr)
+library(purrr)
 library(cowplot)
 library(reactable)
 theme_set(theme_bw())
@@ -56,12 +57,11 @@ Spectrum <-
     tests_per_day = delta_tests / days_since_last,
     new_pos_per_day = delta_pos / days_since_last,
     centered_date = date - ddays(days_since_last / 2),
-    new_pos7 = rollmean(new_pos_per_day, 7, fill = NA, align = "right"),
-    frac_pos7 = rollmean(frac_pos_new, 7, fill = NA, align = "right")
+    new_pos7 = rollmean(new_pos_per_day, 7, fill = NA, align = "center"),
+    frac_pos7 = rollmean(frac_pos_new, 7, fill = NA, align = "center")
 )
 spectrum_tests_plot <- Spectrum %>% 
   gf_point(new_pos_per_day ~ centered_date, size = 0.5, alpha = 0.4) %>%
-  gf_smooth(color = "maroon") %>% 
   gf_line(new_pos7 ~ centered_date, color = "blue") %>% 
   gf_labs(
     title = "Spectrum Health Positive Tests Per Day",
@@ -73,7 +73,6 @@ spectrum_tests_plot <- Spectrum %>%
 spectrum_positivity_plot <- 
   Spectrum %>%
   gf_point(frac_pos_new ~ centered_date, size = 0.5, alpha = 0.4) %>%
-  gf_smooth(color = "maroon") %>%
   gf_line(frac_pos7 ~ centered_date, color = "blue") %>%
   gf_labs(
     title = "Spectrum Health Positivity Rate",
@@ -85,46 +84,19 @@ spectrum_positivity_plot <-
 plot_grid(spectrum_tests_plot, spectrum_positivity_plot)
 ```
 
-
-```{r}
-orig_names <- names(Spectrum)
-names(Spectrum) <- c('date', 'cum_tests', 'cum_pos', 'delta_tests', 'delta_pos', 'perc_pos_new',
-                      'tests_per_day', 'new_pos_per_day')
-names(orig_names) = names(Spectrum)
-orig_names <- as.list(orig_names)
-
-Spectrum <-
-  Spectrum %>%
-  set_variable_labels(.labels = orig_names)
-
-Spectrum <-
-  Spectrum %>%
-  mutate(
-    perc_pos_new = readr::parse_number(perc_pos_new) / 100,
-    date = lubridate::mdy(paste(date, '/2020')))
-
-spectrum_plot1 <-
-  Spectrum %>%
-  gf_point(new_pos_per_day ~ date, size = 0.5, alpha = 0.4) %>%
-  gf_smooth(color = "maroon") %>%
-  gf_labs(
-    title = "Spectrum Health Positive Tests",
-    y = get_variable_labels(Spectrum)[['new_pos_per_day']],
-    x = ""
-  ) %>%
-  gf_lims(y = c(0, NA))
-
-spectrum_plot2 <-
-  Spectrum %>%
-  gf_point(perc_pos_new ~ date, size = 0.5, alpha = 0.4) %>%
-  gf_smooth(color = "maroon") %>%
-  gf_labs(
-    title = "Spectrum Health Positivity Rate",
-    y = get_variable_labels(Spectrum)[['perc_pos_new']],
-    x = ""
-  ) %>%
-  gf_refine(scale_y_continuous(labels = scales::percent, limits = c(0, NA))) 
+```{r fig.width=7, fig.height=3}
+spectrum_hospitalized_plot <- Spectrum_raw %>% 
+  select(Date, Hospitalized) %>%
+  mutate(Date = lubridate::ymd(Date)) %>% 
+  drop_na(Hospitalized) %>% 
+  slice(3:n()) %>% # Take only data from after the big gap
+  mutate(hospitalized3 = rollmean(Hospitalized, 3, fill = NA, align = "center")) %>% 
+  gf_line(hospitalized3 ~ Date, color = "blue", size = 1) %>% 
+  gf_point(Hospitalized ~ Date) %>% 
+  gf_lims(y = c(0, NA)) %>% 
+  gf_labs(title = "Hospitalized Covid patients in Spectrum Health facilities", subtitle = "Omits patients with pending tests", y = "")
 ```
+
 
 
 ```{r include = FALSE}
@@ -286,13 +258,13 @@ plot_grid(kent1, kent2, ncol = 2)
 ### Spectrum Health
 
 ```{r, spectrum-plots, fig.width = 9, fig.height = 2.5}
-plot_grid(spectrum_plot1, spectrum_plot2, ncol = 2)
+plot_grid(spectrum_tests_plot, spectrum_positivity_plot, ncol = 2)
 ```
 
-```{r include = FALSE}
-spectrum_plot1 
-spectrum_plot2 
+```{r spectrum-hospitalized-plot, fig.width=9, fig.height=2.5}
+spectrum_hospitalized_plot
 ```
+
 
 
 ```{r, include = FALSE}
