@@ -257,7 +257,8 @@ cars_split &lt;- initial_split(car_prices, prop = 3/4, strata = &quot;make&quot;
 cars_train &lt;- training(cars_split)
 cars_test &lt;- testing(cars_split)</code></pre>
 <p>First, create a <code>tidymodels</code> model called <code>model</code> that predicts <code>price</code> from <code>mileage</code> using linear regression on the training set. (You do not need a recipe here.)</p>
-<p>Then, write code to recreate the following plot, which shows how the <em>residuals</em> (actual minus predicted) depend on the car type. Plots like this can be useful for showing whether it’s helpful to add additional features to the predictive model.</p>
+<p>Then, write code to recreate the following plot, which shows how the <em>residuals</em> (actual minus predicted) depend on the car type for the <em>training set</em>. Plots like this can be useful for showing whether it’s helpful to add additional features to the predictive model.</p>
+<p>(Note: In an iterative modeling process, we’ll spend a while looking at errors like this on our training set and tweaking the model to fix its mistakes, then only look at our test set at the very end of the process to make sure we didn’t over-tweak the model. That’s why we’re looking at the <em>training</em> set errors here.)</p>
 <p>(Note: because of the limitations of this platform, you’ll need to do both the model fitting and the graph creation in the same “Code” box below:)</p>
 <p><img src="quiz08supplement_files/figure-html/residual-by-type-plot-1.png" width="624" /></p>
 <div class="tutorial-exercise" data-label="residual-by-type-repro" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
