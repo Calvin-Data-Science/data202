@@ -19,7 +19,8 @@ ghorg <- "Calvin-DS202-FA20"
 
 ```{r}
 roster <- read_csv("../roster.csv", col_types = cols(
-  .default = col_character()
+  .default = col_character(),
+  active = col_integer()
 )) %>% janitor::clean_names()
 nrow(roster)
 stopifnot(
@@ -41,8 +42,10 @@ fix_roster <- function(roster, assignment, seed) {
         TRUE ~ cohort
       )
     )
-  } else {
+  } else if (assignment %in% c("lab04", "lab05", "lab06", "lab07")) {
     roster
+  } else {
+    roster %>% filter(active == 1)
   }
 }
 #fix_roster(roster, "lab05", 1) %>% filter(cohort %in% c("B", "H"))
