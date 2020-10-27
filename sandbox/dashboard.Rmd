@@ -277,3 +277,22 @@ MI %>%
   reactable(filterable = TRUE, striped = TRUE, searchable = TRUE)
 ```
 
+
+```{r fig.width = 9, fig.height = 2.5}
+kent_tests <- retrieved$contents[["Diagnostic Tests by Result and County"]] %>% 
+  filter(COUNTY == "Kent") %>% 
+  mutate(
+    frac_pos_new = Positive / Total,
+    frac_pos_new7 = rollmean(frac_pos_new, 7, fill = NA, align = "center")
+  )
+kent_tests %>% 
+  slice(-(1:10)) %>% # Remove the first few days of tests, which were extremely high
+  gf_point(frac_pos_new ~ MessageDate) %>% 
+  gf_line(frac_pos_new7 ~ MessageDate, color = "blue") %>% 
+  gf_refine(scale_y_continuous(
+    labels = scales::percent,
+    oob = scales::oob_squish)) %>% 
+  gf_labs(x = "Date", y = "", title = "Positivity Rate in Kent County")
+  
+```
+
