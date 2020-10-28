@@ -18,9 +18,30 @@ slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Good Questions
+
+> Final project?
+
+* No final exam, just final project.
+* Should demonstrate modeling and validation
+* Can optionally be an extension of your midterm project
+* Can optionally be groups
+* Proposals and matchmaking Moodle forum next week!
+
+> Was there a homework or lab this week?
+
+No, to allow time to work on midterm project & exam. But yes next week.
+
+> Can we review data wrangling stuff like joins and factors?
+
+Review session during my office hours today (3-4pm). NH 295.
+
+---
+
 ## Objectives
 
 * Apply dummy encoding to add simple conditional logic to linear regression models
+  * Explain how many columns get added in dummy encoding, and why
 * Compare and contrast how linear regression and decision tree regression make predictions
 
 ---
@@ -67,7 +88,7 @@ intercept + coef_living_area * 1610
 ```
 ]
 
-.pull-right[
+.pull-right[.small-code[
 ```{r price-vs-liv-area, out.width="100%"}
 ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
   geom_point() +
@@ -76,7 +97,7 @@ ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
   geom_point(data = example_home, color = 'red', size = 5) +
   geom_function(fun = function(x) intercept + coef_living_area * x, color = "blue")
 ```
-]
+]]
 
 ---
 
@@ -85,15 +106,82 @@ ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
 `Year Remod/Add`: Remodel date *(same as construction date if no remodeling or additions)*
 (from dataset documentation)
 
-```{r remodeled, out.width = "70%"}
-ames %>% 
-  mutate(remodeled = Year_Remod_Add != Year_Built) %>% #<< 
-  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
+```{r}
+ames_2 <- ames %>% mutate(remodeled = Year_Remod_Add != Year_Built)
 ```
 
 
+.small-code[
+```{r remodeled, out.width = "70%"}
+ggplot(ames_2, aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+]
+
+---
+
+## Aside: the *sum-as-count* pattern
+
+.pull-left[
+```{r}
+ames_2 %>%
+  group_by(remodeled) %>% 
+  summarize(n = n()) %>% 
+  mutate(proportion = n / sum(n))
+```
+]
+
+.pull-right[
+```{r}
+ames_train_2 %>% summarize(
+  num_remodeled = sum(remodeled == "yes"),
+  prop_remodeled = mean(remodeled == "yes")
+)
+```
+
+
+Why does this work?
+
+
+```{r eval=FALSE}
+as.numeric(remodeled[1:10] == "yes")
+```
+
+```{r echo=FALSE}
+as.numeric(ames_train_2$remodeled[1:10] == "yes")
+```
+
+<!--
+.small[This code needs to run in an environment where `remodeled` is defined, like
+a `mutate` or `summarize` of our dataset.]
+-->
+
+Its *sum* is the number of 1's (rows where the condition is true). Its *mean* is the sum divided by the total number,
+i.e., the *proportion*.
+
+]
+
+<!--
+
+.pull-left[
+
+Write a Boolean expression:
+
+```{r eval=FALSE}
+remodeled[1:5] == "yes"
+```
+
+```{r echo=FALSE}
+ames_train_2$remodeled[1:5] == "yes"
+```
+
+Treat it as numeric:
+
+]
+
+
+-->
 ---
 
 ## Conditional Logic: Simple Conditions
@@ -129,50 +217,6 @@ ames_train_2 <- ames_train %>%
   )
 ```
 
----
-
-### Aside: the *sum-as-count* pattern
-
-.pull-left[
-
-Wrie a Boolean expression:
-
-```{r eval=FALSE}
-remodeled[1:5] == "yes"
-```
-
-```{r echo=FALSE}
-ames_train_2$remodeled[1:5] == "yes"
-```
-
-Treat it as numeric:
-
-```{r eval=FALSE}
-as.numeric(remodeled[1:10] == "yes")
-```
-
-```{r echo=FALSE}
-as.numeric(ames_train_2$remodeled[1:10] == "yes")
-```
-
-.small[This code needs to run in an environment where `remodeled` is defined, like
-a `mutate` or `summarize` of our dataset.]
-
-]
-
-.pull-right[
-
-Its *sum* is the number of 1's. Its *mean* is the sum divided by the total number,
-i.e., the *proportion* of values where the condition is true.
-
-```{r}
-ames_train_2 %>% summarize(
-  sum = sum(remodeled == "yes"),
-  mean = mean(remodeled == "yes")
-)
-```
-
-]
 
 ---
 
@@ -284,7 +328,7 @@ include_graphics("img/Cart_tree_kyphosis.png")
 
 ---
 
-## Can fit using the same interface
+## Fit a tree to data: same approach, different model
 
 ```{r}
 decision_tree_fit <- decision_tree(mode = "regression", tree_depth = 2) %>% #<<
@@ -322,7 +366,7 @@ ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price)) +
 **Linear Regression**
 
 * *To make a prediction*: multiply terms by constants, sum it all up
-* *Conditional logic* by inventing special terms
+* *Conditional logic* by explicitly transforming data to invent special terms
 * *Output looks like* lines (or curves, if you add $x^2$ terms)
 
 
@@ -339,7 +383,7 @@ Sale_Price =
 
 **Decision Tree Regression**
 
-* *To make a prediction*: follow a sequence of conditional logic to output a number.
+* *To make a prediction*: follow conditional logic rules (determined automatically from data) to output a number.
 * *Output looks like* stair-steps
 
 ```{r gr_liv_stub-2, echo=FALSE}

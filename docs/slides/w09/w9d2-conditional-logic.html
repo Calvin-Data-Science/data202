@@ -19,9 +19,30 @@ class: center, middle, inverse, title-slide
 
 
 
+## Good Questions
+
+&gt; Final project?
+
+* No final exam, just final project.
+* Should demonstrate modeling and validation
+* Can optionally be an extension of your midterm project
+* Can optionally be groups
+* Proposals and matchmaking Moodle forum next week!
+
+&gt; Was there a homework or lab this week?
+
+No, to allow time to work on midterm project &amp; exam. But yes next week.
+
+&gt; Can we review data wrangling stuff like joins and factors?
+
+Review session during my office hours today (3-4pm). NH 295.
+
+---
+
 ## Objectives
 
 * Apply dummy encoding to add simple conditional logic to linear regression models
+  * Explain how many columns get added in dummy encoding, and why
 * Compare and contrast how linear regression and decision tree regression make predictions
 
 ---
@@ -60,7 +81,6 @@ example_home %&gt;% select(Gr_Liv_Area, Sale_Price)
 
 ---
 
----
 
 ## What computations can a linear model do?
 
@@ -85,7 +105,7 @@ intercept + coef_living_area * 1610
 ```
 ]
 
-.pull-right[
+.pull-right[.small-code[
 
 ```r
 ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
@@ -97,7 +117,7 @@ ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
 ```
 
 &lt;img src="w9d2-conditional-logic_files/figure-html/price-vs-liv-area-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-]
+]]
 
 ---
 
@@ -108,16 +128,105 @@ ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
 
 
 ```r
-ames %&gt;% 
-* mutate(remodeled = Year_Remod_Add != Year_Built) %&gt;%
-  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled)) +
+ames_2 &lt;- ames %&gt;% mutate(remodeled = Year_Remod_Add != Year_Built)
+```
+
+
+.small-code[
+
+```r
+ggplot(ames_2, aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
 &lt;img src="w9d2-conditional-logic_files/figure-html/remodeled-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Aside: the *sum-as-count* pattern
+
+.pull-left[
+
+```r
+ames_2 %&gt;%
+  group_by(remodeled) %&gt;% 
+  summarize(n = n()) %&gt;% 
+  mutate(proportion = n / sum(n))
+```
+
+```
+## # A tibble: 2 x 3
+##   remodeled     n proportion
+##   &lt;lgl&gt;     &lt;int&gt;      &lt;dbl&gt;
+## 1 FALSE      1303      0.540
+## 2 TRUE       1109      0.460
+```
+]
+
+.pull-right[
+
+```r
+ames_train_2 %&gt;% summarize(
+  num_remodeled = sum(remodeled == "yes"),
+  prop_remodeled = mean(remodeled == "yes")
+)
+```
+
+```
+## # A tibble: 1 x 2
+##   num_remodeled prop_remodeled
+##           &lt;int&gt;          &lt;dbl&gt;
+## 1           742          0.461
+```
 
 
+Why does this work?
+
+
+
+```r
+as.numeric(remodeled[1:10] == "yes")
+```
+
+
+```
+##  [1] 0 0 1 0 0 1 0 0 0 0
+```
+
+&lt;!--
+.small[This code needs to run in an environment where `remodeled` is defined, like
+a `mutate` or `summarize` of our dataset.]
+--&gt;
+
+Its *sum* is the number of 1's (rows where the condition is true). Its *mean* is the sum divided by the total number,
+i.e., the *proportion*.
+
+]
+
+&lt;!--
+
+.pull-left[
+
+Write a Boolean expression:
+
+
+```r
+remodeled[1:5] == "yes"
+```
+
+
+```
+## [1] FALSE FALSE  TRUE FALSE FALSE
+```
+
+Treat it as numeric:
+
+]
+
+
+--&gt;
 ---
 
 ## Conditional Logic: Simple Conditions
@@ -154,57 +263,6 @@ ames_train_2 &lt;- ames_train %&gt;%
   )
 ```
 
----
-
-### Aside: the *sum-as-count* pattern
-
-.pull-left[
-
-Evaluate a Boolean expression
-
-
-```r
-ames_train_2$remodeled[1:10] == "yes"
-```
-
-```
-##  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
-```
-
-Treat it as numeric
-
-
-```r
-as.numeric(ames_train_2$remodeled[1:10] == "yes")
-```
-
-```
-##  [1] 0 0 1 0 0 1 0 0 0 0
-```
-
-]
-
-.pull-right[
-
-Its *sum* is the number of 1's. Its *mean* is the sum divided by the total number,
-i.e., the *proportion* of values where the condition is true.
-
-
-```r
-ames_train_2 %&gt;% summarize(
-  sum = sum(remodeled == "yes"),
-  mean = mean(remodeled == "yes")
-)
-```
-
-```
-## # A tibble: 1 x 2
-##     sum  mean
-##   &lt;int&gt; &lt;dbl&gt;
-## 1   742 0.461
-```
-
-]
 
 ---
 
@@ -284,6 +342,15 @@ ames_model_2 %&gt;% tidy() %&gt;% select(term, estimate) %&gt;% kable()
 ]
 
 ```
+Sale_Price = 
+   22643 
+   + 18424  * (1 if remodeled)
+   + 380368 * Gr_Liv_Area
+```
+
+or, in "code":
+
+```
 if remodeled:
   Sale_Price = 22643 + 109 * Gr_Liv_Arera - 18424 * (1)
   Sale_Price = (59087 - 18424) + 380368 * Gr_Liv_Arera
@@ -291,20 +358,13 @@ else:
   Sale_Price = 22643 + 380368 * Gr_Liv_Arera
 ```
 
-```
-Sale_Price = 
-   intercept_other 
-   + coef_remodeled * (1 if remodeled)
-   + coef_sqft      * Gr_Liv_Area
-```
 
 ---
 
 
 ```r
-ggplot(baked_ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = as_factor(remodeled_yes))) +
+ggplot(baked_ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled_yes)) +
   geom_point() +
-  geom_point(data = example_home, color = 'red', size = 5) +
   geom_function(fun = function(x) (22643.4248 - 18424.0789) + 109.1132 * x, color = "blue") +
   geom_function(fun = function(x) 22643.4248 + 109.1132 * x, color = "green")
 ```
@@ -317,7 +377,6 @@ ggplot(baked_ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = as_factor(
 
 ```
 Bldg Type (Nominal): Type of dwelling
-		
        1Fam	Single-family Detached	
        2FmCon	Two-family Conversion; originally built as one-family dwelling
        Duplx	Duplex
@@ -325,15 +384,9 @@ Bldg Type (Nominal): Type of dwelling
        TwnhsI	Townhouse Inside Unit
 ```
 
-
-```r
-ames %&gt;% 
-  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = Bldg_Type)) +
-  geom_point() +
-  geom_smooth(method = "lm")
-```
-
-&lt;img src="w9d2-conditional-logic_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+.small-code[
+&lt;img src="w9d2-conditional-logic_files/figure-html/bldg-type-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 
@@ -424,15 +477,17 @@ baked_ames_train %&gt;% head(5) %&gt;% knitr::kable(format = "html")
 
 ---
 
-## Another kind of model
+## Another kind of model: Decision Trees
 
 &lt;img src="img/Cart_tree_kyphosis.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
+## Fit a tree to data: same approach, different model
+
 
 ```r
-decision_tree_fit &lt;- decision_tree(mode = "regression", tree_depth = 2) %&gt;% 
+*decision_tree_fit &lt;- decision_tree(mode = "regression", tree_depth = 2) %&gt;%
   set_engine("rpart") %&gt;% 
   fit(Sale_Price ~ Gr_Liv_Area, data = ames_train)
 ```
@@ -461,11 +516,7 @@ ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price)) +
   geom_line(data = example_data, color = "red")
 ```
 
-&lt;img src="w9d2-conditional-logic_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-```r
-  #geom_function(fun = function(x) decision_tree_fit %&gt;% predict(tibble(Gr_Liv_Area = x)), color = "blue")
-```
+&lt;img src="w9d2-conditional-logic_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]]
 
@@ -477,36 +528,32 @@ ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price)) +
 **Linear Regression**
 
 * *To make a prediction*: multiply terms by constants, sum it all up
-* *Conditional logic* by inventing special terms
+* *Conditional logic* by explicitly transforming data to invent special terms
 * *Output looks like* lines (or curves, if you add `\(x^2\)` terms)
+
+
+```
+Sale_Price = 
+   22643 
+   + 18424  * (1 if remodeled)
+   + 380368 * Gr_Liv_Area
+```
+
 ]
 
 .pull-right[
 
 **Decision Tree Regression**
 
-* *To make a prediction*: follow a sequence of conditional logic to output a number.
+* *To make a prediction*: follow conditional logic rules (determined automatically from data) to output a number.
 * *Output looks like* stair-steps
+
+&lt;img src="w9d2-conditional-logic_files/figure-html/gr_liv_stub-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
 ]
 
 
-```r
-library(parsnip)
-example_curve &lt;- tibble(
-  x = seq(-.5, 1, length.out = 500),
-  x_gt_0 = as.double(x &gt; 0),
-  y = 2 - x ^ 2
-)
-parsnip::linear_reg() %&gt;% set_engine("lm") %&gt;% fit(y ~ x * x_gt_0, data = example_curve) %&gt;% 
-  predict(example_curve) %&gt;% 
-  rename(linear_with_conditional = .pred) %&gt;% 
-  bind_cols(example_curve) %&gt;% 
-  ggplot() +
-    geom_line(aes(x=x, y=y)) +
-    geom_line(aes(x=x, y=linear_with_conditional))
-```
 
-&lt;img src="w9d2-conditional-logic_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
