@@ -343,21 +343,20 @@ ames_model_2 %&gt;% tidy() %&gt;% select(term, estimate) %&gt;% kable()
 
 ```
 Sale_Price = 
-   22643 
-   + 18424  * (1 if remodeled)
-   + 380368 * Gr_Liv_Area
+22643.42 
+   + 109.1132 * Gr_Liv_Area
+   + -18424.08  * (1 if remodeled)
 ```
 
 or, in "code":
 
 ```
 if remodeled:
-  Sale_Price = 22643 + 109 * Gr_Liv_Arera - 18424 * (1)
-  Sale_Price = (59087 - 18424) + 380368 * Gr_Liv_Arera
+  Sale_Price = 22643.4 + 109.1 * Gr_Liv_Arera - -18424.1 * (1)
+  Sale_Price = (22643.4 - -18424.1) + 109.1 * Gr_Liv_Arera
 else:
-  Sale_Price = 22643 + 380368 * Gr_Liv_Arera
+  Sale_Price = 22643.4 + 109.1 * Gr_Liv_Arera
 ```
-
 
 ---
 
@@ -516,7 +515,7 @@ ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price)) +
   geom_line(data = example_data, color = "red")
 ```
 
-&lt;img src="w9d2-conditional-logic_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w9d2-conditional-logic_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]]
 

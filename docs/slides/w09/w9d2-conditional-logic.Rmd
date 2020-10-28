@@ -248,23 +248,36 @@ ames_model_2 %>% tidy() %>% select(term, estimate) %>% kable()
 ```
 ]
 
-```
-Sale_Price = 
-   22643 
-   + 18424  * (1 if remodeled)
-   + 380368 * Gr_Liv_Area
+```{r results="asis", echo=FALSE}
+ames_model_2 %>% tidy() %>% pull(estimate, name = term) %>% 
+  glue::glue_data("
+  \`\`\`
+  Sale_Price = 
+  {.[['(Intercept)']]} 
+     + {.[['Gr_Liv_Area']]} * Gr_Liv_Area
+     + {.[['remodeled_yes']]}  * (1 if remodeled)
+  \`\`\`", .transformer = function(text, envir) {
+    res <- glue::identity_transformer(text, envir)
+    format(res, nsmall = 1)
+  })
 ```
 
 or, in "code":
 
-```
-if remodeled:
-  Sale_Price = 22643 + 109 * Gr_Liv_Arera - 18424 * (1)
-  Sale_Price = (59087 - 18424) + 380368 * Gr_Liv_Arera
-else:
-  Sale_Price = 22643 + 380368 * Gr_Liv_Arera
-```
+```{r results="asis", echo=FALSE}
+ames_model_2 %>% tidy() %>% pull(estimate, name = term) %>% 
+  glue::glue_data("
+  \`\`\`
+  if remodeled:
+    Sale_Price = {(Intercept)} + {Gr_Liv_Area} * Gr_Liv_Arera - {remodeled_yes} * (1)
+    Sale_Price = ({(Intercept)} - {remodeled_yes}) + {Gr_Liv_Area} * Gr_Liv_Arera
+  else:
+    Sale_Price = {(Intercept)} + {Gr_Liv_Area} * Gr_Liv_Arera
+  \`\`\`", .transformer = function(text, envir) {
+    formatC(envir[[text]], format = "f", digits = 1)
+  })
 
+```
 
 ---
 
