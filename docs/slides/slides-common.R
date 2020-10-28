@@ -17,12 +17,13 @@ slideSetup <- function() {
     padding = "6px 64px 6px 64px"
   )
   style_extra_css(list(
-      ".tiny" = list("font-size" = "40%"),
-      ".small" = list("font-size" = "70%"),
-      ".large" = list("font-size" = "120%"),
+      ".tiny" = list("font-size" = "0.4rem"),
+      ".small" = list("font-size" = "0.7rem"),
+      ".large" = list("font-size" = "1.2rem"),
       ".white-pre" = list("white-space" = "pre"),
       "p" = list("padding" = 0, "margin" = 0),
-      "h2" = list("margin" = "5px 0")
+      "h2" = list("margin" = "5px 0"),
+      ".small-code .remark-code" = list("font-size" = "0.5rem")
   ))
 
   # Below here from dsbox
