@@ -333,7 +333,7 @@ decision_tree_fit$fit %>% rpart.plot::rpart.plot(roundint = FALSE)
 ]]
 
 .pull-right[.small-code[
-```{r}
+```{r decision-tree-example-fit}
 example_data <- tibble(Gr_Liv_Area = seq(0, 3000, length.out = 1000))
 example_data <- 
   decision_tree_fit %>%
