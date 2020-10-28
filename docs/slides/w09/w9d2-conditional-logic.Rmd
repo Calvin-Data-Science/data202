@@ -134,9 +134,9 @@ ames_2 %>%
 
 .pull-right[
 ```{r}
-ames_train_2 %>% summarize(
-  num_remodeled = sum(remodeled == "yes"),
-  prop_remodeled = mean(remodeled == "yes")
+ames_2 %>% summarize(
+  num_remodeled = sum(remodeled),
+  prop_remodeled = mean(remodeled)
 )
 ```
 
@@ -145,11 +145,11 @@ Why does this work?
 
 
 ```{r eval=FALSE}
-as.numeric(remodeled[1:10] == "yes")
+as.numeric(remodeled[1:10])
 ```
 
 ```{r echo=FALSE}
-as.numeric(ames_train_2$remodeled[1:10] == "yes")
+as.numeric(ames_2$remodeled[1:10])
 ```
 
 <!--
@@ -162,26 +162,6 @@ i.e., the *proportion*.
 
 ]
 
-<!--
-
-.pull-left[
-
-Write a Boolean expression:
-
-```{r eval=FALSE}
-remodeled[1:5] == "yes"
-```
-
-```{r echo=FALSE}
-ames_train_2$remodeled[1:5] == "yes"
-```
-
-Treat it as numeric:
-
-]
-
-
--->
 ---
 
 ## Conditional Logic: Simple Conditions
@@ -210,11 +190,8 @@ Sale_Price =
 
 ```{r}
 ames_train_2 <- ames_train %>% 
-  mutate(remodeled = case_when(
-    Year_Built == Year_Remod_Add ~ "no",
-    TRUE                         ~ "yes") %>%
-    as_factor()
-  )
+  mutate(remodeled = as_factor(Year_Built != Year_Remod_Add))
+  
 ```
 
 
@@ -234,7 +211,7 @@ baked_ames_train %>% head(5) %>% knitr::kable(format = "html")
 ```
 ]
 
-Why are is there no column for `remodeled_no`?
+Why are is there no column for `remodeled_FALSE`?
 
 ---
 
@@ -255,7 +232,7 @@ ames_model_2 %>% tidy() %>% pull(estimate, name = term) %>%
   Sale_Price = 
   {.[['(Intercept)']]} 
      + {.[['Gr_Liv_Area']]} * Gr_Liv_Area
-     + {.[['remodeled_yes']]}  * (1 if remodeled)
+     + {.[['remodeled_TRUE.']]}  * (1 if remodeled)
   \`\`\`", .transformer = function(text, envir) {
     res <- glue::identity_transformer(text, envir)
     format(res, nsmall = 1)
@@ -269,8 +246,8 @@ ames_model_2 %>% tidy() %>% pull(estimate, name = term) %>%
   glue::glue_data("
   \`\`\`
   if remodeled:
-    Sale_Price = {(Intercept)} + {Gr_Liv_Area} * Gr_Liv_Arera - {remodeled_yes} * (1)
-    Sale_Price = ({(Intercept)} - {remodeled_yes}) + {Gr_Liv_Area} * Gr_Liv_Arera
+    Sale_Price = {(Intercept)} + {Gr_Liv_Area} * Gr_Liv_Arera - {remodeled_TRUE.} * (1)
+    Sale_Price = ({(Intercept)} - {remodeled_TRUE.}) + {Gr_Liv_Area} * Gr_Liv_Arera
   else:
     Sale_Price = {(Intercept)} + {Gr_Liv_Area} * Gr_Liv_Arera
   \`\`\`", .transformer = function(text, envir) {
@@ -282,7 +259,7 @@ ames_model_2 %>% tidy() %>% pull(estimate, name = term) %>%
 ---
 
 ```{r price-vs-liv-area-remodeled, out.width="100%"}
-ggplot(baked_ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled_yes)) +
+ggplot(baked_ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled_TRUE.)) +
   geom_point() +
   geom_function(fun = function(x) (22643.4248 - 18424.0789) + 109.1132 * x, color = "blue") +
   geom_function(fun = function(x) 22643.4248 + 109.1132 * x, color = "green")

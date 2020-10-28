@@ -168,9 +168,9 @@ ames_2 %&gt;%
 .pull-right[
 
 ```r
-ames_train_2 %&gt;% summarize(
-  num_remodeled = sum(remodeled == "yes"),
-  prop_remodeled = mean(remodeled == "yes")
+ames_2 %&gt;% summarize(
+  num_remodeled = sum(remodeled),
+  prop_remodeled = mean(remodeled)
 )
 ```
 
@@ -178,7 +178,7 @@ ames_train_2 %&gt;% summarize(
 ## # A tibble: 1 x 2
 ##   num_remodeled prop_remodeled
 ##           &lt;int&gt;          &lt;dbl&gt;
-## 1           742          0.461
+## 1          1109          0.460
 ```
 
 
@@ -187,12 +187,12 @@ Why does this work?
 
 
 ```r
-as.numeric(remodeled[1:10] == "yes")
+as.numeric(remodeled[1:10])
 ```
 
 
 ```
-##  [1] 0 0 1 0 0 1 0 0 0 0
+##  [1] 0 0 0 0 1 0 0 0 1 0
 ```
 
 &lt;!--
@@ -205,28 +205,6 @@ i.e., the *proportion*.
 
 ]
 
-&lt;!--
-
-.pull-left[
-
-Write a Boolean expression:
-
-
-```r
-remodeled[1:5] == "yes"
-```
-
-
-```
-## [1] FALSE FALSE  TRUE FALSE FALSE
-```
-
-Treat it as numeric:
-
-]
-
-
---&gt;
 ---
 
 ## Conditional Logic: Simple Conditions
@@ -256,11 +234,7 @@ Sale_Price =
 
 ```r
 ames_train_2 &lt;- ames_train %&gt;% 
-  mutate(remodeled = case_when(
-    Year_Built == Year_Remod_Add ~ "no",
-    TRUE                         ~ "yes") %&gt;%
-    as_factor()
-  )
+  mutate(remodeled = as_factor(Year_Built != Year_Remod_Add))
 ```
 
 
@@ -285,7 +259,7 @@ baked_ames_train %&gt;% head(5) %&gt;% knitr::kable(format = "html")
   &lt;tr&gt;
    &lt;th style="text-align:right;"&gt; Gr_Liv_Area &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; Sale_Price &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; remodeled_yes &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; remodeled_TRUE. &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
@@ -318,7 +292,7 @@ baked_ames_train %&gt;% head(5) %&gt;% knitr::kable(format = "html")
 &lt;/table&gt;
 ]
 
-Why are is there no column for `remodeled_no`?
+Why are is there no column for `remodeled_FALSE`?
 
 ---
 
@@ -334,11 +308,11 @@ ames_model_2 %&gt;% tidy() %&gt;% select(term, estimate) %&gt;% kable()
 
 
 
-|term          |    estimate|
-|:-------------|-----------:|
-|(Intercept)   |  22643.4248|
-|Gr_Liv_Area   |    109.1132|
-|remodeled_yes | -18424.0789|
+|term            |    estimate|
+|:---------------|-----------:|
+|(Intercept)     |  22643.4248|
+|Gr_Liv_Area     |    109.1132|
+|remodeled_TRUE. | -18424.0789|
 ]
 
 ```
@@ -362,7 +336,7 @@ else:
 
 
 ```r
-ggplot(baked_ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled_yes)) +
+ggplot(baked_ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled_TRUE.)) +
   geom_point() +
   geom_function(fun = function(x) (22643.4248 - 18424.0789) + 109.1132 * x, color = "blue") +
   geom_function(fun = function(x) 22643.4248 + 109.1132 * x, color = "green")
@@ -515,7 +489,7 @@ ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price)) +
   geom_line(data = example_data, color = "red")
 ```
 
-&lt;img src="w9d2-conditional-logic_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w9d2-conditional-logic_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]]
 
