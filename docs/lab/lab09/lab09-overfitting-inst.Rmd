@@ -45,18 +45,21 @@ Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentatio
 And again, we use a subset of the original data as suggested by the
 [original paper](http://jse.amstat.org/v19n3/decock.pdf).
 
+We'll also scale the sale price to be in units of $1000, to keep the numbers more manageable.
+
 ```{r load-and-subset-data}
 data(ames, package = "modeldata")
 ames_all <- ames %>% 
   filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>% 
-  mutate(across(where(is.integer), as.double))
+  mutate(across(where(is.integer), as.double)) %>% 
+  mutate(Sale_Price = Sale_Price / 1000)
 rm(ames)
 ```
 
 We'll use the same train-test split that we have been using:
 
 ```{r train-test-split}
-set.seed(10) # Seed the random number generator
+set.seed(0) # Seed the random number generator
 ames_split <- initial_split(ames_all, prop = 2/3) # Split our data randomly
 ames_train <- training(ames_split)
 ames_test <- testing(ames_split)
@@ -99,6 +102,7 @@ decision_tree_fit <-
   fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
 
+You can use the following code to visualize the tree:
 
 ```{r}
 decision_tree_fit$fit %>% rpart.plot::rpart.plot(roundint = FALSE)
@@ -110,19 +114,141 @@ seq_matching_range <- function(x, length.out = 500) {
   seq(min(x), max(x), length.out = length.out)
 }
 
-example_data <- expand_grid(
-  Latitude = seq_matching_range(ames_train$Latitude),
-  Longitude = seq_matching_range(ames_train$Longitude)
-)
+augment_predictions <- function(data, model, variable_name = ".pred") {
+  model %>%
+    predict(data) %>%
+    rename(!!enquo(variable_name) := .pred) %>%
+    bind_cols(data)
+}
 
-example_data <- decision_tree_fit %>% 
-  predict(example_data) %>% 
-  rename(Sale_Price = .pred) %>% 
-  bind_cols(example_data)
 
-ggplot(ames_train, aes(x = Longitude, y = Latitude)) +
-  geom_raster(data = example_data, mapping = aes(fill = Sale_Price)) +
-  geom_point(size = .5)
+# get_raster <- function(data, model, x_var, y_var, pred_var) {
+#   x_var <- enquo(x_var)
+#   y_var <- enquo(y_var)
+#   pred_var <- enquo(pred_var)
+#   example_data <- expand_grid(
+#     !!x_var = seq_matching_range(data[[x_var]]),
+#     !!y_var = seq_matching_range(data[[y_var]])
+#   ) %>%
+#     augment_predictions(model)
+#   
+#   ggplot(data, aes(x = !!x_var, y = !!y_var)) +
+#     geom_raster(
+#       data = example_data,
+#       mapping = aes(fill = .pred)) +
+#     geom_point(size = .5)
+# }
 ```
 
+
+```{r}
+lat_long_grid <- expand_grid(
+  Latitude = seq_matching_range(ames_train$Latitude),
+  Longitude = seq_matching_range(ames_train$Longitude),
+  Gr_Liv_Area = median(ames_train$Gr_Liv_Area),
+  Total_Bsmt_SF = median(ames_train$Total_Bsmt_SF),
+  Bldg_Type = "OneFam"
+)
+
+ggplot(ames_train, aes(x = Longitude, y = Latitude)) +
+  geom_raster(
+    data = augment_predictions(lat_long_grid, decision_tree_fit),
+    mapping = aes(fill = .pred)) +
+  geom_point(aes(color = Sale_Price), size = .5)
+```
+
+```{r}
+ames_train %>%
+  augment_predictions(decision_tree_fit) %>% 
+  mutate(resid = Sale_Price - .pred) %>% 
+  ggplot(aes(x = resid)) + geom_histogram(binwidth = 10)
+```
+
+
+```{r}
+ames_train %>% 
+  augment_predictions(decision_tree_fit) %>% 
+  mae(truth = Sale_Price, estimate = .pred)
+```
+
+
+2. Now let's allow the tree to grow: set `cost_complexity` to 0.001.
+
+```{r}
+decision_tree_fit2 <- 
+  decision_tree(mode = "regression", cost_complexity = 1e-3) %>% # , min_n = 2
+  set_engine("rpart") %>% 
+  fit(Sale_Price ~ Latitude + Longitude + Gr_Liv_Area + Bldg_Type + Total_Bsmt_SF, data = ames_train)
+```
+
+
+You can use the following code to visualize the tree:
+
+```{r}
+#decision_tree_fit2$fit %>% rpart.plot::rpart.plot(roundint = FALSE)
+```
+
+```{r}
+ggplot(ames_train, aes(x = Longitude, y = Latitude)) +
+  geom_raster(
+    data = augment_predictions(lat_long_grid, decision_tree_fit2),
+    mapping = aes(fill = .pred)) +
+  geom_point(aes(color = Sale_Price), size = .5)
+```
+
+```{r}
+ames_train %>%
+  augment_predictions(decision_tree_fit2) %>% 
+  mutate(resid = Sale_Price - .pred) %>% 
+  ggplot(aes(x = resid)) + geom_histogram(binwidth = 10)
+```
+
+Overall, how did the residuals change?
+
+
+3. Finally, try `cost_complexity = 1e-6` and `min_n = 2`. Since this will make a very large tree,
+don't try to run `rpart.plot`.
+
+```{r}
+decision_tree_fit3 <- 
+  decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2) %>% 
+  set_engine("rpart") %>% 
+  fit(Sale_Price ~ Latitude + Longitude + Gr_Liv_Area + Bldg_Type + Total_Bsmt_SF, data = ames_train)
+```
+
+```{r}
+ggplot(ames_train, aes(x = Longitude, y = Latitude)) +
+  geom_raster(
+    data = augment_predictions(lat_long_grid, decision_tree_fit3),
+    mapping = aes(fill = .pred)) +
+  geom_point(aes(color = Sale_Price), size = .5)
+```
+
+```{r}
+ames_train %>%
+  augment_predictions(decision_tree_fit3) %>% 
+  mutate(resid = Sale_Price - .pred) %>% 
+  ggplot(aes(x = resid)) + geom_histogram(binwidth = 1)
+```
+
+4. Now, evaluate the three models on the test set:
+
+
+```{r}
+expand_grid(
+  model = c("decision_tree_fit", "decision_tree_fit2", "decision_tree_fit3"),
+  data = c("ames_train", "ames_test")
+) %>% pmap_dfr(
+  function(model, data) {
+    get(data) %>% 
+      augment_predictions(get(model)) %>% 
+      #mae(truth = Sale_Price, estimate = .pred) %>% 
+      #select(mae = .estimate) %>% 
+      mutate(resid = Sale_Price - .pred) %>% 
+      mutate(model = !!model, data = !!data)
+  }) %>% 
+#  ggplot(aes(y = model, x = mae)) + geom_col() + facet_wrap(vars(data))
+  ggplot(aes(x = resid, y = after_stat(density), color = model)) +
+  geom_freqpoly() + facet_wrap(vars(data))
+```
 
