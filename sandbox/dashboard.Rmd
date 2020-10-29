@@ -97,6 +97,21 @@ spectrum_hospitalized_plot <- Spectrum_raw %>%
   gf_labs(title = "Hospitalized Covid patients in Spectrum Health facilities", subtitle = "Omits patients with pending tests", y = "")
 ```
 
+```{r my-spectrum-surge-model}
+library(fable)
+library(tsibble)
+spectrum_hospitalized <- Spectrum_raw %>% 
+  select(date = Date, hospitalized = Hospitalized) %>%
+  mutate(date = lubridate::ymd(date)) %>% 
+  drop_na(hospitalized) %>% 
+  slice(20:n()) %>% 
+  as_tsibble(index = date)
+#autoplot(spectrum_hospitalized)
+spectrum_hospitalized %>% model(
+  ets = ETS(hospitalized ~ trend("Md")),
+  arima = ARIMA(hospitalized)
+) %>% forecast(h = "1 months") %>% autoplot(spectrum_hospitalized)
+```
 
 
 ```{r include = FALSE}
