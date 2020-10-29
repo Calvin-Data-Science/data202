@@ -392,7 +392,7 @@ summary {
 </div>
 
 
-<p>Pew and other sources release data in a file format used by SPSS, a commercial statistical analysis tool. Fortunately it’s straightforwaard to read this data in R, using the <a href="https://haven.tidyverse.org/"><code>haven</code></a> package.</p>
+<p>Pew and other sources release data in a file format used by SPSS, a commercial statistical analysis tool. Fortunately it’s straightforward to read this data in R, using the <a href="https://haven.tidyverse.org/"><code>haven</code></a> package.</p>
 <p>I’ll show an example with the American Trends Panel.</p>
 <pre class="r"><code>atp_w34 &lt;- haven::read_sav(&quot;data/W34_Apr18/ATP W34.sav&quot;)</code></pre>
 <p>The easiest way to look at this data is to click on it in the “Environment” panel, or run <code>View(atp_w34)</code> on the Console. (Remember not to leave a <code>View</code> call in an Rmd when you Knit.)</p>
@@ -419,11 +419,12 @@ getColumnLabels(atp_w34)</code></pre>
 ## 10 SCI3B_W34      SCI3B. In your opinion, do you think government investments i…
 ## # … with 130 more rows</code></pre>
 <p>Many of the columns are actually factors in disguise. To decode their labels, call <code>as_factor</code>. For example, to get party affiliations and leanings from the ATP data, we can do:</p>
-<pre class="r"><code>atp_w34 %&gt;% 
+<pre class="r"><code>atp_w34_wrangled &lt;- atp_w34 %&gt;% 
   mutate(
     party = as_factor(F_PARTY_FINAL),
-    party_lean = as_factor(F_PARTYLN_FINAL)) %&gt;% 
-  select(party, party_lean)</code></pre>
+    party_lean = as_factor(F_PARTYLN_FINAL),
+    age = as_factor(F_AGECAT_FINAL))
+atp_w34_wrangled %&gt;% select(party, party_lean)</code></pre>
 <pre><code>## # A tibble: 2,537 x 2
 ##    party       party_lean          
 ##    &lt;fct&gt;       &lt;fct&gt;               
@@ -438,6 +439,56 @@ getColumnLabels(atp_w34)</code></pre>
 ##  9 Independent The Republican Party
 ## 10 Republican  &lt;NA&gt;                
 ## # … with 2,527 more rows</code></pre>
+<div id="weights" class="section level2">
+<h2>Weights</h2>
+<p>Note that Pew survey data include <em>weights</em>. Read their Methodology sections for details about these weights. Once you’ve identified the correct weights to use, you can use the <code>wt</code> parameter to <code>count</code> to weight your counts accordingly, or the <code>weighted.mean</code> function if you’re interested in a specific outcome.</p>
+<p>For example, the following gives the proportion of each party among <em>survey respondents</em>:</p>
+<pre class="r"><code>atp_w34_wrangled %&gt;% 
+  count(party) %&gt;% 
+  mutate(proportion = n / sum(n))</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   party              n proportion
+##   &lt;fct&gt;          &lt;int&gt;      &lt;dbl&gt;
+## 1 Republican       575   0.227   
+## 2 Democrat         973   0.384   
+## 3 Independent      696   0.274   
+## 4 Something else   280   0.110   
+## 5 Refused           12   0.00473 
+## 6 &lt;NA&gt;               1   0.000394</code></pre>
+<p>while this gives the (estimated) proportion of each party in the US:</p>
+<pre class="r"><code>atp_w34_wrangled %&gt;% 
+  count(party, wt = WEIGHT_W34) %&gt;% 
+  mutate(proportion = n / sum(n))</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   party               n proportion
+##   &lt;fct&gt;           &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Republican     619.     0.244   
+## 2 Democrat       804.     0.317   
+## 3 Independent    728.     0.287   
+## 4 Something else 370.     0.146   
+## 5 Refused         14.8    0.00583 
+## 6 &lt;NA&gt;             1.42   0.000558</code></pre>
+<p>Add more variables to <code>count</code> to get cross-tabulations:</p>
+<pre class="r"><code>atp_w34_wrangled %&gt;% 
+  count(party, age, wt = WEIGHT_W34) %&gt;% 
+  group_by(age) %&gt;% # Get party membership within each age range
+  mutate(proportion = n / sum(n))</code></pre>
+<pre><code>## # A tibble: 23 x 4
+## # Groups:   age [5]
+##    party       age        n proportion
+##    &lt;fct&gt;       &lt;fct&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Republican  18-29  68.0       0.132
+##  2 Republican  30-49 173.        0.209
+##  3 Republican  50-64 198.        0.289
+##  4 Republican  65+   177.        0.353
+##  5 Republican  &lt;NA&gt;    2.23      0.573
+##  6 Democrat    18-29 128.        0.248
+##  7 Democrat    30-49 287.        0.345
+##  8 Democrat    50-64 233.        0.340
+##  9 Democrat    65+   157.        0.312
+## 10 Independent 18-29 172.        0.334
+## # … with 13 more rows</code></pre>
+</div>
 
 
 
