@@ -1,0 +1,128 @@
+---
+title: "Lab 09: Over-fitting"
+output: 
+  tufte::tufte_html:
+    css: ../lab.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidymodels)
+options(scipen = 5) # encourage metrics to print in fixed-point notation
+```
+
+## Goals
+
+* Adjust parameters to obtain a model that fits *too* well
+* Practice *model validation* on held-out data
+* Practice more visualization (as always!)
+
+## Getting started
+
+Find your repo in [our GitHub organization](https://github.com/Calvin-DS202-FA20/)
+and clone it as usual.
+
+### Optional, experimental workflow
+
+The RStudio server lets multiple people edit a single project at the same time!
+This can be confusing since it's different from collaborating using GitHub, so
+try it only if all of your team is game to try:
+
+* The person whose name appears first on the Attendance sheet (or someone else if needed)
+  clones the team's repo on the RStudio Server.
+* They Share the project with the other team members
+* They copy the URL and paste it into the attendance sheet
+* Others go to that URL.
+
+## Data
+
+We'll be using the Ames home sales dataset, as we have been using this past week.
+Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt).
+And again, we use a subset of the original data as suggested by the
+[original paper](http://jse.amstat.org/v19n3/decock.pdf).
+
+```{r load-and-subset-data}
+data(ames, package = "modeldata")
+ames_all <- ames %>% 
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>% 
+  mutate(across(where(is.integer), as.double))
+rm(ames)
+```
+
+We'll use the same train-test split that we have been using:
+
+```{r train-test-split}
+set.seed(10) # Seed the random number generator
+ames_split <- initial_split(ames_all, prop = 2/3) # Split our data randomly
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+**Note**: unless explicitly mentioned below, use the *training set* for plots
+and models.
+
+## Decision Trees
+
+1. Make a plot showing how `Sale_Price` relates to latitude and longitude (make sure you get them the right way!).
+
+```{r include=FALSE}
+library(ggrepel)
+ggplot(ames_train, aes(x = Longitude, y = Latitude, color = fct_lump_n(Neighborhood, 5))) +
+  geom_point() +
+  geom_text_repel(
+    data = ames_train %>% group_by(Neighborhood) %>% summarize(across(c(Latitude, Longitude), median)),
+    aes(label = Neighborhood), color = "black") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+ggplot(ames_train, aes(x = Longitude, y = Latitude, color = Sale_Price)) +
+  geom_point(size = 1) +
+  coord_equal()
+```
+
+
+
+1. Fit a decision tree to predict `Sale_Price` from `Latitude` and `Longitude`.
+Use `cost_complexity` = 0.01, `min_n` = 20, and `tree_depth` = 30 (the defaults
+for the `rpart` engine).
+
+
+```{r}
+decision_tree_fit <- 
+  decision_tree(mode = "regression") %>% #, cost_complexity = 1e-6, min_n = 2, tree_depth = 30) %>%
+  set_engine("rpart") %>% 
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+```
+
+
+```{r}
+decision_tree_fit$fit %>% rpart.plot::rpart.plot(roundint = FALSE)
+```
+
+
+```{r}
+seq_matching_range <- function(x, length.out = 500) {
+  seq(min(x), max(x), length.out = length.out)
+}
+
+example_data <- expand_grid(
+  Latitude = seq_matching_range(ames_train$Latitude),
+  Longitude = seq_matching_range(ames_train$Longitude)
+)
+
+example_data <- decision_tree_fit %>% 
+  predict(example_data) %>% 
+  rename(Sale_Price = .pred) %>% 
+  bind_cols(example_data)
+
+ggplot(ames_train, aes(x = Longitude, y = Latitude)) +
+  geom_raster(data = example_data, mapping = aes(fill = Sale_Price)) +
+  geom_point(size = .5)
+```
+
+
