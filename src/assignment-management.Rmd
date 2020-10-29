@@ -314,7 +314,7 @@ repos_display <- local_repo_owners %>%
 ```{r}
 openStudentWork <- function(assignment, name) {
   repos <- local_repo_owners %>% 
-    filter(assignment == !!assignment, str_detect(name, !!name))
+    filter(assignment == !!assignment, str_detect(name, coll(!!name, ignore_case = TRUE)))
   stopifnot(nrow(repos) == 1)
 
   files <- Sys.glob(file.path(repos$local_path, "*.Rmd"))
