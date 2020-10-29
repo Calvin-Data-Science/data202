@@ -153,21 +153,34 @@ for f in file_list:
 
 
 ```{r solo-assignment, eval=FALSE}
+my_create_assignment <- function(usernames, assignmentName) {
+  org_create_assignment(
+    org = ghorg,
+    user = usernames,
+    repo = paste0(assignmentName, '-', usernames),
+    source_repo = paste0(ghorg, '/', assignmentName, '-template'))
+}
 pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = NULL) {
   if (is.null(usernames)) {
     usernames <- roster$github
     if (includeStaff)
       usernames <- c(usernames, "kcarnold", "kimyejae")
   }
-  org_create_assignment(
-    org = ghorg,
-    user = usernames,
-    repo = paste0(assignmentName, '-', usernames),
-    source_repo = paste0(ghorg, '/', assignmentName, '-template')
-  )
+  my_create_assignment(usernames, assignmentName = assignmentName)
 }
 #pushSoloAssignment('datavis')
 ```
+
+```{r eval=FALSE}
+# Push solo assignments for Sonali
+{
+  username <- roster %>% filter(str_detect(preferred_full_name, "Sonali")) %>% pull(github)
+  #team_seeds$assignment
+  "lab07" %>% walk(~ my_create_assignment(usernames = username, assignmentName = .x))
+}
+  
+```
+
 
 
 ```{r team-assignment, eval=FALSE}
