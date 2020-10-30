@@ -120,19 +120,22 @@ because the algorithm starts there for all homes, and 175.9 because
 ```{r}
 model1 %>%
   pluck("fit") %>%
-  rpart.plot(roundint = FALSE, digits = 4, type = 4)
+  rpart.plot(roundint = FALSE, digits = 5, type = 4)
 ```
 
 1. Using the tree visualization above, manually compute the predicted sale price for a home at
-   a latitude of 42.05403 and longitude of -93.61975. (Be careful with comparisons
+   a latitude of 41.98650 and longitude of -93.60372. (Be careful with comparisons
    with negative numbers!) Briefly summarize the steps you followed. Check that
    your answer is below $150k.
    
 ```{r include=FALSE}
 ames_train %>%
   filter(Longitude >= -93.63, Latitude < 42.06) %>%
+  arrange(Latitude) %>% 
   select(Latitude, Longitude, Sale_Price)
-model1 %>% predict(tibble(Latitude = 42.05403, Longitude = -93.61975))
+stopifnot(
+  model1 %>% predict(tibble(Latitude = 41.98650, Longitude = -93.60372)) %>% pull(.pred)
+  < 150)
 ```
 
 ### Visualizing the predictions in "data space"
