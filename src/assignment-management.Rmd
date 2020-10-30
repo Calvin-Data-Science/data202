@@ -130,7 +130,7 @@ createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo =
 #createAssignmentTemplate("hw/hw04-other-tools")
 #createAssignmentTemplate("lab/lab05-ugly-charts")
 #createAssignmentTemplate("proj/datavis")
-createAssignmentTemplate("lab/lab08-feat-engr")
+createAssignmentTemplate("lab/lab09-overfitting")
 ```
 
 (This is a WIP Python replacement for the shell script)
@@ -181,6 +181,23 @@ pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = 
   
 ```
 
+
+```{r eval=FALSE}
+expand_grid(
+  roster,
+  repo_idx = 1:5
+) %>% 
+  mutate(repo = glue("lab09-{cohort}{repo_idx}")) %>% select(github, repo) %>% 
+  {
+    org_create_assignment(
+      org = ghorg,
+      user = .$github,
+      repo = .$repo,
+      team = .$repo,
+      source_repo = glue("{ghorg}/lab09-template")
+    )
+  }
+```
 
 
 ```{r team-assignment, eval=FALSE}
