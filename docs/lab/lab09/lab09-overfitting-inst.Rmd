@@ -12,6 +12,7 @@ link-citations: yes
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(tidymodels)
+library(rpart.plot)
 options(scipen = 5) # encourage metrics to print in fixed-point notation
 ```
 
@@ -23,8 +24,14 @@ options(scipen = 5) # encourage metrics to print in fixed-point notation
 
 ## Getting started
 
-Find your repo in [our GitHub organization](https://github.com/Calvin-DS202-FA20/)
-and clone it as usual.
+* Pick a team to work with--ideally 2, no more than 3.
+  * A team should be from within a single cohort.
+  * (Crossing cohort lines is possible, but you'll need to ask the course staff to make an appropriate repo.)
+* Go to [our GitHub organization](https://github.com/Calvin-DS202-FA20/).
+  You'll find 5 `lab09` repos available to your cohort. Pick one for your team,
+  making sure that no two teams share the same repo.
+* On the attendance sheet, each team member should fill in the name of their team repo under the "Team" column. It should look like `lab09-V2`.
+* Each team member should clone the repo as usual.
 
 ### Optional, experimental workflow
 
@@ -40,7 +47,7 @@ try it only if all of your team is game to try:
 
 ## Data
 
-We'll be using the Ames home sales dataset, as we have been using this past week.
+We'll again be using the Ames home sales dataset.
 Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt).
 And again, we use a subset of the original data as suggested by the
 [original paper](http://jse.amstat.org/v19n3/decock.pdf).
@@ -59,7 +66,7 @@ rm(ames)
 We'll use the same train-test split that we have been using:
 
 ```{r train-test-split}
-set.seed(0) # Seed the random number generator
+set.seed(10) # Seed the random number generator
 ames_split <- initial_split(ames_all, prop = 2/3) # Split our data randomly
 ames_train <- training(ames_split)
 ames_test <- testing(ames_split)
@@ -68,187 +75,251 @@ ames_test <- testing(ames_split)
 **Note**: unless explicitly mentioned below, use the *training set* for plots
 and models.
 
-## Decision Trees
+## "Location, location, location!"
 
-1. Make a plot showing how `Sale_Price` relates to latitude and longitude (make sure you get them the right way!).
+How much does a home's location tell us about how much it sells for?
+In this lab, we'll fit several models that try to predict the sale price
+based on the latitude and longitude.
 
-```{r include=FALSE}
-library(ggrepel)
-ggplot(ames_train, aes(x = Longitude, y = Latitude, color = fct_lump_n(Neighborhood, 5))) +
-  geom_point() +
-  geom_text_repel(
-    data = ames_train %>% group_by(Neighborhood) %>% summarize(across(c(Latitude, Longitude), median)),
-    aes(label = Neighborhood), color = "black") +
-  theme(legend.position = "bottom")
-```
+1. Make a plot showing how `Sale_Price` relates to `Latitude` and `Longitude`
+(make sure you get them the right way!).
+
+* Use `coord_equal()` to make the grid square.
 
 ```{r}
-ggplot(ames_train, aes(x = Longitude, y = Latitude, color = Sale_Price)) +
-  geom_point(size = 1) +
+ames_train_plot <- ggplot(ames_train, aes(x = Longitude, y = Latitude, color = Sale_Price)) +
+  geom_point(size = .5) +
+  scale_color_viridis_c(aesthetics = c("color", "fill")) +
   coord_equal()
+ames_train_plot
 ```
 
-
-
-1. Fit a decision tree to predict `Sale_Price` from `Latitude` and `Longitude`.
-Use `cost_complexity` = 0.01, `min_n` = 20, and `tree_depth` = 30 (the defaults
-for the `rpart` engine).
-
+Now we'll fit a decision tree to predict `Sale_Price` from `Latitude` and `Longitude`.
+We'll set the `tree_depth` to 2 to keep the tree shallow.
 
 ```{r}
-decision_tree_fit <- 
-  decision_tree(mode = "regression") %>% #, cost_complexity = 1e-6, min_n = 2, tree_depth = 30) %>%
+set.seed(0)
+model1 <- 
+  decision_tree(mode = "regression", tree_depth = 2) %>%
   set_engine("rpart") %>% 
   fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
 
-You can use the following code to visualize the tree:
+You can use the following code to visualize the tree. The root of the tree is
+at the top, and each branch represents checking one condition in the data. For 
+example, the top left branch, labeled `Longitude >= -93.63`, means that we follow
+that branch if the longitude is east of 93.63 degrees West. Each node is
+labeled with two numbers: the one on top is the prediction (the average value
+of all home sales that reach that node), and the one on the bottom is the
+proportion of total homes that meet that condition. The top node reads 100% 
+because the algorithm starts there for all homes, and 175.9 because
+`mean(ames_train$Sale_Price)` is `r mean(ames_train$Sale_Price)`.
 
 ```{r}
-decision_tree_fit$fit %>% rpart.plot::rpart.plot(roundint = FALSE)
+model1 %>% 
+  pluck("fit") %>%
+  rpart.plot(roundint = FALSE, digits = 4, type = 4)
 ```
 
+1. Using the tree visualization above, manually compute the predicted sale price for a home at
+   a latitude of 42.05403 and longitude of -93.61975. (Be careful with comparisons
+   with negative numbers!) Briefly summarize the steps you followed. Check that
+   your answer is below $150k.
+   
+```{r include=FALSE}
+ames_train %>%
+  filter(Longitude >= -93.63, Latitude < 42.06) %>% 
+  select(Latitude, Longitude, Sale_Price)
+model1 %>% predict(tibble(Latitude = 42.05403, Longitude = -93.61975))
+```
 
-```{r}
-seq_matching_range <- function(x, length.out = 500) {
-  seq(min(x), max(x), length.out = length.out)
-}
+### Visualizing the predictions in "data space"
 
-augment_predictions <- function(data, model, variable_name = ".pred") {
+Since the features are latitude and longitude, we get the unique ability to
+visualize the tree in a different way: by looking at what predictions it makes
+for each location.
+
+Specifically, we make a grid that covers the city of Ames, and ask the model
+how much it thinks a home at each one of those grid points would sell for.
+
+We start with a few utility functions:
+
+```{r utilities}
+# seq_matching_range <- function(x, length.out = 500) {
+#   seq(min(x), max(x), length.out = length.out)
+# }
+
+add_predictions <- function(data, model, variable_name = ".pred") {
+  model_name <- deparse(substitute(model)) # hacky?
   model %>%
     predict(data) %>%
     rename(!!enquo(variable_name) := .pred) %>%
+    mutate(model = model_name) %>%
     bind_cols(data)
 }
-
-
-# get_raster <- function(data, model, x_var, y_var, pred_var) {
-#   x_var <- enquo(x_var)
-#   y_var <- enquo(y_var)
-#   pred_var <- enquo(pred_var)
-#   example_data <- expand_grid(
-#     !!x_var = seq_matching_range(data[[x_var]]),
-#     !!y_var = seq_matching_range(data[[y_var]])
-#   ) %>%
-#     augment_predictions(model)
-#   
-#   ggplot(data, aes(x = !!x_var, y = !!y_var)) +
-#     geom_raster(
-#       data = example_data,
-#       mapping = aes(fill = .pred)) +
-#     geom_point(size = .5)
-# }
 ```
 
 
 ```{r}
 lat_long_grid <- expand_grid(
-  Latitude = seq_matching_range(ames_train$Latitude),
-  Longitude = seq_matching_range(ames_train$Longitude),
+  Latitude = modelr::seq_range(ames_train$Latitude, n = 200, expand = .05),
+  Longitude = modelr::seq_range(ames_train$Longitude, n = 200, expand = .05),
   Gr_Liv_Area = median(ames_train$Gr_Liv_Area),
   Total_Bsmt_SF = median(ames_train$Total_Bsmt_SF),
   Bldg_Type = "OneFam"
 )
 
-ggplot(ames_train, aes(x = Longitude, y = Latitude)) +
-  geom_raster(
-    data = augment_predictions(lat_long_grid, decision_tree_fit),
-    mapping = aes(fill = .pred)) +
-  geom_point(aes(color = Sale_Price), size = .5)
+show_latlong_model <- function(dataset, model) {
+  model_name <- deparse(substitute(model))
+  ggplot(dataset, aes(x = Longitude, y = Latitude)) +
+    geom_raster(
+      data = lat_long_grid %>% add_predictions(model),
+      mapping = aes(fill = .pred)) +
+    geom_point(aes(color = Sale_Price), size = .5) +
+    scale_color_viridis_c(aesthetics = c("color", "fill")) +
+    coord_equal() +
+    labs(title = model_name)
+}
 ```
+
+```{r show-model1-data}
+show_latlong_model(ames_train, model1)
+```
+
+### Inspecting the mistakes
+
+Make a histogram of the residuals.
 
 ```{r}
 ames_train %>%
-  augment_predictions(decision_tree_fit) %>% 
+  add_predictions(model1) %>% 
   mutate(resid = Sale_Price - .pred) %>% 
   ggplot(aes(x = resid)) + geom_histogram(binwidth = 10)
 ```
 
+We can quantify that by looking at the mean absolute error.
 
 ```{r}
 ames_train %>% 
-  augment_predictions(decision_tree_fit) %>% 
+  add_predictions(model1) %>% 
+  #summarize(mae = mean(abs(Sale_Price - .pred)))
   mae(truth = Sale_Price, estimate = .pred)
 ```
 
 
-2. Now let's allow the tree to grow: set `cost_complexity` to 0.001.
+2. Now let's allow the tree to grow: set `tree_depth = 30` (which is actually the maximum
+allowed by the `rpart` engine).
 
 ```{r}
-decision_tree_fit2 <- 
-  decision_tree(mode = "regression", cost_complexity = 1e-3) %>% # , min_n = 2
+model2 <- 
+  decision_tree(mode = "regression", tree_depth = 30) %>% 
   set_engine("rpart") %>% 
-  fit(Sale_Price ~ Latitude + Longitude + Gr_Liv_Area + Bldg_Type + Total_Bsmt_SF, data = ames_train)
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
 
-
-You can use the following code to visualize the tree:
+Now let's visualize the tree again, first as an algorithm:
 
 ```{r}
-#decision_tree_fit2$fit %>% rpart.plot::rpart.plot(roundint = FALSE)
+model2 %>% 
+  pluck("fit") %>%
+  rpart.plot(roundint = FALSE, digits = 4, type = 4)
 ```
 
+and then in data space:
+
 ```{r}
-ggplot(ames_train, aes(x = Longitude, y = Latitude)) +
-  geom_raster(
-    data = augment_predictions(lat_long_grid, decision_tree_fit2),
-    mapping = aes(fill = .pred)) +
-  geom_point(aes(color = Sale_Price), size = .5)
+show_latlong_model(ames_train, model2) + theme_minimal()
 ```
+
+Plot a histogram of the residuals again. Use `+ coord_cartesian(xlim = c(XMIN, XMAX))`,
+filling in the minimum and maximum appropriately, so that all of your residuals
+histograms are on the same scale.
 
 ```{r}
 ames_train %>%
-  augment_predictions(decision_tree_fit2) %>% 
+  add_predictions(model2) %>% 
   mutate(resid = Sale_Price - .pred) %>% 
-  ggplot(aes(x = resid)) + geom_histogram(binwidth = 10)
+  ggplot(aes(x = resid)) +
+    geom_histogram(binwidth = 10) +
+    coord_cartesian(xlim = c(-200, 400))
 ```
 
-Overall, how did the residuals change?
+```{r}
+ames_train %>% 
+  add_predictions(model2) %>% 
+  mae(truth = Sale_Price, estimate = .pred)
+```
 
 
-3. Finally, try `cost_complexity = 1e-6` and `min_n = 2`. Since this will make a very large tree,
-don't try to run `rpart.plot`.
+Overall, how did the residuals change between `model1` and `model2`? Which model
+is better? Write a concise sentence comparing the two models quantitatively:
+"On average, the predictions of model X ___ ___ ____ than model Y."
+
+3. Finally, we create `model3` by allowing the model to make leaves with as few
+as 2 observations (`min_n = 2` instead of the default of 20) and lower the threshold for how much improvement
+each split must add (`cost_complexity = 1e-6`, instead of the default 0.01).
+
+Since this will make a very large tree, **don't try to run `rpart.plot`**. But do repeat the
+data space and residual plots.
 
 ```{r}
-decision_tree_fit3 <- 
+model3 <- 
   decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2) %>% 
   set_engine("rpart") %>% 
-  fit(Sale_Price ~ Latitude + Longitude + Gr_Liv_Area + Bldg_Type + Total_Bsmt_SF, data = ames_train)
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
 
 ```{r}
-ggplot(ames_train, aes(x = Longitude, y = Latitude)) +
-  geom_raster(
-    data = augment_predictions(lat_long_grid, decision_tree_fit3),
-    mapping = aes(fill = .pred)) +
-  geom_point(aes(color = Sale_Price), size = .5)
+show_latlong_model(ames_train, model3)
 ```
 
 ```{r}
 ames_train %>%
-  augment_predictions(decision_tree_fit3) %>% 
+  add_predictions(model3) %>% 
   mutate(resid = Sale_Price - .pred) %>% 
-  ggplot(aes(x = resid)) + geom_histogram(binwidth = 1)
+  ggplot(aes(x = resid)) +
+    geom_histogram(binwidth = 1) +
+    coord_cartesian(xlim = c(-200, 400))
 ```
 
-4. Now, evaluate the three models on the test set:
+Summarize how well this model performs.
 
+## Validation
+
+4. Now, evaluate the three models on the test set.
+
+The following code fragment collects the residuals for all 3 models on both 
+`ames_train` and `ames_test`.
 
 ```{r}
-expand_grid(
-  model = c("decision_tree_fit", "decision_tree_fit2", "decision_tree_fit3"),
+all_resids <- expand_grid(
+  model = c("model1", "model2", "model3"),
   data = c("ames_train", "ames_test")
 ) %>% pmap_dfr(
   function(model, data) {
     get(data) %>% 
-      augment_predictions(get(model)) %>% 
+      add_predictions(get(model)) %>% 
       #mae(truth = Sale_Price, estimate = .pred) %>% 
       #select(mae = .estimate) %>% 
       mutate(resid = Sale_Price - .pred) %>% 
       mutate(model = !!model, data = !!data)
   }) %>% 
-#  ggplot(aes(y = model, x = mae)) + geom_col() + facet_wrap(vars(data))
-  ggplot(aes(x = resid, y = after_stat(density), color = model)) +
-  geom_freqpoly() + facet_wrap(vars(data))
+  mutate(data = fct_relevel(data, "ames_train", "ames_test"))
+```
+
+
+```{r}
+ggplot(all_resids, aes(x = resid, y = after_stat(density), color = model)) +
+  geom_freqpoly(binwidth = 10) +
+  facet_wrap(vars(data), ncol = 1)
+```
+
+```{r}
+all_resids %>% 
+  group_by(model, data) %>% 
+  summarize(mae = mean(abs(Sale_Price - .pred))) %>% 
+  ggplot(aes(x = model, y = mae)) +
+    geom_col() + facet_wrap(vars(data))
+
 ```
 
