@@ -352,3 +352,5 @@ all_resids %>%
   geom_col(position = 'dodge') +
   labs(y = "Mean absolute error ($1000)", fill = "Assessment dataset")
 ```
+
+1. Now that you see this, what can you say about the performance of the three models?
