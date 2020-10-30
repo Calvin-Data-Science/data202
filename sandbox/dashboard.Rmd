@@ -97,7 +97,7 @@ spectrum_hospitalized_plot <- Spectrum_raw %>%
   gf_labs(title = "Hospitalized Covid patients in Spectrum Health facilities", subtitle = "Omits patients with pending tests", y = "")
 ```
 
-```{r my-spectrum-surge-model}
+```{r my-spectrum-surge-model, eval=FALSE, include=FALSE}
 library(fable)
 library(tsibble)
 spectrum_hospitalized <- Spectrum_raw %>% 
