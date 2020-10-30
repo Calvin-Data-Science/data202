@@ -332,6 +332,18 @@ ggplot(all_resids, aes(x = resid, y = after_stat(density), color = model)) +
   facet_wrap(vars(data), ncol = 1)
 ```
 
+```{r include=FALSE}
+validation_summaries <- all_resids %>%
+  group_by(model, data) %>%
+  summarize(mae = mean(abs(Sale_Price - .pred))) %>% 
+  pivot_wider(names_from = data, values_from = mae) %>% 
+  mutate(train_test_diff = ames_test - ames_train)
+diffs_by_model <- validation_summaries %>% pull(train_test_diff, name = model)
+stopifnot(diffs_by_model[['model3']] > 20)
+stopifnot(abs(diffs_by_model[['model1']]) < 5)
+```
+
+
 ```{r}
 all_resids %>%
   group_by(model, data) %>%
