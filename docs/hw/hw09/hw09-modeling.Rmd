@@ -178,8 +178,9 @@ How does looking at a single number compare with looking at the plots?
 
 ```{r}
 recipe2 <- 
-  recipe(casual ~ temp + weekday, data = train) %>% 
-  step_dummy(weekday)
+  recipe(casual ~ temp + workingday, data = train) %>% 
+  step_dummy(workingday) %>% 
+  step_interact(~ temp:starts_with("workingday"))
   
 
 model2 <- workflow() %>% 
@@ -192,20 +193,20 @@ model2
 ```{r}
 train %>%
   add_predictions(model2) %>%
-  ggplot(aes(x = date, y = casual)) +
+  ggplot(aes(x = date, y = casual, color = workingday)) +
   geom_point() +
-  geom_line(aes(y = .pred), color = "maroon", size = 1)
+  geom_line(aes(y = .pred), size = 1)
 ```
 
 
 ```{r}
 train %>% 
-  ggplot(aes(x = temp, y = casual, color = weekday)) +
+  ggplot(aes(x = temp, y = casual, color = workingday)) +
     geom_point() +
     geom_line(
       data = expand_grid(
-        weekday = levels(train$weekday),
-        temp = seq(0, 1, length.out = 100)
+        workingday = levels(train$workingday),
+        temp = modelr::seq_range(train$temp, n = 100)
       ) %>% 
         add_predictions(model2),
       mapping = aes(y = .pred)
@@ -225,19 +226,18 @@ daily_rides %>%
 ## Try decision tree
 
 ```{r}
-model3 <- workflow() %>% 
-  add_model(decision_tree()) %>% 
-  add_formula(casual ~ temp + weekday) %>% 
-  fit(data = train)
+model3 <- 
+  decision_tree() %>% 
+  fit(casual ~ temp + workingday, data = train)
 model3
 ```
 
 ```{r}
 train %>%
   add_predictions(model3) %>%
-  ggplot(aes(x = date, y = casual)) +
+  ggplot(aes(x = date, y = casual, color = workingday)) +
   geom_point() +
-  geom_line(aes(y = .pred), color = "maroon", size = 1)
+  geom_line(aes(y = .pred), size = 1)
 ```
 
 
