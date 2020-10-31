@@ -1,0 +1,249 @@
+---
+title: "HW 9: Predictive Modeling"
+output: 
+  tufte::tufte_html:
+    css: ../hw.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(tidymodels)
+```
+
+## Goals
+
+* Apply predictive modeling using `tidymodels` to a time-series prediction task
+* Compare and contrast linear regression and decision trees
+
+Here are some useful utility functions. They will let you omit the `set_engine`
+step; just use `linear_reg() %>% fit(...)`.
+
+```{r echo=TRUE}
+add_predictions <- function(data, model, variable_name = ".pred", model_name = deparse(substitute(model))) {
+  model %>%
+    predict(data) %>%
+    rename(!!enquo(variable_name) := .pred) %>%
+    mutate(model = model_name) %>%
+    bind_cols(data)
+}
+
+linear_reg <- function(engine = "lm", ...) { 
+  parsnip::linear_reg(...) %>% set_engine(engine)
+}
+decision_tree <- function(mode = "regression", engine = "rpart", ...) {
+  parsnip::decision_tree(mode = "regression", ...) %>%
+    set_engine(engine)
+}
+```
+
+## Load data
+
+```{r echo=TRUE}
+daily_rides <- read_csv("../../data/bikeshare/day.csv", col_types = cols(
+  .default = col_double(),
+  dteday = col_date()
+)) %>% 
+  mutate(
+    yr = as_factor(2011 + yr),
+    weekday = lubridate::wday(dteday, label = TRUE),
+    workingday = as_factor(workingday),
+    temp = temp * (39 + 8) - 8,
+    atemp = atemp * (50 + 16) - 16
+    ) %>% 
+  rename(
+    year = yr,
+    date = dteday
+  )
+```
+
+## Exploratory Analytics
+
+Make a scatterplot of the number of `casual` riders by `date`, color-coding
+whether each day is a `workingday` or not.
+
+```{r casual-vs-day-eda}
+daily_rides %>%
+  ggplot(aes(x = date, y = casual, color = workingday)) +
+  geom_point()
+```
+
+### Train-test split
+
+```{r}
+train <- daily_rides %>% filter(year == 2011)
+test <- daily_rides %>% filter(year == 2012)
+```
+
+Check that you get `r nrow(train)` training set days and `r nrow(test)` test set days. (why might this make sense?)
+
+## Predict from temperature
+
+Fit a linear regression model to predict the number of `casual` riders from the `temp`erature.
+Use the training dataset (2011). Call the model `model1`.
+
+```{r}
+model1 <- linear_reg() %>%
+  fit(casual ~ temp, data = train)
+```
+
+We can use the `tidy` function to get the model's coefficients:
+
+```{r echo=TRUE}
+model1 %>% tidy() %>% select(term, estimate)
+```
+
+Complete this sentence: "For every additional degree C, model1 predicts ___ additional riders."
+
+Plot the model's predictions along with the number of casual rides.
+
+(Start by piping `train` into `add_predictions(model1)`. You'll want to add a `geom_line`
+where you specify `.pred` as the `y` aesthetic. This works because the dataset is sorted by `date` already.)
+
+```{r show-model1}
+train %>%
+  add_predictions(model1) %>%
+  ggplot(aes(x = date, y = casual, color = workingday)) +
+  geom_point() +
+  geom_line(aes(y = .pred), color = "maroon", size = 1)
+```
+
+This is a linear model, so generally we expect to see straight lines. Why is
+the maroon line not a straight line?
+
+### Look at residuals
+
+```{r}
+train %>% 
+  add_predictions(model1) %>%
+  mutate(resid = casual - .pred) %>%
+  ggplot(aes(x = resid)) +
+  geom_histogram(binwidth = 100) +
+  facet_wrap(vars(workingday), nrow = 2)
+```
+
+
+
+```{r}
+train %>%
+  add_predictions(model1) %>%
+  ggplot(aes(x = casual, y = .pred, color = workingday)) +
+  geom_abline() +
+  geom_point(alpha = .5) +
+  coord_obs_pred()
+```
+
+Under what circumstances does this this model typically predict too high? Under
+what circumstances does it predict too low? Use the residual plot
+to justify your answer. 
+
+Why might the model have done that?
+
+
+## Validate on 2012
+
+```{r}
+daily_rides %>%
+  add_predictions(model1) %>%
+  ggplot(aes(x = casual, y = .pred, color = year)) +
+  geom_abline() +
+  geom_point(alpha = .5) +
+  coord_obs_pred()
+```
+
+```{r}
+daily_rides %>%
+  add_predictions(model1) %>%
+  mutate(resid = casual - .pred) %>%
+  ggplot(aes(x = resid)) +
+  geom_histogram(binwidth = 100) +
+  facet_wrap(vars(year), nrow = 2)
+```
+
+```{r}
+daily_rides %>% 
+  add_predictions(model1) %>% 
+  group_by(year) %>% 
+  mae(truth = casual, estimate = .pred)
+```
+
+How incorrect was the prediction, on average, for each year?
+
+How does looking at a single number compare with looking at the plots?
+
+## Predict from temperature and day of week
+
+```{r}
+recipe2 <- 
+  recipe(casual ~ temp + weekday, data = train) %>% 
+  step_dummy(weekday)
+  
+
+model2 <- workflow() %>% 
+  add_recipe(recipe2) %>% 
+  add_model(linear_reg()) %>% 
+  fit(train)
+model2
+```
+
+```{r}
+train %>%
+  add_predictions(model2) %>%
+  ggplot(aes(x = date, y = casual)) +
+  geom_point() +
+  geom_line(aes(y = .pred), color = "maroon", size = 1)
+```
+
+
+```{r}
+train %>% 
+  ggplot(aes(x = temp, y = casual, color = weekday)) +
+    geom_point() +
+    geom_line(
+      data = expand_grid(
+        weekday = levels(train$weekday),
+        temp = seq(0, 1, length.out = 100)
+      ) %>% 
+        add_predictions(model2),
+      mapping = aes(y = .pred)
+    )
+```
+
+
+
+```{r}
+daily_rides %>% 
+  add_predictions(model2) %>% 
+  group_by(year) %>% 
+  mae(truth = casual, estimate = .pred)
+```
+
+
+## Try decision tree
+
+```{r}
+model3 <- workflow() %>% 
+  add_model(decision_tree()) %>% 
+  add_formula(casual ~ temp + weekday) %>% 
+  fit(data = train)
+model3
+```
+
+```{r}
+train %>%
+  add_predictions(model3) %>%
+  ggplot(aes(x = date, y = casual)) +
+  geom_point() +
+  geom_line(aes(y = .pred), color = "maroon", size = 1)
+```
+
+
+```{r}
+daily_rides %>% 
+  add_predictions(model3) %>% 
+  group_by(year) %>% 
+  mae(truth = casual, estimate = .pred)
+```
