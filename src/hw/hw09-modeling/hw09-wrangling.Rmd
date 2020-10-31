@@ -1,0 +1,16 @@
+---
+title: "Homework 9: Predictive Modeling"
+author: "YOUR NAME"
+date: "TODAY'S DATE"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+
+# Disable a warning message.
+options(dplyr.summarise.inform = FALSE)
+```
+
