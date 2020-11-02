@@ -34,12 +34,11 @@ Your report should be:
 
 Please follow this general outline (though you may add or remove aspects if needed).
 
-* Overview
-  * Introduce the article you've found and the specific visualization you're replicating, including:
-    * A complete URL to the article
-    * A screenshot of the visualization.
-    * A concise statement (ideally a quote) of the claim that the article uses the visualization to make
-      (or the claim you invented if there wasn't a clear one)
+* Overview: Introduce the article you've found and the specific visualization you're replicating, including:
+  * A complete URL to the article
+  * An image or screenshot of the visualization.
+  * A concise statement (ideally a quote) of the claim that the article uses the visualization to make
+    (or the claim you invented if there wasn't a clear one)
 * Design
   * What overall type of visualization was chosen? Why might the author have chosen it?
   * What variables are being shown?
@@ -67,7 +66,10 @@ Please follow this general outline (though you may add or remove aspects if need
 * Replication
   * Include your code to replicate the visual, and the result.
   * Briefly describe any difficulties you encountered, both those you
-    overcame and those you still have not. (It's ok to not have a perfect graph.)
+    overcame and those you still have not.
+  * It's ok to not have a perfect graph here. If the essential structure is there,
+    don't worry if the details are a bit different. 
+    Focus your attention on making an interesting and polished alternative design.
 * Alternative Designs
   * Describe at least two alternative design choices that could be made in
     visualizing your data. For each design, include:
@@ -76,7 +78,10 @@ Please follow this general outline (though you may add or remove aspects if need
       doesn't have to be an *improvement*.)
     * How does that change affect how the visual supports the original claim?
       Can your redesign now support some *different* claim?
-  * Attempt to implement your best alternative design.
+  * Make a solid attempt to implement your best alternative design.
+    * If creating it using ggplot/plotly/etc is too challenging, you may submit
+      a high-fidelity sketch of what the visualization would look like along with
+      a clear description of what you'd need to figure out in order to produce it with code.
 * Summary
   * Now that you've gone through the whole process, *how has your
     understanding of, and belief in, the original article's claim changed*?
@@ -89,7 +94,8 @@ Please follow this general outline (though you may add or remove aspects if need
   * How do you feel about this whole experience?
   
 
-
+At least one of your visuals (either the original or alternative design) should be high
+quality, with effort spent getting the details right.
 
 
 
