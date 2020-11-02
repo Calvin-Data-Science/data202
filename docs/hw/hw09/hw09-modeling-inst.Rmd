@@ -22,6 +22,10 @@ options(dplyr.summarise.inform = FALSE) # silence a warning message
 * Use visualization to understand the strengths and weaknesses of different models
 * Compare and contrast linear regression and decision trees
 
+We'll again be using the Capital Bike Share dataset. In hw3 we wrangled this
+raw data ourselves, but we'll go back to the pre-wrangled data we worked with
+before since our focus here is on the modeling.
+
 Here are some useful utility functions. They will let you omit the `set_engine`
 step; just use `linear_reg() %>% fit(...)`.
 
@@ -34,16 +38,17 @@ add_predictions <- function(data, ...) {
     models,
     function(model_name, model) {
       model %>%
-        predict(data) %>% 
-        bind_cols(data) %>% 
+        predict(data) %>%
+        bind_cols(data) %>%
         mutate(model = !!model_name)
     }
   )
 }
 
-linear_reg <- function(engine = "lm", ...) { 
+linear_reg <- function(engine = "lm", ...) {
   parsnip::linear_reg(...) %>% set_engine(engine)
 }
+
 decision_tree <- function(mode = "regression", engine = "rpart", ...) {
   parsnip::decision_tree(mode = "regression", ...) %>%
     set_engine(engine)
@@ -52,25 +57,42 @@ decision_tree <- function(mode = "regression", engine = "rpart", ...) {
 
 ## Getting Started
 
+Find your repo in the [usual spot](https://github.com/Calvin-DS202-FA20/)
+and clone it as usual.
+
 ### Load data
 
-```{r echo=TRUE}
-daily_rides <- read_csv("../../data/bikeshare/day.csv", col_types = cols(
+```{r preproc, include=FALSE}
+read_csv("../../data/bikeshare/day.csv", col_types = cols(
   .default = col_double(),
   dteday = col_date()
-)) %>% 
+)) %>%
   mutate(
     yr = as_factor(2011 + yr),
     weekday = lubridate::wday(dteday, label = TRUE),
-    workingday = as_factor(if_else(workingday == 1, "workday", "weekend")),
+    workingday = if_else(workingday == 1, "workday", "weekend"),
     temp = temp * (39 + 8) - 8,
     atemp = atemp * (50 + 16) - 16
-    ) %>% 
+  ) %>%
   rename(
     year = yr,
     date = dteday
-  )
+  ) %>% write_csv("data/day-hw09.csv")
+file.copy("data/day-hw09.csv", "../../../src/hw/hw09-modeling/data/day-hw09.csv")
 ```
+
+```{r load-data, echo=TRUE}
+daily_rides <- read_csv("data/day-hw09.csv", col_types = cols_only(
+  date = col_date(),
+  year = col_integer(),
+  workingday = col_character(),
+  temp = col_double(),
+  atemp = col_double(),
+  casual = col_double(),
+  registered = col_double()
+)) %>% mutate(across(c(workingday, year), as_factor))
+```
+
 
 ### Exploratory Analytics
 
@@ -85,7 +107,31 @@ daily_rides %>%
 
 ### Train-test split
 
-```{r}
+Split this data into a training set (call it `train`) and a testing set (call it
+`test`). Use `year` of 2011 as the `train`ing set and 2012 as the `test`ing set.
+To do this, just `filter` by year; don't use `rsample::initial_split` as we did
+before.
+
+
+```{marginfigure, echo=TRUE}
+This is actually a *time series* prediction problem, sometimes just called *forecasting*.
+Methods that are competitive for forecasting almost always look at recent history,
+not just general trends. There are ways of adapting the models we use here to
+do that, but we will keep it simple for now.
+
+One aspect of time series prediction bears noting here, though: we need to be
+mindful of how we evaluate performance. 
+If we picked days at random to evaluate on, most of the evaluation days would
+be within the time we've already seen. So we would be overconfident in our model's
+ability to predict *future* ridership.
+
+The `initial_time_split` function can be used for this purpose if there is not a
+nice division by year like we have here.
+
+More discussion of time series validation approaches can be found [here](https://otexts.com/fpp3/tscv.html).
+```
+
+```{r train-test-split}
 train <- daily_rides %>% filter(year == 2011)
 test <- daily_rides %>% filter(year == 2012)
 ```
@@ -107,7 +153,9 @@ model1 <- linear_reg() %>%
 We can use the `tidy` function to get the model's coefficients:
 
 ```{r echo=TRUE}
-model1 %>% tidy() %>% select(term, estimate)
+model1 %>%
+  tidy() %>%
+  select(term, estimate)
 ```
 
 Complete this sentence: "For every additional degree C, model1 predicts ___ additional riders."
@@ -128,7 +176,8 @@ train %>%
 ```
 
 This is a linear model, so generally we expect to see straight lines. Why is
-the maroon line not a straight line?
+the maroon line not a straight line? Hint: you may want to try making another
+plot, corresponding to the formula we used to fit this model.
 
 ### Residuals Histogram
 
@@ -136,7 +185,7 @@ Make a histogram of the residuals, faceted by weekend vs weekday. (The example
 uses a `binwidth` of 100 and a `geom_vline` at 0.)
 
 ```{r resid-histogram-model1}
-train %>% 
+train %>%
   add_predictions(model1) %>%
   mutate(resid = casual - .pred) %>%
   ggplot(aes(x = resid)) +
@@ -191,6 +240,7 @@ daily_rides %>%
   mutate(resid = casual - .pred) %>%
   ggplot(aes(x = resid)) +
   geom_histogram(binwidth = 100) +
+  geom_vline(xintercept = 0) +
   facet_wrap(vars(year), nrow = 2)
 ```
 
@@ -213,9 +263,9 @@ Use the `mae` function, or write your own `summary` call, to compute the Mean
 Absolute Error for each year (2011 and 2012).
 
 ```{r}
-daily_rides %>% 
-  add_predictions(model1) %>% 
-  group_by(year) %>% 
+daily_rides %>%
+  add_predictions(model1) %>%
+  group_by(year) %>%
   summarize(mae = mean(abs(casual - .pred)))
 #  mae(truth = casual, estimate = .pred)
 ```
@@ -232,28 +282,35 @@ Write one-sentence responses for the following:
   * What can you easily observe from the plots but not the table?
   * What can you easily observe from the table but not the plots?
 
-## Predict from temperature and day of week
+## Linear Regression using Temperature and Working Day
 
 Since it seems that `workingday` makes a big difference in the number of casual
 riders, let's include it in our model. It's a categorical variable, so we'll
 need to dummy-encode it.
 
 Dummy encoding will only give us a conditional *intercept*. If we want our 
-*slope* to be conditional also, we need to make an interaction term.
+*slope* to be conditional also, we need to make an interaction term. We
+can do that using `step_interact`. The code is nonobvious and not the point
+of this exercise, so it's included below. Note that the code below also
+uses a `workflow` to combine the model and the recipe.
 
 ```{r echo=TRUE}
-recipe2 <- 
-  recipe(casual ~ temp + workingday, data = train) %>% 
-  step_dummy(workingday) %>% 
+recipe2 <-
+  recipe(casual ~ temp + workingday, data = train) %>%
+  step_dummy(workingday) %>%
   step_interact(~ temp:starts_with("workingday"))
-  
 
-model2 <- workflow() %>% 
-  add_recipe(recipe2) %>% 
-  add_model(linear_reg()) %>% 
+
+model2 <- workflow() %>%
+  add_recipe(recipe2) %>%
+  add_model(linear_reg()) %>%
   fit(train)
 model2
 ```
+
+Plot the predictions of this model by date. Again, color by working day;
+this time the `color` aesthetic will also apply to the predictions line
+so we'll get two separate lines.
 
 ```{r}
 train %>%
@@ -263,39 +320,72 @@ train %>%
   geom_line(aes(y = .pred), size = 1)
 ```
 
+Now let's make a plot of what predictions this model makes. The code is a bit
+tricky here too, so here's part of it: you'll need to add a `geom_line`
+that specifies its own `data` and `mapping`.
 
-```{r}
-train %>% 
-  ggplot(aes(x = temp, y = casual, color = workingday)) +
-    geom_point() +
-    geom_line(
-      data = expand_grid(
-        workingday = levels(train$workingday),
-        temp = modelr::seq_range(train$temp, n = 100)
-      ) %>% 
-        add_predictions(model2),
-      mapping = aes(y = .pred)
-    )
+```r
+  geom_line(
+    data = expand_grid(
+      workingday = levels(train$workingday),
+      temp = modelr::seq_range(train$temp, n = 100)
+    ) %>%
+      add_predictions(model2),
+    mapping = aes(y = .pred)
+```
+
+```{marginfigure, echo=TRUE}
+Since the prediction is a straight line, you can also get a similar plot by
+using `add_predictions` to `train`. That won't work when the line isn't straight,
+though, so we need this extra code.
 ```
 
 
+```{r}
+train %>%
+  ggplot(aes(x = temp, y = casual, color = workingday)) +
+  geom_point() +
+  geom_line(
+    data = expand_grid(
+      workingday = levels(train$workingday),
+      temp = modelr::seq_range(train$temp, n = 100)
+    ) %>%
+      add_predictions(model2),
+    mapping = aes(y = .pred)
+  )
+```
+
+Finally, quantify `model2`'s performance like you did before with `model1`.
 
 ```{r}
-daily_rides %>% 
-  add_predictions(model2) %>% 
-  group_by(year) %>% 
+daily_rides %>%
+  add_predictions(model2) %>%
+  group_by(year) %>%
   mae(truth = casual, estimate = .pred)
 ```
 
 
-## Try decision tree
+## Decision Tree Regression
+
+Now try using a `decision_tree` to predict `casual` rides from `temp` and `workingday`.
+Use the default settings.
 
 ```{r}
-model3 <- 
-  decision_tree() %>% 
+model3 <-
+  decision_tree() %>%
   fit(casual ~ temp + workingday, data = train)
-model3
 ```
+
+We can show the tree using the same method we used in Lab 9.
+
+```{r echo=TRUE}
+model3 %>%
+  pluck("fit") %>%
+  rpart.plot::rpart.plot(roundint = FALSE, digits = 3, type = 4)
+```
+
+Plot its predictions by date (the `train %>% add_predictions` approach
+works again here).
 
 ```{r}
 train %>%
@@ -305,21 +395,26 @@ train %>%
   geom_line(aes(y = .pred), size = 1)
 ```
 
+Finally, quantify its performance.
 
 ```{r}
-daily_rides %>% 
-  add_predictions(model3) %>% 
-  group_by(year) %>% 
+daily_rides %>%
+  add_predictions(model3) %>%
+  group_by(year) %>%
   mae(truth = casual, estimate = .pred)
 ```
 
-```{r}
-daily_rides %>% 
-  add_predictions(model1, model2, model3) %>% 
-  group_by(model, year) %>% 
-  summarize(mae = mean(abs(casual - .pred))) %>% 
-  ggplot(aes(x = model, y = mae, fill = year)) +
-    geom_col(position = 'dodge')
+Let's make a plot to compare all 3 models' performance. You can get the predictions
+of all 3 models by using `daily_rides %>% add_predictions(model1, model2, model3)`.
 
+```{r}
+daily_rides %>%
+  add_predictions(model1, model2, model3) %>%
+  group_by(model, year) %>%
+  summarize(mae = mean(abs(casual - .pred))) %>%
+  ggplot(aes(x = model, y = mae, fill = year)) +
+  geom_col(position = "dodge")
 ```
+
+## Wrap-up
 
