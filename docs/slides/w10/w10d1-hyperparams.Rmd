@@ -70,15 +70,9 @@ rm(ames)
 
 ```{r train-test-split}
 set.seed(10) # Seed the random number generator
-ames_split <- initial_split(ames_all, prop = 2 / 3) # Split our data randomly
+ames_split <- initial_split(ames_all, prop = 2 / 3)
 ames_train <- training(ames_split)
 ames_test <- testing(ames_split)
-```
-
-```{r train-model1}
-model1 <-
-  decision_tree(mode = "regression", tree_depth = 2) %>%
-  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
 
 ```{r echo=FALSE}
@@ -104,6 +98,11 @@ show_latlong_model <- function(dataset, model, model_name = deparse(substitute(m
 ```
 
 ]
+```{r train-model1}
+model1 <-
+  decision_tree(mode = "regression", tree_depth = 2) %>%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+```
 
 ```{r train-model2}
 model2 <-
@@ -117,12 +116,7 @@ model3 <-
   fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
 
-```{r show-model3, fig.show="hide", fig.width=10}
-show_latlong_model(ames_train, model3)
-```
-
-
-
+---
 
 ## This week
 
@@ -171,6 +165,15 @@ about one variable (e.g., `Latitude < 42.05`)
 * Goal: find the best tree (for regression: minimize MSE)
 * Approach: greedy algorithm: try all possible splits, keep the best one, repeat.
 
+> I missed one of the check-in quizzes (or even weekly quizzes)!
+
+Email me.
+
+> Is midterm project individual?
+
+At this point, yes.
+
+
 ---
 
 ## Objectives
@@ -184,11 +187,6 @@ linear regression models, including:
 
 ---
 
-```{r ref.label="show-model3", echo=FALSE}
-```
-
-
----
 
 ## What are some decisions that we've made when making models so far?
 
@@ -217,17 +215,62 @@ linear regression models, including:
 
 ---
 
+```{r show-model3, fig.width=10, echo=FALSE}
+show_latlong_model(ames_train, model3)
+```
+
+---
+
 ## Hyperparameters for Linear Regression
 
+.pull-left[
+```{r}
+recipe <-
+  recipe(Sale_Price ~ Latitude + Longitude, data = ames_train) %>% 
+  step_poly(Latitude, Longitude, degree = 5)
+```
+
+.small-code[
+```{r}
+model <- workflow() %>% add_recipe(recipe) %>% add_model(linear_reg()) %>%
+  fit(ames_train)
+show_latlong_model(ames_train, model)
+```
+]
+]
+
+.pull-right[
+```{r}
+recipe <-
+  recipe(Sale_Price ~ Latitude + Longitude, data = ames_train) %>% 
+  step_discretize(Latitude, Longitude, num_breaks = 10)
+```
+
+.small-code[
+```{r}
+model <- workflow() %>% add_recipe(recipe) %>% add_model(linear_reg()) %>%
+  fit(ames_train)
+show_latlong_model(ames_train, model)
+```
+]
+]
+
+---
+
+## Polynomial and interaction features
+
+.pull-left[
 ```{r}
 recipe <-
   recipe(Sale_Price ~ Gr_Liv_Area + Bldg_Type, data = ames_train) %>%
-  step_other(Bldg_Type) %>% 
   step_dummy(Bldg_Type) %>% 
-  step_interact(~ Gr_Liv_Area:starts_with("Bldg_Type")) %>% 
-  step_poly(starts_with("Gr_Liv_Area"), degree = 10)
+  step_interact(
+    ~ Gr_Liv_Area:starts_with("Bldg_Type")) %>% 
+  step_poly(
+    starts_with("Gr_Liv_Area"), degree = 2) #<<
+```
 
-
+```{r echo=FALSE, warning=FALSE}
 model <- workflow() %>%
   add_recipe(recipe) %>%
   add_model(linear_reg()) %>%
@@ -235,14 +278,44 @@ model <- workflow() %>%
 
 ames_train %>% 
   ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = Bldg_Type)) +
-  geom_point() +
+  geom_point(alpha = .5) +
   geom_line(
     data = model %>%
       sweep_model(Gr_Liv_Area, 0, 4000, Bldg_Type = levels(ames_train$Bldg_Type)),
     mapping = aes(y = .pred)) +
-  ylim(0, 600)
+  ylim(0, 600) +
+  theme(legend.position = "bottom")
+```
+]
+
+.pull-right[
+```{r}
+recipe <-
+  recipe(Sale_Price ~ Gr_Liv_Area + Bldg_Type, data = ames_train) %>%
+  step_dummy(Bldg_Type) %>% 
+  step_interact(
+    ~ Gr_Liv_Area:starts_with("Bldg_Type")) %>% 
+  step_poly(
+    starts_with("Gr_Liv_Area"), degree = 5)
 ```
 
+```{r echo=FALSE, warning=FALSE}
+model <- workflow() %>%
+  add_recipe(recipe) %>%
+  add_model(linear_reg()) %>%
+  fit(ames_train)
+
+ames_train %>% 
+  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = Bldg_Type)) +
+  geom_point(alpha = .5) +
+  geom_line(
+    data = model %>%
+      sweep_model(Gr_Liv_Area, 0, 4000, Bldg_Type = levels(ames_train$Bldg_Type)),
+    mapping = aes(y = .pred)) +
+  ylim(0, 600) +
+  theme(legend.position = "bottom")
+```
+]
 
 
 ---
