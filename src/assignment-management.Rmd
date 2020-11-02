@@ -33,7 +33,7 @@ stopifnot(
 
 
 ```{r}
-fix_roster <- function(roster, assignment, seed) {
+fix_roster <- function(roster, assignment) {
   if (assignment != "lab04") {
     roster %>% mutate(
       cohort = case_when(
@@ -64,7 +64,7 @@ team_seeds <- tribble(
 roster_withteams <- team_seeds %>% 
   pmap_dfr(function(assignment, seed) {
     roster %>%
-      fix_roster(assignment, seed) %>% 
+      fix_roster(assignment) %>% 
     { withr::with_seed(seed, slice_sample(., prop=1)) } %>% 
     group_by(cohort) %>% 
     mutate(
@@ -130,7 +130,7 @@ createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo =
 #createAssignmentTemplate("hw/hw04-other-tools")
 #createAssignmentTemplate("lab/lab05-ugly-charts")
 #createAssignmentTemplate("proj/datavis")
-createAssignmentTemplate("lab/lab09-overfitting")
+createAssignmentTemplate("hw/hw09-modeling")
 ```
 
 (This is a WIP Python replacement for the shell script)
@@ -152,7 +152,7 @@ for f in file_list:
 ## Push repo to students
 
 
-```{r solo-assignment, eval=FALSE}
+```{r solo-assignment}
 my_create_assignment <- function(usernames, assignmentName) {
   org_create_assignment(
     org = ghorg,
@@ -168,7 +168,11 @@ pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = 
   }
   my_create_assignment(usernames, assignmentName = assignmentName)
 }
-#pushSoloAssignment('datavis')
+```
+
+
+```{r push-solo-assignment, eval=FALSE}
+pushSoloAssignment('hw09')
 ```
 
 ```{r eval=FALSE}
@@ -183,11 +187,13 @@ pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = 
 
 
 ```{r eval=FALSE}
+assignmentName <- "lab09"
 expand_grid(
-  roster,
+  fix_roster(roster, "lab09"),
   repo_idx = 1:5
 ) %>% 
   mutate(repo = glue("lab09-{cohort}{repo_idx}")) %>% select(github, repo) %>% 
+  bind_rows(tibble(github = c("kcarnold", "kimyejae"), repo = paste0(assignmentName, "-staff"))) %>% 
   {
     org_create_assignment(
       org = ghorg,
