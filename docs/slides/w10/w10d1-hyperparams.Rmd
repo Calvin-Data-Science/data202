@@ -1,0 +1,224 @@
+---
+title: "Hyperparameters and Validation"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidymodels)
+library(rpart.plot)
+theme_set(theme_bw())
+options(dplyr.summarise.inform = FALSE) # silence a warning message
+```
+
+.small-code[
+```{r load-and-subset-data}
+data(ames, package = "modeldata")
+ames_all <- ames %>%
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>%
+  mutate(across(where(is.integer), as.double)) %>%
+  mutate(Sale_Price = Sale_Price / 1000)
+rm(ames)
+```
+
+```{r train-test-split}
+set.seed(10) # Seed the random number generator
+ames_split <- initial_split(ames_all, prop = 2 / 3) # Split our data randomly
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+```{r train-model1}
+model1 <-
+  decision_tree(mode = "regression", tree_depth = 2) %>%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+```
+
+```{r echo=FALSE}
+lat_long_grid <- expand_grid(
+  Latitude  = modelr::seq_range(ames_train$Latitude,  n = 200, expand = .05),
+  Longitude = modelr::seq_range(ames_train$Longitude, n = 200, expand = .05),
+)
+```
+
+```{r utilities, echo=FALSE}
+add_predictions <- function(data, ...) {
+  model_names <- as.character(eval(substitute(alist(...))))
+  models <- list(...)
+  map2_dfr(
+    model_names,
+    models,
+    function(model_name, model) {
+      model %>%
+        predict(data) %>%
+        bind_cols(data) %>%
+        mutate(model = !!model_name)
+    }
+  )
+}
+
+linear_reg <- function(engine = "lm", ...) {
+  parsnip::linear_reg(...) %>% set_engine(engine)
+}
+
+decision_tree <- function(mode = "regression", engine = "rpart", ...) {
+  parsnip::decision_tree(mode = "regression", ...) %>%
+    set_engine(engine)
+}
+```
+
+```{r plot-util, echo=FALSE}
+show_latlong_model <- function(dataset, model, model_name = deparse(substitute(model))) {
+  ggplot(dataset, aes(x = Longitude, y = Latitude)) +
+    geom_raster(
+      data = lat_long_grid %>% add_predictions(model),
+      mapping = aes(fill = .pred)
+    ) +
+    geom_point(aes(color = Sale_Price), size = .5) +
+    scale_color_viridis_c(aesthetics = c("color", "fill")) +
+    coord_equal() +
+    labs(title = model_name)
+}
+```
+
+]
+
+```{r train-model2}
+model2 <-
+  decision_tree(mode = "regression", tree_depth = 30) %>%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+```
+
+```{r train-model3}
+model3 <-
+  decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2) %>%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+```
+
+```{r show-model3, fig.show="hide", fig.width=10}
+show_latlong_model(ames_train, model3)
+```
+
+
+
+
+## This week
+
+* *Today*: how modeling decisions affect performance; why validate?
+* *Wednesday*: **how** to validate?
+* *Friday*: cross-validation lab
+
+---
+
+## Decision Trees
+
+.pull-left[
+```{r show-model1-alg, echo=FALSE}
+model1 %>%
+  pluck("fit") %>%
+  rpart.plot(roundint = FALSE, digits = 5, type = 4)
+```
+
+```{r show-model1-data, echo=FALSE, out.width="100%", fig.width=10, fig.asp=NULL}
+show_latlong_model(ames_train, model1) + guides(fill = "none", color = "none")
+```
+
+]
+
+.pull-right[
+```{r show-model2-alg, echo=FALSE}
+model2 %>%
+  pluck("fit") %>%
+  rpart.plot(roundint = FALSE, digits = 5, type = 4)
+```
+
+```{r show-model2-data, echo=FALSE, out.width="100%", fig.width=10, fig.asp=NULL}
+show_latlong_model(ames_train, model2) + guides(fill = "none", color = "none")
+```
+
+]
+
+---
+
+## Q&A
+
+> How do we *train* a decision tree?
+
+* The model: "choose your own adventure": at each step, check one simple condition
+about one variable (e.g., `Latitude < 42.05`)
+* Goal: find the best tree (for regression: minimize MSE)
+* Approach: greedy algorithm: try all possible splits, keep the best one, repeat.
+
+---
+
+## Objectives
+
+* Identify modeling decisions that affect the performance of decision tree and
+linear regression models, including:
+  * Choice of model type
+  * Pre-processing steps
+  * Hyperparameter settings
+* Explain the importance of *validation* for assessing and comparing models.
+
+---
+
+```{r ref.label="show-model3", echo=FALSE}
+```
+
+
+---
+
+## What are some decisions that we've made when making models so far?
+
+--
+
+* Which model to use
+
+--
+
+* Shifting and scaling features
+
+--
+
+* Hyperparameters: Tree depth, number of observations per leaf, ...
+
+---
+
+## Hyperparameters for Decision Trees
+
+```{r ref.label=c("train-model1", "train-model2", "train-model3"), eval=FALSE}
+```
+
+* Tree depth: how many levels of decisions
+* Leaf size: how many observations need to be in each leaf node
+* Complexity penalty: how much improvement for a split to be "worth it"
+
+---
+
+```{r ames-cv-anim, fig.show="animate", animation.hook=knitr::hook_gifski}
+ames_train %>%
+  vfold_cv(v = 10) %>%
+  pull(splits) %>% 
+  walk(function(split) {
+    print(
+      ggplot(data = NULL, aes(x = Latitude, y = Longitude)) +
+      geom_point(data = analysis(split), color = "green") +
+      geom_point(data = assessment(split), color = "red") +
+      theme_bw() +
+      theme(panel.grid = element_blank())
+    )
+  })
+```
+
