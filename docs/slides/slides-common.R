@@ -1,5 +1,6 @@
 library(tidyverse)
 library(knitr)
+library(glue)
 
 slideSetup <- function() {
   library(xaringanthemer)
