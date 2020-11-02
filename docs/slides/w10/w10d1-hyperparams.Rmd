@@ -17,13 +17,48 @@ source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(glue)
 library(tidymodels)
 library(rpart.plot)
+library(gifski)
 theme_set(theme_bw())
 options(dplyr.summarise.inform = FALSE) # silence a warning message
 ```
 
 .small-code[
+```{r utilities, echo=FALSE}
+add_predictions <- function(data, ...) {
+  model_names <- as.character(eval(substitute(alist(...))))
+  models <- list(...)
+  map2_dfr(
+    model_names,
+    models,
+    function(model_name, model) {
+      model %>%
+        predict(data) %>%
+        bind_cols(data) %>%
+        mutate(model = !!model_name)
+    }
+  )
+}
+
+sweep_model <- function(model, var_to_sweep, sweep_min, sweep_max, ...) {
+  X <- expand_grid(!!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500), ...)
+  model %>% 
+    predict(X) %>% 
+    bind_cols(X)
+}
+
+linear_reg <- function(engine = "lm", ...) {
+  parsnip::linear_reg(...) %>% set_engine(engine)
+}
+
+decision_tree <- function(mode = "regression", engine = "rpart", ...) {
+  parsnip::decision_tree(mode = "regression", ...) %>%
+    set_engine(engine)
+}
+```
+
 ```{r load-and-subset-data}
 data(ames, package = "modeldata")
 ames_all <- ames %>%
@@ -53,31 +88,6 @@ lat_long_grid <- expand_grid(
 )
 ```
 
-```{r utilities, echo=FALSE}
-add_predictions <- function(data, ...) {
-  model_names <- as.character(eval(substitute(alist(...))))
-  models <- list(...)
-  map2_dfr(
-    model_names,
-    models,
-    function(model_name, model) {
-      model %>%
-        predict(data) %>%
-        bind_cols(data) %>%
-        mutate(model = !!model_name)
-    }
-  )
-}
-
-linear_reg <- function(engine = "lm", ...) {
-  parsnip::linear_reg(...) %>% set_engine(engine)
-}
-
-decision_tree <- function(mode = "regression", engine = "rpart", ...) {
-  parsnip::decision_tree(mode = "regression", ...) %>%
-    set_engine(engine)
-}
-```
 
 ```{r plot-util, echo=FALSE}
 show_latlong_model <- function(dataset, model, model_name = deparse(substitute(model))) {
@@ -207,15 +217,46 @@ linear regression models, including:
 
 ---
 
-```{r ames-cv-anim, fig.show="animate", animation.hook=knitr::hook_gifski}
+## Hyperparameters for Linear Regression
+
+```{r}
+recipe <-
+  recipe(Sale_Price ~ Gr_Liv_Area + Bldg_Type, data = ames_train) %>%
+  step_other(Bldg_Type) %>% 
+  step_dummy(Bldg_Type) %>% 
+  step_interact(~ Gr_Liv_Area:starts_with("Bldg_Type")) %>% 
+  step_poly(starts_with("Gr_Liv_Area"), degree = 10)
+
+
+model <- workflow() %>%
+  add_recipe(recipe) %>%
+  add_model(linear_reg()) %>%
+  fit(ames_train)
+
+ames_train %>% 
+  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = Bldg_Type)) +
+  geom_point() +
+  geom_line(
+    data = model %>%
+      sweep_model(Gr_Liv_Area, 0, 4000, Bldg_Type = levels(ames_train$Bldg_Type)),
+    mapping = aes(y = .pred)) +
+  ylim(0, 600)
+```
+
+
+
+---
+
+```{r ames-cv-anim, echo=FALSE, fig.show="animate", animation.hook="gifski"}
 ames_train %>%
   vfold_cv(v = 10) %>%
   pull(splits) %>% 
-  walk(function(split) {
+  iwalk(function(split, split_idx) {
     print(
       ggplot(data = NULL, aes(x = Latitude, y = Longitude)) +
       geom_point(data = analysis(split), color = "green") +
       geom_point(data = assessment(split), color = "red") +
+      labs(title = glue("Fold {split_idx}")) +
       theme_bw() +
       theme(panel.grid = element_blank())
     )
