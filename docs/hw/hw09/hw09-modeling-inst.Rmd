@@ -27,16 +27,16 @@ raw data ourselves, but we'll go back to the pre-wrangled data we worked with
 before since our focus here is on the modeling.
 
 Here are some useful utility functions. They will let you omit the `set_engine`
-step; just use `linear_reg() %>% fit(...)`.
+step; just use `linear_reg() %>% fit(...)`. This upgraded `add_predictions`
+function can now take multiple models too (e.g., `data %>% add_predictions(model1, model2, model3)`,
+and makes a tidy data frame with the predictions of each model for each data point,
+and a column called `model` that gives the name of the model.
 
 ```{r echo=TRUE}
 add_predictions <- function(data, ...) {
-  model_names <- as.character(eval(substitute(alist(...))))
-  models <- list(...)
-  map2_dfr(
-    model_names,
-    models,
-    function(model_name, model) {
+  imap_dfr(
+    rlang::dots_list(..., .named = TRUE),
+    function(model, model_name) {
       model %>%
         predict(data) %>%
         bind_cols(data) %>%
@@ -167,6 +167,9 @@ Plot the model's predictions along with the number of casual rides.
 (Start by piping `train` into `add_predictions(model1)`. You'll want to add a `geom_line`
 where you specify `.pred` as the `y` aesthetic. This works because the dataset is sorted by `date` already.)
 
+(For this plot, and only this plot, the result will look cleaner if you specify
+a `color` for `geom_line` outside of the aesthetic mapping. But that's optional.)
+
 ```{r show-model1}
 train %>%
   add_predictions(model1) %>%
@@ -176,7 +179,7 @@ train %>%
 ```
 
 This is a linear model, so generally we expect to see straight lines. Why is
-the maroon line not a straight line? Hint: you may want to try making another
+the maroon line not a straight line? *Hint*: you may want to try making another
 plot, corresponding to the formula we used to fit this model.
 
 ### Residuals Histogram
@@ -209,15 +212,17 @@ train %>%
   coord_obs_pred()
 ```
 
+### Analysis
+
 Under what circumstances does this this model typically predict too high? Under
-what circumstances does it predict too low? Use the residual plot
-to justify your answer. 
+what circumstances does it predict too low? Use the plots above to justify your answer. 
 
 Try to guess why might the model have done that.
 
 ### Validate the model on the test set
 
-Now, make the same plots as above, but with the full `daily_rides` dataset
+Now let's see how this model predicts on data it hasn't seen. Make the same
+plots as above, but with the full `daily_rides` dataset
 (so now we have 2012 also.)
 
 #### Predictions
@@ -290,7 +295,7 @@ need to dummy-encode it.
 
 Dummy encoding will only give us a conditional *intercept*. If we want our 
 *slope* to be conditional also, we need to make an interaction term. We
-can do that using `step_interact`. The code is nonobvious and not the point
+can do that using `step_interact`. The code is non-obvious and not the point
 of this exercise, so it's included below. Note that the code below also
 uses a `workflow` to combine the model and the recipe.
 
@@ -300,13 +305,23 @@ recipe2 <-
   step_dummy(workingday) %>%
   step_interact(~ temp:starts_with("workingday"))
 
-
 model2 <- workflow() %>%
   add_recipe(recipe2) %>%
   add_model(linear_reg()) %>%
   fit(train)
-model2
 ```
+
+Let's have a look at this model's coefficients.
+
+```{r echo=TRUE}
+model2 %>% tidy() %>% select(term, estimate)
+```
+
+```{r include=FALSE}
+stopifnot("workingday_workday" %in% (model2 %>% tidy() %>% pull(term)))
+```
+
+(No answer needed, but: why might the coefficient by named `workingday_workday`?)
 
 Plot the predictions of this model by date. Again, color by working day;
 this time the `color` aesthetic will also apply to the predictions line
@@ -418,3 +433,10 @@ daily_rides %>%
 
 ## Wrap-up
 
+Write brief answers to the following questions:
+
+* What differences did you observe between the linear regression and
+  decision tree models?
+* What differences did you observe between the accuracy of these models on
+  2011 data vs 2012?
+* Based on the graphs you made, what might explain both of these differences?
