@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Hyperparameters and Validation</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="K Arnold" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Hyperparameters and Validation
+### K Arnold
+
+---
+
+
+
+
+.small-code[
+
+
+
+```r
+data(ames, package = "modeldata")
+ames_all &lt;- ames %&gt;%
+  filter(Gr_Liv_Area &lt; 4000, Sale_Condition == "Normal") %&gt;%
+  mutate(across(where(is.integer), as.double)) %&gt;%
+  mutate(Sale_Price = Sale_Price / 1000)
+rm(ames)
+```
+
+
+```r
+set.seed(10) # Seed the random number generator
+ames_split &lt;- initial_split(ames_all, prop = 2 / 3)
+ames_train &lt;- training(ames_split)
+ames_test &lt;- testing(ames_split)
+```
+
+
+
+
+
+
+]
+
+```r
+model1 &lt;-
+  decision_tree(mode = "regression", tree_depth = 2) %&gt;%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+```
+
+
+```r
+model2 &lt;-
+  decision_tree(mode = "regression", tree_depth = 30) %&gt;%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+```
+
+
+```r
+model3 &lt;-
+  decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2) %&gt;%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+```
+
+---
+
+## This week
+
+* *Today*: how modeling decisions affect performance; why validate?
+* *Wednesday*: **how** to validate?
+* *Friday*: cross-validation lab
+
+---
+
+## Decision Trees
+
+.pull-left[
+&lt;img src="w10d1-hyperparams_files/figure-html/show-model1-alg-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="w10d1-hyperparams_files/figure-html/show-model1-data-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+&lt;img src="w10d1-hyperparams_files/figure-html/show-model2-alg-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="w10d1-hyperparams_files/figure-html/show-model2-data-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+## Q&amp;A
+
+&gt; How do we *train* a decision tree?
+
+* The model: "choose your own adventure": at each step, check one simple condition
+about one variable (e.g., `Latitude &lt; 42.05`)
+* Goal: find the best tree (for regression: minimize MSE)
+* Approach: greedy algorithm: try all possible splits, keep the best one, repeat.
+
+&gt; I missed one of the check-in quizzes (or even weekly quizzes)!
+
+Email me.
+
+&gt; Is midterm project individual?
+
+At this point, yes.
+
+
+---
+
+## Objectives
+
+* Identify modeling decisions that affect the performance of decision tree and
+linear regression models, including:
+  * Choice of model type
+  * Pre-processing steps
+  * Hyperparameter settings
+* Explain the importance of *validation* for assessing and comparing models.
+
+---
+
+
+## What are some decisions that we've made when making models so far?
+
+--
+
+* Which model to use
+
+--
+
+* Shifting and scaling features
+
+--
+
+* Hyperparameters: Tree depth, number of observations per leaf, ...
+
+---
+
+## Hyperparameters for Decision Trees
+
+
+```r
+model1 &lt;-
+  decision_tree(mode = "regression", tree_depth = 2) %&gt;%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+model2 &lt;-
+  decision_tree(mode = "regression", tree_depth = 30) %&gt;%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+model3 &lt;-
+  decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2) %&gt;%
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
+```
+
+* Tree depth: how many levels of decisions
+* Leaf size: how many observations need to be in each leaf node
+* Complexity penalty: how much improvement for a split to be "worth it"
+
+---
+
+&lt;img src="w10d1-hyperparams_files/figure-html/show-model3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Hyperparameters for Linear Regression
+
+.pull-left[
+
+```r
+recipe &lt;-
+  recipe(Sale_Price ~ Latitude + Longitude, data = ames_train) %&gt;% 
+  step_poly(Latitude, Longitude, degree = 5)
+```
+
+.small-code[
+
+```r
+model &lt;- workflow() %&gt;% add_recipe(recipe) %&gt;% add_model(linear_reg()) %&gt;%
+  fit(ames_train)
+show_latlong_model(ames_train, model)
+```
+
+&lt;img src="w10d1-hyperparams_files/figure-html/unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+.pull-right[
+
+```r
+recipe &lt;-
+  recipe(Sale_Price ~ Latitude + Longitude, data = ames_train) %&gt;% 
+  step_discretize(Latitude, Longitude, num_breaks = 10)
+```
+
+.small-code[
+
+```r
+model &lt;- workflow() %&gt;% add_recipe(recipe) %&gt;% add_model(linear_reg()) %&gt;%
+  fit(ames_train)
+show_latlong_model(ames_train, model)
+```
+
+&lt;img src="w10d1-hyperparams_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+
+## Polynomial and interaction features
+
+.pull-left[
+
+```r
+recipe &lt;-
+  recipe(Sale_Price ~ Gr_Liv_Area + Bldg_Type, data = ames_train) %&gt;%
+  step_dummy(Bldg_Type) %&gt;% 
+  step_interact(
+    ~ Gr_Liv_Area:starts_with("Bldg_Type")) %&gt;% 
+  step_poly(
+*   starts_with("Gr_Liv_Area"), degree = 2)
+```
+
+&lt;img src="w10d1-hyperparams_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+recipe &lt;-
+  recipe(Sale_Price ~ Gr_Liv_Area + Bldg_Type, data = ames_train) %&gt;%
+  step_dummy(Bldg_Type) %&gt;% 
+  step_interact(
+    ~ Gr_Liv_Area:starts_with("Bldg_Type")) %&gt;% 
+  step_poly(
+    starts_with("Gr_Liv_Area"), degree = 5)
+```
+
+&lt;img src="w10d1-hyperparams_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

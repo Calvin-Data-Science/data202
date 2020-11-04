@@ -348,7 +348,9 @@ ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = Bldg_Type)) +
 ```
 ]]
 
-```{r}
+---
+
+```{r show-complex-decision-tree}
 seq_matching_range <- function(x, length.out = 500) { seq(min(x), max(x), length.out = length.out)}
 example_data <- expand_grid(
   Latitude = seq_matching_range(ames_train$Latitude),
@@ -403,8 +405,7 @@ decision_tree_fit$fit %>% rpart.plot::rpart.plot(roundint = FALSE)
 ]
 
 
-```{r include=FALSE}
-library(parsnip)
+```{r include=FALSE, eval=FALSE}
 example_curve <- tibble(
   x = seq(-.5, 1, length.out = 500),
   x_gt_0 = as.double(x > 0),

@@ -460,9 +460,9 @@ baked_ames_train %&gt;% head(5) %&gt;% knitr::kable(format = "html")
 
 
 ```r
-*decision_tree_fit &lt;- decision_tree(mode = "regression", tree_depth = 2) %&gt;%
+*decision_tree_fit &lt;- decision_tree(mode = "regression", tree_depth = 3) %&gt;%
   set_engine("rpart") %&gt;% 
-  fit(Sale_Price ~ Gr_Liv_Area, data = ames_train)
+  fit(Sale_Price ~ Gr_Liv_Area + Bldg_Type, data = ames_train)
 ```
 
 .pull-left[.small-code[
@@ -477,21 +477,46 @@ decision_tree_fit$fit %&gt;% rpart.plot::rpart.plot(roundint = FALSE)
 .pull-right[.small-code[
 
 ```r
-example_data &lt;- tibble(Gr_Liv_Area = seq(0, 3000, length.out = 1000))
-example_data &lt;- 
-  decision_tree_fit %&gt;%
+sweep_model &lt;- function(model, var_to_sweep, sweep_min, sweep_max, ...) {
+  X &lt;- expand_grid(!!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500), ...)
+  model %&gt;% 
+    predict(X) %&gt;% 
+    bind_cols(X)
+}
+ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = Bldg_Type)) +
+  geom_point(alpha = .5, size = .5) +
+  geom_line(data = sweep_model(
+    decision_tree_fit, Gr_Liv_Area, 0, 4000, Bldg_Type = levels(ames_train$Bldg_Type)),
+    mapping = aes(y = .pred))
+```
+
+&lt;img src="w9d2-conditional-logic_files/figure-html/decision-tree-example-fit-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+
+
+```r
+seq_matching_range &lt;- function(x, length.out = 500) { seq(min(x), max(x), length.out = length.out)}
+example_data &lt;- expand_grid(
+  Latitude = seq_matching_range(ames_train$Latitude),
+  Longitude = seq_matching_range(ames_train$Longitude)
+)
+
+*example_data &lt;- decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2, tree_depth = 30) %&gt;%
+  set_engine("rpart") %&gt;% 
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train) %&gt;% 
   predict(example_data) %&gt;% 
   rename(Sale_Price = .pred) %&gt;% 
   bind_cols(example_data)
 
-ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price)) +
-  geom_point() +
-  geom_line(data = example_data, color = "red")
+ggplot(ames_train_2, aes(x = Longitude, y = Latitude)) +
+  geom_raster(data = example_data, mapping = aes(fill = Sale_Price)) +
+  geom_point(size = .5)
 ```
 
-&lt;img src="w9d2-conditional-logic_files/figure-html/decision-tree-example-fit-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w9d2-conditional-logic_files/figure-html/show-complex-decision-tree-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-]]
 
 ---
 
