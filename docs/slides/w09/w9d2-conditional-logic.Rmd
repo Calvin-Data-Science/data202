@@ -321,9 +321,9 @@ include_graphics("img/Cart_tree_kyphosis.png")
 ## Fit a tree to data: same approach, different model
 
 ```{r}
-decision_tree_fit <- decision_tree(mode = "regression", tree_depth = 2) %>% #<<
+decision_tree_fit <- decision_tree(mode = "regression", tree_depth = 3) %>% #<<
   set_engine("rpart") %>% 
-  fit(Sale_Price ~ Gr_Liv_Area, data = ames_train)
+  fit(Sale_Price ~ Gr_Liv_Area + Bldg_Type, data = ames_train)
 ```
 
 .pull-left[.small-code[
@@ -334,19 +334,39 @@ decision_tree_fit$fit %>% rpart.plot::rpart.plot(roundint = FALSE)
 
 .pull-right[.small-code[
 ```{r decision-tree-example-fit}
-example_data <- tibble(Gr_Liv_Area = seq(0, 3000, length.out = 1000))
-example_data <- 
-  decision_tree_fit %>%
+sweep_model <- function(model, var_to_sweep, sweep_min, sweep_max, ...) {
+  X <- expand_grid(!!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500), ...)
+  model %>% 
+    predict(X) %>% 
+    bind_cols(X)
+}
+ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = Bldg_Type)) +
+  geom_point(alpha = .5, size = .5) +
+  geom_line(data = sweep_model(
+    decision_tree_fit, Gr_Liv_Area, 0, 4000, Bldg_Type = levels(ames_train$Bldg_Type)),
+    mapping = aes(y = .pred))
+```
+]]
+
+```{r}
+seq_matching_range <- function(x, length.out = 500) { seq(min(x), max(x), length.out = length.out)}
+example_data <- expand_grid(
+  Latitude = seq_matching_range(ames_train$Latitude),
+  Longitude = seq_matching_range(ames_train$Longitude)
+)
+
+example_data <- decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2, tree_depth = 30) %>% #<<
+  set_engine("rpart") %>% 
+  fit(Sale_Price ~ Latitude + Longitude, data = ames_train) %>% 
   predict(example_data) %>% 
   rename(Sale_Price = .pred) %>% 
   bind_cols(example_data)
 
-ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price)) +
-  geom_point() +
-  geom_line(data = example_data, color = "red")
+ggplot(ames_train_2, aes(x = Longitude, y = Latitude)) +
+  geom_raster(data = example_data, mapping = aes(fill = Sale_Price)) +
+  geom_point(size = .5)
 ```
 
-]]
 
 ---
 
