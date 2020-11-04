@@ -99,6 +99,24 @@ gapminder::gapminder %>%
   labs(y = "Population")
 ```
 
+### Legends and Labels
+
+If you need multiple rows for your legend, you probably have too many different
+values. But you can grit your teeth and do it...
+
+```{r}
+starwars %>% skimr::skim()
+starwars %>% ggplot(aes(x = height, y = mass, color = species)) +
+  geom_point() +
+  theme(
+    legend.position = "bottom", 
+    legend.key.size = unit(0.3, "cm")
+#    legend.box.margin = margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
+    ) +
+  guides(fill = guide_legend(nrow = 2, byrow = TRUE))
+
+```
+
 
 ## Mapping
 
