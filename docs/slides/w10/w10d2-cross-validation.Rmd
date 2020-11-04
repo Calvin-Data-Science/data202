@@ -1,6 +1,6 @@
 ---
 title: "Cross-Validation"
-author: "K Arnold"
+author: ["K Arnold", "DATA 202 Fall 2020"]
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
@@ -111,9 +111,25 @@ Great question! The model *itself* was not bad, but we *over-sold* it.
 * Decision tree: crisp regions are easy; smooth variation is hard.
 * Linear regression: smooth variation is easy; crisp regions are hard.
 
-> Could we do sinusoidal models?
+> Could a linear regression use sinusoidal models?
 
 Yes! There's lots of "basis functions" we can use (splines, sinusoids, rectifiers, ...)
+
+---
+
+## Q&A 2
+
+> Can a tree check multiple conditions at once?
+
+No, though it can check them in sequence. If you know that's important, you can create new features.
+
+> Is there a limit to num decisions?
+
+Yes: each decision must be *justified by the data*.
+
+> Can greedy algorithms be worse?
+
+Yes. Seeking short-term gain gives long-term regret.
 
 ---
 
