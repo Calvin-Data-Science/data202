@@ -18,7 +18,11 @@ slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(glue)
-library(tidymodels)
+library(recipes)
+library(rsample)
+library(parsnip)
+library(tune)
+library(yardstick)
 library(rpart.plot)
 library(gifski)
 theme_set(theme_bw())
@@ -56,7 +60,7 @@ decision_tree <- function(mode = "regression", engine = "rpart", ...) {
 }
 ```
 
-```{r load-and-subset-data}
+```{r load-and-subset-data, echo=FALSE}
 data(ames, package = "modeldata")
 ames_all <- ames %>%
   filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>%
@@ -65,14 +69,14 @@ ames_all <- ames %>%
 rm(ames)
 ```
 
-```{r train-test-split}
+```{r train-test-split, echo=FALSE}
 set.seed(10) # Seed the random number generator
 ames_split <- initial_split(ames_all, prop = 2 / 3)
 ames_train <- training(ames_split)
 ames_test <- testing(ames_split)
 ```
 
-```{r echo=FALSE}
+```{r lat-long-grid, echo=FALSE}
 lat_long_grid <- expand_grid(
   Latitude  = modelr::seq_range(ames_train$Latitude,  n = 200, expand = .05),
   Longitude = modelr::seq_range(ames_train$Longitude, n = 200, expand = .05),
@@ -96,8 +100,6 @@ show_latlong_model <- function(dataset, model, model_name = deparse(substitute(m
 
 ]
 
----
-
 ## Q&A
 
 > Was `model3` bad because it had such a big difference between train and test?
@@ -117,7 +119,7 @@ Yes! There's lots of "basis functions" we can use (splines, sinusoids, rectifier
 
 ## Quick datavis tips
 
-* Pew people: see [notes on *weights*](https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html)
+* Using Pew data? See [notes on *weights*](https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html)
 * Don't forget the cheat sheets! [`dplyr`](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf), [`ggplot` ](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization-2.1.pdf)
   * I learned some things glancing over them again! (`coord_cartesian` instead of `xlim` etc.)
   * You can also use plotly, seaborn, etc., as long as it's reproducible.
@@ -126,55 +128,47 @@ Yes! There's lots of "basis functions" we can use (splines, sinusoids, rectifier
 
 ---
 
-## Cross-Validation
+class: center, middle
+
+# Cross-Validation
 
 ---
 
-## Why Cross-Validation
+## Why Cross-Validation?
 
-* Accuracy estimates on unseen data
-* (crude) estimate of variance 
+* Measure accuracy on unseen data *without peeking at test set*
 
-```{r train-model1}
+```{r declare-cv, echo=FALSE}
 ames_resamples <- ames_train %>% vfold_cv(v = 10)
-
-model1_spec <- decision_tree(mode = "regression", tree_depth = 2)
-model2_spec <- decision_tree(mode = "regression", tree_depth = 30)
-model3_spec <- decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2)
-
-model1_samples <- 
-  model1_spec %>%
-  fit_resamples(Sale_Price ~ Latitude + Longitude, resamples = ames_resamples, metrics = metric_set(mae))
-model1_samples
 ```
 
-```{r}
-model1_samples %>% collect_metrics(summarize = FALSE)
-```
-
-```{r sample-other-models}
+```{r declare-all-models, echo=FALSE, cache=TRUE}
 all_models <- tribble(
   ~model_name, ~spec,
-  "model1", model1_spec,
-  "model2", model2_spec,
-  "model3", model3_spec
+  "model1",    decision_tree(mode = "regression", tree_depth = 2),
+  "model2",    decision_tree(mode = "regression", tree_depth = 30),
+  "model3",    decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2)
 )
+```
+
+```{r sample-all-models, echo=FALSE, cache=TRUE}
 models_with_samples <- all_models %>% 
   rowwise() %>% 
   mutate(samples = list(
-    spec %>% fit_resamples(Sale_Price ~ Latitude + Longitude, resamples = ames_resamples, metrics = metric_set(mae))))
+    spec %>% fit_resamples(
+      Sale_Price ~ Latitude + Longitude,
+      resamples = ames_resamples,
+      metrics = metric_set(mae))))
 ```
 
-```{r}
-collectManyMetrics <- function(...) {
-  rlang::dots_list(..., .named = TRUE) %>% 
-    imap_dfr(function(model, name) {
-      collect_metrics(model, summarize = FALSE) %>% 
-        mutate(model = name)
-    })
-}
+```{r model-specs, echo=FALSE}
+#model1_spec <- all_models$spec[[1]]
+#model2_spec <- all_models$spec[[2]]
+model3_spec <- all_models$spec[[3]]
+```
 
 
+```{r last-fit, echo=FALSE}
 test_predictions <- 
   all_models %>% 
   rowwise(model_name) %>% 
@@ -184,8 +178,7 @@ test_predictions <-
   summarize(ames_test %>% add_predictions(fit_on_all_training_data) %>% mae(truth = Sale_Price, estimate = .pred))
 ```
 
-
-```{r}
+```{r compare-models-traintest, echo=FALSE}
 models_with_samples %>% 
   rowwise(model_name) %>% 
   summarize(collect_metrics(samples, summarize = FALSE)) %>% 
@@ -194,9 +187,11 @@ models_with_samples %>%
     test = test_predictions,
     .id = "assessment_data"
   ) %>% 
+  mutate(assessment_data = as_factor(assessment_data)) %>% 
   ggplot(aes(x = model_name, y = .estimate, color = assessment_data)) +
-  geom_boxplot()
-  #labs(y = "Mean absolute error ($1000)", fill = "Assessment dataset")
+  geom_boxplot() +
+  labs(x = "Model name", y = "Mean absolute error ($1000)", fill = "Assessment dataset") +
+  coord_cartesian(ylim = c(0, NA))
 ```
 
 
@@ -204,22 +199,22 @@ models_with_samples %>%
 
 ---
 
-## What is Cross-Validation
+## What is Cross-Validation?
 
-```{r echo=FALSE}
+```{r resampling-flowchart, echo=FALSE, out.width="90%"}
 knitr::include_graphics("https://www.tmwr.org/premade/resampling.svg")
 ```
 
 ---
 
-```{r echo=FALSE}
+```{r three-cv-iter, echo=FALSE}
 knitr::include_graphics("https://www.tmwr.org/premade/three-CV-iter.svg")
 ```
 
 ---
 
 
-```{r ames-cv-anim, echo=FALSE, fig.show="animate", animation.hook="gifski"}
+```{r ames-cv-anim, echo=FALSE, cache=TRUE, fig.show="animate", animation.hook="gifski"}
 ames_train %>%
   vfold_cv(v = 10) %>%
   pull(splits) %>% 
@@ -235,6 +230,116 @@ ames_train %>%
     )
   })
 ```
+
+---
+
+## How to do CV?
+
+1. Declare the splitting strategy:
+
+```{r ref.label="declare-cv", eval=FALSE}
+```
+
+```{r show-resamples-df}
+ames_resamples
+```
+
+---
+
+## How to do CV?
+
+1. Declare the splitting strategy
+2. Fit on each resample, evaluate using a set of metrics.
+
+```{r ames-cv-model3-anim, echo=FALSE, cache=TRUE, fig.show="animate", animation.hook="gifski"}
+withr::with_seed(0, {
+  ames_train %>%
+    vfold_cv(v = 10) %>%
+    pull(splits) %>% 
+    iwalk(function(split, split_idx) {
+      model <- model3_spec %>% fit(Sale_Price ~ Latitude + Longitude, data = analysis(split))
+      assess_mae <- assessment(split) %>% 
+        add_predictions(model) %>% 
+        mae(truth = Sale_Price, estimate = .pred) %>%
+        pull(.estimate)
+      print(
+        bind_rows(analysis = analysis(split), assessment = assessment(split), .id = "role") %>% 
+        ggplot(aes(x = Latitude, y = Longitude, color = role)) +
+        geom_raster(
+          data = lat_long_grid %>% add_predictions(model),
+          mapping = aes(fill = .pred, color = NULL)
+        ) +
+        geom_point(size = .1) +
+        scale_color_manual(values = c("analysis" = "green", "assessment" = "red")) +
+        labs(title = glue("Fold {split_idx} (MAE on assessment = {format(assess_mae, format='f', digits = 4)})")) +
+        theme_bw() +
+        theme(panel.grid = element_blank())
+      )
+    })
+})
+```
+
+---
+
+## How to do CV?
+
+1. Declare the splitting strategy
+2. Fit on each resample, evaluate using a set of metrics.
+
+```{r sample-model3}
+model3_samples <- 
+  model3_spec %>%
+  fit_resamples(Sale_Price ~ Latitude + Longitude, resamples = ames_resamples, metrics = metric_set(mae))
+model3_samples %>% collect_metrics(summarize = FALSE)
+```
+
+---
+
+## How to do CV?
+
+1. Declare the splitting strategy
+2. Fit on each resample, evaluate using a set of metrics.
+3. Plot and/or summarize the metrics.
+
+```{r crude-plot-folds, fig.height=1, fig.width=3, fig.asp=NULL}
+model3_samples %>% collect_metrics(summarize = FALSE) %>% 
+  ggplot(aes(x = .estimate, y = "model3")) + geom_point() + geom_rug()
+```
+
+---
+
+## A tidy way to compare models
+
+1. Make a data frame of model specs:
+
+```{r ref.label="declare-all-models", eval=FALSE}
+```
+
+---
+
+## A tidy way to compare models
+
+1. Make a data frame of model specs:
+2. Sample each model (using `dplyr::rowwise`):
+
+```{r ref.label="sample-all-models", eval=FALSE}
+```
+
+```{r show-models-with-samples}
+models_with_samples
+```
+
+---
+
+```{r}
+models_with_samples %>% 
+  rowwise(model_name) %>% 
+  summarize(collect_metrics(samples, summarize = FALSE)) %>% #<<
+  ggplot(aes(x = model_name, y = .estimate)) +
+    geom_boxplot() + labs(x = "Model name", y = "Mean absolute error ($1000)") + coord_cartesian(ylim = c(0, NA))
+```
+
+
 ---
 
 ## Appendix: code
