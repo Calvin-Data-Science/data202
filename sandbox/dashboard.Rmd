@@ -320,9 +320,26 @@ MI %>%
 kent_tests <- getSheet("Diagnostic Tests by Result and County") %>% 
   filter(COUNTY == "Kent") %>% 
   mutate(
+    new_pos = Positive,
+    new_pos7 = rollmean(new_pos, 7, fill = NA, align = "center"),
     frac_pos_new = Positive / Total,
     frac_pos_new7 = rollmean(frac_pos_new, 7, fill = NA, align = "center")
   )
+
+getSheet("Diagnostic Tests by Result and County") %>% 
+  filter(COUNTY == "Kent") %>% 
+  gf_point(Positive ~ MessageDate) %>% 
+  gf_line(rollmean(Positive, 7, fill = NA, align = "center") ~ MessageDate, color = "maroon") %>% 
+  gf_labs(x = "Date", title = "New cases reported in Kent County")
+
+getSheet("Diagnostic Tests by Result and County") %>% 
+  group_by(MessageDate) %>% 
+  summarize(Positive = sum(Positive)) %>% 
+  gf_point(Positive ~ MessageDate) %>% 
+  gf_line(rollmean(Positive, 7, fill = NA, align = "center") ~ MessageDate, color = "maroon") %>% 
+  gf_labs(x = "Date", title = "New cases reported in Michigan")
+
+
 kent_tests %>% 
   slice(-(1:10)) %>% # Remove the first few days of tests, which were extremely high
   gf_point(frac_pos_new ~ MessageDate) %>% 
