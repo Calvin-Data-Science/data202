@@ -1,5 +1,5 @@
 ---
-title: "Hyperparameters and Validation"
+title: "Cross-Validation"
 author: "K Arnold"
 output:
   xaringan::moon_reader:
@@ -102,14 +102,14 @@ show_latlong_model <- function(dataset, model, model_name = deparse(substitute(m
 
 ## Q&A
 
-> Was `model3` bad because it had such a big difference between train and test?
+> Was `model3` bad b/c it had a big difference between train and test?
 
-Great question! No.  TODO
+Great question! The model *itself* was not bad, but we *over-sold* it.
 
 > When is decision tree better than linreg? Worse?
 
-* Decision tree: piece-wise constant predictions are simple; smooth variation is hard.
-* Linear regression: smooth variation is easy; sensible piece-wise constants are hard.
+* Decision tree: crisp regions are easy; smooth variation is hard.
+* Linear regression: smooth variation is easy; crisp regions are hard.
 
 > Could we do sinusoidal models?
 
@@ -120,7 +120,7 @@ Yes! There's lots of "basis functions" we can use (splines, sinusoids, rectifier
 ## Quick datavis tips
 
 * Using Pew data? See [notes on *weights*](https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html)
-* Don't forget the cheat sheets! [`dplyr`](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf), [`ggplot` ](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization-2.1.pdf)
+* Don't forget the cheat sheets! [`dplyr`](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf), [`ggplot` ](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization-2.1.pdf),  ...
   * I learned some things glancing over them again! (`coord_cartesian` instead of `xlim` etc.)
   * You can also use plotly, seaborn, etc., as long as it's reproducible.
 * I'm not watching your every commit. If you need help, send a quick screenshot over Teams
@@ -136,7 +136,7 @@ class: center, middle
 
 ## Why Cross-Validation?
 
-* Measure accuracy on unseen data *without peeking at test set*
+Measure accuracy on unseen data *without peeking at test set* (compare lab9)
 
 ```{r declare-cv, echo=FALSE}
 ames_resamples <- ames_train %>% vfold_cv(v = 10)
@@ -214,16 +214,16 @@ knitr::include_graphics("https://www.tmwr.org/premade/three-CV-iter.svg")
 ---
 
 
-```{r ames-cv-anim, echo=FALSE, cache=TRUE, fig.show="animate", animation.hook="gifski"}
+```{r ames-cv-anim, echo=FALSE, cache=TRUE, fig.show="animate", animation.hook="gifski", out.width="100%"}
 ames_train %>%
   vfold_cv(v = 10) %>%
   pull(splits) %>% 
   iwalk(function(split, split_idx) {
     print(
       bind_rows(analysis = analysis(split), assessment = assessment(split), .id = "role") %>% 
-      ggplot(aes(x = Latitude, y = Longitude, color = role)) +
-      geom_point(size = .1) +
-      scale_color_manual(values = c("analysis" = "green", "assessment" = "red")) +
+      ggplot(aes(x = Latitude, y = Longitude, color = role, shape = role)) +
+      geom_point(size = 1) +
+      scale_color_manual(values = c("analysis" = "grey", "assessment" = "red")) +
       labs(title = glue("Fold {split_idx}")) +
       theme_bw() +
       theme(panel.grid = element_blank())
@@ -270,7 +270,7 @@ withr::with_seed(0, {
           mapping = aes(fill = .pred, color = NULL)
         ) +
         geom_point(size = .1) +
-        scale_color_manual(values = c("analysis" = "green", "assessment" = "red")) +
+        scale_color_manual(values = c("analysis" = "grey", "assessment" = "red")) +
         labs(title = glue("Fold {split_idx} (MAE on assessment = {format(assess_mae, format='f', digits = 4)})")) +
         theme_bw() +
         theme(panel.grid = element_blank())
@@ -286,10 +286,12 @@ withr::with_seed(0, {
 1. Declare the splitting strategy
 2. Fit on each resample, evaluate using a set of metrics.
 
-```{r sample-model3}
-model3_samples <- 
-  model3_spec %>%
-  fit_resamples(Sale_Price ~ Latitude + Longitude, resamples = ames_resamples, metrics = metric_set(mae))
+```{r sample-model3, cache=TRUE}
+model3_samples <- model3_spec %>%
+  fit_resamples( #<<
+    Sale_Price ~ Latitude + Longitude,
+    resamples = ames_resamples, #<<
+    metrics = metric_set(mae))
 model3_samples %>% collect_metrics(summarize = FALSE)
 ```
 
@@ -301,10 +303,22 @@ model3_samples %>% collect_metrics(summarize = FALSE)
 2. Fit on each resample, evaluate using a set of metrics.
 3. Plot and/or summarize the metrics.
 
+.pull-left[
 ```{r crude-plot-folds, fig.height=1, fig.width=3, fig.asp=NULL}
-model3_samples %>% collect_metrics(summarize = FALSE) %>% 
-  ggplot(aes(x = .estimate, y = "model3")) + geom_point() + geom_rug()
+model3_samples %>%
+  collect_metrics(summarize = FALSE) %>% 
+  ggplot(aes(x = .estimate, y = "model3")) +
+  geom_point()
 ```
+]
+
+.pull-right[
+```{r summarize-performance}
+model3_samples %>%
+  collect_metrics(summarize = TRUE)
+```
+
+]
 
 ---
 
@@ -333,7 +347,7 @@ models_with_samples
 
 ```{r}
 models_with_samples %>% 
-  rowwise(model_name) %>% 
+  rowwise(model_name) %>% #<<
   summarize(collect_metrics(samples, summarize = FALSE)) %>% #<<
   ggplot(aes(x = model_name, y = .estimate)) +
     geom_boxplot() + labs(x = "Model name", y = "Mean absolute error ($1000)") + coord_cartesian(ylim = c(0, NA))
