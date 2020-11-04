@@ -58,13 +58,24 @@ Spectrum <-
     new_pos_per_day = delta_pos / days_since_last,
     centered_date = date - ddays(days_since_last / 2),
     new_pos7 = rollmean(new_pos_per_day, 7, fill = NA, align = "center"),
-    frac_pos7 = rollmean(frac_pos_new, 7, fill = NA, align = "center")
+    frac_pos7 = rollmean(frac_pos_new, 7, fill = NA, align = "center"),
+    new_tests7 = rollmean(tests_per_day, 7, fill = NA, align = "center")
 )
-spectrum_tests_plot <- Spectrum %>% 
+spectrum_positives_plot <- Spectrum %>% 
   gf_point(new_pos_per_day ~ centered_date, size = 0.5, alpha = 0.4) %>%
   gf_line(new_pos7 ~ centered_date, color = "blue") %>% 
   gf_labs(
     title = "Spectrum Health Positive Tests Per Day",
+    y = "",
+    x = ""
+  ) %>%
+  gf_lims(y = c(0, NA))
+
+spectrum_tests_plot <- Spectrum %>% 
+  gf_point(tests_per_day ~ centered_date, size = 0.5, alpha = 0.4) %>%
+  gf_line(new_tests7 ~ centered_date, color = "blue") %>% 
+  gf_labs(
+    title = "Spectrum Health Total Tests Per Day",
     y = "",
     x = ""
   ) %>%
@@ -80,8 +91,10 @@ spectrum_positivity_plot <-
     x = ""
   ) %>%
   gf_refine(scale_y_continuous(labels = scales::percent, limits = c(0, NA))) 
+spectrum_tests_plot
 
-plot_grid(spectrum_tests_plot, spectrum_positivity_plot)
+plot_grid(spectrum_positives_plot, spectrum_positivity_plot)
+
 ```
 
 ```{r fig.width=7, fig.height=3}
@@ -175,13 +188,19 @@ retrieved <-
     full_url = xml2::url_absolute(url, root_url),
     contents = purrr::map(full_url, ~ read_excel_url(.))
   )
-names(retrieved$contents) <- retrieved$title
+
+getSheet <- function(name) {
+  retrieved %>% 
+  filter(str_detect(title, coll(name, ignore_case = TRUE))) %>% 
+  pull(contents) %>% 
+  chuck(1)
+}
 ```
 
 
 ```{r MI-Kent, include = FALSE}
 MI <- 
-  retrieved$contents[["Cases and Deaths by County by Date"]]  %>% 
+  getSheet("Cases and Deaths by County by Date") %>% 
   mutate(Date = lubridate::as_date(Date))
 
 Kent <- 
@@ -189,11 +208,13 @@ Kent <-
   group_by(CASE_STATUS) %>%
   mutate(
     Cases7 = rollmean(tailna(Cases, lag_days), k = 7, fill = NA),
-    Deaths7 = rollmean(Deaths, k = 7, fill = NA)
+    Deaths7 = rollmean(tailna(Deaths, lag_days), k = 7, fill = NA),
+    Deaths14 = rollmean(tailna(Deaths, lag_days), k = 14, fill = NA),
   ) %>%
   set_variable_labels(
     Cases7 = "Cases",
-    Deaths7 = "Deaths"
+    Deaths7 = "Deaths",
+    Deaths14 = "Deaths"
   )
 
 MI <- 
@@ -202,11 +223,13 @@ MI <-
   group_by(COUNTY, CASE_STATUS) %>% 
   mutate(
     Cases7 = rollmean(tailna(Cases, lag_days), k = 7, fill = NA),
-    Deaths7 = rollmean(tailna(Deaths, lag_days), k = 7, fill = NA)
+    Deaths7 = rollmean(tailna(Deaths, lag_days), k = 7, fill = NA),
+    Deaths14 = rollmean(tailna(Deaths, lag_days), k = 14, fill = NA),
   ) %>% 
   set_variable_labels(
     Cases7 = "Cases",
-    Deaths7 = "Deaths"
+    Deaths7 = "Deaths",
+    Deaths14 = "Deaths"
   )
 ```
 
@@ -229,7 +252,7 @@ kent1 <-
 kent2 <- 
   Kent %>% arrange(Date) %>% filter(CASE_STATUS == "Confirmed") %>%
   # dashplot(value = Deaths7, time = Date, breaks = c(0, 4, 8, 20)) %>%
-  gf_line(Deaths7 ~ Date, color = "maroon") %>%
+  gf_line(Deaths14 ~ Date, color = "maroon") %>%
   gf_point(Deaths ~ Date, alpha = 0.3, color = "black", size = 0.5) %>%
   gf_lims(y = c(0, NA)) %>%
   gf_labs(title = "Kent County Confirmed COVID Deaths", y = "Deaths", x = "")
@@ -273,7 +296,7 @@ plot_grid(kent1, kent2, ncol = 2)
 ### Spectrum Health
 
 ```{r, spectrum-plots, fig.width = 9, fig.height = 2.5}
-plot_grid(spectrum_tests_plot, spectrum_positivity_plot, ncol = 2)
+plot_grid(spectrum_positives_plot, spectrum_positivity_plot, ncol = 2)
 ```
 
 ```{r spectrum-hospitalized-plot, fig.width=9, fig.height=2.5}
@@ -294,7 +317,7 @@ MI %>%
 
 
 ```{r fig.width = 9, fig.height = 2.5}
-kent_tests <- retrieved$contents[["Diagnostic Tests by Result and County"]] %>% 
+kent_tests <- getSheet("Diagnostic Tests by Result and County") %>% 
   filter(COUNTY == "Kent") %>% 
   mutate(
     frac_pos_new = Positive / Total,
