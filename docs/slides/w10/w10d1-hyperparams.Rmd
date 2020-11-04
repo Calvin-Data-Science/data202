@@ -316,22 +316,3 @@ ames_train %>%
 ```
 ]
 
-
----
-
-```{r ames-cv-anim, echo=FALSE, fig.show="animate", animation.hook="gifski"}
-ames_train %>%
-  vfold_cv(v = 10) %>%
-  pull(splits) %>% 
-  iwalk(function(split, split_idx) {
-    print(
-      ggplot(data = NULL, aes(x = Latitude, y = Longitude)) +
-      geom_point(data = analysis(split), color = "green") +
-      geom_point(data = assessment(split), color = "red") +
-      labs(title = glue("Fold {split_idx}")) +
-      theme_bw() +
-      theme(panel.grid = element_blank())
-    )
-  })
-```
-
