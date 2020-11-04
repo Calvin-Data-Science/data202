@@ -20,7 +20,6 @@ library(tidyverse)
 library(glue)
 library(tidymodels)
 library(rpart.plot)
-library(gifski)
 theme_set(theme_bw())
 options(dplyr.summarise.inform = FALSE) # silence a warning message
 ```
