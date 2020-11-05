@@ -1,0 +1,332 @@
+---
+title: "Lab 09: Model Tuning"
+output: 
+  tufte::tufte_html:
+    css: ../lab.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidymodels)
+library(rpart.plot)
+theme_set(theme_bw())
+options(scipen = 5) # encourage metrics to print in fixed-point notation
+options(dplyr.summarise.inform = FALSE) # silence a warning message
+```
+
+## Goals
+
+* Design an accurate predictive model
+* Compare model performance using cross-validation
+* Validate model performance on held-out data
+* Practice more visualization (as always!)
+
+## Getting started
+
+* Pick a team to work with--ideally 2, no more than 3.
+  * A team should be from within a single cohort.
+  * (Crossing cohort lines is possible, but you'll need to ask the course staff to make an appropriate repo.)
+* Go to [our GitHub organization](https://github.com/Calvin-DS202-FA20/).
+  You'll find 5 `lab10` repos available to your cohort. Pick one for your team,
+  making sure that no two teams share the same repo.
+* On the attendance sheet, each team member should fill in the name of their team repo under the "Team" column. It should look like `lab10-V2`.
+* Each team member should clone the repo as usual.
+
+### Optional, experimental workflow
+
+The RStudio server lets multiple people edit a single project at the same time!
+This can be confusing since it's different from collaborating using GitHub, so
+try it only if all of your team is game to try:
+
+* The person whose name appears first on the Attendance sheet (or someone else if needed)
+  clones the team's repo on the RStudio Server.
+* They Share the project with the other team members
+* They copy the URL and paste it into the attendance sheet
+* Others go to that URL.
+
+## Data and Initial Split
+
+We'll again be using the Ames home sales dataset.
+Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt).
+And again, we use a subset of the original data as suggested by the
+[original paper](http://jse.amstat.org/v19n3/decock.pdf).
+
+We'll also scale the sale price to be in units of $1000, to keep the numbers more manageable.
+
+```{r load-and-subset-data}
+data(ames, package = "modeldata")
+ames_all <- ames %>%
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>%
+  mutate(across(where(is.integer), as.double)) %>%
+  mutate(Sale_Price = Sale_Price / 1000)
+rm(ames)
+```
+
+We'll tweak the train-test split to give us a slightly larger training set:
+
+```{r train-test-split}
+set.seed(10)
+ames_split <- initial_split(ames_all, prop = 3 / 4)
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+## Modeling
+
+Now that we have techniques for specifying a model, preprocessing data to give to it,
+and estimating its performance, let's try to just make a good model.
+
+We learned about *recipes* and *workflows* but only used them occasonially last week.
+For this lab, though, they will become essential as we seek to compare models
+that use different variables, different preprocessing steps, different models,
+etc, using the same methodology.
+
+Our basic strategy will be to collect model specs and metrics in a data frame.
+We'll run through the approach once for a basic linreg and decision tree,
+then you'll try out things on your own.
+
+### Initialize
+
+Overall let's use 10-fold cross-validation.
+
+```{r}
+ames_resamples <- ames_train %>% 
+  vfold_cv(v = 10)
+```
+
+Here's some functions we'll use to collect results, since these models
+can be expensive to run. They use a global variable, `modeling_results`.
+
+Call `clear_all_results` to start out with an empty results list.
+
+```{r}
+clear_all_results <- function() {
+  modeling_results <<- tibble()
+}
+clear_all_results()
+```
+
+And here's a function to add a new set of results.
+
+```{r}
+add_results_to_collection <- function(model_name, spec, cv_results) {
+  if (nrow(modeling_results) > 0 && model_name %in% modeling_results$model_name)
+    stop("Model with that name already exists.")
+  modeling_results <<- bind_rows(
+    modeling_results %>% mutate(model_name = as.character(model_name)),
+    tibble(
+      model_name = model_name,
+      spec = list(spec),
+      cv_results %>% select(-.estimator)
+    )
+  ) %>% 
+    mutate(model_name = as_factor(model_name)) # Ensure that factor level matches insertion order.
+}
+```
+
+
+Finally, a few utilities:
+
+```{r utilities}
+add_predictions <- function(data, ...) {
+  imap_dfr(
+    rlang::dots_list(..., .named = TRUE),
+    function(model, model_name) {
+      model %>%
+        predict(data) %>%
+        bind_cols(data) %>%
+        mutate(model = !!model_name)
+    }
+  )
+}
+
+sweep_model <- function(model, var_to_sweep, sweep_min, sweep_max, ...) {
+  X <- expand_grid(!!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500), ...)
+  model %>% 
+    predict(X) %>% 
+    bind_cols(X)
+}
+
+linear_reg <- function(engine = "lm", ...) {
+  parsnip::linear_reg(...) %>% set_engine(engine)
+}
+
+decision_tree <- function(mode = "regression", engine = "rpart", ...) {
+  parsnip::decision_tree(mode = "regression", ...) %>%
+    set_engine(engine)
+}
+```
+
+
+### Linreg
+
+```{r}
+spec <- workflow() %>% 
+  add_recipe(
+    recipe(Sale_Price ~ Latitude + Longitude, data = ames_train)
+  ) %>% 
+  add_model(
+    linear_reg()
+  )
+```
+
+```{r}
+cv_results <- 
+  spec %>% 
+  fit_resamples(resamples = ames_resamples, metrics = metric_set(mae)) %>% 
+  collect_metrics(summarize = FALSE)
+```
+
+```{r}
+cv_results
+```
+
+Collect these results:
+
+```{r}
+add_results_to_collection(
+    model_name = "Simple Linreg",
+    spec = spec,
+    cv_results = cv_results
+)
+modeling_results
+```
+
+### Decision Tree
+
+
+```{r}
+spec <- workflow() %>% 
+  add_recipe(
+    recipe(Sale_Price ~ Latitude + Longitude, data = ames_train)
+  ) %>% 
+  add_model(
+    decision_tree()
+  )
+```
+
+```{r}
+cv_results <- 
+  spec %>% 
+  fit_resamples(resamples = ames_resamples, metrics = metric_set(mae)) %>% 
+  collect_metrics(summarize = FALSE)
+```
+
+```{r}
+add_results_to_collection(
+  model_name = "Decision Tree",
+  spec = spec,
+  cv_results
+)
+modeling_results
+```
+
+### Better Decision Tree
+
+Try getting a better decision tree model:
+
+* Use more features
+* Tweak the `decision_tree` parameters (run `?rpart::rpart.control` for details)
+  * `cost_complexity`: any split that does not improve the fit by this much is not attempted (defaults to 0.01, aka `cp`)
+  * `tree_depth`: maximum depth of any node in the final tree (defaults to 30, aka `maxdepth`)
+  * `min_n`: minimum number of observations that must exist in a node in order for a split to be attempted (defaults to 20, aka `minsplit`)
+
+```{r}
+spec <- workflow() %>% 
+  add_recipe(
+    recipe(Sale_Price ~ Latitude + Longitude + Gr_Liv_Area + Bldg_Type, data = ames_train)
+  ) %>% 
+  add_model(
+    decision_tree()
+  )
+```
+
+```{r}
+cv_results <- 
+  spec %>% 
+  fit_resamples(resamples = ames_resamples, metrics = metric_set(mae)) %>% 
+  collect_metrics(summarize = FALSE)
+```
+
+```{r}
+add_results_to_collection(
+  model_name = "Decision Tree: Lat, Long, LivArea, BldgType",
+  spec = spec,
+  cv_results
+)
+modeling_results
+```
+### Better Linreg
+
+Now, try to get a better linear regression model. You might try:
+
+* Use more features
+  * add dummy encoding steps as needed (`step_dummy`, and perhaps `step_other` if needed)
+* Transform existing features
+  * `step_poly`, or its better-behaved cousin `step_ns`
+  * `step_discretize`
+  * `step_interact` (see hw9 for an example)
+
+```{r}
+spec <- workflow() %>% 
+  add_recipe(
+    recipe(Sale_Price ~ Latitude + Longitude + Gr_Liv_Area + Bldg_Type, data = ames_train) %>% 
+      step_other(Bldg_Type) %>% 
+      step_dummy(Bldg_Type) %>% 
+      step_ns(Latitude) %>% 
+      step_ns(Longitude)
+  ) %>% 
+  add_model(
+    linear_reg()
+  )
+```
+
+```{r}
+cv_results <- 
+  spec %>% 
+  fit_resamples(resamples = ames_resamples, metrics = metric_set(mae)) %>% 
+  collect_metrics(summarize = FALSE)
+```
+
+```{r}
+add_results_to_collection(
+  model_name = "LinReg: Lat, Long, LivArea, BldgType, natsplines on LatLong",
+  spec = spec,
+  cv_results
+)
+modeling_results
+```
+### Diagnose models
+
+```{r retrain-on-all}
+spec <- modeling_results %>% filter(model_name == "Simple Linreg") %>% head(1) %>% pluck("spec", 1)
+model <- spec %>% fit(ames_train)
+```
+
+
+```{r resids-against-all-numeric, fig.width=10, fig.height=10}
+ames_train %>% 
+  add_predictions(model) %>% 
+  mutate(resid = Sale_Price - .pred) %>% 
+  pivot_longer(c(where(is.numeric) & !any_of(c("Sale_Price", ".pred", "resid")))) %>% 
+  ggplot(aes(x = value, y = resid)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(vars(name), scales = "free")
+```
+
+
+
+## Compare model performance
+
+```{r}
+modeling_results %>% 
+  ggplot(aes(y = fct_rev(model_name), x = .estimate)) +
+    geom_point() +
+    labs(x = "Mean Absolute Error ($1000)", y = "")
+```
+
