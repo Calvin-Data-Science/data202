@@ -93,30 +93,26 @@ then you'll try out things on your own.
 
 Overall let's use 10-fold cross-validation.
 
-```{r}
+```{r declare-cv}
 ames_resamples <- ames_train %>% 
   vfold_cv(v = 10)
 ```
 
-Here's some functions we'll use to collect results, since these models
-can be expensive to run. They use a global variable, `modeling_results`.
+These models can be time-consuming to run, so let's collect the results in a
+`modeling_results` data frame as we go. Let's start off with no results:
 
-Call `clear_all_results` to start out with an empty results list.
-
-```{r}
-clear_all_results <- function() {
-  modeling_results <<- tibble()
-}
-clear_all_results()
+```{r empty-modeling-results}
+modeling_results <- tibble()
 ```
 
-And here's a function to add a new set of results.
+And here's a function to add a new set of results. Don't worry about how it works.
 
-```{r}
-add_results_to_collection <- function(model_name, spec, cv_results) {
+```{r append-new-results}
+append_new_results <- function(modeling_results, model_name, spec, cv_results) {
   if (nrow(modeling_results) > 0 && model_name %in% modeling_results$model_name)
     stop("Model with that name already exists.")
-  modeling_results <<- bind_rows(
+  
+  bind_rows(
     modeling_results %>% mutate(model_name = as.character(model_name)),
     tibble(
       model_name = model_name,
@@ -127,7 +123,6 @@ add_results_to_collection <- function(model_name, spec, cv_results) {
     mutate(model_name = as_factor(model_name)) # Ensure that factor level matches insertion order.
 }
 ```
-
 
 Finally, a few utilities:
 
@@ -162,9 +157,18 @@ decision_tree <- function(mode = "regression", engine = "rpart", ...) {
 ```
 
 
-### Linreg
+### Linear Regression
 
-```{r}
+Let's first fit a simple linear regression. First we define our spec.
+
+```{marginfigure}
+Note that we need to give `recipe` a `data` parameter. This is the *template*
+data, just used to tell the recipe what columns there are and what data type
+each one has. It does not actually train on this data!
+```
+
+
+```{r linreg1-spec}
 spec <- workflow() %>% 
   add_recipe(
     recipe(Sale_Price ~ Latitude + Longitude, data = ames_train)
@@ -174,32 +178,35 @@ spec <- workflow() %>%
   )
 ```
 
-```{r}
+Then, let's get the cross-validation assessment scores:
+
+```{r linreg1-cv}
 cv_results <- 
   spec %>% 
   fit_resamples(resamples = ames_resamples, metrics = metric_set(mae)) %>% 
   collect_metrics(summarize = FALSE)
-```
 
-```{r}
 cv_results
 ```
 
+Finally, we collect these results into our `modeling_results` data frame.
 Collect these results:
 
-```{r}
-add_results_to_collection(
+```{r linreg1-collect}
+modeling_results <- modeling_results %>% 
+  append_new_results(
     model_name = "Simple Linreg",
     spec = spec,
     cv_results = cv_results
-)
+  )
 modeling_results
 ```
 
 ### Decision Tree
 
+Your turn: repeat the above, but now using the default `decision_tree()`.
 
-```{r}
+```{r tree1-spec, echo=FALSE}
 spec <- workflow() %>% 
   add_recipe(
     recipe(Sale_Price ~ Latitude + Longitude, data = ames_train)
@@ -209,21 +216,35 @@ spec <- workflow() %>%
   )
 ```
 
-```{r}
+```{r tree1-cv, echo=FALSE}
 cv_results <- 
   spec %>% 
   fit_resamples(resamples = ames_resamples, metrics = metric_set(mae)) %>% 
   collect_metrics(summarize = FALSE)
 ```
 
-```{r}
-add_results_to_collection(
-  model_name = "Decision Tree",
-  spec = spec,
-  cv_results
-)
+```{r tree1-collect, echo=FALSE}
+modeling_results <- modeling_results %>% 
+  append_new_results(
+    model_name = "Decision Tree",
+    spec = spec,
+    cv_results = cv_results
+  )
 modeling_results
 ```
+
+## Compare model performance
+
+Compare the performance of the two models. Which one is better?
+
+```{r compare-models}
+modeling_results %>% 
+  ggplot(aes(y = fct_rev(model_name), x = .estimate)) +
+    geom_boxplot() +
+    geom_point() +
+    labs(x = "Mean Absolute Error ($1000)", y = "")
+```
+
 
 ### Better Decision Tree
 
@@ -235,7 +256,7 @@ Try getting a better decision tree model:
   * `tree_depth`: maximum depth of any node in the final tree (defaults to 30, aka `maxdepth`)
   * `min_n`: minimum number of observations that must exist in a node in order for a split to be attempted (defaults to 20, aka `minsplit`)
 
-```{r}
+```{r tree2-spec, echo=FALSE}
 spec <- workflow() %>% 
   add_recipe(
     recipe(Sale_Price ~ Latitude + Longitude + Gr_Liv_Area + Bldg_Type, data = ames_train)
@@ -245,21 +266,22 @@ spec <- workflow() %>%
   )
 ```
 
-```{r}
+```{r tree2-cv, echo=FALSE}
 cv_results <- 
   spec %>% 
   fit_resamples(resamples = ames_resamples, metrics = metric_set(mae)) %>% 
   collect_metrics(summarize = FALSE)
 ```
 
-```{r}
-add_results_to_collection(
-  model_name = "Decision Tree: Lat, Long, LivArea, BldgType",
-  spec = spec,
-  cv_results
-)
-modeling_results
+```{r tree2-collect, echo=FALSE}
+modeling_results <- modeling_results %>% 
+  append_new_results(
+    model_name = "Decision Tree 2",#: Lat, Long, LivArea, BldgType",
+    spec = spec,
+    cv_results = cv_results
+  )
 ```
+
 ### Better Linreg
 
 Now, try to get a better linear regression model. You might try:
@@ -271,7 +293,7 @@ Now, try to get a better linear regression model. You might try:
   * `step_discretize`
   * `step_interact` (see hw9 for an example)
 
-```{r}
+```{r linreg2-spec, echo=FALSE}
 spec <- workflow() %>% 
   add_recipe(
     recipe(Sale_Price ~ Latitude + Longitude + Gr_Liv_Area + Bldg_Type, data = ames_train) %>% 
@@ -285,7 +307,7 @@ spec <- workflow() %>%
   )
 ```
 
-```{r}
+```{r linreg2-cv, echo=FALSE}
 cv_results <- 
   spec %>% 
   fit_resamples(resamples = ames_resamples, metrics = metric_set(mae)) %>% 
@@ -293,14 +315,15 @@ cv_results <-
 ```
 
 ```{r}
-add_results_to_collection(
-  model_name = "LinReg: Lat, Long, LivArea, BldgType, natsplines on LatLong",
-  spec = spec,
-  cv_results
-)
-modeling_results
+modeling_results <- modeling_results %>% 
+  append_new_results(
+    model_name = "LinReg 2",#: Lat, Long, LivArea, BldgType, natsplines on LatLong",
+    spec = spec,
+    cv_results = cv_results
+  )
 ```
-### Diagnose models
+
+## Diagnose models
 
 ```{r retrain-on-all}
 spec <- modeling_results %>% filter(model_name == "Simple Linreg") %>% head(1) %>% pluck("spec", 1)
