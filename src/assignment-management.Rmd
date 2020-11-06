@@ -48,7 +48,7 @@ fix_roster <- function(roster, assignment) {
     roster %>% filter(active == 1)
   }
 }
-#fix_roster(roster, "lab05", 1) %>% filter(cohort %in% c("B", "H"))
+# fix_roster(roster, "lab05", 1) %>% filter(cohort %in% c("B", "H"))
 ```
 
 
@@ -57,27 +57,29 @@ team_seeds <- tribble(
   ~assignment, ~seed,
   "lab04", 0,
   "lab05", 1,
-  "lab06", 8, # there wasn't really a lab06, so we reuse this seed. 
-  "lab07", 8 
+  "lab06", 8, # there wasn't really a lab06, so we reuse this seed.
+  "lab07", 8
 )
 
-roster_withteams <- team_seeds %>% 
+roster_withteams <- team_seeds %>%
   pmap_dfr(function(assignment, seed) {
     roster %>%
-      fix_roster(assignment) %>% 
-    { withr::with_seed(seed, slice_sample(., prop=1)) } %>% 
-    group_by(cohort) %>% 
-    mutate(
-      team = glue("{assignment}-{cohort}{if_else((row_number() - 1) / n() < .5, 1, 2)}")
-    ) %>%
-    ungroup() %>% 
-    mutate(assignment, .before = everything())
+      fix_roster(assignment) %>%
+      {
+        withr::with_seed(seed, slice_sample(., prop = 1))
+      } %>%
+      group_by(cohort) %>%
+      mutate(
+        team = glue("{assignment}-{cohort}{if_else((row_number() - 1) / n() < .5, 1, 2)}")
+      ) %>%
+      ungroup() %>%
+      mutate(assignment, .before = everything())
   })
 roster_withteams
 
-team_sizes <- roster_withteams %>% 
-  group_by(assignment, team) %>% 
-  mutate(team_size = n()) %>% 
+team_sizes <- roster_withteams %>%
+  group_by(assignment, team) %>%
+  mutate(team_size = n()) %>%
   filter(str_detect(student_name, "Danish") | (assignment != "lab04" & str_detect(student_name, "Brad")))
 if (any(team_sizes$team_size != 3)) {
   stop("Danish and Brad should always be on a team of 3.")
@@ -89,10 +91,10 @@ Run this to copy team membership to clipboard. Paste into Excel and copy back ou
 ```{r copy-team-membership, eval=FALSE}
 copy_team_membership <- function(assignment) {
   roster_withteams %>%
-    filter(assignment == !!assignment) %>% 
+    filter(assignment == !!assignment) %>%
     select(Name = preferred_full_name, Cohort = cohort, Team = team) %>%
-    arrange(Team) %>% 
-    clipr::write_clip() %>% 
+    arrange(Team) %>%
+    clipr::write_clip() %>%
     count(Team)
 }
 copy_team_membership("lab07")
@@ -100,7 +102,10 @@ copy_team_membership("lab07")
 
 ```{r}
 getTeammates <- function(name) {
-  roster_withteams %>% filter(preferred_name == name) %>% select(team) %>% left_join(roster_withteams, by="team")
+  roster_withteams %>%
+    filter(preferred_name == name) %>%
+    select(team) %>%
+    left_join(roster_withteams, by = "team")
 }
 ```
 
@@ -111,15 +116,16 @@ First make the template repo
 
 ```{r}
 createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo = TRUE) {
-  assignmentName <- stringr::str_match(assignmentTemplatePath, r"{\w+/([a-z0-9]+)}")[,2]
+  assignmentName <- stringr::str_match(assignmentTemplatePath, r"{\w+/([a-z0-9]+)}")[, 2]
   message(glue("Creating assignment {assignmentName}"))
   repoName <- paste0(assignmentName, "-template")
   repo_create(ghorg, repoName, gitignore_template = "")
-  
+
   # If we have big data files, can't use template repos.
-  if (use_template_repo)
+  if (use_template_repo) {
     repo_set_template(paste0(ghorg, "/", repoName))
-  
+  }
+
   message("Pushing local repo")
   system2("./make-repo.sh", c(repoName, assignmentTemplatePath, assignmentName))
   message(glue("Pushed repo to https:://github.com/{ghorg}/{repoName}"))
@@ -127,10 +133,10 @@ createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo =
 ```
 
 ```{r, eval=FALSE}
-#createAssignmentTemplate("hw/hw04-other-tools")
-#createAssignmentTemplate("lab/lab05-ugly-charts")
-#createAssignmentTemplate("proj/datavis")
-createAssignmentTemplate("hw/hw09-modeling")
+# createAssignmentTemplate("hw/hw04-other-tools")
+# createAssignmentTemplate("lab/lab05-ugly-charts")
+# createAssignmentTemplate("proj/datavis")
+createAssignmentTemplate("lab/lab10-tuning/")
 ```
 
 (This is a WIP Python replacement for the shell script)
@@ -157,14 +163,16 @@ my_create_assignment <- function(usernames, assignmentName) {
   org_create_assignment(
     org = ghorg,
     user = usernames,
-    repo = paste0(assignmentName, '-', usernames),
-    source_repo = paste0(ghorg, '/', assignmentName, '-template'))
+    repo = paste0(assignmentName, "-", usernames),
+    source_repo = paste0(ghorg, "/", assignmentName, "-template")
+  )
 }
 pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = NULL) {
   if (is.null(usernames)) {
     usernames <- roster$github
-    if (includeStaff)
+    if (includeStaff) {
       usernames <- c(usernames, "kcarnold", "kimyejae")
+    }
   }
   my_create_assignment(usernames, assignmentName = assignmentName)
 }
@@ -172,37 +180,42 @@ pushSoloAssignment <- function(assignmentName, includeStaff = TRUE, usernames = 
 
 
 ```{r push-solo-assignment, eval=FALSE}
-pushSoloAssignment('hw09')
+pushSoloAssignment("hw09")
 ```
 
 ```{r eval=FALSE}
 # Push solo assignments for Sonali
 {
-  username <- roster %>% filter(str_detect(preferred_full_name, "Sonali")) %>% pull(github)
-  #team_seeds$assignment
+  username <- roster %>%
+    filter(str_detect(preferred_full_name, "Sonali")) %>%
+    pull(github)
+  # team_seeds$assignment
   "lab07" %>% walk(~ my_create_assignment(usernames = username, assignmentName = .x))
 }
-  
 ```
 
 
-```{r eval=FALSE}
-assignmentName <- "lab09"
-expand_grid(
-  fix_roster(roster, "lab09"),
-  repo_idx = 1:5
-) %>% 
-  mutate(repo = glue("lab09-{cohort}{repo_idx}")) %>% select(github, repo) %>% 
-  bind_rows(tibble(github = c("kcarnold", "kimyejae"), repo = paste0(assignmentName, "-staff"))) %>% 
-  {
-    org_create_assignment(
-      org = ghorg,
-      user = .$github,
-      repo = .$repo,
-      team = .$repo,
-      source_repo = glue("{ghorg}/lab09-template")
-    )
-  }
+```{r team-flex-assignments, eval=FALSE}
+assignmentName <- "lab10"
+push_flexTeam_assignments <- function(assignmentName) {
+  expand_grid(
+    fix_roster(roster, assignmentName),
+    repo_idx = 1:5
+  ) %>%
+    mutate(repo = glue("{assignmentName}-{cohort}{repo_idx}")) %>%
+    select(github, repo) %>%
+    bind_rows(tibble(github = c("kcarnold", "kimyejae"), repo = paste0(assignmentName, "-staff"))) %>%
+    {
+      org_create_assignment(
+        org = ghorg,
+        user = .$github,
+        repo = .$repo,
+        team = .$repo,
+        source_repo = glue("{ghorg}/{assignmentName}-template")
+      )
+    }
+}
+push_flexTeam_assignments("lab10")
 ```
 
 
@@ -211,14 +224,14 @@ pushTeamAssignment <- function(assignmentName) {
   templateRepoName <- paste0(ghorg, "/", assignmentName, "-template")
   stopifnot(repo_exists(templateRepoName))
   roster_withteams %>%
-    filter(assignment == assignmentName) %>% 
-    select(github, team) %>% 
+    filter(assignment == assignmentName) %>%
+    select(github, team) %>%
     # Add the staff
-    bind_rows(tibble(github = c("kcarnold", "kimyejae"), team = paste0(assignmentName, "-staff"))) %>% 
+    bind_rows(tibble(github = c("kcarnold", "kimyejae"), team = paste0(assignmentName, "-staff"))) %>%
     mutate(
       repo_base = team,
       repo_full = paste0(ghorg, "/", repo_base)
-    ) %>% 
+    ) %>%
     {
       org_create_assignment(
         org = ghorg,
@@ -229,8 +242,7 @@ pushTeamAssignment <- function(assignmentName) {
       )
     }
 }
-#pushTeamAssignment("lab07")
-
+# pushTeamAssignment("lab07")
 ```
 
 
@@ -243,8 +255,8 @@ all_repos <- org_repos(ghorg)
 Maintain local clones of all student repos:
 
 ```{r}
-local_repo_status <- tibble(repo_full = all_repos) %>% 
-  separate(repo_full, c(NA, "repo"), "/", remove = FALSE) %>% 
+local_repo_status <- tibble(repo_full = all_repos) %>%
+  separate(repo_full, c(NA, "repo"), "/", remove = FALSE) %>%
   mutate(
     repo_url = glue("https://github.com/{repo_full}"),
     local_path = fs::path_expand(file.path("../fa20/all_repos", repo)) %>% fs::path_abs() %>% as.character(),
@@ -256,26 +268,27 @@ Check out missing repos:
 
 ```{r checkout-missing-repos}
 local_repo_status %>%
-  filter(!exists) %>% 
-  select(repo_url, local_path) %>% 
-  pwalk(function(repo_url, local_path) 
-    purrr::safely(gert::git_clone)(url = repo_url, path = local_path, branch = "master", verbose = TRUE))
+  filter(!exists) %>%
+  select(repo_url, local_path) %>%
+  pwalk(function(repo_url, local_path) {
+    purrr::safely(gert::git_clone)(url = repo_url, path = local_path, branch = "master", verbose = TRUE)
+  })
 ```
 
 
 ```{r}
 updateLocalClones <- function(assignment_to_update) {
-  updatesToDo <- 
-    local_repo_status %>% 
+  updatesToDo <-
+    local_repo_status %>%
     filter(exists, str_detect(repo, assignment_to_update))
   updateStatus <-
     updatesToDo %>%
-    pull(local_path) %>% 
+    pull(local_path) %>%
     map(local_repo_pull)
 
-  updatesToDo %>% 
-    mutate(update_failed = !(updateStatus %>% map(list(1, 'error')) %>% map_lgl(is_null))) %>% 
-    filter(update_failed) %>% 
+  updatesToDo %>%
+    mutate(update_failed = !(updateStatus %>% map(list(1, "error")) %>% map_lgl(is_null))) %>%
+    filter(update_failed) %>%
     select(repo, local_path)
 }
 ```
@@ -284,31 +297,35 @@ Get all students who are on all repos
 
 ```{r}
 get_collaborators_by_assignment <- function(assignment) {
-  all_repos %>% 
-    keep(~ str_detect(., assignment)) %>% 
+  all_repos %>%
+    keep(~ str_detect(., assignment)) %>%
     map_dfr(~ repo_collaborators(.x, include_admins = FALSE))
 }
 cached_collaborators <- function(assignment) {
-  evalWithMemoization({
-    get_collaborators_by_assignment(assignment)
-  }, key = assignment)
+  evalWithMemoization(
+    {
+      get_collaborators_by_assignment(assignment)
+    },
+    key = assignment
+  )
 }
 cached_collaborators("lab04")
 ```
 
 ```{r lookup-names}
-local_repo_owners <- tibble(assignment = c("hw01", "hw02", "hw03", "hw04", "lab01", "lab02", "lab03", "lab04", "lab05", "datavis")) %>% 
-  rowwise() %>% 
-  mutate(collaborators = list(cached_collaborators(assignment))) %>% 
-  unnest(collaborators) %>% 
-  select(-c(pull,push,admin)) %>% 
+local_repo_owners <- tibble(assignment = c("hw01", "hw02", "hw03", "hw04", "lab01", "lab02", "lab03", "lab04", "lab05", "datavis")) %>%
+  rowwise() %>%
+  mutate(collaborators = list(cached_collaborators(assignment))) %>%
+  unnest(collaborators) %>%
+  select(-c(pull, push, admin)) %>%
   full_join(
     local_repo_status %>% rename(repo_short = repo, repo = repo_full),
     by = c("repo")
-  ) %>% left_join(
-  roster,
-  by = c("username" = "github")
-) %>%
+  ) %>%
+  left_join(
+    roster,
+    by = c("username" = "github")
+  ) %>%
   select(repo_short, assignment, local_path, name = preferred_full_name)
 ```
 
@@ -316,7 +333,7 @@ Make links to each student's work.
 
 ```{r}
 local_repo_owners %>%
-  drop_na() %>% 
+  drop_na() %>%
   pwalk(function(repo_short, assignment, local_path, name) {
     user_path <- fs::path_wd(paste0("../fa20/", name))
     fs::dir_create(user_path)
@@ -331,17 +348,20 @@ local_repo_owners %>%
 Make a table for everyone's work.
 
 ```{r collect-repo-data}
-repos_display <- local_repo_owners %>% 
+repos_display <- local_repo_owners %>%
   mutate(
     repo_url = glue("https://github.com/{ghorg}/{repo_short}"),
     pr_url = glue("{repo_url}/pull/1/files"),
   ) %>%
-  rowwise() %>% 
-  mutate(html = paste0({
-    files <- Sys.glob(file.path(local_path, "*.html"))
-    bn <- basename(files)
-    glue("[{bn}]({files})")
-    }, collapse = ', ')) %>%
+  rowwise() %>%
+  mutate(html = paste0(
+    {
+      files <- Sys.glob(file.path(local_path, "*.html"))
+      bn <- basename(files)
+      glue("[{bn}]({files})")
+    },
+    collapse = ", "
+  )) %>%
   mutate(
     md = glue("[{repo_short}]({repo_url}) ([feedback]({pr_url})) {html}")
   )
@@ -349,17 +369,17 @@ repos_display <- local_repo_owners %>%
 
 ```{r}
 openStudentWork <- function(assignment, name) {
-  repos <- local_repo_owners %>% 
+  repos <- local_repo_owners %>%
     filter(assignment == !!assignment, str_detect(name, coll(!!name, ignore_case = TRUE)))
   stopifnot(nrow(repos) == 1)
 
   files <- Sys.glob(file.path(repos$local_path, "*.Rmd"))
-  
+
   stopifnot(length(files) == 1)
-  
+
   usethis::edit_file(files)
 }
-#openStudentWork("datavis", "Wang")
+# openStudentWork("datavis", "Wang")
 ```
 
 
@@ -367,22 +387,24 @@ openStudentWork <- function(assignment, name) {
 ## By assignment
 
 ```{r results='asis'}
-repos_display %>% 
+repos_display %>%
   mutate(
     md = glue("* {name}: {md}")
   ) %>%
-  group_by(assignment) %>% 
-  summarize(md = paste0(c("### ", first(assignment), "\n", paste0(md, collapse = "\n"), "\n\n"), collapse = ""), .groups = "drop") %>% 
-  pull(md) %>% cat(sep = "\n")
+  group_by(assignment) %>%
+  summarize(md = paste0(c("### ", first(assignment), "\n", paste0(md, collapse = "\n"), "\n\n"), collapse = ""), .groups = "drop") %>%
+  pull(md) %>%
+  cat(sep = "\n")
 ```
 
 ## By Student
 
 ```{r results='asis'}
-repos_display %>% 
-  group_by(name) %>% 
-  summarize(md = paste0(c("* ", first(name), ": ", paste0(md, collapse = ", ")), collapse = ""), .groups = "drop") %>% 
-  pull(md) %>% cat(sep = "\n")
+repos_display %>%
+  group_by(name) %>%
+  summarize(md = paste0(c("* ", first(name), ": ", paste0(md, collapse = ", ")), collapse = ""), .groups = "drop") %>%
+  pull(md) %>%
+  cat(sep = "\n")
 ```
 
 
@@ -399,8 +421,8 @@ To make them:
 
 ```{r eval=FALSE}
 createFeedbackPRs <- function(assignment) {
-  all_repos %>% 
-    purrr::keep(~ str_detect(., assignment)) %>% 
+  all_repos %>%
+    purrr::keep(~ str_detect(., assignment)) %>%
     purrr::walk(function(full_repo) {
       owner <- ghclass:::get_repo_owner(full_repo)
       repo <- ghclass:::get_repo_name(full_repo)
@@ -409,26 +431,26 @@ createFeedbackPRs <- function(assignment) {
         filter(repo == !!repo) %>%
         pull(local_path) %>%
         gert::git_log(repo = .) %>%
-        slice_tail(n = 1) %>% 
+        slice_tail(n = 1) %>%
         pull(commit)
       # Create the branch
-      res <- purrr::safely(ghclass:::ghclass_api_v3_req)("POST /repos/:owner/:repo/git/refs", 
-        owner = ghorg, repo = repo, 
+      res <- purrr::safely(ghclass:::ghclass_api_v3_req)("POST /repos/:owner/:repo/git/refs",
+        owner = ghorg, repo = repo,
         ref = paste0("refs/heads/", "feedback"), sha = first_commit_sha)
       ghclass:::status_msg(res, fail = "Failed to create feedback branch for repo {.val {repo}}.")
     })
-  
+
   make_pr_body <- function(repo) {
     subscribers <- cached_collaborators(repo) %>%
-      filter(repo == paste0(ghorg, "/", !!repo)) %>% 
-      pull(username) %>% 
-      map_chr(~ paste0('@', .)) %>% 
+      filter(repo == paste0(ghorg, "/", !!repo)) %>%
+      pull(username) %>%
+      map_chr(~ paste0("@", .)) %>%
       paste0(collapse = ", ")
     paste0("This is a place for the course staff to leave feedback on your work. It will update automatically. **Don't close or merge this pull request** unless instructed to do so by your instructor.\n\nSubscribed: ", subscribers)
   }
-  
-  all_repos %>% 
-    purrr::keep(~ str_detect(., assignment)) %>% 
+
+  all_repos %>%
+    purrr::keep(~ str_detect(., assignment)) %>%
     purrr::walk(function(full_repo) {
       owner <- ghclass:::get_repo_owner(full_repo)
       repo <- ghclass:::get_repo_name(full_repo)
@@ -437,6 +459,3 @@ createFeedbackPRs <- function(assignment) {
     })
 }
 ```
-
-
-
