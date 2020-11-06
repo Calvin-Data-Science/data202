@@ -139,8 +139,16 @@ add_predictions <- function(data, ...) {
   )
 }
 
-sweep_model <- function(model, var_to_sweep, sweep_min, sweep_max, ...) {
-  X <- expand_grid(!!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500), ...)
+sweep_model_examples <- function(model, dataset, vars_to_sweep, examples = slice_sample(dataset, n = 10)) {
+  X <- map_dfr(vars_to_sweep, function(v) {
+    var_to_sweep <- rlang::as_label(v)
+    sweep_min <- min(dataset[[var_to_sweep]])
+    sweep_max <- max(dataset[[var_to_sweep]])
+    expand_grid(
+      examples %>% select(-!!var_to_sweep) %>% mutate(.idx = row_number()),
+      !!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500)) %>% 
+      mutate(sweep_var = var_to_sweep, .sweep_val = .data[[var_to_sweep]])
+  })
   model %>% 
     predict(X) %>% 
     bind_cols(X)
@@ -282,6 +290,60 @@ modeling_results <- modeling_results %>%
   )
 ```
 
+## Visualize models
+
+Let's look at two ways of visualizing what's going on in fitted models.
+
+First, let's get a model fit on the whole training set. (Remember, the cross
+validation process trained a bunch of smaller models; now we want to look
+at the slightly bigger full model.)
+
+```{r fit-on-full-train}
+model <- spec %>% fit(ames_train)
+```
+
+#### Examine Residuals
+
+Here's a way to see at a glance what might be helpful features to add becasue
+there are patterns in the residuals. We just plot the residuals against all
+of the other numeric features. (It doesn't handle categorical features, but 
+you can try mapping a categorical feature to color or something.)
+
+```{r resids-against-all-numeric, fig.width=10, fig.height=10, fig.fullwidth=TRUE}
+ames_train %>% 
+  add_predictions(model) %>% 
+  mutate(resid = Sale_Price - .pred) %>% 
+  # Pivot all of the numeric variables except for the outcomes and residuals.
+  pivot_longer(c(where(is.numeric) & !any_of(c("Sale_Price", ".pred", "resid")))) %>% 
+  # Plot!
+  ggplot(aes(x = value, y = resid)) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    facet_wrap(vars(name), scales = "free")
+```
+
+##### Examine Predictions
+
+The `sweep_model_examples` function defined above creates example predictions
+by starting with 10 randomly selected example data points and sweeping a variable
+(columns) across the whole range of values seen in the training set.
+You give it one or more variables using `vars`, the same quoting
+function that `facet_wrap` uses. **Note**: it currently only works for continuous
+variables.
+
+The following example shows how to sweep several variables and plot each sweep
+as a line.
+
+```{r sweep-model-examples, fig.fullwidth=TRUE}
+set.seed(0)
+sweep_model_examples(model, ames_train, vars(Longitude, Latitude, Gr_Liv_Area)) %>% 
+  ggplot(aes(x = .sweep_val, y = .pred, group = .idx, color = Latitude)) +
+  geom_line(alpha = .5) +
+  facet_wrap(vars(sweep_var), scales = "free")
+```
+
+
+
 ### Better Linreg
 
 Now, try to get a better linear regression model. You might try:
@@ -314,7 +376,7 @@ cv_results <-
   collect_metrics(summarize = FALSE)
 ```
 
-```{r}
+```{r linreg2-collect, echo=FALSE}
 modeling_results <- modeling_results %>% 
   append_new_results(
     model_name = "LinReg 2",#: Lat, Long, LivArea, BldgType, natsplines on LatLong",
@@ -323,57 +385,13 @@ modeling_results <- modeling_results %>%
   )
 ```
 
-### Visualize model
-
-```{r}
-spec <- modeling_results %>% slice_tail(n=1) %>% pluck("spec", 1)
-model <- spec %>% fit(ames_train)
-```
-
-
-```{r}
-sweep_model_examples <- function(model, dataset, vars_to_sweep, examples = slice_sample(dataset, n = 10)) {
-  X <- map_dfr(vars_to_sweep, function(var_to_sweep) {
-    sweep_min <- min(dataset[[var_to_sweep]])
-    sweep_max <- max(dataset[[var_to_sweep]])
-    expand_grid(
-      examples %>% select(-!!var_to_sweep) %>% mutate(.idx = row_number()),
-      !!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500)) %>% 
-      mutate(sweep_var = var_to_sweep, .sweep_val = .data[[var_to_sweep]])
-  })
-  model %>% 
-    predict(X) %>% 
-    bind_cols(X)
-}
-sweep_model_examples(model, ames_train, c("Longitude", "Latitude", "Gr_Liv_Area")) %>% 
-  ggplot(aes(x = .sweep_val, y = .pred, group = .idx)) +
-  geom_line() +
-  facet_wrap(vars(sweep_var), scales = "free")
-```
-
-
-## Diagnose models
-
-```{r retrain-on-all}
-spec <- modeling_results %>% filter(model_name == "Simple Linreg") %>% head(1) %>% pluck("spec", 1)
-model <- spec %>% fit(ames_train)
-```
-
-
-```{r resids-against-all-numeric, fig.width=10, fig.height=10}
-ames_train %>% 
-  add_predictions(model) %>% 
-  mutate(resid = Sale_Price - .pred) %>% 
-  pivot_longer(c(where(is.numeric) & !any_of(c("Sale_Price", ".pred", "resid")))) %>% 
-  ggplot(aes(x = value, y = resid)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  facet_wrap(vars(name), scales = "free")
-```
-
 
 
 ## Compare model performance
+
+The other visuals are just for you to explore. Keep your model performance visual 
+chunk after all of your modeling results have been collected, so that you can
+plot the performance here.
 
 ```{r}
 modeling_results %>% 
