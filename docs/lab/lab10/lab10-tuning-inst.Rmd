@@ -293,6 +293,10 @@ modeling_results <- modeling_results %>%
 ## Visualize models
 
 Let's look at two ways of visualizing what's going on in fitted models.
+The examples in this section will show the results of the last model that
+your instructor happened to fit (while playing around with decision trees
+for the last section); notice what's different when you apply these
+techniques to different models.
 
 First, let's get a model fit on the whole training set. (Remember, the cross
 validation process trained a bunch of smaller models; now we want to look
@@ -393,9 +397,12 @@ The other visuals are just for you to explore. Keep your model performance visua
 chunk after all of your modeling results have been collected, so that you can
 plot the performance here.
 
+For example, here is the result with some models I was playing around with.
+
 ```{r}
 modeling_results %>% 
   ggplot(aes(y = fct_rev(model_name), x = .estimate)) +
+    geom_boxplot() +
     geom_point() +
     labs(x = "Mean Absolute Error ($1000)", y = "")
 ```
