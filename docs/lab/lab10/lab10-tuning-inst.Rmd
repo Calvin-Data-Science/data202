@@ -323,6 +323,35 @@ modeling_results <- modeling_results %>%
   )
 ```
 
+### Visualize model
+
+```{r}
+spec <- modeling_results %>% slice_tail(n=1) %>% pluck("spec", 1)
+model <- spec %>% fit(ames_train)
+```
+
+
+```{r}
+sweep_model_examples <- function(model, dataset, vars_to_sweep, examples = slice_sample(dataset, n = 10)) {
+  X <- map_dfr(vars_to_sweep, function(var_to_sweep) {
+    sweep_min <- min(dataset[[var_to_sweep]])
+    sweep_max <- max(dataset[[var_to_sweep]])
+    expand_grid(
+      examples %>% select(-!!var_to_sweep) %>% mutate(.idx = row_number()),
+      !!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500)) %>% 
+      mutate(sweep_var = var_to_sweep, .sweep_val = .data[[var_to_sweep]])
+  })
+  model %>% 
+    predict(X) %>% 
+    bind_cols(X)
+}
+sweep_model_examples(model, ames_train, c("Longitude", "Latitude", "Gr_Liv_Area")) %>% 
+  ggplot(aes(x = .sweep_val, y = .pred, group = .idx)) +
+  geom_line() +
+  facet_wrap(vars(sweep_var), scales = "free")
+```
+
+
 ## Diagnose models
 
 ```{r retrain-on-all}
