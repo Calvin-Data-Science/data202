@@ -1,5 +1,5 @@
 ---
-title: "Lab 09: Model Tuning"
+title: "Lab 10: Model Tuning"
 output: 
   tufte::tufte_html:
     css: ../lab.css
@@ -122,6 +122,10 @@ append_new_results <- function(modeling_results, model_name, spec, cv_results) {
   ) %>% 
     mutate(model_name = as_factor(model_name)) # Ensure that factor level matches insertion order.
 }
+
+get_spec_for_model <- function(model_name) {
+  modeling_results %>% filter(model_name == !!model_name) %>% purrr::chuck("spec", 1)
+}
 ```
 
 Finally, a few utilities:
@@ -198,7 +202,6 @@ cv_results
 ```
 
 Finally, we collect these results into our `modeling_results` data frame.
-Collect these results:
 
 ```{r linreg1-collect}
 modeling_results <- modeling_results %>% 
@@ -294,16 +297,16 @@ modeling_results <- modeling_results %>%
 
 Let's look at two ways of visualizing what's going on in fitted models.
 The examples in this section will show the results of the last model that
-your instructor happened to fit (while playing around with decision trees
+your instructor happened to spec out (while playing around with decision trees
 for the last section); notice what's different when you apply these
 techniques to different models.
 
-First, let's get a model fit on the whole training set. (Remember, the cross
-validation process trained a bunch of smaller models; now we want to look
-at the slightly bigger full model.)
+First, let's get a model fit on the whole training set. Remember: the cross validation process trained a bunch of smaller models; now we want to look at the slightly bigger full model.
 
 ```{r fit-on-full-train}
-model <- spec %>% fit(ames_train)
+model <- 
+  get_spec_for_model("Decision Tree 2") %>%
+  fit(ames_train)
 ```
 
 #### Examine Residuals

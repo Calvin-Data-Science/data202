@@ -12,7 +12,7 @@
 
 
 
-<title>Lab 09: Model Tuning</title>
+<title>Lab 10: Model Tuning</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -546,7 +546,7 @@ text-align: center;
 
 
 
-<h1 class="title toc-ignore">Lab 09: Model Tuning</h1>
+<h1 class="title toc-ignore">Lab 10: Model Tuning</h1>
 
 
 
@@ -624,7 +624,11 @@ text-align: center;
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>    )</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">model_name =</span> <span class="kw">as_factor</span>(model_name)) <span class="co"># Ensure that factor level matches insertion order.</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a>}</span></code></pre></div>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a>}</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a>get_spec_for_model &lt;-<span class="st"> </span><span class="cf">function</span>(model_name) {</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a>  modeling_results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(model_name <span class="op">==</span><span class="st"> </span><span class="op">!!</span>model_name) <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">chuck</span>(<span class="st">&quot;spec&quot;</span>, <span class="dv">1</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a>}</span></code></pre></div>
 <p>Finally, a few utilities:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>add_predictions &lt;-<span class="st"> </span><span class="cf">function</span>(data, ...) {</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  <span class="kw">imap_dfr</span>(</span>
@@ -693,7 +697,7 @@ text-align: center;
 ##  8 Fold08 mae     standard        50.5
 ##  9 Fold09 mae     standard        48.1
 ## 10 Fold10 mae     standard        53.5</code></pre>
-<p>Finally, we collect these results into our <code>modeling_results</code> data frame. Collect these results:</p>
+<p>Finally, we collect these results into our <code>modeling_results</code> data frame.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>modeling_results &lt;-<span class="st"> </span>modeling_results <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">append_new_results</span>(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>    <span class="dt">model_name =</span> <span class="st">&quot;Simple Linreg&quot;</span>,</span>
@@ -768,9 +772,11 @@ text-align: center;
 </div>
 <div id="visualize-models" class="section level2">
 <h2>Visualize models</h2>
-<p>Let’s look at two ways of visualizing what’s going on in fitted models. The examples in this section will show the results of the last model that your instructor happened to fit (while playing around with decision trees for the last section); notice what’s different when you apply these techniques to different models.</p>
-<p>First, let’s get a model fit on the whole training set. (Remember, the cross validation process trained a bunch of smaller models; now we want to look at the slightly bigger full model.)</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>model &lt;-<span class="st"> </span>spec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">fit</span>(ames_train)</span></code></pre></div>
+<p>Let’s look at two ways of visualizing what’s going on in fitted models. The examples in this section will show the results of the last model that your instructor happened to spec out (while playing around with decision trees for the last section); notice what’s different when you apply these techniques to different models.</p>
+<p>First, let’s get a model fit on the whole training set. Remember: the cross validation process trained a bunch of smaller models; now we want to look at the slightly bigger full model.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>model &lt;-<span class="st"> </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">get_spec_for_model</span>(<span class="st">&quot;Decision Tree 2&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">fit</span>(ames_train)</span></code></pre></div>
 <div id="examine-residuals" class="section level4">
 <h4>Examine Residuals</h4>
 <p>Here’s a way to see at a glance what might be helpful features to add becasue there are patterns in the residuals. We just plot the residuals against all of the other numeric features. (It doesn’t handle categorical features, but you can try mapping a categorical feature to color or something.)</p>
