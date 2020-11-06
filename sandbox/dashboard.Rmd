@@ -19,6 +19,7 @@ library(ggformula)
 library(lubridate)
 library(tidyr)
 library(dplyr)
+library(stringr)
 library(purrr)
 library(cowplot)
 library(reactable)
@@ -333,6 +334,17 @@ getSheet("Diagnostic Tests by Result and County") %>%
   gf_labs(x = "Date", title = "New cases reported in Kent County")
 
 getSheet("Diagnostic Tests by Result and County") %>% 
+  filter(COUNTY == "Kent") %>% 
+  mutate(is_weekend = case_when(
+    lubridate::wday(MessageDate, label = TRUE) %in% c("Sat", "Sun") ~ "weekend",
+    TRUE ~ "weekday"
+  )) %>% 
+  gf_point(Total ~ MessageDate, color = ~ is_weekend) %>% 
+  gf_line(rollmean(Total, 3, fill = NA, align = "center") ~ MessageDate, color = ~ is_weekend) %>% 
+  gf_labs(x = "Date", title = "Kent County total tests done")
+
+
+getSheet("Diagnostic Tests by Result and County") %>% 
   group_by(MessageDate) %>% 
   summarize(Positive = sum(Positive)) %>% 
   gf_point(Positive ~ MessageDate) %>% 
@@ -343,7 +355,7 @@ getSheet("Diagnostic Tests by Result and County") %>%
 kent_tests %>% 
   slice(-(1:10)) %>% # Remove the first few days of tests, which were extremely high
   gf_point(frac_pos_new ~ MessageDate) %>% 
-  gf_line(frac_pos_new7 ~ MessageDate, color = "blue") %>% 
+  gf_line(frac_pos_new7 ~ MessageDate, color = "maroon") %>% 
   gf_refine(scale_y_continuous(
     labels = scales::percent,
     oob = scales::oob_squish)) %>% 
