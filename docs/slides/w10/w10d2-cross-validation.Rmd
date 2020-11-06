@@ -178,8 +178,6 @@ models_with_samples <- all_models %>%
 ```
 
 ```{r model-specs, echo=FALSE}
-#model1_spec <- all_models$spec[[1]]
-#model2_spec <- all_models$spec[[2]]
 model3_spec <- all_models$spec[[3]]
 ```
 
