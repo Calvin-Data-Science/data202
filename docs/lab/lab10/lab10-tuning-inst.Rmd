@@ -68,11 +68,15 @@ rm(ames)
 
 We'll tweak the train-test split to give us a slightly larger training set:
 
-```{r train-test-split}
-set.seed(10)
+```{r train-test-split, echo=FALSE}
+set.seed(527)
+invisible(rnorm(5))
 ames_split <- initial_split(ames_all, prop = 3 / 4)
 ames_train <- training(ames_split)
 ames_test <- testing(ames_split)
+
+ames_train %>% write_csv("data/ames_train.csv")
+invisible(file.copy("data/ames_train.csv", "../../../src/lab/lab10-tuning/data/ames_train.csv"))
 ```
 
 ## Modeling

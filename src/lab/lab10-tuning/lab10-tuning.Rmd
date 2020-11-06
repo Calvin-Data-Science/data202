@@ -1,6 +1,6 @@
 ---
 title: "Lab 10: Model Tuning"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE, message=FALSE}
@@ -74,20 +74,8 @@ decision_tree <- function(mode = "regression", engine = "rpart", ...) {
 
 ## Data and Initial Split
 
-```{r load-and-subset-data}
-data(ames, package = "modeldata")
-ames_all <- ames %>%
-  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>%
-  mutate(across(where(is.integer), as.double)) %>%
-  mutate(Sale_Price = Sale_Price / 1000)
-rm(ames)
-```
-
-```{r train-test-split}
-set.seed(10)
-ames_split <- initial_split(ames_all, prop = 3 / 4)
-ames_train <- training(ames_split)
-ames_test <- testing(ames_split)
+```{r load-training-set}
+ames_train <- read_csv("data/ames_train.csv")
 ```
 
 ## Modeling
@@ -112,7 +100,7 @@ modeling_results <- tibble()
 
 Our first modeling workflow uses a linear regression model on `Latitude` and `Longitude`.
 
-```{r linreg1-spec}
+```{r linreg1}
 spec <- workflow() %>% 
   add_recipe(
     recipe(Sale_Price ~ Latitude + Longitude, data = ames_train)
@@ -120,19 +108,16 @@ spec <- workflow() %>%
   add_model(
     linear_reg()
   )
-```
 
-We compute the cross-validation assessment scores:
+# We compute the cross-validation assessment scores:
 
-```{r linreg1-cv}
 cv_results <- 
   spec %>% 
   fit_resamples(resamples = ames_resamples, metrics = metric_set(mae)) %>% 
   collect_metrics(summarize = FALSE)
-```
-Finally, we collect these results into our `modeling_results` data frame.
 
-```{r linreg1-collect}
+# Finally, we collect these results into our `modeling_results` data frame.
+
 modeling_results <- modeling_results %>% 
   append_new_results(
     model_name = "Simple Linreg",
@@ -167,7 +152,7 @@ modeling_results %>%
 
 ```{r fit-on-full-train}
 model <- 
-  get_spec_for_model("Decision Tree 2") %>%
+  get_spec_for_model("Simple Linreg") %>%
   fit(ames_train)
 ```
 
