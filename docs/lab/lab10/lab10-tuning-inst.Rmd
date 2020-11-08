@@ -20,6 +20,13 @@ options(dplyr.summarise.inform = FALSE) # silence a warning message
 
 ## Goals
 
+In this lab (turned homework) you will try to make models of two different types
+and tune their parameters and data choices to do well at a prediction task.
+This is the central task of data modeling. Many (but far from all) people think it's the most
+fun part.
+
+Our learning objectives are:
+
 * Design an accurate predictive model
 * Compare model performance using cross-validation
 * Validate model performance on held-out data
@@ -50,14 +57,14 @@ try it only if all of your team is game to try:
 
 ## Data and Initial Split
 
-We'll again be using the Ames home sales dataset.
-Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt).
-And again, we use a subset of the original data as suggested by the
-[original paper](http://jse.amstat.org/v19n3/decock.pdf).
+You have been given a training set with a random subset of the Ames home sale dataset.
+Your repo includes a command to load it.
+See the [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
+if you need it.
 
-We'll also scale the sale price to be in units of $1000, to keep the numbers more manageable.
+We've scaled the sale price to be in units of $1000, to keep the numbers more manageable.
 
-```{r load-and-subset-data}
+```{r load-and-subset-data, echo=FALSE}
 data(ames, package = "modeldata")
 ames_all <- ames %>%
   filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>%
@@ -66,9 +73,7 @@ ames_all <- ames %>%
 rm(ames)
 ```
 
-We'll tweak the train-test split to give us a slightly larger training set:
-
-```{r train-test-split, echo=FALSE}
+```{r train-test-split, echo=FALSE, message=FALSE}
 set.seed(527)
 invisible(rnorm(5))
 ames_split <- initial_split(ames_all, prop = 3 / 4)
@@ -77,6 +82,7 @@ ames_test <- testing(ames_split)
 
 ames_train %>% write_csv("data/ames_train.csv")
 invisible(file.copy("data/ames_train.csv", "../../../src/lab/lab10-tuning/data/ames_train.csv"))
+ames_train <- read_csv("data/ames_train.csv")
 ```
 
 ## Modeling
@@ -84,7 +90,7 @@ invisible(file.copy("data/ames_train.csv", "../../../src/lab/lab10-tuning/data/a
 Now that we have techniques for specifying a model, preprocessing data to give to it,
 and estimating its performance, let's try to just make a good model.
 
-We learned about *recipes* and *workflows* but only used them occasonially last week.
+We learned about *recipes* and *workflows* but only used them occasionally last week.
 For this lab, though, they will become essential as we seek to compare models
 that use different variables, different preprocessing steps, different models,
 etc, using the same methodology.
@@ -95,9 +101,18 @@ then you'll try out things on your own.
 
 ### Initialize
 
-Overall let's use 10-fold cross-validation.
+Overall let's use 10-fold cross-validation. We need to set a seed here
+because `vfold_cv` uses random splitting.
+
+```{marginfigure}
+Since the toolkit I usually use, Scikit-Learn, uses deterministic cross-validation
+by default, I didn't realize that this needs a seed to be reproducible.
+Sorry for those of you who got confused because our numbers didn't match.
+```
+
 
 ```{r declare-cv}
+set.seed(2)
 ames_resamples <- ames_train %>% 
   vfold_cv(v = 10)
 ```
@@ -114,7 +129,9 @@ And here's a function to add a new set of results. Don't worry about how it work
 ```{r append-new-results}
 append_new_results <- function(modeling_results, model_name, spec, cv_results) {
   if (nrow(modeling_results) > 0 && model_name %in% modeling_results$model_name)
-    stop("Model with that name already exists.")
+    stop(paste0(
+      "There's already results for a model with the name ", model_name,
+      ". Did you forget to change the name?"))
   
   bind_rows(
     modeling_results %>% mutate(model_name = as.character(model_name)),
@@ -217,9 +234,15 @@ modeling_results <- modeling_results %>%
 modeling_results
 ```
 
+Notice that in your repo these three code blocks are all together in the same
+chunk. That's intentional, to avoid accidentally getting the three parts
+out of sync.
+
 ### Decision Tree
 
 Your turn: repeat the above, but now using the default `decision_tree()`.
+Start by copying and pasting the `linreg` chunk from above and changing the
+chunk name, model spec, and `model_name` parameter.
 
 ```{r tree1-spec, echo=FALSE}
 spec <- workflow() %>% 
@@ -245,6 +268,11 @@ modeling_results <- modeling_results %>%
     spec = spec,
     cv_results = cv_results
   )
+```
+
+Here's what my modeling results looked like after I did that:
+
+```{r tree1-modeling-results}
 modeling_results
 ```
 
@@ -258,6 +286,13 @@ modeling_results %>%
     geom_boxplot() +
     geom_point() +
     labs(x = "Mean Absolute Error ($1000)", y = "")
+```
+
+
+```{r echo=FALSE}
+modeling_results %>% 
+  group_by(model_name) %>% 
+  summarise(mae_median = median(.estimate))
 ```
 
 
@@ -400,13 +435,16 @@ modeling_results <- modeling_results %>%
 
 ## Compare model performance
 
-The other visuals are just for you to explore. Keep your model performance visual 
+Once you have collected performance data for a few different models, compare their
+performance by plotting data from the `modeling_results` data frame.
+
+(The other visuals are just for you to explore. Keep your model performance visual 
 chunk after all of your modeling results have been collected, so that you can
-plot the performance here.
+plot the performance here.)
 
-For example, here is the result with some models I was playing around with.
+For example, here is the result with some models I was playing around with:
 
-```{r}
+```{r example-model-comparison}
 modeling_results %>% 
   ggplot(aes(y = fct_rev(model_name), x = .estimate)) +
     geom_boxplot() +
@@ -414,3 +452,53 @@ modeling_results %>%
     labs(x = "Mean Absolute Error ($1000)", y = "")
 ```
 
+## Wrap-up
+
+1. Make a list of all of the models that you tried. (Give enough detail that another student would be able to try the same model).
+   Mark which one is your best decision tree and which one is your best linear regression.
+
+2. How does the numerical performance of your best linear regression compare with your best decision tree?
+  Refer to both the center and spread of cross-validated performance estimates.
+
+3. Pick a house from the training set. Explain how each of the two models you described
+  in the previous question makes a prediction on that house.
+  
+Here's the example home to use:
+
+```{r get-example-home}
+example_home <- ames_train %>% head(1)
+example_home
+```
+
+And here's how to get your model's prediction on it.
+
+```{r get-last-fit}
+# Get the fitted model
+model <- 
+  get_spec_for_model("Decision Tree") %>%
+  fit(ames_train)
+
+# Make the prediction
+model %>% predict(example_home)
+```
+
+You can use the plots from "Examine Predictions" above to help understand what your model
+is doing. For a small enough decision tree, you can also use `rpart.plot` like
+we did in Lab 9 (but we need very slightly different code since we're using `workflow`s:
+
+```{r show-final-tree, eval=FALSE}
+model %>%
+  workflows::pull_workflow_fit() %>% 
+  pluck("fit") %>%
+  rpart.plot::rpart.plot(roundint = FALSE, digits = 5, type = 4)
+```
+
+4. Which model do you think will do best on the test set that the course staff has held out?
+  What error do you expect? Report your answer as follows:
+  
+```
+spec <- YOUR SPEC CODE HERE
+expected_test_set_MAE <- YOUR NUMBER HERE
+```
+
+Explain your reasoning.
