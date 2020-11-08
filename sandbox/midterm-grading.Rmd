@@ -1,0 +1,97 @@
+---
+title: "Midterm grading notes"
+author: "K Arnold"
+date: "11/7/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Overall
+
+* Many people struggled with counting the number of failed joins.
+  * A failed join is indicated by missing data (`is.na`).
+  * You can focus only on parts that have missing data by using `filter` (remember the Nobel lab?)
+  * `distinct()` and `nrow`, don't try to count by hand.
+  
+
+### To me
+
+* I should not have taught `count`.
+
+
+## Car prices and eco
+
+### Question 11
+
+* Used `count` instead of `filter` (-2)
+
+
+
+## Loading responses
+
+```{r}
+response_dir <- "../fa20/midterm/responses"
+response_files <- withr::with_dir(response_dir, {
+  Sys.glob("*/*/*")})
+```
+
+```{r}
+read_file(file.path(response_dir, "Q10 - doors-engine-size-repro/1355970 - Adam DenHaan - Attempt1 - 2020-11-02 6_28 pm/Attempt1_textresponse"))
+```
+
+
+```{r}
+responses <- tibble(filename = response_files) %>% 
+  separate(filename, into = c("question", "attempt", "text_filename"), sep = "/", remove = FALSE) %>% 
+  separate(attempt, into = c("id", "student", "attempt_num", "time"), sep = "-", extra = "merge") %>% 
+  mutate(attempt_num = as.numeric(str_replace(attempt_num, "Attempt", ""))) %>% 
+  group_by(question, student) %>% 
+  arrange(attempt_num) %>% 
+  slice_tail(n = 1) %>% 
+  mutate(contents = read_file(file.path(response_dir, filename))) %>% 
+  relocate(filename, .after = everything())
+```
+
+```{r}
+# https://stackoverflow.com/a/61647053/69707
+mixedrank = function(x) order(gtools::mixedorder(x))
+responses <- responses %>% 
+  arrange(mixedrank(question))
+```
+
+## Show all results
+
+```{r results='asis'}
+responses %>% 
+  select(student, question, contents) %>% 
+  mutate(md = glue::glue("#### {student}\n\n```r\n{contents}\n```\n")) %>% 
+  group_by(question) %>% 
+  arrange(contents) %>% 
+  summarize(md = paste0("\n### ", question[[1]], "\n\n", paste0(md, collapse = '\n\n'))) %>% 
+  ungroup() %>% 
+  arrange(mixedrank(question)) %>% 
+  summarize(md = paste0(md, collapse='\n')) %>% 
+  pull(md) %>% cat()
+```
+
+
+## Unfortunately I caught a cheat...
+
+```{r results='asis'}
+responses %>% 
+  filter(str_detect(student, "Hyein") | str_detect(student, "Krista")) %>% 
+  select(student, question, contents) %>% 
+  mutate(md = glue::glue("#### {student}\n\n```r\n{contents}\n```\n")) %>% 
+  group_by(question) %>% 
+  summarize(md = paste0("\n### ", question[[1]], "\n\n", paste0(md, collapse = '\n\n'))) %>% 
+  ungroup() %>% 
+  arrange(mixedrank(question)) %>% 
+  summarize(md = paste0(md, collapse='\n')) %>% 
+  pull(md) %>% cat()
+```
+
+
