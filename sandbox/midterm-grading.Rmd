@@ -65,12 +65,35 @@ responses <- responses %>%
 
 ## Show all results
 
+```{r}
+summarizeFuncCalls <- function(text) {
+  parsed <- parse(text = force(text))
+  parseData <- utils::getParseData(parsed)
+  if (!("token" %in% colnames(parseData))) {
+    cat(as.character(parseData), file=stderr())
+    stop()
+  }
+  texts <- filter(parseData, token == "SYMBOL_FUNCTION_CALL")$text
+  paste0(texts, collapse = ",")
+}
+```
+
+
+```{r}
+summarizeFuncCalls(responses$contents[[1]])
+#map_chr(responses$contents, summarizeFuncCalls)
+```
+
+
 ```{r results='asis'}
 responses %>% 
-  select(student, question, contents) %>% 
-  mutate(md = glue::glue("#### {student}\n\n```r\n{contents}\n```\n")) %>% 
+  ungroup() %>% 
+  mutate(func_calls = map_chr(contents, possibly(summarizeFuncCalls, "PARSE_ERROR", quiet = TRUE))) %>% 
+  select(student, question, func_calls, contents) %>% 
+  mutate(md = glue::glue("#### {student}\n\n{func_calls}\n```r\n{contents}\n```\n")) %>% 
+  select(student, question, md, func_calls) %>% 
   group_by(question) %>% 
-  arrange(contents) %>% 
+  arrange(func_calls) %>% 
   summarize(md = paste0("\n### ", question[[1]], "\n\n", paste0(md, collapse = '\n\n'))) %>% 
   ungroup() %>% 
   arrange(mixedrank(question)) %>% 
@@ -79,9 +102,11 @@ responses %>%
 ```
 
 
+
+
 ## Unfortunately I caught a cheat...
 
-```{r results='asis'}
+```{r results='asis', eval=FALSE}
 responses %>% 
   filter(str_detect(student, "Hyein") | str_detect(student, "Krista")) %>% 
   select(student, question, contents) %>% 
@@ -91,7 +116,7 @@ responses %>%
   ungroup() %>% 
   arrange(mixedrank(question)) %>% 
   summarize(md = paste0(md, collapse='\n')) %>% 
-  pull(md) %>% cat()
+  pull(md) %>% clipr::write_clip()
 ```
 
 
