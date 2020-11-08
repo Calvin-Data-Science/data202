@@ -1,0 +1,10 @@
+---
+title: "TestParseData"
+output: html_document
+---
+
+```{r}
+parsed <- parse(text = "rnorm(1)")
+utils::getParseData(parsed)
+```
+
