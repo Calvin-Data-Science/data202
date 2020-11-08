@@ -363,8 +363,6 @@ models_with_samples &lt;- all_models %&gt;%
       Sale_Price ~ Latitude + Longitude,
       resamples = ames_resamples,
       metrics = metric_set(mae))))
-#model1_spec &lt;- all_models$spec[[1]]
-#model2_spec &lt;- all_models$spec[[2]]
 model3_spec &lt;- all_models$spec[[3]]
 test_predictions &lt;- 
   all_models %&gt;% 
