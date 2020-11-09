@@ -28,7 +28,9 @@ library(yardstick)
 ## Logistics
 
 * Today: review, continue lab10
-* Wednesday: Wrangling and Modeling in Python (*classification*). *lab10 due*.
+* Wednesday: Wrangling and Modeling in Python (*classification*).
+  * *lab10 due*.
+  * *Project milestone 1*: Data
 * Friday: Classification *lab*
 * Next Monday: (probably) brief notes about inference
 * Next Tuesday: Discussion 11 due (fairness in classification)
@@ -116,7 +118,7 @@ cv.ani(main = "Demonstration of 10-fold Cross Validation", k = 10,
 cross_val_scores <- function(complete_model_spec, training_data, v, metrics = metric_set(mae)) {
   # Split the data into V folds.
   set.seed(0)
-  resamples <- vfold_cv(training_data, v) #<<
+  resamples <- vfold_cv(training_data, v = v) #<<
   
   ...
 }
@@ -130,7 +132,7 @@ cross_val_scores <- function(complete_model_spec, training_data, v, metrics = me
 cross_val_scores <- function(complete_model_spec, training_data, v, metrics = metric_set(mae)) {
   # Split the data into V folds.
   set.seed(0)
-  resamples <- vfold_cv(training_data, v)
+  resamples <- vfold_cv(training_data, v = v)
   
   # For each of the V folds, assess the result of analyzing on the rest.
   raw_cv_results <- complete_model_spec %>% 
@@ -145,7 +147,7 @@ cross_val_scores <- function(complete_model_spec, training_data, v, metrics = me
 
 ## What's a complete model spec?
 
-Workflow = recipe + model-spec.
+Workflow = recipe + model\_spec.
 
 ```{r eval=FALSE}
 spec <- workflow() %>% 
@@ -164,3 +166,9 @@ spec <- workflow() %>%
     linear_reg() #<<
   )
 ```
+
+---
+
+## Continuing with Lab 10
+
+[Instructions](../../lab/lab10/lab10-tuning-inst.html)

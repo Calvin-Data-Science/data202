@@ -484,7 +484,7 @@ model %>% predict(example_home)
 
 You can use the plots from "Examine Predictions" above to help understand what your model
 is doing. For a small enough decision tree, you can also use `rpart.plot` like
-we did in Lab 9 (but we need very slightly different code since we're using `workflow`s:
+we did in Lab 9 (but we need very slightly different code since we're using `workflow`s):
 
 ```{r show-final-tree, eval=FALSE}
 model %>%
