@@ -135,7 +135,7 @@ Yes. Seeking short-term gain gives long-term regret.
 
 ## Quick datavis tips
 
-* Using Pew data? See [notes on *weights*](https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html)
+* Using data from Pew? See [notes on *weights*](https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html)
 * Don't forget the cheat sheets! [`dplyr`](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf), [`ggplot` ](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization-2.1.pdf),  ...
   * I learned some things glancing over them again! (`coord_cartesian` instead of `xlim` etc.)
   * You can also use plotly, seaborn, etc., as long as it's reproducible.
