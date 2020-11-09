@@ -24,7 +24,15 @@ slideSetup <- function() {
       ".white-pre" = list("white-space" = "pre"),
       "p" = list("padding" = 0, "margin" = 0),
       "h2" = list("margin" = "5px 0"),
-      ".small-code .remark-code" = list("font-size" = "0.5rem")
+      ".small-code .remark-code" = list("font-size" = "0.5rem"),
+      ".floating-source" = list(
+        "position" = "absolute",
+        "left" = 0,
+        "bottom" = 0,
+    	  "z-index" = 100,
+        "background" = "rgba(255,255,255,.75)",
+        "font-size" = "1rem"
+      )
   ))
 
   # Below here from dsbox
