@@ -277,3 +277,11 @@ h2 {
 .small-code .remark-code {
   font-size: 0.5rem;
 }
+.floating-source {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  background: rgba(255,255,255,.75);
+  font-size: 1rem;
+}

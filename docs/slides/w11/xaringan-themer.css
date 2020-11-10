@@ -285,3 +285,25 @@ h2 {
   background: rgba(255,255,255,.75);
   font-size: 1rem;
 }
+
+/* Code chunks need to be positioned so that the language markers can float right. */
+code.python, code.r {
+  position: relative;
+  padding-right: 30px; /* makes room for the language marker */
+}
+
+/* Here are the language markers. */
+code.python::before {
+  content: "(py)"; display: block; position: absolute; right: 0;
+}
+
+code.r::before {
+  content: "(r)"; display: block; position: absolute; right: 0;
+}
+
+/* Also set different background colors. */
+code.python { background-color: #f9f5ec !important; }
+code.r {      background-color: #75aadb10 !important; }
+
+
+
