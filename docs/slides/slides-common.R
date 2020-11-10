@@ -2,7 +2,7 @@ library(tidyverse)
 library(knitr)
 library(glue)
 
-slideSetup <- function() {
+slideSetup <- function(mark_languages = FALSE) {
   library(xaringanthemer)
   style_mono_accent(
   #  base_color = "#1c5253",
@@ -55,4 +55,33 @@ slideSetup <- function() {
                         message = FALSE)
 
     set.seed(1234)
+
+    if (mark_languages) {
+      append_extra_css("
+/* Code chunks need to be positioned so that the language markers can float right. */
+code.python, code.r {
+  position: relative;
+  padding-right: 30px; /* makes room for the language marker */
+}
+
+/* Here are the language markers. */
+code.python::before {
+  content: \"(py)\"; display: block; position: absolute; right: 0;
+}
+
+code.r::before {
+  content: \"(r)\"; display: block; position: absolute; right: 0;
+}
+
+/* Also set different background colors. */
+code.python { background-color: #f9f5ec !important; }
+code.r {      background-color: #75aadb10 !important; }
+", )
+    }
+
+}
+
+append_extra_css <- function(css, outfile = "xaringan-themer.css") {
+  css <- paste0(css, '\n\n')
+  cat(css, file = outfile, append = TRUE, sep = "\n")
 }
