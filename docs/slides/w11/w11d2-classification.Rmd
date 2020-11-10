@@ -42,25 +42,40 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Setup
 
-.pull-left[
 ```{r}
 library(tidyverse)
 library(tidymodels)
 ```
-]
 
-.pull-right[
+```{r utilities}
+add_predictions <- function(data, ...) {
+  imap_dfr(
+    rlang::dots_list(..., .named = TRUE),
+    function(model, model_name) {
+      model %>%
+        predict(data) %>%
+        bind_cols(data) %>%
+        mutate(model = !!model_name)
+    }
+  )
+}
 
-```{r}
-library(reticulate)
-py_discover_config()
+sweep_model_examples <- function(model, dataset, vars_to_sweep, examples = slice_sample(dataset, n = 10)) {
+  X <- map_dfr(vars_to_sweep, function(v) {
+    var_to_sweep <- rlang::as_label(v)
+    sweep_min <- min(dataset[[var_to_sweep]])
+    sweep_max <- max(dataset[[var_to_sweep]])
+    expand_grid(
+      examples %>% select(-!!var_to_sweep) %>% mutate(.idx = row_number()),
+      !!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500)) %>% 
+      mutate(sweep_var = var_to_sweep, .sweep_val = .data[[var_to_sweep]])
+  })
+  model %>% 
+    predict(X) %>% 
+    bind_cols(X)
+}
 ```
 
-```{python}
-import pandas as pd
-from sklearn.linear_model import LogisticRegression
-```
-]
 
 ---
 
@@ -68,7 +83,7 @@ from sklearn.linear_model import LogisticRegression
 
 We'll use an example from <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385#pcbi.1005385.s001>
 
-```{r}
+```{r download-data}
 data_filename <- "data/autism.csv"
 if (!file.exists(data_filename)) {
   dir.create("data")
@@ -76,28 +91,22 @@ if (!file.exists(data_filename)) {
 }
 ```
 
-```{r}
+```{r read-data}
 col_names <- names(read_csv(data_filename, n_max = 1, col_types = cols(.default = col_character())))
 autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = cols(
   .default = col_double(),
   Group = col_character()
-))
-```
-
-```{python}
-autism = r.autism
+)) %>% mutate(
+  Group = as_factor(Group)
+)
 ```
 
 ---
 
 We have data about `r nrow(autism)` children:
 
-```{r}
+```{r dim-data}
 dim(autism)
-```
-
-```{python}
-autism.shape
 ```
 
 
@@ -106,42 +115,21 @@ The data include 3 groups of columns:
 1. The outcome (`Group`): ASD (diagnosed with ASD), SIB (sibling not diagnosed with ASD), and NEU (age-matched neurotypical children,
 for control)
 
-```{r}
+```{r group-counts}
 autism %>% group_by(Group) %>% summarize(n = n())
 ```
 
-
-```{python}
-autism['Group'].value_counts().to_frame()
-```
-
-
 2. Concentrations of various metabolites in a blood sample:
 
-```{r}
+```{r show-metabolites}
 autism %>% select(-1, -last_col())
-```
-
-```{python}
-autism.iloc[:, 1:-1]
 ```
 
 3. Adaptive behavior score (a measure of life skills)
 
-```{r}
+```{r show-behavior-score}
 autism %>% 
   ggplot(aes(x = `Vineland ABC`, y = Group)) + geom_boxplot()
-```
-
----
-
-```{r}
-autism %>% head()
-```
-
-
-```{python}
-autism.info()
 ```
 
 ---
@@ -149,8 +137,8 @@ autism.info()
 ## EDA
 
 ```{r fig.width=10, fig.asp=1}
-without_behavior_scores <- autism %>% select(-`Vineland ABC`)
-without_behavior_scores %>% 
+autism %>%
+  select(-`Vineland ABC`) %>% 
   pivot_longer(-Group, names_to = "Measure") %>% 
   ggplot(aes(x = value, y = Group)) +
   ggridges::geom_density_ridges() +
@@ -166,16 +154,64 @@ without_behavior_scores %>%
 Stratify by `group` to ensure each fold has good representation.
 
 ```{r}
-no_sibs <- without_behavior_scores %>% filter(Group != "SIB")
-
-resamples <- no_sibs %>% vfold_cv(v = 10, strata = Group)
+data <- 
+  autism %>% 
+  select(-`Vineland ABC`) %>% 
+  filter(Group != "SIB")
 ```
 
 ```{r}
 spec <- workflow() %>% add_recipe(
-  recipe(Group ~ ., data = without_behavior_scores)) %>% 
+  recipe(Group ~ ., data = data)) %>% 
   add_model(logistic_reg() %>% set_engine("glm"))
+```
 
+```{r}
+model <- spec %>% fit(data)
+```
+
+---
+
+```{r predicted-probs}
+model %>% predict(data, type = "prob")
+```
+```{r plot-predicted-probs}
+model %>%
+  predict(data, type = "prob") %>%
+  #bind_cols(predict(model, data, type = "class")) %>% 
+  bind_cols(data) %>% 
+  mutate(idx = row_number()) %>% 
+  ggplot(aes(x = idx, y = .pred_ASD, color = Group, shape = Group)) +
+  geom_hline(yintercept = .5) +
+  geom_point() 
+```
+
+```{r}
+model %>% 
+  predict(data, type = "class") %>% 
+  bind_cols(data) %>% 
+  yardstick::sensitivity(truth = Group, estimate = .pred_class)
+```
+
+
+---
+
+
+```{r}
+model %>% pull_workflow_fit() %>% pluck('fit') %>% coef(s = .1) %>% as.matrix() %>% as_tibble(rownames = "name") %>% 
+  rename(coef = 2) %>% 
+  ggplot(aes(x = coef, y = fct_reorder(name, coef, abs))) + geom_col()
+```
+
+---
+
+
+```{r}
+resamples <- data %>% vfold_cv(v = 10, strata = Group)
+```
+
+
+```{r}
 cv_results <- spec %>% 
   fit_resamples(resamples, metrics = metric_set(yardstick::accuracy, yardstick::sensitivity, yardstick::specificity))
 ```
@@ -188,10 +224,10 @@ cv_results %>%
 
 ```{r}
 spec <- workflow() %>% add_recipe(
-  recipe(Group ~ ., data = no_sibs) %>% step_normalize(all_numeric())) %>% 
+  recipe(Group ~ ., data = data) %>% step_normalize(all_numeric())) %>% 
   add_model(
     #parsnip::decision_tree(mode = "classification") %>% set_engine("rpart")
-    logistic_reg(penalty = 1.0) %>% set_engine("glmnet")
+    logistic_reg(penalty = 0.001) %>% set_engine("glmnet")
   )
 
 cv_results <- spec %>% 
@@ -204,36 +240,59 @@ cv_results %>%
   ggplot(aes(x = .estimate, y = .metric)) + geom_boxplot()
 ```
 
-```{r}
-model <- spec %>% fit(no_sibs)
-```
+---
+
+## Python
 
 ```{r}
-model %>% pull_workflow_fit() %>% pluck('fit') %>% coef(s = .1) %>% as.matrix() %>% as_tibble(rownames = "name") %>% 
-  rename(coef = 2) %>% 
-  ggplot(aes(x = coef, y = fct_reorder(name, coef, abs))) + geom_col()
+library(reticulate)
+py_discover_config()
+```
+
+```{python}
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+```
+
+
+
+
+```{python}
+autism = r.autism
 ```
 
 
 ```{python}
-no_sibs = r.no_sibs
-y = no_sibs['Group']
-X = no_sibs.drop(['Group'], axis=1)
+autism.shape
+```
+
+
+```{python}
+autism.info()
+```
+
+
+```{python}
+autism['Group'].value_counts().to_frame()
+```
+
+
+
+```{python}
+autism.iloc[:, 1:-1]
+```
+
+
+
+```{python}
+data = r.data
+y = data['Group']
+X = data.drop(['Group'], axis=1)
 clf = LogisticRegression(max_iter = 1e6)
 clf.fit(X, y)
 ```
 
 ```{python}
 clf.intercept_
-```
-
-
-```{python}
-import io
-import pandas as pd
-output = io.StringIO()
-pd.DataFrame({'text': ["a\"\r\"\n\n\n\nb"]}).to_csv(output, index=False)
-pd.read_csv(io.StringIO(output.getvalue()))
-print(output.getvalue())
 ```
 
