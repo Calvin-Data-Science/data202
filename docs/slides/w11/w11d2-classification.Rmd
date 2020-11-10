@@ -14,15 +14,57 @@ output:
 
 ```{r setup, include=FALSE, message=FALSE}
 source("../slides-common.R")
-slideSetup()
+slideSetup(mark_languages = TRUE)
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+## Objectives
+
+* Apply the `tidymodels` pipeline to a classification task
+* Identify corresponding elements between R and Python data wrangling and modeling workflows
+
+## Outline
+
+* Problem introduction
+  * Data wrangling in R
+* Classification workflow
+  * Models: decision tree, logistic regression
+  * Model outputs: scores and decisions
+  * Model metrics: accuracy, sensitivity, specificity
+  * Validation
+* Python
+  * Data wrangling with Pandas
+  * scikit-learn model API: construct, fit, predict
+  * scikit-learn modeling pipelines
+
+
+---
+
+## Setup
+
+.pull-left[
+```{r}
+library(tidyverse)
+library(tidymodels)
+```
+]
+
+.pull-right[
 
 ```{r}
 library(reticulate)
 py_discover_config()
 ```
 
+```{python}
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+```
+]
+
+---
+
+## Can a blood test diagnose autism?
 
 We'll use an example from <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385#pcbi.1005385.s001>
 
@@ -43,16 +85,155 @@ autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = c
 ```
 
 ```{python}
-import pandas as pd
-from sklearn.linear_model import LogisticRegression
+autism = r.autism
+```
+
+---
+
+We have data about `r nrow(autism)` children:
+
+```{r}
+dim(autism)
 ```
 
 ```{python}
-autism = r.autism
+autism.shape
+```
+
+
+The data include 3 groups of columns:
+
+1. The outcome (`Group`): ASD (diagnosed with ASD), SIB (sibling not diagnosed with ASD), and NEU (age-matched neurotypical children,
+for control)
+
+```{r}
+autism %>% group_by(Group) %>% summarize(n = n())
+```
+
+
+```{python}
+autism['Group'].value_counts().to_frame()
+```
+
+
+2. Concentrations of various metabolites in a blood sample:
+
+```{r}
+autism %>% select(-1, -last_col())
+```
+
+```{python}
+autism.iloc[:, 1:-1]
+```
+
+3. Adaptive behavior score (a measure of life skills)
+
+```{r}
+autism %>% 
+  ggplot(aes(x = `Vineland ABC`, y = Group)) + geom_boxplot()
+```
+
+---
+
+```{r}
+autism %>% head()
+```
+
+
+```{python}
 autism.info()
 ```
 
-```{r}
+---
 
+## EDA
+
+```{r fig.width=10, fig.asp=1}
+without_behavior_scores <- autism %>% select(-`Vineland ABC`)
+without_behavior_scores %>% 
+  pivot_longer(-Group, names_to = "Measure") %>% 
+  ggplot(aes(x = value, y = Group)) +
+  ggridges::geom_density_ridges() +
+  facet_wrap(vars(Measure), scales = "free_x") + 
+  ggridges::theme_ridges()
+```
+
+
+---
+
+## Can we predict ASD vs non-ASD from metabolites?
+
+Stratify by `group` to ensure each fold has good representation.
+
+```{r}
+no_sibs <- without_behavior_scores %>% filter(Group != "SIB")
+
+resamples <- no_sibs %>% vfold_cv(v = 10, strata = Group)
+```
+
+```{r}
+spec <- workflow() %>% add_recipe(
+  recipe(Group ~ ., data = without_behavior_scores)) %>% 
+  add_model(logistic_reg() %>% set_engine("glm"))
+
+cv_results <- spec %>% 
+  fit_resamples(resamples, metrics = metric_set(yardstick::accuracy, yardstick::sensitivity, yardstick::specificity))
+```
+
+```{r}
+cv_results %>% 
+  collect_metrics(summarize = FALSE) %>% 
+  ggplot(aes(x = .estimate, y = .metric)) + geom_boxplot()
+```
+
+```{r}
+spec <- workflow() %>% add_recipe(
+  recipe(Group ~ ., data = no_sibs) %>% step_normalize(all_numeric())) %>% 
+  add_model(
+    #parsnip::decision_tree(mode = "classification") %>% set_engine("rpart")
+    logistic_reg(penalty = 1.0) %>% set_engine("glmnet")
+  )
+
+cv_results <- spec %>% 
+  fit_resamples(resamples, metrics = metric_set(yardstick::accuracy, yardstick::sensitivity, yardstick::specificity))
+```
+
+```{r}
+cv_results %>% 
+  collect_metrics(summarize = FALSE) %>% 
+  ggplot(aes(x = .estimate, y = .metric)) + geom_boxplot()
+```
+
+```{r}
+model <- spec %>% fit(no_sibs)
+```
+
+```{r}
+model %>% pull_workflow_fit() %>% pluck('fit') %>% coef(s = .1) %>% as.matrix() %>% as_tibble(rownames = "name") %>% 
+  rename(coef = 2) %>% 
+  ggplot(aes(x = coef, y = fct_reorder(name, coef, abs))) + geom_col()
+```
+
+
+```{python}
+no_sibs = r.no_sibs
+y = no_sibs['Group']
+X = no_sibs.drop(['Group'], axis=1)
+clf = LogisticRegression(max_iter = 1e6)
+clf.fit(X, y)
+```
+
+```{python}
+clf.intercept_
+```
+
+
+```{python}
+import io
+import pandas as pd
+output = io.StringIO()
+pd.DataFrame({'text': ["a\"\r\"\n\n\n\nb"]}).to_csv(output, index=False)
+pd.read_csv(io.StringIO(output.getvalue()))
+print(output.getvalue())
 ```
 
