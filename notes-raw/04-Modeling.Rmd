@@ -58,6 +58,10 @@ you can just skim these for a refresher:
   * Focus on: [Simple linear regression](https://openintro.shinyapps.io/ims-03-introduction-to-linear-models-03/)
   * continue to others if you have time or curiosity
 
+### `tidymodels`
+
+* [Case Study](https://www.tidymodels.org/start/case-study/)
+
 ## Modeling Goals
 
 (Note: a better discussion of this is found in [Brieman 2001](https://projecteuclid.org/download/pdf_1/euclid.ss/1009213726))
@@ -91,3 +95,27 @@ is complicated by difference in underlying health conditions, lifestyle, etc.),
 a predictive model only tries to make a prediction about the outcome ("here is a 70-year-old man; how
 severe is his disease likely to be?").
 
+## Defining Overfitting
+
+The [Wikipedia article](https://en.wikipedia.org/wiki/Overfitting)
+is actually pretty good; it\'s a bit sloppy, but data scientists tend to
+be sloppy about that definition. There\'s a more precise definition for
+the underlying phenomena, which have statistically rigorous but
+confusing names:
+
+-   **bias**: even with infinite training data, a linear regression
+    could never fit a parabola (without feature engineering). One
+    definition of bias is the test-set error when you have infinite
+    training data.
+-   **variance**: the amount that test-set predictions change when the
+    model is trained with different subsets of the training data. e.g.,
+    how robust the model is to having outliers or other things in the
+    training set.
+
+The old conventional wisdom was that there\'s necessarily a
+[trade-off](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff)
+between bias and variance. But that\'s not actually true: for example,
+even if one model has high variance, the average of many of them can
+have low variance while staying low-bias. Some have theorized that this
+is key to how deep learning works so well: it arrives at the same
+conclusions through many different paths.
