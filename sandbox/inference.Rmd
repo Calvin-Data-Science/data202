@@ -11,6 +11,12 @@ library(tidyverse)
 library(infer)
 ```
 
+
+Potential Example:
+
+<https://www.tidymodels.org/learn/statistics/infer/>
+
+
 ```{r}
 data(ames, package = "modeldata")
 ames_all <- ames %>%
