@@ -1,0 +1,107 @@
+---
+title: "Python classification"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup(mark_languages = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+theme_set(theme_bw())
+```
+
+
+```{r download-data}
+data_filename <- "data/autism.csv"
+if (!file.exists(data_filename)) {
+  dir.create("data")
+  download.file("https://doi.org/10.1371/journal.pcbi.1005385.s001", data_filename)
+}
+```
+
+```{r read-data}
+library(readr)
+col_names <- names(read_csv(data_filename, n_max = 1, col_types = cols(.default = col_character())))
+autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = cols(
+  .default = col_double(),
+  Group = col_character()
+)) %>% mutate(
+  Group = as_factor(Group)
+)
+```
+
+
+---
+
+## Python
+
+```{r}
+library(reticulate)
+py_discover_config()
+```
+
+```{python}
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.compose import make_column_transformer
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+```
+
+
+```{python}
+autism = r.autism
+```
+
+
+```{python}
+autism.shape
+```
+
+
+```{python}
+autism.info()
+```
+
+
+```{python}
+autism['Group'].value_counts().to_frame()
+```
+
+
+
+```{python}
+autism.iloc[:, 1:-1]
+```
+
+
+```{r}
+data <- 
+  autism %>% 
+  select(-`Vineland ABC`) %>% 
+  filter(Group != "SIB") %>% 
+  mutate(Group = factor(Group))
+```
+
+
+```{python}
+data = r.data
+y = data['Group']
+X = data.drop(['Group'], axis=1)
+clf = LogisticRegression(max_iter = 1e6)
+clf.fit(X, y)
+```
+
+```{python}
+clf.intercept_
+```
+
