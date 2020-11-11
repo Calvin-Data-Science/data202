@@ -24,6 +24,8 @@ theme_set(theme_bw())
 * Apply the `tidymodels` pipeline to a classification task
 * Identify corresponding elements between R and Python data wrangling and modeling workflows
 
+---
+
 ## Outline
 
 * Problem introduction
@@ -33,11 +35,24 @@ theme_set(theme_bw())
   * Model outputs: scores and decisions
   * Model metrics: accuracy, sensitivity, specificity
   * Validation
+
+If time permits...
+
 * Python
   * Data wrangling with Pandas
   * scikit-learn model API: construct, fit, predict
   * scikit-learn modeling pipelines
 
+---
+
+## Logistics notes
+
+* Discussion on fairness definitions posted, due next Tuesday.
+* Your **project** should be
+  * **Interesting**: not every project will go into depth in every aspect (e.g., some won't have 
+    much data wrangling), but all projects should be interesting in *some* aspect.
+  * **Your own**: examples abound on the Internet. Following a tutorial is a
+    very boring project. Adapting its approach to a new dataset or question? Interesting.
 
 ---
 
