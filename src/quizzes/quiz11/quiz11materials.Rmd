@@ -1,0 +1,93 @@
+---
+title: "Quiz 11 Materials"
+author: "K Arnold"
+date: "2020-11-12"
+output:
+  html_document:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidymodels)
+library(knitr)
+```
+
+```{r}
+data(wa_churn)
+```
+
+```{r}
+metrics <- metric_set(accuracy, sensitivity, specificity)
+preds <- wa_churn %>% 
+  rename(actual_churn = churn) %>% 
+  mutate(predicted_churn = factor(if_else(
+    (monthly_charges > 95) & (contract == "Two year"), "Yes", "No"), levels = levels(.$actual_churn)))
+
+preds %>% 
+  group_by(actual_churn, predicted_churn) %>% 
+  summarize(n = n()) %>% kable(format = "html") #%>% as.character() %>% cat()
+
+preds %>% 
+  metrics(truth = actual_churn, estimate = predicted_churn)
+```
+Hand calculations:
+
+```{r}
+total_pos <- 27 + 1842
+total_neg <- 338 + 4836
+total_pred_pos <- 27 + 338
+total <- total_pos + total_neg
+```
+
+* accuracy: `r (27 + 4836) / total`
+* sensitivity: `r 27 / total_pos`
+* specificity: `r 4836 / total_neg`
+
+partial credits: 
+
+* sensitivity: `r 27 / (27 + 338)` 
+
+
+## Modeling workflow
+
+```{r}
+library(gtools)
+metrics <- metric_set(accuracy)
+
+d1 <- wa_churn %>% 
+  filter(even(row_number()))
+d2 <- wa_churn %>% 
+  filter(odd(row_number()))
+
+d3 <- vfold_cv(v = 8, data = d1)
+
+d4 <- workflow() %>% 
+  add_recipe(recipe(churn ~ ., data = d1)) %>% 
+  add_model(decision_tree(mode = "classification") %>% set_engine("rpart"))
+
+d5 <- d4 %>% 
+  fit_resamples(d3, metrics = metrics)
+
+d6 <- d4 %>% fit(d1)
+d7 <- d4 %>% fit(d2)
+
+# d6 %>% 
+#   predict(d2) %>%
+#   bind_cols(d2) %>% 
+#   metrics()
+```
+
+
+
+```{r}
+wa_churn %>% glimpse()
+```
+
+
+```{r include=FALSE}
+wa_churn %>% 
+  ggplot(aes(x = monthly_charges, y = contract, color = churn)) + geom_boxplot()
+```
+
