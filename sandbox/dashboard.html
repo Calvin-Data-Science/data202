@@ -13,7 +13,7 @@
 
 <title>Calvin Context</title>
 
-<script src="dashboard_files/header-attrs-2.4/header-attrs.js"></script>
+<script src="dashboard_files/header-attrs-2.5/header-attrs.js"></script>
 <script src="dashboard_files/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="dashboard_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -23,6 +23,8 @@
 <script src="dashboard_files/navigation-1.1/tabsets.js"></script>
 <link href="dashboard_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="dashboard_files/highlightjs-9.12.0/highlight.js"></script>
+<link href="dashboard_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="dashboard_files/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="dashboard_files/core-js-2.5.3/shim.min.js"></script>
 <script src="dashboard_files/react-16.12.0/react.min.js"></script>
 <script src="dashboard_files/react-16.12.0/react-dom.min.js"></script>
@@ -37,7 +39,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -193,7 +195,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Calvin Context</h1>
-<h4 class="date">2020-11-05 15:02:24</h4>
+<h4 class="date">2020-11-12 09:31:28</h4>
 
 </div>
 
@@ -205,8 +207,8 @@ summary {
 <li>The most recent few days of COVID reports from the State of Michigan are typically incomplete. For this reason, the rolling average is not computed using data from the last 3 days.</li>
 <li>The availability of tests and the criteria determining who gets tested have changed over time.</li>
 </ul>
-<!-- Date range (Kent County): 2020-03-01 - 2020-11-04 -->
-<!-- Date range (MI): 2020-03-01 - 2020-11-04 -->
+<!-- Date range (Kent County): 2020-03-01 - 2020-11-11 -->
+<!-- Date range (MI): 2020-03-01 - 2020-11-11 -->
 <div id="michigan" class="section level3">
 <h3>Michigan</h3>
 <p><img src="dashboard_files/figure-html/mi-plots-1.png" width="864" /></p>
@@ -219,7 +221,7 @@ summary {
 <h3>Spectrum Health</h3>
 <p><img src="dashboard_files/figure-html/spectrum-plots-1.png" width="864" /></p>
 <p><img src="dashboard_files/figure-html/spectrum-hospitalized-plot-1.png" width="864" /></p>
-<p><img src="dashboard_files/figure-html/unnamed-chunk-6-1.png" width="864" /><img src="dashboard_files/figure-html/unnamed-chunk-6-2.png" width="864" /><img src="dashboard_files/figure-html/unnamed-chunk-6-3.png" width="864" /><img src="dashboard_files/figure-html/unnamed-chunk-6-4.png" width="864" /></p>
+<p><img src="dashboard_files/figure-html/unnamed-chunk-6-1.png" width="864" /><img src="dashboard_files/figure-html/unnamed-chunk-6-2.png" width="864" /><img src="dashboard_files/figure-html/unnamed-chunk-6-3.png" width="864" /></p>
 </div>
 
 
@@ -231,7 +233,7 @@ summary {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

@@ -162,11 +162,12 @@ details_html <- read_html(today_path)
 ```
 
 ```{r read-excel-url, include = FALSE}
-read_excel_url <- function(url) {
-  temp <- tempfile(fileext = ".xlsx")
-  httr::GET(url, httr::write_disk(temp))
-  res <- read_excel(temp)
-  unlink(temp)
+read_excel_url <- function(url, dirname) {
+  filename <- url_parse(url)$path %>% basename()
+  outfilename <- file.path(dirname, filename)
+  #cat("Downloading ", url, " to ", outfilename)
+  httr::GET(url, httr::write_disk(outfilename))
+  res <- read_excel(outfilename)
   res
 }
 ```
@@ -183,11 +184,14 @@ spreadsheets <- details_html %>%
 ```
 
 ```{r retrieved, include = FALSE}
+MI_download_dirname <- str_c("dl/", Sys.time() %>% strftime("%Y-%m-%d %H_%M_%S"))
+dir.create(MI_download_dirname, recursive = TRUE)
+
 retrieved <- 
   spreadsheets %>%
   mutate(
     full_url = xml2::url_absolute(url, root_url),
-    contents = purrr::map(full_url, ~ read_excel_url(.))
+    contents = purrr::map(full_url, ~ read_excel_url(., MI_download_dirname))
   )
 
 getSheet <- function(name) {
@@ -340,16 +344,16 @@ getSheet("Diagnostic Tests by Result and County") %>%
     TRUE ~ "weekday"
   )) %>% 
   gf_point(Total ~ MessageDate, color = ~ is_weekend) %>% 
-  gf_line(rollmean(Total, 3, fill = NA, align = "center") ~ MessageDate, color = ~ is_weekend) %>% 
+  gf_line(rollmean(Total, 3, fill = NA, align = "center") ~ MessageDate, color = "maroon") %>% 
   gf_labs(x = "Date", title = "Kent County total tests done")
 
 
-getSheet("Diagnostic Tests by Result and County") %>% 
-  group_by(MessageDate) %>% 
-  summarize(Positive = sum(Positive)) %>% 
-  gf_point(Positive ~ MessageDate) %>% 
-  gf_line(rollmean(Positive, 7, fill = NA, align = "center") ~ MessageDate, color = "maroon") %>% 
-  gf_labs(x = "Date", title = "New cases reported in Michigan")
+# getSheet("Diagnostic Tests by Result and County") %>% 
+#   group_by(MessageDate) %>% 
+#   summarize(Positive = sum(Positive)) %>% 
+#   gf_point(Positive ~ MessageDate) %>% 
+#   gf_line(rollmean(Positive, 7, fill = NA, align = "center") ~ MessageDate, color = "maroon") %>% 
+#   gf_labs(x = "Date", title = "New cases reported in Michigan")
 
 
 kent_tests %>% 
