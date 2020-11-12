@@ -67,7 +67,7 @@ responses <- responses %>%
 
 ```{r}
 summarizeFuncCalls <- function(text) {
-  parsed <- parse(text = force(text))
+  parsed <- parse(text = text, keep.source = TRUE)
   parseData <- utils::getParseData(parsed)
   if (!("token" %in% colnames(parseData))) {
     cat(as.character(parseData), file=stderr())
