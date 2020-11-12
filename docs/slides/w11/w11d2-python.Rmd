@@ -34,9 +34,7 @@ col_names <- names(read_csv(data_filename, n_max = 1, col_types = cols(.default 
 autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = cols(
   .default = col_double(),
   Group = col_character()
-)) %>% mutate(
-  Group = as_factor(Group)
-)
+))
 ```
 
 
@@ -46,11 +44,62 @@ autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = c
 
 ```{r}
 library(reticulate)
-py_discover_config()
+py_config()
 ```
+
+## Pandas
+
+The main library for wrangling tabular data in Python.
 
 ```{python}
 import pandas as pd
+```
+
+
+
+Titanic dataset
+
+<https://www.openml.org/d/40945>
+<http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic.html>
+<http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic3info.txt>
+<https://www.encyclopedia-titanica.org/>
+
+```{r download-data}
+data_filename <- "data/titanic.csv"
+if (!file.exists(data_filename)) {
+  dir.create("data")
+  download.file("https://www.openml.org/data/get_csv/16826755/phpMYEkMl", data_filename)
+}
+```
+
+```{python}
+titanic = pd.read_csv("data/titanic.csv")
+```
+
+```{python}
+titanic.head()
+```
+
+```{python}
+titanic.info()
+```
+
+```{python}
+titanic.rename(columns={
+  "pclass": "passenger_class",
+  "survival": "survived",
+  "sibsp": "num_siblings_or_spouses_aboard",
+  "parch": "num_parents_or_children_aboard",
+  "ticket": "ticket_num",
+  "embarked": "embarked_from_port",
+  "boat": "lifeboat",
+  "body": "body_id",
+  "home.dest": "home_or_destination"
+})
+```
+
+
+```{python}
 from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
 from sklearn.pipeline import make_pipeline

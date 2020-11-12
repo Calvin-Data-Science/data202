@@ -1,0 +1,190 @@
+---
+title: "Lab 11: Classification"
+output: 
+  tufte::tufte_html:
+    css: ../lab.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(reticulate)
+theme_set(theme_bw())
+options(scipen = 5) # encourage metrics to print in fixed-point notation
+options(dplyr.summarise.inform = FALSE) # silence a warning message
+```
+
+## Goals
+
+Learning objectives:
+
+* Basic EDA in Pandas
+* Fit a classification model in Scikit-Learn (sklearn)
+
+
+## Acquiring Data
+
+```{r download-data}
+data_filename <- "data/autism.csv"
+if (!file.exists(data_filename)) {
+  dir.create("data")
+  download.file("https://doi.org/10.1371/journal.pcbi.1005385.s001", data_filename)
+}
+```
+
+```{r read-data}
+col_names <- names(read_csv(data_filename, n_max = 1, col_types = cols(.default = col_character())))
+autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = cols(
+  .default = col_double(),
+  Group = col_character()
+))
+```
+
+```{python}
+autism = r.autism
+```
+
+```{r include=FALSE}
+py_repr <- import_builtins()$repr
+py_eval_repr <- function(x, quote_code = TRUE) { 
+  res <- py_repr(py_eval(x, convert = FALSE))
+  if (quote_code) {
+    paste0('`', res, '`')
+  } else {
+    res
+  }
+}
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split, cross_validate
+from sklearn.compose import make_column_transformer
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
+```
+
+
+## EDA
+
+1. How many children are represented in this dataset? How many variables are there?
+
+```{python}
+num_children, num_variables = autism.shape
+print(f"{num_children} children, {num_variables} variables")
+```
+
+2. What two variables are unlike the others? What is different about them?
+
+```{python}
+autism.info()
+```
+
+3. How many children do we have in each `Group`?
+
+```{python}
+autism['Group'].value_counts()
+```
+
+4. Create a new `DataFrame` called `asd_vs_neu` that has no `SIB` children.
+
+```{python}
+asd_vs_neu = autism.query("Group != 'SIB'")
+asd_vs_neu = autism[autism['Group'] != "SIB"]
+```
+
+5. Verify that the new `DataFrame` has no `SIB` children but the same number of
+children in the other groups.
+
+```{python}
+asd_vs_neu['Group'].value_counts()
+```
+
+`sklearn` has some conventions for what variables are named:
+
+* `X` designates the input data, one row per observation, one column per feature.
+  It is uppercase because it's a matrix.
+* `y` designates the prediction targets, as a one-dimensional *vector* (and thus lowercase).
+
+6. Create a variable called `y` (designating the *target* of the prediction)
+  consisting of the data in the `Group` column of `asd_vs_neu`.
+
+```{python}
+y = asd_vs_neu['Group']
+```
+
+7. Create a variable called `X` (designating the input data) consisting of 
+  all of the columns of `asd_vs_neu` *except for* `Group` and `Vineland ABC`.
+
+```{python}
+X = asd_vs_neu.drop(["Group", "Vineland ABC"], axis = 1)
+```
+
+8. Check that the `shape` attribute of `X` is `r py_eval_repr('X.shape')`.
+
+```{python}
+X.shape
+```
+
+Let's hold out a test set of 10% of the children.
+First, set the random seed.
+
+```{python}
+np.random.seed(0)
+X_train, X_test, y_train, y_test = train_test_split(
+  X, y, test_size=0.1)
+```
+
+
+Now let's create a `LogisticRegression` object called `clf`, with the
+regularization parameter `C` set to 0.001.
+
+```{python}
+clf = LogisticRegression(C = 0.001)
+```
+
+9. Fit `clf` so that it tries to predict `y_train` from `X_train`.
+
+```{python}
+clf.fit(X_train, y_train)
+```
+
+10. Construct the model's predictions on the test set. Call it `y_test_pred`.
+
+```{python}
+y_test_pred = clf.predict(X_test)
+```
+
+11. Evaluate the model's *accuracy* on the test set.
+
+```{python}
+accuracy_score(y_true = y_test, y_pred = y_test_pred)
+```
+
+12. If, instead, we had wanted to cross-validate:
+
+```{python}
+cv_results = cross_validate(clf, X_train, y_train, cv=5,
+  scoring=['accuracy'],
+  return_train_score=True)
+# Wrap the results in a DataFrame:
+cv_results = pd.DataFrame(cv_results)
+```
+
+
+```{python}
+cv_results['test_accuracy']
+```
+
+We can now access this data in R.
+
+```{r}
+py$cv_results
+```
+
