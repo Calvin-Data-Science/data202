@@ -19,47 +19,66 @@ class: center, middle, inverse, title-slide
 
 
 
+## Objectives
+
+* Apply the `tidymodels` pipeline to a classification task
+* Identify when validation is necessary to believe an outcome
+* Apply the concepts of sensitivity and specificity
+
+(punted to next time:)
+* Identify corresponding elements between R and Python data wrangling and modeling workflows
+
+---
+
+## Outline
+
+* Problem introduction
+  * Data wrangling in R
+* Classification workflow
+  * Models: decision tree, logistic regression
+  * Model outputs: scores and decisions
+  * Model metrics: accuracy, sensitivity, specificity
+  * Validation
+
+
+&lt;!-- If time permits... --&gt;
+
+&lt;!-- * Python --&gt;
+&lt;!--   * Data wrangling with Pandas --&gt;
+&lt;!--   * scikit-learn model API: construct, fit, predict --&gt;
+&lt;!--   * scikit-learn modeling pipelines --&gt;
+
+---
+
+## Logistics notes
+
+* Discussion on fairness definitions posted, due next Tuesday.
+* Your **project** should be
+  * **Interesting**: not every project will go into depth in every aspect (e.g., some won't have 
+    much data wrangling), but all projects should be interesting in *some* aspect.
+  * **Your own**: examples abound on the Internet. Following a tutorial is a
+    very boring project. Adapting its approach to a new dataset or question? Interesting.
+
 ---
 
 ## Setup
 
-.pull-left[
 
 ```r
 library(tidyverse)
 library(tidymodels)
-```
-]
-
-.pull-right[
-
-
-```r
-library(reticulate)
-py_discover_config()
-```
-
-```
-## python:         /Users/ka37/Library/r-miniconda/envs/r-reticulate/bin/python
-## libpython:      /Users/ka37/Library/r-miniconda/envs/r-reticulate/lib/libpython3.6m.dylib
-## pythonhome:     /Users/ka37/Library/r-miniconda/envs/r-reticulate:/Users/ka37/Library/r-miniconda/envs/r-reticulate
-## version:        3.6.11 | packaged by conda-forge | (default, Aug  5 2020, 20:19:23)  [GCC Clang 10.0.1 ]
-## numpy:          /Users/ka37/Library/r-miniconda/envs/r-reticulate/lib/python3.6/site-packages/numpy
-## numpy_version:  1.19.1
+library(ggridges)
 ```
 
 
-```python
-import pandas as pd
-from sklearn.linear_model import LogisticRegression
-```
-]
+
 
 ---
 
 ## Can a blood test diagnose autism?
 
-We'll use an example from &lt;https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385#pcbi.1005385.s001&gt;
+We'll use an example from &lt;https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385&gt;
+
 
 
 ```r
@@ -76,70 +95,33 @@ col_names &lt;- names(read_csv(data_filename, n_max = 1, col_types = cols(.defau
 autism &lt;- read_csv(data_filename, skip = 2, col_names = col_names, col_types = cols(
   .default = col_double(),
   Group = col_character()
-))
-```
-
-
-```python
-autism = r.autism
+)) %&gt;% mutate(
+  Group = as_factor(Group)
+)
 ```
 
 ---
 
-We have data about 206 children:
+We have 3 kinds of data about 206 children:
+
+1. The outcome (`Group`): ASD (diagnosed with ASD), SIB (sibling not diagnosed with ASD), and NEU (age-matched neurotypical children, for control)
 
 
 ```r
-dim(autism)
-```
-
-```
-## [1] 206  26
-```
-
-
-```python
-autism.shape
-```
-
-```
-## (206, 26)
-```
-
-
-The data include 3 groups of columns:
-
-1. The outcome (`Group`): ASD (diagnosed with ASD), SIB (sibling not diagnosed with ASD), and NEU (age-matched neurotypical children,
-for control)
-
-
-```r
-autism %&gt;% group_by(Group) %&gt;% summarize(n = n())
-```
-
-```
-## # A tibble: 3 x 2
-##   Group     n
-##   &lt;chr&gt; &lt;int&gt;
-## 1 ASD      83
-## 2 NEU      76
-## 3 SIB      47
+autism %&gt;% group_by(Group) %&gt;% summarize(n = n()) %&gt;% kable()
 ```
 
 
 
-```python
-autism['Group'].value_counts().to_frame()
-```
+|Group |  n|
+|:-----|--:|
+|ASD   | 83|
+|NEU   | 76|
+|SIB   | 47|
 
-```
-##      Group
-## ASD     83
-## NEU     76
-## SIB     47
-```
+---
 
-
+1. The outcome (`Group`): ASD, SIB, NEU
 2. Concentrations of various metabolites in a blood sample:
 
 
@@ -163,29 +145,11 @@ autism %&gt;% select(-1, -last_col())
 ## #   `fCystine/fCysteine` &lt;dbl&gt;, `% oxidized` &lt;dbl&gt;
 ```
 
+---
 
-```python
-autism.iloc[:, 1:-1]
-```
-
-```
-##      Methion.    SAM    SAH  ...  fCysteine  fCystine/fCysteine  % oxidized
-## 0       17.26  56.19  15.23  ...      30.12              1.1050      0.1480
-## 1       14.93  37.22   7.58  ...      23.71              1.4670      0.1320
-## 2       15.94  37.91   9.87  ...      18.05              1.6680      0.3390
-## 3       18.67  79.24  24.51  ...      26.65              1.1360      0.4820
-## 4       21.54  77.64  19.24  ...      25.09              1.2610      0.2440
-## ..        ...    ...    ...  ...        ...                 ...         ...
-## 201     21.14  70.51  14.86  ...      20.56              0.8380      0.1180
-## 202     20.63  65.03  12.53  ...      21.97              0.9049      0.1030
-## 203     25.16  79.35  15.05  ...      18.39              0.8608      0.0858
-## 204     19.85  64.81  12.97  ...      21.42              0.8679      0.0780
-## 205     19.74  71.25  10.87  ...      21.06              0.8566      0.1000
-## 
-## [206 rows x 24 columns]
-```
-
-3. Adaptive behavior score (a measure of life skills)
+1. The outcome (`Group`): ASD, SIB, NEU
+2. Concentrations of various metabolites in a blood sample
+3. For the ASD children only, a measure of life skills ("Vineland ABC")
 
 
 ```r
@@ -197,112 +161,302 @@ autism %&gt;%
 ## Warning: Removed 159 rows containing non-finite values (stat_boxplot).
 ```
 
-&lt;img src="w11d2-classification_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w11d2-classification_files/figure-html/show-behavior-score-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
+## Exploratory Data Analysis (EDA)
+
+What do these metabolites look like?
+
+&lt;img src="w11d2-classification_files/figure-html/bad-metabolite-plot-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+code for the previous plot:
 
 ```r
-autism %&gt;% head()
-```
-
-```
-## # A tibble: 6 x 26
-##   Group Methion.   SAM   SAH `SAM/SAH` `% DNA methylat… `8-OHG` Adenosine Homocysteine Cysteine
-##   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;
-## 1 ASD       17.3  56.2 15.2       3.69             3.35   0.055     0.103         4.48     215.
-## 2 ASD       14.9  37.2  7.58      4.91             3.04   0.045     0.055         4.31     163.
-## 3 ASD       15.9  37.9  9.87      3.84             2.81   0.058     0.071         6.21     159.
-## 4 ASD       18.7  79.2 24.5       3.23             4.24   0.085     0.079         7.15     226.
-## 5 ASD       21.5  77.6 19.2       4.04             3.49   0.041     0.058         3.82     201.
-## 6 ASD       18.1  67.6 12.8       5.30             3.01   0.156     0.091         4.03     205.
-## # … with 16 more variables: `Glu.-Cys.` &lt;dbl&gt;, `Cys.-Gly.` &lt;dbl&gt;, tGSH &lt;dbl&gt;, fGSH &lt;dbl&gt;,
-## #   GSSG &lt;dbl&gt;, `fGSH/GSSG` &lt;dbl&gt;, `tGSH/GSSG` &lt;dbl&gt;, Chlorotyrosine &lt;dbl&gt;, Nitrotyrosine &lt;dbl&gt;,
-## #   Tyrosine &lt;dbl&gt;, Tryptophane &lt;dbl&gt;, fCystine &lt;dbl&gt;, fCysteine &lt;dbl&gt;, `fCystine/fCysteine` &lt;dbl&gt;,
-## #   `% oxidized` &lt;dbl&gt;, `Vineland ABC` &lt;dbl&gt;
-```
-
-
-
-```python
-autism.info()
-```
-
-```
-## &lt;class 'pandas.core.frame.DataFrame'&gt;
-## RangeIndex: 206 entries, 0 to 205
-## Data columns (total 26 columns):
-##  #   Column              Non-Null Count  Dtype  
-## ---  ------              --------------  -----  
-##  0   Group               206 non-null    object 
-##  1   Methion.            206 non-null    float64
-##  2   SAM                 206 non-null    float64
-##  3   SAH                 206 non-null    float64
-##  4   SAM/SAH             206 non-null    float64
-##  5   % DNA methylation   206 non-null    float64
-##  6   8-OHG               206 non-null    float64
-##  7   Adenosine           206 non-null    float64
-##  8   Homocysteine        206 non-null    float64
-##  9   Cysteine            206 non-null    float64
-##  10  Glu.-Cys.           206 non-null    float64
-##  11  Cys.-Gly.           206 non-null    float64
-##  12  tGSH                206 non-null    float64
-##  13  fGSH                206 non-null    float64
-##  14  GSSG                206 non-null    float64
-##  15  fGSH/GSSG           206 non-null    float64
-##  16  tGSH/GSSG           206 non-null    float64
-##  17  Chlorotyrosine      206 non-null    float64
-##  18  Nitrotyrosine       206 non-null    float64
-##  19  Tyrosine            206 non-null    float64
-##  20  Tryptophane         206 non-null    float64
-##  21  fCystine            206 non-null    float64
-##  22  fCysteine           206 non-null    float64
-##  23  fCystine/fCysteine  206 non-null    float64
-##  24  % oxidized          206 non-null    float64
-##  25  Vineland ABC        47 non-null     float64
-## dtypes: float64(25), object(1)
-## memory usage: 42.0+ KB
+autism %&gt;%
+  select(-`Vineland ABC`) %&gt;% 
+  pivot_longer(-Group, names_to = "Measure") %&gt;% 
+  ggplot(aes(x = value, y = Measure)) +
+  geom_density_ridges() + 
+  facet_wrap(vars(Group), scales = "free_x")
 ```
 
 ---
 
 ## EDA
 
+Better question: **Can these metabolites help us distinguish autism?**
+
+---
+
+&lt;img src="w11d2-classification_files/figure-html/ridgeplot-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+code for previous plot:
+
 
 ```r
-without_behavior_scores &lt;- autism %&gt;% select(-`Vineland ABC`)
-without_behavior_scores %&gt;% 
+autism %&gt;%
+  select(-`Vineland ABC`) %&gt;% 
   pivot_longer(-Group, names_to = "Measure") %&gt;% 
   ggplot(aes(x = value, y = Group)) +
-  ggridges::geom_density_ridges() +
+  geom_density_ridges() +
   facet_wrap(vars(Measure), scales = "free_x") + 
-  ggridges::theme_ridges()
+  theme_ridges()
 ```
-
-&lt;img src="w11d2-classification_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
 
 ---
 
 ## Can we predict ASD vs non-ASD from metabolites?
 
+* Let's start by (1) ignoring the behavior scores (that's an *outcome*) and comparing
+just ASD and NEU.
+* We need to drop SIB... and tell the model that we don't actually care about it.
+
+
+```r
+data &lt;- 
+  autism %&gt;% 
+  select(-`Vineland ABC`) %&gt;% 
+  filter(Group != "SIB") %&gt;% 
+  mutate(Group = factor(Group))
+```
+
+---
+
+## Decision Tree *Classification*
+
+
+```r
+spec &lt;- workflow() %&gt;% add_recipe(
+* recipe(Group ~ ., data = data)) %&gt;%
+* add_model(decision_tree(mode = "classification") %&gt;% set_engine("rpart"))
+model &lt;- spec %&gt;% fit(data)
+```
+
+
+&lt;img src="w11d2-classification_files/figure-html/show-tree-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### What do the *predictions* look like?
+
+
+```r
+model %&gt;% predict(data, type = "prob")
+```
+
+```
+## # A tibble: 159 x 2
+##   .pred_ASD .pred_NEU
+##       &lt;dbl&gt;     &lt;dbl&gt;
+## 1     0.959    0.0411
+## 2     0.959    0.0411
+## 3     0.959    0.0411
+## 4     0.959    0.0411
+## 5     0.959    0.0411
+## 6     0.959    0.0411
+## # … with 153 more rows
+```
+
+---
+
+### Were those predictions *good*?
+
+.small-code[
+
+```r
+model %&gt;%
+  predict(data, type = "prob") %&gt;%
+  bind_cols(data) %&gt;% 
+  mutate(idx = row_number()) %&gt;% 
+  ggplot(aes(x = idx, y = .pred_ASD, color = Group, shape = Group)) +
+  geom_hline(yintercept = .5) +
+  geom_point() 
+```
+
+&lt;img src="w11d2-classification_files/figure-html/plot-predicted-probs-tree-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Quantifying that:
+
+
+```r
+metrics &lt;- yardstick::metric_set(accuracy, sensitivity, specificity)
+model %&gt;% 
+  predict(data, type = "class") %&gt;% 
+  bind_cols(data) %&gt;% 
+  metrics(truth = Group, estimate = .pred_class)
+```
+
+```
+## # A tibble: 3 x 3
+##   .metric  .estimator .estimate
+##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy binary         0.912
+## 2 sens     binary         0.928
+## 3 spec     binary         0.895
+```
+
+---
+
+## Recall from Week 6...
+
+|                      | Seizure happened              | No seizure happened           |
+|----------------------|-------------------------------|-------------------------------|
+| Seizure predicted    | True positive                 | False positive (Type 1 error) |
+| No seizure predicted | False negative (Type 2 error) | True negative                 |
+
+--
+- **Accuracy** (% correct) = (TP + TN) / (# episodes)
+- **False negative** ("miss") **rate** = FN / (# actual seizures)
+- **False positive** ("false alarm") **rate** = FP / (# true non-seizures)
+
+--
+- **Sensitivity** ("true positive rate") = TP / (# actual seizures)
+  - Sensitivity = 1 − False negative rate
+- **Specificity** ("true negative rate") = TN / (# actual seizures)
+  - Specificity = 1 − False positive rate
+- [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
+
+
+---
+
+class: center, middle
+
+## Logistic Regression
+
+---
+
+## Logistic Regression
+
+
+```r
+spec &lt;- workflow() %&gt;% add_recipe(
+* recipe(Group ~ ., data = data)) %&gt;%
+* add_model(logistic_reg(penalty = .001) %&gt;% set_engine("glmnet"))
+model &lt;- spec %&gt;% fit(data)
+```
+
+.small-code[
+
+```r
+model %&gt;% pull_workflow_fit() %&gt;% pluck('fit') %&gt;% coef(s = .1) %&gt;% as.matrix() %&gt;% as_tibble(rownames = "name") %&gt;% 
+  rename(coef = 2) %&gt;% filter(abs(coef) &gt; .01) %&gt;% 
+  ggplot(aes(x = coef, y = fct_reorder(name, coef, abs))) + geom_col()
+```
+
+&lt;img src="w11d2-classification_files/figure-html/vis-logisticreg-model-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+
+```r
+model %&gt;% predict(data, type = "prob")
+```
+
+```
+## # A tibble: 159 x 2
+##   .pred_ASD    .pred_NEU
+##       &lt;dbl&gt;        &lt;dbl&gt;
+## 1     0.912 0.0876      
+## 2     0.999 0.000964    
+## 3     1.00  0.0000000524
+## 4     1.00  0.0000000369
+## 5     0.988 0.0124      
+## 6     1.00  0.0000222   
+## # … with 153 more rows
+```
+
+---
+
+### Are those predictions good?
+
+.small-code[
+
+```r
+model %&gt;%
+  predict(data, type = "prob") %&gt;%
+  bind_cols(data) %&gt;% 
+  mutate(idx = row_number()) %&gt;% 
+  ggplot(aes(x = idx, y = .pred_ASD, color = Group, shape = Group)) +
+  geom_hline(yintercept = .5) +
+  geom_point() 
+```
+
+&lt;img src="w11d2-classification_files/figure-html/plot-predicted-probs-linreg-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Quantifying that...
+
+
+```r
+model %&gt;% 
+  predict(data, type = "class") %&gt;% 
+  bind_cols(data) %&gt;% 
+  metrics(truth = Group, estimate = .pred_class)
+```
+
+```
+## # A tibble: 3 x 3
+##   .metric  .estimator .estimate
+##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy binary             1
+## 2 sens     binary             1
+## 3 spec     binary             1
+```
+
+
+---
+
+## Cross validation!
+
 Stratify by `group` to ensure each fold has good representation.
 
 
 ```r
-no_sibs &lt;- without_behavior_scores %&gt;% filter(Group != "SIB")
-
-resamples &lt;- no_sibs %&gt;% vfold_cv(v = 10, strata = Group)
+resamples &lt;- data %&gt;% vfold_cv(v = 10, strata = Group)
 ```
+
+
+
+```r
+cv_results &lt;- spec %&gt;% 
+  fit_resamples(resamples, metrics = metrics)
+```
+
+---
+
+
+```r
+cv_results %&gt;% 
+  collect_metrics(summarize = FALSE) %&gt;% 
+  ggplot(aes(x = .estimate, y = .metric)) + geom_boxplot()
+```
+
+&lt;img src="w11d2-classification_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Cross-validate the decision tree
 
 
 ```r
 spec &lt;- workflow() %&gt;% add_recipe(
-  recipe(Group ~ ., data = without_behavior_scores)) %&gt;% 
-  add_model(logistic_reg() %&gt;% set_engine("glm"))
+* recipe(Group ~ ., data = data)) %&gt;%
+* add_model(decision_tree(mode = "classification") %&gt;% set_engine("rpart"))
 
 cv_results &lt;- spec %&gt;% 
-  fit_resamples(resamples, metrics = metric_set(yardstick::accuracy, yardstick::sensitivity, yardstick::specificity))
+  fit_resamples(resamples, metrics = metrics)
 ```
 
 
@@ -312,62 +466,7 @@ cv_results %&gt;%
   ggplot(aes(x = .estimate, y = .metric)) + geom_boxplot()
 ```
 
-&lt;img src="w11d2-classification_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
-```r
-spec &lt;- workflow() %&gt;% add_recipe(
-  recipe(Group ~ ., data = no_sibs) %&gt;% step_normalize(all_numeric())) %&gt;% 
-  add_model(
-    #parsnip::decision_tree(mode = "classification") %&gt;% set_engine("rpart")
-    logistic_reg(penalty = 1.0) %&gt;% set_engine("glmnet")
-  )
-
-cv_results &lt;- spec %&gt;% 
-  fit_resamples(resamples, metrics = metric_set(yardstick::accuracy, yardstick::sensitivity, yardstick::specificity))
-```
-
-
-```r
-cv_results %&gt;% 
-  collect_metrics(summarize = FALSE) %&gt;% 
-  ggplot(aes(x = .estimate, y = .metric)) + geom_boxplot()
-```
-
-&lt;img src="w11d2-classification_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
-```r
-model &lt;- spec %&gt;% fit(no_sibs)
-```
-
-
-```r
-model$fit$fit$fit$beta[, 90]
-```
-
-```
-##           Methion.                SAM                SAH            SAM/SAH  % DNA methylation 
-##          0.0000000          0.1431226          0.0000000          1.1112226          5.9558671 
-##              8-OHG          Adenosine       Homocysteine           Cysteine          Glu.-Cys. 
-##         -4.6246299         -0.3118266         -2.1008322          3.9570812          3.1332360 
-##          Cys.-Gly.               tGSH               fGSH               GSSG          fGSH/GSSG 
-##         -0.9899010          1.0764928          4.6595519          0.0000000          0.0000000 
-##          tGSH/GSSG     Chlorotyrosine      Nitrotyrosine           Tyrosine        Tryptophane 
-##          0.0000000         -3.4906851         -3.1443763          0.0000000         -2.6246986 
-##           fCystine          fCysteine fCystine/fCysteine         % oxidized 
-##         -4.4586168          1.0379624          0.0000000         -5.8484006
-```
-
-
-
-```python
-LogisticRegression().C
-```
-
-```
-## 1.0
-```
+&lt;img src="w11d2-classification_files/figure-html/cv-results-tree-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

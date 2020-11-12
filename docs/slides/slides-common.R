@@ -23,7 +23,7 @@ slideSetup <- function(mark_languages = FALSE) {
       ".large" = list("font-size" = "1.2rem"),
       ".white-pre" = list("white-space" = "pre"),
       "p" = list("padding" = 0, "margin" = 0),
-      "h2" = list("margin" = "5px 0"),
+      "h2, h3, h4" = list("margin" = "5px 0"),
       ".small-code .remark-code" = list("font-size" = "0.5rem"),
       ".floating-source" = list(
         "position" = "absolute",

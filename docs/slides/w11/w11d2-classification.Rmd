@@ -22,6 +22,10 @@ theme_set(theme_bw())
 ## Objectives
 
 * Apply the `tidymodels` pipeline to a classification task
+* Identify when validation is necessary to believe an outcome
+* Apply the concepts of sensitivity and specificity
+
+(punted to next time:)
 * Identify corresponding elements between R and Python data wrangling and modeling workflows
 
 ---
@@ -36,12 +40,13 @@ theme_set(theme_bw())
   * Model metrics: accuracy, sensitivity, specificity
   * Validation
 
-If time permits...
 
-* Python
-  * Data wrangling with Pandas
-  * scikit-learn model API: construct, fit, predict
-  * scikit-learn modeling pipelines
+<!-- If time permits... -->
+
+<!-- * Python -->
+<!--   * Data wrangling with Pandas -->
+<!--   * scikit-learn model API: construct, fit, predict -->
+<!--   * scikit-learn modeling pipelines -->
 
 ---
 
@@ -98,7 +103,7 @@ sweep_model_examples <- function(model, dataset, vars_to_sweep, examples = slice
 
 ## Can a blood test diagnose autism?
 
-We'll use an example from <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385#pcbi.1005385.s001>
+We'll use an example from <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385>
 
 
 ```{r download-data}
@@ -144,18 +149,18 @@ autism %>% select(-1, -last_col())
 2. Concentrations of various metabolites in a blood sample
 3. For the ASD children only, a measure of life skills ("Vineland ABC")
 
-```{r show-behavior-score}
+```{r show-behavior-score, fig.asp=.25}
 autism %>% 
   ggplot(aes(x = `Vineland ABC`, y = Group)) + geom_boxplot()
 ```
 
 ---
 
-## EDA
+## Exploratory Data Analysis (EDA)
 
-* What do these metabolites look like?
+What do these metabolites look like?
 
-```{r bad-metabolite-plot}
+```{r bad-metabolite-plot, echo=FALSE}
 autism %>%
   select(-`Vineland ABC`) %>% 
   pivot_longer(-Group, names_to = "Measure") %>% 
@@ -165,6 +170,13 @@ autism %>%
 ```
 
 ---
+
+code for the previous plot:
+```{r ref.label="bad-metabolite-plot", eval=FALSE}
+```
+
+---
+
 ## EDA
 
 Better question: **Can these metabolites help us distinguish autism?**
@@ -183,19 +195,18 @@ autism %>%
 
 ---
 
+code for previous plot:
+
 ```{r ref.label="ridgeplot", eval=FALSE}
 ```
-
-
 
 ---
 
 ## Can we predict ASD vs non-ASD from metabolites?
 
-Let's start by (1) ignoring the behavior scores (that's an *outcome*) and comparing
+* Let's start by (1) ignoring the behavior scores (that's an *outcome*) and comparing
 just ASD and NEU.
-
-We need to drop SIB... and tell the model that we don't actually care about it.
+* We need to drop SIB... and tell the model that we don't actually care about it.
 
 ```{r}
 data <- 
@@ -209,21 +220,32 @@ data <-
 
 ## Decision Tree *Classification*
 
-```{r fit-and-show-tree}
+```{r fit-tree}
 spec <- workflow() %>% add_recipe(
-  recipe(Group ~ ., data = data)) %>% 
-  add_model(decision_tree(mode = "classification") %>% set_engine("rpart"))
+  recipe(Group ~ ., data = data)) %>% #<<
+  add_model(decision_tree(mode = "classification") %>% set_engine("rpart")) #<<
 model <- spec %>% fit(data)
+```
+
+
+```{r show-tree, echo=FALSE, fig.asp= .4}
 rpart.plot::rpart.plot(pull_workflow_fit(model)$fit, roundint = FALSE)
 ```
 
 ---
 
+### What do the *predictions* look like?
+
 ```{r predicted-probs-tree}
 model %>% predict(data, type = "prob")
 ```
 
-```{r plot-predicted-probs-tree}
+---
+
+### Were those predictions *good*?
+
+.small-code[
+```{r plot-predicted-probs-tree, fig.asp=.4}
 model %>%
   predict(data, type = "prob") %>%
   bind_cols(data) %>% 
@@ -232,14 +254,47 @@ model %>%
   geom_hline(yintercept = .5) +
   geom_point() 
 ```
+]
+
+---
+
+### Quantifying that:
 
 ```{r}
+metrics <- yardstick::metric_set(accuracy, sensitivity, specificity)
 model %>% 
   predict(data, type = "class") %>% 
   bind_cols(data) %>% 
-  yardstick::accuracy(truth = Group, estimate = .pred_class)
+  metrics(truth = Group, estimate = .pred_class)
 ```
 
+---
+
+## Recall from Week 6...
+
+|                      | Seizure happened              | No seizure happened           |
+|----------------------|-------------------------------|-------------------------------|
+| Seizure predicted    | True positive                 | False positive (Type 1 error) |
+| No seizure predicted | False negative (Type 2 error) | True negative                 |
+
+--
+- **Accuracy** (% correct) = (TP + TN) / (# episodes)
+- **False negative** ("miss") **rate** = FN / (# actual seizures)
+- **False positive** ("false alarm") **rate** = FP / (# true non-seizures)
+
+--
+- **Sensitivity** ("true positive rate") = TP / (# actual seizures)
+  - Sensitivity = 1 − False negative rate
+- **Specificity** ("true negative rate") = TN / (# actual seizures)
+  - Specificity = 1 − False positive rate
+- [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
+
+
+---
+
+class: center, middle
+
+## Logistic Regression
 
 ---
 
@@ -247,46 +302,52 @@ model %>%
 
 ```{r}
 spec <- workflow() %>% add_recipe(
-  recipe(Group ~ ., data = data)) %>% 
-  add_model(logistic_reg(penalty = .001) %>% set_engine("glmnet"))
-```
-
-```{r}
+  recipe(Group ~ ., data = data)) %>% #<<
+  add_model(logistic_reg(penalty = .001) %>% set_engine("glmnet")) #<<
 model <- spec %>% fit(data)
 ```
+
+.small-code[
+```{r vis-logisticreg-model, fig.asp=.3}
+model %>% pull_workflow_fit() %>% pluck('fit') %>% coef(s = .1) %>% as.matrix() %>% as_tibble(rownames = "name") %>% 
+  rename(coef = 2) %>% filter(abs(coef) > .01) %>% 
+  ggplot(aes(x = coef, y = fct_reorder(name, coef, abs))) + geom_col()
+```
+]
 
 ---
 
 ```{r predicted-probs}
 model %>% predict(data, type = "prob")
 ```
-```{r plot-predicted-probs-linreg}
+
+---
+
+### Are those predictions good?
+
+.small-code[
+```{r plot-predicted-probs-linreg, fig.asp=.4}
 model %>%
   predict(data, type = "prob") %>%
-  #bind_cols(predict(model, data, type = "class")) %>% 
   bind_cols(data) %>% 
   mutate(idx = row_number()) %>% 
   ggplot(aes(x = idx, y = .pred_ASD, color = Group, shape = Group)) +
   geom_hline(yintercept = .5) +
   geom_point() 
 ```
+]
+
+---
+
+### Quantifying that...
 
 ```{r}
 model %>% 
   predict(data, type = "class") %>% 
   bind_cols(data) %>% 
-  yardstick::accuracy(truth = Group, estimate = .pred_class)
+  metrics(truth = Group, estimate = .pred_class)
 ```
 
-
----
-
-
-```{r vis-logisticreg-model}
-model %>% pull_workflow_fit() %>% pluck('fit') %>% coef(s = .1) %>% as.matrix() %>% as_tibble(rownames = "name") %>% 
-  rename(coef = 2) %>% filter(abs(coef) > .01) %>% 
-  ggplot(aes(x = coef, y = fct_reorder(name, coef, abs))) + geom_col()
-```
 
 ---
 
@@ -294,15 +355,17 @@ model %>% pull_workflow_fit() %>% pluck('fit') %>% coef(s = .1) %>% as.matrix() 
 
 Stratify by `group` to ensure each fold has good representation.
 
-```{r}
+```{r define-cv}
 resamples <- data %>% vfold_cv(v = 10, strata = Group)
 ```
 
 
 ```{r}
 cv_results <- spec %>% 
-  fit_resamples(resamples, metrics = metric_set(yardstick::accuracy, yardstick::sensitivity, yardstick::specificity))
+  fit_resamples(resamples, metrics = metrics)
 ```
+
+---
 
 ```{r}
 cv_results %>% 
@@ -310,18 +373,20 @@ cv_results %>%
   ggplot(aes(x = .estimate, y = .metric)) + geom_boxplot()
 ```
 
+---
+
+## Cross-validate the decision tree
+
 ```{r}
 spec <- workflow() %>% add_recipe(
-  recipe(Group ~ ., data = data) %>% step_normalize(all_numeric())) %>% 
-  add_model(
-    logistic_reg(penalty = 0.001) %>% set_engine("glmnet")
-  )
+  recipe(Group ~ ., data = data)) %>% #<<
+  add_model(decision_tree(mode = "classification") %>% set_engine("rpart")) #<<
 
 cv_results <- spec %>% 
-  fit_resamples(resamples, metrics = metric_set(yardstick::accuracy, yardstick::sensitivity, yardstick::specificity))
+  fit_resamples(resamples, metrics = metrics)
 ```
 
-```{r}
+```{r cv-results-tree, fig.asp=.3}
 cv_results %>% 
   collect_metrics(summarize = FALSE) %>% 
   ggplot(aes(x = .estimate, y = .metric)) + geom_boxplot()
