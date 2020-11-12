@@ -60,6 +60,7 @@ you can just skim these for a refresher:
 
 ### `tidymodels`
 
+* [Supervised Machine Learning: Case Studies in R](https://supervised-ml-course.netlify.app/)
 * [Case Study](https://www.tidymodels.org/start/case-study/)
 
 ## Modeling Goals
