@@ -1,5 +1,5 @@
 ---
-title: "Python classification"
+title: "Python Data Wrangling and Classification"
 author: "K Arnold"
 output:
   xaringan::moon_reader:
