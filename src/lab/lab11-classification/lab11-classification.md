@@ -20,16 +20,9 @@ autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = c
 ```
 
 ``` python
-import numpy as np
-import pandas as pd
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split, cross_validate
-from sklearn.compose import make_column_transformer
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, precision_score, recall_score
-```
-
-``` python
 autism = r.autism
 ```
+
+## EDA
+
+## Modeling

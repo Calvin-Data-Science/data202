@@ -10,6 +10,19 @@ theme_set(theme_bw())
 options(dplyr.summarise.inform = FALSE) # silence a warning message
 ```
 
+```{python python-setup, echo=FALSE}
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split, cross_validate
+from sklearn.compose import make_column_transformer
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, precision_score, recall_score
+```
+
+
+
 ## Acquiring Data
 
 ```{r download-data, echo=TRUE}
@@ -26,17 +39,6 @@ autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = c
   .default = col_double(),
   Group = col_character()
 ))
-```
-
-```{python echo=TRUE}
-import numpy as np
-import pandas as pd
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split, cross_validate
-from sklearn.compose import make_column_transformer
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, precision_score, recall_score
 ```
 
 ```{python, echo=TRUE}
