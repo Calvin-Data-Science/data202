@@ -30,6 +30,12 @@ Learning objectives:
 Make teams, [claim your repo](https://github.com/Calvin-DS202-FA20/), clone, knit, etc. as usual.
 (see [Lab 10](../lab10/lab10-tuning-inst.html) for reference.)
 
+## Python
+
+Please try to use Python (Pandas, sklearn) for this lab. 
+For details about getting Python set up and tricks for how to use it, see
+[Homework 4](../../hw/hw04/hw04-other-tools-inst.html).
+
 **Note**: This instructions document includes many of the results needed to answer
 the short answer questions. Include in your report both your answer to the question
 and also the code you use to reproduce what you need to answer it.
