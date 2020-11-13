@@ -6,6 +6,8 @@ output: github_document
 ```{r setup, include=FALSE, message=FALSE}
 library(tidyverse)
 library(reticulate)
+# Avoid the Python crash
+py_run_string("import matplotlib.pyplot as plt; plt.switch_backend('agg')")
 theme_set(theme_bw())
 options(dplyr.summarise.inform = FALSE) # silence a warning message
 ```
