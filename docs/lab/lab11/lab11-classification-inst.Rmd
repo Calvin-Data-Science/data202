@@ -30,6 +30,10 @@ Learning objectives:
 Make teams, [claim your repo](https://github.com/Calvin-DS202-FA20/), clone, knit, etc. as usual.
 (see [Lab 10](../lab10/lab10-tuning-inst.html) for reference.)
 
+**Note**: This instructions document includes many of the results needed to answer
+the short answer questions. Include in your report both your answer to the question
+and also the code you use to reproduce what you need to answer it.
+
 ## Acquiring Data
 
 ```{r download-data, echo=TRUE}
