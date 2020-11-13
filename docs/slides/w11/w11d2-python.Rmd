@@ -14,55 +14,20 @@ output:
 
 ```{r setup, include=FALSE, message=FALSE}
 source("../slides-common.R")
+library(readr)
 slideSetup(mark_languages = TRUE)
 knitr::opts_chunk$set(echo = TRUE)
 theme_set(theme_bw())
 ```
 
+## Example Dataset: Titanic Passengers
 
-```{r download-data}
-data_filename <- "data/autism.csv"
-if (!file.exists(data_filename)) {
-  dir.create("data")
-  download.file("https://doi.org/10.1371/journal.pcbi.1005385.s001", data_filename)
-}
-```
+* <https://www.openml.org/d/40945>
+* <http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic.html>
+* <http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic3info.txt>
+* <https://www.encyclopedia-titanica.org/>
 
-```{r read-data}
-library(readr)
-col_names <- names(read_csv(data_filename, n_max = 1, col_types = cols(.default = col_character())))
-autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = cols(
-  .default = col_double(),
-  Group = col_character()
-))
-```
-
-
----
-
-## Python
-
-```{r}
-library(reticulate)
-py_config()
-```
-
-## Pandas
-
-The main library for wrangling tabular data in Python.
-
-```{python}
-import pandas as pd
-```
-
-
-
-Titanic dataset
-
-<https://www.openml.org/d/40945>
-<http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic.html>
-<http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic3info.txt>
-<https://www.encyclopedia-titanica.org/>
+Download the data, if we don't have it alreday:
 
 ```{r download-data}
 data_filename <- "data/titanic.csv"
@@ -72,20 +37,103 @@ if (!file.exists(data_filename)) {
 }
 ```
 
-```{python}
-titanic = pd.read_csv("data/titanic.csv")
+---
+
+## Python Setup
+
+```{r}
+library(reticulate)
+py_config()
 ```
+
+---
+
+## The Python Data Science Toolbox
+
+* **Pandas** (`pd`): the main library for wrangling tabular data in Python. (analogous to *tidyverse*) 
+* **NumPy** (`np`): the underlying math library. Gives us `array`s of numbers. Conventionally imported as `np`.
+* **scikit-learn**: the main library for machine learning in Python.
+
+```{python}
+import pandas as pd
+import numpy as np
+```
+
+---
+
+class: middle, center
+
+## Pandas
+
+---
+
+### Loading data
+
+Data frames in R are automatically converted into Pandas `DataFrame`s:
+
+```{r}
+titanic <- read_csv("data/titanic.csv", na = "?")
+```
+
+```{python}
+r.titanic.__class__
+```
+
+Pandas can read CSV files itself. (CSV is such a quirky data format, so read the docs
+for all the parameters you can set.)
+
+```{python}
+titanic = pd.read_csv("data/titanic.csv", na_values="?")
+```
+
+---
+
+class: center, middle
+
+### Exploring data structure
+
+---
+
+```{python}
+titanic.shape
+num_people, num_variables = titanic.shape
+print(f"{num_people} people, {num_variables} variables about each")
+```
+
 
 ```{python}
 titanic.head()
 ```
 
+---
+
 ```{python}
 titanic.info()
 ```
 
+---
+
 ```{python}
-titanic.rename(columns={
+titanic.describe()
+```
+
+---
+
+### Tidying data
+
+---
+
+#### Drop unneeded columns
+
+```{python}
+titanic2 = titanic.drop(['ticket', 'body'], axis = 1)
+```
+
+
+#### Rename columns
+
+```{python}
+titanic3 = titanic2.rename(columns={
   "pclass": "passenger_class",
   "survival": "survived",
   "sibsp": "num_siblings_or_spouses_aboard",
@@ -93,64 +141,275 @@ titanic.rename(columns={
   "ticket": "ticket_num",
   "embarked": "embarked_from_port",
   "boat": "lifeboat",
-  "body": "body_id",
-  "home.dest": "home_or_destination"
 })
 ```
 
+Note that most (but not all!) Pandas methods make a *new* `DataFrame` (they don't modify the existing one).
+
+
+---
+
+### Dropping missing data
+
+Be careful about dropping missing data if you don't know why it's missing!
+
+```{python}
+titanic4 = titanic3.dropna(subset = ['age', 'fare', 'embarked_from_port'])
+```
+
+
+---
+
+### Querying data
+
+.pull-left[
+Each column of a `pd.DataFrame` is a `pd.Series`, which is a NumPy `array` with (optional) labels.
+
+```{python}
+titanic4['passenger_class']
+```
+]
+
+.pull-right[
+You can use Boolean operations on a `Series` to get another `Series`:
+
+```{python}
+titanic4['passenger_class'] == 1
+```
+]
+
+
+---
+
+### Filtering data
+
+.pull-left[
+You can use a Boolean series to query data:
+
+```{python}
+is_first_class = titanic3['passenger_class'] == 1
+titanic4[is_first_class]
+```
+]
+
+.pull-right[
+You can combine queries too:
+
+```{python}
+had_companions = titanic3['num_siblings_or_spouses_aboard'] > 0
+titanic4[is_first_class & had_companions]
+```
+]
+
+---
+
+### Counting
+
+You can get the counts of how many times each item occurs in a `Series`:
+
+```{python}
+titanic4['passenger_class'].value_counts()
+```
+
+---
+
+### Separating data into features and outcomes
+
+sklearn needs the features to be in a separate data frame from the outcomes,
+so we need to split them apart ourselves. If we want to predict survival,
+we can create `y` as:
+
+```{python}
+y = titanic4['survived'] == 1
+```
+
+To create `X`, we can either drop the columns we don't want (see "tidying data" above)
+or directly ask for a list of columns we do want:
+
+```{python}
+#titanic3.columns
+numeric_features = [
+  'age', 'num_siblings_or_spouses_aboard', 'num_parents_or_children_aboard',
+]
+categorical_features = ['passenger_class', 'sex', 'embarked_from_port']
+
+X = titanic4[numeric_features]
+```
+
+---
+
+```{python}
+X.info()
+```
+
+
+
+---
+
+class: middle, center
+
+## Scikit-Learn (`sklearn`)
+
+---
+
+The documentation is very well structured:
+
+* the [User Guide](https://scikit-learn.org/stable/user_guide.html) gives narrative
+  documentation with background and examples (e.g., [logistic regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression))
+* the [API Reference](https://scikit-learn.org/stable/modules/classes.html) gives
+  the nitty-gritty details about individual classes and functions
+* the [Examples](https://scikit-learn.org/stable/auto_examples/index.html) show
+  worked examples of using most components.
+
+It's conventional to import only what you actually need from `sklearn`:
 
 ```{python}
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split, cross_validate
 from sklearn.compose import make_column_transformer
 from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 ```
+
+---
+
+### Classifier API
+
+All classifiers have the same basic interface: construct, `fit`, and `predict`.
+
+```{python}
+clf = LogisticRegression()
+clf.fit(X, y);
+y_pred = clf.predict(X)
+```
+
+---
+
+### Metrics
+
+The `sklearn.metrics` module implements a [variety of useful metrics](https://scikit-learn.org/stable/modules/model_evaluation.html#model-evaluation).
+
+```{python}
+accuracy_score(y_true = y, y_pred = y_pred)
+precision_score(y_true = y, y_pred = y_pred)
+recall_score(y_true = y, y_pred = y_pred)
+```
+
+([Remember](https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix):
+"recall" = true positive rate = sensitivity; "precision" = positive predictive value)
+
+---
+
+### Train-Test Split
 
 
 ```{python}
-autism = r.autism
+np.random.seed(0)
+X_train, X_test, y_train, y_test = train_test_split(
+  X, y, test_size=0.1)
+X_train.shape, y_train.shape
+X_test.shape, y_test.shape
 ```
 
+
+---
+
+### Cross Validation
 
 ```{python}
-autism.shape
+cv_results = cross_validate(clf, X_train, y_train, cv=5,
+  scoring=['accuracy', 'precision', 'recall'])
+
+# Wrap the results in a DataFrame:
+cv_results = pd.DataFrame(cv_results).reset_index()
 ```
 
-
-```{python}
-autism.info()
-```
-
-
-```{python}
-autism['Group'].value_counts().to_frame()
-```
-
-
-
-```{python}
-autism.iloc[:, 1:-1]
-```
-
+We can now access this data in R.
 
 ```{r}
-data <- 
-  autism %>% 
-  select(-`Vineland ABC`) %>% 
-  filter(Group != "SIB") %>% 
-  mutate(Group = factor(Group))
+py$cv_results
+```
+
+---
+
+### Column Transformers
+
+Column transformers let us apply preprocessing steps to subsets of columns.
+For example, we'll scale the numeric features:
+
+```{python}
+numeric_feature_proc = StandardScaler()
+```
+
+and one-hot-encode the categorical features:
+
+```{python}
+categorical_feature_proc = OneHotEncoder()
+```
+
+And we'll apply each pre-processor to its corresponding columns:
+
+```{python}
+preprocessor = make_column_transformer(
+  (numeric_feature_proc,     numeric_features),
+  (categorical_feature_proc, categorical_features),
+  remainder = 'drop')
+```
+
+---
+
+### Pipelines
+
+Pipelines put several steps in sequence. Like *workflows* in `tidymodels`, we
+can use pipelines to say that the data should be preprocessed before running
+the model:
+
+```{python}
+clf = make_pipeline(preprocessor, LogisticRegression())
+```
+
+Now we can use all of our features!
+
+```{python}
+X = titanic4.drop(["survived"], axis = 1)
+```
+
+Redo the train-test split:
+
+```{python}
+np.random.seed(0)
+X_train, X_test, y_train, y_test = train_test_split(
+  X, y, test_size=0.1)
 ```
 
 
+---
+
+### Pipelines have the model API
+
 ```{python}
-data = r.data
-y = data['Group']
-X = data.drop(['Group'], axis=1)
-clf = LogisticRegression(max_iter = 1e6)
 clf.fit(X, y)
 ```
 
+
+---
+
+### CV with pipelines
+
+A pipeline behaves exactly like a classifier (it has `fit` and `predict`),
+so we can use exactly the same code to validate it.
+
 ```{python}
-clf.intercept_
+cv_results = cross_validate(clf, X_train, y_train, cv=5,
+  scoring=['accuracy', 'precision', 'recall'])
+
+# Wrap the results in a DataFrame:
+cv_results = pd.DataFrame(cv_results).reset_index()
 ```
 
+We can now access this data in R.
+
+```{r}
+py$cv_results
+```
