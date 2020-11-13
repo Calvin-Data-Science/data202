@@ -25,6 +25,11 @@ Learning objectives:
 * Fit a classification model in Scikit-Learn (sklearn)
 
 
+## Getting Started
+
+Make teams, [claim your repo](https://github.com/Calvin-DS202-FA20/), clone, knit, etc. as usual.
+(see [Lab 10](../lab10/lab10-tuning-inst.html) for reference.)
+
 ## Acquiring Data
 
 ```{r download-data, echo=TRUE}
