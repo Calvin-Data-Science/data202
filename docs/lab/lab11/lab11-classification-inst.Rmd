@@ -92,6 +92,8 @@ autism.info()
 autism['Group'].value_counts()
 ```
 
+## Classfication
+
 4. Create a new `DataFrame` called `asd_vs_neu` that has no `SIB` children.
 
 ```{python}
