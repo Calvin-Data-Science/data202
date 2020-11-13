@@ -9,7 +9,7 @@ link-citations: yes
 ---
 
 ```{r setup, include=FALSE, message=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(reticulate)
 theme_set(theme_bw())
@@ -27,7 +27,7 @@ Learning objectives:
 
 ## Acquiring Data
 
-```{r download-data}
+```{r download-data, echo=TRUE}
 data_filename <- "data/autism.csv"
 if (!file.exists(data_filename)) {
   dir.create("data")
@@ -35,7 +35,7 @@ if (!file.exists(data_filename)) {
 }
 ```
 
-```{r read-data}
+```{r read-data, echo=TRUE}
 col_names <- names(read_csv(data_filename, n_max = 1, col_types = cols(.default = col_character())))
 autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = cols(
   .default = col_double(),
@@ -43,7 +43,7 @@ autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = c
 ))
 ```
 
-```{python}
+```{python, echo=TRUE}
 autism = r.autism
 ```
 
@@ -59,7 +59,7 @@ py_eval_repr <- function(x, quote_code = TRUE) {
 }
 ```
 
-```{python}
+```{python echo=TRUE}
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
@@ -67,7 +67,7 @@ from sklearn.model_selection import train_test_split, cross_validate
 from sklearn.compose import make_column_transformer
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 ```
 
 
@@ -77,7 +77,7 @@ from sklearn.metrics import accuracy_score
 
 ```{python}
 num_children, num_variables = autism.shape
-print(f"{num_children} children, {num_variables} variables")
+#print(f"{num_children} children, {num_variables} variables")
 ```
 
 2. What two variables are unlike the others? What is different about them?
@@ -116,7 +116,7 @@ asd_vs_neu['Group'].value_counts()
   consisting of the data in the `Group` column of `asd_vs_neu`.
 
 ```{python}
-y = asd_vs_neu['Group']
+y = asd_vs_neu['Group'] == "ASD"
 ```
 
 7. Create a variable called `X` (designating the input data) consisting of 
@@ -155,30 +155,22 @@ clf = LogisticRegression(C = 0.001)
 clf.fit(X_train, y_train)
 ```
 
-10. Construct the model's predictions on the test set. Call it `y_test_pred`.
-
-```{python}
-y_test_pred = clf.predict(X_test)
-```
-
-11. Evaluate the model's *accuracy* on the test set.
-
-```{python}
-accuracy_score(y_true = y_test, y_pred = y_test_pred)
-```
-
-12. If, instead, we had wanted to cross-validate:
+12. Cross-validate to estimate the model's performance (accuracy, precision, and recall) using 5-fold cross-validation:
 
 ```{python}
 cv_results = cross_validate(clf, X_train, y_train, cv=5,
-  scoring=['accuracy'],
-  return_train_score=True)
+  scoring=['accuracy', 'precision', 'recall'])
 # Wrap the results in a DataFrame:
-cv_results = pd.DataFrame(cv_results)
+cv_results = pd.DataFrame(cv_results).reset_index()
 ```
 
+(`sklearn`'s `cross_validate` refers to the assessment data in each fold as "`test`";
+don't confuse this with the true test set that we held out earlier.)
 
-```{python}
+Each row of `cv_results` is a fold (numbered `index`); each column is one of the metrics we asked
+for (or some metadata).
+
+```{python, echo=TRUE}
 cv_results['test_accuracy']
 ```
 
@@ -188,3 +180,36 @@ We can now access this data in R.
 py$cv_results
 ```
 
+```{r}
+py$cv_results %>% 
+  select(-fit_time, -score_time) %>% 
+  pivot_longer(-index) %>% 
+  ggplot(aes(y = name, x = value)) + geom_boxplot() + geom_point() 
+```
+
+
+1. What do you expect the accuracy, precision, and recall to be on the test set,
+which we haven't seen yet?
+
+Now we construct the model's predictions on the test set and store them
+in a variable called `y_test_pred`.
+
+```{python}
+y_test_pred = clf.predict(X_test)
+```
+
+1. How many predictions are stored in `y_test_pred`?
+
+```{python, include=FALSE}
+y_test_pred.shape
+```
+
+
+
+11. Evaluate the model's *accuracy*, *precision*, and *recall* on the test set.
+
+```{python}
+accuracy_score(y_true = y_test, y_pred = y_test_pred)
+precision_score(y_true = y_test, y_pred = y_test_pred)
+recall_score(y_true = y_test, y_pred = y_test_pred)
+```
