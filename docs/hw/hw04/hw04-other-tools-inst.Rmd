@@ -61,6 +61,9 @@ already installed on the RStudio server and lab machines).
 
 ```r
 if (!py_module_available("seaborn")) py_install("seaborn")
+# For later:
+if (!py_module_available("pandas")) py_install("pandas")
+if (!py_module_available("sklearn")) py_install("scikit-learn")
 ```
 
 You may need to restart your R session (or RStudio) for everything to work.
