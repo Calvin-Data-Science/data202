@@ -151,7 +151,11 @@ Note that most (but not all!) Pandas methods make a *new* `DataFrame` (they don'
 
 ### Dropping missing data
 
-Be careful about dropping missing data if you don't know why it's missing!
+This dataset has a lot of missing data in some columns. For demonstration
+purposes, we'll drop people where this data is missing, without
+investigating why. But in general:
+
+**Be careful about dropping missing data if you don't know why it's missing**!
 
 ```{python}
 titanic4 = titanic3.dropna(subset = ['age', 'fare', 'embarked_from_port'])
@@ -174,8 +178,11 @@ titanic4['passenger_class']
 You can use Boolean operations on a `Series` to get another `Series`:
 
 ```{python}
-titanic4['passenger_class'] == 1
+is_first_class = titanic3['passenger_class'] == 1
+is_first_class
 ```
+
+How many rows does this Series have? How many columns?
 ]
 
 
@@ -187,7 +194,6 @@ titanic4['passenger_class'] == 1
 You can use a Boolean series to query data:
 
 ```{python}
-is_first_class = titanic3['passenger_class'] == 1
 titanic4[is_first_class]
 ```
 ]
