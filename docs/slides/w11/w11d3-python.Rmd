@@ -191,7 +191,8 @@ How many rows does this Series have? How many columns?
 ### Filtering data
 
 .pull-left[
-You can use a Boolean series to query data:
+You can use a Boolean series to query data. This syntax means: *keep only
+the rows where the value is `True`:
 
 ```{python}
 titanic4[is_first_class]
@@ -199,7 +200,8 @@ titanic4[is_first_class]
 ]
 
 .pull-right[
-You can combine queries too:
+You can combine queries using Boolean operations (but they need to be the
+element-wise versions--`&`, `|`, and `~` instead of `and`, `or`, and `not`).
 
 ```{python}
 had_companions = titanic3['num_siblings_or_spouses_aboard'] > 0

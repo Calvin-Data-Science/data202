@@ -308,7 +308,8 @@ How many rows does this Series have? How many columns?
 ### Filtering data
 
 .pull-left[
-You can use a Boolean series to query data:
+You can use a Boolean series to query data. This syntax means: *keep only
+the rows where the value is `True`:
 
 
 ```python
@@ -336,7 +337,8 @@ titanic4[is_first_class]
 ]
 
 .pull-right[
-You can combine queries too:
+You can combine queries using Boolean operations (but they need to be the
+element-wise versions--`&amp;`, `|`, and `~` instead of `and`, `or`, and `not`).
 
 
 ```python
@@ -555,11 +557,11 @@ py$cv_results
 
 ```
 ##   index   fit_time  score_time test_accuracy test_precision test_recall
-## 1     0 0.02058601 0.006261110     0.6010638      0.5625000   0.1168831
-## 2     1 0.04404020 0.005791903     0.6382979      0.7647059   0.1688312
-## 3     2 0.02799511 0.005214930     0.6223404      0.6500000   0.1688312
-## 4     3 0.02837563 0.004824162     0.5935829      0.5000000   0.1578947
-## 5     4 0.01416707 0.004491806     0.6256684      0.6875000   0.1447368
+## 1     0 0.02238822 0.010027885     0.6010638      0.5625000   0.1168831
+## 2     1 0.04693198 0.011137009     0.6382979      0.7647059   0.1688312
+## 3     2 0.03972006 0.006628036     0.6223404      0.6500000   0.1688312
+## 4     3 0.02145004 0.004556894     0.5935829      0.5000000   0.1578947
+## 5     4 0.01484203 0.004541874     0.6256684      0.6875000   0.1447368
 ```
 
 ---
@@ -670,11 +672,11 @@ py$cv_results
 
 ```
 ##   index   fit_time  score_time test_accuracy test_precision test_recall
-## 1     0 0.03780103 0.014758110     0.8138298      0.8088235   0.7142857
-## 2     1 0.03845811 0.013856173     0.7925532      0.7567568   0.7272727
-## 3     2 0.02560520 0.008648872     0.7553191      0.6781609   0.7662338
-## 4     3 0.01736927 0.007055759     0.7433155      0.7121212   0.6184211
-## 5     4 0.01598787 0.007071018     0.8074866      0.8030303   0.6973684
+## 1     0 0.02702522 0.016989946     0.8138298      0.8088235   0.7142857
+## 2     1 0.02939200 0.012911797     0.7925532      0.7567568   0.7272727
+## 3     2 0.02787519 0.009597778     0.7553191      0.6781609   0.7662338
+## 4     3 0.01959896 0.008190870     0.7433155      0.7121212   0.6184211
+## 5     4 0.01566219 0.005964041     0.8074866      0.8030303   0.6973684
 ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
