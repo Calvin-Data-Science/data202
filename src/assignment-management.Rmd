@@ -136,7 +136,7 @@ createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo =
 # createAssignmentTemplate("hw/hw04-other-tools")
 # createAssignmentTemplate("lab/lab05-ugly-charts")
 # createAssignmentTemplate("proj/datavis")
-createAssignmentTemplate("lab/lab10-tuning/")
+createAssignmentTemplate("lab/lab11-classification")
 ```
 
 (This is a WIP Python replacement for the shell script)
@@ -196,7 +196,6 @@ pushSoloAssignment("hw09")
 
 
 ```{r team-flex-assignments, eval=FALSE}
-assignmentName <- "lab10"
 push_flexTeam_assignments <- function(assignmentName) {
   expand_grid(
     fix_roster(roster, assignmentName),
@@ -215,7 +214,7 @@ push_flexTeam_assignments <- function(assignmentName) {
       )
     }
 }
-push_flexTeam_assignments("lab10")
+push_flexTeam_assignments("lab11")
 ```
 
 
@@ -313,7 +312,7 @@ cached_collaborators("lab04")
 ```
 
 ```{r lookup-names}
-local_repo_owners <- tibble(assignment = c("hw01", "hw02", "hw03", "hw04", "lab01", "lab02", "lab03", "lab04", "lab05", "datavis")) %>%
+local_repo_owners <- tibble(assignment = c("hw01", "hw02", "hw03", "hw04", "hw09", "lab01", "lab02", "lab03", "lab04", "lab05", "datavis")) %>%
   rowwise() %>%
   mutate(collaborators = list(cached_collaborators(assignment))) %>%
   unnest(collaborators) %>%
