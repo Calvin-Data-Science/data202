@@ -119,6 +119,8 @@ titanic.describe()
 
 ---
 
+class: middle, center
+
 ### Tidying data
 
 ---
@@ -178,7 +180,7 @@ titanic4['passenger_class']
 You can use Boolean operations on a `Series` to get another `Series`:
 
 ```{python}
-is_first_class = titanic3['passenger_class'] == 1
+is_first_class = titanic4['passenger_class'] == 1
 is_first_class
 ```
 
@@ -191,8 +193,8 @@ How many rows does this Series have? How many columns?
 ### Filtering data
 
 .pull-left[
-You can use a Boolean series to query data. This syntax means: *keep only
-the rows where the value is `True`:
+You can use a Boolean series to query data. This syntax means: filter the 
+data frame to include only the rows that correspond to a `True`:
 
 ```{python}
 titanic4[is_first_class]
@@ -201,10 +203,10 @@ titanic4[is_first_class]
 
 .pull-right[
 You can combine queries using Boolean operations (but they need to be the
-element-wise versions--`&`, `|`, and `~` instead of `and`, `or`, and `not`).
+element-wise versions: `&`, `|`, and `~` instead of `and`, `or`, and `not`).
 
 ```{python}
-had_companions = titanic3['num_siblings_or_spouses_aboard'] > 0
+had_companions = titanic4['num_siblings_or_spouses_aboard'] > 0
 titanic4[is_first_class & had_companions]
 ```
 ]
@@ -235,10 +237,10 @@ To create `X`, we can either drop the columns we don't want (see "tidying data" 
 or directly ask for a list of columns we do want:
 
 ```{python}
-#titanic3.columns
+#titanic4.columns # this can help you look at the column names
 numeric_features = [
-  'age', 'num_siblings_or_spouses_aboard', 'num_parents_or_children_aboard',
-]
+  'age', 'num_siblings_or_spouses_aboard', 'num_parents_or_children_aboard']
+# We'll use these later
 categorical_features = ['passenger_class', 'sex', 'embarked_from_port']
 
 X = titanic4[numeric_features]
@@ -259,6 +261,8 @@ class: middle, center
 ## Scikit-Learn (`sklearn`)
 
 ---
+
+### Documentation and imports
 
 The documentation is very well structured:
 
@@ -282,12 +286,30 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 ---
 
+### Train-Test Split
+
+First, we'll hold out a test set of 10% of the passengers. We'll set a random
+seed so that this process is reproducible:
+
+```{python}
+np.random.seed(0)
+X_train, X_test, y_train, y_test = train_test_split(
+  X, y, test_size=0.1)
+X_train.shape, y_train.shape
+X_test.shape, y_test.shape
+```
+
+---
+
 ### Classifier API
 
 All classifiers have the same basic interface: construct, `fit`, and `predict`.
 
+We'll create a `LogisticRegression` object called `clf`, with the
+regularization parameter `C` set to 0.1.
+
 ```{python}
-clf = LogisticRegression()
+clf = LogisticRegression(C = 0.1, solver = "lbfgs")
 clf.fit(X, y);
 y_pred = clf.predict(X)
 ```
@@ -304,22 +326,9 @@ precision_score(y_true = y, y_pred = y_pred)
 recall_score(y_true = y, y_pred = y_pred)
 ```
 
-([Remember](https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix):
-"recall" = true positive rate = sensitivity; "precision" = positive predictive value)
-
----
-
-### Train-Test Split
-
-
-```{python}
-np.random.seed(0)
-X_train, X_test, y_train, y_test = train_test_split(
-  X, y, test_size=0.1)
-X_train.shape, y_train.shape
-X_test.shape, y_test.shape
-```
-
+Remember that "recall" = true positive rate = *sensitivity*. sklearn doesn't
+directly implement *specificity*, but it does give us "precision" = positive predictive value
+(see [Wikipedia]((https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix)).
 
 ---
 
@@ -394,10 +403,19 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 ---
 
-### Pipelines have the model API
+### Pipelines have same API as models (`fit`, `predict`)
 
 ```{python}
-clf.fit(X, y)
+clf.fit(X, y);
+```
+
+
+Just as a demo, let's predict and score on the full training set. Remember that
+this is an overestimate of the accuracy we'd get on truly unseen data.
+
+```{python}
+y_pred = clf.predict(X)
+accuracy_score(y_true = y, y_pred = y_pred)
 ```
 
 

@@ -130,7 +130,7 @@ asd_vs_neu['Group'].value_counts()
 * `y` designates the prediction targets, as a one-dimensional *vector* (and thus lowercase).
 
 6. Create a variable called `y` (designating the *target* of the prediction)
-  consisting of the data in the `Group` column of `asd_vs_neu`.
+  consisting of whether the `Group` is equal to `ASD` (`asd_vs_neu['Group'] == "ASD"`).
 
 ```{python}
 y = asd_vs_neu['Group'] == "ASD"
@@ -149,21 +149,19 @@ X = asd_vs_neu.drop(["Group", "Vineland ABC"], axis = 1)
 X.shape
 ```
 
-Let's hold out a test set of 10% of the children.
-First, set the random seed.
+Hold out a test set of of 10% of the children. Remember to set the random seed.
 
-```{python}
+```{python, echo=TRUE}
 np.random.seed(0)
 X_train, X_test, y_train, y_test = train_test_split(
   X, y, test_size=0.1)
 ```
 
-
-Now let's create a `LogisticRegression` object called `clf`, with the
+Now, create a `LogisticRegression` object called `clf`, with the
 regularization parameter `C` set to 0.001.
 
-```{python}
-clf = LogisticRegression(C = 0.001)
+```{python, echo=TRUE}
+clf = LogisticRegression(C = 0.001, solver = 'lbfgs')
 ```
 
 9. Fit `clf` so that it tries to predict `y_train` from `X_train`.

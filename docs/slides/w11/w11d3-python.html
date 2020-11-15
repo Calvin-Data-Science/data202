@@ -201,6 +201,8 @@ titanic.describe()
 
 ---
 
+class: middle, center
+
 ### Tidying data
 
 ---
@@ -280,7 +282,7 @@ You can use Boolean operations on a `Series` to get another `Series`:
 
 
 ```python
-is_first_class = titanic3['passenger_class'] == 1
+is_first_class = titanic4['passenger_class'] == 1
 is_first_class
 ```
 
@@ -291,12 +293,12 @@ is_first_class
 ## 3        True
 ## 4        True
 ##         ...  
+## 1301    False
 ## 1304    False
-## 1305    False
 ## 1306    False
 ## 1307    False
 ## 1308    False
-## Name: passenger_class, Length: 1309, dtype: bool
+## Name: passenger_class, Length: 1043, dtype: bool
 ```
 
 How many rows does this Series have? How many columns?
@@ -308,8 +310,8 @@ How many rows does this Series have? How many columns?
 ### Filtering data
 
 .pull-left[
-You can use a Boolean series to query data. This syntax means: *keep only
-the rows where the value is `True`:
+You can use a Boolean series to query data. This syntax means: filter the 
+data frame to include only the rows that correspond to a `True`:
 
 
 ```python
@@ -331,18 +333,16 @@ titanic4[is_first_class]
 ## 322                1         1  ...        8     New York, NY / Washington, DC
 ## 
 ## [282 rows x 12 columns]
-## 
-## /Users/ka37/Library/r-miniconda/envs/r-reticulate/bin/python:1: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
 ```
 ]
 
 .pull-right[
 You can combine queries using Boolean operations (but they need to be the
-element-wise versions--`&amp;`, `|`, and `~` instead of `and`, `or`, and `not`).
+element-wise versions: `&amp;`, `|`, and `~` instead of `and`, `or`, and `not`).
 
 
 ```python
-had_companions = titanic3['num_siblings_or_spouses_aboard'] &gt; 0
+had_companions = titanic4['num_siblings_or_spouses_aboard'] &gt; 0
 titanic4[is_first_class &amp; had_companions]
 ```
 
@@ -361,8 +361,6 @@ titanic4[is_first_class &amp; had_companions]
 ## 314                1         1  ...        4                  Elkins Park, PA
 ## 
 ## [119 rows x 12 columns]
-## 
-## /Users/ka37/Library/r-miniconda/envs/r-reticulate/bin/python:1: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
 ```
 ]
 
@@ -402,10 +400,10 @@ or directly ask for a list of columns we do want:
 
 
 ```python
-#titanic3.columns
+#titanic4.columns # this can help you look at the column names
 numeric_features = [
-  'age', 'num_siblings_or_spouses_aboard', 'num_parents_or_children_aboard',
-]
+  'age', 'num_siblings_or_spouses_aboard', 'num_parents_or_children_aboard']
+# We'll use these later
 categorical_features = ['passenger_class', 'sex', 'embarked_from_port']
 
 X = titanic4[numeric_features]
@@ -441,6 +439,8 @@ class: middle, center
 
 ---
 
+### Documentation and imports
+
 The documentation is very well structured:
 
 * the [User Guide](https://scikit-learn.org/stable/user_guide.html) gives narrative
@@ -464,55 +464,10 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 ---
 
-### Classifier API
-
-All classifiers have the same basic interface: construct, `fit`, and `predict`.
-
-
-```python
-clf = LogisticRegression()
-clf.fit(X, y);
-y_pred = clf.predict(X)
-```
-
----
-
-### Metrics
-
-The `sklearn.metrics` module implements a [variety of useful metrics](https://scikit-learn.org/stable/modules/model_evaluation.html#model-evaluation).
-
-
-```python
-accuracy_score(y_true = y, y_pred = y_pred)
-```
-
-```
-## 0.6222435282837967
-```
-
-```python
-precision_score(y_true = y, y_pred = y_pred)
-```
-
-```
-## 0.6631578947368421
-```
-
-```python
-recall_score(y_true = y, y_pred = y_pred)
-```
-
-```
-## 0.14823529411764705
-```
-
-([Remember](https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix):
-"recall" = true positive rate = sensitivity; "precision" = positive predictive value)
-
----
-
 ### Train-Test Split
 
+First, we'll hold out a test set of 10% of the passengers. We'll set a random
+seed so that this process is reproducible:
 
 
 ```python
@@ -534,6 +489,56 @@ X_test.shape, y_test.shape
 ## ((105, 3), (105,))
 ```
 
+---
+
+### Classifier API
+
+All classifiers have the same basic interface: construct, `fit`, and `predict`.
+
+We'll create a `LogisticRegression` object called `clf`, with the
+regularization parameter `C` set to 0.1.
+
+
+```python
+clf = LogisticRegression(C = 0.1, solver = "lbfgs")
+clf.fit(X, y);
+y_pred = clf.predict(X)
+```
+
+---
+
+### Metrics
+
+The `sklearn.metrics` module implements a [variety of useful metrics](https://scikit-learn.org/stable/modules/model_evaluation.html#model-evaluation).
+
+
+```python
+accuracy_score(y_true = y, y_pred = y_pred)
+```
+
+```
+## 0.6184084372003835
+```
+
+```python
+precision_score(y_true = y, y_pred = y_pred)
+```
+
+```
+## 0.651685393258427
+```
+
+```python
+recall_score(y_true = y, y_pred = y_pred)
+```
+
+```
+## 0.13647058823529412
+```
+
+Remember that "recall" = true positive rate = *sensitivity*. sklearn doesn't
+directly implement *specificity*, but it does give us "precision" = positive predictive value
+(see [Wikipedia]((https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix)).
 
 ---
 
@@ -557,11 +562,11 @@ py$cv_results
 
 ```
 ##   index   fit_time  score_time test_accuracy test_precision test_recall
-## 1     0 0.02238822 0.010027885     0.6010638      0.5625000   0.1168831
-## 2     1 0.04693198 0.011137009     0.6382979      0.7647059   0.1688312
-## 3     2 0.03972006 0.006628036     0.6223404      0.6500000   0.1688312
-## 4     3 0.02145004 0.004556894     0.5935829      0.5000000   0.1578947
-## 5     4 0.01484203 0.004541874     0.6256684      0.6875000   0.1447368
+## 1     0 0.03393483 0.009013176     0.5957447      0.5333333   0.1038961
+## 2     1 0.02933311 0.007036924     0.6329787      0.8333333   0.1298701
+## 3     2 0.03270698 0.008970976     0.6276596      0.7058824   0.1558442
+## 4     3 0.02870607 0.006878138     0.5882353      0.4782609   0.1447368
+## 5     4 0.01847196 0.004400015     0.6203209      0.6666667   0.1315789
 ```
 
 ---
@@ -625,25 +630,25 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 ---
 
-### Pipelines have the model API
+### Pipelines have same API as models (`fit`, `predict`)
 
 
 ```python
-clf.fit(X, y)
+clf.fit(X, y);
+```
+
+
+Just as a demo, let's predict and score on the full training set. Remember that
+this is an overestimate of the accuracy we'd get on truly unseen data.
+
+
+```python
+y_pred = clf.predict(X)
+accuracy_score(y_true = y, y_pred = y_pred)
 ```
 
 ```
-## Pipeline(steps=[('columntransformer',
-##                  ColumnTransformer(transformers=[('standardscaler',
-##                                                   StandardScaler(),
-##                                                   ['age',
-##                                                    'num_siblings_or_spouses_aboard',
-##                                                    'num_parents_or_children_aboard']),
-##                                                  ('onehotencoder',
-##                                                   OneHotEncoder(),
-##                                                   ['passenger_class', 'sex',
-##                                                    'embarked_from_port'])])),
-##                 ('logisticregression', LogisticRegression())])
+## 0.7909875359539789
 ```
 
 
@@ -672,11 +677,11 @@ py$cv_results
 
 ```
 ##   index   fit_time  score_time test_accuracy test_precision test_recall
-## 1     0 0.02702522 0.016989946     0.8138298      0.8088235   0.7142857
-## 2     1 0.02939200 0.012911797     0.7925532      0.7567568   0.7272727
-## 3     2 0.02787519 0.009597778     0.7553191      0.6781609   0.7662338
-## 4     3 0.01959896 0.008190870     0.7433155      0.7121212   0.6184211
-## 5     4 0.01566219 0.005964041     0.8074866      0.8030303   0.6973684
+## 1     0 0.05944705 0.029683828     0.8138298      0.8088235   0.7142857
+## 2     1 0.06279492 0.011922836     0.7925532      0.7567568   0.7272727
+## 3     2 0.02037191 0.021975994     0.7553191      0.6781609   0.7662338
+## 4     3 0.02083921 0.008394003     0.7433155      0.7121212   0.6184211
+## 5     4 0.01814008 0.007794857     0.8074866      0.8030303   0.6973684
 ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
