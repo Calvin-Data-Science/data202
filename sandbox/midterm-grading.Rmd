@@ -45,22 +45,24 @@ read_file(file.path(response_dir, "Q10 - doors-engine-size-repro/1355970 - Adam 
 
 
 ```{r}
+# https://stackoverflow.com/a/61647053/69707
+mixedrank = function(x) order(gtools::mixedorder(x))
+responses <- responses %>% 
+  arrange(mixedrank(question))
+```
+
+
+```{r}
 responses <- tibble(filename = response_files) %>% 
   separate(filename, into = c("question", "attempt", "text_filename"), sep = "/", remove = FALSE) %>% 
   separate(attempt, into = c("id", "student", "attempt_num", "time"), sep = "-", extra = "merge") %>% 
   mutate(attempt_num = as.numeric(str_replace(attempt_num, "Attempt", ""))) %>% 
+  mutate(student = str_trim(student)) %>% 
   group_by(question, student) %>% 
   arrange(attempt_num) %>% 
   slice_tail(n = 1) %>% 
   mutate(contents = read_file(file.path(response_dir, filename))) %>% 
   relocate(filename, .after = everything())
-```
-
-```{r}
-# https://stackoverflow.com/a/61647053/69707
-mixedrank = function(x) order(gtools::mixedorder(x))
-responses <- responses %>% 
-  arrange(mixedrank(question))
 ```
 
 ## Show all results
@@ -78,10 +80,36 @@ summarizeFuncCalls <- function(text) {
 }
 ```
 
+```{r}
+#responses %>% arrange(student) %>% ungroup() %>%  distinct(student) %>% clipr::write_clip()
+```
 
 ```{r}
-summarizeFuncCalls(responses$contents[[1]])
-#map_chr(responses$contents, summarizeFuncCalls)
+responses %>% 
+  ungroup() %>% 
+  complete(student, question, fill = list(contents="MISSING")) %>% 
+  filter(contents == "MISSING")
+```
+
+```{r results='asis'}
+dir.create("out")
+responses %>% 
+  ungroup() %>% 
+  bind_rows(tibble(student = "template", question = unique(responses$question))) %>% 
+  complete(student, question, fill = list(contents="MISSING")) %>% 
+  group_by(student) %>% 
+  arrange(mixedrank(question)) %>% 
+  summarise(md = str_c(
+    paste0("# ", student[[1]], "\n\\newpage\n"),
+    glue::glue("## {question}\n\n```r\n{contents}\n```\n\\newpage") %>% paste0(collapse = "\n")
+  )) %>% 
+  rowwise() %>% 
+  mutate(
+    filename = glue::glue("out/{student}.md"),
+    pdf_filename = glue::glue("out/{student}.pdf"),
+    res = write_lines(md, filename),
+    res2 = sys::exec_wait("pandoc", c("-V", "geometry:landscape", "-f", "markdown", "-t", "pdf", filename, "-o", pdf_filename)))
+
 ```
 
 
