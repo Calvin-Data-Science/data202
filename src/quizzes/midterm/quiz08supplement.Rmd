@@ -163,12 +163,24 @@ car_prices %>%
   arrange(desc(frac_cruise))
 ```
 
+```{r cruise-control-by-type-sol-alt, include=FALSE}
+car_prices %>%
+  group_by(type, cruise) %>% 
+  summarize(n = n()) %>% 
+  group_by(type) %>%
+  mutate(frac = n / sum(n)) %>% 
+  filter(cruise == 1) %>% 
+  arrange(desc(frac))
+```
+
 ```{r cruise-control-repro, exercise=TRUE}
 
 ```
 
 
 Do 2-door cars or 4-door (`doors`) cars have bigger engines (`liter` column) on average in this data set?
+
+<!-- TODO: replace this one. Too similar to prev, and mean vs median gives different results. -->
 
 ```{r doors-engine-size-sol, include=FALSE}
 car_prices %>%
@@ -241,6 +253,9 @@ While you're at it, use more sensible names:
 ```{r show-fuel-eco-avg, eval=TRUE}
 fuel_eco_avg
 ```
+
+<!-- TODO: don't allow this to use the result variable! -->
+
 ```{r fuel-eco-avg-repro, exercise=TRUE}
 
 ```
@@ -267,6 +282,8 @@ ignoring case, leave the fuel economies at `NA` (don't drop the row).
 Tip: how many rows should the result have?
 
 **How many distinct car models didn't match the EPA data?**
+
+<!-- TODO: don't allow this to use the result variable! -->
 
 ```{r join-repro, exercise=TRUE}
 
@@ -311,6 +328,8 @@ cars_train <- training(cars_split)
 cars_test <- testing(cars_split)
 ```
 
+
+<!-- TODO: use decision tree here -->
 
 First, create a `tidymodels` model called `model` that predicts `price` from `mileage` 
 using linear regression on the training set. (You do not need a recipe here.)
