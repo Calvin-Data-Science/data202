@@ -367,7 +367,7 @@ cv_results <- spec %>%
 
 ---
 
-```{r}
+```{r cv-results-logreg}
 cv_results %>% 
   collect_metrics(summarize = FALSE) %>% 
   ggplot(aes(x = .estimate, y = .metric)) + geom_boxplot()
