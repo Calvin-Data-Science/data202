@@ -16,18 +16,31 @@ library(tidyverse)
   * A failed join is indicated by missing data (`is.na`).
   * You can focus only on parts that have missing data by using `filter` (remember the Nobel lab?)
   * `distinct()` and `nrow`, don't try to count by hand.
-  
 
 ### To me
 
 * I should not have taught `count`.
-
+* The grading workflow should let me see students' graphs and outputs.
 
 ## Car prices and eco
 
 ### Question 11
 
 * Used `count` instead of `filter` (-2)
+
+## Utilities
+
+```{r}
+# https://stackoverflow.com/a/61647053/69707
+mixedrank = function(x) order(gtools::mixedorder(x))
+```
+
+
+```{python}
+import subprocess
+def md_to_html(md):
+  return subprocess.check_output(["pandoc", '-f', 'markdown', '-t', 'html'], input=md.encode('utf-8')).decode('utf-8')
+```
 
 
 
@@ -40,19 +53,6 @@ response_files <- withr::with_dir(response_dir, {
 ```
 
 ```{r}
-read_file(file.path(response_dir, "Q10 - doors-engine-size-repro/1355970 - Adam DenHaan - Attempt1 - 2020-11-02 6_28 pm/Attempt1_textresponse"))
-```
-
-
-```{r}
-# https://stackoverflow.com/a/61647053/69707
-mixedrank = function(x) order(gtools::mixedorder(x))
-responses <- responses %>% 
-  arrange(mixedrank(question))
-```
-
-
-```{r}
 responses <- tibble(filename = response_files) %>% 
   separate(filename, into = c("question", "attempt", "text_filename"), sep = "/", remove = FALSE) %>% 
   separate(attempt, into = c("id", "student", "attempt_num", "time"), sep = "-", extra = "merge") %>% 
@@ -62,7 +62,9 @@ responses <- tibble(filename = response_files) %>%
   arrange(attempt_num) %>% 
   slice_tail(n = 1) %>% 
   mutate(contents = read_file(file.path(response_dir, filename))) %>% 
-  relocate(filename, .after = everything())
+  relocate(filename, .after = everything()) %>% 
+  ungroup() %>% 
+  arrange(mixedrank(question))
 ```
 
 ## Show all results
@@ -91,7 +93,7 @@ responses %>%
   filter(contents == "MISSING")
 ```
 
-```{r results='asis'}
+```{r write-pdfs, results='asis', eval=FALSE}
 dir.create("out")
 responses %>% 
   ungroup() %>% 
@@ -135,16 +137,168 @@ responses %>%
 ## Unfortunately I caught a cheat...
 
 ```{r results='asis', eval=FALSE}
-responses %>% 
-  filter(str_detect(student, "Hyein") | str_detect(student, "Krista")) %>% 
-  select(student, question, contents) %>% 
-  mutate(md = glue::glue("#### {student}\n\n```r\n{contents}\n```\n")) %>% 
-  group_by(question) %>% 
-  summarize(md = paste0("\n### ", question[[1]], "\n\n", paste0(md, collapse = '\n\n'))) %>% 
-  ungroup() %>% 
-  arrange(mixedrank(question)) %>% 
-  summarize(md = paste0(md, collapse='\n')) %>% 
-  pull(md) %>% clipr::write_clip()
+extract_student_groups <- function(students, tgt) {
+  pattern <- paste0(students, collapse = "|")
+  responses %>% 
+    ungroup() %>% 
+    filter(str_detect(student, pattern)) %>% 
+    rowwise() %>% 
+    mutate(student = case_when(
+      str_detect(student, tgt) ~ student,
+      TRUE ~ paste0("0", digest::sha1(paste0("data 202 midterm dishonesty", student, " :(")))
+    )) %>% 
+    ungroup() %>% 
+    select(student, question, contents) %>% 
+    mutate(md = glue::glue("#### {student}\n\n```r\n{contents}\n```\n")) %>% 
+    group_by(question) %>% 
+    arrange(desc(student)) %>% 
+    summarize(md = paste0("\n### ", question[[1]], "\n\n", paste0(md, collapse = '\n\n'))) %>% 
+    ungroup() %>% 
+    arrange(mixedrank(question)) %>% 
+    summarize(md = paste0(md, collapse='\n')) %>% 
+    pull(md)
+}
+
+writeEvidence <- function(students, tgt) {
+  md <- extract_student_groups(students, tgt)
+  filename <- glue::glue("{tgt}.md")
+  html_filename <- glue::glue("{tgt}.html")
+  write_lines(md, filename)
+  sys::exec_wait("pandoc", c("-f", "markdown", "-t", "html", filename, "-o", html_filename))
+  invisible(NULL)
+}
+
+writeEvidence(c("Hyein", "Krista"), "Hyein")
+writeEvidence(c("Hyein", "Krista"), "Krista")
+students <- c("Brea Koenes", "Curtis DeZwaan", "Jacob Gregor", "Lucas Holcombe", "Matt Lobbes", "Ricky Padilla" )
+walk(students, function(s) { writeEvidence(students, s) })
 ```
 
 
+## And maybe another.
+
+```{r, results="asis"}
+responses %>% 
+  filter(str_detect(contents, fixed("$.pred"))) %>% pull(student)# %>% 
+#  summarize(md = paste0("\n### ", student, "\n\n```r\n", contents, "\n```\n", collapse = "\n")) %>% 
+#  chuck("md") %>% 
+  #cat()
+```
+
+## Loading results into Moodle
+
+
+```{r}
+gradescope_dir <- "../fa20/midterm/midterm-gradescope"
+gradescope_files <- withr::with_dir(gradescope_dir, {
+  Sys.glob("*.csv")})
+```
+
+```{r}
+gradescopes <- tibble(filename = gradescope_files) %>% 
+  rowwise() %>% 
+  mutate(contents = list(read_file(file.path(gradescope_dir, filename)))) %>% 
+  ungroup() %>% 
+  separate(filename, into = c("idx", "question"), sep = "_", extra = "merge") %>% 
+  arrange(mixedrank(question))
+```
+
+```{r}
+library(reticulate)
+```
+
+
+```{python}
+def clean_gradescope_file(x):
+  lines = x.split('\n')
+  res = []
+  special_lines = ['Point Values', 'Rubric Numbers', 'Rubric Type']
+  for line in lines:
+    if any(line.startswith(special) for special in special_lines):
+      continue
+    res.append(line)
+  return '\n'.join(res)
+```
+
+
+```{r}
+gradescope_data <- gradescopes %>% 
+  rowwise() %>% 
+  mutate(contents = list(read_csv(py$clean_gradescope_file(contents)))) %>% 
+  ungroup()
+```
+
+```{r}
+gs <- gradescope_data$contents[[4]]
+gs2 <- gs %>% select(-1, -2, -4, -5, -7, -8, -Grader, -Tags) %>% 
+  relocate(Adjustment, Comments, .after = Score) %>% 
+  group_by(Name, Score, Comments) %>% 
+  nest() %>% 
+  rowwise() %>% 
+  mutate(comments = data %>%
+           pivot_longer(everything()) %>% filter(value) %>% chuck("name") %>% paste0(collapse = "\n\n")) %>% 
+  ungroup() %>% 
+  select(-data) %>% 
+  mutate(Comments = str_trim(paste0(comments, "\n\n", replace_na(Comments, "")))) %>% 
+  mutate(Comments = if_else(Comments == "", "Good.", Comments)) %>% 
+  select(-comments)
+gs2
+```
+
+
+```{r}
+moodle_names <- tribble(
+  ~roster_name, ~moodle_name,
+  "Tom Takeuchi", "Tomoki Takeuchi",
+  "Joe Pastucha", "Joseph Pastucha",
+  "Cora Jung", "Boyoung Jung",
+  "Jenn Lau", "Jenn Feng Lau",
+  "Won-Seok Park", "Won Seok Park",
+  "Haoping He", "Yue He",
+  "Steve DenHaan", "Adam DenHaan",
+  "Ricky Padilla", "Richard Padilla",
+  "Wendy Wang", "Chen Wang",
+  "Ben Steves", "Benjamin Steves"
+)
+
+gs2 %>%
+  left_join(moodle_names, by = c("Name" = "roster_name")) %>% 
+  mutate(Name = if_else(is.na(moodle_name), Name, moodle_name)) %>% 
+  rowwise() %>% 
+  mutate(Comments = py$md_to_html(Comments)) %>% 
+  ungroup() %>% 
+  jsonlite::toJSON(dataframe = "rows") %>% 
+  clipr::write_clip()
+```
+
+
+```javascript
+allComments = JSON.parse(prompt("comments?"));
+
+function getGrade(name) {
+  for (let row of allComments) {
+    if (name == row['Name']) {
+      return row;
+    }
+  }
+  console.warn(name)
+  return {"Score": "", "Comments": ""};
+}
+
+$('input[name$="-mark"]').each(function(idx) {
+  let elt = $(this);
+  let container = elt.parents('.que');
+  let parent = container.prevAll('h4').first().text();
+	let name = /Attempt number \d+ for (.+)$/.exec(parent)[1];
+  let grade = getGrade(name);
+  elt.val(grade['Score']);
+  let editor = container.find('.editor_atto_content');
+  if (editor.length != 1) {
+    console.warn("Failed to find editor " + name);
+  }
+  editor.html(grade['Comments'])
+})
+
+setTimeout(function() { $('.icon.fa-code').click(); }, 1*1000);
+setTimeout(function() { $('.icon.fa-code').click(); }, 10*1000);
+```
