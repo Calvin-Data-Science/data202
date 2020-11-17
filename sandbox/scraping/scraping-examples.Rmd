@@ -1,0 +1,97 @@
+---
+title: "Scraping Examples"
+author: "K Arnold"
+date: "11/16/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(conflicted)
+library(tidyverse)
+library(rvest)
+```
+
+## Solar Flare Data
+
+```{r}
+if (!file.exists("flare.data2")) {
+  download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/solar-flare/flare.data2", "flare.data2")
+}
+```
+
+```{r}
+read_delim("flare.data2", delim = " ", skip = 1)#, col_names = FALSE)
+```
+
+## Wunderground
+
+<https://www.wunderground.com/history/monthly/KGRR/date/2020-11>
+
+```{r}
+library(rvest)
+```
+
+```{r}
+html <- read_html('https://www.wunderground.com/history/monthly/KGRR/date/2020-11')
+```
+
+```{r}
+html %>% html_nodes("lib-city-history-observation table")
+```
+
+```{r}
+library(jsonlite)
+weather_hist <- jsonlite::read_json("wunderground-hist.json", simplifyVector = TRUE)
+observations <- weather_hist$observations
+```
+
+```{r}
+glimpse(observations)
+```
+
+## NOAA weather data
+
+You can request Local Climatological Data from <https://www.ncdc.noaa.gov/data-access/land-based-station-data/land-based-datasets>.
+
+With a bit more sleuthing to discover the station ID, you can download the
+historical data directly from, e.g., <https://www.ncei.noaa.gov/data/global-hourly/access/2020/72635094860.csv>
+(Grand Rapids).
+
+The CSVs have some weird formatting, beware.
+
+## BigQuery
+
+[Reddit comments](https://www.reddit.com/r/bigquery/comments/3cej2b/17_billion_reddit_comments_loaded_on_bigquery/)
+
+The example COVID query we ran:
+
+```
+WITH
+  country_pop AS (
+  SELECT
+    country_code AS iso_3166_1_alpha_3,
+    year_2018 AS population_2018
+  FROM
+    `bigquery-public-data.world_bank_global_population.population_by_country`)
+SELECT
+  country_code,
+  country_name,
+  cumulative_confirmed AS confirmed_cases,
+  population_2018,
+  ROUND(cumulative_confirmed/population_2018 * 100,2) AS case_percent
+FROM
+  `bigquery-public-data.covid19_open_data.covid19_open_data`
+JOIN
+  country_pop
+USING
+  (iso_3166_1_alpha_3)
+WHERE
+  date = '2020-11-13'
+  AND aggregation_level = 0
+  AND population_2018 > 100000000
+ORDER BY
+  case_percent DESC
+```
+
+(which was based on one of the examples on Google's [COVID-19 Public Datasets](https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-public-data-program) page)
