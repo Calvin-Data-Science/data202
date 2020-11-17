@@ -1,4 +1,8 @@
+library(conflicted)
+
 library(tidyverse)
+conflicted::conflict_prefer("filter", "dplyr")
+
 library(knitr)
 library(glue)
 
