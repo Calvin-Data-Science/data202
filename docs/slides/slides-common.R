@@ -36,7 +36,11 @@ slideSetup <- function(mark_languages = FALSE) {
     	  "z-index" = 100,
         "background" = "rgba(255,255,255,.75)",
         "font-size" = "1rem"
-      )
+      ),
+      # Improve table sizing (otherwise it's huge)
+      ".remark-slide table" = list("font-size" = "0.8rem"),
+      ".pagedtable-wrapper" = list("font-size" = "0.8rem"),
+      ".pagedtable-header-type" = list("font-size" = "0.5rem")
   ))
 
   # Below here from dsbox

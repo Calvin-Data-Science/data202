@@ -1,0 +1,129 @@
+---
+title: "Making Inferences about Features"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    df_print: paged
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+knitr::opts_chunk$set(echo = TRUE)
+library(tidymodels)
+library(vip)
+```
+
+## What's your goal?
+
+* **Predict** unseen labels
+  * How much will this house sell for?
+  * Does this child have autism?
+  * Is this a positive or negative movie review?
+* **Infer** relationships between features and labels
+  * How much does home size affect price?
+  * Is DNA methylation a marker of autism?
+  * Does "sick" indicate a positive or negative review?
+* Understand the **causal** effect of interventions
+  * How much will building an addition increase the price of my home?
+  * Will antioxidants prevent autism?
+  * Will cutting this scene make my movie get better reviews?
+
+---
+
+## Techniques for Inference
+
+* Classical statistical tests (2-sample t tests, chi squared tests, ANOVA, ...)
+* Variable importance plots
+* Benefit of adding each feature
+
+---
+
+## First, a caution
+
+(Palmer Penguins example of Simpson's Paradox)
+
+---
+
+## Variable Importance Plots
+
+```{r load-data, echo=FALSE}
+#data(ames, package = "modeldata")
+ames <- AmesHousing::make_ames()
+ames_all <- ames %>%
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>%
+  mutate(across(where(is.integer), as.double)) %>%
+  mutate(Sale_Price = Sale_Price / 1000)
+rm(ames)
+```
+
+```{r train-test-split, echo=FALSE}
+set.seed(10) # Seed the random number generator
+ames_split <- initial_split(ames_all, prop = 2 / 3)
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+```{r}
+regresion_workflow <- workflow() %>%  add_model(decision_tree(mode = "regression") %>% set_engine('rpart')) 
+```
+
+
+```{r}
+model <- regresion_workflow %>% 
+  add_recipe(recipe(Sale_Price ~ ., data = ames_train)) %>% 
+  fit(data = ames_train)
+```
+
+```{r tree-vip}
+model %>% 
+  pull_workflow_fit() %>% 
+  vip::vip(num_features = 20L)
+```
+
+---
+
+## How much does it help to have a feature in?
+
+```{r make-resamples}
+set.seed(20201118)
+resamples <- vfold_cv(ames_train, v = 10)
+```
+
+```{r tree-all-features}
+regresion_workflow %>% 
+  add_recipe(recipe(Sale_Price ~ ., data = ames_train)) %>% 
+  fit_resamples(resamples = resamples, metrics = metric_set(mae, rmse)) %>% collect_metrics()
+```
+
+
+
+```{r tree-without-qual}
+regresion_workflow %>% 
+  add_recipe(recipe(Sale_Price ~ ., data = ames_train) %>% step_rm(ends_with("Qual"))) %>% 
+  fit_resamples(resamples = resamples, metrics = metric_set(mae, rmse)) %>% collect_metrics()
+```
+
+
+---
+
+## Appendix: code
+
+.small-code[
+```{r get-labels, echo=FALSE}
+labels_of_non_echoed_code <- setdiff(
+  knitr::all_labels(echo == FALSE),
+  c("setup", "get-labels")
+)
+```
+
+```{r all-code, ref.label=labels_of_non_echoed_code, eval=FALSE}
+```
+]
