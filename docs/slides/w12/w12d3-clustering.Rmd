@@ -17,7 +17,17 @@ source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
 theme_set(theme_bw())
+# devtools::install_github("gadenbuie/xaringanExtra")
+#xaringanExtra::use_tachyons()
+#xaringanExtra::use_clipboard()
 ```
+
+<style>
+.two-column {
+  columns: 2;
+}
+</style>
+
 
 ## Q&A
 
@@ -42,9 +52,10 @@ theme_set(theme_bw())
 
 ## Clustering
 
-* Goal: put observations into groups
-* Obs in the *same* group should be *similar to each other*
-* Obs in *different* groups should be *different*.
+Goal: put observations into groups
+
+* Those in the *same* group should be *similar to each other*
+* Those in *different* groups should be *different*.
 
 Crucial questions:
 
@@ -97,12 +108,10 @@ Crucial questions:
 
 ---
 
-
-```{r}
+```{r load-libs, echo=FALSE}
 library(tidymodels)
+library(patchwork)
 ```
-
-
 
 ```{r load-data, echo=FALSE}
 #data(ames, package = "modeldata")
@@ -114,22 +123,10 @@ ames_all <- ames %>%
 rm(ames)
 ```
 
-1. What differences do you notice between the plot on the left and the plot on the right?
-1. Try increasing the number of `centers`. What changes about both plots?
-2. Try changing the formulat to `~ Year_Built` (removing latitude and longitude). What can you say about the age of homes in different parts of town?
-2. Try adding `Gr_Liv_Area` to the recipe's formula (`Latitude + Longitude + Gr_Liv_Area`). What changes about both plots?
-  Why are they different?
-2. Try adding `step_range(Gr_Liv_Area, min = 0, max = 1)` to the recipe construction pipeline. What changes about both plots? Why?
-2. Try adding a `step_range` for `Latitude` (but not `Longitude`). What changes and why?
-2. Now add a `step_range` for `Longitude`. What changes and why?
-2. Try changing `max` to `10` for `Gr_Liv_Area`. Then try `max = 0.1`. What changes and why?
-2. Try adding `Year_Built`.
-
-```{r}
+```{r make-clusters}
+set.seed(20201120)
 clustering_results <- 
-  recipe( ~ Latitude + Longitude + Gr_Liv_Area, data = ames_all) %>% 
-  step_range(Latitude, Longitude, min = 0, max = 1) %>% 
-  step_range(Gr_Liv_Area, min = 0, max = 1) %>% 
+  recipe( ~ Latitude + Longitude, data = ames_all) %>% 
   prep() %>% 
   bake(new_data = ames_all) %>% 
   kmeans(nstart = 4, centers = 3)
@@ -139,34 +136,48 @@ ames_with_clusters <- ames_all %>%
 ```
 
 
-```{r}
+```{r glance-clustering-results}
 glance(clustering_results)
 tidy(clustering_results)
 ```
+---
 
-
-
-```{r cluster-plots}
+.small-code[
+```{r cluster-plots, fig.asp=0.4}
 latlong_plot <- 
-  ames_with_clusters %>% 
-  ggplot(aes(x = Latitude, y = Longitude, color = .cluster, shape = .cluster)) +
-  geom_point(alpha = .5) +
-  theme(legend.position = "none")
+  ggplot(ames_with_clusters, aes(x = Latitude, y = Longitude, color = .cluster, shape = .cluster)) +
+    geom_point(alpha = .5)
 
 year_area_plot <- 
-  ames_with_clusters %>% 
-  ggplot(aes(x = Gr_Liv_Area,
-             #y = factor(Bedroom_AbvGr),
-             y = Year_Built,
-             color = .cluster, shape = .cluster)) +
-    geom_jitter(width = 0, alpha = .5)
+  ggplot(ames_with_clusters, aes(x = Gr_Liv_Area, y = Year_Built, color = .cluster, shape = .cluster)) +
+    geom_point(alpha = .5)
 
-cowplot::plot_grid(latlong_plot, year_area_plot, nrow = 1)
+latlong_plot + year_area_plot + plot_layout(guides='collect')
 ```
+]
+
+---
+
+## Activities
+
+.two-column[
+1. What differences do you notice between the plot on the left and the plot on the right?
+1. Try increasing the number of `centers`. What changes about both plots?
+2. Try changing the formula to `~ Year_Built` (removing latitude and longitude). What can you say about the age of homes in different parts of town?
+2. Try adding `Gr_Liv_Area` to the recipe's formula (`Latitude + Longitude + Gr_Liv_Area`). What changes about both plots?
+  Why are they different?
+2. Try adding `step_range(Gr_Liv_Area, min = 0, max = 1)` to the recipe construction pipeline. What changes about both plots? Why?
+2. Try adding a `step_range` for `Latitude` (but not `Longitude`). What changes and why?
+2. Now add a `step_range` for `Longitude`. What changes and why?
+2. Try changing `max` to `10` for `Gr_Liv_Area`. Then try `max = 0.1`. What changes and why?
+2. Try adding `Year_Built`.
+]
+
+---
 
 Do the patterns captured by these clusters also happen to relate to sale price?
 
-```{r}
+```{r sale-price-by-cluster, fig.asp=0.4}
 ames_with_clusters %>% 
   ggplot(aes(x = Sale_Price, y = .cluster)) + geom_boxplot()
 ```
