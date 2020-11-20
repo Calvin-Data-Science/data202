@@ -31,9 +31,40 @@ theme_set(theme_bw())
 
 ## Q&A
 
-* No quiz, no homework this week
-* Project feedback is coming...
+* Midterm average was 85%.
 
+> Can we use inference in projects?
+
+* Many people asked "which variables are important for predicting?" -- Wednesday
+  approach works for that.
+* Others want to know specific relationships. See the plot strategy in Lab 10,
+  and the `infer` package vignette from prep reading.
+
+> How much difference in MAE (or RMSE, specificity, etc.) is meaningful?
+
+* Look at the confidence intervals.
+* Depends on your problem!
+
+---
+
+## Project Logistics
+
+* No final exam, just project.
+* Next milestone: by Thanksgiving, have some initial EDA
+* Proposal feedback is in-progress
+
+---
+
+## Other logistics
+
+* No quiz, no homework this week; just work on projects
+* Midterm project feedback is coming...
+
+> Which other packages do you use? (besides `tidyverse`)
+
+* `glue`: for constructing strings `"{nrows(data)} rows"`
+* [`patchwork`](https://patchwork.data-imaginist.com/index.html) for arranging plots
+* `knitr` for `include_graphics` (or just `![](image-url)`)
 
 ---
 
@@ -94,6 +125,8 @@ Crucial questions:
 
 ---
 ![](img/kmeans_10.jpg)
+---
+
 ![](img/kmeans_11.jpg)
 
 ---
@@ -126,7 +159,9 @@ rm(ames)
 ```{r make-clusters}
 set.seed(20201120)
 clustering_results <- 
-  recipe( ~ Latitude + Longitude, data = ames_all) %>% 
+  recipe( ~ Latitude + Longitude + Gr_Liv_Area, data = ames_all) %>% 
+  step_range(Gr_Liv_Area, min = 0, max = 1) %>% 
+  step_range(Latitude, min = 0, max = 1) %>% 
   prep() %>% 
   bake(new_data = ames_all) %>% 
   kmeans(nstart = 4, centers = 3)
@@ -145,11 +180,11 @@ tidy(clustering_results)
 .small-code[
 ```{r cluster-plots, fig.asp=0.4}
 latlong_plot <- 
-  ggplot(ames_with_clusters, aes(x = Latitude, y = Longitude, color = .cluster, shape = .cluster)) +
+  ggplot(ames_with_clusters, aes(x = Latitude, y = Longitude, color = .cluster)) +
     geom_point(alpha = .5)
 
 year_area_plot <- 
-  ggplot(ames_with_clusters, aes(x = Gr_Liv_Area, y = Year_Built, color = .cluster, shape = .cluster)) +
+  ggplot(ames_with_clusters, aes(x = Gr_Liv_Area, y = Year_Built, color = .cluster)) +
     geom_point(alpha = .5)
 
 latlong_plot + year_area_plot + plot_layout(guides='collect')
@@ -160,7 +195,7 @@ latlong_plot + year_area_plot + plot_layout(guides='collect')
 
 ## Activities
 
-.two-column[
+.comfortable[.two-column[
 1. What differences do you notice between the plot on the left and the plot on the right?
 1. Try increasing the number of `centers`. What changes about both plots?
 2. Try changing the formula to `~ Year_Built` (removing latitude and longitude). What can you say about the age of homes in different parts of town?
@@ -171,7 +206,7 @@ latlong_plot + year_area_plot + plot_layout(guides='collect')
 2. Now add a `step_range` for `Longitude`. What changes and why?
 2. Try changing `max` to `10` for `Gr_Liv_Area`. Then try `max = 0.1`. What changes and why?
 2. Try adding `Year_Built`.
-]
+]]
 
 ---
 
@@ -181,3 +216,18 @@ Do the patterns captured by these clusters also happen to relate to sale price?
 ames_with_clusters %>% 
   ggplot(aes(x = Sale_Price, y = .cluster)) + geom_boxplot()
 ```
+
+---
+
+```{r appendix, echo=FALSE, results='asis'}
+labels_of_non_echoed_code <- setdiff(
+  knitr::all_labels(echo == FALSE),
+  c("setup", "appendix")
+)
+
+cat("## Appendix\n\n")
+walk(labels_of_non_echoed_code, function(label) {
+  cat(paste0("\n\n```r\n", paste0(knit_code$get(label), collapse="\n"), "\n```\n"))
+})
+```
+

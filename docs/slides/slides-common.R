@@ -2,7 +2,6 @@ library(conflicted)
 conflicted::conflict_prefer("filter", "dplyr")
 
 library(tidyverse)
-
 library(knitr)
 library(glue)
 
@@ -24,6 +23,7 @@ slideSetup <- function(mark_languages = FALSE) {
   style_extra_css(list(
       ".tiny" = list("font-size" = "0.4rem"),
       ".small" = list("font-size" = "0.7rem"),
+      ".comfortable" = list("font-size" = "1.0rem"),
       ".large" = list("font-size" = "1.2rem"),
       ".white-pre" = list("white-space" = "pre"),
       "p" = list("padding" = 0, "margin" = 0),
