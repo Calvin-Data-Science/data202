@@ -83,10 +83,6 @@ summarizeFuncCalls <- function(text) {
 ```
 
 ```{r}
-#responses %>% arrange(student) %>% ungroup() %>%  distinct(student) %>% clipr::write_clip()
-```
-
-```{r}
 responses %>% 
   ungroup() %>% 
   complete(student, question, fill = list(contents="MISSING")) %>% 
@@ -115,9 +111,33 @@ responses %>%
 ```
 
 
+```{r}
+call_summary <- responses %>% 
+  mutate(func_calls = map_chr(contents, possibly(summarizeFuncCalls, "PARSE_ERROR", quiet = TRUE)))
+```
+
+```{r}
+call_summary %>% group_by(question, func_calls) %>% 
+  summarize(n = n(), students = paste0(student, collapse = ', '), .groups = "drop") %>% 
+  filter(n > 1, func_calls != "PARSE_ERROR", n < 10) %>% 
+  arrange(mixedrank(question), desc(n)) %>% 
+  write_csv("../fa20/midterm/response_summary_2.csv")
+```
+
+
+
+```{r}
+call_summary %>% 
+  select(student, question, func_calls) %>% 
+  arrange(mixedrank(question)) %>% 
+  pivot_wider(student, names_from = question, values_from = func_calls) %>% 
+  write_csv("../fa20/midterm/response_summary.csv")
+
+```
+
+
 ```{r results='asis'}
 responses %>% 
-  ungroup() %>% 
   mutate(func_calls = map_chr(contents, possibly(summarizeFuncCalls, "PARSE_ERROR", quiet = TRUE))) %>% 
   select(student, question, func_calls, contents) %>% 
   mutate(md = glue::glue("#### {student}\n\n{func_calls}\n```r\n{contents}\n```\n")) %>% 
@@ -229,9 +249,9 @@ gradescope_data <- gradescopes %>%
 ```
 
 ```{r}
-gs <- gradescope_data$contents[[4]]
-gs2 <- gs %>% select(-1, -2, -4, -5, -7, -8, -Grader, -Tags) %>% 
-  relocate(Adjustment, Comments, .after = Score) %>% 
+gs <- gradescope_data$contents[[2]]
+gs2 <- gs %>% select(-1, -2, -4, -5, -7, -8, -Grader, -Tags, -Adjustment) %>% 
+  #relocate(Adjustment, Comments, .after = Score) %>% 
   group_by(Name, Score, Comments) %>% 
   nest() %>% 
   rowwise() %>% 
