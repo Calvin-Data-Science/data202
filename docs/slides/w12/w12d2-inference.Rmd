@@ -17,9 +17,42 @@ output:
 source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
+theme_set(theme_minimal())
 library(tidymodels)
 library(vip)
 ```
+
+## Q&A
+
+> Logistics impact of moving online?
+
+* We'll continue normal class meetings. **Your job** is to ask questions, interrupting if necessary.
+
+> Projects?
+
+* Our [final exam slot](https://calvin.edu/offices-services/center-for-student-success/registration/exam-schedule/)
+is Friday Dec. 11 at 1:30 pm.
+* Final project presentations will be virtual, details TBA
+
+---
+
+## Q&A
+
+> Is web scraping legal??
+
+* Publicly available data? [Yes.](https://realpython.com/podcasts/rpp/12/) (see [EFF article](https://www.eff.org/deeplinks/2019/09/victory-ruling-hiq-v-linkedin-protects-scraping-public-data))
+* If you need a login? Maybe. Ask for permission.
+
+> How hard is it to scrape Twitter?
+
+Constraints about what you can access without paying. But [tools available](https://guides.lib.utexas.edu/c.php?g=743999&p=5326728)
+
+> What's a good Python dev environment?
+
+I use: RStudio when integrating with R, VS Code for command-line or web dev, Jupyter Notebooks
+for pure-Python data science.
+
+---
 
 ## What's your goal?
 
@@ -40,15 +73,76 @@ library(vip)
 
 ## Techniques for Inference
 
-* Classical statistical tests (2-sample t tests, chi squared tests, ANOVA, ...)
+* Classical statistical inference
+  * 2-sample t tests, chi squared tests, ANOVA, ...
+  * inference about model parameters (coefficient standard errors etc.)
 * Variable importance plots
 * Benefit of adding each feature
 
 ---
 
-## First, a caution
+## Objectives for Today
 
-(Palmer Penguins example of Simpson's Paradox)
+* Identify several different approaches for drawing conclusions about features
+* Recognize potential challenges in making those inferences
+
+---
+
+## Palmer Penguins
+
+.pull-left[
+```{r penguins-logo, echo=FALSE, out.width="50%"}
+include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/logo.png")
+```
+
+```{r message=FALSE}
+library(palmerpenguins)
+```
+]
+
+.pull-right[
+```{r penguins-bill-depth, echo=FALSE}
+include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/culmen_depth.png")
+```
+]
+
+.floating-source[
+[Artwork by @allison_horst](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
+]
+---
+
+## How does bill length relate to bill depth?
+
+.small-code[
+```{r penguins-simpsons, warning=FALSE, echo=FALSE}
+ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Penguin bill dimensions", subtitle = "Palmer Station LTER", x = "Bill length (mm)", y = "Bill depth (mm)")
+```
+]
+
+---
+
+## How does bill length relate to bill depth?
+
+.small-code[
+```{r penguins-with-species, warning=FALSE, echo=FALSE}
+ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species, shape = species)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(title = "Penguin bill dimensions",
+       subtitle = "Bill length and depth for Adelie, Chinstrap and Gentoo Penguins at Palmer Station LTER",
+       x = "Bill length (mm)",
+       y = "Bill depth (mm)",
+       color = "Penguin species",
+       shape = "Penguin species") +
+  theme(legend.position = c(0.85, 0.15),
+        legend.background = element_rect(fill = "white", color = NA))
+```
+]
+
 
 ---
 
@@ -71,33 +165,28 @@ ames_train <- training(ames_split)
 ames_test <- testing(ames_split)
 ```
 
-```{r}
+.small-code[
+```{r tree-vip, fig.asp=0.4}
 regresion_workflow <- workflow() %>%  add_model(decision_tree(mode = "regression") %>% set_engine('rpart')) 
-```
 
-
-```{r}
 model <- regresion_workflow %>% 
   add_recipe(recipe(Sale_Price ~ ., data = ames_train)) %>% 
   fit(data = ames_train)
-```
 
-```{r tree-vip}
-model %>% 
-  pull_workflow_fit() %>% 
-  vip::vip(num_features = 20L)
+model %>% pull_workflow_fit() %>% vip::vip(num_features = 15L)
 ```
+]
 
 ---
 
 ## How much does it help to have a feature in?
 
-```{r make-resamples}
+```{r make-resamples, cache=TRUE}
 set.seed(20201118)
 resamples <- vfold_cv(ames_train, v = 10)
 ```
 
-```{r tree-all-features}
+```{r tree-all-features, cache=TRUE}
 regresion_workflow %>% 
   add_recipe(recipe(Sale_Price ~ ., data = ames_train)) %>% 
   fit_resamples(resamples = resamples, metrics = metric_set(mae, rmse)) %>% collect_metrics()
@@ -105,10 +194,21 @@ regresion_workflow %>%
 
 
 
-```{r tree-without-qual}
+```{r tree-without-qual, cache=TRUE}
 regresion_workflow %>% 
-  add_recipe(recipe(Sale_Price ~ ., data = ames_train) %>% step_rm(ends_with("Qual"))) %>% 
+  add_recipe(recipe(Sale_Price ~ ., data = ames_train) %>% step_rm(ends_with("Qual"))) %>% #<<
   fit_resamples(resamples = resamples, metrics = metric_set(mae, rmse)) %>% collect_metrics()
+```
+
+---
+
+## Variable Importance without the Quality Features
+
+```{r tree-vip-without-qual, fig.asp = 0.4}
+regresion_workflow %>% 
+  add_recipe(recipe(Sale_Price ~ ., data = ames_train) %>% step_rm(ends_with("Qual"))) %>% #<<
+  fit(data = ames_train) %>%
+  pull_workflow_fit() %>% vip::vip(num_features = 15L)
 ```
 
 
