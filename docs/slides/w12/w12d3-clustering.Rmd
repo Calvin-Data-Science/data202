@@ -94,6 +94,7 @@ Crucial questions:
 
 ![](https://scikit-learn.org/stable/_images/sphx_glr_plot_cluster_comparison_0011.png)
 .floating-source[Source: [sklearn documentation](https://scikit-learn.org/stable/modules/clustering.html)]
+
 ---
 
 
@@ -113,42 +114,6 @@ ames_all <- ames %>%
 rm(ames)
 ```
 
-```{r utilities, echo=FALSE}
-kmeans_workflow <- function(data, recipe, nstart = 4, ...) {
-  res <- recipe %>% 
-    bake(new_data = data) %>% 
-    kmeans(..., nstart = nstart)
-  res$recipe <- recipe
-  res$data <- data
-  class(res) <- c("kmeans_workflow", "kmeans")
-  res
-}
-
-tidy.kmeans_workflow <- function (x, col.names = colnames(x$centers)) {
-  if (is.null(col.names)) {
-    col.names <- paste0("x", 1:ncol(x$centers))
-  }
-  ret <- as.data.frame(x$centers)
-  colnames(ret) <- col.names
-  ret$.size <- x$size
-  ret$.within_ss <- x$withinss
-  ret$.cluster <- factor(seq_len(nrow(ret)))
-  as_tibble(ret)
-}
-
-augment.kmeans_workflow <- function(kclust, data) {
-  stopifnot(identical(data, kclust$data))
-  data %>% 
-    mutate(.cluster = as.factor(!!kclust$cluster))
-}
-
-get_centers <- function(kclust) { 
-  kclust$centers %>%
-    as_tibble() %>%
-    mutate(.cluster = factor(row_number()))
-}
-```
-
 1. What differences do you notice between the plot on the left and the plot on the right?
 1. Try increasing the number of `centers`. What changes about both plots?
 2. Try changing the formulat to `~ Year_Built` (removing latitude and longitude). What can you say about the age of homes in different parts of town?
@@ -161,36 +126,35 @@ get_centers <- function(kclust) {
 2. Try adding `Year_Built`.
 
 ```{r}
-ames_numeric_recipe <- 
+clustering_results <- 
   recipe( ~ Latitude + Longitude + Gr_Liv_Area, data = ames_all) %>% 
   step_range(Latitude, Longitude, min = 0, max = 1) %>% 
   step_range(Gr_Liv_Area, min = 0, max = 1) %>% 
-  prep()
+  prep() %>% 
+  bake(new_data = ames_all) %>% 
+  kmeans(nstart = 4, centers = 3)
 
-kclust <- 
-  ames_all %>% 
-  kmeans_workflow(recipe = ames_numeric_recipe, centers = 3)
+ames_with_clusters <- ames_all %>% 
+  mutate(.cluster = as.factor(clustering_results$cluster))
 ```
 
 
 ```{r}
-glance(kclust)
-tidy(kclust)
+glance(clustering_results)
+tidy(clustering_results)
 ```
 
 
 
-```{r}
+```{r cluster-plots}
 latlong_plot <- 
-  kclust %>%
-  augment(ames_all) %>% 
+  ames_with_clusters %>% 
   ggplot(aes(x = Latitude, y = Longitude, color = .cluster, shape = .cluster)) +
   geom_point(alpha = .5) +
   theme(legend.position = "none")
 
 year_area_plot <- 
-  kclust %>% 
-  augment(ames_all) %>% 
+  ames_with_clusters %>% 
   ggplot(aes(x = Gr_Liv_Area,
              #y = factor(Bedroom_AbvGr),
              y = Year_Built,
@@ -203,7 +167,6 @@ cowplot::plot_grid(latlong_plot, year_area_plot, nrow = 1)
 Do the patterns captured by these clusters also happen to relate to sale price?
 
 ```{r}
-kclust %>%
-  augment(ames_all) %>% 
+ames_with_clusters %>% 
   ggplot(aes(x = Sale_Price, y = .cluster)) + geom_boxplot()
 ```
