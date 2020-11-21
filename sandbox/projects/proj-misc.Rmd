@@ -1,0 +1,42 @@
+---
+title: "Project Misc"
+author: "K Arnold"
+date: "11/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggformula)
+```
+
+## Spotify
+
+```{r}
+#devtools::install_github("thebioengineer/tidytuesdayR")
+library(tidytuesdayR)
+```
+
+```{r}
+tuesdata <- tidytuesdayR::tt_load(2020, week = 4)
+```
+
+```{r}
+spotify_songs <- tuesdata$spotify_songs
+```
+
+```{r}
+dup_counts <- spotify_songs %>% count(track_name, track_artist) %>% pull(n)
+spotify_songs$track_id %>% n_distinct()
+```
+
+```{r}
+gf_histogram(~ dup_counts)
+```
+
+
+```{r}
+spotify_songs %>% group_by(track_name, track_artist) %>% filter(n() > 5) %>% mutate(n = n())
+```
+

@@ -1,0 +1,23 @@
+---
+title: "Treeheat"
+author: "K Arnold"
+date: "11/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(treeheatr)
+library(pmlbr)
+```
+
+Using [treeheatr](https://trang1618.github.io/treeheatr/)
+
+See <https://colab.research.google.com/drive/1G-cPvQ_5T0p-wpoAjroyz6cLF8xsLhPz?usp=sharing#scrollTo=4Kk51Y5gDluJ>
+
+```{r}
+fetch_data('penguins') %>%
+  heat_tree('target')
+```
+
