@@ -5,11 +5,17 @@ library(tidyverse)
 library(knitr)
 library(glue)
 
+calvin_maroon <- "#8C2131"
+calvin_gold <- "#F3CD00"
+calvin_brightred <- "#C2002F"
+calvin_renewblue <- "#71B1C8"
+calvin_truegreen <- "#A2D683"
+
 slideSetup <- function(mark_languages = FALSE) {
+  muted <- scales::muted
   library(xaringanthemer)
   style_mono_accent(
-  #  base_color = "#1c5253",
-    base_color = "#8C2131",
+    base_color = calvin_maroon,
     #header_font_google = google_font("Josefin Sans"),
     #text_font_google   = google_font("Montserrat", "300", "300i"),
     #text_font_google =   google_font("Domine"),
@@ -40,7 +46,17 @@ slideSetup <- function(mark_languages = FALSE) {
       # Improve table sizing (otherwise it's huge)
       ".remark-slide table" = list("font-size" = "0.8rem"),
       ".pagedtable-wrapper" = list("font-size" = "0.8rem"),
-      ".pagedtable-header-type" = list("font-size" = "0.5rem")
+      ".pagedtable-header-type" = list("font-size" = "0.5rem"),
+
+      # Blocks
+      ".question" = list(
+        "border-left" = glue("5px solid {muted(calvin_renewblue)}"),
+        "padding" = "5px",
+        "background-color" = calvin_gold
+      ),
+      ".question p" = list(
+        "margin" = "5px"
+      )
   ))
 
   # Below here from dsbox
