@@ -275,7 +275,18 @@ knitr::include_graphics("img/guardian-facial-recognition.png")
 
 ---
 
-## Criminal Sentencing
+## Criminal Justice
+
+![](img/prop25-nbc.png)
+
+.floating-source[[NBC News, 2020-10-17](https://www.nbcnews.com/news/us-news/california-may-replace-cash-bail-algorithms-some-worry-will-be-n1243750)]
+
+???
+
+[CNN article](https://www.cnn.com/2020/10/31/tech/prop-25-cash-bail-algorithm-california/index.html): ![](img/prop25-cnn.png)
+
+
+---
 
 ```{r out.width="60%", echo=FALSE}
 knitr::include_graphics("img/propublica-criminal-sentencing.png")
