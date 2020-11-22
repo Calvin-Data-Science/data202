@@ -1,10 +1,8 @@
 ---
 title: "YOUR PROJECT TITLE HERE"
 author: "YOUR NAME"
-date: "2020-12-11"
-output:
-  html_notebook: default
-  github_document: default
+date: '2020-12-11'
+output: github_document
 ---
 
 ```{r setup, include=FALSE}

@@ -135,8 +135,8 @@ createAssignmentTemplate <- function(assignmentTemplatePath, use_template_repo =
 ```{r, eval=FALSE}
 # createAssignmentTemplate("hw/hw04-other-tools")
 # createAssignmentTemplate("lab/lab05-ugly-charts")
-# createAssignmentTemplate("proj/datavis")
-createAssignmentTemplate("lab/lab11-classification")
+createAssignmentTemplate("proj/proj")
+#createAssignmentTemplate("lab/lab12-clustering")
 ```
 
 (This is a WIP Python replacement for the shell script)
@@ -156,7 +156,6 @@ for f in file_list:
 
 
 ## Push repo to students
-
 
 ```{r solo-assignment}
 my_create_assignment <- function(usernames, assignmentName) {
@@ -458,3 +457,49 @@ createFeedbackPRs <- function(assignment) {
     })
 }
 ```
+
+## Final Projects
+
+### Make teams
+
+
+```{r}
+final_proj_teams_raw <- read_csv("../fa20/final-projects.csv", col_types = cols_only(
+  `Student Name` = col_character(),
+  `Team Name` = col_character()
+)) %>% janitor::clean_names()
+```
+
+```{r}
+final_proj_teams <- final_proj_teams_raw %>%
+  mutate(team_name = str_trim(team_name)) %>% 
+  filter(team_name != "(No Submission)") %>% 
+  left_join(roster %>% select(student_name, github, last_name), by = "student_name") %>%
+  mutate(team_name = case_when(
+    team_name == "N/A" ~ last_name,
+    str_detect(team_name, "TBD") ~ last_name,
+    str_detect(team_name, r"((\w+) / (\w+))") ~ team_name,
+    team_name == "(Open to have a Partner)" ~ last_name
+)) %>% mutate(
+  team_name = team_name %>% 
+    str_replace_all("/", "-") %>% 
+    str_replace_all("[^-A-Za-z0-9]", "")
+)
+final_proj_teams
+```
+
+```{r}
+roster %>% count(last_name) %>% filter(n > 1)
+```
+
+
+```{r eval=FALSE}
+org_create_assignment(
+  org = ghorg,
+  user = final_proj_teams$github,
+  repo = paste0("proj", "-", final_proj_teams$team_name),
+  team = final_proj_teams$team_name,
+  source_repo = paste0(ghorg, "/", "proj", "-template")
+)
+```
+
