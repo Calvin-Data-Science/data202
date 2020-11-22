@@ -52,11 +52,22 @@ slideSetup <- function(mark_languages = FALSE) {
       ".question" = list(
         "border-left" = glue("5px solid {muted(calvin_renewblue)}"),
         "padding" = "5px",
+        "margin" = "10px",
         "background-color" = calvin_gold
       ),
       ".question p" = list(
         "margin" = "5px"
+      ),
+      ".scripture" = list(
+        "max-width" = "70%",
+        "margin" = "10px auto"
+      ),
+      ".scripture .ref" = list(
+        "display" = "block",
+        "margin-top" = "1rem",
+        "text-align" = "right"
       )
+
   ))
 
   # Below here from dsbox

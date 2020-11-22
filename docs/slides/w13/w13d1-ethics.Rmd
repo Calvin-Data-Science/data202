@@ -10,12 +10,20 @@ output:
       ratio: "16:9"
       highlightLines: true
       countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 ```{r setup, include=FALSE, message=FALSE}
 source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
+
+cat(r"(
+remark.macros.scale = function(w) {
+  var url = this;
+  return '<img src="' + url + '" style="width: ' + w + '" />';
+};
+)", file = "macros.js", append = FALSE, sep = "\n")
 ```
 
 ## Rest of the semester
@@ -55,12 +63,9 @@ DS is a lens. How can we see rightly through it? Some areas:
 
 Challenge: data feels powerful, people listen to what you use it to say.
 
-So we will practice:
-
-* Citing all sources (for both data and process)
-* Acknowledging limitations
-* Transparent process
-* Validation of results
+.question[
+What are some ways that we have practiced humility?
+]
 
 ???
 
@@ -70,32 +75,42 @@ How have we practiced these?
 * 2 weeks on validation of predictive models
 * citing sources in midterm projects
 
+So we will practice:
+
+* Citing all sources (for both data and process)
+* Acknowledging limitations
+* Transparent process
+* Validation of results
+
+---
+
+class: center, middle
+
+.scripture[
+Finally, brothers and sisters, whatever is true, whatever is noble, whatever is right, whatever is pure, whatever is lovely, whatever is admirable—if anything is excellent or praiseworthy—think about such things.
+
+.ref[*Philippians 4:8*]
+]
+
 ---
 
 ## Integrity
 
 It’s tempting to say something that isn’t entirely true, or to manipulate the collection/analysis/reporting process to yield the answer you want
 
-So we will practice:
-
-* Evaluating claims that others use data to make
-* Clearly articulating our analysis decisions and rationale
-* Using exploratory analytics to validate data against assumptions
-
----
-
-
-class: middle
-
-# Misrepresentation
-
----
-
 .question[
-What is the difference between these two pictures? Which presents a better way to represent these data?
+What are some ways that we have practiced integrity?
 ]
 
+--
+
 <br>
+
+.question[
+What are some things we could do that would *compromise* our integrity?
+]
+
+---
 
 ```{r echo=FALSE, out.width="80%"}
 knitr::include_graphics("img/axis-start-at-0.png")
@@ -108,45 +123,37 @@ Ingraham, C. (2019) ["You’ve been reading charts wrong. Here’s how a pro doe
 
 ---
 
-.question[
-Do you recognize this map? What does it show?
+## Coloring Maps
+
+.center[
+![:scale 50%](https://static01.nyt.com/newsgraphics/2016/11/01/election-map-forms/738e8fe0f4e6d89ec6cb63555d3deb92e772f916/counties.png)
 ]
 
-```{r echo=FALSE, out.width=700}
-knitr::include_graphics("img/election-2016-county.png")
-```
+.floating-source[
+[NYTimes Election Maps](https://www.nytimes.com/interactive/2016/11/01/upshot/many-ways-to-map-election-results.html)
+]
 
+---
+
+## Coloring Maps
+
+.center[
+![:scale 85%](https://static01.nyt.com/newsgraphics/2016/11/01/election-map-forms/738e8fe0f4e6d89ec6cb63555d3deb92e772f916/top.png)
+]
 --
 
 .footnote[
-Gamio, L. (2016) ["Election maps are telling you big lies about small things"](https://www.washingtonpost.com/graphics/politics/2016-election/how-election-maps-lie/), The Washington Post, 1 Nov.
+See alse: Gamio, L. (2016) ["Election maps are telling you big lies about small things"](https://www.washingtonpost.com/graphics/politics/2016-election/how-election-maps-lie/), The Washington Post, 1 Nov.
 ]
 
 ???
 
 TODO Replace this with a modern example
 
----
-
-```{r echo=FALSE, out.width=800}
-knitr::include_graphics("img/cairo-vote-percentages.png")
-```
-
-.footnote[
-Credit: Alberto Cairo, [Visual Trumpery talk](https://visualtrumperytour.wordpress.com/).
-]
+MAUP problem
 
 ---
 
-```{r echo=FALSE, out.width=900}
-  knitr::include_graphics("img/cairo-what-matters.png")
-```
-
-.footnote[
-Credit: Alberto Cairo, [Visual Trumpery talk](https://visualtrumperytour.wordpress.com/).
-]
-
----
 
 ## Further reading
 
@@ -166,6 +173,15 @@ by Alberto Cairo
 Better pic?
 
 TODO: How Deceptive are Deceptive Visualizations?:An Empirical Analysis of Common Distortion Techniques
+
+---
+
+## Truth and Falsehood
+
+.question[
+What are some ways that data-driven systems can *help* or *hinder* people in learning
+what's true?
+]
 
 ---
 
@@ -202,6 +218,17 @@ How have we practiced each of these?
 
 ---
 
+.scripture[
+```
+Learn to do right; seek justice.
+    Defend the oppressed.
+Take up the cause of the fatherless;
+    plead the case of the widow.
+```
+.ref[Isaiah 1:17 (NIV)]
+]
+
+---
 ## Compassion and Justice
 
 Data Science can both cause harm and reveal it.

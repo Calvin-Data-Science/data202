@@ -300,8 +300,18 @@ h2, h3, h4 {
 .question {
   border-left: 5px solid #005A7F;
   padding: 5px;
+  margin: 10px;
   background-color: #F3CD00;
 }
 .question p {
   margin: 5px;
+}
+.scripture {
+  max-width: 70%;
+  margin: 10px auto;
+}
+.scripture .ref {
+  display: block;
+  margin-top: 1rem;
+  text-align: right;
 }
