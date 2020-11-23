@@ -1,5 +1,5 @@
 ---
-title: "Data Science Ethics"
+title: "A bit of thinking about data ethics"
 author: "K Arnold,  based on DSBox and others"
 output:
   xaringan::moon_reader:
@@ -18,26 +18,117 @@ source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
 
+library(countdown)
 cat(r"(
 remark.macros.scale = function(w) {
   var url = this;
   return '<img src="' + url + '" style="width: ' + w + '" />';
 };
 )", file = "macros.js", append = FALSE, sep = "\n")
+
+# cat(r"(
+# 
+# )", file = "util.js", append = FALSE, sep = "\n")
 ```
+
+## Logistics
+
+* Project rubric, details, and logistics posted!
+* *Unofficial* milestone: make some plot using your data before Thanksgiving
+
+---
+
+## Q&A / Review
+
+> Why did we use such a huge `set.seed` last time?
+
+*Today's date*!
+
+---
+
+## Q&A / Review
+
+> Why did a bigger `step_range` make the feature more prominent?
+
+```{r echo=FALSE, fig.asp=0.4}
+#library(patchwork)
+set.seed(20201123)
+
+centers <- tibble(
+  cluster = factor(1:4), 
+  num_points = c(100, 150, 50, 50),  # number points in each cluster
+  x1 = c(-5, -5, 5, 5),
+  x2 = c(-5, 5, -5, 5)
+)
+
+labelled_points <- 
+  centers %>%
+  mutate(
+    x1 = map2(num_points, x1, rnorm),
+    x2 = map2(num_points, x2, rnorm)
+  ) %>% 
+  select(-num_points) %>% 
+  unnest(cols = c(x1, x2))
+
+p1 <- ggplot(labelled_points, aes(x1, x2)) +
+  geom_point(alpha = 0.3) + theme_bw() + labs(shape = "") + xlim(-10, 10)
+
+p2 <- ggplot(labelled_points, aes(.05 * x1, x2)) +
+  geom_point(alpha = 0.3) + theme_bw() + labs(shape = "") + xlim(-10, 10)
+
+cowplot::plot_grid(p1, p2, nrow = 2)
+```
+
+.floating-source[
+<https://www.tidymodels.org/learn/statistics/k-means/>
+]
+---
+
 
 ## Rest of the semester
 
 * Advanced models (random forests, neural nets, ...)
 * SQL
 * Text
-* Interactive visualization
+* Techniques for Communication
+
+
+---
+
+## Today: A Series of Mini Discussions
+
+Preview of questions:
+
+* What characterizes an ethical data scientist or analyst?
+* What are some ways that we have practiced *humility* in this course?
+* What are some ways that we have practiced *integrity*?
+* What are some ways that we have practiced *compassion and justice*?
+
+<br>
+
+* What are some things we could do that would *compromise* our integrity?
+* What are some ways that data-driven systems can *help* or *hinder* truth?
+* What are some ways that data systems can help *perpetuate*, or *fight*, injustice?
+
+---
+
+.question[
+What characterizes an ethical data scientist or analyst?
+]
+
+*Post your thoughts in your Cohort channel*. I will pick a random cohort.
+
+`r countdown(minutes = 2, update_every = 15)`
 
 ---
 
 ## Recall from Day 1...
 
-* Plus examples drawn from [DSBox](https://rstudio-education.github.io/datascience-box/course-materials/slides/u3_d01-ethics/u3_d01-ethics.html)
+
+.floating-source[
+Some examples drawn from [DSBox](https://rstudio-education.github.io/datascience-box/course-materials/slides/u3_d01-ethics/u3_d01-ethics.html)
+]
+
 ---
 
 ## Our Goals
@@ -67,9 +158,9 @@ Challenge: data feels powerful, people listen to what you use it to say.
 What are some ways that we have practiced humility?
 ]
 
-???
+`r countdown(minutes = 2, update_every = 15)`
 
-How have we practiced these?
+???
 
 * R Markdown
 * 2 weeks on validation of predictive models
@@ -102,13 +193,11 @@ It’s tempting to say something that isn’t entirely true, or to manipulate th
 What are some ways that we have practiced integrity?
 ]
 
---
-
-<br>
-
 .question[
 What are some things we could do that would *compromise* our integrity?
 ]
+
+`r countdown(minutes = 3, update_every = 15)`
 
 ---
 
@@ -152,40 +241,20 @@ TODO Replace this with a modern example
 
 MAUP problem
 
----
-
-
-## Further reading
-
-.pull-left[
-```{r echo=FALSE, out.width=350, fig.align="right"}
-knitr::include_graphics("img/cairo-how-charts-lie.jpg")
-```
-]
-.pull-right[
-[How Charts Lie](https://wwnorton.com/books/9781324001560)  
-Getting Smarter about Visual Information  
-by Alberto Cairo
-]
-
-???
-
-Better pic?
-
-TODO: How Deceptive are Deceptive Visualizations?:An Empirical Analysis of Common Distortion Techniques
 
 ---
 
 ## Truth and Falsehood
 
 .question[
-What are some ways that data-driven systems can *help* or *hinder* people in learning
-what's true?
+What are some ways that data-driven systems can *help* or *hinder* truth?
 ]
+
+`r countdown(minutes = 2, update_every = 15)`
 
 ---
 
-## Disinformation
+## Recommender Systems and Information
 
 * Why does YouTube recommend some videos rather than others?
 * What is YouTube optimizing for? (what brings them money?)
@@ -199,6 +268,21 @@ what's true?
 * ... which *may* mean that recommendations promote videos that *amplify resentment against other media*.
 
 Guillaume Chaslot, [How Algorithms Can Learn to Discredit the Media](https://medium.com/@guillaumechaslot/how-algorithms-can-learn-to-discredit-the-media-d1360157c4fa)
+
+
+---
+
+## Deepfakes
+
+.center[
+<video preload="auto" playsinline="true" autoplay="true" src="https://int.nyt.com/newsgraphics/2020/these-people-are-not-real/top/top-v4-1024.mp4" style="max-height: 75vh;"></video>
+]
+
+.floating-source[
+[Designed to Deceive: Do These People Look Real to You?](https://www.nytimes.com/interactive/2020/11/21/science/artificial-intelligence-fake-people-faces.html)
+By Kashmir Hill and Jeremy White (NYTimes)
+]
+
 
 ---
 
@@ -216,7 +300,10 @@ So we will practice:
 
 How have we practiced each of these?
 
+
 ---
+
+class: center, middle
 
 .scripture[
 ```
@@ -229,6 +316,7 @@ Take up the cause of the fatherless;
 ]
 
 ---
+
 ## Compassion and Justice
 
 Data Science can both cause harm and reveal it.
@@ -237,6 +325,12 @@ So we will:
 
 * Study examples of how data might cause harm
 * Study examples of how harm might be mitigated or revealed
+
+.question[
+What are some ways that data systems can help *perpetuate*, or *fight*, injustice?
+]
+
+`r countdown(minutes = 2, update_every = 15)`
 
 --
 
@@ -425,38 +519,30 @@ Source: Modern Data Science with R, by Baumer, Kaplan, and Horton
 
 class: middle
 
-# Continuing your education on data science ethics
+# Some Further Reading / Watching
 
 ---
+
+## Overall
 
 * Fast.AI [Data Ethics course](https://ethics.fast.ai/)
-
----
-
-## Further reading
-
-.pull-left[
-![](img/ethics-data-science.jpg)
-]
-.pull-right[
-[Ethics and Data Science](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7)  
+* [Ethics and Data Science](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7)  
 by Mike Loukides, Hilary Mason, DJ Patil  
 (Free Kindle download)
-]
+* [Weapons of Math Destruction](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7)  
+How Big Data Increases Inequality and Threatens Democracy  
+by Cathy O'Neil
 
 ---
 
-## Further reading
+## Integrity
 
-.pull-left[
-![Cover of the book "Weapons of Math Destruction" by Cathy O'Neil](img/weapons-of-math-destruction.jpg)
-]
-.pull-right[
-[Weapons of Math Destruction](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7)  
-How Big Data Increases Inequality and Threatens Democracy  
-<br>
-*by Cathy O'Neil*
-]
+* [How Charts Lie](https://wwnorton.com/books/9781324001560)  
+Getting Smarter about Visual Information  
+by Alberto Cairo
+
+* [How Deceptive are Deceptive Visualizations?](https://dl.acm.org/doi/10.1145/2702123.2702608)  
+Pandey et al., CHI 2015
 
 ---
 
