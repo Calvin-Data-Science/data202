@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Data Science Ethics</title>
+    <title>A bit of thinking about data ethics</title>
     <meta charset="utf-8" />
     <meta name="author" content="K Arnold, based on DSBox and others" />
     <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Data Science Ethics
+# A bit of thinking about data ethics
 ### K Arnold, based on DSBox and others
 
 ---
@@ -19,18 +21,79 @@ class: center, middle, inverse, title-slide
 
 
 
+## Logistics
+
+* Project rubric, details, and logistics posted!
+* *Unofficial* milestone: make some plot using your data before Thanksgiving
+
+---
+
+## Q&amp;A / Review
+
+&gt; Why did we use such a huge `set.seed` last time?
+
+*Today's date*!
+
+---
+
+## Q&amp;A / Review
+
+&gt; Why did a bigger `step_range` make the feature more prominent?
+
+&lt;img src="w13d1-ethics_files/figure-html/scaling-example-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.floating-source[
+&lt;https://www.tidymodels.org/learn/statistics/k-means/&gt;
+]
+---
+
+
 ## Rest of the semester
 
 * Advanced models (random forests, neural nets, ...)
 * SQL
 * Text
-* Interactive visualization
+* Techniques for Communication
+
+
+---
+
+## Today: A Series of Mini Discussions
+
+Preview of questions:
+
+* What characterizes an ethical data scientist or analyst?
+* What are some ways that we have practiced *humility* in this course?
+* What are some ways that we have practiced *integrity*?
+* What are some ways that we have practiced *compassion and justice*?
+
+&lt;br&gt;
+
+* What are some things we could do that would *compromise* our integrity?
+* What are some ways that data-driven systems can *help* or *hinder* truth?
+* What are some ways that data systems can help *perpetuate*, or *fight*, injustice?
+
+---
+
+.question[
+What characterizes an ethical data scientist or analyst?
+]
+
+*Post your thoughts in your Cohort channel*. I will pick a random cohort.
+
+<div class="countdown blink-colon noupdate-15" id="timer_5fbbd869" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 ---
 
 ## Recall from Day 1...
 
-* Plus examples drawn from [DSBox](https://rstudio-education.github.io/datascience-box/course-materials/slides/u3_d01-ethics/u3_d01-ethics.html)
+
+.floating-source[
+Some examples drawn from [DSBox](https://rstudio-education.github.io/datascience-box/course-materials/slides/u3_d01-ethics/u3_d01-ethics.html)
+]
+
 ---
 
 ## Our Goals
@@ -56,6 +119,20 @@ DS is a lens. How can we see rightly through it? Some areas:
 
 Challenge: data feels powerful, people listen to what you use it to say.
 
+.question[
+What are some ways that we have practiced humility?
+]
+
+<div class="countdown blink-colon noupdate-15" id="timer_5fbbd938" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+???
+
+* R Markdown
+* 2 weeks on validation of predictive models
+* citing sources in midterm projects
+
 So we will practice:
 
 * Citing all sources (for both data and process)
@@ -63,13 +140,15 @@ So we will practice:
 * Transparent process
 * Validation of results
 
-???
+---
 
-How have we practiced these?
+class: center, middle
 
-* R Markdown
-* 2 weeks on validation of predictive models
-* citing sources in midterm projects
+.scripture[
+Finally, brothers and sisters, whatever is true, whatever is noble, whatever is right, whatever is pure, whatever is lovely, whatever is admirable—if anything is excellent or praiseworthy—think about such things.
+
+.ref[*Philippians 4:8*]
+]
 
 ---
 
@@ -77,26 +156,19 @@ How have we practiced these?
 
 It’s tempting to say something that isn’t entirely true, or to manipulate the collection/analysis/reporting process to yield the answer you want
 
-So we will practice:
-
-* Evaluating claims that others use data to make
-* Clearly articulating our analysis decisions and rationale
-* Using exploratory analytics to validate data against assumptions
-
----
-
-
-class: middle
-
-# Misrepresentation
-
----
-
 .question[
-What is the difference between these two pictures? Which presents a better way to represent these data?
+What are some ways that we have practiced integrity?
 ]
 
-&lt;br&gt;
+.question[
+What are some things we could do that would *compromise* our integrity?
+]
+
+<div class="countdown blink-colon noupdate-15" id="timer_5fbbd82b" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
 
 &lt;img src="img/axis-start-at-0.png" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -107,60 +179,51 @@ Ingraham, C. (2019) ["You’ve been reading charts wrong. Here’s how a pro doe
 
 ---
 
-.question[
-Do you recognize this map? What does it show?
+## Coloring Maps
+
+.center[
+![:scale 50%](https://static01.nyt.com/newsgraphics/2016/11/01/election-map-forms/738e8fe0f4e6d89ec6cb63555d3deb92e772f916/counties.png)
 ]
 
-&lt;img src="img/election-2016-county.png" width="700" style="display: block; margin: auto;" /&gt;
+.floating-source[
+[NYTimes Election Maps](https://www.nytimes.com/interactive/2016/11/01/upshot/many-ways-to-map-election-results.html)
+]
 
+---
+
+## Coloring Maps
+
+.center[
+![:scale 85%](https://static01.nyt.com/newsgraphics/2016/11/01/election-map-forms/738e8fe0f4e6d89ec6cb63555d3deb92e772f916/top.png)
+]
 --
 
 .footnote[
-Gamio, L. (2016) ["Election maps are telling you big lies about small things"](https://www.washingtonpost.com/graphics/politics/2016-election/how-election-maps-lie/), The Washington Post, 1 Nov.
+See alse: Gamio, L. (2016) ["Election maps are telling you big lies about small things"](https://www.washingtonpost.com/graphics/politics/2016-election/how-election-maps-lie/), The Washington Post, 1 Nov.
 ]
 
 ???
 
 TODO Replace this with a modern example
 
----
+MAUP problem
 
-&lt;img src="img/cairo-vote-percentages.png" width="800" style="display: block; margin: auto;" /&gt;
-
-.footnote[
-Credit: Alberto Cairo, [Visual Trumpery talk](https://visualtrumperytour.wordpress.com/).
-]
 
 ---
 
-&lt;img src="img/cairo-what-matters.png" width="900" style="display: block; margin: auto;" /&gt;
+## Truth and Falsehood
 
-.footnote[
-Credit: Alberto Cairo, [Visual Trumpery talk](https://visualtrumperytour.wordpress.com/).
+.question[
+What are some ways that data-driven systems can *help* or *hinder* truth?
 ]
+
+<div class="countdown blink-colon noupdate-15" id="timer_5fbbd870" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 ---
 
-## Further reading
-
-.pull-left[
-&lt;img src="img/cairo-how-charts-lie.jpg" width="350" style="display: block; margin: auto 0 auto auto;" /&gt;
-]
-.pull-right[
-[How Charts Lie](https://wwnorton.com/books/9781324001560)  
-Getting Smarter about Visual Information  
-by Alberto Cairo
-]
-
-???
-
-Better pic?
-
-TODO: How Deceptive are Deceptive Visualizations?:An Empirical Analysis of Common Distortion Techniques
-
----
-
-## Disinformation
+## Recommender Systems and Information
 
 * Why does YouTube recommend some videos rather than others?
 * What is YouTube optimizing for? (what brings them money?)
@@ -174,6 +237,21 @@ TODO: How Deceptive are Deceptive Visualizations?:An Empirical Analysis of Commo
 * ... which *may* mean that recommendations promote videos that *amplify resentment against other media*.
 
 Guillaume Chaslot, [How Algorithms Can Learn to Discredit the Media](https://medium.com/@guillaumechaslot/how-algorithms-can-learn-to-discredit-the-media-d1360157c4fa)
+
+
+---
+
+## Deepfakes
+
+.center[
+&lt;video preload="auto" playsinline="true" autoplay="true" src="https://int.nyt.com/newsgraphics/2020/these-people-are-not-real/top/top-v4-1024.mp4" style="max-height: 75vh;"&gt;&lt;/video&gt;
+]
+
+.floating-source[
+[Designed to Deceive: Do These People Look Real to You?](https://www.nytimes.com/interactive/2020/11/21/science/artificial-intelligence-fake-people-faces.html)
+By Kashmir Hill and Jeremy White (NYTimes)
+]
+
 
 ---
 
@@ -191,6 +269,21 @@ So we will practice:
 
 How have we practiced each of these?
 
+
+---
+
+class: center, middle
+
+.scripture[
+```
+Learn to do right; seek justice.
+    Defend the oppressed.
+Take up the cause of the fatherless;
+    plead the case of the widow.
+```
+.ref[Isaiah 1:17 (NIV)]
+]
+
 ---
 
 ## Compassion and Justice
@@ -201,6 +294,14 @@ So we will:
 
 * Study examples of how data might cause harm
 * Study examples of how harm might be mitigated or revealed
+
+.question[
+What are some ways that data systems can help *perpetuate*, or *fight*, injustice?
+]
+
+<div class="countdown blink-colon noupdate-15" id="timer_5fbbd70d" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 --
 
@@ -262,7 +363,18 @@ class: middle
 
 ---
 
-## Criminal Sentencing
+## Criminal Justice
+
+![](img/prop25-nbc.png)
+
+.floating-source[[NBC News, 2020-10-17](https://www.nbcnews.com/news/us-news/california-may-replace-cash-bail-algorithms-some-worry-will-be-n1243750)]
+
+???
+
+[CNN article](https://www.cnn.com/2020/10/31/tech/prop-25-cash-bail-algorithm-california/index.html): ![](img/prop25-cnn.png)
+
+
+---
 
 &lt;img src="img/propublica-criminal-sentencing.png" width="60%" style="display: block; margin: auto;" /&gt;
 
@@ -370,38 +482,30 @@ Source: Modern Data Science with R, by Baumer, Kaplan, and Horton
 
 class: middle
 
-# Continuing your education on data science ethics
+# Some Further Reading / Watching
 
 ---
+
+## Overall
 
 * Fast.AI [Data Ethics course](https://ethics.fast.ai/)
-
----
-
-## Further reading
-
-.pull-left[
-![](img/ethics-data-science.jpg)
-]
-.pull-right[
-[Ethics and Data Science](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7)  
+* [Ethics and Data Science](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7)  
 by Mike Loukides, Hilary Mason, DJ Patil  
 (Free Kindle download)
-]
+* [Weapons of Math Destruction](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7)  
+How Big Data Increases Inequality and Threatens Democracy  
+by Cathy O'Neil
 
 ---
 
-## Further reading
+## Integrity
 
-.pull-left[
-![Cover of the book "Weapons of Math Destruction" by Cathy O'Neil](img/weapons-of-math-destruction.jpg)
-]
-.pull-right[
-[Weapons of Math Destruction](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7)  
-How Big Data Increases Inequality and Threatens Democracy  
-&lt;br&gt;
-*by Cathy O'Neil*
-]
+* [How Charts Lie](https://wwnorton.com/books/9781324001560)  
+Getting Smarter about Visual Information  
+by Alberto Cairo
+
+* [How Deceptive are Deceptive Visualizations?](https://dl.acm.org/doi/10.1145/2702123.2702608)  
+Pandey et al., CHI 2015
 
 ---
 
@@ -426,6 +530,7 @@ How do you train yourself to make the right decisions (or reduce the likelihood 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
 <script>var slideshow = remark.create({
 "ratio": "16:9",
 "highlightLines": true,

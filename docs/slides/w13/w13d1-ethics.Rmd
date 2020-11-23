@@ -50,7 +50,7 @@ remark.macros.scale = function(w) {
 
 > Why did a bigger `step_range` make the feature more prominent?
 
-```{r echo=FALSE, fig.asp=0.4}
+```{r scaling-example, echo=FALSE, fig.asp=0.4}
 #library(patchwork)
 set.seed(20201123)
 
