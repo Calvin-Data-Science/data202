@@ -24,7 +24,7 @@
 <meta name="author" content="K Arnold" />
 
 
-<meta name="date" content="2020-10-21" />
+<meta name="date" content="2020-11-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="visualization.html"/>
 <link rel="next" href="predictive-modeling.html"/>
-<script src="libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
 <script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
@@ -163,6 +165,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#reordering-bars-in-a-bar-plot"><i class="fa fa-check"></i><b>2.4.1</b> Reordering bars in a bar plot</a></li>
 <li class="chapter" data-level="2.4.2" data-path="visualization.html"><a href="visualization.html#tweaking-scales"><i class="fa fa-check"></i><b>2.4.2</b> Tweaking scales</a></li>
+<li class="chapter" data-level="2.4.3" data-path="visualization.html"><a href="visualization.html#direct-labels"><i class="fa fa-check"></i><b>2.4.3</b> Direct Labels</a></li>
+<li class="chapter" data-level="2.4.4" data-path="visualization.html"><a href="visualization.html#legends-and-labels"><i class="fa fa-check"></i><b>2.4.4</b> Legends and Labels</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#mapping"><i class="fa fa-check"></i><b>2.5</b> Mapping</a>
 <ul>
@@ -172,7 +176,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="data-wrangling.html"><a href="data-wrangling.html#resources"><i class="fa fa-check"></i><b>3.1</b> Resources</a></li>
-<li class="chapter" data-level="3.2" data-path="data-wrangling.html"><a href="data-wrangling.html#afterward"><i class="fa fa-check"></i><b>3.2</b> Afterward</a></li>
+<li class="chapter" data-level="3.2" data-path="data-wrangling.html"><a href="data-wrangling.html#sql-and-bigquery"><i class="fa fa-check"></i><b>3.2</b> SQL and BigQuery</a></li>
+<li class="chapter" data-level="3.3" data-path="data-wrangling.html"><a href="data-wrangling.html#afterward"><i class="fa fa-check"></i><b>3.3</b> Afterward</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="predictive-modeling.html"><a href="predictive-modeling.html"><i class="fa fa-check"></i><b>4</b> Predictive Modeling</a>
 <ul>
@@ -181,8 +186,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="4.2.1" data-path="predictive-modeling.html"><a href="predictive-modeling.html#prediction-as-a-goal"><i class="fa fa-check"></i><b>4.2.1</b> Prediction as a Goal</a></li>
 <li class="chapter" data-level="4.2.2" data-path="predictive-modeling.html"><a href="predictive-modeling.html#linear-models-for-regression"><i class="fa fa-check"></i><b>4.2.2</b> Linear models for regression</a></li>
+<li class="chapter" data-level="4.2.3" data-path="predictive-modeling.html"><a href="predictive-modeling.html#tidymodels"><i class="fa fa-check"></i><b>4.2.3</b> <code>tidymodels</code></a></li>
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="predictive-modeling.html"><a href="predictive-modeling.html#modeling-goals"><i class="fa fa-check"></i><b>4.3</b> Modeling Goals</a></li>
+<li class="chapter" data-level="4.4" data-path="predictive-modeling.html"><a href="predictive-modeling.html#defining-overfitting"><i class="fa fa-check"></i><b>4.4</b> Defining Overfitting</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="case-studies.html"><a href="case-studies.html"><i class="fa fa-check"></i><b>5</b> Case Studies</a></li>
+<li class="chapter" data-level="6" data-path="communication.html"><a href="communication.html"><i class="fa fa-check"></i><b>6</b> Communication</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="communication.html"><a href="communication.html#resources-1"><i class="fa fa-check"></i><b>6.1</b> Resources</a></li>
 </ul></li>
 </ul>
 
@@ -213,8 +225,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Some <a href="https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html">tips for working with SPSS data</a> (e.g., Pew)</li>
 </ul>
 </div>
-<div id="afterward" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Afterward</h2>
+<div id="sql-and-bigquery" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> SQL and BigQuery</h2>
+<p>Query languages allow us to query big datasets from our small computers. The most
+popular by far is SQL.</p>
+<p>Google’s BigQuery is a SQL-like language for querying datasets stored on its
+cloud infrastructure. Most of the time you’ll be querying data that are internal
+to your organization, but Google and other providers have published some open
+datasets. Some examples:</p>
+<ul>
+<li><a href="https://calogica.com/r/bigquery/2020/08/18/r-bigquery.html">NFL Play-by-Play</a></li>
+<li><a href="https://cfss.uchicago.edu/notes/sql-databases/#interacting-with-google-bigquery-via-dplyr">NYC Yellow-Cab Trips</a></li>
+<li><a href="https://github.com/fivethirtyeight/data/tree/master/subreddit-algebra">FiveThirtyEight analysis of subreddit relationships</a></li>
+</ul>
+</div>
+<div id="afterward" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Afterward</h2>
 <ul>
 <li><a href="https://observablehq.com/@uwdata/introducing-arquero">Arquero</a> is a new
 JavaScript library that uses almost all of the same basic concepts

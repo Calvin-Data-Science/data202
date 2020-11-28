@@ -58,6 +58,11 @@ you can just skim these for a refresher:
   * Focus on: [Simple linear regression](https://openintro.shinyapps.io/ims-03-introduction-to-linear-models-03/)
   * continue to others if you have time or curiosity
 
+### `tidymodels`
+
+* [Supervised Machine Learning: Case Studies in R](https://supervised-ml-course.netlify.app/)
+* [Case Study](https://www.tidymodels.org/start/case-study/)
+
 ## Modeling Goals
 
 (Note: a better discussion of this is found in [Brieman 2001](https://projecteuclid.org/download/pdf_1/euclid.ss/1009213726))
