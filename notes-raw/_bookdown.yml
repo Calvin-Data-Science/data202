@@ -12,6 +12,8 @@ rmd_files: [
     "01-Tools.Rmd",
     "02-Vis.Rmd",
     "03-Wrangling.Rmd",
-    "04-Modeling.Rmd"
+    "04-Modeling.Rmd",
+    "07-CaseStudies.Rmd",
+    "08-Communication.Rmd"
 ]
 ---
