@@ -99,12 +99,65 @@ gapminder::gapminder %>%
   labs(y = "Population")
 ```
 
+### Direct Labels
+
+When you have many lines, colors don't work well for labels. Instead, use two
+tricks:
+
+1. Create a data frame with just the rightmost point of each line:
+
+```{r gapminder-directlabels-step1}
+gapminder_filtered <-
+  gapminder::gapminder %>% 
+  group_by(country) %>% 
+  filter(max(pop) > 100000000)
+
+last_pop <- gapminder_filtered %>% 
+  group_by(country) %>% 
+  slice_tail(n = 1)
+```
+
+
+2. Use text geoms to label those points:
+
+```{r gapminder-directlabels-step2}
+gapminder_filtered %>% 
+  ggplot(aes(x = year, y = pop, color = country)) +
+  geom_line() +
+  geom_text(
+    data = last_pop, aes(label = country), # use different data
+    color = "black", hjust = "left" # text starts at "x" and faces right
+  ) +
+  scale_x_continuous(expand = expansion(mult = c(0, .2))) + # make some room
+  scale_y_log10() +
+  theme(legend.position = "none") # turn off legend since it's redundant
+```
+
+3. Use `ggrepel::geom_text_repel` to keep them from running into each other:
+
+```{r gapminder-directlabels-final}
+gapminder_filtered %>% 
+  ggplot(aes(x = year, y = pop, color = country)) +
+  geom_line() +
+  ggrepel::geom_text_repel(
+    data = last_pop, aes(label = country),
+    color = "black", hjust = "left",
+    direction = "y", # only move up or down, never left/right
+    segment.alpha = .1, # lighten the connecting lines
+    nudge_x = 3
+  ) +
+  scale_x_continuous(expand = expansion(mult = c(0, .3))) +
+  scale_y_log10() +
+  theme(legend.position = "none")
+```
+
+
 ### Legends and Labels
 
 If you need multiple rows for your legend, you probably have too many different
 values. But you can grit your teeth and do it...
 
-```{r}
+```{r multi-row-legend-ick}
 starwars %>% skimr::skim()
 starwars %>% ggplot(aes(x = height, y = mass, color = species)) +
   geom_point() +
