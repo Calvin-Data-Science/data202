@@ -10,6 +10,21 @@ See the previous chapter. Also:
 * [lubridate](https://lubridate.tidyverse.org/): [cheat sheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf)
 * Some [tips for working with SPSS data](https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html) (e.g., Pew)
 
+## SQL and BigQuery
+
+Query languages allow us to query big datasets from our small computers. The most
+popular by far is SQL.
+
+Google's BigQuery is a SQL-like language for querying datasets stored on its
+cloud infrastructure. Most of the time you'll be querying data that are internal
+to your organization, but Google and other providers have published some open
+datasets. Some examples:
+
+* [NFL Play-by-Play](https://calogica.com/r/bigquery/2020/08/18/r-bigquery.html)
+* [NYC Yellow-Cab Trips](https://cfss.uchicago.edu/notes/sql-databases/#interacting-with-google-bigquery-via-dplyr)
+* [FiveThirtyEight analysis of subreddit relationships](https://github.com/fivethirtyeight/data/tree/master/subreddit-algebra)
+
+
 ## Afterward
 
 * [Arquero](https://observablehq.com/@uwdata/introducing-arquero) is a new
