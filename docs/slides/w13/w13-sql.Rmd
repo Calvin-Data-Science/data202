@@ -61,11 +61,26 @@ Many do, but they can be vague. Everyone needs to be responsible. ACM Code of Et
 
 ---
 
+## Q&As
+
+> My thoughts on social media censoring?
+
 An issue of the heart:
 
 * Entirely uncensored anonymous communities tend to become hostile
-* We'll find ways to "satisfy our itching ears" (if not YouTube then talk radio...)
+* We'll find ways to "satisfy our itching ears" (if not YouTube then talk radio, moving to avoid uncomfortable people/ideas, ...)
 * We must seek out, amplify, and create what is "true, honorable, just, pure", ... (Philippians 4)
+
+---
+
+## Rest of the semester
+
+* Today: Data formats, APIs, SQL
+* Wednesday: Text classification, bias
+* Friday: advanced modeling and forecasting
+* Monday: communication, publishing, more reflections on ethics and impact
+
+All at-home focus is on projects.
 
 ---
 
@@ -115,6 +130,8 @@ Name as many APIs as you can think of.
 
 ---
 
+class: larger-table
+
 ## API vs Local Data
 
 | Local Data | API |
@@ -138,12 +155,12 @@ Name as many APIs as you can think of.
 
 ### Step 1: Retrieve data via HTTP(S)
 
-```{r}
+```{r get-station-info, cache=TRUE}
 station_info_response <- httr::GET("https://gbfs.capitalbikeshare.com/gbfs/en/station_information.json")
 station_info_response
 ```
 
-```{r}
+```{r extract-station-info, cache=TRUE}
 station_info_text <- httr::content(station_info_response, as = "text")
 str_sub(station_info_text, end = 500) %>% cat()
 ```
@@ -177,6 +194,34 @@ lp
 
 See `leaflet` docs on [markers](http://rstudio.github.io/leaflet/markers.html) and
 [colors](http://rstudio.github.io/leaflet/colors.html)
+
+---
+
+## Levels of API security
+
+1. No key needed
+2. Shared secret
+3. Access delegation (typically [OAuth](https://en.wikipedia.org/wiki/OAuth))
+
+---
+
+### A typical access delegation dance
+
+.center[
+```{r echo=FALSE, out.width="50%"}
+knitr::include_graphics("https://developer.spotify.com/assets/AuthG_AuthoriztionCode.png")
+```
+]
+
+.floating-source[
+Source: [Spotify Developer Docs](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+]
+
+---
+
+class: center, middle
+
+## SQL
 
 ---
 
@@ -228,7 +273,7 @@ covid_open_data %>% glimpse()
 
 ---
 
-```{r pop_glimpse, cache=TRUE}
+```{r pop_glimpse, cache=TRUE, warning=FALSE}
 world_bank_global_pop <- 
   bq_connection %>% 
   tbl("bigquery-public-data.world_bank_global_population.population_by_country")
@@ -244,15 +289,21 @@ pop_2018 <- world_bank_global_pop %>%
 case_counts_query <- covid_open_data %>%
   filter(date == '2020-11-27', aggregation_level == 0) %>% 
   left_join(pop_2018, by = c("iso_3166_1_alpha_3")) %>%
-  #filter(population_2018 > 100000000) %>% 
-  arrange(desc(cumulative_confirmed)) %>% 
-  select(country_code, country_name, cumulative_confirmed, population_2018) %>% 
+  filter(population_2018 > 100000000) %>% 
+  mutate(cases_per_capita = cumulative_confirmed / population_2018) %>% 
+  select(country_code, country_name, cumulative_confirmed, population_2018, cases_per_capita) %>% 
+  arrange(desc(cases_per_capita)) %>% 
   head(10)
 case_counts_query %>% show_query()
 ```
 
+---
+
+### Getting the results
+
 ```{r pop_join_covid_results, cache=TRUE}
-case_counts_query %>% collect()
+case_counts_query %>%
+  collect()
 ```
 
 ---

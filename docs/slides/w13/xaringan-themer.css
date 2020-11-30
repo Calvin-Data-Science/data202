@@ -291,6 +291,9 @@ h2, h3, h4 {
 .remark-slide table {
   font-size: 0.8rem;
 }
+.larger-table table {
+  font-size: 1.0rem;
+}
 .pagedtable-wrapper {
   font-size: 0.8rem;
 }

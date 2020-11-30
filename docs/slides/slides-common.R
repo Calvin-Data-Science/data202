@@ -45,6 +45,7 @@ slideSetup <- function(mark_languages = FALSE) {
       ),
       # Improve table sizing (otherwise it's huge)
       ".remark-slide table" = list("font-size" = "0.8rem"),
+      ".larger-table table" = list("font-size" = "1.0rem"),
       ".pagedtable-wrapper" = list("font-size" = "0.8rem"),
       ".pagedtable-header-type" = list("font-size" = "0.5rem"),
 
