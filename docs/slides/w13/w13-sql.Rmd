@@ -1,5 +1,5 @@
 ---
-title: "Databases and Datasets"
+title: "Databases and Data Formats"
 author: "K Arnold"
 output:
   xaringan::moon_reader:
@@ -17,6 +17,57 @@ source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r include=FALSE}
+library(leaflet)
+```
+
+
+## Q&As
+
+> How can we control our personal use of tech when it's autonomously engineering
+itself for maximum attention?
+
+Set boundaries. Liturgies. Some authors: [Justin Whitmel Earley](https://www.thecommonrule.org/), James K.A. Smith, Andy Crouch.
+
+> Do companies have ethics requirements?
+
+Many do, but they can be vague. Everyone needs to be responsible. ACM Code of Ethics.
+
+
+---
+
+## Q&As
+
+> How has DS changed recently?
+
+* *Much* more data, *much* more compute.
+* Covid: data-inspired decisions are shaping our lives.
+
+---
+
+## Q&As
+
+> My thoughts on social media censoring?
+
+* Some censorship seems essential (child porn etc.)
+* Some choices we have to make:
+  * Subreddits (moderators decide) vs Twitter (committee decides)?
+  * Control at the source (Twitter) vs recommendations/ads (Facebook)
+  * Where does responsibility lie: publisher? platform? algorithm? reader?
+  * Should we even have algorithms recommending / ranking content?
+    * Recommendation algorithms are opaquely amplifying certain content (and implicitly censoring others).
+    * Recommendation subtly implies endorsement. So some censorship is required.
+
+---
+
+An issue of the heart:
+
+* Entirely uncensored anonymous communities tend to become hostile
+* We'll find ways to "satisfy our itching ears" (if not YouTube then talk radio...)
+* We must seek out, amplify, and create what is "true, honorable, just, pure", ... (Philippians 4)
+
+---
 
 ## Data Formats
 
@@ -52,6 +103,80 @@ knitr::opts_chunk$set(echo = TRUE)
 * Fast queries
 ]
 
+---
+
+## APIs
+
+.question[
+Name as many APIs as you can think of.
+]
+
+
+
+---
+
+## API vs Local Data
+
+| Local Data | API |
+|-----|--------|
+| Any query you want | Only queries the API exposes |
+| As much as you want | Often rate-limited |
+| Full dataset must fit on your computer | Practically unlimited data |
+| | ... but you can only see a small part of it |
+| Must be complete dataset | Can stream in new data |
+
+---
+
+## Example API: Bike Share Feeds
+
+> The [General Bikeshare Feed Specification](https://github.com/NABSA/gbfs), known as GBFS, is the open data standard for bikeshare. GBFS makes real-time data feeds in a uniform format publicly available online, with an emphasis on findability.
+
+* [Capital Bikeshare data](https://gbfs.capitalbikeshare.com/gbfs/gbfs.json)
+* Station Information: <https://gbfs.capitalbikeshare.com/gbfs/en/station_information.json>
+
+---
+
+### Step 1: Retrieve data via HTTP(S)
+
+```{r}
+station_info_response <- httr::GET("https://gbfs.capitalbikeshare.com/gbfs/en/station_information.json")
+station_info_response
+```
+
+```{r}
+station_info_text <- httr::content(station_info_response, as = "text")
+str_sub(station_info_text, end = 500) %>% cat()
+```
+
+---
+
+### Step 2: Parse the resulting JSON
+
+```{r}
+station_info <- jsonlite::fromJSON(station_info_text, simplifyDataFrame = TRUE)
+stations <- station_info$data$stations
+stations %>% glimpse()
+```
+
+---
+
+### Step 3: Profit
+
+.small-code[
+```{r station-capacity, fig.width=10, fig.height=1, fig.asp=0.2}
+capacity_palette <- leaflet::colorNumeric("GnBu", domain = stations$capacity)
+lp <- stations %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>%  
+  addCircleMarkers(~ lon, ~ lat, color = ~capacity_palette(capacity), radius = 2, stroke = FALSE, fillOpacity = 1) %>% 
+  addLegend("bottomright", pal = capacity_palette, values = ~capacity)
+lp$height <- 300
+lp
+```
+]
+
+See `leaflet` docs on [markers](http://rstudio.github.io/leaflet/markers.html) and
+[colors](http://rstudio.github.io/leaflet/colors.html)
 
 ---
 
@@ -72,44 +197,65 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## BigQuery
 
+To use BigQuery, you need to create a project in Google Cloud Platform to use
+for billing.
+
 ```{r}
 billing_project <- "calvindsdev"
 ```
 
-Several public datasets are available:
+Then you can use `bigrquery` to get set up to make BigQuery API calls.
 
-```{r}
+```{r bq_connect, cache=TRUE}
+library(bigrquery)
+bigrquery::bq_auth(email = TRUE)
+
 bq_connection <- DBI::dbConnect(
   bigrquery::bigquery(),
   project = "bigquery-public-data",
   billing = billing_project
 )
+```
 
+---
+
+
+```{r covid_glimpse, cache=TRUE}
 covid_open_data <- 
   bq_connection %>% tbl("bigquery-public-data.covid19_open_data.covid19_open_data")
 covid_open_data %>% glimpse()
 ```
 
-```{r}
+---
+
+```{r pop_glimpse, cache=TRUE}
 world_bank_global_pop <- 
   bq_connection %>% 
   tbl("bigquery-public-data.world_bank_global_population.population_by_country")
 world_bank_global_pop %>% glimpse()
 ```
 
+---
 
-```{r}
-covid_open_data %>%
-  filter(date == '2020-11-13', aggregation_level == 0) %>% 
-  left_join(
-  world_bank_global_pop %>% select(iso_3166_1_alpha_3 = country_code, population_2018 = year_2018),
-  by = c("iso_3166_1_alpha_3")
-) %>%
-  filter(population_2018 > 100000000) %>% 
+```{r pop_join_covid, cache=TRUE}
+pop_2018 <- world_bank_global_pop %>%
+  select(iso_3166_1_alpha_3 = country_code, population_2018 = year_2018)
+
+case_counts_query <- covid_open_data %>%
+  filter(date == '2020-11-27', aggregation_level == 0) %>% 
+  left_join(pop_2018, by = c("iso_3166_1_alpha_3")) %>%
+  #filter(population_2018 > 100000000) %>% 
   arrange(desc(cumulative_confirmed)) %>% 
+  select(country_code, country_name, cumulative_confirmed, population_2018) %>% 
   head(10)
+case_counts_query %>% show_query()
 ```
 
+```{r pop_join_covid_results, cache=TRUE}
+case_counts_query %>% collect()
+```
+
+---
 
 <https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data?filter=solution-type:dataset&q=covid19&project=calvindsdev>
 
