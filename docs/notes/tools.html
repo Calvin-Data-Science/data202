@@ -24,7 +24,7 @@
 <meta name="author" content="K Arnold" />
 
 
-<meta name="date" content="2020-11-28" />
+<meta name="date" content="2020-11-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -175,7 +175,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="data-wrangling.html"><a href="data-wrangling.html#resources"><i class="fa fa-check"></i><b>3.1</b> Resources</a></li>
+<li class="chapter" data-level="3.1" data-path="data-wrangling.html"><a href="data-wrangling.html#resources"><i class="fa fa-check"></i><b>3.1</b> Resources</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="data-wrangling.html"><a href="data-wrangling.html#practice"><i class="fa fa-check"></i><b>3.1.1</b> Practice</a></li>
+</ul></li>
 <li class="chapter" data-level="3.2" data-path="data-wrangling.html"><a href="data-wrangling.html#sql-and-bigquery"><i class="fa fa-check"></i><b>3.2</b> SQL and BigQuery</a></li>
 <li class="chapter" data-level="3.3" data-path="data-wrangling.html"><a href="data-wrangling.html#afterward"><i class="fa fa-check"></i><b>3.3</b> Afterward</a></li>
 </ul></li>
@@ -277,35 +280,35 @@ your on <a href="https://rstudio.calvin.edu" class="uri">https://rstudio.calvin.
 lab machines, you will need to install these yourself.</p>
 <p>Individual packages can be installed from within RStudio by clicking on the install icon
 in the packages tab. Alternatively, you can run the following code from the command line.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tools.html#cb1-1" aria-hidden="true"></a><span class="co"># make sure all current packages are up-to-date</span></span>
-<span id="cb1-2"><a href="tools.html#cb1-2" aria-hidden="true"></a><span class="kw">update.packages</span>()</span>
-<span id="cb1-3"><a href="tools.html#cb1-3" aria-hidden="true"></a></span>
-<span id="cb1-4"><a href="tools.html#cb1-4" aria-hidden="true"></a>pkgs &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb1-5"><a href="tools.html#cb1-5" aria-hidden="true"></a>  <span class="st">&quot;rmarkdown&quot;</span>,</span>
-<span id="cb1-6"><a href="tools.html#cb1-6" aria-hidden="true"></a>  <span class="st">&quot;tidyverse&quot;</span>,</span>
-<span id="cb1-7"><a href="tools.html#cb1-7" aria-hidden="true"></a>  <span class="st">&quot;ggformula&quot;</span>,</span>
-<span id="cb1-8"><a href="tools.html#cb1-8" aria-hidden="true"></a>  <span class="st">&quot;plotly&quot;</span>,</span>
-<span id="cb1-9"><a href="tools.html#cb1-9" aria-hidden="true"></a>  <span class="st">&quot;tidymodels&quot;</span>,</span>
-<span id="cb1-10"><a href="tools.html#cb1-10" aria-hidden="true"></a>  <span class="st">&quot;pins&quot;</span>,</span>
-<span id="cb1-11"><a href="tools.html#cb1-11" aria-hidden="true"></a>  <span class="st">&quot;reticulate&quot;</span>,</span>
-<span id="cb1-12"><a href="tools.html#cb1-12" aria-hidden="true"></a>  <span class="st">&quot;mosaic&quot;</span>,</span>
-<span id="cb1-13"><a href="tools.html#cb1-13" aria-hidden="true"></a>  <span class="st">&quot;devtools&quot;</span>,</span>
-<span id="cb1-14"><a href="tools.html#cb1-14" aria-hidden="true"></a>  <span class="st">&quot;usethis&quot;</span>,</span>
-<span id="cb1-15"><a href="tools.html#cb1-15" aria-hidden="true"></a>  <span class="st">&quot;keras&quot;</span>,</span>
-<span id="cb1-16"><a href="tools.html#cb1-16" aria-hidden="true"></a>  <span class="st">&quot;nycflights13&quot;</span>,</span>
-<span id="cb1-17"><a href="tools.html#cb1-17" aria-hidden="true"></a>  <span class="st">&quot;skimr&quot;</span>,</span>
-<span id="cb1-18"><a href="tools.html#cb1-18" aria-hidden="true"></a>  <span class="st">&quot;timeDate&quot;</span>,</span>
-<span id="cb1-19"><a href="tools.html#cb1-19" aria-hidden="true"></a>  <span class="st">&quot;qualtRics&quot;</span></span>
-<span id="cb1-20"><a href="tools.html#cb1-20" aria-hidden="true"></a>)</span>
-<span id="cb1-21"><a href="tools.html#cb1-21" aria-hidden="true"></a></span>
-<span id="cb1-22"><a href="tools.html#cb1-22" aria-hidden="true"></a><span class="co"># skip package you already have to save time</span></span>
-<span id="cb1-23"><a href="tools.html#cb1-23" aria-hidden="true"></a>pkgs &lt;-<span class="st"> </span><span class="kw">setdiff</span>(pkgs, <span class="kw">installed.packages</span>()[,<span class="dv">1</span>])</span>
-<span id="cb1-24"><a href="tools.html#cb1-24" aria-hidden="true"></a></span>
-<span id="cb1-25"><a href="tools.html#cb1-25" aria-hidden="true"></a><span class="co"># install what&#39;s left</span></span>
-<span id="cb1-26"><a href="tools.html#cb1-26" aria-hidden="true"></a><span class="kw">install.packages</span>(pkgs)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tools.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make sure all current packages are up-to-date</span></span>
+<span id="cb1-2"><a href="tools.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">update.packages</span>()</span>
+<span id="cb1-3"><a href="tools.html#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="tools.html#cb1-4" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-5"><a href="tools.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;rmarkdown&quot;</span>,</span>
+<span id="cb1-6"><a href="tools.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;tidyverse&quot;</span>,</span>
+<span id="cb1-7"><a href="tools.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ggformula&quot;</span>,</span>
+<span id="cb1-8"><a href="tools.html#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;plotly&quot;</span>,</span>
+<span id="cb1-9"><a href="tools.html#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;tidymodels&quot;</span>,</span>
+<span id="cb1-10"><a href="tools.html#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;pins&quot;</span>,</span>
+<span id="cb1-11"><a href="tools.html#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;reticulate&quot;</span>,</span>
+<span id="cb1-12"><a href="tools.html#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;mosaic&quot;</span>,</span>
+<span id="cb1-13"><a href="tools.html#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;devtools&quot;</span>,</span>
+<span id="cb1-14"><a href="tools.html#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;usethis&quot;</span>,</span>
+<span id="cb1-15"><a href="tools.html#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;keras&quot;</span>,</span>
+<span id="cb1-16"><a href="tools.html#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;nycflights13&quot;</span>,</span>
+<span id="cb1-17"><a href="tools.html#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;skimr&quot;</span>,</span>
+<span id="cb1-18"><a href="tools.html#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;timeDate&quot;</span>,</span>
+<span id="cb1-19"><a href="tools.html#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;qualtRics&quot;</span></span>
+<span id="cb1-20"><a href="tools.html#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="tools.html#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="tools.html#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># skip package you already have to save time</span></span>
+<span id="cb1-23"><a href="tools.html#cb1-23" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(pkgs, <span class="fu">installed.packages</span>()[,<span class="dv">1</span>])</span>
+<span id="cb1-24"><a href="tools.html#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="tools.html#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># install what&#39;s left</span></span>
+<span id="cb1-26"><a href="tools.html#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(pkgs)</span></code></pre></div>
 <p>We’re additionally using these packages for development; they’re optional for you.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="tools.html#cb2-1" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span>(<span class="st">&quot;emo&quot;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="dv">1</span>]))</span>
-<span id="cb2-2"><a href="tools.html#cb2-2" aria-hidden="true"></a>  devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;hadley/emo&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="tools.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span>(<span class="st">&quot;emo&quot;</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>()[, <span class="dv">1</span>]))</span>
+<span id="cb2-2"><a href="tools.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;hadley/emo&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>

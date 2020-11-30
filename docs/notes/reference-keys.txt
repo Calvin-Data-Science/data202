@@ -24,6 +24,7 @@ markers
 choropleths
 data-wrangling
 resources
+practice
 sql-and-bigquery
 afterward
 predictive-modeling
