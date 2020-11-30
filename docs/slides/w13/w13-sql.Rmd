@@ -1,0 +1,145 @@
+---
+title: "Databases and Datasets"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Formats
+
+* Tabular, delimited (CSV, TSV) or fixed-width
+* Tabular, structured: Excel, SPSS/Stata/SAS, etc.
+* Hierarchical
+  * JSON
+  * XML
+  * HTML
+* Database
+  * SQLite (most apps)
+  * PostgreSQL / MySQL / Oracle / Microsoft SQL Server
+  * Google BigQuery
+
+(For a big table, see the [`rio` package vignette](https://cloud.r-project.org/web/packages/rio/vignettes/rio.html))
+
+---
+
+## Spreadsheets vs Databases
+
+.pull-left[
+* Often exchanged by email
+* Hope the format doesn't change
+* [Capacity limited](https://www.bbc.com/news/technology-54423988) ([other article](https://theconversation.com/why-you-should-never-use-microsoft-excel-to-count-coronavirus-cases-147681))
+* Slow to query
+* Decentralized (resilient?)
+]
+
+.pull-right[
+* Centralized, highly available servers
+* Documented schema
+* Large capacity
+* Fast queries
+]
+
+
+---
+
+## Grammar of Data
+
+| dplyr (`data %>% `) | Pandas | SQL |
+|-------|--------|-----|
+| `select(col1, col2)` | `data[['col1', 'col2']]` | `SELECT col1, col2 FROM data` |
+| `filter(col1 > 5)` | `data.query('col1 > 5')` | `SELECT * FROM data WHERE col1 > 5` |
+| `left_join(data2, by = "col2")` | `pd.merge(data, data2, by="col2", type="left")` | `SELECT * FROM data LEFT JOIN data2 ON data.col2 == data2.col2` |
+| `group_by(col2) %>% summarize(m = max(col1))` | `data.group_by('col2')['col1'].max()` | `SELECT max(col1) AS m FROM data GROUP BY col2` |
+| `pivot_longer()` | `data.melt()` or `data.pivot()` | **No standard approach** |
+
+* [SQLite syntax](https://sqlite.org/lang_select.html)
+* [More examples](https://pandas.pydata.org/pandas-docs/stable/getting_started/comparison/comparison_with_r.html)
+
+---
+
+## BigQuery
+
+```{r}
+billing_project <- "calvindsdev"
+```
+
+Several public datasets are available:
+
+```{r}
+bq_connection <- DBI::dbConnect(
+  bigrquery::bigquery(),
+  project = "bigquery-public-data",
+  billing = billing_project
+)
+
+covid_open_data <- 
+  bq_connection %>% tbl("bigquery-public-data.covid19_open_data.covid19_open_data")
+covid_open_data %>% glimpse()
+```
+
+```{r}
+world_bank_global_pop <- 
+  bq_connection %>% 
+  tbl("bigquery-public-data.world_bank_global_population.population_by_country")
+world_bank_global_pop %>% glimpse()
+```
+
+
+```{r}
+covid_open_data %>%
+  filter(date == '2020-11-13', aggregation_level == 0) %>% 
+  left_join(
+  world_bank_global_pop %>% select(iso_3166_1_alpha_3 = country_code, population_2018 = year_2018),
+  by = c("iso_3166_1_alpha_3")
+) %>%
+  filter(population_2018 > 100000000) %>% 
+  arrange(desc(cumulative_confirmed)) %>% 
+  head(10)
+```
+
+
+<https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data?filter=solution-type:dataset&q=covid19&project=calvindsdev>
+
+```
+WITH
+  country_pop AS (
+  SELECT
+    country_code AS iso_3166_1_alpha_3,
+    year_2018 AS population_2018
+  FROM
+    `bigquery-public-data.world_bank_global_population.population_by_country`)
+SELECT
+  country_code,
+  country_name,
+  cumulative_confirmed AS june_confirmed_cases,
+  population_2018,
+  ROUND(cumulative_confirmed/population_2018 * 100,2) AS case_percent
+FROM
+  `bigquery-public-data.covid19_open_data.covid19_open_data`
+JOIN
+  country_pop
+USING
+  (iso_3166_1_alpha_3)
+WHERE
+  date = '2020-11-13'
+  AND aggregation_level = 0
+  AND population_2018 > 100000000
+ORDER BY
+  case_percent DESC
+```
+
+See also: <https://www.reddit.com/r/bigquery/comments/3cej2b/17_billion_reddit_comments_loaded_on_bigquery/>
+from <https://fivethirtyeight.com/features/dissecting-trumps-most-rabid-online-following/>
