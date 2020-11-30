@@ -36,5 +36,6 @@ tidymodels
 modeling-goals
 defining-overfitting
 case-studies
-communication
 resources-1
+communication
+resources-2
