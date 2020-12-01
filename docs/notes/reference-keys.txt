@@ -35,7 +35,8 @@ linear-models-for-regression
 tidymodels
 modeling-goals
 defining-overfitting
-case-studies
+other-topics
+text-mining-and-bias
 resources-1
 communication
 resources-2
