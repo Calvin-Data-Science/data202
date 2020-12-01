@@ -1,0 +1,29 @@
+---
+title: "Text Classification and Bias"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q&A
+
+> Alternatives to Excel?
+
+Excel is fine for small data and small teams. When either gets bigger, seek more structure:
+
+* SQL-style databases
+* Salesforce or similar CRM platforms
+* Other data management platforms (AirTable, Notion, ...)
