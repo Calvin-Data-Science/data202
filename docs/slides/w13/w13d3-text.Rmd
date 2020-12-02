@@ -17,7 +17,7 @@ source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
 library(reticulate)
-#Sys.setenv("TOKENIZERS_PARALLELISM" = "false")
+Sys.setenv("TOKENIZERS_PARALLELISM" = "false")
 ```
 
 ## Q&A
@@ -56,15 +56,37 @@ class: center, middle
 * Text gives more *depth* to existing data
   * Full review vs just the star rating
   * What concepts/entities are *associated* with each other?
+* Text enables new interactions with data
+  * Conversational interfaces
+  * Q&A systems
 
 ---
 
 ### What can we do with text data?
 
 * Sentiment analysis
-* Categorization
+* Categorization (spam!)
 * Information extraction
 * Relationship extraction
+* Topic analysis
+* ... lots more!
+
+---
+
+### Example: Revealing Fake Comments
+
+In 2017, the FCC solicited public comments about proposed changes to Net Neutrality
+protections. They got *flooded with fake comments*.
+
+```{r echo=FALSE, out.width="75%"}
+include_graphics("https://hackernoon.com/hn-images/1*shWYIe0km5rYxPebfGPTTg.png")
+```
+
+
+.floating-source[
+Source: Jeff Kao, [More than a Million Pro-Repeal Net Neutrality Comments were Likely Faked](https://hackernoon.com/more-than-a-million-pro-repeal-net-neutrality-comments-were-likely-faked-e9f0e3ed36a6)
+See also [BuzzFeed News article](https://www.buzzfeednews.com/article/jsvine/net-neutrality-fcc-fake-comments-impersonation)
+]
 
 ---
 
@@ -78,8 +100,9 @@ if (!py_module_available("transformers"))
 ```
 
 
-```{python}
+```{python import-transformers}
 from transformers import pipeline
+from pprint import pprint
 ```
 
 ---
@@ -95,13 +118,13 @@ It is:
 * "fine-tuned" to the task of predicting sentiment on the [Stanford Sentiment Treebank](https://nlp.stanford.edu/sentiment/index.html) (SST-2) dataset.
 
 ```{python}
-nlp = pipeline("sentiment-analysis")
+sentiment_pipeline = pipeline("sentiment-analysis")
 ```
 
 
 ```{python}
 def text_to_sentiment(sentence):
-  result = nlp(sentence)[0]
+  result = sentiment_pipeline(sentence)[0]
   if result['label'] == "POSITIVE": return result['score']
   if result['label'] == "NEGATIVE": return -result['score']
   raise ValueError("Unknown result label: " + result['label'])
@@ -133,14 +156,28 @@ text_to_sentiment("Let's go get Chinese food")
 text_to_sentiment("Let's go get Mexican food")
 ```
 
+---
 
 ```{python}
 text_to_sentiment("My name is Emily")
 text_to_sentiment("My name is Heather")
-text_to_sentiment("My name is Yvette")
-text_to_sentiment("My name is Shaniqua")
+text_to_sentiment("My name is Latisha")
+text_to_sentiment("My name is Nour")
 ```
 
+---
+
+### It's not just in toy examples
+
+```{r echo=FALSE}
+include_graphics("img/algorithmwatch-toxicity.png")
+```
+
+
+
+.floating-source[
+Source: [AlgorithmWatch](https://algorithmwatch.org/en/story/automated-moderation-perspective-bias/)
+]
 ---
 
 ### Quantifying Bias
@@ -203,7 +240,7 @@ name_sentiments <-
   py$NAMES_BY_ETHNICITY %>% enframe("ethnicity", "name") %>% unnest(name) %>% 
   rowwise() %>% 
   mutate(sentiment = py$text_to_sentiment(glue("My name is {name}")))
-name_sentiments
+name_sentiments %>% arrange(sentiment)
 ```
 
 ---
@@ -218,7 +255,7 @@ ggplot(name_sentiments, aes(x = sentiment, y = ethnicity)) + geom_boxplot()
 ### Question Answering
 
 ```{python}
-nlp = pipeline("question-answering")
+qa_pipeline = pipeline("question-answering")
 ```
 
 
@@ -229,13 +266,13 @@ question answering dataset is the SQuAD dataset, which is entirely based on that
 a model on a SQuAD task, you may leverage the examples/question-answering/run_squad.py script.
 """
 
-result = nlp(question="What is extractive question answering?", context=context)
+result = qa_pipeline(question="What is extractive question answering?", context=context)
 print(f"Answer: '{result['answer']}', score: {round(result['score'], 4)}, start: {result['start']}, end: {result['end']}")
 ```
 
 
 ```{python}
-result = nlp(question="What is a good example of a question answering dataset?", context=context)
+result = qa_pipeline(question="What is a good example of a question answering dataset?", context=context)
 print(f"Answer: '{result['answer']}', score: {round(result['score'], 4)}, start: {result['start']}, end: {result['end']}")
 ```
 
@@ -244,24 +281,72 @@ print(f"Answer: '{result['answer']}', score: {round(result['score'], 4)}, start:
 ### Named Entity Recognition
 
 ```{python}
-nlp = pipeline("ner", grouped_entities = True)
+ner_pipeline = pipeline("ner", grouped_entities = True)
 sequence = ("Hugging Face Inc. is a company based in New York City. Its headquarters are in DUMBO, therefore very"
            "close to the Manhattan Bridge which is visible from the window.")
 ```
 
 ```{python}
-print(nlp(sequence))
+pprint(ner_pipeline(sequence))
 ```
 
 ---
+
+class: center, middle
 
 ## Other Text Tasks
 
 ---
 
-### `scattertext`
+### Comparing texts: [`scattertext`](https://github.com/JasonKessler/scattertext)
 
 ```{r echo=FALSE}
-include_gr
+include_graphics("https://raw.githubusercontent.com/JasonKessler/jasonkessler.github.io/master/demo_compact.png")
 ```
 
+---
+
+### Topic Modeling
+
+```{r echo=FALSE, out.width="40%"}
+include_graphics("img/cleannlp-topic-model.png")
+```
+
+.floating-source[
+From a [vignette](https://statsmaths.github.io/cleanNLP/state-of-union.html) in the `cleanNLP` package
+]
+
+---
+
+class: center, middle
+
+## Other Issues
+
+---
+
+### Fake News
+
+.small[
+> In addition to the potential for AI-generated false stories, there’s a simultaneously scary and exciting future where AI-generated false stories are the norm. The rise of the software engineer has given us the power to create new kinds of spaces: virtual reality and augmented reality are now possible, and the “Internet of things” is increasingly entering our homes. This past year, we’ve seen a new type of art: that which is created by algorithms and not humans. In this future, AI-generated content will continue to become more sophisticated, and it will be increasingly difficult to differentiate it from the content that is created by humans. One of the implications of the rise in AI-generated content is that the public will have to contend with the reality that it will be increasingly difficult to differentiate between generated content and human-generated content.
+]
+
+* Written by GPT-3 for [The Atlantic](https://www.theatlantic.com/ideas/archive/2020/09/future-propaganda-will-be-computer-generated/616400/)
+* See also: [The Radicalization Risks of GPT-3 and Advanced Neural Language Models](https://arxiv.org/abs/2009.06807)
+
+---
+
+### Climate Impact
+
+* GPT-3 training required about 190,000 kWh (about 85,000 kg CO2)
+  * but Microsoft pledged "carbon negative" by 2030
+
+```{r echo=FALSE, out.width="75%"}
+include_graphics("https://www.microsoft.com/en-us/research/uploads/prod/2020/02/TurningNGL_Model__1400x788.png")
+```
+
+
+
+.floating-source[
+Sources: [The Register](https://www.theregister.com/2020/11/04/gpt3_carbon_footprint_estimate/),
+[Carbontracker](https://arxiv.org/abs/2007.03051)
+]
