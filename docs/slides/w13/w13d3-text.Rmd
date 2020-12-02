@@ -17,7 +17,7 @@ source("../slides-common.R")
 slideSetup()
 knitr::opts_chunk$set(echo = TRUE)
 library(reticulate)
-Sys.setenv("TOKENIZERS_PARALLELISM" = "false")
+#Sys.setenv("TOKENIZERS_PARALLELISM" = "false")
 ```
 
 ## Q&A
@@ -59,6 +59,15 @@ class: center, middle
 
 ---
 
+### What can we do with text data?
+
+* Sentiment analysis
+* Categorization
+* Information extraction
+* Relationship extraction
+
+---
+
 ### Some examples
 
 ```{r load-packages, eval=FALSE}
@@ -81,7 +90,7 @@ We'll load up the default sentiment analysis pipeline, which uses a model called
 [distilbert-base-uncased-finetuned-sst-2-english](https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english).
 It is:
 
-* Google's [BERT](https://arxiv.org/abs/1810.04805) language model
+* Google's [BERT](https://arxiv.org/abs/1810.04805) language model, trained on English Wikipedia and books
 * "[distilled](https://arxiv.org/abs/1910.01108)" into a smaller model that performs similarly
 * "fine-tuned" to the task of predicting sentiment on the [Stanford Sentiment Treebank](https://nlp.stanford.edu/sentiment/index.html) (SST-2) dataset.
 
