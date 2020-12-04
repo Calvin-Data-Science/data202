@@ -1,0 +1,78 @@
+---
+title: "Wrap-up: Communication and Ethics"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+
+## Making a Data-Driven Argument
+
+
+
+---
+
+## Tools for Communication
+
+* Slides
+  * Xaringan
+* RStudio Connect
+* GitHub Pages
+* Shiny Apps
+
+---
+
+### Example: Shiny Apps
+
+<https://shiny.rstudio.com/gallery/>
+
+---
+
+
+class: center, middle
+
+## Final Thoughts on Ethics
+
+---
+
+## Google Firing Timnit Gebru
+
+<https://twitter.com/math_rachel/status/1334545393057599488>
+
+---
+
+## Who I'm Reading / Following
+
+* AI Now Institute
+* Data and Society
+* [AlgorithmWatch](https://algorithmwatch.org/en/)
+* [Harvard BKC](https://twitter.com/BKCHarvard)
+* Data Feminism
+
+People:
+
+* [Cassie Kozyrkov](https://decision.substack.com/) ([@quaesita](https://twitter.com/quaesita))
+* [Timnit Gebru](https://twitter.com/timnitGebru)
+* [Rediet Abebe](https://twitter.com/red_abebe)
+* [J. Nathan Matias](https://twitter.com/natematias)
+* [Joy Buolamwini](https://twitter.com/jovialjoy)
+
+---
+
+## "What can I do?"
+
+* [How to Interview a Tech Company](https://medium.com/@AINowInstitute/how-to-interview-a-tech-company-d4cc74b436e9)
