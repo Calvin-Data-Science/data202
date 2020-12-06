@@ -10,6 +10,7 @@ output:
       ratio: "16:9"
       highlightLines: true
       countIncrementalSlides: false
+      beforeInit: "macros.js"
 ---
 
 ```{r setup, include=FALSE, message=FALSE}
@@ -29,9 +30,17 @@ Talking through report is fine! But if you want to do slides, check out Xaringan
 
 No! Simple methods are often good enough. And you can often leverage pre-trained models.
 
+---
+
 > If there're data ethicists in many big tech firms/ the tech world in general, why is there still so much bias with technology?
 
-Ethics-washing.
+[Google Employees Say Scientist's Ouster Was 'Unprecedented Research Censorship'](https://www.npr.org/2020/12/03/942417780/google-employees-say-scientists-ouster-was-unprecedented-research-censorship)
+
+.center[
+![:maxheight 40vh](https://media.npr.org/assets/img/2020/12/03/gettyimages-1028811892_custom-244e195db61fdbe1b6fa886f9c52edf98779fadf-s1600-c85.jpg)
+]
+
+Ethics-washing. Critical theory?
 
 ---
 
@@ -42,6 +51,21 @@ Ethics-washing.
 * This can be *harmful* even if classifier is unbiased. Some details: [Calibration: the Achilles heel of predictive analytics](https://bmcmedicine.biomedcentral.com/articles/10.1186/s12916-019-1466-7)
 
 Many classifiers have calibration problems, but this one was worse than usual.
+
+---
+
+## Projects
+
+> Can I use examples (Kaggle notebooks, blog posts, etc.) that are similar to my project?
+
+* Yes!
+* Google your project title or data set name.
+* Don’t leave me wondering what part is your original work.
+* Reference what you found and how your work differs (is better)
+
+---
+
+## Reminder: State of AI Ethics Discussion Forum
 
 ---
 
@@ -67,18 +91,21 @@ Source: [Nature](https://www.nature.com/articles/d41586-020-03348-4)
   * MARS
 * Leverage common perceptual patterns: deep learning pre-training
 * Forecast the future of a time series
-  * ARIMA
-  * Prophet
+  * Trend, seasonality, events, regressors, auto-regression
+  * ([Neural](https://github.com/ourownstory/neural_prophet)) Prophet
 
 ---
 
 ## Random Forests
 
+.pull-left[
 * Recall: decision tree can capture detailed patterns, but can *overfit* by capturing patterns that don't generalize.
 * Idea: learn *lots of trees*, each on a different random sample of the observations and features.
 * Often "just works" without pre-processing or configuration
-
+]
+.pull-right[
 ![](https://upload.wikimedia.org/wikipedia/commons/7/76/Random_forest_diagram_complete.png)
+]
 
 .floating-source[
 <a href="https://commons.wikimedia.org/wiki/File:Random_forest_diagram_complete.png">Venkata Jagannath</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons
@@ -88,103 +115,56 @@ Source: [Nature](https://www.nature.com/articles/d41586-020-03348-4)
 
 ### Advanced Modeling in `tidymodels`
 
-Shortcut: [`usemodels` package](https://usemodels.tidymodels.org/)
+Shortcut: [`usemodels` package](https://usemodels.tidymodels.org/) (`devtools::install_github("tidymodels/usemodels")`)
 
-```{r eval=FALSE}
-devtools::install_github("tidymodels/usemodels")
+.small[
+```{r}
+data(ames, package = 'modeldata')
+usemodels::use_xgboost(Sale_Price ~ ., ames)
 ```
+]
 
+---
+
+### See also
+
+* `tune` package, for helping find good settings for hyperparameters
+* [`finetune`](https://finetune.tidymodels.org/) package ([announcement blog post](https://www.tidyverse.org/blog/2020/12/finetune-0-0-1/)) for doing that efficiently
+* the [tidyverse blog](https://www.tidyverse.org/blog/) for catching the latest
 
 ---
 
 ## Deep Learning Pre-training
 
-
----
-
-```{r eval=FALSE}
-install.packages(c("torch", "torchvision"))
-```
-
-```{r}
-library(torch)
-library(torchvision)
-```
-
-```{r}
-model <- model_resnet18(pretrained = TRUE)
-model$eval()
-
-# Strip out the last layer of the model.
-fc <- model$fc
-model$fc <- torch::nn_identity()
-```
-
----
-
-## Load data
-
-```{r include=FALSE}
-yelp_photos_dir <- "~/Data/Yelp"
-# head -n 1000 photos.json > photos-1k.json
-yelp_photos <- jsonlite::stream_in(file(file.path(yelp_photos_dir, "photos-1k.json")), verbose = FALSE)
-```
-
-
-```{r}
-load_img <- function(photo_id) {
-  glue("{yelp_photos_dir}/photos/{photo_id}.jpg") %>% 
-    base_loader()
-}
-
-example_photos <- 
-  yelp_photos %>% select(photo_id, label) %>% head(10) %>% 
-  rowwise() %>% 
-  mutate(img = list(load_img(photo_id))) %>%
-  ungroup()
-
-example_photos %>% 
-  select(img, label) %>% 
-  pwalk(function(img, label) { 
-    img %>% as.array() %>% as.raster() %>% plot()
-    title(label)
-    })
-```
-
----
-
-```{r}
-img_features <- example_photos$img %>% 
-  map(function(img) {
-    img %>% 
-      transform_to_tensor() %>% 
-      transform_resize(256) %>% 
-      transform_center_crop(224) %>% 
-      transform_normalize(mean = c(0.485, 0.456, 0.406), std = c(0.229, 0.224, 0.225)) %>% 
-      {.$unsqueeze(1)} %>% 
-      model$forward() %>% 
-      {.$squeeze(1)}
-  })
-```
-
-
-
-```{r}
-imagenet_classes <- jsonlite::fromJSON("imagenet_class_index.json")
-```
-
-```{r}
-labels <- imagenet_classes %>% map_chr(2)
-```
-
-
 ---
 
 class: center, middle
 
+![:scale 80%](https://www.mathworks.com/discovery/convolutional-neural-network-matlab/_jcr_content/mainParsys3/discoverysubsection_/mainParsys3/columns/b202664f-91e3-4c3e-8e3e-a299d0568e0b/image_copy.adapt.1200.high.jpg/1606235181834.jpg)
+
+.floating-source[
+Source: [MathWorks neural net article](https://www.mathworks.com/discovery/convolutional-neural-network-matlab.html)
+]
+
+---
+
+<https://blogs.rstudio.com/ai/posts/2020-10-19-torch-image-classification/>
+
+---
+
 ## Forecasting
 
-<https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html>
+Some resources:
 
-[Another example](https://www.business-science.io/code-tools/2020/11/25/commodities-demand-forecasting.html)
+* [ModelTime](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html) R
+  package for comparing various time-series models. ([Another example](https://www.business-science.io/code-tools/2020/11/25/commodities-demand-forecasting.html))
+* [NeuralProphet](https://github.com/ourownstory/neural_prophet) 
 with the same package.
+
+---
+
+![:maxheight 90vh](img/prophet-components.png)
+
+.floating-source[
+Source: [NeuralProphet presentation](https://github.com/ourownstory/neural_prophet/blob/master/notes/Presented_at_International_Symposium_on_Forecasting.pdf)
+]
