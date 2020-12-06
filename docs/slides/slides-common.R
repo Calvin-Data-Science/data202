@@ -30,7 +30,7 @@ slideSetup <- function(mark_languages = FALSE) {
       ".tiny" = list("font-size" = "0.4rem"),
       ".small" = list("font-size" = "0.7rem"),
       ".comfortable" = list("font-size" = "1.0rem"),
-      ".large" = list("font-size" = "1.2rem"),
+      ".large" = list("font-size" = "1.8rem"),
       ".white-pre" = list("white-space" = "pre"),
       "p" = list("padding" = 0, "margin" = 0),
       "h2, h3, h4" = list("margin" = "5px 0"),
@@ -60,8 +60,12 @@ slideSetup <- function(mark_languages = FALSE) {
         "margin" = "5px"
       ),
       ".scripture" = list(
-        "max-width" = "70%",
+        "max-width" = "80%",
         "margin" = "10px auto"
+      ),
+      ".scripture .remark-code" = list(
+        "font-family" = '"Noto Sans", sans-serif',
+        "font-size" = "1.4rem"
       ),
       ".scripture .ref" = list(
         "display" = "block",
@@ -114,6 +118,17 @@ code.python { background-color: #f9f5ec !important; }
 code.r {      background-color: #75aadb10 !important; }
 ", )
     }
+
+    cat(r"(
+remark.macros.scale = function(w) {
+  var url = this;
+  return '<img src="' + url + '" style="width: ' + w + '" />';
+};
+remark.macros.maxheight = function(h) {
+  var url = this;
+  return '<img src="' + url + '" style="max-height: ' + h + '" />';
+};
+)", file = "macros.js", append = FALSE, sep = "\n")
 
 }
 
