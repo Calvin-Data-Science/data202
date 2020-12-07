@@ -19,16 +19,6 @@ library(countdown)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
----
-
-## Final Presentation Logistics
-
-???
-
-TODO
-
----
-
 ## Q&A
 
 > Forecasting vs Prediction?
@@ -46,6 +36,45 @@ Forecast = prediction... about the **future** of a **time series**. ([more](http
 
 Train another model to predict true probabilities from classifier probabilities (on held-out data). [sklearn tools](https://scikit-learn.org/stable/modules/calibration.html)
 
+
+---
+
+## Final Presentation Logistics
+
+* See updates about alternative participation opportunities on Moodle.
+
+---
+
+### Clean-up-the-gradebook time
+
+* Check for any missing or zero grades
+
+Need tweak to grading distribution b/c of midterm project
+
+.pull-left[
+Syllabus:
+
+* 5% Preparation activities
+* 10% Discussion forums
+* 10% Lab exercises
+* 20% Homework
+* 20% Quizzes
+* 10% Midterm
+* 25% Final Project
+]
+
+.pull-right[
+Revised:
+
+* 5% Prep and Participation
+* 10% Discussion forums
+* 10% Lab exercises
+* 20% Homework
+* 20% Quizzes
+* 10% Midterm Exam
+* 10% Midterm Project
+* 15% Final Project
+]
 
 ---
 
@@ -185,7 +214,7 @@ What does biblical justice require, in the area of data science?
 
 *Post your thoughts in your Cohort channel*.
 
-`r countdown(minutes = 2, update_every = 15)`
+`r countdown(minutes = 3, update_every = 15)`
 
 ---
 
@@ -194,6 +223,9 @@ What does biblical justice require, in the area of data science?
 * Care for people *together with* care for environment
 * Care for individual people affected, not just general economic impacts
 * Cherishing and celebrating what God has made (people, natural resources) instead of exploiting
+* Need safeguards to protect from the effects of sin
+
+some scripture you mentioned:
 
 * Isaiah 56:1, Psalm 82:3
 
@@ -201,7 +233,7 @@ What does biblical justice require, in the area of data science?
 
 ### Community
 
-> The righteous (saddiq) are willing to disadvantage themselves to advantage the community; the wicked are willing to disadvantage the community to advantage themselves.
+> The righteous (*saddiq*) are willing to disadvantage themselves to advantage the community; the wicked are willing to disadvantage the community to advantage themselves.
 
 So:
 
@@ -300,7 +332,7 @@ And being found in appearance as a man,
 
 ---
 
-## Who I'm Reading / Following: Data Ethics
+## Who/What I'm Reading / Following: Data Ethics
 
 * AI Now Institute
 * Data and Society
@@ -318,7 +350,7 @@ People:
 
 ---
 
-## Who I'm Reading / Following: Tech
+## Who/What I'm Reading / Following: Tech
 
 * [RStudio AI blog](https://blogs.rstudio.com/ai/)
 * [tidyverse blog](https://www.tidyverse.org/blog/)
