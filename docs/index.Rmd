@@ -166,13 +166,14 @@ Details of these expectations are forthcoming.
 
 Unless otherwise arranged, grades will be weighted as follows:
 
-* 5% Preparation activities
+* 5% Prep and Participation
 * 10% Discussion forums
 * 10% Lab exercises
 * 20% Homework
 * 20% Quizzes
-* 10% Midterm (week 8, exact date to be set by poll)
-* 25% Final Project
+* 10% Midterm Exam
+* 10% Midterm Project
+* 15% Final Project
 
 Your lowest quiz score will get thrown out.
 
