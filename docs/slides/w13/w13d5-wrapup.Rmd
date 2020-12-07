@@ -1,5 +1,5 @@
 ---
-title: "Wrap-up: Communication and Ethics"
+title: "Wrap-up: Communication and Justice"
 author: "K Arnold"
 output:
   xaringan::moon_reader:
@@ -15,8 +15,37 @@ output:
 ```{r setup, include=FALSE, message=FALSE}
 source("../slides-common.R")
 slideSetup()
+library(countdown)
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+---
+
+## Final Presentation Logistics
+
+???
+
+TODO
+
+---
+
+## Q&A
+
+> Forecasting vs Prediction?
+
+Forecast = prediction... about the **future** of a **time series**. ([more](https://stats.stackexchange.com/questions/65287/difference-between-forecast-and-prediction))
+
+> How can we hold big tech companies accountable?
+
+* Regulation (government, or even industry standards)
+* B Corporations ("triple bottom line")
+* Collective action (Google Walkout, boycotts, etc.)
+* Asking hard questions when they try to recruit you
+
+> How do you calibrate a model?
+
+Train another model to predict true probabilities from classifier probabilities (on held-out data). [sklearn tools](https://scikit-learn.org/stable/modules/calibration.html)
+
 
 ---
 
@@ -84,6 +113,36 @@ Discussion about how each supports main point
 
 ---
 
+### Use appropriate language
+
+.pull-left[
+**Plain language** for the overview, conclusion, and visuals.
+
+* Labels in visuals: use real names, not `code_names`. (For all aesthetics, not just x and y.)
+* Don't assume the reader knows the structure of the data.
+]
+
+.pull-right[
+**Technical language** when describing methods (data acquisition, wrangling, modeling, etc.).
+
+* What data representation choices did you make? *why*?
+* What modeling choices? Why? etc.
+]
+
+---
+
+### Some color tips
+
+<https://blog.datawrapper.de/beautifulcolors/>
+
+---
+
+class: center, middle
+
+## Start Simple!
+
+---
+
 ## Tools for Communication
 
 * Slides
@@ -109,6 +168,34 @@ class: center, middle
 With enormous thanks to:
 
 Tim Keller, [A Biblical Critique of Secular Justice and Critical Theory](https://quarterly.gospelinlife.com/a-biblical-critique-of-secular-justice-and-critical-theory/)
+
+---
+
+Keller's bullet-point summary of biblical justice:
+
+* Community above individual (voluntarily)
+* Equity: equal treatment, dignity
+* Collective responsibility
+* Individual responsibility
+* Advocacy for poor and marginalized
+
+.question[
+What does biblical justice require, in the area of data science?
+]
+
+*Post your thoughts in your Cohort channel*.
+
+`r countdown(minutes = 2, update_every = 15)`
+
+---
+
+### Some things you pointed out in Discussion
+
+* Care for people *together with* care for environment
+* Care for individual people affected, not just general economic impacts
+* Cherishing and celebrating what God has made (people, natural resources) instead of exploiting
+
+* Isaiah 56:1, Psalm 82:3
 
 ---
 
@@ -193,6 +280,23 @@ And being found in appearance as a man,
 .ref[Philippians 2:5-8, NIV]
 ]
 
+---
+
+## Learning More
+
+---
+
+### Some further reading on data ethics
+
+* [The Oxford Handbook of Ethics of AI](https://global.oup.com/academic/product/the-oxford-handbook-of-ethics-of-ai-9780190067397?cc=ca&lang=en&#)
+  * e.g., chapter of [Race and Gender](https://arxiv.org/abs/1908.06165) was written by Timnit Gebru
+* Coded Bias documentary
+* Fast.AI [Data Ethics course](https://ethics.fast.ai/)
+* [Ethics and Data Science](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7) by Mike Loukides, Hilary Mason, DJ Patil
+* [Weapons of Math Destruction](https://www.amazon.com/Ethics-Data-Science-Mike-Loukides-ebook/dp/B07GTC8ZN7): *How Big Data Increases Inequality and Threatens Democracy*, by Cathy O'Neil
+* [How Charts Lie](https://wwnorton.com/books/9781324001560): *Getting Smarter about Visual Information*, by Alberto Cairo
+* [How Deceptive are Deceptive Visualizations?](https://dl.acm.org/doi/10.1145/2702123.2702608) Pandey et al., CHI 2015
+
 
 ---
 
@@ -207,7 +311,6 @@ And being found in appearance as a man,
 
 People:
 
-* [Cassie Kozyrkov](https://decision.substack.com/) ([@quaesita](https://twitter.com/quaesita))
 * [Timnit Gebru](https://twitter.com/timnitGebru)
 * [Rediet Abebe](https://twitter.com/red_abebe)
 * [J. Nathan Matias](https://twitter.com/natematias)
@@ -222,11 +325,15 @@ People:
 * [RWeekly](https://rweekly.org/)
 * [distill.pub](https://distill.pub/)
 * [Harvard Data Science Review](https://hdsr.mitpress.mit.edu/)
+* [TWiML Podcast](https://twimlai.com/shows/)
+* [Cassie Kozyrkov](https://decision.substack.com/) ([@quaesita](https://twitter.com/quaesita))
+
 
 ---
 
 ## "What can I do?"
 
 * Choose jobs carefully ([How to Interview a Tech Company](https://medium.com/@AINowInstitute/how-to-interview-a-tech-company-d4cc74b436e9))
+  * You *can* make a difference inside even a "bad" company--but recruit a support network like a missionary.
 * Listen a lot. To diverse opinions.
 * Keep in touch.
