@@ -1,5 +1,9 @@
 ---
 title: Projects
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 ## **Midterm Project**: replicate and critique a visual
@@ -112,10 +116,11 @@ Milestones are due along with the corresponding week's homework.
 
 ## **Final Project**: ask and answer your own data science question
 
-This project will require doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented in the form of a blog post (only posted publicly if want to), supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components.
+This project will require doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented as a report, supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components. The report should be at the level of polish and formality of a blog post (more than a class homework assignment, less than an academic paper). The overview and primary visualizations should be intelligible to a non-technical audience; the methods should be described in precise technical language as appropriate.
 
-The final course meeting (during the designated final exam period on December 12) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
+The final course meeting (during the designated final exam period) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
 
+<!--
 ### Project 2 Milestones
 
 * **Week 7**: Draft of a project proposal including specific questions
@@ -123,14 +128,22 @@ The final course meeting (during the designated final exam period on December 12
 * **Week 10**: Dataset and exploratory visualization done
 * **Week 12**: Initial modeling and visualization
 * **Week 15**: Final presentation
+-->
 
 ### Project 2 Detailed Expectations
 
 **NOTES**:
 
-* In all of the following analyses, you will likely need to make some choices regarding what variables to include, whether to do some pre-processing (e.g., addressing missing values, generating new variables), etc. Clearly state which decisions you made, explain why you made them and what might have been alternative choices. 
-* If you use any code from the internet, you should acknowledge its source and provide a link.
+* You will likely need to make some choices regarding what variables to include, whether to do some pre-processing (e.g., addressing missing values, generating new variables), etc. Clearly state:
+  * What decisions you made
+  * Why you made them
+  * What might have been alternative choices.
+* If you use any code from the Internet, you should acknowledge its source and provide a link.
 * You should submit all of the code needed to replicate your results, but **your report should be understandable without looking at the code**.
+* Each project team has a `proj` repo; please use it.
+& The repo includes a template that gives one possible outline. You may adapt the outline as needed for your project.
+The template includes an "appendix" block that should cause all code to appear there. You may also set `echo=TRUE` on any particular code block if you want to highlight something about it.
+* You may make slides if you like (using Xaringan, ioslides, PowerPoint, etc.), Shiny apps, etc., but please also submit a report document in either HTML or PDF format.
 
 Your report should include the following elements:
 
@@ -149,8 +162,8 @@ Your report should include the following elements:
   * Show plots illustrating bivariate relationships for at least 2 pairs of variables. Explain what you observe (e.g., positive/negative correlation, no correlation, etc.).
 * **Modeling**
   * Clearly state what is the target variable you are trying to predict, which variables (features) you are using to predict it, and why you chose those features.
-  * Fit a basic predictive model using one of the techniques we discussed in class (*regression*: Nearest Neighbors or Linear Regression, *classification*: Nearest Neighbors or Logistic Regression; other choices such as Decision Trees are also fine)
-  * Report the results of your basic predictive model on held-out data or via cross-validation.
+  * Fit a basic predictive model using one of the techniques we discussed in class (*regression*: Nearest Neighbors or Linear Regression, *classification*: Decision Trees or Logistic Regression; other choices such as Nearest Neighbors or Random Forest are also fine)
+  * Report the results of your basic predictive model on held-out data and/or via cross-validation.
   * Make one or more changes to the predictive model to improve the accuracy. Discuss what changes you made, why you made them, and what the results were.
   * **Alternative**: instead of a supervised prediction task, you can define an unsupervised learning task and use clustering. In this case, clearly state what you want to understand through the clustering, and report your observations.
 * **Findings**: Summarize the analyses you performed and what the results told you. What do your findings say about the real-world and prediction (or clustering) questions you posed?
