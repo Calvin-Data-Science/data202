@@ -405,49 +405,88 @@ div.tocify {
 <ul>
 <li>You will likely need to make some choices regarding what variables to include, whether to do some pre-processing (e.g., addressing missing values, generating new variables), etc. Clearly state:
 <ul>
-<li>What decisions you made</li>
-<li>Why you made them</li>
-<li>What might have been alternative choices.</li>
+<li><strong>What</strong> decisions you made</li>
+<li><strong>Why</strong> you made them</li>
+<li>What might have been <em>alternative</em> choices.</li>
+</ul></li>
+<li>Tell the “<strong><a href="https://web.stanford.edu/class/cs224u/readings/shieber-writing.pdf">rational reconstruction</a></strong>” of the story of how the analysis was done.
+<ul>
+<li><strong>Don’t</strong> give the play-by-play of everything you tried, every idea you had, etc., but…</li>
+<li><strong>Do</strong> include things you tried that led to an important observation later on.</li>
 </ul></li>
 <li>If you use any code from the Internet, you should acknowledge its source and provide a link.</li>
 <li>You should submit all of the code needed to replicate your results, but <strong>your report should be understandable without looking at the code</strong>.</li>
-<li>Each project team has a <code>proj</code> repo; please use it. &amp; The repo includes a template that gives one possible outline. You may adapt the outline as needed for your project. The template includes an “appendix” block that should cause all code to appear there. You may also set <code>echo=TRUE</code> on any particular code block if you want to highlight something about it.</li>
+<li>Each project team has a <code>proj</code> repo; please use it.</li>
+<li>The repo includes a template that gives one possible outline. You may adapt the outline as needed for your project. The template includes an “appendix” block that should cause all code to appear there. You may also set <code>echo=TRUE</code> on any particular code block if you want to highlight something about it.</li>
 <li>You may make slides if you like (using Xaringan, ioslides, PowerPoint, etc.), Shiny apps, etc., but please also submit a report document in either HTML or PDF format.</li>
 </ul>
-<p>Your report should include the following elements:</p>
+<p>Your report should include the following general elements (though treat this specific outline as a suggestion only; certain reports will need to deviate from this structure in small or large part):</p>
 <ul>
 <li>A succinct but descriptive <strong>title</strong></li>
-<li><strong>Question</strong>(s)
+<li><strong>Overview</strong>
 <ul>
-<li>A <strong>real-world question</strong> that you’d like to explore, and <em>why</em> it’s interesting. (This question should be stated in language that is understandable to someone who hasn’t studied data science and doesn’t know the details of your dataset.)</li>
-<li>A <strong>modeling question</strong> for which you’ll use regression, classification, or some other kind of modeling. (This question should be stated in more specific technical terms and reference the particular features of your dataset.) This question ideally helps answer the real-world question, but it’s okay if it doesn’t.</li>
-<li>An analysis of the <strong>appropriateness of your dataset</strong> for addressing these questions.</li>
+<li>A <strong>real-world question</strong> that you’d like to explore, and <em>why</em> it’s interesting.
+<ul>
+<li>This question should be stated in language that is understandable to someone who hasn’t studied data science and doesn’t know the details of your dataset.</li>
+<li>The best questions include motivation from prior literature that gives, for example, some pattern or relationship that you’d <em>expect</em> to find and why.</li>
 </ul></li>
-<li><strong>Dataset</strong>
+<li>A brief (2-4 sentences) high-level description of the dataset: what is the dataset about? Where did it come from? What sort of data does it contain?</li>
+</ul></li>
+<li><strong>Approach</strong>
 <ul>
-<li>A brief (2-4 sentences) verbal description of the dataset: what is the dataset about?</li>
-<li>A description of its <em>provenance</em>: where did the data come from originally? Where did you download it from? And (as much as you can tell or speculate) how did it end up available there?</li>
-<li>The number of records in the dataset, and what each one represents</li>
+<li>A <strong>problem description</strong> or <strong>specific question</strong>
+<ul>
+<li>This question should be stated in more specific technical terms than the real-world question.</li>
+<li>It should reference the particular features of your dataset.</li>
+<li>This question ideally helps answer the real-world question, but it’s okay if it doesn’t.</li>
+</ul></li>
+<li>The <strong>approach</strong> that you’ll take to answer that question, probably using some sort of predictive or statistical modeling.</li>
+<li>A description of the data’s <em>provenance</em>: as much as you can, trace the path from the <em>events</em> or <em>measurements</em> all the way to the dataset you’re working with. You might answer:
+<ul>
+<li>where did the data come from originally?</li>
+<li>Where did you download it from? As much as you can tell or speculate, how did it end up available there?</li>
+</ul></li>
+<li>The number of records (rows) in the dataset, and what each one represents.
+<ul>
+<li>Give an example of some part of the data in your dataset.</li>
+<li>Consider writing a simple sentence that conveys the information in the first row, as an example.</li>
+</ul></li>
 <li>A list of the features in the dataset and their <a href="https://www.textbook.ds100.org/ch/04/eda_data_types.html">types</a></li>
+<li>An analysis of the <strong>appropriateness of your dataset</strong> for your approach. (What’s good about it? What do you wish were better?)</li>
+<li><em>This section should also discuss the overall approach of any basic data wrangling needed to get the data into an overall usable form. More specific wrangling may be needed for constructing plots or models later.</em></li>
 </ul></li>
-<li><strong>Exploratory Data Analysis</strong>
+<li><strong>Exploratory Data Analysis</strong> (EDA)
 <ul>
-<li>Show plots illustrating the distribution of at least 4 variables in your dataset. Comment on anything interesting you observe.</li>
-<li>Show plots illustrating bivariate relationships for at least 2 pairs of variables. Explain what you observe (e.g., positive/negative correlation, no correlation, etc.).</li>
+<li>Show plots or tables illustrating the <em>distribution</em> of at least two variables in your dataset. Comment on anything interesting you observe.</li>
+<li>Show plots illustrating bivariate relationships for at least 2 pairs of variables. Comment on anything interesting you observe (e.g., strength of relationship, dependence on other factors).</li>
+<li>Summarize your EDA findings: how do your observations inform the modeling?</li>
 </ul></li>
 <li><strong>Modeling</strong>
 <ul>
-<li>Clearly state what is the target variable you are trying to predict, which variables (features) you are using to predict it, and why you chose those features.</li>
-<li>Fit a basic predictive model using one of the techniques we discussed in class (<em>regression</em>: Nearest Neighbors or Linear Regression, <em>classification</em>: Decision Trees or Logistic Regression; other choices such as Nearest Neighbors or Random Forest are also fine)</li>
-<li>Report the results of your basic predictive model on held-out data and/or via cross-validation.</li>
-<li>Make one or more changes to the predictive model to improve the accuracy. Discuss what changes you made, why you made them, and what the results were.</li>
+<li><em>This section is written for predictive modeling; if you’re doing inferential modeling or clustering, adapt this section as needed.</em></li>
+<li>Describe the <strong>modeling setup</strong>. Clearly state at least:
+<ul>
+<li>what is the target variable you are trying to predict</li>
+<li>which variables (features) you are using to predict it, and why you chose those features</li>
+<li>how you will measure accuracy (can you give meaningful units?)</li>
+<li>what validation method did you choose and why</li>
+</ul></li>
+<li>Fit a basic predictive model using one of the techniques we discussed in class (<em>regression</em>: Nearest Neighbors or Linear Regression, <em>classification</em>: Decision Trees or Logistic Regression; other choices such as Nearest Neighbors or Random Forest are also fine)
+<ul>
+<li>Describe why you chose that model (and its features and any hyperparameters)</li>
+<li>Describe what kind of performance you expect from it</li>
+</ul></li>
+<li>Report the results of your basic predictive model via cross-validation.</li>
+<li>Make one or more changes to the predictive model to (attempt to) improve the accuracy. Discuss what changes you made, why you made them, and what the results were.</li>
+<li>The strongest reports will include insightful visualizations of the model, its predictions, and/or its mistakes, and a discussion of what those plots tell us.</li>
+<li>Report on the final accuracy of your best model the test set, if applicable.</li>
 <li><strong>Alternative</strong>: instead of a supervised prediction task, you can define an unsupervised learning task and use clustering. In this case, clearly state what you want to understand through the clustering, and report your observations.</li>
 </ul></li>
 <li><strong>Findings</strong>: Summarize the analyses you performed and what the results told you. What do your findings say about the real-world and prediction (or clustering) questions you posed?</li>
-<li><strong>Limitations</strong>: What are some limitations of your analyses and potential biases of the data you used?</li>
-<li><strong>Future Directions</strong>: What new questions came up following your exploration of this data? Describe at least one question that could not be answered using your data alone, and specify what additional data you would collect to address it.</li>
+<li><strong>Limitations</strong>: What are some limitations of your analyses? Did you notice any potential biases in the data you used or analysis you did? Any other ethical questions raised during this project?</li>
+<li><strong>Future Directions</strong>: What new questions came up following your exploration of this data? Identify at least one question that would require new data or a new analysis approach, and specify what steps would be required.</li>
 </ul>
-<p>(Project descriptions thanks to <a href="https://scholar.harvard.edu/oamir/home">Ofra Amir</a>)</p>
+<p>(Project descriptions originally thanks to <a href="https://scholar.harvard.edu/oamir/home">Ofra Amir</a>)</p>
 <div id="connection-to-learning-objectives" class="section level4">
 <h4>Connection to Learning Objectives</h4>
 <p>Projects should demonstrate proficiency in the primary learning outcomes of this course:</p>
@@ -485,7 +524,7 @@ div.tocify {
 </tr>
 <tr class="even">
 <td><strong>Communicate</strong> visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences</td>
-<td>Includes a blog post and a brief presentation</td>
+<td>Includes a report in the style of a blog post and a brief presentation</td>
 </tr>
 <tr class="odd">
 <td><strong>Analyze</strong> considerations of responsibility and justice in all of the above practices</td>

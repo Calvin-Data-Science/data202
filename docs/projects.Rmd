@@ -135,42 +135,66 @@ The final course meeting (during the designated final exam period) will be devot
 **NOTES**:
 
 * You will likely need to make some choices regarding what variables to include, whether to do some pre-processing (e.g., addressing missing values, generating new variables), etc. Clearly state:
-  * What decisions you made
-  * Why you made them
-  * What might have been alternative choices.
+  * **What** decisions you made
+  * **Why** you made them
+  * What might have been *alternative* choices.
+* Tell the "**[rational reconstruction](https://web.stanford.edu/class/cs224u/readings/shieber-writing.pdf)**" of the story of how the analysis was done.
+  * **Don't** give the play-by-play of everything you tried, every idea you had, etc., but...
+  * **Do** include things you tried that led to an important observation later on.
 * If you use any code from the Internet, you should acknowledge its source and provide a link.
 * You should submit all of the code needed to replicate your results, but **your report should be understandable without looking at the code**.
 * Each project team has a `proj` repo; please use it.
-& The repo includes a template that gives one possible outline. You may adapt the outline as needed for your project.
+* The repo includes a template that gives one possible outline. You may adapt the outline as needed for your project.
 The template includes an "appendix" block that should cause all code to appear there. You may also set `echo=TRUE` on any particular code block if you want to highlight something about it.
 * You may make slides if you like (using Xaringan, ioslides, PowerPoint, etc.), Shiny apps, etc., but please also submit a report document in either HTML or PDF format.
 
-Your report should include the following elements:
+Your report should include the following general elements (though treat this specific outline as a suggestion only; certain reports will need to deviate from this structure in small or large part):
 
 * A succinct but descriptive **title**
-* **Question**(s)
-  * A **real-world question** that you'd like to explore, and *why* it's interesting. (This question should be stated in language that is understandable to someone who hasn't studied data science and doesn't know the details of your dataset.)
-  * A **modeling question** for which you'll use regression, classification, or some other kind of modeling. (This question should be stated in more specific technical terms and reference the particular features of your dataset.) This question ideally helps answer the real-world question, but it's okay if it doesn't.
-  * An analysis of the **appropriateness of your dataset** for addressing these questions.
-* **Dataset**
-  * A brief (2-4 sentences) verbal description of the dataset: what is the dataset about?
-  * A description of its *provenance*: where did the data come from originally? Where did you download it from? And (as much as you can tell or speculate) how did it end up available there?
-  * The number of records in the dataset, and what each one represents
+* **Overview**
+  * A **real-world question** that you'd like to explore, and *why* it's interesting.
+    * This question should be stated in language that is understandable to someone who hasn't studied data science and doesn't know the details of your dataset.
+    * The best questions include motivation from prior literature that gives, for example, some pattern or relationship that you'd *expect* to find and why.
+  * A brief (2-4 sentences) high-level description of the dataset: what is the dataset about? Where did it come from? What sort of data does it contain?
+* **Approach**
+  * A **problem description** or **specific question**
+    * This question should be stated in more specific technical terms than the real-world question.
+    * It should reference the particular features of your dataset.
+    * This question ideally helps answer the real-world question, but it's okay if it doesn't.
+  * The **approach** that you'll take to answer that question, probably using some sort of predictive or statistical modeling.
+  * A description of the data's *provenance*: as much as you can, trace the path from the *events* or *measurements* all the way to the dataset you're working with. You might answer:
+    * where did the data come from originally?
+    * Where did you download it from? As much as you can tell or speculate, how did it end up available there?
+  * The number of records (rows) in the dataset, and what each one represents.
+    * Give an example of some part of the data in your dataset.
+    * Consider writing a simple sentence that conveys the information in the first row, as an example.
   * A list of the features in the dataset and their [types](https://www.textbook.ds100.org/ch/04/eda_data_types.html)
-* **Exploratory Data Analysis**
-  * Show plots illustrating the distribution of at least 4 variables in your dataset. Comment on anything interesting you observe.
-  * Show plots illustrating bivariate relationships for at least 2 pairs of variables. Explain what you observe (e.g., positive/negative correlation, no correlation, etc.).
+  * An analysis of the **appropriateness of your dataset** for your approach. (What's good about it? What do you wish were better?)
+  * *This section should also discuss the overall approach of any basic data wrangling needed to get the data into an overall usable form. More specific wrangling may be needed for constructing plots or models later.*
+* **Exploratory Data Analysis** (EDA)
+  * Show plots or tables illustrating the *distribution* of at least two variables in your dataset. Comment on anything interesting you observe.
+  * Show plots illustrating bivariate relationships for at least 2 pairs of variables. Comment on anything interesting you observe (e.g., strength of relationship, dependence on other factors).
+  * Summarize your EDA findings: how do your observations inform the modeling?
 * **Modeling**
-  * Clearly state what is the target variable you are trying to predict, which variables (features) you are using to predict it, and why you chose those features.
+  * *This section is written for predictive modeling; if you're doing inferential modeling or clustering, adapt this section as needed.*
+  * Describe the **modeling setup**. Clearly state at least:
+    * what is the target variable you are trying to predict
+    * which variables (features) you are using to predict it, and why you chose those features
+    * how you will measure accuracy (can you give meaningful units?)
+    * what validation method did you choose and why
   * Fit a basic predictive model using one of the techniques we discussed in class (*regression*: Nearest Neighbors or Linear Regression, *classification*: Decision Trees or Logistic Regression; other choices such as Nearest Neighbors or Random Forest are also fine)
-  * Report the results of your basic predictive model on held-out data and/or via cross-validation.
-  * Make one or more changes to the predictive model to improve the accuracy. Discuss what changes you made, why you made them, and what the results were.
+    * Describe why you chose that model (and its features and any hyperparameters)
+    * Describe what kind of performance you expect from it
+  * Report the results of your basic predictive model via cross-validation.
+  * Make one or more changes to the predictive model to (attempt to) improve the accuracy. Discuss what changes you made, why you made them, and what the results were.
+  * The strongest reports will include insightful visualizations of the model, its predictions, and/or its mistakes, and a discussion of what those plots tell us.
+  * Report on the final accuracy of your best model the test set, if applicable.
   * **Alternative**: instead of a supervised prediction task, you can define an unsupervised learning task and use clustering. In this case, clearly state what you want to understand through the clustering, and report your observations.
 * **Findings**: Summarize the analyses you performed and what the results told you. What do your findings say about the real-world and prediction (or clustering) questions you posed?
-* **Limitations**: What are some limitations of your analyses and potential biases of the data you used? 
-* **Future Directions**: What new questions came up following your exploration of this data? Describe at least one question that could not be answered using your data alone, and specify what additional data you would collect to address it.
+* **Limitations**: What are some limitations of your analyses? Did you notice any  potential biases in the data you used or analysis you did? Any other ethical questions raised during this project?
+* **Future Directions**: What new questions came up following your exploration of this data? Identify at least one question that would require new data or a new analysis approach, and specify what steps would be required.
 
-(Project descriptions thanks to [Ofra Amir](https://scholar.harvard.edu/oamir/home))
+(Project descriptions originally thanks to [Ofra Amir](https://scholar.harvard.edu/oamir/home))
 
 #### Connection to Learning Objectives
 
@@ -183,5 +207,5 @@ Projects should demonstrate proficiency in the primary learning outcomes of this
 | **Transform** data faithfully into usable forms | Includes some data wrangling (merging multiple data sources, aggregating, re-coding data, identifying and dealing with missing data, etc.) |
 | **Explore** datasets to interrogate their representativeness, build intuition, and generate hypotheses | Includes results of exploratory analytics about data values, completeness, etc. (e.g., exploratory visualizations and/or descriptive statistics); includes some reflection on how the actually available data shaped the project goal / question |
 | **Apply** predictive tools to draw conclusions, evaluating the suitability of these models | Includes a predictive model (regression or classification) that uses two or more features to predict an outcome. Includes a discussion of how modeling decisions were made and on how accurate the model should be on unseen (e.g., future) data, based on quantitative evidence (e.g., cross-validation). |
-| **Communicate** visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences | Includes a blog post and a brief presentation |
+| **Communicate** visual and textual data-driven narratives that are useful, faithful, and intelligible to both technical and non-technical audiences | Includes a report in the style of a blog post and a brief presentation |
 | **Analyze** considerations of responsibility and justice in all of the above practices | Demonstrates humility and awareness throughout the project, e.g., includes appropriate caveats with claims, includes discussion of implications of decisions that were made during acquisition / modeling / communication. Identifies potential ethical issues raised by existing data. |
