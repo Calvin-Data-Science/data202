@@ -1,0 +1,37 @@
+---
+title: "Kaggle"
+author: "K Arnold"
+date: "12/5/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(pins)
+library(tidyverse)
+```
+
+
+```{r}
+board_register_kaggle(token = "kaggle.json")
+```
+
+```{r}
+data <- 
+  pin_get("austinreese/craigslist-carstrucks-data", board = "kaggle") %>% 
+  read_csv()
+```
+
+
+```{r}
+paysim <- pin_get("ntnu-testimon/paysim1", board = "kaggle")
+```
+
+```{r}
+data <- read_csv(paysim)
+```
+
+
+```{r}
+pin_find("fraud", board = "kaggle")
+```
