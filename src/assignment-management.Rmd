@@ -311,7 +311,7 @@ cached_collaborators("lab04")
 ```
 
 ```{r lookup-names}
-local_repo_owners <- tibble(assignment = c("hw01", "hw02", "hw03", "hw04", "hw09", "lab01", "lab02", "lab03", "lab04", "lab05", "datavis")) %>%
+local_repo_owners <- tibble(assignment = c("hw01", "hw02", "hw03", "hw04", "hw09", "lab01", "lab02", "lab03", "lab04", "lab05", "datavis", "proj")) %>%
   rowwise() %>%
   mutate(collaborators = list(cached_collaborators(assignment))) %>%
   unnest(collaborators) %>%
@@ -464,7 +464,7 @@ createFeedbackPRs <- function(assignment) {
 
 
 ```{r}
-final_proj_teams_raw <- read_csv("../fa20/final-projects.csv", col_types = cols_only(
+final_proj_teams_raw <- read_csv("../fa20/final-projects-2.csv", col_types = cols_only(
   `Student Name` = col_character(),
   `Team Name` = col_character()
 )) %>% janitor::clean_names()
@@ -486,11 +486,22 @@ final_proj_teams <- final_proj_teams_raw %>%
     str_replace_all("[^-A-Za-z0-9]", "")
 )
 final_proj_teams
+# For Moodle
+final_proj_teams %>% select(groupname = team_name) %>% distinct(groupname) %>% write_csv("../fa20/final-project-groupnames.csv")
 ```
 
 ```{r}
 roster %>% count(last_name) %>% filter(n > 1)
 ```
+
+```{r}
+final_proj_teams %>% 
+  group_by(team_name) %>% 
+  summarize(members = str_c(student_name, collapse = ", ")) %>% 
+  mutate(breakout = (row_number() - 1) %% 5 + 1) %>% 
+  write_csv("../fa20/final-project-group-members.csv")
+```
+
 
 
 ```{r eval=FALSE}
@@ -501,5 +512,26 @@ org_create_assignment(
   team = final_proj_teams$team_name,
   source_repo = paste0(ghorg, "/", "proj", "-template")
 )
+```
+
+Fixup final proj teams
+
+```{r eval=FALSE}
+tribble(
+  ~student_name, ~team_name,
+  "Danish Ansari", "Ansari",
+  "Kaitlyn E. Westra", "Westra",
+  "Matthew C. Lobbes", "Lobbes-Padilla",
+  "Richard A. Padilla", "Lobbes-Padilla"
+) %>% 
+  left_join(roster %>% select(student_name, github), by = "student_name") %>% {
+  org_create_assignment(
+    org = ghorg,
+    user = .$github,
+    repo = paste0("proj-", .$team_name),
+    team = .$team_name,
+    source_repo = paste0(ghorg, "/", "proj", "-template")
+  )
+}
 ```
 
