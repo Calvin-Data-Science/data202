@@ -1,3 +1,11 @@
+# After Fall 2020
+
+* A fair number of vis projects just didn't have rich data
+  * the original data was already summarized, or they just typed in things off a graph
+  * little need to wrangle
+  * little flexibility for interesting alternatives
+
+
 # For Fall 2020
 
 See also "overall_notes.md" ! And my OmniFocus.
