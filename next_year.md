@@ -5,6 +5,13 @@
   * little need to wrangle
   * little flexibility for interesting alternatives
 
+Project ideas:
+
+* home price modeling for Grand Rapids assessor's database
+* Bikeshare wrangling
+* Reproduce an interactive visualization?
+
+How many inferential vs predictive modeling projects did I have? What fraction of each made valid conclusions?
 
 # For Fall 2020
 
