@@ -1,0 +1,81 @@
+
+---
+
+```{r eval=FALSE}
+install.packages(c("torch", "torchvision"))
+```
+
+```{r}
+library(torch)
+library(torchvision)
+```
+
+```{r}
+model <- model_resnet18(pretrained = TRUE)
+model$eval()
+
+# Strip out the last layer of the model.
+fc <- model$fc
+model$fc <- torch::nn_identity()
+```
+
+---
+
+## Load data
+
+```{r include=FALSE}
+yelp_photos_dir <- "~/Data/Yelp"
+# head -n 1000 photos.json > photos-1k.json
+yelp_photos <- jsonlite::stream_in(file(file.path(yelp_photos_dir, "photos-1k.json")), verbose = FALSE)
+```
+
+
+```{r}
+load_img <- function(photo_id) {
+  glue("{yelp_photos_dir}/photos/{photo_id}.jpg") %>% 
+    base_loader()
+}
+
+example_photos <- 
+  yelp_photos %>% select(photo_id, label) %>% head(10) %>% 
+  rowwise() %>% 
+  mutate(img = list(load_img(photo_id))) %>%
+  ungroup()
+```
+
+
+```{r show-example-photos}
+example_photos %>% 
+  select(img, label) %>% 
+  pwalk(function(img, label) { 
+    img %>% as.array() %>% as.raster() %>% plot()
+    title(label)
+    })
+```
+
+---
+
+```{r}
+img_features <- example_photos$img %>% 
+  map(function(img) {
+    img %>% 
+      transform_to_tensor() %>% 
+      transform_resize(256) %>% 
+      transform_center_crop(224) %>% 
+      transform_normalize(mean = c(0.485, 0.456, 0.406), std = c(0.229, 0.224, 0.225)) %>% 
+      {.$unsqueeze(1)} %>% 
+      model$forward() %>% 
+      {.$squeeze(1)}
+  })
+```
+
+---
+
+
+```{r}
+imagenet_classes <- jsonlite::fromJSON("imagenet_class_index.json")
+```
+
+```{r}
+labels <- imagenet_classes %>% map_chr(2)
+```
