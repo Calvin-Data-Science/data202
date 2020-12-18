@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Modeling and Forecasting</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="K Arnold" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Modeling and Forecasting
+### K Arnold
+
+---
+
+
+
+
+## Q&amp;A
+
+&gt; For final project, do we present by PowerPoint or by talking through our report?
+
+Talking through report is fine! But if you want to do slides, check out Xaringan
+(and `xaringanthemer`) that have powered all these slides.
+
+&gt; Do all good models require gigantic energy?
+
+No! Simple methods are often good enough. And you can often leverage pre-trained models.
+
+---
+
+&gt; If there're data ethicists in many big tech firms/ the tech world in general, why is there still so much bias with technology?
+
+[Google Employees Say Scientist's Ouster Was 'Unprecedented Research Censorship'](https://www.npr.org/2020/12/03/942417780/google-employees-say-scientists-ouster-was-unprecedented-research-censorship)
+
+.center[
+![:maxheight 40vh](https://media.npr.org/assets/img/2020/12/03/gettyimages-1028811892_custom-244e195db61fdbe1b6fa886f9c52edf98779fadf-s1600-c85.jpg)
+]
+
+Ethics-washing. Critical theory?
+
+---
+
+## A clarification: calibration
+
+* The sentiment classifier we saw last time was prone to extremes (at least on short sentences).
+* The classifier was not *calibrated*: predicted confidence doesn't match reality.
+* This can be *harmful* even if classifier is unbiased. Some details: [Calibration: the Achilles heel of predictive analytics](https://bmcmedicine.biomedcentral.com/articles/10.1186/s12916-019-1466-7)
+
+Many classifiers have calibration problems, but this one was worse than usual.
+
+---
+
+## Projects
+
+&gt; Can I use examples (Kaggle notebooks, blog posts, etc.) that are similar to my project?
+
+* Yes!
+* Google your project title or data set name.
+* Don’t leave me wondering what part is your original work.
+* Reference what you found and how your work differs (is better)
+
+---
+
+## Reminder: State of AI Ethics Discussion Forum
+
+---
+
+## Data Science in the News
+
+![](img/nature-deepmind-protein.png)
+
+.floating-source[
+Source: [Nature](https://www.nature.com/articles/d41586-020-03348-4)
+]
+
+---
+
+![](https://lh3.googleusercontent.com/pL18FAkwzN55iHvMt2W4XRGjueHWe0ILqX1Qm2e4qlPsK3yjDSott3LZIgSg2uqPPn7Zvu3hfxUtYtjDs3bM27zcF8AO_jYnfk8q=w2048-rw-v1)
+
+---
+
+## Modeling
+
+* Capture complex patterns while minimizing over-fitting:
+  * Random Forests
+  * Boosting: XGBoost / LightGBM
+  * MARS
+* Leverage common perceptual patterns: deep learning pre-training
+* Forecast the future of a time series
+  * Trend, seasonality, events, regressors, auto-regression
+  * ([Neural](https://github.com/ourownstory/neural_prophet)) Prophet
+
+---
+
+## Random Forests
+
+.pull-left[
+* Recall: decision tree can capture detailed patterns, but can *overfit* by capturing patterns that don't generalize.
+* Idea: learn *lots of trees*, each on a different random sample of the observations and features.
+* Often "just works" without pre-processing or configuration
+]
+.pull-right[
+![](https://upload.wikimedia.org/wikipedia/commons/7/76/Random_forest_diagram_complete.png)
+]
+
+.floating-source[
+&lt;a href="https://commons.wikimedia.org/wiki/File:Random_forest_diagram_complete.png"&gt;Venkata Jagannath&lt;/a&gt;, &lt;a href="https://creativecommons.org/licenses/by-sa/4.0"&gt;CC BY-SA 4.0&lt;/a&gt;, via Wikimedia Commons
+]
+
+---
+
+### Advanced Modeling in `tidymodels`
+
+Shortcut: [`usemodels` package](https://usemodels.tidymodels.org/) (`devtools::install_github("tidymodels/usemodels")`)
+
+.small[
+
+```r
+data(ames, package = 'modeldata')
+usemodels::use_xgboost(Sale_Price ~ ., ames)
+```
+
+```
+## xgboost_recipe &lt;- 
+##   recipe(formula = Sale_Price ~ ., data = ames) %&gt;% 
+##   step_novel(all_nominal(), -all_outcomes()) %&gt;% 
+##   step_dummy(all_nominal(), -all_outcomes(), one_hot = TRUE) %&gt;% 
+##   step_zv(all_predictors()) 
+## 
+## xgboost_spec &lt;- 
+##   boost_tree(trees = tune(), min_n = tune(), tree_depth = tune(), learn_rate = tune(), 
+##     loss_reduction = tune(), sample_size = tune()) %&gt;% 
+##   set_mode("regression") %&gt;% 
+##   set_engine("xgboost") 
+## 
+## xgboost_workflow &lt;- 
+##   workflow() %&gt;% 
+##   add_recipe(xgboost_recipe) %&gt;% 
+##   add_model(xgboost_spec) 
+## 
+## set.seed(41964)
+## xgboost_tune &lt;-
+##   tune_grid(xgboost_workflow, resamples = stop("add your rsample object"), grid = stop("add number of candidate points"))
+```
+]
+
+---
+
+### See also
+
+* `tune` package, for helping find good settings for hyperparameters
+* [`finetune`](https://finetune.tidymodels.org/) package ([announcement blog post](https://www.tidyverse.org/blog/2020/12/finetune-0-0-1/)) for doing that efficiently
+* the [tidyverse blog](https://www.tidyverse.org/blog/) for catching the latest
+
+---
+
+## Deep Learning Pre-training
+
+---
+
+class: center, middle
+
+![:scale 80%](https://www.mathworks.com/discovery/convolutional-neural-network-matlab/_jcr_content/mainParsys3/discoverysubsection_/mainParsys3/columns/b202664f-91e3-4c3e-8e3e-a299d0568e0b/image_copy.adapt.1200.high.jpg/1606235181834.jpg)
+
+.floating-source[
+Source: [MathWorks neural net article](https://www.mathworks.com/discovery/convolutional-neural-network-matlab.html)
+]
+
+---
+
+&lt;https://blogs.rstudio.com/ai/posts/2020-10-19-torch-image-classification/&gt;
+
+---
+
+## Forecasting
+
+Some resources:
+
+* [ModelTime](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html) R
+  package for comparing various time-series models. ([Another example](https://www.business-science.io/code-tools/2020/11/25/commodities-demand-forecasting.html))
+* [NeuralProphet](https://github.com/ourownstory/neural_prophet) 
+with the same package.
+
+---
+
+![:maxheight 90vh](img/prophet-components.png)
+
+.floating-source[
+Source: [NeuralProphet presentation](https://github.com/ourownstory/neural_prophet/blob/master/notes/Presented_at_International_Symposium_on_Forecasting.pdf)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
