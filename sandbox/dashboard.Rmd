@@ -367,3 +367,32 @@ kent_tests %>%
   
 ```
 
+
+```{r}
+Kent_wide <- MI %>%
+  dplyr::filter(COUNTY == "Kent") %>%
+  pivot_wider(id_cols = Date, names_from = CASE_STATUS, values_from = c(Cases, Deaths))
+
+getSheet("Diagnostic Tests by Result and County") %>% 
+  filter(COUNTY == "Kent") %>% 
+  left_join(
+    Kent_wide,
+    by = c("MessageDate" = "Date")
+  ) %>% 
+  rename(date = MessageDate) %>% 
+  pivot_longer(
+    -c(COUNTY, date),
+    names_to = "measure") %>% 
+  filter(measure %in% c("Positive", "Cases_Confirmed", "Cases_Probable")) %>% 
+  group_by(measure) %>% 
+  #mutate(value7 = rollmean(tailna(value), 7, fill = NA, align = "center")) %>% 
+  filter(date > "2020-10-01") %>% 
+  ggplot(aes(x = date, y = value, color = measure, group = .group)) +
+  geom_point() +
+  #gf_point(value ~ date, color = ~measure) +
+  geom_line(aes(y = rollmean(tailna(value), 7, fill = NA, align = "center"), group = .group))
+  #gf_line(value7 ~ date, color = ~measure) %>% 
+  #gf_labs(x = "Date", title = "New cases reported in Kent County")
+
+```
+
