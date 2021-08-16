@@ -1,5 +1,19 @@
 ## Calvin University - DATA 202
 
+## SLOs
+
+* Perform basic and advanced data management tasks.
+* Create, interpret, critique and refine visualizations of data.
+* Develop and analyze reproducible workflows (using an appropriate programming language) for working with data.
+* Select predictive analytics methods appropriate to the data and task from among the approaches surveyed in the course.
+* Interpret the outcomes of selected predictive analytics techniques.
+
+## Faith Integration
+
+Students will discuss ethical and social considerations of data collection and data-driven systems from Christian and secular perspectives.
+Students practice virtuous data analytics practice: integrity, humility, and justice.
+
+
 Notes after 20FA:
 
 ### Overall Strategy
@@ -36,6 +50,14 @@ Tech / details
 
 
 ### Wrangling
+
+Questions
+
+* What data *should* we collect?
+* What data *shouldn't* we collect?
+* Be able to determine the suitability of a data source for performing a task.
+
+General
 
 * Practice log-transforming data
 * Providing weather data would be good

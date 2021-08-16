@@ -85,8 +85,7 @@ car_prices %>%
   ggplot(aes(x = mileage, y = price / 1000, color = type, shape = type)) +
   geom_point() +
   scale_x_continuous(labels = scales::comma) +
-  labs(x = "Mileage (mi)", y = "Price ($1000)") + 
-  theme_light()
+  labs(x = "Mileage (mi)", y = "Price ($1000)")
 ```
 
 
@@ -110,6 +109,11 @@ car_prices %>%
 mileage affects price differently for different types of cars.
 Consider a car to be "low mileage" if its mileage is less than the median
 mileage.
+
+Details:
+
+* The types should be in order of median `price`. (`fct_reorder`)
+* The x axis should include 0. (`xlim`)
 
 
 ```{r mileage-lo-hi, echo=FALSE}

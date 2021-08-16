@@ -200,6 +200,35 @@ confirmed_global_long %>%
   facet_wrap(~country_or_region, scales = "free_y")
 ```
 
+```{r}
+library(ggrepel)
+country_data <- 
+  confirmed_global_long %>%
+  filter(country_or_region %in% countries_to_plot) %>%
+  group_by(country_or_region, date) %>% # <<
+  summarize(confirmed = sum(confirmed))
+
+last_counts <- country_data %>% 
+  group_by(country_or_region) %>% 
+  slice_tail(n = 1)
+
+country_data %>% 
+  ggplot(aes(x = date, y = confirmed, color = country_or_region)) +
+  geom_line() +
+  geom_text_repel(
+    data = last_counts, aes(label = country_or_region),
+    color="black",
+    direction = "y",
+    segment.alpha = .1,
+    hjust = "left",
+    nudge_x = lubridate::dweeks(3)
+  ) +
+  guides(color = "none") +
+  scale_y_log10() +
+  scale_x_datetime(expand = expansion(mult = c(0, .3)))
+```
+
+
 ## Per Capita
 
 Per-capita case counts would allow us to compare across countries in a different

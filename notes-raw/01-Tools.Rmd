@@ -68,11 +68,11 @@ pkgs <- c(
   "mosaic",
   "devtools",
   "usethis",
-  "keras",
+#  "keras",
   "nycflights13",
   "skimr",
-  "timeDate",
-  "qualtRics"
+  "timeDate"
+#  "qualtRics"
 )
 
 # skip package you already have to save time
