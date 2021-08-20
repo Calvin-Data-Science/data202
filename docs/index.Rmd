@@ -1,63 +1,22 @@
 ---
-title: "DATA 202 (Data Science 2)---Fall 2020"
+title: "DATA 202---Fall 2021"
 ---
-
-```{r setup, include=FALSE}
-library(tidyverse)
-library(glue)
-library(lubridate)
-```
-
-```{r include=FALSE}
-updateFiles <- FALSE
-if (updateFiles) {
-  tribble(~ gid, ~ name,
-          "97370056", "timeline",
-          "650664066", "week") %>%
-    pwalk(function(gid, name) {
-      download.file(
-        url = glue(
-          "https://docs.google.com/spreadsheets/d/1JRDj1tIUPr89yfqL3OhZ5zqbjC8cm5hk8U1rHia1A3Y/export?format=csv&gid={gid}"
-        ),
-        destfile = glue("../{name}.csv")
-      )
-    })
-}
-```
-
-```{r include=FALSE}
-## https://stackoverflow.com/questions/16193549/how-can-i-create-a-vector-containing-the-days-of-the-week
-days.of.week <- weekdays(as.Date(4, "1970-01-01", tz = "GMT") + 0:6)
-spec <- read_csv("../week.csv") %>%
-  mutate(
-    day = days.of.week[(Offset %% 7) + 1],
-  )
-```
-
-```{r include=FALSE}
-getDueDay <- function(category) {
-  match <- spec %>% filter(Category == category)
-  stopifnot(nrow(match) == 1)
-  match$day
-}
-```
 
 ## Quick Links
 
+* [Moodle](https://moodle.calvin.edu/course/view.php?id=54823)
 * [Slides](slides/)
-* [Notes](notes/)
 * [Calvin RStudio](https://rstudio.calvin.edu)
-* [Moodle](https://moodle.calvin.edu/course/view.php?id=51571)
 
 ## Staff
 
 * **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298
-* **Meeting Time**: MWF 9-9:50am
+* **Meetings** in SB 382 (occasionally SB 372 lab)
+	- section A: MWF 12:30-1:20pm
+	- section B: MWF 1:30-2:20pm
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
-* Teaching Assistant / Grader: Yejae Kim
-* **Office Hours**
-  * Prof Arnold: Wed 3-4pm in [this Teams meeting](https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjU5ZDY2NjgtMDczMy00YjQ2LWFlZDctZjM0NjgxMDJhNTZi%40thread.v2/0?context=%7b%22Tid%22%3a%22756349b9-0610-4b01-917b-2a4ac10df947%22%2c%22Oid%22%3a%22610c1b0d-2276-4369-a7a1-6323b42b5de8%22%7d) or in NH 295. See [my Google Calendar](https://kenarnold.org/calendar.html) for exceptions. I'm also available by appointment.
-  * Yejae: Wed 4:30-5:30pm in Teams (General channel)
+* Teaching Assistant / Grader: TODO
+* **Office Hours**: TODO
 
 ## Objectives
 
@@ -74,39 +33,26 @@ Upon completing this class, you should be able to work through each part of the 
 * Visualization, e.g., refine a given visualization to improve its effectiveness and faithfulness
 * Communication, e.g., write intelligible and faithful interpretations of the process and results of a predictive modeling process
 
-
-## Pandemic-Related Policies
-
-In this time we expect you to take responsibility for both your own health and also your peers’ health. If you are feeling at all “under the weather” (even if it’s just from not getting enough sleep) or have any reason to suspect that you might have been exposed to Covid or another communicable disease, please feel free to stay home and join our class remotely, no questions asked. But **you must let me know by email** by class time.
-
-I will be following the same policy. I will let you know by Teams and email before each class day if that day will be held online. I hope to give as much notice as possible, but this decision may need to be made at the last minute.
-
-However you're expected to be *cognitively present*. That means:
-
-* **In person**: use laptops or phones only as instructed.
-* **Remotely**: keep your video on unless you've discussed this with me in advance
-
-We will ask for one in-person student each class to volunteer to represent the remote students by monitoring the Teams chat and alerting the instructor to any questions or problems.
-
-If anything about this pandemic or this course (or both!) is stressing you out, please feel free to talk with me. The [Center for Counseling and Wellness](https://calvin.edu/offices-services/counseling-and-wellness/) is also super well equipped to help.
-
 ## Communication
 
 We will use the following communication tools:
 
-* Email (ka37@calvin.edu)
-  * When in doubt, email me. I may redirect you to one of these other places.
-  * Expect a weekly "heads-up" email from me.
-* *MS Teams*
-  * All synchronous meetings will happen on our class Team (with the hopeful exception of some lectures; see below)
-  * Please use Teams for Q&A that may be relevant to others in the class. If I get such a question by email, I will probably direct you to post it on Teams so I can answer there.
+* Outside of class, we'll communicate primarily on Piazza
+    - Post *questions* about assignments, concepts, or when you have problems getting code to run.
+    - Post *answers* as well. Answering helps the community and also gives you practice explaining something you just learned.
+    - Post *notes* about interesting articles or events.
+    - Posts can be public or private, anonymous or not. In general, **don't post code publicly** . If you do have to include code, make the post private so the course staff can decide if it's ok to share.
+* Use **email** for requests for accommodations such as missing class or health issues.
+* Use **Teams** for friendly chat; I'll redirect most questions about course content to Piazza.
+
+## Materials
+
+Moodle is the home page for all class materials and discussion forums. It will include links as necessary to other materials.
+
 * *Moodle* is the main source of course material.
   * Many Moodle segments will actually link to this website.
   * Some material will be duplicated in other places. If there are inconsistencies, please let the instructors know and treat Moodle as the reference.
   * Moodle will also be the home of our discussion forums.
-
-
-## Materials
 
 ### Technology
 
@@ -114,37 +60,22 @@ We will use the following communication tools:
   * As part of our objective of reproducibility, we will be using `git` for distributing assignments, collaboration, and tracking progress.
 * [RStudio Server](https://rstudio.calvin.edu/)
 
-### Textbooks
+### Textbook
 
-We will use the following materials. All are available freely online, but some may also be purchased in hardcover if desired.
+We will use the book [Modern Data Science with R](https://mdsr-book.github.io/). It is [freely available online](https://mdsr-book.github.io/mdsr2e/), but some may also be purchased in hardcover if desired.
+
+The following resources may also be helpful:
 
 * [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke: *for foundational concepts of data visualization*
-* [ModernDive](https://moderndive.com/index.html): *for data wrangling and some applied visualization*
 * [Interactive web-based data visualization with R, plotly, and shiny](https://plotly-r.com/): *for more visualization*
-* Course notes (WIP) for predictive modeling.
   
 ## Weekly expectations
 
-**Each week is the same(ish)**. Each week you will be expected to:
-
-* **Be ready**: Prep readings due `r getDueDay("prep")`
-* **Be present** at Monday/Wednesday lectures and Friday labs
-  * Lab reports are due on `r getDueDay("lab")`
-* **Practice**: Homework (or project milestone) due `r getDueDay("hw")`
-* **Check in**: Quizzes on `r getDueDay("quiz")`
-* **Look around**: Discussion forum posts due `r getDueDay("disc")`
-
+TODO
 
 ### Lecture and Lab
 
-* Lectures are held Mondays and Wednesdays at 9-9:50am. If you have a laptop, please bring it.
-  * On the first day of class (9/2), we will meet in SB 010. Please bring your laptops.
-  * Based on how the Calvin community is doing managing Covid, we will decide whether to hold class in person or not.
-    We may make more conservative decisions than the university requires overall.
-  * So **please check Teams** for class location before coming in person. You may always join online.
-* Labs will be held Fridays at 9-9:50am, always on *Teams*. 
-
-Lab reports will be due on the following `r getDueDay("lab")`.
+TODO
 
 ### Projects
 
@@ -161,7 +92,6 @@ Final projects may be completed in teams of up to 3. Teams will have the followi
 * Each team member must submit an assessment of how they and other team members fulfilled their contract.
 
 Details of these expectations are forthcoming.
-
 
 ## Grading
 
@@ -203,7 +133,6 @@ I intend for this class to be an environment where we equally respect people of 
 
 We will not always do this well. If you or someone else in this class is hurt by something I say or do in class, I would like to work to remedy it. I’ll welcome this feedback in whatever way is comfortable for you: in public, in private, via another person (such as our TA or my department chair, Keith Vander Linden), or via a report to [Safer Spaces](https://calvin.edu/offices-services/safer-spaces/) or the [provost's office](http://www.calvin.edu/go/comments-on-faculty/).
 
-
 ## Special Circumstances
 
 Occasionally there are special circumstances that require that course policies be adjusted for a particular student. In such cases, it is the responsibility of the student to inform me of the situation as soon as possible, so that the appropriate arrangements can be made. This includes, but is not limited to, students with documented disabilities.
@@ -212,23 +141,11 @@ Calvin University has a continuing commitment to providing reasonable accommodat
 
 We will give an incomplete grade (`I`) only in unusual circumstances, and only if those circumstances have been confirmed by the Student Life office.
 
+## Course Outline
 
+TODO
 
-## Topics
-
-About two weeks will be dedicated to each of the following topics:
-
-```{r echo=FALSE, message=FALSE, results='asis'}
-read_csv("../timeline.csv") %>%
-  filter(!is.na(Topic)) %>%
-  select(Topic) %>%
-  transmute(entry = paste0("* ", Topic, "\n")) %>%
-  pull(entry) %>%
-  cat(sep = "")
-```
-
-See Moodle for details. We will also be discussing a variety of human contexts and ethics topics. We will curate this list of topics together in the first week of class.
-
+See Moodle for details. We will also be discussing a variety of societal and ethical topics.
 
 ## License
 
