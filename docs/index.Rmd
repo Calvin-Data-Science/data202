@@ -102,11 +102,24 @@ Unless otherwise arranged, grades will be weighted as follows:
 * 10% Lab exercises
 * 20% Homework
 * 20% Quizzes
-* 10% Midterm Exam
+* 10% Midterm Exams (2)
 * 10% Midterm Project
 * 15% Final Project
 
 Your lowest quiz score will get thrown out.
+
+### Exam Scheduling
+
+We plan to hold midterm exams for both sections of the course on the same day:
+
+* Midterm 1: Friday October 15
+* Midterm 2: Wednesday December 8
+
+Please consult the exam schedules for your other classes. If this schedule would require you to take exams in two different classes on the same day, please advise the instructor ASAP as we may be able to shift the dates.
+
+The oral and written presentation of the final project will serve as the final exam; there will not be a separate test.
+
+### Academic Integrity
 
 As the [Calvin Academic Integrity Policy](https://calvin.edu/directory/policies/academic-integrity-policy) says, "At Calvin, the student-faculty relationship is based on trust and mutual respect."
 
