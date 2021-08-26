@@ -1,6 +1,15 @@
-# remotes::install_github('yihui/xaringan')
-# remotes::install_github("gadenbuie/countdown")
-# remotes::install_github("gadenbuie/xaringanExtra")
+install_github_if_missing <- function(repo) {
+  parts <- strsplit(repo, '/')[[1]]
+  user <- parts[1]
+  pkg <- parts[2]
+  # Approach from https://hohenfeld.is/posts/check-if-a-package-is-installed-in-r/
+  if (!nzchar(system.file(package = pkg))) {
+    remotes::install_github(repo)
+  }
+}
+install_github_if_missing("gadenbuie/countdown")
+install_github_if_missing("gadenbuie/xaringanExtra")
+install_github_if_missing("hadley/emo")
 
 calvin_maroon <- "#8C2131"
 calvin_gold <- "#F3CD00"
@@ -8,7 +17,36 @@ calvin_brightred <- "#C2002F"
 calvin_renewblue <- "#71B1C8"
 calvin_truegreen <- "#A2D683"
 
-slideSetup <- function(mark_languages = FALSE) {
+slideSetup <- function() {
+  # Some borrowed from https://github.com/sta199-fa21-003/website/blob/master/static/slides/setup.Rmd
+  # Code setup.
+  library(conflicted)
+  conflict_prefer("filter", "dplyr", quiet = TRUE)
+  set.seed(1234)
+
+  options(
+    htmltools.dir.version = FALSE,
+    dplyr.print_min = 6,
+    dplyr.print_max = 6,
+    tibble.width = 65,
+    width = 65
+  )
+
+  # figure height, width, dpi
+  knitr::opts_chunk$set(echo = TRUE,
+                        fig.width = 8,
+                        fig.asp = 0.618,
+                        out.width = "60%",
+                        fig.align = "center",
+                        dpi = 300,
+                        message = FALSE)
+  # ggplot2
+  ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
+
+  # fontawesome
+  htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+
+
   muted <- scales::muted
   glue <- glue::glue
   library(xaringanthemer)
@@ -73,7 +111,14 @@ slideSetup <- function(mark_languages = FALSE) {
 
   ))
 
-  xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "editable", "tachyons"))
+  xaringanExtra::use_xaringan_extra(c(
+    "tile_view", "animate_css", "editable", "tachyons", "panelset"))
 
-
+  # Write a "macros.js" for remarkjs macros.
+  cat(r"(
+      remark.macros.scale = function(w) {
+      var url = this;
+      return '<img src="' + url + '" style="width: ' + w + '" />';
+      };
+  )", file = "macros.js", append = FALSE, sep = "\n")
 }

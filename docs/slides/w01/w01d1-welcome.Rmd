@@ -1,0 +1,49 @@
+---
+title: "Welcome to DATA 202!"
+author: "K Arnold"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    self_contained: FALSE
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+---
+
+```{r setup, include=FALSE, message=FALSE}
+source("../slides-common.R")
+slideSetup()
+```
+
+
+class: middle
+
+# An opening prayer for a unique semester
+
+From the apostle Paul's letter to the Philippians:
+
+> This is my prayer: <br>that your love may abound more and more<br> in knowledge and depth of insight,<br>so that you may be able to discern what is best and may be pure and blameless for the day of Christ, filled with the fruit of righteousness that comes through Jesus Christ—to the glory and praise of God.
+
+---
+
+class: middle
+
+# What is Data Science?
+
+--
+
+* **Data**: information, collected systematically
+* **Science**: systematic study of that data
+
+---
+
+# What is this course?
+
+- **visualization**: communicating data to humans
+- **modeling** and validation: using data to perform tasks
+- but first, **data wrangling**: How to transform data into the structure you need for visualization and modeling
+
+...using **computing** in the R language (`#rstats`) and occasionally other tools
