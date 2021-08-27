@@ -8,6 +8,40 @@ title: "DATA 202---Fall 2021"
 * [Slides](slides/)
 * [Calvin RStudio](https://rstudio.calvin.edu)
 
+## Description
+
+An introduction to the conceptual foundations and practical skills needed to transform data into useful forms and apply predictive analytics to discover patterns and anticipate trends. Primary focus is on the core skills and concepts needed to pull data from a range of sources; to filter, transform, and combine data sets to prepare them for analysis; and to construct quantitative summaries and basic visualizations. Programming is used throughout to assemble data-processing pipelines. Students will also discuss ethical and social considerations of data collection and data-driven systems. 
+
+Prerequisites:
+
+- DATA 101 / DATA 175 / STAT 243 / STAT 245, **and**
+- CS 106 / CS 108 / CS 104 (grade of C or higher)
+
+### Technical Objectives
+
+- **Data Wrangling** : Perform basic and advanced data management tasks.
+  - Characterize the shape and structure of tabular data
+  - Store and query data using files (CSV, Excel), databases (SQL)
+  - Identify appropriate data types
+  - Manipulate tabular data structure using
+    - Boolean expressions
+    - Vectorized data transformations
+    - String manipulation
+- **Communication** : Create, interpret, critique and refine visualizations of data.
+  - Graphical visualization
+  - Tabular visualization
+  - Communication using reports
+- **Predictive Analytics** :
+  - Select predictive analytics methods appropriate to the data and task from among the approaches surveyed in the course.
+  - Interpret the outcomes of selected predictive analytics techniques.
+
+Time permitting, students will also learn to obtain data from web sources (either by "scraping" or APIs), plot geospatial data, and mine text data.
+
+### Faith Integration Objectives
+
+- Students will discuss ethical and social considerations of data collection and data-driven systems from Christian and secular perspectives.
+- Using transparent reproducible workflows and regularly acknowledging limitations will help students practice virtues including integrity, humility, and justice.
+
 ## Staff
 
 * **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298
