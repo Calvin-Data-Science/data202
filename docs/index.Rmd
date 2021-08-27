@@ -10,7 +10,7 @@ title: "DATA 202---Fall 2021"
 
 ## Description
 
-An introduction to the conceptual foundations and practical skills needed to transform data into useful forms and apply predictive analytics to discover patterns and anticipate trends. Primary focus is on the core skills and concepts needed to pull data from a range of sources; to filter, transform, and combine data sets to prepare them for analysis; and to construct quantitative summaries and basic visualizations. Programming is used throughout to assemble data-processing pipelines. Students will also discuss ethical and social considerations of data collection and data-driven systems. 
+An introduction to the conceptual foundations and practical skills needed to transform data into useful forms and apply predictive analytics to discover patterns and anticipate trends. Primary focus is on the core skills and concepts needed to pull data from a range of sources; to filter, transform, and combine data sets to prepare them for analysis; and to construct quantitative summaries and basic visualizations. Programming is used throughout to assemble data-processing pipelines. Students will also discuss ethical and social considerations of data collection and data-driven systems.
 
 Prerequisites:
 
@@ -50,7 +50,7 @@ Time permitting, students will also learn to obtain data from web sources (eithe
 * **Meetings** in SB 382, or occasionally in the SB 354 ("Gold") lab
 	- section A: MWF 12:30-1:20pm
 	- section B: MWF 1:30-2:20pm
-* **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
+* **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723
 * Teaching Assistant / Grader: TODO
 * **Office Hours**: TODO
 
@@ -80,6 +80,7 @@ Moodle is the home page for all class materials and discussion forums. It will i
 * [GitHub](https://github.com/)
   * As part of our objective of reproducibility, we will be using `git` for distributing assignments, collaboration, and tracking progress.
 * [RStudio Server](https://rstudio.calvin.edu/)
+  * The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
 
 ### Textbook
 
@@ -89,14 +90,16 @@ The following resources may also be helpful:
 
 * [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke: *for foundational concepts of data visualization*
 * [Interactive web-based data visualization with R, plotly, and shiny](https://plotly-r.com/): *for more visualization*
-  
+
 ## Weekly expectations
 
-TODO
+Most weeks will look like this:
 
-### Lecture and Lab
-
-TODO
+- **Monday**: Complete preparation activities before class
+- **Tuesday**: Discussion forum initial post is due
+- **Wednesday**: Homework is due
+- **Thursday**: Discussion forum reply due
+- **Friday**: Weekly quiz closes
 
 ### Projects
 
@@ -127,6 +130,8 @@ Unless otherwise arranged, grades will be weighted as follows:
 * 15% Final Project
 
 Your lowest quiz score will get thrown out.
+
+Late work is not officially accepted.
 
 ## Exam Scheduling
 
@@ -160,7 +165,7 @@ I came to Calvin because I wanted to explore what our Christian calling to “ac
 
 I intend for this class to be an environment where we equally respect people of every ethnicity, gender, socioeconomic background, political learning, religious background, etc. I will try to create that community by having us read diverse voices, engage with issues of importance to people unlike ourselves, and structure discussions that require students to engage respectfully with perspectives different from their own. I invite your help.
 
-We will not always do this well. If you or someone else in this class is hurt by something I say or do in class, I would like to work to remedy it. I’ll welcome this feedback in whatever way is comfortable for you: in public, in private, via another person (such as our TA or my department chair, Keith Vander Linden), or via a report to [Safer Spaces](https://calvin.edu/offices-services/safer-spaces/) or the [provost's office](http://www.calvin.edu/go/comments-on-faculty/).
+We will not always do this well. If you or someone else in this class is hurt by something I say or do in class, I would like to work to remedy it. I’ll welcome this feedback in whatever way is comfortable for you: in public, in private, anonymously via Piazza, via my department chair (Professor VanderLinden), or via a report to [Safer Spaces](https://calvin.edu/offices-services/safer-spaces/) or the [provost's office](http://www.calvin.edu/go/comments-on-faculty/).
 
 ## Special Circumstances
 
