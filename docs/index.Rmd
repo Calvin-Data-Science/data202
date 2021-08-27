@@ -152,7 +152,26 @@ We will give an incomplete grade (`I`) only in unusual circumstances, and only i
 
 ## Course Outline
 
-TODO
+```{r echo=FALSE, results='asis'}
+topics <- c(
+  "Visualization Overview",
+  "Visualization Details",
+  "Wrangling (single-table)",
+  "Wrangling (multiple tables)",
+  "Tidy data",
+  "Applications and Ethics",
+  "Statistical Foundations Review",
+  "Supervised Learning using Trees",
+  "Unsupervised Learning",
+  "Databases and APIs",
+  "Other Supervised Learning Methods",
+  "Parameter Tuning and Overfitting",
+  "Text as Data",
+  "Geospatial Data"
+)
+cat(paste0("* ", topics, collapse = "\n"))
+```
+
 
 See Moodle for details. We will also be discussing a variety of societal and ethical topics.
 
