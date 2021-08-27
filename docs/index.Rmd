@@ -170,6 +170,14 @@ Calvin University has a continuing commitment to providing reasonable accommodat
 
 We will give an incomplete grade (`I`) only in unusual circumstances, and only if those circumstances have been confirmed by the Student Life office.
 
+## Wellness
+
+A wide range of things can interfere with your learning: trouble concentrating, stress/anxiety, relationship troubles, family situations, food or housing insecurity, substance use, and many more.
+You are encouraged to care well for yourself by keeping a consistent sleep schedule, eating well, avoiding drugs and alcohol, exercising, and taking time to relax and connect with friends and family.
+
+Also, learning how to ask for help is an important part of the college experience. Many people on campus are eager to support you. The [Center for Counseling and Wellness](https://www.calvin.edu/go/counseling) sees one out of five students each year and can connect you with a variety of mental health resources on and off campus. You can also reach out to me, another faculty/staff, a friend, or a family member you trust for help getting connected to support. You are not alone, and help is available!
+
+
 ## Course Outline
 
 ```{r echo=FALSE, results='asis'}
