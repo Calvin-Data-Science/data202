@@ -19,6 +19,8 @@ Prerequisites:
 
 ### Technical Objectives
 
+This course integrates the data acumen and visualization skills you developed in prior DATA or STAT courses with the computational and mathematical/statistical skills you have been developing in other classes. We will emphasize data wrangling, predictive modeling, and visualization. Specifically, upon completing this course, students should be able to:
+
 - **Data Wrangling** : Perform basic and advanced data management tasks.
   - Characterize the shape and structure of tabular data
   - Store and query data using files (CSV, Excel), databases (SQL)
@@ -51,21 +53,6 @@ Time permitting, students will also learn to obtain data from web sources (eithe
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723, Cell: 443-310-4002.
 * Teaching Assistant / Grader: TODO
 * **Office Hours**: TODO
-
-## Objectives
-
-This course integrates the data acumen and visualization skills you developed in DATA 101 or 175 with the computational and mathematical/statistical skills you have been developing in other classes. We will emphasize data wrangling, predictive modeling, and visualization.
-
-Upon completing this class, you should be able to work through each part of the data science lifecycle, including:
-
-* Planning e.g., Refine a data-based question based on the characteristics of available data and client needs.
-* Data Acquisition, e.g., Evaluate potential data sources based on utility and biases
-* Generating hypotheses: e.g., identify potential issues of bias and representation in a dataset based on exploratory analyses
-* Wrangling, e.g., Apply Grammar of Data operations to transform data into a form appropriate to analysis.
-* Modeling, e.g., contrast the suitability of linear vs nearest-neighbor models for a given modeling task
-* Validation, e.g., identify whether a reported accuracy number might be misleading because of overfitting
-* Visualization, e.g., refine a given visualization to improve its effectiveness and faithfulness
-* Communication, e.g., write intelligible and faithful interpretations of the process and results of a predictive modeling process
 
 ## Communication
 
