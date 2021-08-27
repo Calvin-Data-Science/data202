@@ -1,5 +1,5 @@
 ---
-title: "DATA 202---Fall 2021"
+title: "DATA 202 (Wrangling and Analytics), Fall 2021"
 ---
 
 ## Quick Links
@@ -21,7 +21,7 @@ Prerequisites:
 
 This course integrates the data acumen and visualization skills you developed in prior DATA or STAT courses with the computational and mathematical/statistical skills you have been developing in other classes. We will emphasize data wrangling, predictive modeling, and visualization. Specifically, upon completing this course, students should be able to:
 
-- **Data Wrangling** : Perform basic and advanced data management tasks.
+- **Data Wrangling**: Perform basic and advanced data management tasks.
   - Characterize the shape and structure of tabular data
   - Store and query data using files (CSV, Excel), databases (SQL)
   - Identify appropriate data types
@@ -29,11 +29,11 @@ This course integrates the data acumen and visualization skills you developed in
     - Boolean expressions
     - Vectorized data transformations
     - String manipulation
-- **Communication** : Create, interpret, critique and refine visualizations of data.
+- **Communication**: Create, interpret, critique and refine visualizations of data.
   - Graphical visualization
   - Tabular visualization
   - Communication using reports
-- **Predictive Analytics** :
+- **Predictive Analytics**:
   - Select predictive analytics methods appropriate to the data and task from among the approaches surveyed in the course.
   - Interpret the outcomes of selected predictive analytics techniques.
 
@@ -97,9 +97,9 @@ Most weeks will look like this:
 
 - **Monday**: Complete preparation activities before class
 - **Tuesday**: Discussion forum initial post is due
-- **Wednesday**: Homework is due
+- **Wednesday**: Weekly quiz
 - **Thursday**: Discussion forum reply due
-- **Friday**: Weekly quiz closes
+- **Friday**: Homework due
 
 ### Projects
 
