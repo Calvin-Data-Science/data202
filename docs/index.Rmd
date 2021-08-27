@@ -97,12 +97,11 @@ Details of these expectations are forthcoming.
 
 Unless otherwise arranged, grades will be weighted as follows:
 
-* 5% Prep and Participation
+* 10% Prep and Participation
 * 10% Discussion forums
-* 10% Lab exercises
 * 20% Homework
 * 20% Quizzes
-* 10% Midterm Exams (2)
+* 15% Midterm Exams (2)
 * 10% Midterm Project
 * 15% Final Project
 
