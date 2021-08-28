@@ -124,8 +124,8 @@ Unless otherwise arranged, grades will be weighted as follows:
 * 10% Prep and Participation
 * 10% Discussion forums
 * 20% Homework
-* 20% Quizzes
-* 15% Midterm Exams (2)
+* 15% Quizzes
+* 20% Midterm Exams (2)
 * 10% Midterm Project
 * 15% Final Project
 
