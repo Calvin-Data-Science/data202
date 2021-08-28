@@ -70,22 +70,9 @@ We will use the following communication tools:
     - Posts can be public or private, anonymous or not. In general, **don't post code publicly** . If you do have to include code, make the post private so the course staff can decide if it's ok to share.
 * Use **email** for requests for accommodations such as missing class or health issues.
 * Use **Teams** for friendly chat; I'll redirect most questions about course content to Piazza.
+* **Moodle** is the home page for all class materials and discussion forums. It will include links as necessary to other materials.
 
-## Materials
-
-Moodle is the home page for all class materials and discussion forums. It will include links as necessary to other materials.
-
-* *Moodle* is the main source of course material.
-  * Many Moodle segments will actually link to this website.
-  * Some material will be duplicated in other places. If there are inconsistencies, please let the instructors know and treat Moodle as the reference.
-  * Moodle will also be the home of our discussion forums.
-
-### Technology
-
-* [GitHub](https://github.com/)
-  * As part of our objective of reproducibility, we will be using `git` for distributing assignments, collaboration, and tracking progress.
-* [RStudio Server](https://rstudio.calvin.edu/)
-  * The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
+### Materials
 
 ### Textbook
 
@@ -95,6 +82,14 @@ The following resources may also be helpful:
 
 * [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke: *for foundational concepts of data visualization*
 * [Interactive web-based data visualization with R, plotly, and shiny](https://plotly-r.com/): *for more visualization*
+
+### Technology
+
+* [GitHub](https://github.com/)
+  * As part of our objective of reproducibility, we will be using `git` for distributing assignments, collaboration, and tracking progress.
+* [RStudio Server](https://rstudio.calvin.edu/)
+  * The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
+
 
 ## Weekly expectations
 
