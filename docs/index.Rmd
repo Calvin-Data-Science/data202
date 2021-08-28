@@ -1,5 +1,10 @@
 ---
 title: "DATA 202 (Wrangling and Analytics), Fall 2021"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
 ---
 
 ## Quick Links
