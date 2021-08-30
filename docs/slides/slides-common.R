@@ -68,7 +68,7 @@ slideSetup <- function() {
     ".comfortable" = list("font-size" = "1.0rem"),
     ".large" = list("font-size" = "1.8rem"),
     ".white-pre" = list("white-space" = "pre"),
-    "p" = list("padding" = 0, "margin" = 0),
+    #"p" = list("padding" = 0, "margin" = 0),
     "h2, h3, h4" = list("margin" = "5px 0"),
     ".small-code .remark-code" = list("font-size" = "0.5rem"),
     ".floating-source" = list(
@@ -107,12 +107,12 @@ slideSetup <- function() {
       "display" = "block",
       "margin-top" = "1rem",
       "text-align" = "right"
-    )
-
+    ),
+    ".col2" = list("columns" = "2")
   ))
 
   xaringanExtra::use_xaringan_extra(c(
-    "tile_view", "animate_css", "editable", "tachyons", "panelset"))
+    "tile_view", "animate_css", "editable", "tachyons", "panelset", "clipboard"))
 
   # Write a "macros.js" for remarkjs macros.
   cat(r"(
