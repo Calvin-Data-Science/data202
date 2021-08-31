@@ -16,6 +16,11 @@ output:
 ```{r setup, include=FALSE, message=FALSE}
 source("../slides-common.R")
 slideSetup()
+library(tidyverse)
+library(unvotes)
+library(lubridate)
+library(scales)
+#if (!interactive()) knitr::opts_chunk$set(message = FALSE)
 ```
 
 
@@ -150,7 +155,7 @@ So we will practice:
 
 * Citing all sources (for both data and process)
 * Acknowledging limitations
-* Transparent process
+* Noticing and reporting our analysis decisions and possible alternatives
 * Validation of results
 
 ---
@@ -165,10 +170,10 @@ So we will practice:
 
 * Evaluating claims that others use data to make
 * Clearly articulating our analysis decisions and rationale
+* Reproducibility
 * Using exploratory analytics to validate data against assumptions
 
 ---
-
 
 ## Hospitality
 
@@ -191,5 +196,140 @@ So we will:
 * Study examples of how data might cause harm
 * Study examples of how harm might be mitigated or revealed
 
+---
 
+## A worked example
+
+```{r echo=FALSE}
+un_uk_us_tr <- un_votes %>%
+  mutate(
+    country = case_when(
+      country == "United Kingdom" ~ "UK",
+      country == "United States" ~ "US",
+      TRUE ~ country
+    )
+  ) %>%
+  inner_join(un_roll_calls, by = "rcid") %>%
+  inner_join(un_roll_call_issues, by = "rcid") %>%
+  mutate(
+    issue = fct_recode(issue,  "Nuclear weapons and material" = "Nuclear weapons and nuclear material")
+  ) %>%
+  filter(country %in% c("UK", "US", "Turkey")) %>%
+  mutate(year = year(date)) %>%
+  group_by(country, year, issue) %>%
+  summarize(percent_yes = mean(vote == "yes"))
+```
+
+.floating-source[Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge Handbook of International Organization, edited by Bob Reinalda (published May 27, 2013)]
+
+```{r}
+un_uk_us_tr
+```
+
+---
+
+.small[
+```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
+ggplot(un_uk_us_tr) #<<
+```
+]
+
+---
+
+.small[
+```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
+ggplot(un_uk_us_tr,
+       aes(x = year, y = percent_yes)) #<<
+```
+]
+
+---
+
+.small[
+```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
+ggplot(un_uk_us_tr,
+       aes(x = year, y = percent_yes)) +
+  geom_point() #<<
+```
+]
+
+---
+
+.small[
+```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
+ggplot(un_uk_us_tr,
+       aes(x = year, y = percent_yes)) +
+  geom_point() +
+  facet_wrap(~issue) #<<
+```
+]
+
+---
+
+.small[
+```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
+ggplot(un_uk_us_tr,
+       aes(x = year, y = percent_yes, color = country)) + #<<
+  geom_point() +
+  facet_wrap(~issue)
+```
+]
+
+---
+
+.small[
+```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
+ggplot(un_uk_us_tr,
+       aes(x = year, y = percent_yes, color = country)) +
+  geom_point(alpha = 0.4) + #<<
+  facet_wrap(~issue)
+```
+]
+
+---
+
+.small[
+```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
+ggplot(un_uk_us_tr,
+       aes(x = year, y = percent_yes, color = country)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "loess", se = FALSE) + #<<
+  facet_wrap(~issue) 
+```
+]
+
+---
+
+.small[
+```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
+ggplot(un_uk_us_tr,
+       aes(x = year, y = percent_yes, color = country)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "loess", se = FALSE) +
+  facet_wrap(~issue) +
+  labs( #<<
+    title = "Percentage of 'Yes' votes in the UN General Assembly", #<<
+    subtitle = "1946 to 2015", #<<
+    y = "% Yes", x = "Year", color = "Country" #<<
+  ) #<<
+```
+]
+
+---
+
+.small[
+```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
+ggplot(un_uk_us_tr, 
+       aes(x = year, y = percent_yes, color = country)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "loess", se = FALSE) +
+  facet_wrap(~issue) +
+  labs(
+    title = "Percentage of 'Yes' votes in the UN General Assembly",
+    subtitle = "1946 to 2015",
+    y = "% Yes", x = "Year", color = "Country"
+  ) +
+  scale_y_continuous(labels = label_percent()) #<<
+```
+]
 
