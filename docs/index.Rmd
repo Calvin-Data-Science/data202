@@ -124,14 +124,16 @@ Unless otherwise arranged, grades will be weighted as follows:
 * 10% Prep and Participation
 * 10% Discussion forums
 * 20% Homework
-* 15% Quizzes
-* 20% Midterm Exams (2)
+* 10% Quizzes
+* 25% Midterm Exams (2)
 * 10% Midterm Project
 * 15% Final Project
 
 Your lowest quiz score will get thrown out.
 
 Late work is not officially accepted.
+
+Changes to this policy may be made at the instructor's discretion.
 
 ## Exam Scheduling
 
