@@ -176,13 +176,13 @@ For the following exercises, continue to discuss each question and write down th
 
 5.  Remove the second line inside the `count-pets` chunk (which reads just `num_pets`). **What appears below the chunk?** Now run the chunk again. **What appears below the chunk now?**
 
-6.  Make the `count-pets` chunk show instead the average number of dogs per person (look up the population of the metro area in [Wikipedia](https://en.wikipedia.org/wiki/Seattle)).
+6.  Make the `count-pets` chunk show instead the average number of pets per person (look up the population of the metro area in [Wikipedia](https://en.wikipedia.org/wiki/Seattle)).
 
 7.  **What is required for a code chunk to show output?**
 
-8.  Put the last line back to `num_pets`. Fill in the blank in the text line below the chunk. **Knit**, **Commit**, and **Push**, and check that your changes appear on GitHub. You can use the commit message "Add a count of the number of dogs." (Aside: try replacing the XXX by `` `r knitr::inline_expr('num_dogs')` `` and knitting again.)
+8.  Put the last line back to `num_pets`. Fill in the blank in the text line below the chunk. **Knit**, **Commit**, and **Push**, and check that your changes appear on GitHub. You can use the commit message "Add a count of the number of dogs." (Aside: try replacing the XXX by `` `r knitr::inline_expr('num_pets')` `` and knitting again.)
 
-9.  Change `Dogs` to `Cats` but do not rerun the chunk. Instead, Knit again. **Compare the output within the Source editor with the output in the knitted document.**
+9.  Change `Dog` to `Cat` but do not rerun the chunk. Instead, Knit again. **Compare the output within the Source editor with the output in the knitted document.**
 
 10. In the toolbar above the Source window, find the Run button towards the right side. Click the down arrow and select Run All. **Now do the code, output, and report match?**
 
