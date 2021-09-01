@@ -148,23 +148,32 @@ Discuss each question with your partner and write down your answers either on pa
 Open `ex01.Rmd` again if needed.
 
 RStudio has recently added a feature called the Visual Editor. Some people like it, others don't, so we'll let you choose whether or not you want to use it.
-
 Click the Visual Editor Mode button ![compass button](https://rstudio.github.io/visual-markdown-editing/images/visual_mode_2x.png) on the top right 
 to switch back and forth between the visual editor and the text editor. You may use whichever you prefer.
 Here's some [documentation for the Visual Editor](https://rstudio.github.io/visual-markdown-editing/).
 
 For the following exercises, continue to discuss each question and write down the answer with your partner.
 
+<!-- Note: openxlsx::write.xlsx(openintro::seattlepets, "seattlepets.xlsx") -->
+
+
 1. Run the code chunk called `setup` by clicking the green arrow next to it. **What appears in the Environment tab (top-right pane)?**
 
-2. How many observations are in the 
+2. Click the name of the dataset in the Environment tab to open the *Viewer*. **What does each row represent?**
 
+3. **Briefly describe the information we have about each pet.**
 
+4. Run the `count-pets` chunk. **What appears in the Environment?** **What appears below the chunk?**
 
-	- What is the name of the first code cell? Second code cell?
-	- Run individual cells. (e.g., an increment cell)
-		- What happens if you run cells out of order? repeatedly?
-		- What happens when you Knit?
-	- Which of the following causes a value to be displayed? expression; assignment statement; assignment statement followed by expression?
-		- Describe why an output is shown under cell 2 vs cell 3
-	-
+5. Remove the second line inside the `count-pets` chunk (which reads just `num_pets`). **What appears below the chunk?** Now run the chunk again. **What appears below the chunk now?**
+
+6. Make the `count-pets` chunk show instead the average number of dogs per person (look up the population of the metro area in [Wikipedia](https://en.wikipedia.org/wiki/Seattle)).
+
+7. **What is required for a code chunk to show output?**
+
+8. Change `Dogs` to `Cats` but do not rerun the chunk. Instead, Knit again. **Compare the output within the Source editor with the output in the knitted document.**
+
+9. In the toolbar above the Source window, find the Run button towards the right side. Click the down arrow and select Run All. **Now do the code, output, and report match?**
+
+10. Suppose your friend is confused by the output they're getting. They've checked their code and everything looks right. **Describe some steps you could take to help them get their code, output, and report to match up.**
+
