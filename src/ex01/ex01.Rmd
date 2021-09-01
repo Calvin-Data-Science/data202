@@ -1,0 +1,33 @@
+---
+title: "Title Goes Here"
+author: "Author Goes Here"
+output: html_document
+---
+
+```{r setup, message=FALSE}
+library(tidyverse)
+pets <- openintro::seattlepets
+```
+
+
+```{r}
+pets %>% nrow()
+```
+
+There are XXX pets.
+
+```{r}
+pets %>% 
+  filter(species == "Dog") %>% 
+  nrow()
+```
+
+Replace this line with a description of what the output of the above code chunk tells us.
+
+```{r}
+pets %>% 
+  group_by(species) %>% 
+  summarize(count = n())
+```
+
+Replace this line with a description of what the output of the above code chunk tells us.
