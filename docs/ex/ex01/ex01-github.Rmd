@@ -104,6 +104,14 @@ knitr::include_graphics("img/rstudio-new-project.png")
     -   Press the tab key on your keyboard, and the project name will be filled in for you
     -   Click Create Project.
 
+### Tell git your name
+
+In the Console, run this, replacing the user name and email as appropriate:
+
+```
+usethis::use_git_config(user.name = "Ken Arnold", user.email="ka37@students.calvin.edu")
+```
+
 > Ok, setup complete! Write down your stop time.
 
 ## Inquiry 1: the GitHub workflow
