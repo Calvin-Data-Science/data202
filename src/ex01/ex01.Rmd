@@ -4,7 +4,7 @@ author: "Author Goes Here"
 output: html_document
 ---
 
-The city of Seattle, WA provides data about pets registered in the city. The following code chunk loads required packages and loads the data from a provided XLSX file.
+The city of Seattle, WA provides [data about pets registered in the city](https://data.seattle.gov/Community/Seattle-Pet-Licenses/jguv-t9rb). The following code chunk loads required packages and loads the data from a provided XLSX file.
 
 ```{r setup, message=FALSE}
 library(tidyverse)
