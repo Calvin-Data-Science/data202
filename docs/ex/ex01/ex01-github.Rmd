@@ -27,6 +27,8 @@ We'll be using GitHub for distributing and collecting assignments in this class.
 
 Getting it set up requires crossing a number of hurdles. Thankfully, almost all of these we only need to do once! So don't worry about understanding or memorizing the details in this section.
 
+> I'd like to know (1) how long this process takes you and (2) what the biggest challenges were for you. So **write down the current time** as you start this section.
+
 ### Create a GitHub account
 
 Go to [github.com](https://github.com/) and create an account (unless you already have one).
@@ -98,9 +100,12 @@ knitr::include_graphics("img/rstudio-new-project.png")
   - Press the tab key on your keyboard, and the project name will be filled in for you
   - Click Create Project.
 
+> Ok, setup complete! Write down your stop time.
+
 ## Inquiry 1: the GitHub workflow
 
-If you and your partner both got this far, do a little something to celebrate! (elbow bump, shout "Yay!", etc.)
+When you and your partner both got this far, do a little something to celebrate! (elbow bump, shout "Yay!", etc.)
+Then help your neighbors make progress too.
 
 Now start paying attention to what's going on, because this is an observation exercise.
 
