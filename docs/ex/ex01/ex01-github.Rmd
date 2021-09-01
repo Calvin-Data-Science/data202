@@ -102,7 +102,9 @@ knitr::include_graphics("img/rstudio-new-project.png")
 
     -   Repository URL: Paste the repo URL you grabbed from GitHub here
     -   Press the tab key on your keyboard, and the project name will be filled in for you
+    -   Press Browse and then Choose (don't click "R") to select your home folder
     -   Click Create Project.
+    -   You may get a prompt about the "authenticiy of host"... Type "yes" and press Enter.
 
 ### Tell git your name
 
