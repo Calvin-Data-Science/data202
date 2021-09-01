@@ -68,6 +68,8 @@ GitHub very recently stopped letting us use a username and password, so we'll ha
 
 If you're having trouble with these instructions, see [this guide](https://github.com/DukeStatSci/github_auth_guide), and ask a course staff member to get unstuck.
 
+> Note: If you're working on your own computer, you may prefer to use the HTTPS URL and what GitHub calls a "PAT". While this is not officially supported, feel free to ask for help on Piazza or at office hours.
+
 ### Cloning the repo
 
 Go back to the page for your starter code (if you closed the tab, click the link in "Get your starter code" above). This is called your **repo** (short for *repository*). You can edit it; only you and the course staff can see it.
@@ -104,7 +106,7 @@ Now start paying attention to what's going on, because this is an observation ex
 
 For this exercise, you'll need to have your GitHub repo open in one tab/window and RStudio open in another.
 
-For each question, write down your answers either on paper or in an electronic note.
+Discuss each question with your partner and write down your answers either on paper or in an electronic note.
 
 1. In *GitHub*, open the file named `ex01.Rmd`. Notice that the first few lines of the file specify a title and author. **What does this file specify as the author name?**
 
@@ -113,17 +115,47 @@ For each question, write down your answers either on paper or in an electronic n
 3. In *RStudio*, click the **Knit** button on the toolbar above the file editor. **What shows up where when you press Knit?**
 
 4. Change the author name to your name. **What action is required for changes in the Source editor to be reflected in the generated report?**
-	- Look on GitHub. Have the changes been made there yet?
-	- Look on the Git tab. What do you notice there?
-	- Commit. (stage) Use this message: "..."
-		- Look on GitHub; has it changed?
-		- What message do you see in the Git tab?
-	- Click Push. Check GitHub. What do you see now
-	- Apply
-		- Change the title of the report. Get the new title to appear on GitHub.
-		- List the steps in the process of making a change in GitHub.
-		- Describe what the Git tab in RStudio looks like when the changes you've made show up on GitHub.
-- model 2: An RMarkdown document
+
+5. Look on *GitHub*. Does GitHub reflect the changes you have made? (*remember to reload the page*) (you should notice no changes, this is expected).
+
+6. In *RStudio*, look in the Git tab (top-right pane). What do you notice there?
+
+7. Press *Commit* (don't "stage" anything yet). Type in the message "Change author name". Press *Commit*. **What, if anything, has changed in the Git tab?** Has anything changed on GitHub?
+
+8. Check all of the "Staged" checkboxes. Now press Commit again. **What, if anything, has changed in the Git tab?**
+
+9. Check *GitHub* again. **Does your change show up on GitHub now?** (again, expecting "no")
+
+10. **What message do you see in the Git tab?**
+
+11. In the Git tab, click *Push*. Check GitHub. What do you see now?
+
+12. **Where does GitHub show your commit message?** What shows up when you click on the commit message? This is called the "diff"; what do you think "diff" is short for?
+
+13. Change the title of the report to "DATA 202 Exercise 1." **Get the new title to appear on GitHub.**
+
+14. List the steps needed after making a change in RStudio to make the change appear on GitHub.
+
+15. Suppose your friend asks for help getting their changes to show up on GitHub. **Describe two things you could check for in the Git tab that might indicate that something is wrong.**
+
+## Inquiry 2: An RMarkdown document
+
+Open `ex01.Rmd` again if needed.
+
+RStudio has recently added a feature called the Visual Editor. Some people like it, others don't, so we'll let you choose whether or not you want to use it.
+
+Click the Visual Editor Mode button ![compass button](https://rstudio.github.io/visual-markdown-editing/images/visual_mode_2x.png) on the top right 
+to switch back and forth between the visual editor and the text editor. You may use whichever you prefer.
+Here's some [documentation for the Visual Editor](https://rstudio.github.io/visual-markdown-editing/).
+
+For the following exercises, continue to discuss each question and write down the answer with your partner.
+
+1. Run the code chunk called `setup` by clicking the green arrow next to it. **What appears in the Environment tab (top-right pane)?**
+
+2. How many observations are in the 
+
+
+
 	- What is the name of the first code cell? Second code cell?
 	- Run individual cells. (e.g., an increment cell)
 		- What happens if you run cells out of order? repeatedly?
