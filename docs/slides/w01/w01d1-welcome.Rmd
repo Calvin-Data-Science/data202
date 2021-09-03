@@ -332,4 +332,3 @@ ggplot(un_uk_us_tr,
   scale_y_continuous(labels = label_percent()) #<<
 ```
 ]
-
