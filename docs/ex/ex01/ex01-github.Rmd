@@ -11,6 +11,14 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+<!-- Notes for next time / 601 version: -->
+<!-- * Screenshots! -->
+<!-- * Maybe give a quick video outline of the process at the start -->
+<!-- * Some of the questions could be worded more clearly -->
+<!-- * Partner work helped many. -->
+<!-- * Maybe use checklists? -->
+
 ## How Guided Exercises work
 
 We will do these guided "lab" exercises in pairs, typically in the computer lab. The format will be reminiscent of the POGIL exercises that many students did in CS 106 or 108.
@@ -160,7 +168,9 @@ Discuss each question with your partner and write down your answers either on pa
 
 Open `ex01.Rmd` again if needed.
 
+```{marginfigure}
 RStudio has recently added a feature called the Visual Editor. Some people like it, others don't, so we'll let you choose whether or not you want to use it. Click the Visual Editor Mode button ![compass button](https://rstudio.github.io/visual-markdown-editing/images/visual_mode_2x.png) on the top right to switch back and forth between the visual editor and the text editor. You may use whichever you prefer. Here's some [documentation for the Visual Editor](https://rstudio.github.io/visual-markdown-editing/).
+```
 
 For the following exercises, continue to discuss each question and write down the answer with your partner.
 
