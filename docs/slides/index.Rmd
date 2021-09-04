@@ -1,5 +1,8 @@
 ---
 title: "DATA 202 Slides"
+output:
+  prettydoc::html_pretty:
+    theme: architect
 ---
 
 ```{r setup, include=FALSE}
