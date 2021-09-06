@@ -97,7 +97,9 @@ org_create_assignment(
 )
 ```
 
+# Deploy assignments
 
+Once an assignment is deployed, we should treat that as final. Updating templates in-place can cause merge conflicts for students.
 
 ```{r}
 # This works because this Rmd file is in the `src` directory, and the directory structure here matches the portfolio repo.
@@ -111,6 +113,6 @@ deploy_assignment <- function(path) {
   repo_add_file(student_repos$portfolio_repo_full, files, preserve_path = TRUE, overwrite = FALSE)
 
 }
-deploy_assignment("hw/hw01-warmup/")
+#deploy_assignment("hw/hw01-warmup/")
 ```
 
