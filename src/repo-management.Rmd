@@ -70,20 +70,47 @@ roster %>% count(covid, sort = TRUE)
 Create the repo manually for now. Clone:
 
 ```{r}
-local_repo_clone(glue("{ghorg}/portfolio-reference"), clones_path)
+if (!dir.exists(paste0(clones_path, "/portfolio-reference")))
+  local_repo_clone(glue("{ghorg}/portfolio-reference"), clones_path)
 ```
 
 STOP. Put some files in there by hand. Commit and push by hand.
 
 Now let's create portfolio repos for everyone.
 
+```{r}
+student_repos <- tibble(
+  username = students,
+  portfolio_repo = paste0("portfolio-", students),
+  portfolio_repo_full = glue("{ghorg}/{portfolio_repo}"),
+)
+```
+
+
 ```{r eval=FALSE}
 repo_set_template(paste0(ghorg, "/", "portfolio-reference"))
 org_create_assignment(
   org = ghorg,
-  user = students,
-  repo = paste0("portfolio-", students),
+  user = student_repos$username,
+  repo = student_repos$portfolio_repo,
   source_repo = paste0(ghorg, "/", "portfolio-reference")
 )
+```
+
+
+
+```{r}
+# This works because this Rmd file is in the `src` directory, and the directory structure here matches the portfolio repo.
+deploy_assignment <- function(path) {
+  # Need to pull out the names so we don't get gobbledygook control characters in the commit messages.
+  files <- names(fs::dir_ls(path, recurse = TRUE, type = "file"))
+  # Add to the reference
+  repo_add_file(glue("{ghorg}/portfolio-reference"), files, preserve_path = TRUE, overwrite = FALSE)
+
+  # Add to the student repos.
+  repo_add_file(student_repos$portfolio_repo_full, files, preserve_path = TRUE, overwrite = FALSE)
+
+}
+deploy_assignment("hw/hw01-warmup/")
 ```
 
