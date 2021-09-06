@@ -143,3 +143,5 @@ daily_rides %>%
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Commit and push your changes again.* Make sure that your "git" pane is clean.
 
 :::
+
+Finally, return to the Moodle quiz to answer the questions there.
