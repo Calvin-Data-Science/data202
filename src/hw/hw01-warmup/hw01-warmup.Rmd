@@ -1,7 +1,8 @@
 ---
 title: "Title Goes Here"
 author: "Author Goes Here"
-output: html_document
+output:
+  prettydoc::html_pretty
 ---
 
 ```{r setup, include=FALSE}
