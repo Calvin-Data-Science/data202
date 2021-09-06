@@ -87,11 +87,11 @@ Note: the original dataset also includes rides by users who didn't register for 
 * `workingday`: either "weekday" or "weekend" (which actually includes holidays too).
 * `total_rides`: the number of rides that day by users who registered for a Capital Bikeshare account
 
-
+::: {.exercises}
 
 1. Write a sentence in Markdown answering the following two questions: How many rows does the dataset contain? What does each row represent?
 
-`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` Knit, Commit, and Push again. Ensure your Git pane is clean.
 
 2. Create a scatter plot showing the *total number of rides* each day. Sample code is provided below, but you will need to fill in the blanks.
 
@@ -141,3 +141,5 @@ daily_rides %>%
 5. Write a one or two sentence interpretation of the graph, focusing on the following question: *How do the number of rides compare for weekdays vs weekends?* Based on this, make a guess about what Capital Bikeshare riders use the bikes for.
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Commit and push your changes again.* Make sure that your "git" pane is clean.
+
+:::
