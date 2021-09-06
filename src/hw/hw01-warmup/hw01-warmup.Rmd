@@ -1,13 +1,14 @@
 ---
-title: "hw01-warmup"
-output: github_document
+title: "Title Goes Here"
+author: "Author Goes Here"
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Setup
+# Load Packages
 
 ```{r packages, message=FALSE}
 library(tidyverse)
@@ -22,31 +23,22 @@ daily_rides <- read_csv("data/day_simple.csv")
 
 # Exercise 1
 
-Take a quick look at the data:
+Replace this sentence with your short answer about rows and what each row represents.
 
-```{r glimpse}
-# Hint: your solution should use %>%, glimpse(), and the variable that got what we read in.
-```
+# Exercise 2
 
-# Exercise 2. Number of rows, what each row represents
+The following plot shows the total number of rides each day.
 
-*Your short answer here*
-
-# Exercise 3. Number of rides by *registered* users each day
-
-```{r registered-by-day}
+```{r rides-by-day}
 # Your code here
 ```
 
-# Exercise 4: Registered rides, weekday vs weekend
+# Exercise 3
 
-# Exercise 5: How do the number of rides by registered users compare for weekdays vs weekends?
+The following plot shows the total number of rides for weekdays vs weekends.
 
-*Your short answer here*
 
-# Exercise 6: How do the number of rides by registered users vary with temperature?
+# Exercise 4
 
-```{r}
-# Your code here
-```
+Replace this sentence with your short answer about interpreting the graph.
 
