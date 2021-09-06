@@ -23,11 +23,18 @@ If you have any questions about the assignment, please post them on Piazza!
 
 ## Getting started
 
-First, open the R Markdown document `hw01/hw01-warmup.Rmd` and Knit it. Make sure it compiles without errors. The output will be in the `.html` file with the same name.
+Instead of a new repo for each assignment, we'll be using a **portfolio repo** for this and most future assignments.
 
-Then, change the title to "Homework 1: Warmup" and the author name to your name.
+- Find your **portfolio repo** in our [GitHub org](https://github.com/Calvin-DS202-21FA).
+- Clone it as a new project (see [Exercise 1](../../ex/ex01/ex01-github.html) starting at "New Project" for a reminder of the steps; thankfully you *don't* need to do the SSH key setup again!)
+- Find `ex/ex01/ex01.Rmd` in the Files pane  and Knit it. Make sure it knits without errors. Update it to match what you did in Exercise 1. (This is just to jog your memory.)
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+
+- Find `hw/hw01/hw01-warmup.Rmd` in the Files pane. Change the title to "Homework 1: Warmup" and change the author name to your name.
+
+`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` Knit, Commit, and Push again. Ensure your Git pane is clean.
+
 
 The document contains placeholders for the following exercises.
 
