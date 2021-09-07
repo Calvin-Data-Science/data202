@@ -31,7 +31,7 @@ Instead of a new repo for each assignment, we'll be using a **portfolio repo** f
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
-- Find `hw/hw01/hw01-warmup.Rmd` in the Files pane. Change the title to "Homework 1: Warmup" and change the author name to your name.
+- Find `hw/hw01-warmup/hw01-warmup.Rmd` in the Files pane. Change the title to "Homework 1: Warmup" and change the author name to your name.
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` Knit, Commit, and Push again. Ensure your Git pane is clean.
 
