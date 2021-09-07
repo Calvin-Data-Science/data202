@@ -1,7 +1,6 @@
 ---
 title: "Forum and Moodle"
 author: "K Arnold"
-date: "12/24/2020"
 output: html_document
 ---
 
@@ -9,31 +8,22 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Initial Setup
+# Week 2 Logistics
 
-## Introductions in Random Channel
+Hi everyone! We're starting our second week, focusing on the design of visualizations. A few reminders about our weekly rhythm:
 
-Please go to the **Random channel in Teams** and **introduce yourself** to the rest of the students in the course. For your introduction, include just a few sentences of information about yourself (personal and/or professional). (You could also share what you hope to get out of this course or a question you are hoping this course will answer.)
+-   Remember that you should have the **Preparation done before the first class of the week**. So check Prep 1 and 2.
+-   **Quiz 2 closes on Wednesday**. It's mostly a review of Exercise 1.
+-   **Homework 1 is due on Friday**, as will be typical. It looks superficially like a coding exercise, but it's really more about the design of visualizations.
+-   **Discussion 2** is up. Initial posts would normally be due toady, but I don't want anyone to rush this important topic, so if you need a couple more days that's ok.
+-   Ensure that the first week (Introduction) is all checked off for you on Moodle.
 
-If you can do this by uploading a video, that would be great. If you are unable to create a video and are responding via text, give us a snapshot of yourself in a few sentences. Feel free to attach a picture to your post. This works best in the attachment box below the discussion forum text box.
+If any of this is coming as a surprise to you and you need more time to finish something, let me know.
 
-Please check out the channel at the end of our first week and take some time to get to know your classmates. While not required, you should feel free to post replies to others' posts throughout the term. Enjoy the term and remember to contact your instructor if you have any questions.
-
-**Continue to share fun posts, pics, videos, or other items that add to our course culture throughout the term.**
-
-
-## Data Science in the News
-
-*incomplete instructions*
-
-Share current events related to Data Science
-
-* Articles that use data science to tell a story
-* Articles about data science
+We'll be **in the classroom** (not lab) on Wednesday this week. I'm thinking of doing Friday in lab, but I'll confirm.
 
 # Final Grading
 
-
-* 21 rubric items on a scale of 0 to 3.
-* 100% should be achievable by having a 2 in all categories.
-* So I need to multiply each grade by 3 / 2 = 1.5.
+-   21 rubric items on a scale of 0 to 3.
+-   100% should be achievable by having a 2 in all categories.
+-   So I need to multiply each grade by 3 / 2 = 1.5.
