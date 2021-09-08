@@ -15,6 +15,8 @@ output:
 ```{r include=FALSE, message=FALSE}
 source("../slides-common.R")
 slideSetup()
+# remotes::install_github("EvaMaeRey/flipbookr")
+library(flipbookr)
 ```
 
 ## Review
@@ -31,17 +33,23 @@ Think-Pair-Share.
 
 ---
 
+## Quiz 1
+
+* Covid examples: 
+
+---
+
 ## Problem of Diverse Audiences
 
 * Some of you have seen R, visualization, etc. before.
 
 > "This is still just review" -- says several people
 
-* Some of you had CS 108 years ago...
+* Some of you vaguely remember CS 108 or 106 from years ago...
 
 > "I'm totally lost" -- many people think, few say
 
--> My office hours **Fridays 3-4pm, Mondays 8-9am**.
+-> My office hours **Wed 2:30-3:30 in Gold Lab** or by request.
 
 ---
 
@@ -72,38 +80,6 @@ class: center, middle
 
 ---
 
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/whole-game-01.png")
-```
-
----
-
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/whole-game-02.png")
-```
-
----
-
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/whole-game-03.png")
-```
-
----
-
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/whole-game-04.png")
-```
-
----
-
-## Asking good questions
-
-- Always include your code and the error
-- Create a minimum working example (we'll keep working on this throughout the semester)
-- Use code formatting
-
----
-
 class: center, middle
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Z8t4k0Q8e8Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -112,8 +88,8 @@ class: center, middle
 ---
 
 ```{r}
+library(tidyverse)
 library(gapminder)
-library(ggplot2)
 ```
 
 ```{r}
@@ -127,17 +103,27 @@ gapminder %>% head(5) %>% knitr::kable()
 ```{r health-and-wealth, echo=FALSE, out.width="50%", fig.align='center'}
 gapminder %>% 
   filter(year == 2007) %>% 
-  ggplot(data = ., mapping = aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) + 
+  ggplot() +
+    aes(x = gdpPercap, y = lifeExp) +
     geom_point() + 
+    aes(color = continent) +
+    aes(size = pop) + 
     coord_cartesian(ylim = c(20, 90)) + 
-    scale_x_continuous(breaks = c(400, 4000, 40000), trans = "log10") +
-    labs(x = "GDP per Capita", y = "Life Expectancy (years)", color = "Continent", size = "Population") +
+    scale_x_continuous(
+      breaks = c(400, 4000, 40000),
+      trans = "log10") +
+    labs(x = "GDP per Capita") +
+    labs(y = "Life Expectancy (years)") +
+    labs(color = "Continent") +
+    labs(size = "Population") +
     scale_size_area(labels = function(breaks) format(breaks, big.mark = ",", scientific = FALSE)) +
     theme_bw() + 
     annotation_logticks(sides = "b")
 ```
 
+---
 
+`r flipbookr::chunk_reveal("health-and-wealth", chunk_options="out.width=\"100%\"")`
 
 ---
 
@@ -145,7 +131,7 @@ gapminder %>%
 
 .pull-left[
 ```{r echo=FALSE, out.width="80%"}
-knitr::include_graphics("img/ggplot2-part-of-tidyverse.png")
+#knitr::include_graphics("img/ggplot2-part-of-tidyverse.png")
 ```
 ]
 .pull-right[
@@ -160,7 +146,7 @@ knitr::include_graphics("img/ggplot2-part-of-tidyverse.png")
 Concisely describe the components of a graphic
 
 ```{r echo=FALSE, out.width="70%", fig.align='center'}
-knitr::include_graphics("img/grammar-of-graphics.png")
+#knitr::include_graphics("img/grammar-of-graphics.png")
 ```
 
 .tiny[ 
@@ -171,13 +157,13 @@ Source: [BloggoType](http://bloggotype.blogspot.com/2016/08/holiday-notes2-gramm
 
 .pull-left[
 ```{r echo=FALSE, out.width="90%"}
-knitr::include_graphics("img/channels-continuous-part1.png")
+#knitr::include_graphics("img/channels-continuous-part1.png")
 ```
 ]
 
 .pull-right[
 ```{r echo=FALSE, out.width="90%"}
-knitr::include_graphics("img/channels-continuous-part2.png")
+#knitr::include_graphics("img/channels-continuous-part2.png")
 ```
 ]
 
