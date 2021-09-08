@@ -93,21 +93,6 @@ They count towards "Prep and Participation" (10%).
 
 ---
 
-## Q & A
-
-> *When to use Console vs Rmarkdown?*
-
-* **RMarkdown** is your source of truth. Use Console just to explore.
-* Something broke? **Restart R and Run All**
-
-> *Why two assignment operators?*
-
-* `<-` assigns variables in *current environment*: `data <- read_csv()`
-* `=` labels arguments to *functions*: `ggplot(data = dino_data)`
-* You can use `=` instead of `<-`, but we won't.
-
----
-
 
 class: center, middle
 
@@ -155,7 +140,8 @@ gapminder %>%
     labs(y = "Life Expectancy (years)") +
     labs(color = "Continent") +
     labs(size = "Population") +
-    scale_size_area(labels = label_comma()) +
+    scale_size_area(
+      labels = label_comma()) +
     theme_bw() + 
     annotation_logticks(sides = "b")
 ```
