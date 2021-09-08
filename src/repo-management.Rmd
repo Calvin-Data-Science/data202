@@ -46,11 +46,24 @@ students <- union(students, org_outside_collaborators(ghorg))
 The first quiz includes a question for GitHub username. This establishes a clear link between GitHub and Moodle.
 
 ```{r}
-roster <- read_csv("../student_data/21FA DATA-202-A-Quiz 1-responses.csv", col_types = cols(.default = col_character())) %>%  
-  janitor::clean_names() %>% 
+roster <-
+  read_csv(
+    "../student_data/21FA DATA-202-A-Quiz 1-responses.csv",
+    col_types = cols(.default = col_character())
+  ) %>%
+  janitor::clean_names() %>%
   select(-(state:grade_100_00)) %>% # remove Moodle stuff
-  rename(preferred_name = response_1, github = response_2, major = response_3, covid = response_4, secret_word = response_5,
-         bool_expr = response_6, courses=response_7, ideas=response_8, other=response_9)
+  rename(
+    preferred_name = response_1,
+    github = response_2,
+    major = response_3,
+    covid = response_4,
+    secret_word = response_5,
+    bool_expr = response_6,
+    courses = response_7,
+    ideas = response_8,
+    other = response_9
+  )
 nrow(roster)
 
 # All org members should be on the roster.
@@ -61,7 +74,16 @@ setdiff(roster$github, students)
 ```
 
 ```{r}
-roster %>% count(covid, sort = TRUE)
+roster %>% count(covid, sort = TRUE)# %>% clipr::write_clip()
+```
+
+```{r}
+roster %>% mutate(
+  num_courses = str_count(courses, "[0-9][0-9][0-9]")) %>% 
+  ggplot(aes(x = num_courses)) +
+    geom_bar() +
+    scale_x_continuous(breaks = 1:10) +
+    labs(x = "Number of previous courses")
 ```
 
 

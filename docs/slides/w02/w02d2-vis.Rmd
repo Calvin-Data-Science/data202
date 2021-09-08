@@ -15,6 +15,7 @@ output:
 ```{r include=FALSE, message=FALSE}
 source("../slides-common.R")
 slideSetup()
+library(tidyverse)
 # remotes::install_github("EvaMaeRey/flipbookr")
 library(flipbookr)
 ```
@@ -33,23 +34,62 @@ Think-Pair-Share.
 
 ---
 
-## Quiz 1
+```{r include=FALSE}
+quiz_responses <-
+  read_csv(
+    here::here("student_data/21FA DATA-202-A-Quiz 1-responses.csv"),
+    col_types = cols(.default = col_character())
+  ) %>%
+  janitor::clean_names() %>%
+  select(
+    preferred_name = response_1,
+    covid = response_4,
+    courses = response_7
+  )
+```
 
-* Covid examples: 
+
+## From the survey (Quiz 1)
+
+```{r echo=FALSE}
+tibble::tribble(
+                                                     ~covid,  ~n,
+                  "I'd be in favor of using such examples.", 10L,
+                                             "I'm neutral.", 17L,
+    "I'd prefer something different but I'd be ok with it.",  2L,
+    "I feel strongly that we should not use such examples.",  2L
+  ) %>% knitr::kable()
+```
 
 ---
 
-## Problem of Diverse Audiences
-
-* Some of you have seen R, visualization, etc. before.
-
-> "This is still just review" -- says several people
-
-* Some of you vaguely remember CS 108 or 106 from years ago...
-
-> "I'm totally lost" -- many people think, few say
+```{r num-courses}
+quiz_responses %>% 
+  mutate(num_courses = str_count(courses, "[0-9][0-9][0-9]")) %>% 
+  ggplot(aes(x = num_courses)) +
+    geom_bar() +
+    scale_x_continuous(breaks = 1:10) +
+    labs(x = "Number of previous courses")
+```
 
 -> My office hours **Wed 2:30-3:30 in Gold Lab** or by request.
+
+---
+
+## Q & A
+
+> Can we edit directly on GitHub?
+
+Technically yes, but GitHub won't show plots, documentation, etc., so don't.
+
+> What programming languages?
+
+* We're using R (`#rstats`) because it has a big community, it's popular in industry, and is good pedagogically.
+* Other  players: Python (good at many things), Stata / SPSS / JMP (popular in some disciplines), Tableau / Microsoft PowerBI (popular in business)
+
+> Are post-class quizzes part of grade?
+
+They count towards "Prep and Participation" (10%).
 
 ---
 
@@ -85,14 +125,13 @@ class: center, middle
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Z8t4k0Q8e8Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
----
-
-```{r}
+```{r include=FALSE}
 library(tidyverse)
+library(scales)
 library(gapminder)
 ```
 
-```{r}
+```{r include=FALSE}
 gapminder %>% head(5) %>% knitr::kable()
 ```
 
@@ -100,15 +139,15 @@ gapminder %>% head(5) %>% knitr::kable()
 
 ### We'll make this chart
 
-```{r health-and-wealth, echo=FALSE, out.width="50%", fig.align='center'}
+```{r health-and-wealth, echo=FALSE, out.width="80%", fig.align='center'}
 gapminder %>% 
   filter(year == 2007) %>% 
   ggplot() +
     aes(x = gdpPercap, y = lifeExp) +
-    geom_point() + 
+    geom_point(alpha = .8) + 
+    coord_cartesian(ylim = c(20, 90)) + 
     aes(color = continent) +
     aes(size = pop) + 
-    coord_cartesian(ylim = c(20, 90)) + 
     scale_x_continuous(
       breaks = c(400, 4000, 40000),
       trans = "log10") +
@@ -116,10 +155,38 @@ gapminder %>%
     labs(y = "Life Expectancy (years)") +
     labs(color = "Continent") +
     labs(size = "Population") +
-    scale_size_area(labels = function(breaks) format(breaks, big.mark = ",", scientific = FALSE)) +
+    scale_size_area(labels = label_comma()) +
     theme_bw() + 
     annotation_logticks(sides = "b")
 ```
+
+---
+
+## Composing a plot
+
+<div style="position: absolute;top: 0;right: 0;width: 25%;">
+  <img src="`r knitr::fig_chunk("health-and-wealth", "png")`">
+</div>
+
+--
+
+* What's the data? "Each row is a ___"
+
+--
+
+* What is the coordinate system? (What's `x` and `y`?)
+
+--
+
+* What graphical symbols are used? (dot? bar? line?)
+
+--
+
+* What data variables are mapped to what visual cues (aesthetics)?
+  * What *scales* are used? (Any transformations?)
+  * What *guides* are shown? (What labels for values?)
+* What labels and annotations are added?
+
 
 ---
 
@@ -131,7 +198,7 @@ gapminder %>%
 
 .pull-left[
 ```{r echo=FALSE, out.width="80%"}
-#knitr::include_graphics("img/ggplot2-part-of-tidyverse.png")
+knitr::include_graphics("img/ggplot2-part-of-tidyverse.png")
 ```
 ]
 .pull-right[
@@ -146,7 +213,7 @@ gapminder %>%
 Concisely describe the components of a graphic
 
 ```{r echo=FALSE, out.width="70%", fig.align='center'}
-#knitr::include_graphics("img/grammar-of-graphics.png")
+knitr::include_graphics("img/grammar-of-graphics.png")
 ```
 
 .tiny[ 
@@ -157,13 +224,13 @@ Source: [BloggoType](http://bloggotype.blogspot.com/2016/08/holiday-notes2-gramm
 
 .pull-left[
 ```{r echo=FALSE, out.width="90%"}
-#knitr::include_graphics("img/channels-continuous-part1.png")
+knitr::include_graphics("img/channels-continuous-part1.png")
 ```
 ]
 
 .pull-right[
 ```{r echo=FALSE, out.width="90%"}
-#knitr::include_graphics("img/channels-continuous-part2.png")
+knitr::include_graphics("img/channels-continuous-part2.png")
 ```
 ]
 
