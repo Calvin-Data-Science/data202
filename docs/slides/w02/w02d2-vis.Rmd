@@ -24,8 +24,7 @@ library(flipbookr)
 
 What do each of the following operations do in RStudio?
 
-* Save
-* Run Cell
+* Run Chunk
 * Knit
 * Commit
 * Push
