@@ -20,25 +20,25 @@ body {
 h1.title {
 	font-weight: 700;
 	font-family: 'Source Sans Pro', sans-serif;
-	color: #B8DDD8;
+	color: #8C2131;
 }
 
 h1 {
 	font-style: normal;
 	font-family: 'Source Sans Pro', sans-serif;
-	color: #B8DDD8;
+	color: #8C2131;
 }
 
 h2 {
 	font-style: normal;
 	font-family: 'Source Sans Pro', sans-serif;
 	font-weight: 400;
-	color: #B8DDD8;
+	color: #F3CD00;
 }
 
 h3.subtitle {
 	font-style: normal;
-	color: #B8DDD8;
+	color: #F3CD00;
 }
 
 h4 {
@@ -135,7 +135,7 @@ pre.r {
 	/* Increment the counter by 1 */
 	counter-increment: li;
 	position: absolute;
-	color: #B8DDD8;
+	color: #8C2131;
 	left: -0.5px;
 	font-weight: bold;
 }
