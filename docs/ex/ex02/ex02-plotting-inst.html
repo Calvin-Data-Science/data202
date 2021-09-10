@@ -155,7 +155,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Instead of a new repo for each assignment, we’ll be using a <strong>portfolio repo</strong> for this and most future assignments.</p>
 <p>If you haven’t yet done so for <a href="../../hw/hw01/hw01-warmup-inst.html">Homework 1</a>, <strong>clone your portfolio repo</strong>:</p>
 <ul>
-<li>Find your <strong>portfolio repo</strong> in our <a href="https://github.com/Calvin-DS202-21FA">GitHub org</a>.</li>
+<li>Find your <strong>portfolio repo</strong> in our <a href="https://github.com/Calvin-DS202-21FA">GitHub org</a>.
+<ul>
+<li><strong>Don’t see it?</strong> Look for an “invite” email from GitHub. It’ll be the email address that you gave GitHub, which might be your personal email.</li>
+</ul></li>
 <li>Clone it as a new project (see <a href="../../ex/ex01/ex01-github.html">Exercise 1</a> starting at “New Project” for a reminder of the steps; thankfully you <em>don’t</em> need to do the SSH key setup again!)</li>
 </ul>
 <p>If you already cloned your portfolio repo, you’ll need to <strong>Pull</strong> in the Git tab to get the new code. <strong>Always make sure your Git pane shows no files changed</strong> before Pulling.</p>
@@ -198,7 +201,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>✅ ⬆️ Knit, Commit, and Push again. Ensure your Git pane is clean.</p>
 <p>Then, duplicate your code chunk (change the name!) and try these extensions:</p>
 <ul>
-<li><p>Change the year to your birth year or another interesting year in history.</p></li>
+<li>Change the year to your birth year or another interesting year in history. Note: here are the available years:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(gapminder<span class="sc">$</span>year)</span></code></pre></div>
+<pre><code>##  [1] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 2002 2007</code></pre>
+<ul>
 <li><p>Use commas in the <code>x</code> axis labels. (Use the same <code>labels</code> code as in the <code>area</code> scale.)</p></li>
 <li><p>Try combining the <code>aes</code> lines together into a single <code>aes</code> command. Then try the same for the <code>labs</code>.</p></li>
 <li><p>Try some other <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">themes</a>. (at least try <code>theme_gray</code>, <code>theme_classic</code>, and <code>theme_minimal</code>).</p></li>

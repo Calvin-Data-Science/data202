@@ -26,6 +26,7 @@ Instead of a new repo for each assignment, we'll be using a **portfolio repo** f
 If you haven't yet done so for [Homework 1](../../hw/hw01/hw01-warmup-inst.html), **clone your portfolio repo**: 
 
 - Find your **portfolio repo** in our [GitHub org](https://github.com/Calvin-DS202-21FA).
+  - **Don't see it?** Look for an "invite" email from GitHub. It'll be the email address that you gave GitHub, which might be your personal email.
 - Clone it as a new project (see [Exercise 1](../../ex/ex01/ex01-github.html) starting at "New Project" for a reminder of the steps; thankfully you *don't* need to do the SSH key setup again!)
 
 If you already cloned your portfolio repo, you'll need to **Pull** in the Git tab to get the new code. **Always make sure your Git pane shows no files changed** before Pulling.
@@ -76,7 +77,12 @@ For each line:
 
 Then, duplicate your code chunk (change the name!) and try these extensions:
 
-- Change the year to your birth year or another interesting year in history.
+- Change the year to your birth year or another interesting year in history. Note: here are the available years:
+
+```{r}
+unique(gapminder$year)
+```
+
 
 - Use commas in the `x` axis labels. (Use the same `labels` code as in the `area` scale.)
 
