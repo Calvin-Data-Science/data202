@@ -128,9 +128,17 @@ Once an assignment is deployed, we should treat that as final. Updating template
 
 ```{r}
 # This works because this Rmd file is in the `src` directory, and the directory structure here matches the portfolio repo.
-deploy_assignment <- function(path) {
+deploy_assignment <- function(path, deploy_solutions = FALSE) {
   # Need to pull out the names so we don't get gobbledygook control characters in the commit messages.
   files <- names(fs::dir_ls(path, recurse = TRUE, type = "file"))
+  
+  is_solution <- str_detect(files, "solution")
+  if (deploy_solutions) {
+    files <- files[is_solution]
+  } else {
+    files <- files[!is_solution]
+  }
+  
   # Add to the reference
   repo_add_file(glue("{ghorg}/portfolio-reference"), files, preserve_path = TRUE, overwrite = FALSE)
 
@@ -138,6 +146,6 @@ deploy_assignment <- function(path) {
   repo_add_file(student_repos$portfolio_repo_full, files, preserve_path = TRUE, overwrite = FALSE)
 
 }
-#deploy_assignment("hw/hw01-warmup/")
+#deploy_assignment("ex/ex02-plotting")
 ```
 
