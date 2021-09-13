@@ -243,3 +243,77 @@ img, video, iframe {
 div.datatables {
     color: #fff;
 }
+
+
+
+/**
+ * KCA extra CSS
+ * Note: there's some overlap with the above that might cause problems.
+ */
+
+.tiny {
+  font-size: 0.4rem;
+}
+.small {
+  font-size: 0.7rem;
+}
+.comfortable {
+  font-size: 1.0rem;
+}
+.large {
+  font-size: 1.8rem;
+}
+.white-pre {
+  white-space: pre;
+}
+h2, h3, h4 {
+  margin: 5px 0;
+}
+.small-code .remark-code {
+  font-size: 0.5rem;
+}
+.floating-source {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  background: rgba(255,255,255,.75);
+  font-size: 1rem;
+}
+.remark-slide table {
+  font-size: 0.8rem;
+}
+.larger-table table {
+  font-size: 1.0rem;
+}
+.pagedtable-wrapper {
+  font-size: 0.8rem;
+}
+.pagedtable-header-type {
+  font-size: 0.5rem;
+}
+.question {
+  border-left: 5px solid #005A7F;
+  padding: 5px;
+  margin: 10px;
+  background-color: #F3CD00;
+}
+.question p {
+  margin: 5px;
+}
+.scripture {
+  max-width: 80%;
+  margin: 10px auto;
+}
+.scripture .remark-code {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.4rem;
+}
+.scripture .ref {
+  display: block;
+  margin-top: 1rem;
+  text-align: right;
+}
+.col2 {
+  columns: 2;
+}
