@@ -15,16 +15,65 @@ output:
 ```{r child = "../slide-setup.Rmd"}
 ```
 
+## Q&A
+
+> ggplot vs ggformula?
+
+ggformula is nice and concise. But more stats-y. And less common outside Calvin.
+
+> What's alpha?
+
+0 = fully transparent. 1 = fully opaque
+
+> Where to get help?
+
+Piazza, RStudio docs (cheatsheets!), StackOverflow (but be wise), [R Graph Gallery](https://www.r-graph-gallery.com/)
+
+---
+
+## read_csv
+
+```{r include=FALSE}
+library(tidyverse)
+filename <- here::here("docs/data/bikeshare/day_simple.csv")
+```
+
+
+.pull-left[
+```{r}
+daily_rides <- read_csv(filename)
+class(daily_rides$date)
+```
+
+```{r good-format, echo=FALSE, message=FALSE, out.width="100%"}
+daily_rides %>% 
+  ggplot(aes(x = date, y = total_rides)) +
+    geom_point() +
+    geom_smooth()
+```
+]
+
+
+.pull-right[
+```{r}
+daily_rides <- read.csv(filename)
+class(daily_rides$date)
+```
+
+```{r broken-format, echo=FALSE, message=FALSE, out.width="100%"}
+daily_rides %>% 
+  ggplot(aes(x = date, y = total_rides)) +
+    geom_point() +
+    geom_smooth()
+```
+]
+
+---
+
 ```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(palmerpenguins)
 ```
-
-class: middle
-
-# ggplot2 `r emo::ji("heart")` `r emo::ji("penguin")`
-
----
 
 ## ggplot2 $\in$ tidyverse
 
@@ -47,6 +96,13 @@ ggplot(data = [dataset],
 ]
 
 ---
+
+class: middle
+
+# ggplot2 `r emo::ji("heart")` `r emo::ji("penguin")`
+
+---
+
 
 ## Data: Palmer Penguins
 
