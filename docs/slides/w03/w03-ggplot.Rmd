@@ -1,7 +1,6 @@
 ---
 title: "Visualising data with ggplot2"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+author: "K. Arnold, based on [datasciencebox.org](https://datasciencebox.org/)"
 output:
   xaringan::moon_reader:
     css: ["../xaringan-themer.css", "../slides.css"]
@@ -13,7 +12,7 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r child = "../setup.Rmd"}
+```{r child = "../slide-setup.Rmd"}
 ```
 
 ```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
