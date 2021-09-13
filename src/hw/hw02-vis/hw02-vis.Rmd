@@ -1,14 +1,13 @@
 ---
 title: "Homework 2: Bike Sharing Data Visualization"
 author: "YOUR NAME"
-date: "TODAY'S DATE"
-output: github_document
+output: prettydoc::html_pretty
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(ggplot2)
+library(knitr)
 
 # Disable a warning message.
 options(dplyr.summarise.inform = FALSE)
@@ -18,13 +17,27 @@ options(dplyr.summarise.inform = FALSE)
 
 ## Read Data
 
+Read the data from the CSV file and interpret many variables as factors (categorical variables).
+
 ```{r read-data, message=FALSE}
 hourly_rides <- read_csv("data/hour.csv") %>%
   mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type, member_type), as.factor))
+```
+
+The following are two different ways of getting a quick look at the data. (Which one looks better in a report? Which one is more useful to a programmer?)
+
+```{r glimpse-data}
 hourly_rides %>% glimpse()
 ```
 
+
+```{r head-data}
+hourly_rides %>% head() %>% kable()
+```
+
 ## Exercise 1: Label days of week
+
+*Replace this line with your explanation of how you determined which number corresponds to which day.* Remove the asterisks so it isn't italic in your report.
 
 ```{r label-weekdays}
 hourly_rides <- hourly_rides %>%

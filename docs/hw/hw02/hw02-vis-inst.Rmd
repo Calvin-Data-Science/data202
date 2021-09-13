@@ -28,22 +28,19 @@ Upon completing this homework, you will have greater comfort making and refining
 visualizations using the Grammar of Graphics. You will also gain some initial
 exposure to data wrangling, which we will study in depth next week.
 
-## Collaboration
-
-This homework may be done individually or in pairs.
-
-If done in pairs, each student in the pair should have at least one substantive
-commit to the project repository.
-
 ## Getting help
 
-As always, if you need help, post in Teams or come to office hours!
+As always, if you need help, post in Piazza or come to office hours!
 
 See also the "Data Visualization with ggplot2" cheatsheet available under the RStudio Help menu.
 
 ## Getting started
 
-**Click to [Claim your repo.](https://classroom.github.com/a/DQbjzvvK)**
+Pull your Portfolio repo and find `hw/hw02/hw02-vis.Rmd`.
+
+Update the title and author, Knit, Commit, Push.
+
+### Exercise 0: notice a few things
 
 You will notice that the report starts with a code block that reads the data and sets the
 correct data types for several of the columns. You do not need to understand how this code works at the moment.
@@ -69,38 +66,82 @@ hourly_rides <- read_csv("../../data/bikeshare/hour.csv") %>%
     casual,
     registered
   ) %>%
+  mutate(season = c("W", "S", "U", "F")[season]) %>% 
   pivot_longer(c(casual, registered),
-               names_to = "member_type",
+               names_to = "rider_type",
                values_to = "rides") %>% 
-  mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type, member_type), as.factor))
+  relocate(date, hour, rider_type, rides) %>% 
+  mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type, rider_type), as.factor))
 
 hourly_rides %>% write_csv("../../../src/hw/hw02-vis/data/hour.csv")
-
-# mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat")))
-#hourly_rides %>% glimpse()
 ```
 
+Notice also that there are two ways shown of getting a quick look at the data. Try to understand what the output means, even if you don't yet understand what the code does.
 
-# Exercise 1: Label days of week
+You'll observe that there are some extra columns now, and we have many more rows because this is *hourly* data, and we've broken it down by whether the count is for "registered" users (who registered for Capital Bikeshare accounts) or "casual" users (who didn't register).
+
+* `date`
+* `hour`: hour of the day (0 through 23)
+* `rider_type`: `registered` or `casual` (see above)
+* `rides`: the number of rides by that type of rider
+* `season`: Winter, Spring, sUmmer, or Fall
+* `year`: 0 for 2011, 1 for 2012.
+* `holiday`: 0 for ordinary days, 1 for holidays
+* `workingday`: either "weekday" or "weekend" (where "weekend" includes holidays too).
+* `day_of_week`: an integer between 0 and 6 inclusive. In this exercise, you will decode which number represents Monday, etc.
+* `temp`: the average temperature that day, scaled so that the lowest temperature in the dataset is 0 and the highest is 1.
+* `feels_like`: the "feels-like" temperature, also scaled to range from 0 to 1.
+* `humidity`: relative humidity, also scaled 0 to 1.
+* `windspeed`: wind speed, also scaled 0 to 1
+
+So: each row is the count of how many *rides* were completed in a given hour by a given type of rider.
+
+## Exercise 1: Label days of week
 
 The data set uses the integers 0 through 6 to label days of the week. It does not
 document, however, what 0 means, or what 6 means. If we want to make understandable
 plots, we should label these days of the week.
 
-Fill in the blank in the given code block to give labels to the weekdays.
-Include a brief description of how you concluded that those were the correct labels.
+First, *look at the data* to figure out what a `day_of_week` of 0 means. Then what a `day_of_week` of 1 means.
+You may find it helpful to refer to a calendar.
 
-Use abbreviations ("Wed", "Fri", ...).
+Once you've figured it out:
 
-Hint: look at the data. (`View()`, `head()`, ... but leave a small, coherent set of evidence for your conclusion.)
+1. Write a brief description of what the mapping is and your evidence that you got it correct.
+2. Fill in the blank in the given code block to give labels to the weekdays. Use abbreviations ("Wed", "Fri", ...).
 
 ```{r label-weekdays, include=FALSE}
 hourly_rides <- hourly_rides %>%
   mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat")))
 ```
 
+## Exercise 2: Describe a row
 
-# Exercise 2: Overall counts by weekday
+Write a succinct English sentence that conveys the same information as the first row in the data frame.
+*Only consider the `date`, `hour`, `rider_type`, `rides`, `holiday`, `workingday`, and `day_of_week` columns.*
+
+## univariate plot
+
+```{r}
+ggplot(hourly_rides, aes(x = rides)) + geom_histogram(binwidth = 50, fill = 'blue')
+ggplot(hourly_rides, aes(x = rides, fill = workingday)) + geom_histogram(binwidth = 50)
+```
+
+
+```{r}
+ggplot(hourly_rides, aes(x = date, y = season)) + geom_point()
+```
+
+Set color vs map color
+
+```{r}
+ggplot(hourly_rides, aes(x = temp, y = season)) + geom_boxplot()
+```
+
+
+
+
+# Exercise 2: Overall counts by day of week
 
 The following code (also in your template) totals the number of rides by each
 member by each day of week. We will be learning how to write code like this
@@ -109,12 +150,12 @@ next week:
 ```{r ride-totals}
 ride_totals <- hourly_rides %>%
   group_by(member_type, day_of_week) %>% 
-  summarize(rides = sum(rides))
+  summarize(rides = mean(rides))
 ```
 
 Make the following plot. (You may choose to refine it, but a plot like this is acceptable.)
 
-```{r ride-totals-by-weekday, echo=FALSE}
+```{r ride-totals-by-weekday, echo=FALSE, fig.fullwidth = TRUE}
 ggplot(ride_totals, aes(x = day_of_week, fill = member_type, y = rides)) +
   geom_col(position = position_dodge()) +
   labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
