@@ -20,7 +20,7 @@
  * ------------------------------------------------------- */
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Cabin:600,600i&display=swap);
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Code&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap);
 
 
 :root {
@@ -32,7 +32,7 @@
   --header-font-family: Cabin;
   --header-font-is-google: 1;
   --header-font-family-fallback: Georgia, serif;
-  --code-font-family: 'Source Sans Code';
+  --code-font-family: 'Source Code Pro';
   --code-font-is-google: 1;
   --base-font-size: 28px;
   --text-font-size: 1rem;

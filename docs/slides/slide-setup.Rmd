@@ -84,7 +84,7 @@ style_solarized_dark(
   text_font_url = xaringanthemer_font_default("text_font_url"),
   text_font_family_fallback = xaringanthemer_font_default("text_font_family_fallback"),
   text_font_base = "sans-serif",
-  code_font_google = google_font("Source Sans Code"),
+  code_font_google = google_font("Source Code Pro"),
   code_font_family = xaringanthemer_font_default("code_font_family"),
   code_font_size = "20px",
   code_font_url = xaringanthemer_font_default("code_font_url"),
