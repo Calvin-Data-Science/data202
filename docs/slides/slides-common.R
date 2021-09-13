@@ -144,12 +144,4 @@ slideSetup <- function() {
   library(xaringanExtra)
   xaringanExtra::use_panelset(in_xaringan = TRUE)
   xaringanExtra::use_tile_view()
-
-  # Write a "macros.js" for remarkjs macros.
-  cat(r"(
-      remark.macros.scale = function(w) {
-      var url = this;
-      return '<img src="' + url + '" style="width: ' + w + '" />';
-      };
-  )", file = "macros.js", append = FALSE, sep = "\n")
 }
