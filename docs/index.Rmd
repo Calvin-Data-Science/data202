@@ -59,7 +59,9 @@ Time permitting, students will also learn to obtain data from web sources (eithe
 * Teaching Assistant / Grader: Tomoki Takeuchi (tt35)
 * **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment. Generally Wed 2:30-3:30 in Maroon lab.
 
-## Communication
+## Materials
+
+### Communication
 
 We will use the following communication tools:
 
@@ -71,8 +73,6 @@ We will use the following communication tools:
 * Use **email** for requests for accommodations such as missing class or health issues.
 * Use **Teams** for friendly chat; I'll redirect most questions about course content to Piazza.
 * **Moodle** is the home page for all class materials and discussion forums. It will include links as necessary to other materials.
-
-### Materials
 
 ### Textbook
 
@@ -89,33 +89,6 @@ The following resources may also be helpful:
   * As part of our objective of reproducibility, we will be using `git` for distributing assignments, collaboration, and tracking progress.
 * [RStudio Server](https://rstudio.calvin.edu/)
   * The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
-
-
-## Weekly expectations
-
-Most weeks will look like this:
-
-- **Monday**: Complete preparation activities before class
-- **Tuesday**: Discussion forum initial post is due
-- **Wednesday**: Weekly quiz
-- **Thursday**: Discussion forum reply due
-- **Friday**: Homework due
-
-### Projects
-
-You will complete two multi-week projects in this class.
-
-In the *Midterm Project*, you will practice some parts of the data science lifecycle by *reproducing a published visualization of your choice* from source data.
-In the *Final Project*, you will additionally *apply predictive analytics*. You may choose to use the same or different dataset.
-[Details about the projects](projects.html)
-
-Final projects may be completed in teams of up to 3. Teams will have the following additional expectations:
-
-* Teams must submit a team contract about how they will work together
-* Teams must convince the instructional staff that each team member learned something substantial from completing the project.
-* Each team member must submit an assessment of how they and other team members fulfilled their contract.
-
-Details of these expectations are forthcoming.
 
 ## Grading
 
@@ -135,7 +108,20 @@ Late work is not officially accepted.
 
 Changes to this policy may be made at the instructor's discretion.
 
-## Exam Scheduling
+
+## Schedule
+
+### Weekly expectations
+
+Most weeks will look like this:
+
+- **Monday**: Complete preparation activities before class
+- **Tuesday**: Discussion forum initial post is due
+- **Wednesday**: Weekly quiz
+- **Thursday**: Discussion forum reply due
+- **Friday**: Homework due
+
+### Exam Scheduling
 
 We plan to hold midterm exams for both sections of the course on the same day:
 
@@ -145,6 +131,23 @@ We plan to hold midterm exams for both sections of the course on the same day:
 Please consult the exam schedules for your other classes. If this schedule would require you to take exams in two different classes on the same day, please advise the instructor ASAP as we may be able to shift the dates.
 
 The oral and written presentation of the final project will serve as the final exam; there will not be a separate test.
+
+
+### Projects
+
+You will complete two multi-week projects in this class.
+
+In the *Midterm Project*, you will practice some parts of the data science lifecycle by *reproducing a published visualization of your choice* from source data.
+In the *Final Project*, you will additionally *apply predictive analytics*. You may choose to use the same or different dataset.
+[Details about the projects](projects.html)
+
+Final projects may be completed in teams of up to 3. Teams will have the following additional expectations:
+
+* Teams must submit a team contract about how they will work together
+* Teams must convince the instructional staff that each team member learned something substantial from completing the project.
+* Each team member must submit an assessment of how they and other team members fulfilled their contract.
+
+Details of these expectations are forthcoming.
 
 ## Academic Integrity
 
