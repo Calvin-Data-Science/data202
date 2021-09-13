@@ -1,12 +1,13 @@
 ALL: deploy-all
 
-docs := $(patsubst %.Rmd,%.html,$(shell find docs -iname '*.Rmd' -and -not -iname "*slides-common*"))
-slide_pdfs := $(patsubst %.Rmd,%.pdf,$(shell find docs/slides -iname '*.Rmd' -and -not -iname "*slides-common*" -and -not -path "*/slides/index.Rmd"))
+docs := $(patsubst %.Rmd,%.html,$(shell find docs -iname '*.Rmd' -and -not -iname "*slides-common*" -and -not -iname "slide-setup.Rmd"))
+slide_sources := $(shell find docs/slides -iname '*.Rmd' -and -not -iname "*slides-common*" -and -not -iname "slide-setup.Rmd" -and -not -path "*/slides/index.Rmd")
+slide_pdfs := $(patsubst %.Rmd,%.pdf,$(slide_sources))
 
 %.html: %.Rmd
 	Rscript -e "rmarkdown::render('"$<"')"
 
-docs/slides/index.html: docs/slides/index.Rmd $(slide_pdfs)
+docs/slides/index.html: docs/slides/index.Rmd $(slide_sources)
 	Rscript -e "rmarkdown::render('"$<"')"
 
 %.pdf: %.html
