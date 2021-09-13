@@ -1,0 +1,82 @@
+---
+title: "Examples of design questions in visualizations"
+---
+
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+## Simpson's Paradox
+
+```{r penguins-nospecies}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Bill depth and length",
+       subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+       x = "Bill depth (mm)", y = "Bill length (mm)",
+       colour = "Species")
+```
+
+```{r penguins}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm, y = bill_length_mm,
+                     colour = species)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Bill depth and length",
+       subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+       x = "Bill depth (mm)", y = "Bill length (mm)",
+       colour = "Species")
+```
+## Color Blindness
+
+```{r penguins-viridis}
+ggplot(data = penguins,
+       mapping = aes(x = bill_depth_mm,
+                     y = bill_length_mm,
+                     colour = species)) +
+  geom_point() +
+  labs(title = "Bill depth and length",
+       subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+       x = "Bill depth (mm)", y = "Bill length (mm)",
+       colour = "Species",
+       caption = "Source: Palmer Station LTER / palmerpenguins package") +
+  scale_colour_viridis_d()
+```
+
+## Faceting shows missing
+
+```{r map-species-island}
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm,
+                     color = species, shape = island)) + 
+  geom_point()
+```
+
+
+```{r facet-species-island}
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
+  geom_point() +
+  facet_grid(rows = vars(species), #<<
+             cols = vars(island)) #<<
+```
+
+## Faceting: which comparisons are easier to make?
+
+```{r warning = FALSE}
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
+  geom_point() +
+  facet_grid(rows = vars(species), #<<
+             cols = vars(sex)) #<<
+```
+
+```{r warning = FALSE}
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
+  geom_point() +
+  facet_grid(rows = vars(sex), #<<
+             cols = vars(species)) #<<
+```
+
