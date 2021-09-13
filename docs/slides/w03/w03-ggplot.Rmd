@@ -35,14 +35,14 @@ knitr::include_graphics("img/ggplot2-part-of-tidyverse.png")
 ] 
 .pull-right[ 
 - **ggplot2** is tidyverse's data visualization package 
-- Structure of the code for plots can be summarized as
+- Structure of the code for plots:
 
 ```{r eval = FALSE}
 ggplot(data = [dataset], 
        mapping = aes(x = [x-variable], 
                      y = [y-variable])) +
    geom_xxx() +
-   other options
+   other layers and options
 ```
 ]
 
@@ -602,13 +602,40 @@ ggplot(penguins,
 
 ---
 
+.pull-left[
+**Mapping**
+
+```{r warning = FALSE, out.width = "100%"}
+ggplot(penguins,
+       aes(x = bill_depth_mm,
+           y = bill_length_mm,
+           color = species)) + #<<
+  geom_point()
+```
+]
+.pull-right[
+**Setting**
+
+```{r warning = FALSE, error=TRUE}
+ggplot(penguins,
+       aes(x = bill_depth_mm,
+           y = bill_length_mm)) + 
+  geom_point(color = penguins$species) #<<
+```
+]
+
+---
+
 ## Mapping vs. setting
 
 - **Mapping:** Determine the size, alpha, etc. of points based on the values of a variable in the data
   - goes into `aes()`
+  - ggplot computes the actual value using its *scales*
 
 - **Setting:** Determine the size, alpha, etc. of points **not** based on the values of a variable in the data
-  - goes into `geom_*()` (this was `geom_point()` in the previous example, but we'll learn about other geoms soon!)
+  - goes into `geom_*()`
+    - this was `geom_point()` in the previous example, but we'll learn about other geoms soon!
+  - ggplot uses the value you give it directly (sets the color to "Adelie")
   
 ---
 
@@ -635,7 +662,8 @@ class: middle
 ```{r facet, fig.show = "hide"}
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
-  facet_grid(species ~ island) #<<
+  facet_grid(rows = vars(species), #<<
+             cols = vars(island)) #<<
 ```
 ]
 ]
@@ -656,7 +684,8 @@ But you should always label your plots!
 ```{r warning = FALSE}
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
-  facet_grid(species ~ sex) #<<
+  facet_grid(rows = vars(species), #<<
+             cols = vars(sex)) #<<
 ```
 
 ---
@@ -664,7 +693,8 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 ```{r warning = FALSE}
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
-  facet_grid(sex ~ species) #<<
+  facet_grid(rows = vars(sex), #<<
+             cols = vars(species)) #<<
 ```
 
 ---
@@ -672,7 +702,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 ```{r warning = FALSE, fig.asp = 0.5}
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
-  facet_wrap(~ species) #<<
+  facet_wrap(vars(species)) #<<
 ```
 
 ---
@@ -680,7 +710,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 ```{r warning = FALSE, fig.asp = 0.5}
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
-  facet_grid(. ~ species) #<<
+  facet_grid(cols = vars(species)) #<<
 ```
 
 ---
@@ -688,7 +718,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 ```{r warning = FALSE}
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
-  facet_wrap(~ species, ncol = 2) #<<
+  facet_wrap(vars(species), ncol = 2) #<<
 ```
 
 ---
@@ -697,9 +727,8 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 
 - `facet_grid()`:
     - 2d grid
-    - `rows ~ cols`
-    - use `.` for no split
 - `facet_wrap()`: 1d ribbon wrapped according to number of rows and columns specified or available plotting area
+- "quote" variable names using `vars()`
 
 ---
 
@@ -713,7 +742,7 @@ ggplot(
       y = bill_length_mm, 
       color = species)) + #<<
   geom_point() +
-  facet_grid(species ~ sex) +
+  facet_grid(rows = vars(species), cols = vars(sex)) +
   scale_color_viridis_d() #<<
 ```
 ]
@@ -734,7 +763,7 @@ ggplot(
       y = bill_length_mm, 
       color = species)) +
   geom_point() +
-  facet_grid(species ~ sex) +
+  facet_grid(rows = vars(species), cols = vars(sex)) +
   scale_color_viridis_d() +
   guides(color = FALSE) #<<
 ```
