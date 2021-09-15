@@ -55,6 +55,21 @@ glue <- glue::glue
 
 library(xaringanthemer)
 
+style_mono_accent(
+  base_color = calvin_maroon,
+  #header_font_google = google_font("Josefin Sans"),
+  #text_font_google   = google_font("Montserrat", "300", "300i"),
+  #text_font_google =   google_font("Domine"),
+  code_font_google   = google_font("Fira Mono"),
+  header_h1_font_size = "2.75rem",
+  header_h2_font_size = "2.5rem",
+  text_font_size = "1.5rem",
+  code_highlight_color = "#A7D5E8",
+  padding = "6px 64px 6px 64px",
+  outfile = "xaringan-themer.css"
+)
+
+if (false) {
 style_solarized_dark(
   text_color = "#f6f6f6",                      # gray
   header_color = "#A7D5E8",                    # light-blue
@@ -91,7 +106,7 @@ style_solarized_dark(
   code_font_family_fallback = xaringanthemer_font_default("code_font_family_fallback"),
   outfile = "xaringan-themer.css"
 )
-
+}
 #xaringanExtra::use_xaringan_extra(c(
 #  "tile_view", "animate_css", "editable", "tachyons", "panelset", "clipboard"))
 library(xaringanExtra)
