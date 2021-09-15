@@ -57,19 +57,31 @@ library(xaringanthemer)
 
 style_mono_accent(
   base_color = calvin_maroon,
-  #header_font_google = google_font("Josefin Sans"),
-  #text_font_google   = google_font("Montserrat", "300", "300i"),
-  #text_font_google =   google_font("Domine"),
-  code_font_google   = google_font("Fira Mono"),
-  header_h1_font_size = "2.75rem",
-  header_h2_font_size = "2.5rem",
-  text_font_size = "1.5rem",
-  code_highlight_color = "#A7D5E8",
-  padding = "6px 64px 6px 64px",
+  blockquote_left_border_color = "#e9d968",    # yellow
+  code_highlight_color = "#A7D5E8",            # light-blue
+  code_inline_color = "#A7A7A7",               # gray
+  table_border_color = "#8A8A8A",              # gray
+  table_row_border_color = "#8A8A8A",          # gray
+  table_row_even_background_color = "#A7D5E8",            # light-blue
+  base_font_size = "28px",
+  header_h1_font_size = "2rem",
+  header_h2_font_size = "1.75rem",
+  header_h3_font_size = "1.5rem",
+  text_font_google = google_font("Source Sans Pro"),
+  text_font_family = xaringanthemer_font_default("text_font_family"),
+  text_font_weight = xaringanthemer_font_default("text_font_weight"),
+  text_font_url = xaringanthemer_font_default("text_font_url"),
+  text_font_family_fallback = xaringanthemer_font_default("text_font_family_fallback"),
+  text_font_base = "sans-serif",
+  code_font_google = google_font("Source Code Pro"),
+  code_font_family = xaringanthemer_font_default("code_font_family"),
+  code_font_size = "20px",
+  code_font_url = xaringanthemer_font_default("code_font_url"),
+  code_font_family_fallback = xaringanthemer_font_default("code_font_family_fallback"),
   outfile = "xaringan-themer.css"
 )
 
-if (false) {
+if (FALSE) {
 style_solarized_dark(
   text_color = "#f6f6f6",                      # gray
   header_color = "#A7D5E8",                    # light-blue
