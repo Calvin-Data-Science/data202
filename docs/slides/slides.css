@@ -286,6 +286,9 @@ h2, h3, h4 {
 .larger-table table {
   font-size: 1.0rem;
 }
+.smaller-table table {
+  font-size: 0.6rem;
+}
 .pagedtable-wrapper {
   font-size: 0.8rem;
 }

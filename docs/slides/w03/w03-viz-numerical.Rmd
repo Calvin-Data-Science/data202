@@ -6,7 +6,7 @@ output:
     css: ["../xaringan-themer.css", "../slides.css"]
     lib_dir: libs
     nature:
-      ratio: "16:9"
+      ratio: "4:3"
       highlightLines: true
       highlightStyle: solarized-light
       countIncrementalSlides: false
@@ -30,9 +30,10 @@ class: middle
 
 ## Number of variables involved
 
-- Univariate data analysis - distribution of single variable
-- Bivariate data analysis - relationship between two variables
-- Multivariate data analysis - relationship between many variables at once, usually focusing on the relationship between two while conditioning for others
+- **Univariate** data analysis - distribution of single variable
+- **Bivariate** data analysis - relationship between two variables
+- **Multivariate** data analysis - relationship between many variables at once
+  - usually focusing on bivariate relationships while conditioning for others
 
 ---
 
@@ -84,6 +85,14 @@ loans <- loans_full_schema %>%
          state, annual_income, homeownership, debt_to_income)
 glimpse(loans)
 ```
+
+---
+
+.smaller-table[
+```{r}
+loans %>% head() %>% knitr::kable()
+```
+]
 
 ---
 
@@ -412,7 +421,7 @@ ggplot(loans, aes(x = interest_rate,
 
 class: middle
 
-# Relationships numerical variables
+# Relationships between numerical variables
 
 ---
 
