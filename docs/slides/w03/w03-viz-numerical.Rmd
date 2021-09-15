@@ -1,5 +1,5 @@
 ---
-title: "Visualising numerical data"
+title: "Visualising numerical and categorical data"
 author: "K. Arnold, based on [datasciencebox.org](https://datasciencebox.org/)"
 output:
   xaringan::moon_reader:

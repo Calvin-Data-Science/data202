@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Visualising numerical data</title>
+    <title>Visualising numerical and categorical data</title>
     <meta charset="utf-8" />
     <meta name="author" content="K. Arnold, based on datasciencebox.org" />
     <script src="libs/header-attrs/header-attrs.js"></script>
@@ -18,7 +18,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Visualising numerical data
+# Visualising numerical and categorical data
 ### K. Arnold, based on <a href="https://datasciencebox.org/">datasciencebox.org</a>
 
 ---
@@ -37,9 +37,10 @@ class: middle
 
 ## Number of variables involved
 
-- Univariate data analysis - distribution of single variable
-- Bivariate data analysis - relationship between two variables
-- Multivariate data analysis - relationship between many variables at once, usually focusing on the relationship between two while conditioning for others
+- **Univariate** data analysis - distribution of single variable
+- **Bivariate** data analysis - relationship between two variables
+- **Multivariate** data analysis - relationship between many variables at once
+  - usually focusing on bivariate relationships while conditioning for others
 
 ---
 
@@ -167,6 +168,26 @@ glimpse(loans)
 
 ---
 
+.smaller-table[
+
+```r
+loans %&gt;% head() %&gt;% knitr::kable()
+```
+
+
+
+| loan_amount| interest_rate| term|grade |state | annual_income|homeownership | debt_to_income|
+|-----------:|-------------:|----:|:-----|:-----|-------------:|:-------------|--------------:|
+|       28000|         14.07|   60|C     |NJ    |         90000|MORTGAGE      |          18.01|
+|        5000|         12.61|   36|C     |HI    |         40000|RENT          |           5.04|
+|        2000|         17.09|   36|D     |WI    |         40000|RENT          |          21.15|
+|       21600|          6.72|   36|A     |PA    |         30000|RENT          |          10.16|
+|       23000|         14.07|   36|C     |CA    |         35000|RENT          |          57.96|
+|        5000|          6.72|   36|A     |KY    |         34000|OWN           |           6.46|
+]
+
+---
+
 ## Selected variables
 
 &lt;br&gt;
@@ -239,7 +260,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ## `binwidth`.
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -253,7 +274,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 1000)
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[binwidth = 5000]
 
@@ -262,7 +283,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 5000)
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[binwidth = 20000]
 
@@ -271,7 +292,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 20000)
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-9-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -281,7 +302,7 @@ ggplot(loans, aes(x = loan_amount)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-9-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-10-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -303,7 +324,7 @@ ggplot(loans, aes(x = loan_amount)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-10-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -327,7 +348,7 @@ ggplot(loans, aes(x = loan_amount,
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-12-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -360,7 +381,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_density()
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-12-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -374,7 +395,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 0.5)
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[adjust = 1]
 
@@ -383,7 +404,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 1) # default bandwidth
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[adjust = 2]
 
@@ -392,7 +413,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 2)
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -402,7 +423,7 @@ ggplot(loans, aes(x = loan_amount)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -424,7 +445,7 @@ ggplot(loans, aes(x = loan_amount)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -459,7 +480,7 @@ ggplot(loans, aes(x = interest_rate)) +
   geom_boxplot()
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-19-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -471,7 +492,7 @@ ggplot(loans, aes(x = annual_income)) +
   geom_boxplot()
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-19-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-20-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -479,7 +500,7 @@ ggplot(loans, aes(x = annual_income)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-20-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-21-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -505,7 +526,7 @@ ggplot(loans, aes(x = interest_rate)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-21-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-22-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -527,7 +548,7 @@ ggplot(loans, aes(x = interest_rate,
 
 class: middle
 
-# Relationships numerical variables
+# Relationships between numerical variables
 
 ---
 
@@ -539,7 +560,7 @@ ggplot(loans, aes(x = debt_to_income, y = interest_rate)) +
   geom_point()
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-22-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-23-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -551,7 +572,7 @@ ggplot(loans, aes(x = debt_to_income, y = interest_rate)) +
   geom_hex()
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-23-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-24-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -564,12 +585,161 @@ ggplot(loans %&gt;% filter(debt_to_income &lt; 100),
   geom_hex()
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-24-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-25-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: middle
+
+# Categorical Data
+
+---
+
+
+### Which variables are *categorical*?
+
+
+```r
+glimpse(loans)
+```
+
+```
+## Rows: 10,000
+## Columns: 8
+## $ loan_amount    &lt;int&gt; 28000, 5000, 2000, 21600, 23000, 5000, 2…
+## $ interest_rate  &lt;dbl&gt; 14.07, 12.61, 17.09, 6.72, 14.07, 6.72, …
+## $ term           &lt;dbl&gt; 60, 36, 36, 36, 36, 36, 60, 60, 36, 36, …
+## $ grade          &lt;ord&gt; C, C, D, A, C, A, C, B, C, A, C, B, C, B…
+## $ state          &lt;fct&gt; NJ, HI, WI, PA, CA, KY, MI, AZ, NV, IL, …
+## $ annual_income  &lt;dbl&gt; 90000, 40000, 40000, 30000, 35000, 34000…
+## $ homeownership  &lt;fct&gt; MORTGAGE, RENT, RENT, RENT, RENT, OWN, M…
+## $ debt_to_income &lt;dbl&gt; 18.01, 5.04, 21.15, 10.16, 57.96, 6.46, …
+```
+
+---
+
+class: middle
+
+# Bar plot
+
+---
+
+## Bar plot
+
+
+```r
+ggplot(loans, aes(x = homeownership)) +
+  geom_bar()
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-27-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Segmented bar plot
+
+
+```r
+ggplot(loans, aes(x = homeownership, 
+*                 fill = grade)) +
+  geom_bar()
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-28-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Segmented bar plot
+
+
+```r
+ggplot(loans, aes(x = homeownership, fill = grade)) +
+* geom_bar(position = "fill")
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-29-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.question[
+Which bar plot is a more useful representation for visualizing the relationship between homeownership and grade?
+]
+
+.pull-left[
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-30-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Customizing bar plots
+
+.panelset[
+.panel[.panel-name[Plot]
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-32-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+.panel[.panel-name[Code]
+
+```r
+*ggplot(loans, aes(y = homeownership,
+                  fill = grade)) +
+  geom_bar(position = "fill") +
+* labs(
+*   x = "Proportion",
+*   y = "Homeownership",
+*   fill = "Grade",
+*   title = "Grades of Lending Club loans",
+*   subtitle = "and homeownership of lendee"
+* )
+```
+]
+]
+
+---
+
+class: middle
+
+# Relationships between numerical and categorical variables
+
+---
+
+## Already talked about...
+
+- Colouring and faceting histograms and density plots
+- Side-by-side box plots
+
+---
+
+## Violin plots
+
+
+```r
+ggplot(loans, aes(x = homeownership, y = loan_amount)) +
+  geom_violin()
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-33-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Ridge plots
+
+
+```r
+library(ggridges)
+ggplot(loans, aes(x = loan_amount, y = grade, fill = grade, color = grade)) + 
+  geom_density_ridges(alpha = 0.5)
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-34-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"ratio": "16:9",
+"ratio": "4:3",
 "highlightLines": true,
 "highlightStyle": "solarized-light",
 "countIncrementalSlides": false
