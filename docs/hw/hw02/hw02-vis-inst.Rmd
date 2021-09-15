@@ -149,14 +149,14 @@ next week:
 
 ```{r ride-totals}
 ride_totals <- hourly_rides %>%
-  group_by(member_type, day_of_week) %>% 
+  group_by(rider_type, day_of_week) %>% 
   summarize(rides = mean(rides))
 ```
 
 Make the following plot. (You may choose to refine it, but a plot like this is acceptable.)
 
 ```{r ride-totals-by-weekday, echo=FALSE, fig.fullwidth = TRUE}
-ggplot(ride_totals, aes(x = day_of_week, fill = member_type, y = rides)) +
+ggplot(ride_totals, aes(x = day_of_week, fill = rider_type, y = rides)) +
   geom_col(position = position_dodge()) +
   labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
 ```
@@ -181,7 +181,7 @@ Your plot might look something like this:
 
 ```{r ride-distributions-by-weekday, echo=FALSE}
 hourly_rides %>%
-  ggplot(aes(x = day_of_week, y = rides, fill = member_type)) +
+  ggplot(aes(x = day_of_week, y = rides, fill = rider_type)) +
   geom_boxplot() +
   labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
 ```
@@ -197,7 +197,7 @@ Instead of variation by day of week, plot the variation by hour, distinguishing 
 * Set the `fig.height` and/or `fig.width` cell options to make a comfortably sized graph.
 
 ```{r ride-distributions-by-hour, fig.height=10, fig.width=10, eval=FALSE, include=FALSE}
-ggplot(hourly_rides, aes(x = hour, y = rides, fill = member_type)) + 
+ggplot(hourly_rides, aes(x = hour, y = rides, fill = rider_type)) + 
   geom_boxplot() +
   facet_wrap(~ workingday, scales = "free_y", nrow = 2)
 ```
@@ -210,7 +210,7 @@ from *overplotting*.
 ```{r rides-by-temp-overplot}
 ggplot(hourly_rides, aes(x = temp, y = rides)) +
   geom_point() +
-  facet_wrap(~ member_type) + 
+  facet_wrap(~ rider_type) + 
   labs(x = "Normalized temperature", y = "Rides")
 ```
 
@@ -227,5 +227,5 @@ Note: you don't need to make proper labels for these plots, though it's always n
 hourly_rides %>%
   ggplot(aes(x = temp, y = rides, group = cut_width(temp, .1))) +
     geom_boxplot() +
-    facet_wrap(~ member_type)
+    facet_wrap(~ rider_type)
 ```
