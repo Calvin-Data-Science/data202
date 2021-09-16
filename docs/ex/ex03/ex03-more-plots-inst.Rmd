@@ -1,0 +1,126 @@
+---
+title: "Guided Exercise 3: More Plotting!"
+output: 
+  tufte::tufte_html:
+    css: ../ex.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(scales)
+library(gapminder)
+gapminder <- gapminder::gapminder # Put the data in the Environment
+```
+
+## Goals
+
+* Practice making various kinds of plots using `ggplot`
+* Practice interpreting different kinds of plots.
+
+## Getting Started
+
+Like last week, we're using our **portfolio repo** for this assignment. So:
+
+- Open your `portfolio` project in RStudio (you should see `Project: portfolio-YOURGITHUB` in the top right).
+- Go to the Git tab in RStudio and click `r emo::ji("arrow_down")` **Pull**.
+- Find and open `ex03/ex03-more-plotting.Rmd` (you may need to navigate in the Files tab to find it).
+- Change the `title` at the top top to "Exercise 3: More Plotting" (*with* the quotes or you'll get a strange YAML error), change the author name to your name, and Knit it to make sure everything works.
+
+`r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+
+## Styling and labeling plots
+
+Modify the following plot to:
+
+1. Add labels (`labs`) for the `x` and `y` axes, and the `title`.
+2. Set the `color` of the line to `red`
+
+```{r}
+gapminder %>% 
+  filter(country == "United States") %>% 
+  ggplot(aes(x = year, y = lifeExp)) +
+    geom_line()
+```
+
+## More styling and labeling
+
+```{r}
+gapminder %>% 
+  filter(continent == "Americas") %>% 
+  ggplot(aes(x = year, y = lifeExp, color = country)) +
+    geom_line()
+```
+
+## Faceting
+
+```{r}
+gapminder %>% 
+  filter(continent == "Americas") %>% 
+  ggplot(aes(x = year, y = lifeExp)) +
+    geom_line() +
+    facet_wrap(vars(country))
+```
+
+## Univariate analysis - Continuous
+
+Pick one of the continuous variables. Make two different types of plots to show its distribution.
+
+```{r}
+ggplot(gapminder, aes(x = lifeExp)) + geom_density()
+```
+
+```{r}
+ggplot(gapminder, aes(x = lifeExp)) + geom_boxplot()
+```
+
+## Univariate Analysis - Categorical
+
+Make a bar plot of the distribution of continents.
+
+```{r}
+gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = continent)) + geom_bar()
+```
+
+Discuss the interpretation of this plot with your partner.
+
+## Bivariate: Relationship between numerical and categorical
+
+Pick one of the continuous variables and plot its relationship with `continent`.
+
+Make two different visualizations. Compare and contrast them.
+
+```{r}
+gapminder %>% 
+  ggplot(aes(x = lifeExp, y = continent)) +
+  geom_boxplot()
+```
+
+```{r}
+gapminder %>% 
+  ggplot(aes(x = lifeExp, y = continent)) +
+  geom_violin()
+```
+
+```{r}
+gapminder %>% 
+  ggplot(aes(x = lifeExp, color = continent)) +
+  geom_density()
+```
+
+```{r}
+library(ggridges)
+gapminder %>% 
+  ggplot(aes(x = lifeExp, y = continent)) +
+  geom_density_ridges()
+```
+
+
+## Cheatsheets
+
+- the datavis [cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization-2.1.pdf)
+- [all cheat sheets](https://rstudio.cloud/learn/cheat-sheets)
