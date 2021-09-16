@@ -140,11 +140,11 @@ class: middle
 
 ## Describing shapes of numerical distributions
 
+- center: mean (`mean`), median (`median`), mode (not always useful)
+- spread: range (`range`), standard deviation (`sd`), inter-quartile range (`IQR`)
 - shape:
     - skewness: right-skewed, left-skewed, symmetric (skew is to the side of the longer tail)
     - modality: unimodal, bimodal, multimodal, uniform
-- center: mean (`mean`), median (`median`), mode (not always useful)
-- spread: range (`range`), standard deviation (`sd`), inter-quartile range (`IQR`)
 - unusual observations
 
 ---
@@ -157,7 +157,7 @@ class: middle
 
 ## Histogram
 
-```{r message = TRUE, out.width = "50%"}
+```{r message = TRUE, out.width = "75%"}
 ggplot(loans, aes(x = loan_amount)) +
   geom_histogram()
 ```
@@ -168,19 +168,19 @@ ggplot(loans, aes(x = loan_amount)) +
 
 .panelset[
 .panel[.panel-name[binwidth = 1000]
-```{r out.width = "50%"}
+```{r out.width = "75%"}
 ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 1000)
 ```
 ]
 .panel[.panel-name[binwidth = 5000]
-```{r out.width = "50%"}
+```{r out.width = "75%"}
 ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 5000)
 ```
 ]
 .panel[.panel-name[binwidth = 20000]
-```{r out.width = "50%"}
+```{r out.width = "75%"}
 ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 20000)
 ```
@@ -251,7 +251,7 @@ ggplot(loans, aes(x = loan_amount, fill = homeownership)) +
     y = "Frequency",
     title = "Amounts of Lending Club loans"
   ) +
-  facet_wrap(~ homeownership, nrow = 3) #<<
+  facet_wrap(vars(homeownership), nrow = 3) #<<
 ```
 ]
 ]
@@ -483,10 +483,49 @@ ggplot(loans, aes(x = homeownership)) +
 
 ---
 
+## Bar plot with lots of categories
+
+```{r barplot-state-x}
+ggplot(loans, aes(x = state)) +
+  geom_bar()
+```
+
+---
+
+## Flip!
+
+```{r barplot-state-y, fig.asp=1}
+ggplot(loans, aes(y = state)) +
+  geom_bar()
+```
+
+---
+
+## Use a meaningful order!
+
+.pull-left[
+```{r barplot-state-y-infreq, fig.asp=1, out.width="100%"}
+ggplot(loans, aes(y = fct_infreq(state))) +
+  geom_bar()
+```
+]
+
+
+.pull-right[
+```{r barplot-state-y-other, fig.asp=1, out.width="100%"}
+# bonus!
+ggplot(loans, aes(y = state %>% fct_infreq() %>% fct_lump_n(15) %>% fct_rev())) +
+  geom_bar()
+```
+]
+
+
+---
+
 ## Segmented bar plot
 
 ```{r}
-ggplot(loans, aes(x = homeownership, 
+ggplot(loans, aes(y = homeownership, 
                   fill = grade)) + #<<
   geom_bar()
 ```
@@ -496,7 +535,7 @@ ggplot(loans, aes(x = homeownership,
 ## Segmented bar plot
 
 ```{r}
-ggplot(loans, aes(x = homeownership, fill = grade)) +
+ggplot(loans, aes(y = homeownership, fill = grade)) +
   geom_bar(position = "fill") #<<
 ```
 
@@ -508,13 +547,13 @@ Which bar plot is a more useful representation for visualizing the relationship 
 
 .pull-left[
 ```{r echo=FALSE, out.width = "100%"}
-ggplot(loans, aes(x = homeownership, fill = grade)) +
+ggplot(loans, aes(y = homeownership, fill = grade)) +
   geom_bar()
 ```
 ]
 .pull-right[
 ```{r echo=FALSE, out.width = "100%"}
-ggplot(loans, aes(x = homeownership, fill = grade)) +
+ggplot(loans, aes(y = homeownership, fill = grade)) +
   geom_bar(position = "fill")
 ```
 ]
@@ -544,6 +583,31 @@ ggplot(loans, aes(y = homeownership, #<<
 ]
 ]
 
+
+---
+
+## Gotcha: `geom_bar` summarizes the data for you!
+
+.panelset[
+.panel[.panel-name[Counting]
+```{r}
+loan_proportions <- loans %>% 
+  group_by(homeownership, grade) %>% 
+  summarize(count = n()) %>% 
+  group_by(homeownership) %>% 
+  mutate(prop = count / sum(count))
+loan_proportions
+```
+]
+.panel[.panel-name[Plotting]
+```{r manual-counts}
+ggplot(loan_proportions, aes(y = homeownership, fill = grade,
+                             x = prop)) + #<<
+  geom_col() #<<
+```
+]
+]
+
 ---
 
 class: middle
@@ -562,7 +626,7 @@ class: middle
 ## Violin plots
 
 ```{r warning = FALSE}
-ggplot(loans, aes(x = homeownership, y = loan_amount)) +
+ggplot(loans, aes(y = homeownership, x = loan_amount)) +
   geom_violin()
 ```
 
