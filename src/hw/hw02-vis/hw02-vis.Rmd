@@ -17,22 +17,21 @@ options(dplyr.summarise.inform = FALSE)
 
 ## Read Data
 
-Read the data from the CSV file and interpret many variables as factors (categorical variables).
+Read the data from the CSV file.
 
 ```{r read-data, message=FALSE}
-hourly_rides <- read_csv("data/hour.csv") %>%
-  mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type, member_type), as.factor))
+daily_rides <- read_csv("data/day.csv")
 ```
 
 The following are two different ways of getting a quick look at the data. (Which one looks better in a report? Which one is more useful to a programmer?)
 
 ```{r glimpse-data}
-hourly_rides %>% glimpse()
+daily_rides %>% glimpse()
 ```
 
 
 ```{r head-data}
-hourly_rides %>% head() %>% kable()
+daily_rides %>% head() %>% kable()
 ```
 
 ## Exercise 1: Label days of week
@@ -40,55 +39,46 @@ hourly_rides %>% head() %>% kable()
 *Replace this line with your explanation of how you determined which number corresponds to which day.* Remove the asterisks so it isn't italic in your report.
 
 ```{r label-weekdays}
-hourly_rides <- hourly_rides %>%
+daily_rides <- daily_rides %>%
   mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("DAY", "ANOTHER DAY", "...", "...", "...", "...", "...")))
 ```
 
-## Exercise 2: Overall counts by weekday
+## Exercise 2: Describe a row
 
-```{r ride-totals}
-ride_totals <- hourly_rides %>%
-  group_by(member_type, day_of_week) %>% 
-  summarize(rides = sum(rides))
+*Your description here* without the asterisks.
+
+## Exercise 3: Rides by date, by rider type
+
+```{r rides-by-date-membership}
+# your code here (remove this line)
 ```
 
-```{r ride-totals-by-weekday}
-# your code here
+*Your interpretation here*
+
+## Exercise 4: Mapping vs Faceting
+
+```{r rides-membership-workingday-1}
+# your code here (remove this line)
 ```
 
-## Exercise 3: Distribution of Rides by Weekday
+
+```{r rides-membership-workingday-2}
+# your code here (remove this line)
+```
+
+*Your comparison and contrast here*
+
+## Exercise 5: How does ridership vary over a typical week?
 
 ```{r ride-distributions-by-weekday}
-# your code here
+# your code here (remove this line)
 ```
 
-## Exercise 4: Distribution of Rides by Hour
+*Your description of what the plot tells you about the data here*
 
-```{r ride-distributions-by-hour, fig.height=8}
-# your code here
-```
 
-## Exercise 5: Overplotting
+## Exercise 6: Plot of your choice
 
-```{r rides-by-temp-overplot}
-ggplot(hourly_rides, aes(x = temp, y = rides)) +
-  geom_point() +
-  facet_wrap(~ member_type) + 
-  labs(x = "Normalized temperature", y = "Rides")
-```
+Add your plot code here.
 
-### Approach 1
-
-```{r overplot-fix-1}
-
-```
-
-### Approach 2
-
-```{r overplot-fix-2}
-
-```
-
-### Comparison
-
-*Which do you prefer, and why?*
+*Your description of what the plot tells you about the data here*

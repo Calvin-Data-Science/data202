@@ -79,6 +79,8 @@ daily_rides <- read_csv(here::here("docs/data/bikeshare/day.csv")) %>%
     registered
   ) %>%
   mutate(
+    year = year + 2011,
+    holiday = if_else(holiday == 1, "Y", "N"),
     season = c("W", "S", "U", "F")[season],
     temp = temp * (39 + 8) - 8,
     feels_like = feels_like * (50 + 16) - 16,
@@ -152,8 +154,8 @@ So: each row is the count of how many *rides* were completed on a given day by a
 
 -   `rides`: the number of rides by that type of rider
 -   `season`: Winter, Spring, sUmmer, or Fall
--   `year`: 0 for 2011, 1 for 2012.
--   `holiday`: 0 for ordinary days, 1 for holidays
+-   `year`: 2011 or 2012.
+-   `holiday`: `N` for ordinary days, `Y` for holidays
 -   `workingday`: either "weekday" or "weekend" (where "weekend" includes holidays too).
 -   `day_of_week`: an integer between 0 and 6 inclusive. In this exercise, you will decode which number represents Monday, etc.
 -   `temp`: the average temperature that day, in degrees C
@@ -236,22 +238,19 @@ Try adjusting parameters for the faceting: should you use rows vs columns? Shoul
 
 Once you're done, **pick two plots** to leave in this section and remove all the others. **Compare and contrast** the design choices of the two plots: for which purpose is each one better, and why?
 
-## Exercise 5: Distribution of Rides
 
-Plot the distribution of the number of rides each day, broken down by rider type.
+## Exercise 5: How does ridership vary over a typical week?
 
-Try several different plot types. Keep the one that you think is most clear. Write a one-sentence interpretation of this plot.
+We want to find out how ridership varies over a typical week. Before moving on, think to yourself:
 
-```{r eval=FALSE, include=FALSE}
-ggplot(daily_rides, aes(x = rides, color = rider_type)) + geom_density()
-ggplot(daily_rides, aes(x = rides, y = rider_type)) + geom_boxplot()
-ggplot(daily_rides, aes(x = rides, y = rider_type)) + geom_violin()
-ggplot(daily_rides, aes(x = rides, y = rider_type)) + ggridges::geom_density_ridges(alpha = .5)
-```
+- This question is asking about the relationship between *which variables*?
+- *Sketch a visualization* (on scrap paper) that might answer this question.
 
-## Exercise 6: Distribution of Rides by Day of Week
+<br><br><br>
 
-Plot the *distribution* of rides each day of the week. Your plot might look something like this:
+This question is asking about how *rides* relates with *day of week*. We should show not just a single number for each day but rather the *distribution* of rides each day of the week. And we should break it down by rider type.
+
+Here's one possible plot; try to make it.
 
 ```{r ride-distributions-by-weekday, echo=FALSE, fig.fullwidth=TRUE}
 daily_rides %>%
@@ -260,10 +259,12 @@ daily_rides %>%
   labs(y = "Rides", x = "Day of Week", fill = "Type of Rider")
 ```
 
-(You might also try faceting, or using different plot types, etc.)
+Once you have that plot, try a few variations: faceting, using different plot types, etc.)
 
 Write a one-sentence description of what the plot tells you about the data.
 
-## Exercise 7: Plot of your choice
+## Exercise 6: Plot of your choice
 
-Pick another variable or two from the list of variables above. Make a plot of their relationship. Write a brief description of what you notice.
+Pick another variable or two from the list of variables above. Make a plot of their relationship. 
+
+Write a one-sentence description of what the plot tells you about the data.
