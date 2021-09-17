@@ -58,7 +58,7 @@ Modify the following plot to:
 
 1. Add labels (`labs`) for the `x` and `y` axes. Use `?gapminder` at the Console to get the data documentation if needed.
 2. Add a `title` (also `labs`).
-3. Set the `color` of the line to `red`.
+3. Set the `color` of the line to `green`. (Is it green now?)
 4. Set the chunk name to something more meaningful than `plot-1`.
 
 ```{r plot-1}
