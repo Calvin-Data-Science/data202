@@ -171,9 +171,8 @@ Try out the ridge plot in the example code. Try setting color and fill. Then try
 library(ggridges)
 gapminder %>% 
   filter(year == 2007) %>% 
-  ggplot(aes(x = lifeExp, y = continent, fill = continent)) +
-  geom_density_ridges(alpha = .5) +
-  guides(fill = "none")
+  ggplot(aes(x = lifeExp, y = continent)) +
+  geom_density_ridges(alpha = .5)
 ```
 
 
