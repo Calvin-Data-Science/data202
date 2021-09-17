@@ -15,22 +15,23 @@ library(ggplot2)
 options(dplyr.summarise.inform = FALSE)
 ```
 
-We will be continuing our work with the [Capital Bikeshare dataset](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset). Our goal continues to be to understand the pattern of ridership better to evaluate the current system and suggest potential improvements.
+We will be continuing our work with the [Capital Bikeshare dataset](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset) that we started in Homework 1. Our goal continues to be to understand ridership patterns to evaluate the current system and suggest potential improvements.
 
-Towards that end, we will construct some more visualizations, this time using the more fine-grained *hourly* ridership data.
+Towards that end, we will construct some more visualizations, this time using more fine-grained ridership data.
 
 ## Learning goals
 
-Getting proficient at designing and implementing data visualizations takes practice. The goal of this assignment is to give you practice specifically with:
+Getting proficient at designing and implementing data visualizations takes practice. The goal of this assignment is to give you practice:
 
--   Analyzing a visualization in terms of the Grammar of Graphics
--   Constructing a visualization using `ggplot`
+-   Interpreting the structure of a dataset
 -   Choosing the the structure of a visualization according to characteristics of the data and questions to be answered.
--   Interpreting visualizations
+-   Constructing a visualization using the `ggplot` toolkit
+-   Interpreting a visualization
 
 You will also gain practice at:
 
--   Making data-driven arguments (Exercise 1)
+-   Analyzing a visualization in terms of the Grammar of Graphics
+-   Making data-driven arguments
 
 Upon completing this homework, you will have greater comfort making and refining visualizations using the Grammar of Graphics. You will also gain some initial exposure to data wrangling, which we will study in depth next week.
 
@@ -73,7 +74,7 @@ daily_rides <- read_csv(here::here("docs/data/bikeshare/day.csv")) %>%
     temp,
     feels_like = atemp,
     humidity = hum,
-    windspeed,
+    wind_speed = windspeed,
     casual,
     registered
   ) %>%
@@ -81,7 +82,7 @@ daily_rides <- read_csv(here::here("docs/data/bikeshare/day.csv")) %>%
     season = c("W", "S", "U", "F")[season],
     temp = temp * (39 + 8) - 8,
     feels_like = feels_like * (50 + 16) - 16,
-    windspeed = windspeed * 67
+    wind_speed = wind_speed * 67
     ) %>% 
   pivot_longer(c(casual, registered),
                names_to = "rider_type",
@@ -108,7 +109,7 @@ hourly_rides <- read_csv("../../data/bikeshare/hour.csv") %>%
     temp,
     feels_like = atemp,
     humidity = hum,
-    windspeed,
+    wind_speed = windspeed,
     casual,
     registered
   ) %>%
@@ -134,19 +135,18 @@ The **id columns** are the columns that uniquely identify an observation (someti
 
 [^1]: The id columns are analogous to *independent variables*, except that that terminology often implies that we're running an experiment, which is not necessarily the case.
 
-The dataset for this homework has three id columns:
+The dataset for this homework has *two* id columns:
 
 -   `date`: as before
--   `hour`: hour of the day (0 through 23)
 -   `rider_type`: `registered` or `casual` (see below)
 
-The two additional id columns mean that we've now broken down the data by `hour` of the day and rider type (`rider_type`). Some riders have `registered` for a Capital Bikeshare membership to get better rates. Other riders just bought a single trip or short-term pass, so we call them `casual` riders.
+The additional id column means that we've now broken down the data by rider type (`rider_type`). Some riders have `registered` for a Capital Bikeshare membership to get better rates. Other riders just bought a single trip or short-term pass, so we call them `casual` riders.
 
 ```{marginfigure}
 According to the [source data](https://www.capitalbikeshare.com/system-data), "casual" riders include: Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass
 ```
 
-So: each row is the count of how many *rides* were completed in a given hour by a given type of rider. For each row, we have the following observed variables:[^2]
+So: each row is the count of how many *rides* were completed on a given day by a given type of rider. For each row, we have the following observed variables:[^2]
 
 [^2]: These are analogous to *dependent variables*, but again that may imply too much.
 
@@ -159,8 +159,7 @@ So: each row is the count of how many *rides* were completed in a given hour by 
 -   `temp`: the average temperature that day, in degrees C
 -   `feels_like`: the "feels-like" temperature in degrees C
 -   `humidity`: relative humidity, scaled to range from 0 to 1
--   'weather_type`: see the [source data](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset) for a description
--   `windspeed`: wind speed
+-   `weather_type` and `windspeed`: see the [source data](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset) for a description
 
 ## Exercise 1: Label days of week
 
@@ -193,10 +192,10 @@ Make a scatterplot of the number of rides by date, broken down by type of rider.
 
 Here is one possibility:
 
-```{r rides-by-date-membership, echo=FALSE}
+```{r rides-by-date-membership, echo=FALSE, fig.fullwidth = TRUE}
 ggplot(daily_rides, aes(x = date, y = rides, color = rider_type)) +
   geom_point(alpha = 0.5, size = 1) +
-  geom_smooth() +
+  geom_smooth(method = "loess", formula = y ~ x) +
   labs(x = "Date", y = "Number of rides", color = "Type of Rider", title = "Rides by date", subtitle = "for casual and registered riders")
 ```
 
@@ -250,11 +249,11 @@ ggplot(daily_rides, aes(x = rides, y = rider_type)) + geom_violin()
 ggplot(daily_rides, aes(x = rides, y = rider_type)) + ggridges::geom_density_ridges(alpha = .5)
 ```
 
-## Exercise 6: Distribution of Rides by Weekday
+## Exercise 6: Distribution of Rides by Day of Week
 
-Plot the *distribution* of rides each hour. Your plot might look something like this:
+Plot the *distribution* of rides each day of the week. Your plot might look something like this:
 
-```{r ride-distributions-by-weekday, echo=FALSE}
+```{r ride-distributions-by-weekday, echo=FALSE, fig.fullwidth=TRUE}
 daily_rides %>%
   ggplot(aes(x = day_of_week, y = rides, fill = rider_type)) +
   geom_boxplot() +
