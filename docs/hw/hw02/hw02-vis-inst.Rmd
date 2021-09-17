@@ -24,15 +24,30 @@ the more fine-grained *hourly* ridership data.
 
 ## Learning goals
 
+Getting proficient at designing and implementing data visualizations takes practice.
+The goal of this assignment is to give you practice specifically with:
+
+* Analyzing a visualization in terms of the Grammar of Graphics
+* Constructing a visualization using `ggplot`
+* Choosing the the structure of a visualization according to characteristics of the data and questions to be answered.
+
+You will also gain practice at:
+
+* Making data-driven arguments (Exercise 1)
+
 Upon completing this homework, you will have greater comfort making and refining
 visualizations using the Grammar of Graphics. You will also gain some initial
 exposure to data wrangling, which we will study in depth next week.
 
-## Getting help
+## Tips for Success
 
-As always, if you need help, post in Piazza or come to office hours!
+* Work at this a little bit at a time.
+* If you're stuck on some coding aspect, ask for help soon: don't spend more than 15 minutes trying to figure out a
+  coding problem.
+* As always, if you need help, post in Piazza or come to office hours!
 
-See also the "Data Visualization with ggplot2" cheatsheet available under the RStudio Help menu.
+See also the "Data Visualization with ggplot2" cheatsheet available under the RStudio Help menu and
+other resources linked on the Materials section of the course Syllabus.
 
 ## Getting started
 
@@ -40,12 +55,46 @@ Pull your Portfolio repo and find `hw/hw02/hw02-vis.Rmd`.
 
 Update the title and author, Knit, Commit, Push.
 
-### Exercise 0: notice a few things
+### Exercise 0: Getting to know the data
 
 You will notice that the report starts with a code block that reads the data and sets the
 correct data types for several of the columns. You do not need to understand how this code works at the moment.
 
 ```{r read-data, message=FALSE, include=FALSE}
+roundtrip_csv <- function(data, filename) {
+  write_csv(data, filename)
+  read_csv(filename)
+}
+
+daily_rides <- read_csv(here::here("docs/data/bikeshare/day.csv")) %>%
+  mutate(workingday = case_when(workingday == 1 ~ "workday",
+                                          TRUE ~ "weekend"),
+         ) %>%
+  select(
+    date = dteday,
+    season,
+    year = yr,
+    holiday,
+    workingday = workingday,
+    day_of_week = weekday,
+    weather_type = weathersit,
+    temp,
+    feels_like = atemp,
+    humidity = hum,
+    windspeed,
+    casual,
+    registered
+  ) %>%
+  mutate(season = c("W", "S", "U", "F")[season]) %>% 
+  pivot_longer(c(casual, registered),
+               names_to = "rider_type",
+               values_to = "rides") %>% 
+  relocate(date, rider_type, rides) %>% 
+  mutate(across(c(season, year, holiday, workingday, day_of_week, weather_type, rider_type), as.factor))
+
+daily_rides <- roundtrip_csv(daily_rides, here::here("src/hw/hw02-vis/data/day.csv"))
+
+if(FALSE) {
 hourly_rides <- read_csv("../../data/bikeshare/hour.csv") %>%
   mutate(workingday = case_when(workingday == 1 ~ "workday",
                                           TRUE ~ "weekend"),
@@ -73,16 +122,36 @@ hourly_rides <- read_csv("../../data/bikeshare/hour.csv") %>%
   relocate(date, hour, rider_type, rides) %>% 
   mutate(across(c(season, year, hour, holiday, workingday, day_of_week, weather_type, rider_type), as.factor))
 
-hourly_rides %>% write_csv("../../../src/hw/hw02-vis/data/hour.csv")
+hourly_rides %>% write_csv(here::here("src/hw/hw02-vis/data/hour.csv"))
+hourly_rides <- read_csv(here::here("src/hw/hw02-vis/data/hour.csv"))
+}
 ```
 
-Notice also that there are two ways shown of getting a quick look at the data. Try to understand what the output means, even if you don't yet understand what the code does.
+Notice also that the template shows two different ways shown of getting a quick look at the data. You are not expected to understand the code for them, but try to understand what the output means.
 
-You'll observe that there are some extra columns now, and we have many more rows because this is *hourly* data, and we've broken it down by whether the count is for "registered" users (who registered for Capital Bikeshare accounts) or "casual" users (who didn't register).
+### What are the columns?
 
-* `date`
+You'll observe that there are some extra columns now. 
+
+The **id columns** are the columns that uniquely identify an observation (sometimes called a "case" instead of "observation"). ^[The id columns are analogous to *independent variables*, except that that terminology often implies that we're running an experiment, which is not necessarily the case.]
+In Homework 1, we only had one id column, `date`, because we had one observation for each date. (Consider why `day_of_week` and `workingday` would not be considered *id* columns.)
+
+The dataset for this homework has three id columns:
+
+* `date`: as before
 * `hour`: hour of the day (0 through 23)
-* `rider_type`: `registered` or `casual` (see above)
+* `rider_type`: `registered` or `casual` (see below)
+
+The two additional id columns mean that we've now broken down the data by `hour` of the day and rider type (`rider_type`). 
+Some riders have `registered` for a Capital Bikeshare membership to get better rates.
+Other riders just bought a single trip or short-term pass, so we call them `casual` riders.
+
+```{marginfigure}
+According to the [source data](https://www.capitalbikeshare.com/system-data), "casual" riders include: Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass
+```
+
+So: each row is the count of how many *rides* were completed in a given hour by a given type of rider. For each row, we have the following observed variables:^[These are analogous to *dependent variables*, but again that may imply too much.]
+
 * `rides`: the number of rides by that type of rider
 * `season`: Winter, Spring, sUmmer, or Fall
 * `year`: 0 for 2011, 1 for 2012.
@@ -94,7 +163,6 @@ You'll observe that there are some extra columns now, and we have many more rows
 * `humidity`: relative humidity, also scaled 0 to 1.
 * `windspeed`: wind speed, also scaled 0 to 1
 
-So: each row is the count of how many *rides* were completed in a given hour by a given type of rider.
 
 ## Exercise 1: Label days of week
 
@@ -111,19 +179,78 @@ Once you've figured it out:
 2. Fill in the blank in the given code block to give labels to the weekdays. Use abbreviations ("Wed", "Fri", ...).
 
 ```{r label-weekdays, include=FALSE}
-hourly_rides <- hourly_rides %>%
+daily_rides <- daily_rides %>%
   mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat")))
 ```
 
 ## Exercise 2: Describe a row
 
 Write a succinct English sentence that conveys the same information as the first row in the data frame.
-*Only consider the `date`, `hour`, `rider_type`, `rides`, `holiday`, `workingday`, and `day_of_week` columns.*
+*Only consider the `date`, `rider_type`, `rides`, `holiday`, `workingday`, and `day_of_week` columns.*
+
+## Exercise 3: Rides by date, by rider type
+
+Make a scatterplot of the number of rides by date, broken down by type of rider. Tips:
+
+- Refer to your Homework 1 solution for a very similar (but not identical) plot.
+- Make the points smaller (`size` of 1) and partially transparent (`alpha` of 0.5) to reduce *overplotting*.
+- Your plot should be fully labeled.
+
+Here is one possibility:
+
+```{r}
+ggplot(daily_rides, aes(x = date, y = rides, color = rider_type)) +
+  geom_point(alpha = 0.5, size = 1) +
+  geom_smooth() +
+  labs(x = "Date", y = "Number of rides", color = "Type of Rider", title = "Rides by date", subtitle = "for casual and registered riders")
+```
+
+Write a brief interpretation of this plot.
+
+## Exercise 4: Mapping vs Faceting
+
+Now let's look at workdays vs weekends (and holidays). This is encoded in the `workingday` variable, like in Homework 1.
+
+First, make a scatterplot like in Exercise 3, but map `shape` to `workingday`.
+
+```{r}
+ggplot(daily_rides, aes(x = date, y = rides, color = rider_type, shape = workingday)) +
+  geom_point(alpha = 0.5, size = 1) +
+  geom_smooth() +
+  labs(x = "Date", y = "Number of rides", color = "Type of Rider", title = "Rides by Date", shape = "Type of Day")
+```
+
+## Faceting
+
+```{r}
+ggplot(hourly_rides, aes(x = date, y = rides, color = rider_type)) +
+  geom_point(alpha = 0.2) +
+  facet_wrap(vars(workingday), nrow = 2)
+```
+
+```{r}
+ggplot(hourly_rides, aes(x = date, y = rides, color = workingday)) +
+  geom_point(alpha = 0.2) +
+  facet_wrap(vars(rider_type), nrow = 2)
+```
+
+```{r}
+ggplot(hourly_rides, aes(x = date, y = rides, color = workingday)) +
+  geom_point(alpha = 0.2) +
+  facet_grid(cols = vars(rider_type), rows = vars(hour))
+```
 
 ## univariate plot
 
+First, make the histogram bars blue.
+
 ```{r}
 ggplot(hourly_rides, aes(x = rides)) + geom_histogram(binwidth = 50, fill = 'blue')
+```
+
+Now, color the bar according to whether it's weekend or workday.
+
+```{r}
 ggplot(hourly_rides, aes(x = rides, fill = workingday)) + geom_histogram(binwidth = 50)
 ```
 
@@ -132,7 +259,6 @@ ggplot(hourly_rides, aes(x = rides, fill = workingday)) + geom_histogram(binwidt
 ggplot(hourly_rides, aes(x = date, y = season)) + geom_point()
 ```
 
-Set color vs map color
 
 ```{r}
 ggplot(hourly_rides, aes(x = temp, y = season)) + geom_boxplot()
