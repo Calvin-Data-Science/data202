@@ -139,13 +139,14 @@ deploy_assignment <- function(path, deploy_solutions = FALSE) {
     files <- files[!is_solution]
   }
   
-  # Add to the reference
+  # Add to the reference and demo repos
   repo_add_file(glue("{ghorg}/portfolio-reference"), files, preserve_path = TRUE, overwrite = FALSE)
+  repo_add_file(glue("{ghorg}/portfolio-demo"), files, preserve_path = TRUE, overwrite = FALSE)
 
   # Add to the student repos.
   repo_add_file(student_repos$portfolio_repo_full, files, preserve_path = TRUE, overwrite = FALSE)
 
 }
-#deploy_assignment("ex/ex02-plotting")
+#deploy_assignment("ex/ex03-more-plots")
 ```
 
