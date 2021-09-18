@@ -38,6 +38,7 @@ Upon completing this homework, you will have greater comfort making and refining
 ## Tips for Success
 
 -   Work at this a little bit at a time.
+-   Refer to what you did in Guided Exercise 3; much of this is very similar to that.
 -   If you're stuck on some coding aspect, ask for help soon: don't spend more than 15 minutes trying to figure out a coding problem.
 -   As always, if you need help, post in Piazza or come to office hours!
 
@@ -236,7 +237,7 @@ ggplot(daily_rides, aes(x = date, y = rides, color = workingday)) +
 
 Try adjusting parameters for the faceting: should you use rows vs columns? Should you use free or fixed y scales?
 
-Once you're done, **pick two plots** to leave in this section and remove all the others. **Compare and contrast** the design choices of the two plots: for which purpose is each one better, and why?
+Once you're done, **pick two plots** to leave in this section and remove all the others. (1) Describe the structure the first plot, (2) describe the structure of the second plot, and (3) **Compare and contrast** the two plots: for which purpose is each one better? What about the design of the plot makes it fit that purpose?
 
 
 ## Exercise 5: How does ridership vary over a typical week?
