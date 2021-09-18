@@ -25,6 +25,8 @@ Instead of a new repo for each assignment, we'll be using a **portfolio repo** f
 
 If you haven't yet done so for [Homework 1](../../hw/hw01/hw01-warmup-inst.html), **clone your portfolio repo**: 
 
+<!-- for next time: Take refined instructions from ex03. Maybe use the portfolio repo from the very beginning? -->
+
 - Find your **portfolio repo** in our [GitHub org](https://github.com/Calvin-DS202-21FA).
   - **Don't see it?** Look for an "invite" email from GitHub. It'll be the email address that you gave GitHub, which might be your personal email.
 - Clone it as a new project (see [Exercise 1](../../ex/ex01/ex01-github.html) starting at "New Project" for a reminder of the steps; thankfully you *don't* need to do the SSH key setup again!)
@@ -53,9 +55,9 @@ gapminder %>%
     coord_cartesian(ylim = c(20, 90)) + 
     aes(color = continent) +
     aes(size = pop) + 
-    scale_x_continuous(breaks = c(400, 4000, 40000), trans = "log10") +
     labs(x = "GDP per Capita", y = "Life Expectancy (years)") +
     labs(color = "Continent", size = "Population") +
+    scale_x_continuous(breaks = c(400, 4000, 40000), trans = "log10") +
     scale_size_area(labels = label_comma()) +
     theme_bw() + 
     annotation_logticks(sides = "b")
@@ -84,9 +86,9 @@ unique(gapminder$year)
 ```
 
 
-- Use commas in the `x` axis labels. (Use the same `labels` code as in the `area` scale.)
+- Try combining the `aes` lines together into a single `aes` command (with commas between the parts). Then try the same for the `labs`.
 
-- Try combining the `aes` lines together into a single `aes` command. Then try the same for the `labs`.
+- Use commas in the `x` axis labels. (Find the part that adds commas to the `scale` for `area`. Use the same `labels` code in the part that already customizes other aspects of the `scale` for `x`.)
 
 - Try some other [themes](https://ggplot2.tidyverse.org/reference/ggtheme.html). (at least try `theme_gray`, `theme_classic`, and `theme_minimal`).
 

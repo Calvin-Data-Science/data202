@@ -154,6 +154,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2>Getting Started</h2>
 <p>Instead of a new repo for each assignment, we’ll be using a <strong>portfolio repo</strong> for this and most future assignments.</p>
 <p>If you haven’t yet done so for <a href="../../hw/hw01/hw01-warmup-inst.html">Homework 1</a>, <strong>clone your portfolio repo</strong>:</p>
+<!-- for next time: Take refined instructions from ex03. Maybe use the portfolio repo from the very beginning? -->
 <ul>
 <li>Find your <strong>portfolio repo</strong> in our <a href="https://github.com/Calvin-DS202-21FA">GitHub org</a>.
 <ul>
@@ -182,9 +183,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">90</span>)) <span class="sc">+</span> </span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">color =</span> continent) <span class="sc">+</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">size =</span> pop) <span class="sc">+</span> </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">4000</span>, <span class="dv">40000</span>), <span class="at">trans =</span> <span class="st">&quot;log10&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;GDP per Capita&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Life Expectancy (years)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Continent&quot;</span>, <span class="at">size =</span> <span class="st">&quot;Population&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;GDP per Capita&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Life Expectancy (years)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Continent&quot;</span>, <span class="at">size =</span> <span class="st">&quot;Population&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">4000</span>, <span class="dv">40000</span>), <span class="at">trans =</span> <span class="st">&quot;log10&quot;</span>) <span class="sc">+</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_size_area</span>(<span class="at">labels =</span> <span class="fu">label_comma</span>()) <span class="sc">+</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotation_logticks</span>(<span class="at">sides =</span> <span class="st">&quot;b&quot;</span>)</span></code></pre></div>
@@ -206,8 +207,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(gapminder<span class="sc">$</span>year)</span></code></pre></div>
 <pre><code>##  [1] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 2002 2007</code></pre>
 <ul>
-<li><p>Use commas in the <code>x</code> axis labels. (Use the same <code>labels</code> code as in the <code>area</code> scale.)</p></li>
-<li><p>Try combining the <code>aes</code> lines together into a single <code>aes</code> command. Then try the same for the <code>labs</code>.</p></li>
+<li><p>Try combining the <code>aes</code> lines together into a single <code>aes</code> command (with commas between the parts). Then try the same for the <code>labs</code>.</p></li>
+<li><p>Use commas in the <code>x</code> axis labels. (Find the part that adds commas to the <code>scale</code> for <code>area</code>. Use the same <code>labels</code> code in the part that already customizes other aspects of the <code>scale</code> for <code>x</code>.)</p></li>
 <li><p>Try some other <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">themes</a>. (at least try <code>theme_gray</code>, <code>theme_classic</code>, and <code>theme_minimal</code>).</p></li>
 </ul>
 <p>✅ ⬆️ Knit, Commit, and Push again. Ensure your Git pane is clean.</p>
