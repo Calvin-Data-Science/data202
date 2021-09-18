@@ -232,11 +232,11 @@ class: middle
 
 ## Describing shapes of numerical distributions
 
+- center: mean (`mean`), median (`median`), mode (not always useful)
+- spread: range (`range`), standard deviation (`sd`), inter-quartile range (`IQR`)
 - shape:
     - skewness: right-skewed, left-skewed, symmetric (skew is to the side of the longer tail)
     - modality: unimodal, bimodal, multimodal, uniform
-- center: mean (`mean`), median (`median`), mode (not always useful)
-- spread: range (`range`), standard deviation (`sd`), inter-quartile range (`IQR`)
 - unusual observations
 
 ---
@@ -260,7 +260,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ## `binwidth`.
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-6-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -274,7 +274,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 1000)
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-7-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[binwidth = 5000]
 
@@ -283,7 +283,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 5000)
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-8-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[binwidth = 20000]
 
@@ -292,7 +292,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 20000)
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-9-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-9-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -360,7 +360,7 @@ ggplot(loans, aes(x = loan_amount, fill = homeownership)) +
     y = "Frequency",
     title = "Amounts of Lending Club loans"
   ) +
-* facet_wrap(~ homeownership, nrow = 3)
+* facet_wrap(vars(homeownership), nrow = 3)
 ```
 ]
 ]
@@ -636,11 +636,62 @@ ggplot(loans, aes(x = homeownership)) +
 
 ---
 
+## Bar plot with lots of categories
+
+
+```r
+ggplot(loans, aes(x = state)) +
+  geom_bar()
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/barplot-state-x-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Flip!
+
+
+```r
+ggplot(loans, aes(y = state)) +
+  geom_bar()
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/barplot-state-y-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Use a meaningful order!
+
+.pull-left[
+
+```r
+ggplot(loans, aes(y = fct_infreq(state))) +
+  geom_bar()
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/barplot-state-y-infreq-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+
+.pull-right[
+
+```r
+# bonus!
+ggplot(loans, aes(y = state %&gt;% fct_infreq() %&gt;% fct_lump_n(15) %&gt;% fct_rev())) +
+  geom_bar()
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/barplot-state-y-other-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+
 ## Segmented bar plot
 
 
 ```r
-ggplot(loans, aes(x = homeownership, 
+ggplot(loans, aes(y = homeownership, 
 *                 fill = grade)) +
   geom_bar()
 ```
@@ -653,7 +704,7 @@ ggplot(loans, aes(x = homeownership,
 
 
 ```r
-ggplot(loans, aes(x = homeownership, fill = grade)) +
+ggplot(loans, aes(y = homeownership, fill = grade)) +
 * geom_bar(position = "fill")
 ```
 
@@ -697,6 +748,49 @@ Which bar plot is a more useful representation for visualizing the relationship 
 ]
 ]
 
+
+---
+
+## Gotcha: `geom_bar` summarizes the data for you!
+
+.panelset[
+.panel[.panel-name[Counting]
+
+```r
+loan_proportions &lt;- loans %&gt;% 
+  group_by(homeownership, grade) %&gt;% 
+  summarize(count = n()) %&gt;% 
+  group_by(homeownership) %&gt;% 
+  mutate(prop = count / sum(count))
+loan_proportions
+```
+
+```
+## # A tibble: 21 × 4
+## # Groups:   homeownership [3]
+##   homeownership grade count    prop
+##   &lt;fct&gt;         &lt;ord&gt; &lt;int&gt;   &lt;dbl&gt;
+## 1 MORTGAGE      A      1285 0.268  
+## 2 MORTGAGE      B      1499 0.313  
+## 3 MORTGAGE      C      1234 0.258  
+## 4 MORTGAGE      D       587 0.123  
+## 5 MORTGAGE      E       148 0.0309 
+## 6 MORTGAGE      F        32 0.00668
+## # … with 15 more rows
+```
+]
+.panel[.panel-name[Plotting]
+
+```r
+ggplot(loan_proportions, aes(y = homeownership, fill = grade,
+*                            x = prop)) +
+* geom_col()
+```
+
+&lt;img src="w03-viz-numerical_files/figure-html/manual-counts-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+]
+
 ---
 
 class: middle
@@ -716,11 +810,11 @@ class: middle
 
 
 ```r
-ggplot(loans, aes(x = homeownership, y = loan_amount)) +
+ggplot(loans, aes(y = homeownership, x = loan_amount)) +
   geom_violin()
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-33-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-34-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -733,7 +827,7 @@ ggplot(loans, aes(x = loan_amount, y = grade, fill = grade, color = grade)) +
   geom_density_ridges(alpha = 0.5)
 ```
 
-&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-34-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w03-viz-numerical_files/figure-html/unnamed-chunk-35-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
