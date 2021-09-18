@@ -128,8 +128,8 @@ Once an assignment is deployed, we should treat that as final. Updating template
 
 ```{r}
 # This works because this Rmd file is in the `src` directory, and the directory structure here matches the portfolio repo.
-deploy_assignment <- function(path, deploy_solutions = FALSE) {
-  # Need to pull out the names so we don't get gobbledygook control characters in the commit messages.
+get_assignment_files <- function(path, deploy_solutions) {
+  # Need to pull out the names so we don't get gobbledygook color control characters in the commit messages.
   files <- names(fs::dir_ls(path, recurse = TRUE, type = "file"))
   
   is_solution <- str_detect(files, "solution")
@@ -138,15 +138,28 @@ deploy_assignment <- function(path, deploy_solutions = FALSE) {
   } else {
     files <- files[!is_solution]
   }
-  
+}
+
+deploy_assignment_files <- function(files, repos = student_repos$portfolio_repo_full) {
   # Add to the reference and demo repos
-  repo_add_file(glue("{ghorg}/portfolio-reference"), files, preserve_path = TRUE, overwrite = FALSE)
-  repo_add_file(glue("{ghorg}/portfolio-demo"), files, preserve_path = TRUE, overwrite = FALSE)
+  instructor_repos <- glue("{ghorg}/portfolio-{c('demo', 'reference')}")
+  repo_add_file(instructor_repos, files, preserve_path = TRUE, overwrite = FALSE)
 
   # Add to the student repos.
-  repo_add_file(student_repos$portfolio_repo_full, files, preserve_path = TRUE, overwrite = FALSE)
-
+  repo_add_file(repos, files, preserve_path = TRUE, overwrite = FALSE)
 }
+
+deploy_assignment <- function(path, deploy_solutions = FALSE) {
+  files <- get_assignment_files(path, deploy_solutions = deploy_solutions)
+  deploy_assignment_files(files)
+}
+
 #deploy_assignment("ex/ex03-more-plots")
+#deploy_assignment("hw/hw02-vis")
+
+# If oops:
+#repo_delete_file(
+#  c(student_repos$portfolio_repo_full, ),
+#  "hw/hw02-vis/hw02-vis.md")
 ```
 
