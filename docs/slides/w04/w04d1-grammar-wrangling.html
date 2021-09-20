@@ -588,7 +588,7 @@ ggplot(hotels, aes(x = hotel, fill = deposit_type)) +
   geom_bar()
 ```
 
-&lt;img src="w04d1-grammar-wrangling_files/figure-html/unnamed-chunk-23-1.png" width="25%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w04d1-grammar-wrangling_files/figure-html/bar-example-1.png" width="25%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -644,10 +644,10 @@ naming arguments in function calls
 
 ```r
 # Good
-average &lt;- mean(feet / 12 + inches, na.rm = TRUE)
+average &lt;- mean(feet * 12 + inches, na.rm = TRUE)
 
 # Bad
-average&lt;-mean(feet/12+inches,na.rm=TRUE)
+average&lt;-mean(feet*12+inches,na.rm=TRUE)
 ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

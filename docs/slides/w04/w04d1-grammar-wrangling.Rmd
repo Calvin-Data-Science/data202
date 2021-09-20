@@ -376,7 +376,7 @@ ggplot(hotels, aes(x = hotel, fill = deposit_type)) %>%
 
 `r emo::ji("white_check_mark")`
 
-```{r out.width="25%"}
+```{r bar-example, out.width="25%"}
 ggplot(hotels, aes(x = hotel, fill = deposit_type)) +
   geom_bar()
 ```
@@ -432,8 +432,8 @@ naming arguments in function calls
 
 ```{r eval = FALSE}
 # Good
-average <- mean(feet / 12 + inches, na.rm = TRUE)
+average <- mean(feet * 12 + inches, na.rm = TRUE)
 
 # Bad
-average<-mean(feet/12+inches,na.rm=TRUE)
+average<-mean(feet*12+inches,na.rm=TRUE)
 ```
