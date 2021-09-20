@@ -49,12 +49,13 @@ knitr::include_graphics("img/dplyr-part-of-tidyverse.png")
 .midi[
 - `select`: pick columns by name
 - `arrange`: reorder rows
-- `slice`: pick rows using index(es)
+- `slice_head`: pick first rows (`_tail`: last rows)
+- `slice_sample`: pick rows randomly
 - `filter`: pick rows matching criteria
 - `distinct`: filter for unique rows
 - `mutate`: add new variables
-- `summarise`: reduce variables to values
-- `group_by`: for grouped operations
+- `summarize`: reduce variables to values
+- `pull`: grab a column as a vector
 - ... (many more)
 ]
 ]
@@ -67,6 +68,8 @@ knitr::include_graphics("img/dplyr-part-of-tidyverse.png")
 - Subsequent arguments say what to do with that data frame
 - Always return a data frame
 - Don't modify in place
+
+Don't worry, R shares memory, so copies don't waste space.
 
 ---
 
@@ -141,7 +144,7 @@ select(
 ]
 .pull-right[
 - Start with the function (a verb): `select()`
-- First argument: data frame we're working with , `hotels`
+- First argument: data frame we're working with, `hotels`
 ]
 
 ---
@@ -158,7 +161,7 @@ select(
 ]
 .pull-right[
 - Start with the function (a verb): `select()`
-- First argument: data frame we're working with , `hotels`
+- First argument: data frame we're working with, `hotels`
 - Second argument: variable we want to select, `lead_time`
 ]
 
@@ -176,7 +179,7 @@ select(
 ]
 .pull-right[
 - Start with the function (a verb): `select()`
-- First argument: data frame we're working with , `hotels`
+- First argument: data frame we're working with, `hotels`
 - Second argument: variable we want to select, `lead_time`
 - Result: data frame with `r nrow(hotels)` rows and 1 column
 ]
@@ -381,7 +384,7 @@ ggplot(hotels, aes(x = hotel, fill = deposit_type)) +
 
 ---
 
-## Code styling
+## Code Style
 
 Many of the styling principles are consistent across `%>%` and `+`:
 
@@ -401,3 +404,36 @@ ggplot(hotels, aes(x = hotel, y = deposit_type)) +
   geom_bar()
 ```
 
+---
+
+## Code Style
+
+>"Good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread."
+>
+>Hadley Wickham
+
+- Recommended: Tidyverse style guide <https://style.tidyverse.org/>
+
+---
+
+## Summary
+
+* File names and code chunks: `data-wrangling`, not `Data Wrangling`.
+* Variable names: `hourly_rides`, not `hourlyRides` or `hourly.rides` or `rides_by_hour_with_weather`
+  * Informative but short. Don't reuse.
+
+---
+
+## Spacing
+
+- Put a space before and after all infix operators (=, +, -, <-, etc.), and when 
+naming arguments in function calls
+- Always put a space after a comma, and never before (just like in regular English)
+
+```{r eval = FALSE}
+# Good
+average <- mean(feet / 12 + inches, na.rm = TRUE)
+
+# Bad
+average<-mean(feet/12+inches,na.rm=TRUE)
+```
