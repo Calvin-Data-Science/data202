@@ -190,17 +190,18 @@ div.my-footer a {
   padding-bottom: 3px;
   margin-bottom: 6px;
   margin-top: 6px;
-  color: white;
 }
 
 .question{
   border-left: solid 5px var(--green);
   background-color: var(--green-faint);
+  color: black;
 }
 
 .tip {
   border-left: solid 5px var(--pink);
   background-color: var(--pink-faint);
+  color: black;
 }
 
 .your-turn {
