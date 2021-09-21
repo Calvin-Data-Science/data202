@@ -80,7 +80,7 @@ We will use the book [Modern Data Science with R](https://mdsr-book.github.io/).
 
 The following resources may also be helpful:
 
-- Cheat sheets: [all](https://rstudio.cloud/learn/cheat-sheets), [Vis](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization-2.1.pdf)
+- Cheat sheets: [all](https://rstudio.cloud/learn/cheat-sheets), [Vis](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization-2.1.pdf), [Wrangling](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf)
 - [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke: *for foundational concepts of data visualization*
 - [ggplot2: elegant graphics for data analysis](https://ggplot2-book.org/index.html) book: a great `ggplot` reference by some of the main software authors
 - [R Graph Gallery](https://www.r-graph-gallery.com/): a visual dictionary of data graphics and corresponding code
