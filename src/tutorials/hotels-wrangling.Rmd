@@ -11,16 +11,28 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
-library(learnr)
+library(learnr) # remotes::install_github("rstudio/learnr")
 options(dplyr.summarise.inform = FALSE)
 library(tidyverse)
 library(skimr)
 knitr::opts_chunk$set(echo = FALSE)
+
+if (!file.exists("hotels.rds")) {
+  hotels <- paste0(
+    "https://raw.githubusercontent.com/",
+    "rfordatascience/tidytuesday/",
+    "master/data/2020/2020-02-11/hotels.csv"
+    ) %>% 
+    read_csv()
+  saveRDS(hotels, "hotels.rds")
+} else {
+  hotels <- readRDS("hotels.rds")
+}
 ```
 
-# Introduction
+## Introduction
 
-```{r load-pkg, echo = TRUE, message = FALSE}
+```{r load-pkg, echo = TRUE, eval = FALSE}
 library(tidyverse)
 library(skimr)
 ```
@@ -30,16 +42,6 @@ and preprocessed as described in [this](https://github.com/rfordatascience/tidyt
 [#TidyTuesday](https://github.com/rfordatascience/tidytuesday) dataset.
 
 One is a city hotel and one is a resort hotel.
-
-```{r load-data, message = FALSE}
-hotels <- paste0(
-  "https://raw.githubusercontent.com/",
-  "rfordatascience/tidytuesday/",
-  "master/data/2020/2020-02-11/hotels.csv"
-  ) %>% 
-  pins::pin() %>% 
-  read_csv()
-```
 
 Warm up! Take a look at an overview of the data with the `skim()` function.
 
@@ -104,7 +106,7 @@ hotels %>%
 
 Do you think it's more likely to find bookings with children or babies in city 
 hotels or resort hotels? Test your intuition. Using `filter()` and `nrow()`, determine the 
-number of bookings in the resort hotel (coded as `Resort Hotel`) that have more than 1 child **or** baby 
+number of bookings in the resort hotel (coded as `Resort Hotel`) that have a child **or** baby 
 in the room.
 
 ```{r resort-children, exercise=TRUE}
@@ -120,26 +122,29 @@ hotels %>%
   nrow()
 ```
 
-Then, do the same for the city hotel (coded das `City Hotel`), and compare the numbers of 
+Then, do the same for the city hotel (coded as `City Hotel`), and compare the numbers of 
 rows in the resulting filtered tibbles.
 
 ```{r city-children, exercise=TRUE}
+
 ```
 
 ## Exercise 4
 
-Create a frequency table of the number of `adults` in a booking. (Use `count`.) Display the 
+Create a frequency table of the number of `adults` in a booking. (Use `group_by`.) Display the 
 results in descending order so the most common observation is on top. What is 
 the most common number of adults in bookings in this dataset? Are there any 
 surprising results?
 
 ```{r num-adults, exercise=TRUE}
+
 ```
 
 
 ```{r num-adults-solution}
 hotels %>% 
-  count(adults) %>% 
+  group_by(adults)  %>% 
+  summarize(n=n()) %>% 
   arrange(desc(n))
 ```
 
@@ -150,6 +155,7 @@ once for not canceled bookings (`is_canceled` coded as 0). What does this
 reveal about the surprising results you spotted in the previous exercise?
 
 ```{r num-adults-canceled, exercise=TRUE}
+
 ```
 
 
@@ -171,6 +177,7 @@ by `hotel` type so that you can get these statistics separately for the resort a
 city hotel. Which hotel is more expensive?
 
 ```{r adr-by-type, exercise=TRUE}
+
 ```
 
 
@@ -200,6 +207,7 @@ preferably you should identify them in a reproducible way with some code.
 `select` the relevant columns.
 
 ```{r investigate-outliers, exercise=TRUE}
+
 ```
 
 
