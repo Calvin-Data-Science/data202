@@ -321,3 +321,8 @@ h2, h3, h4 {
 .col2 {
   columns: 2;
 }
+
+/* overflow */
+.pull-left, .pull-right {
+  overflow-x: auto;
+}
