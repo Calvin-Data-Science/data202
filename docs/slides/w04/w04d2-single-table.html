@@ -32,17 +32,22 @@ class: center, middle, inverse, title-slide
 
 ## Q&amp;A
 
-&gt; Will we be working with different data?
+&gt; When are `ggplot2` vs `dplyr` used in the real world?
 
-We'll use a mix of old and new examples each week.
+Usually they're used *together*: wrangle-wrangle-wrangle-plot.
+Reports often include both *tables* and *graphics*.
 
-&gt; When should we spend effort making graphs look good?
+&gt; Are `mutate`, `select`, etc. universal?
 
-Homework, exams: always. Otherwise not necessary but always good practice.
+These are only `tidyverse`, but SQL has very similar concepts.
 
-&gt; How do we remember which types of plots to make and how?
+&gt; How to connect and join tables?
 
-Class slides, RStudio cheatsheets, textbook, ...
+Next week! (You're welcome to read ahead.)
+
+&gt; Can you pipe too much?
+
+No intrinsic limit, but: split into functions, simplify your analysis.
 
 ---
 
@@ -58,7 +63,7 @@ Friday: in-lab practice
 
 - Data from two hotels: one resort and one city hotel
 - Observations: Each row represents a hotel booking
-- Goal for original data collection: Development of prediction models to classify a hotel booking's likelihood to be cancelled ([Antonia et al., 2019](https://www.sciencedirect.com/science/article/pii/S2352340918315191#bib5))
+- You can try it: [Application Exercise](https://rsconnect.calvin.edu:3939/content/17949583-af9b-4ac4-a5dd-4edc14773c86)
 
 
 ```r
@@ -365,7 +370,7 @@ hotels %&gt;%
 ---
 layout: true
 
-## How many total nights stayed?
+## How many total nights for each booking?
 
 ---
 
@@ -447,6 +452,36 @@ hotels %&gt;%
 ## 6 Corporate            2.09
 ## # … with 2 more rows
 ```
+
+---
+
+## How many in each market segment was a repeating guestguest?
+
+
+```r
+hotels %&gt;% distinct(is_repeated_guest)
+```
+
+```
+## # A tibble: 2 × 1
+##   is_repeated_guest
+##               &lt;dbl&gt;
+## 1                 0
+## 2                 1
+```
+
+--
+
+
+```r
+hotels %&gt;% 
+  group_by(market_segment) %&gt;% 
+  summarize(frac_repeat = mean(is_repeated_guest)) %&gt;% 
+  ggplot(aes(y = fct_reorder(market_segment, frac_repeat), x = frac_repeat)) +
+    geom_col()
+```
+
+&lt;img src="w04d2-single-table_files/figure-html/fraction_repeated-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
