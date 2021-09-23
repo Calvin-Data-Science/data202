@@ -144,7 +144,7 @@ pre.r {
 	counter-reset: subitem;
 }
 
-ul ul {
+ul ul, ol ul {
   width: 100%;
 }
 
