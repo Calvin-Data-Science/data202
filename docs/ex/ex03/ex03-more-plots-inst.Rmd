@@ -29,7 +29,7 @@ Like last week, we're using our **portfolio repo** for this assignment. So:
 - Open your `portfolio` project in RStudio (you should see `Project: portfolio-YOURGITHUB` in the top right).
 - Go to the Git tab in RStudio and click `r emo::ji("arrow_down")` **Pull**.
 - Find and open `ex03/ex03-more-plotting.Rmd` (you may need to navigate in the Files tab to find it).
-- Change the `title` at the top top to "Exercise 3: More Plotting" (*with* the quotes or you'll get a strange YAML error), change the author name to your name, and Knit it to make sure everything works.
+- Change the `title` in the YAML header (surrounded by `---`s) to "Exercise 3: More Plotting" (*with* the quotes or you'll get a strange YAML error), change the author name to your name, and Knit it to make sure everything works.
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
