@@ -114,7 +114,13 @@ nobel_living <- nobel %>%
 
 ... says the Buzzfeed article. Let's see if that's true.
 
-First, we'll create a new variable to identify whether the laureate was in the US when they won their prize. We'll use the `mutate()` function for this. The following pipeline mutates the `nobel_living` data frame by adding a new variable called `country_us`. We use a functional variant of the classic "if" statement, called `if_else()`, to create this variable. The first argument in the `if_else()` function is the condition we're testing for. If `country` is equal to `"USA"`, we set `country_us` to `"USA"`. If not, we set the `country_us` to `"Other"`.
+First, we'll create a new variable to identify whether the laureate was in the US when they won their prize.
+
+We'll use the `mutate()` function for this. The following pipeline mutates the `nobel_living` data frame by adding a new variable called `country_us`. (Remember that `mutate`, like all `dplyr` functions, actually gives us a *new* data frame; it doesn't change it in place.) We use a functional variant of the classic "if" statement, called `if_else()`, to create this variable:
+
+- The first argument in the `if_else()` function is the condition we're testing for.
+- The second argument is what to use if the condition is true. So if `country` is equal to `"USA"`, it gives us `"USA"`.
+- The third argument is what to use otherwise. So if the country isn't `"USA"`, we get `"Other"`.
 
 ```{r}
 nobel_living %>%
@@ -129,7 +135,7 @@ nobel_living %>%
 You can think of it basically like `[thing1, thing2, thing3]` in Python.
 ```
 
-Next, we will limit our analysis to only the following categories: Physics, Medicine, Chemistry, and Economics.
+Next, we will limit our analysis to only the following categories: Physics, Medicine, Chemistry, and Economics. Here's a pipeline step that does this:
 
 ```{r eval=FALSE}
 filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
@@ -144,7 +150,8 @@ nobel_living_science <- nobel_living %>%
   filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
 ```
 
-In your R Markdown document, add a code block that creates a data frame called `nobel_living_science`
+**Your turn**. First, try out the `if_else` and `%in%` functions to see how they work. e.g., try `if_else(TRUE, "USA", "Other")`, or `"Physics" %in% c("Physics", "Medicine", "Chemistry", "Economics")`.
+Then, in your R Markdown document, add a code block that **creates a data frame called `nobel_living_science`**
 by combining the two transformations above into a pipeline.
 
 3. Create a faceted bar plot, with horizontal bars, visualizing the relationship between the category of prize and whether the laureate was in the US when they won the Nobel prize. Note: Your visualization should be faceted by category. For each facet you should have two bars, one for winners in the US and one for Other. Interpret your visualization, and say a few words about whether the Buzzfeed headline is supported by the data.
@@ -152,7 +159,7 @@ by combining the two transformations above into a pipeline.
 ```{r country-living, echo=FALSE, eval=TRUE}
 ggplot(nobel_living_science, aes(y = country_us)) +
   geom_bar() +
-  facet_wrap(~ category) +
+  facet_wrap(vars(category)) +
   labs(x = "Number of Nobel laureates", y = "Country they lived in when winning")
 ```
 
@@ -164,33 +171,17 @@ ggplot(nobel_living_science, aes(y = country_us)) +
 4. Create a new variable called `born_country_us` that has the value `"USA"` if the laureate is born in the US, and `"Other"` otherwise. Do this by modifying your pipeline in Exercise 2.
 
 ```{marginfigure}
-You will probably need the `position_dodge()` function. To avoid a strange bar width,
-try telling it `preserve = "single"`.
+To have the bars show up side-by-side and avoid a strange bar width,
+pass `position = position_dodge(preserve = "single")` to your `geom`.
 ```
 
 5. Remake your visualization from Exercise 3 and add a second variable: whether the laureate was born in the US or not. Your final visualization should contain a facet for each category, within each facet a bar for whether they won the award in the US or not, and within each bar whether they were born in the US or not. (Don't over-think this: you can do this by just adding another aesthetic mapping!) Based on your visualization, do the data appear to support Buzzfeed's claim? Explain your reasoning in 1-2 sentences.
-
-```{r}
-nobel_living_science %>% 
-  mutate(origin = case_when(
-    born_country == "USA" & country == "USA" ~ "USA-USA",
-    born_country != "USA" & country == "USA" ~ "Other-USA",
-    born_country == "USA" & country != "USA" ~ "USA-Other",
-    TRUE ~ "Other-Other"
-  ), origin2 = glue::glue("{born_country_us}-{country_us}")
-  ) %>% 
-  group_by(category, origin2) %>% 
-  summarize(n = n()) %>% 
-  ggplot(aes(x = n, y = origin2)) + 
-    geom_col(position = position_dodge(preserve = "single")) +
-    facet_wrap(vars(category))
-```
 
 
 ```{r country-living-and-born, echo=FALSE, eval=TRUE}
 ggplot(nobel_living_science, aes(y = country_us, fill = born_country_us)) +
   geom_bar(position = position_dodge(preserve = "single")) +
-  facet_wrap(~ category) +
+  facet_wrap(vars(category)) +
   labs(x = "Number of Nobel laureates", y = "Country where prize won", fill = "Country where born") +
   guides(fill = guide_legend(reverse = TRUE))
 ```
@@ -218,6 +209,20 @@ nobel_living_science %>%
 
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Commit and push your changes to GitHub with an appropriate commit message again. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+
+7. *Optional*: get some more practice with `mutate` by trying to create the following plot. You'll need the following: `glue("{born_country_us}-{country_us}")`. Is this easier or harder to interpret than your previous plot?
+
+```{r origin-combined, echo=FALSE, eval=TRUE, message=FALSE}
+nobel_living_science %>% 
+  mutate(origin = glue::glue("{country_us}, born {born_country_us}")) %>% 
+  group_by(category, origin) %>% 
+  summarize(n = n()) %>% 
+  ggplot(aes(x = n, y = origin)) + 
+    geom_col(position = position_dodge(preserve = "single")) +
+    labs(x = "Number of Nobel laureates", y = "") +
+    facet_wrap(vars(category))
+```
+
 
 ## Wrapping up
 
