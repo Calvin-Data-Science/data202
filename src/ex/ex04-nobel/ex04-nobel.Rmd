@@ -1,14 +1,15 @@
 ---
-title: "Lab 03 - Nobel laureates"
-author: "YOUR NAME"
-date: "TODAY'S DATE"
-output: github_document
+title: "Exercise 04 - Nobel laureates"
+author: "Author Goes Here"
+output:
+  prettydoc::html_pretty
 ---
 
 ### Load packages and data
 
 ```{r load-packages, message=FALSE}
 library(tidyverse) 
+library(glue)
 ```
 
 ```{r load-data, message=FALSE}
@@ -37,4 +38,6 @@ nobel <- read_csv("data/nobel.csv")
 
 ### Exercise 6
 
+
+### Exercise 7 (optional)
 
