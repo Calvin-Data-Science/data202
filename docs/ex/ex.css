@@ -126,7 +126,7 @@ pre.r {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-right: 0;
-	padding-left: 120px;
+	padding-left: 30px;
 }
 
 .exercises ol>li:before {
@@ -134,9 +134,8 @@ pre.r {
 	content: "Exercise " counter(li)".";
 	/* Increment the counter by 1 */
 	counter-increment: li;
-	position: absolute;
+	display: block;
 	color: #8C2131;
-	left: -0.5px;
 	font-weight: bold;
 }
 

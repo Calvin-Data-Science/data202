@@ -88,6 +88,8 @@ In a few cases the name of the city/country changed after laureate was given (e.
 
 ### Get to know your data
 
+::: {.exercises}
+
 1. How many observations and how many variables are in the dataset? What does each observation represent? Use inline code to answer this question. <!-- TODO: move this to a lab quiz question -->
 
 There are some observations in this dataset that we will exclude from our analysis to match the Buzzfeed results.
@@ -154,7 +156,10 @@ nobel_living_science <- nobel_living %>%
 Then, in your R Markdown document, add a code block that **creates a data frame called `nobel_living_science`**
 by combining the two transformations above into a pipeline.
 
-3. Create a faceted bar plot, with horizontal bars, visualizing the relationship between the category of prize and whether the laureate was in the US when they won the Nobel prize. Note: Your visualization should be faceted by category. For each facet you should have two bars, one for winners in the US and one for Other. Interpret your visualization, and say a few words about whether the Buzzfeed headline is supported by the data.
+3. Create a faceted bar plot, with horizontal bars, visualizing the relationship between the category of prize and whether the laureate was in the US when they won the Nobel prize. Interpret your visualization, and say a few words about whether the Buzzfeed headline is supported by the data.
+
+    - Your visualization should be faceted by category.
+    - For each facet you should have two bars, one for winners in the US and one for Other. 
 
 ```{r country-living, echo=FALSE, eval=TRUE}
 ggplot(nobel_living_science, aes(y = country_us)) +
@@ -223,6 +228,7 @@ nobel_living_science %>%
     facet_wrap(vars(category))
 ```
 
+:::
 
 ## Wrapping up
 
