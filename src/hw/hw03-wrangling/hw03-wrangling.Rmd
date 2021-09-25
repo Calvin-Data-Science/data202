@@ -35,7 +35,8 @@ rides_2011 <- read_csv("data/rides_2011.csv.xz", col_types = cols(
 ## Exercise 2
 
 ```{r}
-# Your visualization code here. Be sure to give this code chunk a meaningful label.
+# Your code here. Be sure to give this code chunk a meaningful label.
+# Alternatively, use inline R code in your narrative answer.
 ```
 
 *Your narrative answer here.*

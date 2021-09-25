@@ -75,13 +75,23 @@ rides <- bind_rows(
 
 
 Each row is a *ride*. For each ride we're given the start time of the trip, its duration, and rider type.
+
+```{marginfigure}
 According to the website:
 
-> Member Type – Indicates whether user was a "registered" member (Annual Member, 30-Day Member or Day Key Member) or a "casual" rider (Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass)
+Member Type – Indicates whether user was a "registered" member (Annual Member, 30-Day Member or Day Key Member) or a "casual" rider (Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass)
+```
+
+::: {.exercises}
 
 1. Report some basic size and content information about the `rides` data frame.
 
-2. What units is `duration` probably measured in? Make a visualization to justify your answer.
+2. What units is `duration` probably measured in? Use a reproducible computation from the data to justify your answer.
+
+```{r include=FALSE}
+rides %>% summarize(median(duration) / 60, max(duration) / 60 / 60)
+```
+
 
 *Supplemental exercise*: Try making a new column with `duration` in a different unit. For example, if `duration` was in years, 
 you could create a column `duration_months` by computing `duration * 12`. Once you have that, try to *round* the result to the nearest whole number using `round(THING)`.
@@ -147,7 +157,7 @@ Notes:
 
 For reference, here's what I got when I used this dataset:
 
-```{r recreate-hw02}
+```{r recreate-hw02, echo=FALSE}
 daily_rides_by_type %>% 
   filter(rider_type != "Unknown") %>% 
   ggplot(aes(x = weekday, y = rides / 1000, fill = rider_type)) +
@@ -155,14 +165,14 @@ daily_rides_by_type %>%
     labs(y = "Rides (thousands)", x = "Day of Week", fill = "Type of Rider", title = "Distribution of rides by day of week")
 ```
 
-8. Show the same summary as the plot above, but in tabular form: what is the median number of rides taken by each type of rider for each day of the week?
+8. Show the same summary as the plot above, but in tabular form.
 
 ```{r weekday-rides-daily-medians, echo=FALSE}
 weekday_rides_medians <- daily_rides_by_type %>% 
   filter(rider_type != "Unknown") %>% 
   group_by(weekday, rider_type) %>% 
   summarize(median_rides = median(rides))
-weekday_rides_medians
+weekday_rides_medians %>% show_df()
 ```
 
 
@@ -181,6 +191,7 @@ weekday_rides_medians %>%
   show_df()
 ```
 
+:::
 
 ## Appendix: Preprocessing
 
