@@ -8,6 +8,20 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Week 5: Multiple Tables
+
+Next week we level up our data wrangling skills by working with *relational* data. We'll also think more about how data structure relates to visualization structure.
+
+***DATA SCIENCE FIREPIT!*** There's an informal social at Professor Pruim’s home on Wednesday (Sept 29), 7-9pm. This will be an informal, come-when-you-can evening in which you can meet data science students, faculty, and enthusiasts. Find the details and a signup sheet [here](https://docs.google.com/spreadsheets/d/1xZg0D-uASE87nhDogpx6J1YicFwTooevHYVL0sYAHVA/edit?usp=sharing).
+
+Also, see Moodle for the usual weekly assignments:
+
+- **Homework 3** is posted, due on Friday.
+- **Discussion 4** is posted (see Moodle); it's asking you to make specific replies to other students in *last week's* forum. So it's due on Reply day (Thursday).
+- Don't forget **Preparation 5** (due by class time Monday).
+
+
+
 # Week 4 Logistics
 
 I hope you all enjoyed making some plots in lab today! If you didn't get finished, I highly recommend trying working through it more on your own. Please post questions on Piazza, including any code you're having trouble with.
