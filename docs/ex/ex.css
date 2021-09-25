@@ -112,12 +112,12 @@ pre.r {
 
 /* Exercise counter */
 
-.exercises ol {
+.exercises > ol {
 	/* Remove the default left padding */
 	padding-left: 0;
 }
 
-.exercises ol>li {
+.exercises > ol>li {
 	/* Create a positioning context */
 	position: relative;
 	/* Disable the normal item numbering */
@@ -129,7 +129,7 @@ pre.r {
 	padding-left: 30px;
 }
 
-.exercises ol>li:before {
+.exercises > ol>li:before {
 	/* Use the counter as content */
 	content: "Exercise " counter(li)".";
 	/* Increment the counter by 1 */
@@ -139,11 +139,7 @@ pre.r {
 	font-weight: bold;
 }
 
-.exercises ol ol {
-	counter-reset: subitem;
-}
-
-ul ul, ol ul {
+ul ul, ol ul, ol ol {
   width: 100%;
 }
 
