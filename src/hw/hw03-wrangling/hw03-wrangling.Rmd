@@ -1,7 +1,6 @@
 ---
 title: "Homework 3: Bike Sharing Data Wrangling"
 author: "YOUR NAME"
-date: "TODAY'S DATE"
 output: prettydoc::html_pretty
 ---
 
