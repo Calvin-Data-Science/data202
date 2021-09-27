@@ -14,6 +14,9 @@ install_github_if_missing("gadenbuie/countdown")
 install_github_if_missing("gadenbuie/xaringanExtra")
 install_github_if_missing("hadley/emo")
 
+# Some manual knitr imports
+include_graphics <- knitr::include_graphics
+
 calvin_maroon <- "#8C2131"
 calvin_gold <- "#F3CD00"
 calvin_brightred <- "#C2002F"
