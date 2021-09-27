@@ -14,8 +14,11 @@ install_github_if_missing("gadenbuie/countdown")
 install_github_if_missing("gadenbuie/xaringanExtra")
 install_github_if_missing("hadley/emo")
 
-# Some manual knitr imports
+# Some manual imports
 include_graphics <- knitr::include_graphics
+kable <- knitr::kable
+glue <- glue::glue
+
 
 calvin_maroon <- "#8C2131"
 calvin_gold <- "#F3CD00"
@@ -50,10 +53,6 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
 
 # fontawesome
 htmltools::tagList(rmarkdown::html_dependency_font_awesome())
-
-
-muted <- scales::muted
-glue <- glue::glue
 
 
 library(xaringanthemer)
