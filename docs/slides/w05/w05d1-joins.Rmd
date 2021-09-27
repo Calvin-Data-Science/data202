@@ -431,16 +431,14 @@ class: middle
   - *Prices*: One row per item in the store, listing their prices
 - **Want**: Total revenue
 
---
-
 ```{r include=FALSE}
 purchases <- tibble::tribble(
                ~customer_id,          ~item,
-                         1L,        "bread",
-                         1L,         "milk",
-                         1L,       "banana",
-                         2L,         "milk",
-                         2L, "toilet paper"
+                         "c1",        "bread",
+                         "c1",         "milk",
+                         "c1",       "banana",
+                         "c2",         "milk",
+                         "c2", "toilet paper"
                )
 
 prices <- tibble::tribble(
@@ -454,15 +452,34 @@ prices <- tibble::tribble(
 ```
 
 .pull-left[
-```{r message = FALSE}
+```{r eval=FALSE}
 purchases
+```
+
+```{r echo = FALSE}
+purchases %>% kable()
 ```
 ]
 .pull-right[
-```{r message = FALSE}
+```{r eval = FALSE}
 prices
 ```
+
+```{r echo=FALSE}
+prices %>% kable()
+```
+
 ]
+
+---
+
+## Grocery sales
+
+```{r}
+purchases %>% 
+  left_join(prices) #<<
+```
+
 
 ---
 
