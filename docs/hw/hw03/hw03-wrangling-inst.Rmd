@@ -52,7 +52,14 @@ get_year <- lubridate::year; get_month <- lubridate::month; get_day <- lubridate
 
 We downloaded the data from the [Capital BikeShare program](https://www.capitalbikeshare.com/system-data). Note the license agreement there. We removed some columns of the data that we aren't using to reduce the size of the dataset you have to download.
 
-The data files are broken up by year. Here we read in the data for 2011; once you get everything working, you can use the commented code below to get 2012 data so you'll have the same two years that you worked with in Homework 1 and 2. The template already includes these lines, so you can just Run All to get the data loaded.
+The data files are broken up by year. Here we read in the data for 2011, which is the first of the two years included in the dataset for Homework 1 and 2.
+The template already includes these lines, so you can just Run All to get the data loaded.
+
+```{marginfigure}
+*Optionally*, once you finish with the rest of the homework, you can use the commented code to load 2012 data.
+You will also need the code in the Appendix to download the 2012 data since it was not included in your repo.
+```
+
 
 ```{r load-data}
 # Read the file, specifying data types for each column.
@@ -178,7 +185,7 @@ weekday_rides_medians %>% show_df()
 
 ### Bonus: make it look pretty
 
-Nnow that you've gotten the basic table, let's tweak it to make the result look better by adding two steps to the end of your pipeline. (**Make sure you get the above working before trying this.**)
+Now that you've gotten the basic table, let's tweak it to make the result look better by adding two steps to the end of your pipeline. (**Make sure you get the above working before trying this.**)
 
 - `pivot_wider(names_from = rider_type, values_from = median_rides)`
 - `knitr::kable()`

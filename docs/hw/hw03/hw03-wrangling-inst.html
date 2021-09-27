@@ -162,7 +162,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="load-data" class="section level1">
 <h1>Load Data</h1>
 <p>We downloaded the data from the <a href="https://www.capitalbikeshare.com/system-data">Capital BikeShare program</a>. Note the license agreement there. We removed some columns of the data that we aren’t using to reduce the size of the dataset you have to download.</p>
-<p>The data files are broken up by year. Here we read in the data for 2011; once you get everything working, you can use the commented code below to get 2012 data so you’ll have the same two years that you worked with in Homework 1 and 2. The template already includes these lines, so you can just Run All to get the data loaded.</p>
+<p>The data files are broken up by year. Here we read in the data for 2011, which is the first of the two years included in the dataset for Homework 1 and 2. The template already includes these lines, so you can just Run All to get the data loaded.</p>
+<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;"><em>Optionally</em>, once you finish with the rest of the homework, you can use the commented code to load 2012 data. You will also need the code in the Appendix to download the 2012 data since it was not included in your repo.</span></span></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the file, specifying data types for each column.</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rides_2011 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/rides_2011.csv.xz&quot;</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_time =</span> <span class="fu">col_datetime</span>(),</span>
@@ -180,7 +181,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">#rides_2012</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Each row is a <em>ride</em>. For each ride we’re given the start time of the trip, its duration, and rider type.</p>
-<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">According to the website:</span> <span style="display: block;">Member Type – Indicates whether user was a “registered” member (Annual Member, 30-Day Member or Day Key Member) or a “casual” rider (Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass)</span></span></p>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">According to the website:</span> <span style="display: block;">Member Type – Indicates whether user was a “registered” member (Annual Member, 30-Day Member or Day Key Member) or a “casual” rider (Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass)</span></span></p>
 <div class="exercises">
 <ol style="list-style-type: decimal">
 <li><p>Report some basic size and content information about the <code>rides</code> data frame.</p></li>
@@ -190,7 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol start="3" style="list-style-type: decimal">
 <li>Make a table that shows how many rides were taken by registered riders and how many were taken by non-registered riders. Example result:</li>
 </ol>
-<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">We used <code>knitr::kable()</code> to make the tables in these instructions look nice. You can give it a try–once you have everything else working!</span> <span style="display: block;">Also, you may use <code>count</code> if you know it, but I really recommend you use <code>summarize(n = n())</code>–overall it is less confusing.</span></span></p>
+<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">We used <code>knitr::kable()</code> to make the tables in these instructions look nice. You can give it a try–once you have everything else working!</span> <span style="display: block;">Also, you may use <code>count</code> if you know it, but I really recommend you use <code>summarize(n = n())</code>–overall it is less confusing.</span></span></p>
 <table>
 <thead>
 <tr class="header">
@@ -431,7 +432,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <div id="bonus-make-it-look-pretty" class="section level3">
 <h3>Bonus: make it look pretty</h3>
-<p>Nnow that you’ve gotten the basic table, let’s tweak it to make the result look better by adding two steps to the end of your pipeline. (<strong>Make sure you get the above working before trying this.</strong>)</p>
+<p>Now that you’ve gotten the basic table, let’s tweak it to make the result look better by adding two steps to the end of your pipeline. (<strong>Make sure you get the above working before trying this.</strong>)</p>
 <ul>
 <li><code>pivot_wider(names_from = rider_type, values_from = median_rides)</code></li>
 <li><code>knitr::kable()</code></li>
