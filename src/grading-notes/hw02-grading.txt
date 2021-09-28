@@ -1,0 +1,15 @@
+# HW 2
+
+## Ex 1
+
+- 1 pt for the correct mapping (0 = Sunday)
+- 1 pt for a valid explanation
+    - looked at a calendar
+    - checked that both 0 and 6 were labeled "weekend"
+
+## Ex 2
+
+- 1 pt for a well-structured sentence
+
+The rows are total numbers of rides, not individual riders. (-0.5)
+
