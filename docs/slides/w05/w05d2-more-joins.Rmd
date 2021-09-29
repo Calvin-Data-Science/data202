@@ -213,44 +213,6 @@ prices %>%
 
 Notice: multiple rows for each item. Where did each one come from?
 
-Next: count how many purchases for each item.
-
----
-
-## Revenue by item?
-
-Count how many purchases for each item.
-
-```{r}
-prices %>% 
-  left_join(purchases) %>% 
-  group_by(item) %>%
-  summarize(count = n())
-```
-
---
-
-Could have summarized `purchases` first. Advantages to that approach? This one?
-
---
-
-Next: sum prices. (But where did the prices go?)
-
----
-
-## Revenue by item?
-
-*Thread* the prices along. (Check: any extra rows?)
-
-```{r}
-prices %>% 
-  left_join(purchases) %>% 
-  group_by(item, price) %>% #<<
-  summarize(count = n())
-```
-
-What next?
-
 ---
 
 ## Revenue by item?
@@ -258,25 +220,39 @@ What next?
 ```{r}
 prices %>% 
   left_join(purchases) %>% 
-  group_by(item, price) %>%
-  summarize(count = n(), revenue = price * count) #<<
+  group_by(item) %>% 
+  summarize(revenue = sum(price))
 ```
 
-Hmm... where did the multiple rows come from?
+...but nobody bought any avocados!
 
 ---
 
-## Revenue by item?
+## `inner` vs `left`
 
-Sum the prices, *weighted* by count.
+.pull-left[
+```{r}
+prices %>% 
+  left_join(purchases)
+```
+]
+.pull-right[
+```{r}
+prices %>% 
+  inner_join(purchases)
+```
+]
+
+---
+
+## Put it together
 
 ```{r}
 prices %>% 
-  left_join(purchases) %>% 
-  group_by(item, price) %>% #<<
-  summarize(count = n(), revenue = sum(price * count)) #<<
+  inner_join(purchases) %>% 
+  group_by(item) %>% 
+  summarize(revenue = sum(price))
 ```
-
 ---
 
 ## uh oh...
