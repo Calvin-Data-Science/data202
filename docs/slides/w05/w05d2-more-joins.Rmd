@@ -50,7 +50,7 @@ See Moodle.
 
 > Can't you rewrite any `right_join` as a flipped `left_join`?
 
-Yes! It's mostly convenience (piped data comes in on *left).
+Yes! It's mostly convenience (piped data comes in on *left*).
 
 > Can we join more than 2 tables at once?
 
