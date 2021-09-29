@@ -59,7 +59,7 @@ See Moodle.
 
 &gt; Can't you rewrite any `right_join` as a flipped `left_join`?
 
-Yes! It's mostly convenience (piped data comes in on *left).
+Yes! It's mostly convenience (piped data comes in on *left*).
 
 &gt; Can we join more than 2 tables at once?
 
@@ -279,122 +279,94 @@ prices %&gt;%
 
 Notice: multiple rows for each item. Where did each one come from?
 
-Next: count how many purchases for each item.
-
 ---
 
 ## Revenue by item?
-
-Count how many purchases for each item.
 
 
 ```r
 prices %&gt;% 
   left_join(purchases) %&gt;% 
-  group_by(item) %&gt;%
-  summarize(count = n())
+  group_by(item) %&gt;% 
+  summarize(revenue = sum(price))
 ```
 
 ```
 # A tibble: 5 × 2
-  item         count
-  &lt;chr&gt;        &lt;int&gt;
-1 avocado          1
-2 banana           1
-3 bread            1
-4 milk             2
-5 toilet paper     1
+  item         revenue
+  &lt;chr&gt;          &lt;dbl&gt;
+1 avocado         0.5 
+2 banana          0.15
+3 bread           1   
+4 milk            1.6 
+5 toilet paper    3   
 ```
 
---
-
-Could have summarized `purchases` first. Advantages to that approach? This one?
-
---
-
-Next: sum prices. (But where did the prices go?)
+...but nobody bought any avocados!
 
 ---
 
-## Revenue by item?
+## `inner` vs `left`
 
-*Thread* the prices along. (Check: any extra rows?)
-
+.pull-left[
 
 ```r
 prices %&gt;% 
-  left_join(purchases) %&gt;% 
-* group_by(item, price) %&gt;%
-  summarize(count = n())
+  left_join(purchases)
+```
+
+```
+# A tibble: 6 × 3
+  item         price customer_id
+  &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;      
+1 avocado       0.5  &lt;NA&gt;       
+2 banana        0.15 c1         
+3 bread         1    c1         
+4 milk          0.8  c1         
+5 milk          0.8  c2         
+6 toilet paper  3    c2         
+```
+]
+.pull-right[
+
+```r
+prices %&gt;% 
+  inner_join(purchases)
 ```
 
 ```
 # A tibble: 5 × 3
-# Groups:   item [5]
-  item         price count
-  &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;
-1 avocado       0.5      1
-2 banana        0.15     1
-3 bread         1        1
-4 milk          0.8      2
-5 toilet paper  3        1
+  item         price customer_id
+  &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;      
+1 banana        0.15 c1         
+2 bread         1    c1         
+3 milk          0.8  c1         
+4 milk          0.8  c2         
+5 toilet paper  3    c2         
 ```
-
-What next?
+]
 
 ---
 
-## Revenue by item?
+## Put it together
 
 
 ```r
 prices %&gt;% 
-  left_join(purchases) %&gt;% 
-  group_by(item, price) %&gt;%
-* summarize(count = n(), revenue = price * count)
+  inner_join(purchases) %&gt;% 
+  group_by(item) %&gt;% 
+  summarize(revenue = sum(price))
 ```
 
 ```
-# A tibble: 6 × 4
-# Groups:   item, price [5]
-  item         price count revenue
-  &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
-1 avocado       0.5      1    0.5 
-2 banana        0.15     1    0.15
-3 bread         1        1    1   
-4 milk          0.8      2    1.6 
-5 milk          0.8      2    1.6 
-6 toilet paper  3        1    3   
+# A tibble: 4 × 2
+  item         revenue
+  &lt;chr&gt;          &lt;dbl&gt;
+1 banana          0.15
+2 bread           1   
+3 milk            1.6 
+4 toilet paper    3   
 ```
-
-Hmm... where did the multiple rows come from?
-
----
-
-## Revenue by item?
-
-Sum the prices, *weighted* by count.
-
-
-```r
-prices %&gt;% 
-  left_join(purchases) %&gt;% 
-* group_by(item, price) %&gt;%
-* summarize(count = n(), revenue = sum(price * count))
-```
-
-```
-# A tibble: 5 × 4
-# Groups:   item [5]
-  item         price count revenue
-  &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
-1 avocado       0.5      1    0.5 
-2 banana        0.15     1    0.15
-3 bread         1        1    1   
-4 milk          0.8      2    3.2 
-5 toilet paper  3        1    3   
-```
-
 ---
 
 ## uh oh...
@@ -528,7 +500,7 @@ prices_fixed &lt;- prices %&gt;%
     item_norm = str_to_lower(item),
 *   item_norm = if_else(
 *     item_norm == "toilet_paper", "toilet paper",
-*     item_norm)
+*                                  item_norm)
   )
 purchases %&gt;%
   left_join(prices_fixed, by = c("item" = "item_norm"))
@@ -556,7 +528,7 @@ prices_fixed &lt;- prices %&gt;%
     item_norm = str_to_lower(item),
 *   item_norm = case_when(
 *     item_norm == "toilet_paper" ~ "toilet paper",
-*     TRUE ~ item_norm)
+*     TRUE                        ~ item_norm)
   )
 purchases %&gt;%
   left_join(prices_fixed, by = c("item" = "item_norm"))
@@ -584,8 +556,8 @@ prices_fixed &lt;- prices %&gt;%
     item_norm = str_to_lower(item),
     item_norm = case_when(
       item_norm == "toilet_paper" ~ "toilet paper",
-*     item_norm == "banana"      ~ "bananas",
-      TRUE ~ item_norm)
+*     item_norm == "banana"       ~ "bananas",
+      TRUE                        ~ item_norm)
   )
 purchases %&gt;%
   left_join(prices_fixed, by = c("item" = "item_norm"))
