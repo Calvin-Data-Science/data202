@@ -374,7 +374,7 @@ prices_fixed <- prices %>%
     item_norm = str_to_lower(item),
     item_norm = if_else( #<<
       item_norm == "toilet_paper", "toilet paper", #<<
-      item_norm) #<<
+                                   item_norm) #<<
   )
 purchases %>%
   left_join(prices_fixed, by = c("item" = "item_norm"))
@@ -390,7 +390,7 @@ prices_fixed <- prices %>%
     item_norm = str_to_lower(item),
     item_norm = case_when( #<<
       item_norm == "toilet_paper" ~ "toilet paper", #<<
-      TRUE ~ item_norm) #<<
+      TRUE                        ~ item_norm) #<<
   )
 purchases %>%
   left_join(prices_fixed, by = c("item" = "item_norm"))
@@ -406,8 +406,8 @@ prices_fixed <- prices %>%
     item_norm = str_to_lower(item),
     item_norm = case_when(
       item_norm == "toilet_paper" ~ "toilet paper",
-      item_norm == "banana"      ~ "bananas", #<<
-      TRUE ~ item_norm)
+      item_norm == "banana"       ~ "bananas", #<<
+      TRUE                        ~ item_norm)
   )
 purchases %>%
   left_join(prices_fixed, by = c("item" = "item_norm"))
