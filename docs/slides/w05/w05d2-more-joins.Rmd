@@ -466,15 +466,16 @@ case_when(
 
 ## `case_when` vs `if_else`
 
-You can write the same thing using both. Which do you prefer?
+You can write the same thing either way. Which do you prefer?
 
 .pull-left[
 `if_else`:
 ```{r}
-if_else(age < 0, "invald", "other")
 if_else(
   age < 0, "invald",
-  if_else(age < 18, "child", "other"))
+  if_else(
+    age < 18, "child",
+    "other"))
 ```
 ]
 
