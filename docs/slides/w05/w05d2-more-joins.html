@@ -53,6 +53,105 @@ See Moodle.
 
 ---
 
+## Q&amp;A
+
+&gt; Can't you rewrite any `right_join` as a flipped `left_join`?
+
+Yes! It's mostly convenience (piped data comes in on *left).
+
+&gt; Can we join more than 2 tables at once?
+
+SQL? yes. `dplyr` makes you split it up though.
+
+---
+
+## Some notes on data
+
+
+
+
+
+.small[
+
+]
+
+
+```r
+purchases_and_prices %&gt;% 
+* summarize(total_revenue = sum(price))
+```
+
+```
+# A tibble: 1 × 1
+  total_revenue
+          &lt;dbl&gt;
+1          5.75
+```
+
+
+```r
+sum(price)
+```
+
+```
+Error in eval(expr, envir, enclos): object 'price' not found
+```
+
+
+```r
+sum(purchases_and_prices$price)
+```
+
+```
+[1] 5.75
+```
+
+---
+
+## Aside: vectors
+
+So far we've always packaged vectors in data frames. But they can live on their own.
+
+.pull-left[
+
+```r
+purchases_and_prices %&gt;% select(price)
+```
+
+```
+# A tibble: 5 × 1
+  price
+  &lt;dbl&gt;
+1  1   
+2  0.8 
+3  0.15
+4  0.8 
+5  3   
+```
+]
+.pull-right[
+
+```r
+price_vec&lt;- purchases_and_prices$price
+price_vec
+```
+
+```
+[1] 1.00 0.80 0.15 0.80 3.00
+```
+]
+
+
+```r
+typeof(price_vec)
+```
+
+```
+[1] "double"
+```
+
+---
+
 ## Relational Data
 
 - Bring together data that may never have been brought together before
@@ -112,9 +211,6 @@ flights %&gt;%
 ---
 
 ## Revenue by item?
-
-
-
 
 .pull-left[
 
@@ -350,6 +446,320 @@ purchases %&gt;%
 - Can join on multiple columns (first name **and** last name)
 - Default join: columns with same names
 - Specify what columns to use: `left_join(x, y, by = c("first_name", "last_name"))`
+
+---
+
+## Make a new key that *does* match
+
+
+```r
+prices_fixed &lt;- prices %&gt;% 
+* mutate(item_norm = str_to_lower(item))
+purchases %&gt;%
+  left_join(prices_fixed,
+*           by = c("item" = "item_norm"))
+```
+
+```
+# A tibble: 5 × 4
+  customer_id item         item.y price
+  &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;  &lt;dbl&gt;
+1 c1          bread        BREAD    1  
+2 c1          milk         MILK     0.8
+3 c1          bananas      &lt;NA&gt;    NA  
+4 c2          milk         MILK     0.8
+5 c2          toilet paper &lt;NA&gt;    NA  
+```
+
+---
+
+## But still some mismatches
+
+.pull-left[
+
+```r
+purchases %&gt;%
+* anti_join(
+    prices_fixed,
+    by = c("item" = "item_norm"))
+```
+
+```
+# A tibble: 2 × 2
+  customer_id item        
+  &lt;chr&gt;       &lt;chr&gt;       
+1 c1          bananas     
+2 c2          toilet paper
+```
+]
+
+.pull-right[
+
+```r
+prices_fixed %&gt;%
+  anti_join(
+    purchases,
+    by = c("item_norm" = "item"))
+```
+
+```
+# A tibble: 3 × 3
+  item         price item_norm   
+  &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;       
+1 AVOCADO       0.5  avocado     
+2 BANANA        0.15 banana      
+3 TOILET_PAPER  3    toilet_paper
+```
+]
+
+---
+
+## Manual massaging: `if_else`
+
+
+```r
+prices_fixed &lt;- prices %&gt;% 
+  mutate(
+    item_norm = str_to_lower(item),
+*   item_norm = if_else(
+*     item_norm == "toilet_paper", "toilet paper",
+*     item_norm)
+  )
+purchases %&gt;%
+  left_join(prices_fixed, by = c("item" = "item_norm"))
+```
+
+```
+# A tibble: 5 × 4
+  customer_id item         item.y       price
+  &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;        &lt;dbl&gt;
+1 c1          bread        BREAD          1  
+2 c1          milk         MILK           0.8
+3 c1          bananas      &lt;NA&gt;          NA  
+4 c2          milk         MILK           0.8
+5 c2          toilet paper TOILET_PAPER   3  
+```
+
+---
+
+## Manual massaging: `case_when`
+
+
+```r
+prices_fixed &lt;- prices %&gt;% 
+  mutate(
+    item_norm = str_to_lower(item),
+*   item_norm = case_when(
+*     item_norm == "toilet_paper" ~ "toilet paper",
+*     TRUE ~ item_norm)
+  )
+purchases %&gt;%
+  left_join(prices_fixed, by = c("item" = "item_norm"))
+```
+
+```
+# A tibble: 5 × 4
+  customer_id item         item.y       price
+  &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;        &lt;dbl&gt;
+1 c1          bread        BREAD          1  
+2 c1          milk         MILK           0.8
+3 c1          bananas      &lt;NA&gt;          NA  
+4 c2          milk         MILK           0.8
+5 c2          toilet paper TOILET_PAPER   3  
+```
+
+---
+
+## Easy to add cases
+
+
+```r
+prices_fixed &lt;- prices %&gt;% 
+  mutate(
+    item_norm = str_to_lower(item),
+    item_norm = case_when(
+      item_norm == "toilet_paper" ~ "toilet paper",
+*     item_norm == "banana"      ~ "bananas",
+      TRUE ~ item_norm)
+  )
+purchases %&gt;%
+  left_join(prices_fixed, by = c("item" = "item_norm"))
+```
+
+```
+# A tibble: 5 × 4
+  customer_id item         item.y       price
+  &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;        &lt;dbl&gt;
+1 c1          bread        BREAD         1   
+2 c1          milk         MILK          0.8 
+3 c1          bananas      BANANA        0.15
+4 c2          milk         MILK          0.8 
+5 c2          toilet paper TOILET_PAPER  3   
+```
+
+---
+
+## Aside: Could you use a `join` for this instead?
+
+Think about this on your own.
+
+---
+
+## `case_when`
+
+.pull-left[
+`if-elif` version (Python):
+
+```python
+if age &lt; 0:
+    return "invalid"
+elif age &lt; 18:
+    return "child"
+else:
+    return "adult"
+```
+]
+
+.pull-right[
+`case_when` version:
+
+
+```r
+age &lt;- 18
+case_when(
+  age &lt; 0   ~ "invalid",
+  age &lt; 18  ~ "child",
+  TRUE      ~ "adult"
+)
+```
+
+```
+[1] "adult"
+```
+]
+
+* first to `True` wins in both versions
+* `TRUE` corresponds to `else` (the default)
+
+---
+
+## `case_when` vectorizes
+
+Like many R functions, it actually applies to all elements of a vector.
+
+
+```r
+*age &lt;- c(-1, 0, 17, 18) # a vector
+case_when(
+  age &lt; 0   ~ "invalid",
+  age &lt; 18  ~ "child",
+  TRUE      ~ "adult"
+)
+```
+
+```
+[1] "invalid" "child"   "child"   "adult"  
+```
+
+---
+
+## `case_when` vs `if_else`
+
+You can write the same thing either way. Which do you prefer?
+
+.pull-left[
+`if_else`:
+
+```r
+if_else(
+  age &lt; 0, "invald",
+  if_else(
+    age &lt; 18, "child",
+    "other"))
+```
+
+```
+[1] "invald" "child"  "child"  "other" 
+```
+]
+
+.pull-right[
+`case_when`:
+
+```r
+case_when(
+  age &lt; 0   ~ "invalid",
+  age &lt; 18  ~ "child",
+  TRUE      ~ "adult"
+)
+```
+
+```
+[1] "invalid" "child"   "child"   "adult"  
+```
+
+]
+
+
+---
+
+## `case_when` in a data frame
+
+
+```r
+people &lt;- tribble(
+  ~name, ~age,
+  "Allen Linford", -1,
+  "Seb Dodds", 0,
+  "Charleen Lockwood", 17,
+  "Ridley Burgin", 18,
+)
+people %&gt;% mutate(
+* adult = case_when(
+    age &lt; 0   ~ "invalid",
+    age &lt; 18  ~ "child",
+    TRUE      ~ "adult"
+  )
+)
+```
+
+```
+# A tibble: 4 × 3
+  name                age adult  
+  &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;  
+1 Allen Linford        -1 invalid
+2 Seb Dodds             0 child  
+3 Charleen Lockwood    17 child  
+4 Ridley Burgin        18 adult  
+```
+
+---
+
+## The recoding pattern
+
+
+```r
+population &lt;- read_csv("../../data/worldbank_sp_pop_totl.csv")
+population %&gt;% mutate(
+  country = case_when(
+*   country == "United States" ~ "USA",
+*   iso3c == "GBR"             ~ "UK",   # LHS conditions may use different variables
+*   TRUE                       ~ country # so can RHS
+  )
+) %&gt;% filter(str_starts(country, "U")) # Just to see the results
+```
+
+---
+
+## More `case_when` tricks
+
+See `?case_when` for how to:
+
+* Deal with inconsistent data types
+* Efficiently encode complicated conditionals
+* Reuse `case_when` expressions by making a function
+
+and more!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
