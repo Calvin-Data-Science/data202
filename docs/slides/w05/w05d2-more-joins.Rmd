@@ -25,11 +25,13 @@ xaringanExtra::use_freezeframe(overlay = TRUE)
 
 ## Reminders
 
-- DS Firepit Tonight!
+- Data Science Firepit Tonight!
+
+Also:
 
 - Quiz 5 closes tonight
-- Homework 3
-- Discussion Forum replies
+- Homework 3 due Friday
+- Discussion Forum replies due tomorrow
 
 ---
 
@@ -56,8 +58,7 @@ SQL? yes. `dplyr` makes you split it up though.
 
 ---
 
-## Some notes on data
-
+## Q: Why did we need `summarize()`?
 
 ```{r include=FALSE}
 purchases <- tibble::tribble(
@@ -127,7 +128,11 @@ typeof(price_vec)
 ## Relational Data
 
 - Bring together data that may never have been brought together before
-- Community, interdependence
+- Values:
+  - No one source has a complete view of the world
+  - We need each other ("one body, many parts")
+- Helps us get a more holistic picture
+  - people aren't just their transactions; they also live somewhere
 
 ---
 
