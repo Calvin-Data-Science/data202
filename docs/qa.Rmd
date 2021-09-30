@@ -11,8 +11,9 @@ output:
 
 I'm going to set some options here so these Q&As look like what you'd type at the R console. [docs](https://bookdown.org/yihui/rmarkdown-cookbook/opts-comment.html)
 
-```{r}
+```{r message=FALSE}
 knitr::opts_chunk$set(comment = "", prompt = TRUE)
+library(tidyverse)
 ```
 
 ## R / RStudio stuff
@@ -44,11 +45,79 @@ If you don't want that, you can use `cat`:
 cat(numbers)
 ```
 
-## What programming language is RStudio?
+### `unique()` vs `distinct()`
+
+`distinct()` operates on data frames.
+
+```{r}
+diamonds %>% distinct(cut)
+```
+
+`unique` operates on vectors.
+
+```{r}
+# Same as: diamonds$cut %>% unique()
+diamonds %>% pull(cut) %>% unique()
+```
+
+
+`distinct()` can do combinations.
+
+```{r}
+diamonds %>% distinct(cut, color)
+```
+
+### `mutate()` vs `summarize()`
+
+- Use `mutate` when you want the same number of rows but new columns.
+- Use `summarize` when you want to change the number of rows (e.g., when counting things)
+
+Example:
+
+```{r}
+diamonds %>% select(cut, price)
+```
+
+`summarize` reduces a bunch of rows down to a single row, in this case the overall average price. (Usually this is most useful when you have a `group_by` before it, in which case you get a row per group.)
+
+```{r}
+diamonds %>% 
+  select(cut, price) %>% 
+  summarize(mean(price))
+```
+
+`mutate` adds a column, in this case, the overall average price. This is most useful when you want to compare things to an overall average or the like.
+
+```{r}
+diamonds %>% 
+  select(cut, price) %>% 
+  mutate(mean_price = mean(price), price_ratio = price / mean_price)
+```
+Here's what they look like when grouping.
+
+```{r}
+diamonds %>% 
+  select(cut, price) %>% 
+  group_by(cut) %>% 
+  summarize(mean(price))
+```
+
+Compare that table with this one:
+
+```{r}
+diamonds %>% 
+  select(cut, price) %>% 
+  group_by(cut) %>% 
+  mutate(mean_price = mean(price), price_ratio = price / mean_price)
+```
+
+
+
+### What programming language is RStudio?
 
 Natively, R. But you can actually run Python code too with the help of a package called `reticulate`; you just put `python` instead of `r` at the top of a code chunk. See the [cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/reticulate.pdf)
 
-## Does saving things on GitHub also save it to your computer?
+### Does saving things on GitHub also save it to your computer?
 
 No, you need to Pull to get any changes from GitHub. I recommend doing all of your edits on RStudio and pushing to GitHub.
 
