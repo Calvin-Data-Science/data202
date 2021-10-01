@@ -71,7 +71,7 @@ dennys <- read_rds("data/dennys.rds")
 laquinta <- read_rds("data/laquinta.rds")
 ```
 
-You can find out more about the datasets by inspecting their documentation [here](https://rstudio-education.github.io/dsbox/reference/dennys.html) (`dennys`) and [here](https://rstudio-education.github.io/dsbox/reference/laquinta.html) (`laquinta`)
+You can find out more about the datasets by inspecting their documentation [here](https://rstudio-education.github.io/dsbox/reference/dennys.html) (`dennys`) and [here](https://rstudio-education.github.io/dsbox/reference/laquinta.html) (`laquinta`).
 
 To help with our analysis we will also use a dataset on US states, which is located in your repository's `data` folder.
 
@@ -256,9 +256,9 @@ You can also choose different themes to change the overall look of your plots, s
     Visually, does Mitch Hedberg's joke appear to hold here?
 
 That's it for now!
-In the next lab we will take a more quantitative approach to answering these questions.
+In homework we will take a more quantitative approach to answering these questions.
 
-🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.*
+🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
 :::
 

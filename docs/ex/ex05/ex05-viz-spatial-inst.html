@@ -176,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>These datasets are given to you in <code>rds</code> format, which is an R-internal format for datasets that maintains data types.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dennys <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/dennys.rds&quot;</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>laquinta <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/laquinta.rds&quot;</span>)</span></code></pre></div>
-<p>You can find out more about the datasets by inspecting their documentation <a href="https://rstudio-education.github.io/dsbox/reference/dennys.html">here</a> (<code>dennys</code>) and <a href="https://rstudio-education.github.io/dsbox/reference/laquinta.html">here</a> (<code>laquinta</code>)</p>
+<p>You can find out more about the datasets by inspecting their documentation <a href="https://rstudio-education.github.io/dsbox/reference/dennys.html">here</a> (<code>dennys</code>) and <a href="https://rstudio-education.github.io/dsbox/reference/laquinta.html">here</a> (<code>laquinta</code>).</p>
 <p>To help with our analysis we will also use a dataset on US states, which is located in your repository’s <code>data</code> folder.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/states.csv&quot;</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">col_character</span>(),</span>
@@ -244,8 +244,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Filter the data for observations in North Carolina only, and recreate the plot. You should also adjust the transparency of the points, by setting the <code>alpha</code> level, so that it’s easier to see the overplotted ones. Visually, does Mitch Hedberg’s joke appear to hold here?</p></li>
 <li><p>Now filter the data for observations in Texas only, and recreate the plot, with an appropriate <code>alpha</code> level. Visually, does Mitch Hedberg’s joke appear to hold here?</p></li>
 </ol>
-<p>That’s it for now! In the next lab we will take a more quantitative approach to answering these questions.</p>
-<p>🧶 ✅ ⬆️ Knit, <em>commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you’re happy with the final state of your work.</em></p>
+<p>That’s it for now! In homework we will take a more quantitative approach to answering these questions.</p>
+<p>🧶 ✅ ⬆️ Knit, <em>commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.</em></p>
 </div>
 <p>*This exercise was based on an <a href="https://rstudio-education.github.io/datascience-box/course-materials/lab-instructions/lab-04/lab-04-viz-sp-data.html">RStudio Education example</a>.</p>
 </div>
