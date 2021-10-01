@@ -59,5 +59,3 @@ states <- read_csv("data/states.csv", col_types = cols(
 ### Exercise 11
 
 
-### Exercise 12
-
