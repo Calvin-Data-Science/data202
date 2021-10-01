@@ -6,10 +6,12 @@
 - 1 pt for a valid explanation
     - looked at a calendar
     - checked that both 0 and 6 were labeled "weekend"
+    - not descriptive (-0.5)
 
 ## Ex 2
 
 - 1 pt for a well-structured sentence
 
 The rows are total numbers of rides, not individual riders. (-0.5)
-
+Explain what each row means instead of focusing on the first row. (-0.5)
+Wrong or missing information. (-0.5)
