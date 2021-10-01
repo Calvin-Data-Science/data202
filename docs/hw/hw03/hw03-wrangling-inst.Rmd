@@ -139,7 +139,7 @@ daily_rides %>% head() %>% show_df()
 
 *Hint*: If you're having any trouble with this, go back to Exercise 2 and do the Supplemental Exercise there. You'll need a very similar approach here.
 
-5. How many rows does `daily_rides` have? How many *should* it have? (Don't try to fix this right now.)
+5. How many rows does `daily_rides` have? How many *should* it have? Do those two numbers match?
 
 6. Make `daily_rides_by_type`, a data frame just like `daily_rides` but breaking down the count by casual vs registered rider, like the data in hw02 did. The first few rows of the result should look like:
 
