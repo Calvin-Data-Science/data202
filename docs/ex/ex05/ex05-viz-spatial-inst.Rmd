@@ -93,6 +93,12 @@ Along with the name of the state we have the two-letter abbreviation and we have
     (Hint: Use inline R code and functions like `nrow` and `ncol` to compose your answer.) What does each row in the dataset represent?
     What are the variables?
 
+```{r include=FALSE}
+dennys
+laquinta
+```
+
+
 2.  What are the dimensions of the La Quinta's dataset?
     What does each row in the dataset represent?
     What are the variables?
@@ -100,17 +106,6 @@ Along with the name of the state we have the two-letter abbreviation and we have
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
 We would like to limit our analysis to Denny's and La Quinta locations in the United States.
-
-3.  Take a look at the websites that the data come from (linked above).
-    Are there any La Quinta's locations outside of the US?
-    If so, which countries?
-    What about Denny's?
-
-4.  Now take a look at the data.
-    What would be some ways of determining whether or not either establishment has any locations outside the US using just the data (and not the websites).
-    Don't worry about whether you know how to implement this, just brainstorm some ideas.
-    Write down at least one as your answer, but you're welcomed to write down a few options too.
-
 We will determine whether or not the establishment has a location outside the US using the `state` variable in the `dennys` and `laquinta` datasets.
 We know exactly which states are in the US, and we have this information in the `states` dataframe we loaded.
 
@@ -137,12 +132,17 @@ dennys %>%
 ```
 
 7.  Find the La Quinta locations that are outside the US, and figure out which country they are in.
-    This might require some googling.
+    One way to do this is by finding their lat/long on Google Maps: for the first one, you could search `21.755585,-102.27633` (you don't need many decimal places).
     Take notes, you will need to use this information in the next exercise.
+
+```{r include=FALSE}
+laquinta %>% anti_join(states, by = c("state" = "abbreviation"))
+```
+
 
 8.  Add a country variable to the La Quinta dataset.
     Use the `case_when` function to populate this variable.
-    You'll need to refer to your notes from Exercise 7 about which country the non-US locations are in.
+    You'll need to refer to your notes from the previous exercise about which country the non-US locations are in.
     Here is some starter code to get you going:
 
 ```{r eval = FALSE}
@@ -178,7 +178,8 @@ So when we're joining the two data frames we specify that the `state` variable f
 
 ```{r}
 dennys %>%
-  count(state) %>%
+  group_by(state) %>%
+  summarize(count = n()) %>% 
   inner_join(states, by = c("state" = "abbreviation"))
 ```
 
