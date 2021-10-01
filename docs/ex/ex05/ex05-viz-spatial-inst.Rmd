@@ -29,7 +29,7 @@ The inspiration for this lab comes from a blog post by John Reiser on his *new j
 You can read that analysis [here](http://njgeo.org/2014/01/30/mitch-hedberg-and-gis/).
 Reiser's blog post focuses on scraping data from Denny's and La Quinta Inn and Suites websites using Python.
 In this lab we focus on visualization and analysis of these data.
-However note that the data scraping was also done in R, and we we will discuss web scraping using R later in the course.
+However note that the data scraping was also done in R, and we we will discuss web scraping later in the course.
 But for now we focus on the data that has already been scraped and tidied for you.
 
 # Learning goals
@@ -44,7 +44,7 @@ As usual, we're using our **portfolio repo** for this assignment. So:
 - Open your `portfolio` project in RStudio (you should see `Project: portfolio-YOURGITHUB` in the top right).
 - Go to the Git tab in RStudio and click `r emo::ji("arrow_down")` **Pull**.
 - Find and open `ex05-viz-spatial/ex05-viz-spatial.Rmd` (you may need to navigate in the Files tab to find it).
-- Change the `title` and author as appropriate.
+- Change data in the YAML header as appropriate.
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
@@ -60,6 +60,7 @@ dennys <- dsbox::dennys
 laquinta <- dsbox::laquinta
 write_rds(dennys, here::here("src/ex/ex05-viz-spatial/data/dennys.rds"))
 write_rds(laquinta, here::here("src/ex/ex05-viz-spatial/data/laquinta.rds"))
+fs::file_copy("data/states.csv", here::here("src/ex/ex05-viz-spatial/data/states.csv"))
 ```
 
 These datasets are given to you in `rds` format, which is an R-internal format for datasets that maintains data types.
