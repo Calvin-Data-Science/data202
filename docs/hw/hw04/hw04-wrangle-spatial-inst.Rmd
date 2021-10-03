@@ -82,9 +82,10 @@ We'll need to calculate two distances for it: (1) distance between Denny's 1 and
 
 3.  How many pairings are there between all Denny's and all La Quinta locations in Alaska, i.e. how many distances do we need to calculate between the locations of these establishments in Alaska?
 
-In order to calculate these distances we need to first restructure our data to pair the Denny's and La Quinta locations.
-To do so, we will join the two data frames.
-We have six join options in R.
+In order to calculate these distances we need to first *restructure our data to pair the Denny's and La Quinta locations*.
+To do so, we will *join the two data frames*.
+
+We have six main join options in R.
 Each of these join functions take at least three arguments: `x`, `y`, and `by`.
 
 -   `x` and `y` are data frames to join
@@ -119,68 +120,102 @@ So we will use a `full_join`.
 Let's join the data on Denny's and La Quinta locations in Alaska, and take a look at what it looks like:
 
 ```{r}
-dn_lq_ak <- full_join(dn_ak, lq_ak, by = "state")
+dn_lq_ak <- full_join(dn_ak, lq_ak, by = "state", suffix = c("_dn", "_lq"))
 dn_lq_ak
 ```
 
-4.  How many observations are in the joined `dn_lq_ak` data frame? What are the names of the variables in this data frame.
+4.  How many observations are in the joined `dn_lq_ak` data frame? What are the names of the variables in this data frame?
 
-`.x` in the variable names means the variable comes from the `x` data frame (the first argument in the `full_join` call, i.e. `dn_ak`), and `.y` means the variable comes from the `y` data frame.
-These varibles are renamed to include `.x` and `.y` because the two data frames have the same variables and it's not possible to have two variables in a data frame with the exact same name.
+Notice the suffixes `_dn` and `_lq` on the variable names. The two data frames both had the same variables, so how could we tell which data came from which data frame? To tell them apart, we told `full_join` to add those `suffix`es. (The default is `.x` and `.y`.)
 
 Now that we have the data in the format we wanted, all that is left is to calculate the distances between the pairs.
 
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
-5.  What function from the tidyverse do we use the add a new variable to a data frame while keeping the existing variables?
+5. Add a new variable, called `distance` to the `dn_lq_ak` data frame that contiains
+    the distances between each Denny's and La Quinta locations. Make sure to
+    save the result back to `dn_lq_ak` so that you can use it later.
 
-One way of calculating the distance between any two points on the earth is to use the Haversine distance formula.
-This formula takes into account the fact that the earth is not flat, but instead spherical.
+Notes:
 
-This function is not available in R, but we have it saved in a file called `haversine.R` that we can load and then use:
+- What function from the tidyverse do we use the add a new variable to a data frame while keeping the existing variables?
+
+- Since the Earth is spherical rather than flat, use the great-circle distance.
+  You can calculate this using the Haversine distance formula.
+  Since it's not a built-in function, we've provided an implementation for you:
 
 ```{r}
-haversine <- function(long1, lat1, long2, lat2, round = 3) {
+# Great-circle distance, Implementation from dsbox
+haversine <- function(long1, lat1, long2, lat2) {
   # convert to radians
   long1 = long1 * pi / 180
   lat1  = lat1  * pi / 180
   long2 = long2 * pi / 180
   lat2  = lat2  * pi / 180
   
-  R = 6371 # Earth mean radius in km
+  # Earth mean radius in km (WGS84 ellipsoid)
+  R = 6371.009
   
+  # Compute the distance in km
   a = sin((lat2 - lat1)/2)^2 + cos(lat1) * cos(lat2) * sin((long2 - long1)/2)^2
   d = R * 2 * asin(sqrt(a))
-  
-  return( round(d,round) ) # distance in km
+  return(d)
 }
 ```
 
-This function takes five arguments:
+This function takes four arguments:
 
 -   Longitude and latitude of the first location
 -   Longitude and latitude of the second location
--   A parameter by which to round the responses
 
-6.  Calculate the distances between all pairs of Denny's and La Quinta locations and save this variable as `distance`.
-    Make sure to save this variable in THE `dn_lq_ak` data frame so that you can use it later.
 
-7.  Calculate the minimum distance between a Denny's and La Quinta for each Denny's location.
-    To do so we group by Denny's locations and calculate a new variable that stores the information for the minimum distance.
+6.  For each La Quinta location, calculate the distance to the nearest Denny's.
+    To do so, group by La Quinta locations (consider the `address` as a unique identifier) and compute the `min()` of all of the corresponding `distance` values. Assign this to a new data frame.
+    
+    Hint: this data frame will have one row for each La Quinta's location in Alaska.
 
-```{r eval = FALSE}
+```{r eval = FALSE, include=FALSE}
 dn_lq_ak_mindist <- dn_lq_ak %>%
-  group_by(address.x) %>%
+  group_by(address_dn, city) %>%
   summarise(closest = min(distance))
 ```
 
-8.  Describe the distribution of the distances Denny's and the nearest La Quinta locations in Alaska. Also include an appropriate visualization and relevant summary statistics.
+7.  Are there any La Quinta locations in Alaska that are "next to Denny's"? Refer to the result of the previous exercise.
+
 
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
-9.  Repeat the same analysis for North Carolina: (i) filter Denny's and La Quinta Data Frames for NC, (ii) join these data frames to get a completelist of all possible pairings, (iii) calculate the distances between all possible pairings of Denny's and La Quinta in NC, (iv) find the minimum distance between each Denny's and La Quinta location, (v) visualize and describe the distribution of these shortest distances using appropriate summary statistics.
+8.  Write a function to perform the analysis for a given state. The function should take a state name (e.g., `"NC"`) and
+return the distances from each La Quinta location in that state to the closest Denny's. 
 
-10. Repeat the same analysis for Texas.
+Here's the outline of how to write an R function for this:
+
+```{r eval=FALSE}
+compute_closest_dennys <- function(the_state) {
+  dn_state <- dennys %>% 
+    filter(state == the_state)
+  lq_state <- laquinta %>% 
+    filter(state == the_state)
+  
+  # join to get all possible pairings
+  
+  # compute distances
+  
+  # compute distance to closest Denny's for each La Quinta location.
+  
+  return(dist_to_closest)
+}
+```
+
+*Caution*: You should copy and paste from your earlier code, but be sure to change everything from Alaska-specific.
+
+*Optional aside*: It turns out that a full join isn't quite the best join for this. Can you think of a case where `full_join` gives some unwanted results?
+
+9. Use the function you just wrote to compute the distances-to-closest-Denny's for NC. Then, describe the distribution of the distances using **summary statistics** (median, min, etc.) and an **appropriate visualization**.
+
+Note: If you end up grouping by more than one variable, you may need to `ungroup()` before computing a summary statistic, depending on how you do it.
+
+10.  Repeat the same analysis for Texas.
 
 11. Repeat the same analysis for a state of your choosing, different than the ones we covered so far.
 
