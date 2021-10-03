@@ -3,6 +3,7 @@ title: "Homework 04 - Wrangling Spatial Data"
 author: "Author Goes Here"
 output:
   prettydoc::html_pretty
+knit: pagedown::chrome_print
 ---
 
 ### Load packages and data
@@ -98,3 +99,4 @@ compute_closest_dennys <- function(the_state) {
 ### Partners
 
 ### Reflections
+
