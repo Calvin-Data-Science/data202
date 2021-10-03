@@ -8,6 +8,21 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+# Week 6: Tidy Data
+
+So far we've been working with data that's all in a nice "tidy" structure. It should be little surprise that data doesn't always come structured that way. This week we'll learn to mold the structure of data to fit what we need to do with it.
+
+Weekly assignments:
+
+- **Homework 4** is posted, due on Friday.
+- Rather than a **Discussion** this week, you'll be giving me your proposals for the replication project. Details coming soon.
+- **Quiz 6** will also be posted soon.
+- Don't forget **Preparation 6**. Sorry about posting it late; if you need extra time to complete the prep quiz that's fine.
+
+Heads-up: our first test will be a week from Friday, during class time, in the lab.
+
+
 # Week 5: Multiple Tables
 
 Next week we level up our data wrangling skills by working with *relational* data. We'll also think more about how data structure relates to visualization structure.
