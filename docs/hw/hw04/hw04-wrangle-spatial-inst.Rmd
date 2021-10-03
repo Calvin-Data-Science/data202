@@ -222,8 +222,29 @@ Note: If you end up grouping by more than one variable, you may need to `ungroup
 12. Among the states you examined, where is Mitch Hedberg's joke most likely to hold true?
     Explain your reasoning.
 
-🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
 :::
 
-*This exercise was based on an [RStudio Education example](https://rstudio-education.github.io/datascience-box/course-materials/lab-instructions/lab-05/).
+## Wrap-Up
+
+
+🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+
+To wrap this up, answer the usual check-in questions in the space provided *at the bottom of your report*:
+
+- Paste your GitHub permalink
+
+- What help did you give on this homework assignment? What help did you receive? *optional*
+
+- Write a sentence or two of your overall reflections on this assignment. You may write whatever you want, but you might perhaps respond to one or two of these questions:
+
+    - Was anything unclear about this assignment?
+    - How hard was it for you? Where did you get "stuck"?
+    - How long did it take you?
+    - What questions or uncertainties remain?
+    - What skills do you think you'll need more practice with?
+    - Did you try anything out of curiosity that you weren't specifically asked to do?
+
+Once you're done, knit-commit-push one last time, and submit your PDF on Grades
+
+*This exercise was based on an [RStudio Education example](https://rstudio-education.github.io/datascience-box/course-materials/lab-instructions/lab-05/lab-05-wrangle-sp-data.html).
