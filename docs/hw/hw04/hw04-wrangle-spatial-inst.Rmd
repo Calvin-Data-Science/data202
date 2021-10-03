@@ -245,6 +245,24 @@ To wrap this up, answer the usual check-in questions in the space provided *at t
     - What skills do you think you'll need more practice with?
     - Did you try anything out of curiosity that you weren't specifically asked to do?
 
-Once you're done, knit-commit-push one last time, and submit your PDF on Grades
+```{marginfigure}
+By default the PDF opens in a custom viewer, which may be confusing. Change the setting by going to: 
+Tools / Global Options / Sweave / PDF Preview: "System Viewer".
+```
+
+### Making a PDF
+
+#### Option 1
+
+Remove the `#` to un-comment the `#knit: pagedown::chrome_print` line in your file header, then and Knit.
+Save the resulting PDF to your computer, and submit the PDF on Gradescope.
+
+
+#### Option 2
+
+- Knit to make an HTML file as usual
+- View the HTML file in your browser. (If it's in the little Viewer pane, click the "pop out" toolbar button. If you see a window with "Open in Browser" button, click that button.
+- Use File-Print to save a PDF. Make sure that all your code is visible; scale it down if necessary.
+- Submit that PDF on Gradescope.
 
 *This exercise was based on an [RStudio Education example](https://rstudio-education.github.io/datascience-box/course-materials/lab-instructions/lab-05/lab-05-wrangle-sp-data.html).
