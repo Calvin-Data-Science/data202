@@ -3,7 +3,7 @@ title: "Homework 04 - Wrangling Spatial Data"
 author: "Author Goes Here"
 output:
   prettydoc::html_pretty
-knit: pagedown::chrome_print
+#knit: pagedown::chrome_print
 ---
 
 ### Load packages and data
