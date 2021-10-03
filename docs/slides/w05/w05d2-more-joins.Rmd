@@ -61,7 +61,7 @@ SQL? yes. `dplyr` makes you split it up though.
 ## Q: Why did we need `summarize()`?
 
 ```{r include=FALSE}
-purchases <- tibble::tribble(
+purchases <- tribble(
                ~customer_id,          ~item,
                          "c1",        "bread",
                          "c1",         "milk",
@@ -70,7 +70,7 @@ purchases <- tibble::tribble(
                          "c2", "toilet paper"
                )
 
-prices <- tibble::tribble(
+prices <- tribble(
            ~item, ~price,
        "avocado",    0.5,
         "banana",   0.15,
