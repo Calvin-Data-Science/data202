@@ -61,7 +61,6 @@ Friday: in-lab practice
 ```{r message=FALSE}
 hotels <- read_csv("data/hotels.csv")
 head(hotels)
-#head(select(hotels, hotel, is_canceled, lead_time), 5)
 ```
 
 .floating-source[
