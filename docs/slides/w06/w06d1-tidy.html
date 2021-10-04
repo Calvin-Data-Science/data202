@@ -44,6 +44,12 @@ Why not just grab `states$population`?
 
 ---
 
+class: center, middle
+
+# Pivoting
+
+---
+
 ## Data: Sales
 
 
@@ -137,14 +143,14 @@ more rows
 
 ```
 # A tibble: 6 × 3
-  customer_id item_no item        
-        &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;       
-1           1 item_1  bread       
-2           1 item_2  milk        
-3           1 item_3  banana      
-4           2 item_1  milk        
-5           2 item_2  toilet paper
-6           2 item_3  &lt;NA&gt;        
+  customer_id item_num item        
+        &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;       
+1           1 item_1   bread       
+2           1 item_2   milk        
+3           1 item_3   banana      
+4           2 item_1   milk        
+5           2 item_2   toilet paper
+6           2 item_3   &lt;NA&gt;        
 ```
 ]
 
@@ -239,7 +245,7 @@ pivot_longer(
 purchases &lt;- customers %&gt;%
 * pivot_longer(
 *   cols = item_1:item_3,  # variables item_1 to item_3
-*   names_to = "item_no",  # column names -&gt; new column called item_no
+*   names_to = "item_num", # column names -&gt; new column called item_num
 *   values_to = "item"     # values in columns -&gt; new column called item
 *   )
 
@@ -248,14 +254,14 @@ purchases
 
 ```
 # A tibble: 6 × 3
-  customer_id item_no item        
-        &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;       
-1           1 item_1  bread       
-2           1 item_2  milk        
-3           1 item_3  banana      
-4           2 item_1  milk        
-5           2 item_2  toilet paper
-6           2 item_3  &lt;NA&gt;        
+  customer_id item_num item        
+        &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;       
+1           1 item_1   bread       
+2           1 item_2   milk        
+3           1 item_3   banana      
+4           2 item_1   milk        
+5           2 item_2   toilet paper
+6           2 item_3   &lt;NA&gt;        
 ```
 
 ---
@@ -292,14 +298,14 @@ purchases %&gt;%
 
 ```
 # A tibble: 6 × 4
-  customer_id item_no item         price
-        &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt;
-1           1 item_1  bread         1   
-2           1 item_2  milk          0.8 
-3           1 item_3  banana        0.15
-4           2 item_1  milk          0.8 
-5           2 item_2  toilet paper  3   
-6           2 item_3  &lt;NA&gt;         NA   
+  customer_id item_num item         price
+        &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt;
+1           1 item_1   bread         1   
+2           1 item_2   milk          0.8 
+3           1 item_3   banana        0.15
+4           2 item_1   milk          0.8 
+5           2 item_2   toilet paper  3   
+6           2 item_3   &lt;NA&gt;         NA   
 ```
 ]
 
@@ -317,7 +323,7 @@ purchases %&gt;%
 ```r
 purchases %&gt;%
 * pivot_wider(
-*   names_from = item_no,
+*   names_from = item_num,
 *   values_from = item
 * )
 ```
@@ -429,7 +435,7 @@ approval_longer
 
 ```r
 ggplot(approval_longer, 
-       aes(x = date, y = rating_value, color = rating_type, group = rating_type)) +
+       aes(x = date, y = rating_value, color = rating_type)) +
   geom_line() +
   facet_wrap(vars(subgroup))
 ```
@@ -445,7 +451,7 @@ ggplot(approval_longer,
 ```r
 ggplot(approval_longer, 
        aes(x = date, y = rating_value, 
-           color = rating_type, group = rating_type)) +
+           color = rating_type)) +
   geom_line() +
   facet_wrap(vars(subgroup)) +
 * scale_color_manual(values = c("darkgreen", "orange")) +
@@ -474,7 +480,7 @@ ggplot(approval_longer,
 ```r
 ggplot(approval_longer, 
        aes(x = date, y = rating_value, 
-           color = rating_type, group = rating_type)) +
+           color = rating_type)) +
   geom_line() +
   facet_wrap(vars(subgroup)) +
   scale_color_manual(values = c("darkgreen", "orange")) + 
@@ -578,7 +584,10 @@ class: middle
 ---
 
 
+
+
 ```r
+# https://www.insidehighered.com/news/2019/06/10/new-data-show-economic-value-earning-bachelors-degree-remains-high
 # https://www.newyorkfed.org/medialibrary/media/research/college-labor-market/labor-market-for-recent-college-grads.xlsx?la=en
 labor_fed &lt;- read_csv("data/college-labor-data.csv", show_col_types = FALSE)
 labor_fed
@@ -613,7 +622,7 @@ labor_fed %&gt;%
   ggplot(aes(x = date, y = wage, color = degree)) + geom_line()
 ```
 
-&lt;img src="w06d1-tidy_files/figure-html/unnamed-chunk-30-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="w06d1-tidy_files/figure-html/unnamed-chunk-31-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

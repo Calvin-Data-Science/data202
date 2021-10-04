@@ -36,6 +36,12 @@ Why not just grab `states$population`?
 
 ---
 
+class: center, middle
+
+# Pivoting
+
+---
+
 ## Data: Sales
 
 ```{r include=FALSE}
@@ -131,7 +137,7 @@ customers
 more rows
 ```{r echo=FALSE}
 customers %>%
-  pivot_longer(cols = item_1:item_3, names_to = "item_no", values_to = "item")
+  pivot_longer(cols = item_1:item_3, names_to = "item_num", values_to = "item")
 ```
 ]
 
@@ -221,7 +227,7 @@ pivot_longer(
 purchases <- customers %>%
   pivot_longer( #<<
     cols = item_1:item_3,  # variables item_1 to item_3 #<<
-    names_to = "item_no",  # column names -> new column called item_no #<<
+    names_to = "item_num", # column names -> new column called item_num #<<
     values_to = "item"     # values in columns -> new column called item #<<
     ) #<<
 
@@ -261,7 +267,7 @@ purchases %>%
 ```{r}
 purchases %>%
   pivot_wider( #<<
-    names_from = item_no, #<<
+    names_from = item_num, #<<
     values_from = item #<<
   ) #<<
 ```
@@ -324,7 +330,7 @@ approval %>%
     values_to = "rating_value"
   ) %>%
   ggplot(aes(x = date, y = rating_value, 
-             color = rating_type, group = rating_type)) +
+             color = rating_type)) +
   geom_line() +
   facet_wrap(vars(subgroup)) +
   scale_color_manual(values = c("darkgreen", "orange")) + 
@@ -371,7 +377,7 @@ approval_longer
 
 ```{r fig.asp = 0.5}
 ggplot(approval_longer, 
-       aes(x = date, y = rating_value, color = rating_type, group = rating_type)) +
+       aes(x = date, y = rating_value, color = rating_type)) +
   geom_line() +
   facet_wrap(vars(subgroup))
 ```
@@ -384,7 +390,7 @@ ggplot(approval_longer,
 ```{r "approval-plot", fig.show="hide"}
 ggplot(approval_longer, 
        aes(x = date, y = rating_value, 
-           color = rating_type, group = rating_type)) +
+           color = rating_type)) +
   geom_line() +
   facet_wrap(vars(subgroup)) +
   scale_color_manual(values = c("darkgreen", "orange")) + #<<
@@ -413,7 +419,7 @@ ggplot(approval_longer,
 ```{r "approval-plot-2", fig.show="hide"}
 ggplot(approval_longer, 
        aes(x = date, y = rating_value, 
-           color = rating_type, group = rating_type)) +
+           color = rating_type)) +
   geom_line() +
   facet_wrap(vars(subgroup)) +
   scale_color_manual(values = c("darkgreen", "orange")) + 
@@ -502,7 +508,12 @@ class: middle
 
 ---
 
+```{r include=FALSE}
+# This was Jared Mulder's replication project 20FA.
+```
+
 ```{r}
+# https://www.insidehighered.com/news/2019/06/10/new-data-show-economic-value-earning-bachelors-degree-remains-high
 # https://www.newyorkfed.org/medialibrary/media/research/college-labor-market/labor-market-for-recent-college-grads.xlsx?la=en
 labor_fed <- read_csv("data/college-labor-data.csv", show_col_types = FALSE)
 labor_fed
