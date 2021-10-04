@@ -183,7 +183,7 @@ dn_lq_ak <- dn_lq_ak %>%
 
 dn_lq_ak_mindist <- dn_lq_ak %>%
   group_by(address_lq, city_lq) %>%
-  summarise(dist_to_nearest = min(distance))
+  summarise(dist_to_nearest = min(distance), .groups = "drop")
 dn_lq_ak_mindist %>% select(-city_lq)
 ```
 
