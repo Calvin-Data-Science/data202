@@ -21,9 +21,18 @@ knitr::opts_chunk$set(comment = "")
 options(dplyr.print_max = 10)
 ```
 
-## Reminders
 
 ## Q&A
+
+> Can we use actual maps instead of scatterplots?
+
+Yes, we need a *base layer*. We'll focus more on spatial data in a few weeks.
+
+---
+
+## Review of Exercise 5
+
+Why not just grab `states$population`?
 
 ---
 
@@ -259,6 +268,184 @@ purchases %>%
 ]
 
 ---
+
+
+---
+
+class: middle
+
+# Case study: Biden Approval Rating
+
+---
+
+```{r echo=FALSE, out.width="70%"}
+knitr::include_graphics("img/biden-approval.png")
+```
+
+.footnote[
+Source: [FiveThirtyEight](https://projects.fivethirtyeight.com/biden-approval-rating/)
+]
+
+---
+
+## Data
+
+```{r include=FALSE}
+approval_raw <- read_csv("data/approval_topline.csv")#read_csv("data/approval_polllist.csv")
+approval_raw
+```
+
+
+```{r include=FALSE}
+approval <- approval_raw %>% 
+  select(subgroup, date = modeldate, approval = approve_estimate, disapproval = disapprove_estimate) %>% 
+  mutate(date = lubridate::mdy(date)) %>% 
+  filter(subgroup != "All polls")
+# approval <- approval_raw %>% 
+#   filter(subgroup != "All polls") %>% 
+#   group_by(subgroup, )
+#   select(subgroup, date = enddate, approval = adjusted_approve, disapproval = adjusted_disapprove)
+```
+
+```{r}
+approval
+```
+
+---
+
+## Goal
+
+.pull-left-wide[
+```{r echo=FALSE, out.width="100%"}
+approval %>%
+  pivot_longer(
+    cols = c(approval, disapproval),
+    names_to = "rating_type",
+    values_to = "rating_value"
+  ) %>%
+  ggplot(aes(x = date, y = rating_value, 
+             color = rating_type, group = rating_type)) +
+  geom_line() +
+  facet_wrap(vars(subgroup)) +
+  scale_color_manual(values = c("darkgreen", "orange")) + 
+  labs( 
+    x = "Date", y = "Rating", 
+    color = NULL, 
+    title = "How (un)popular is Joe Biden?", 
+    subtitle = "Estimates based on polls of all adults and polls of likely/registered voters", 
+    caption = "Source: FiveThirtyEight modeling estimates" 
+  ) + 
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+]
+--
+.pull-right-narrow[
+**Aesthetic mappings:**  
+`r emo::ji("check")`  x = `date`  
+`r emo::ji("x")`      y = `rating_value`  
+`r emo::ji("x")`      color = `rating_type`
+
+**Facet:**  
+`r emo::ji("check")`  `subgroup` (Adults and Voters)
+]
+
+---
+
+## Pivot
+
+```{r output.lines=11}
+approval_longer <- approval %>%
+  pivot_longer(
+    cols = c(approval, disapproval),
+    names_to = "rating_type",
+    values_to = "rating_value"
+  )
+
+approval_longer
+```
+
+---
+
+## Plot
+
+```{r fig.asp = 0.5}
+ggplot(approval_longer, 
+       aes(x = date, y = rating_value, color = rating_type, group = rating_type)) +
+  geom_line() +
+  facet_wrap(vars(subgroup))
+```
+
+---
+
+.panelset[
+
+.panel[.panel-name[Code]
+```{r "approval-plot", fig.show="hide"}
+ggplot(approval_longer, 
+       aes(x = date, y = rating_value, 
+           color = rating_type, group = rating_type)) +
+  geom_line() +
+  facet_wrap(vars(subgroup)) +
+  scale_color_manual(values = c("darkgreen", "orange")) + #<<
+  labs( #<<
+    x = "Date", y = "Rating", #<<
+    color = NULL, #<<
+    title = "How (un)popular is Joe Biden?", #<<
+    subtitle = "Estimates based on polls of all adults and polls of likely/registered voters", #<<
+    caption = "Source: FiveThirtyEight modeling estimates" #<<
+  ) #<<
+```
+]
+
+.panel[.panel-name[Plot]
+```{r ref.label="approval-plot", echo = FALSE, out.width="75%"}
+```
+]
+
+]
+
+---
+
+.panelset[
+
+.panel[.panel-name[Code]
+```{r "approval-plot-2", fig.show="hide"}
+ggplot(approval_longer, 
+       aes(x = date, y = rating_value, 
+           color = rating_type, group = rating_type)) +
+  geom_line() +
+  facet_wrap(vars(subgroup)) +
+  scale_color_manual(values = c("darkgreen", "orange")) + 
+  labs( 
+    x = "Date", y = "Rating", 
+    color = NULL, 
+    title = "How (un)popular is Joe Biden??", 
+    subtitle = "Estimates based on polls of all adults and polls of likely/registered voters", 
+    caption = "Source: FiveThirtyEight modeling estimates" 
+  ) + 
+  theme_minimal() + #<<
+  theme(legend.position = "bottom") #<<
+```
+]
+
+.panel[.panel-name[Plot]
+```{r ref.label="approval-plot-2", echo = FALSE, out.width="75%", fig.width=6}
+```
+]
+
+]
+
+
+
+
+
+
+
+---
+
+
+
 
 
 class: middle
