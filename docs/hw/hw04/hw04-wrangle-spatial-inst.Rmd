@@ -174,10 +174,17 @@ This function takes four arguments:
     
     Hint: this data frame will have one row for each La Quinta's location in Alaska.
 
-```{r eval = FALSE, include=FALSE}
+    Here is what I get:
+    
+```{r echo=FALSE}
+dn_lq_ak <- dn_lq_ak %>% 
+  mutate(distance = haversine(latitude_dn, longitude_dn, latitude_lq, longitude_lq))
+#dn_lq_ak
+
 dn_lq_ak_mindist <- dn_lq_ak %>%
-  group_by(address_dn, city) %>%
-  summarise(closest = min(distance))
+  group_by(address_lq, city_lq) %>%
+  summarise(dist_to_nearest = min(distance))
+dn_lq_ak_mindist %>% select(-city_lq)
 ```
 
 7.  Are there any La Quinta locations in Alaska that are "next to Denny's"? Refer to the result of the previous exercise.
@@ -214,6 +221,31 @@ compute_closest_dennys <- function(the_state) {
 9. Use the function you just wrote to compute the distances-to-closest-Denny's for NC. Then, describe the distribution of the distances using **summary statistics** (median, min, etc.) and an **appropriate visualization**.
 
 Note: If you end up grouping by more than one variable, you may need to `ungroup()` before computing a summary statistic, depending on how you do it.
+
+Here's what I get for NC:
+
+```{r echo=FALSE}
+compute_closest_dennys <- function(the_state) {
+  dn_state <- dennys %>% 
+    filter(state == the_state)
+  lq_state <- laquinta %>% 
+    filter(state == the_state)
+  
+  # join to get all possible pairings
+  dist_to_closest <- full_join(dn_state, lq_state, by = "state", suffix = c("_dn", "_lq")) %>% 
+    # compute distances
+    mutate(distance = haversine(latitude_dn, longitude_dn, latitude_lq, longitude_lq)) %>% 
+    # compute distance to closest Denny's for each La Quinta location.
+    group_by(address_lq, city_lq) %>%
+    summarise(dist_to_nearest = min(distance), .groups = "drop") %>% 
+    arrange(dist_to_nearest)
+  
+  return(dist_to_closest)
+}
+distances_NC <- compute_closest_dennys("NC")
+distances_NC
+distances_NC %>% summarise(min(dist_to_nearest), median(dist_to_nearest))
+```
 
 10.  Repeat the same analysis for Texas.
 
