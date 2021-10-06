@@ -5,6 +5,7 @@ output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
     lib_dir: libs
+    self_contained: false
     nature:
       ratio: "4:3"
       highlightLines: true
@@ -25,6 +26,11 @@ library(patchwork)
 knitr::opts_chunk$set(comment = "")
 ```
 
+## This stuff isn't easy.
+
+
+---
+
 ## Q&A
 
 > Why isn't all data already long-format?
@@ -38,6 +44,14 @@ See `vignette("pivot", package = "tidyr")`.
 > Performance?
 
 Usually a `join` is the tighter bottleneck.
+
+---
+
+## Reminders
+
+- First project milestone due Friday
+- Quiz closes today
+- Test *next* Friday (in lab)
 
 ---
 
@@ -63,7 +77,9 @@ x
 
 ```{r}
 x %>% 
-  pivot_longer(cols = starts_with("col"), names_to = "column_name", values_to = "value_was")
+  pivot_longer(
+    cols = starts_with("col"),
+    names_to = "column_name", values_to = "value_was")
 ```
 
 ---
@@ -89,19 +105,6 @@ x %>%
 
 ---
 
-## A grammar of data tidying
-
-.pull-left[
-```{r dplyr-part-of-tidyverse, echo=FALSE, out.width="70%", fig.align = "center", caption = "dplyr is part of the tidyverse"}
-include_graphics("img/tidyr-part-of-tidyverse.png")
-```
-]
-.pull-right[
-The goal of tidyr is to help you create tidy data
-]
-
----
-
 class: middle
 
 # Instructional staff employment trends
@@ -115,7 +118,7 @@ class: middle
 and 2011
 -  contains an image very similar to this:
 
-```{r echo=FALSE,out.width="70%"}
+```{r echo=FALSE, out.width="80%"}
 include_graphics("img/staff-employment.png")
 ```
 
@@ -136,9 +139,9 @@ staff
 
 ## Recreate the visualization
 
-In order to recreate this visualization we need to first reshape the data to have 
+To recreate this visualization we need to first reshape the data to have 
 one variable for faculty type and one variable for year. In other words, 
-we will convert the data from the wide format to long format. 
+we will convert the data from *wide format* to *long format*.
 
 But before we do so... 
 
@@ -157,20 +160,12 @@ include_graphics("img/pivot.gif")
 
 ---
 
-## `pivot_*()` functions
+## Write the pivot.
 
-
-```{r echo=FALSE, out.width="50%"}
-include_graphics("img/tidyr-longer-wider.gif")
+```{r}
+staff
 ```
 
----
-
-## `pivot_longer()`
-
-```{r eval=FALSE}
-pivot_longer(data, cols, names_to = "name", values_to = "value")
-```
 
 ---
 
@@ -576,7 +571,7 @@ rel_inc_long <- rel_inc_long %>%
   mutate(religion = fct_rev(religion)) #<<
 
 ggplot(rel_inc_long, aes(y = religion, x = frequency)) + 
-  geom_col(color = "blue")
+  geom_col(color = "blue", fill = "green")
 ```
 
 ---
