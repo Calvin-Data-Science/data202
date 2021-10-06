@@ -266,16 +266,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Longitude and latitude of the first location</li>
 <li>Longitude and latitude of the second location</li>
 </ul>
+<p><strong>Note</strong>: Longitude comes first!</p>
 <ol start="6" style="list-style-type: decimal">
 <li><p>For each La Quinta location, calculate the distance to the nearest Denny’s. To do so, group by La Quinta locations (consider the <code>address</code> as a unique identifier) and compute the <code>min()</code> of all of the corresponding <code>distance</code> values. Assign this to a new data frame.</p>
 <p>Hint: this data frame will have one row for each La Quinta’s location in Alaska.</p>
-<p>Here is what I get:</p></li>
+<p>Here is what I get (once I put latitude and longitude in the right order):</p></li>
 </ol>
-<pre><code>## # A tibble: 2 × 2
-##   address_lq         dist_to_nearest
-##   &lt;chr&gt;                        &lt;dbl&gt;
-## 1 3501 Minnesota Dr.            3.97
-## 2 4920 Dale Rd                 11.8</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##   address_lq         count dist_to_nearest
+##   &lt;chr&gt;              &lt;int&gt;           &lt;dbl&gt;
+## 1 3501 Minnesota Dr.     3            2.03
+## 2 4920 Dale Rd           3            5.20</code></pre>
 <ol start="7" style="list-style-type: decimal">
 <li>Are there any La Quinta locations in Alaska that are “next to Denny’s”? Refer to the result of the previous exercise.</li>
 </ol>

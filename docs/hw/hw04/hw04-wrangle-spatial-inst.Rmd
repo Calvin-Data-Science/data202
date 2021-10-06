@@ -168,22 +168,22 @@ This function takes four arguments:
 -   Longitude and latitude of the first location
 -   Longitude and latitude of the second location
 
+**Note**: Longitude comes first!
 
 6.  For each La Quinta location, calculate the distance to the nearest Denny's.
     To do so, group by La Quinta locations (consider the `address` as a unique identifier) and compute the `min()` of all of the corresponding `distance` values. Assign this to a new data frame.
     
     Hint: this data frame will have one row for each La Quinta's location in Alaska.
 
-    Here is what I get:
+    Here is what I get (once I put latitude and longitude in the right order):
     
 ```{r echo=FALSE}
 dn_lq_ak <- dn_lq_ak %>% 
-  mutate(distance = haversine(latitude_dn, longitude_dn, latitude_lq, longitude_lq))
-#dn_lq_ak
+  mutate(distance = haversine(longitude_dn, latitude_dn, longitude_lq, latitude_lq))
 
 dn_lq_ak_mindist <- dn_lq_ak %>%
   group_by(address_lq, city_lq) %>%
-  summarise(dist_to_nearest = min(distance), .groups = "drop")
+  summarise(count = length(distance), dist_to_nearest = min(distance), .groups = "drop")
 dn_lq_ak_mindist %>% select(-city_lq)
 ```
 
