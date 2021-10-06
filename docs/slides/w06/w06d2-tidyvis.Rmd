@@ -1,5 +1,5 @@
 ---
-title: "Data tidying and reshaping <br> `r emo::ji('broom')`"
+title: "Data tidying and visualizing <br> `r emo::ji('broom')`"
 author: "DATA 202 21FA"
 output:
   xaringan::moon_reader:
@@ -22,6 +22,68 @@ library(knitr)
 library(skimr)
 library(scales)
 library(patchwork)
+knitr::opts_chunk$set(comment = "")
+```
+
+## Q&A
+
+> Why isn't all data already long-format?
+
+Usually: data meant for *human* consumption.
+
+> What are other uses of pivoting? `pivot_wider` and `pivot_longer` together??
+
+See `vignette("pivot", package = "tidyr")`.
+
+> Performance?
+
+Usually a `join` is the tighter bottleneck.
+
+---
+
+## Micro-Pivot
+
+```{r include=FALSE}
+xx <- tribble(
+  ~id, ~col1, ~col2,
+  "A", "A1", "A2",
+  "B", "B1", "B2"
+)
+```
+
+```{r include=FALSE}
+x <- xx %>% head(1)
+```
+
+
+```{r}
+x
+```
+--
+
+```{r}
+x %>% 
+  pivot_longer(cols = starts_with("col"), names_to = "column_name", values_to = "value_was")
+```
+
+---
+
+## Micro-Pivot
+
+```{r include=FALSE}
+x <- xx
+```
+
+
+```{r}
+x
+```
+
+--
+
+```{r}
+x %>% 
+  pivot_longer(cols = starts_with("col"), names_to = "column_name", values_to = "value_was")
 ```
 
 
@@ -46,12 +108,12 @@ class: middle
 
 ---
 
-The American Association of 
-University Professors (AAUP) is a nonprofit membership association of faculty 
-and other academic professionals. 
-[This report](https://www.aaup.org/sites/default/files/files/AAUP_Report_InstrStaff-75-11_apr2013.pdf) 
-by the AAUP shows trends in instructional staff employees between 1975 
-and 2011, and contains an image very similar to the one given below.
+- American Association of University Professors (AAUP)
+- nonprofit association of academic professionals
+- [2013 report](https://www.aaup.org/sites/default/files/files/AAUP_Report_InstrStaff-75-11_apr2013.pdf):
+  trends in instructional staff employees between 1975 
+and 2011
+-  contains an image very similar to this:
 
 ```{r echo=FALSE,out.width="70%"}
 include_graphics("img/staff-employment.png")
@@ -110,18 +172,6 @@ include_graphics("img/tidyr-longer-wider.gif")
 pivot_longer(data, cols, names_to = "name", values_to = "value")
 ```
 
-- The first argument is `data` as usual.
---
-
-- The second argument, `cols`, is where you specify which columns to pivot 
-into longer format -- in this case all columns except for the `faculty_type` 
---
-
-- The third argument, `names_to`, is a string specifying the name of the column to create from the data stored in the column names of data -- in this case `year`
---
-
-- The fourth argument, `values_to`, is a string specifying the name of the column to create from the data stored in cell values, in this case `percentage`
-
 ---
 
 ## Pivot staff data
@@ -156,18 +206,9 @@ staff_long
 This doesn't look quite right, how would you fix it?
 ]
 
-```{r out.width="70%"}
-staff_long %>%
-  ggplot(aes(x = percentage, y = year, color = faculty_type)) +
-  geom_col(position = "dodge")
-```
-
----
-
 ```{r out.width="80%"}
-staff_long %>%
-  ggplot(aes(x = percentage, y = year, fill = faculty_type)) +
-  geom_col(position = "dodge")
+ggplot(staff_long, aes(x = percentage, y = year, color = faculty_type)) +
+  geom_col()
 ```
 
 ---
@@ -200,12 +241,12 @@ What is the difference between these two plots?
 p1 <- staff_long %>%
   ggplot(aes(x = year, y = percentage, group = faculty_type, color = faculty_type)) +
   geom_line() +
-  guides(color = FALSE)
+  guides(color = "none")
 p2 <- staff_long %>%
   mutate(year = as.numeric(year)) %>%
   ggplot(aes(x = year, y = percentage, group = faculty_type, color = faculty_type)) +
   geom_line() +
-  guides(color = FALSE)
+  guides(color = "none")
 p1 + p2 + 
   plot_layout(nrow = 2)
 ```
