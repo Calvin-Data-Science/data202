@@ -25,7 +25,7 @@ org_sitrep(ghorg)
 
 ```{r}
 clones_path <- here::here("student_data/repos/")
-portfolio_clone_path <- fs::path_join(c(clones_path, "portfolio"))
+portfolio_clone_path <- fs::path_join(c(clones_path, "portfolios"))
 ```
 
 Students who join a GitHub Classroom by accepting an assignment are added as "outside collaborators".
@@ -126,7 +126,7 @@ org_create_assignment(
 
 Once an assignment is deployed, we should treat that as final. Updating templates in-place can cause merge conflicts for students.
 
-```{r}
+```{r eval=FALSE}
 # This works because this Rmd file is in the `src` directory, and the directory structure here matches the portfolio repo.
 get_assignment_files <- function(path, deploy_solutions) {
   # Need to pull out the names so we don't get gobbledygook color control characters in the commit messages.
@@ -161,5 +161,63 @@ deploy_assignment <- function(path, deploy_solutions = FALSE) {
 #repo_delete_file(
 #  c(student_repos$portfolio_repo_full, ),
 #  "hw/hw02-vis/hw02-vis.md")
+```
+
+## Local clones
+
+I did `git clone --bare git@github.com:Calvin-DS202-21FA/portfolio-reference.git portfolios` 
+
+```{r}
+roster_with_repos <- roster %>% 
+  separate(preferred_name, into = "fname", extra = "drop", remove = FALSE) %>% 
+  mutate(slugname = str_replace_all(paste0(fname, last_name), "[^A-Za-z]", "")) %>% 
+  select(fname, last_name, slugname, github, email_address) %>% 
+  left_join(student_repos, by = c('github' = 'username')) %>% 
+  mutate(branch = glue("{slugname}-main"))
+roster_with_repos
+```
+
+
+Set up the remotes. Each student's portfolio repo is given a "remote" name corresponding to their slugname.
+
+```{r eval=FALSE}
+roster_with_repos %>% 
+  rowwise() %>% 
+  group_walk(~ gert::git_remote_add(repo = I(portfolio_clone_path), name = .$slugname, url = glue("git@github.com:{ghorg}/{.$portfolio_repo}.git")))
+```
+
+Fetch all.
+
+```{r}
+roster_with_repos %>% 
+  rowwise() %>% 
+  group_walk(~ system2('git', c('-C', portfolio_clone_path, 'fetch', .$slugname)))
+```
+
+Setup branches (one-time)
+
+```{r eval=FALSE}
+roster_with_repos %>% 
+  rowwise() %>% 
+  group_walk(~ system2('git', c('-C', portfolio_clone_path, 'branch', paste0(.$slugname, "-main"), paste0(.$slugname, "/main"))))
+```
+
+
+
+```{r eval=FALSE}
+# https://stackoverflow.com/questions/62621474/run-an-expression-rowwise-for-its-side-effect-only/69486771#69486771
+tibble(file = c("iris.csv", "mtcars.csv"),
+       data = list(iris, mtcars)) %>% 
+  rowwise() %>%
+  group_walk(~ write_csv(.$data[[1]], .$file))
+
+tibble(file = c("iris.csv", "mtcars.csv"),
+       data = list(iris, mtcars)) %>% 
+  rowwise() %>%
+  group_walk(function(row, key) {
+    with(row, {
+      write_csv(data[[1]], file)
+    })
+  })
 ```
 
