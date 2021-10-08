@@ -1,8 +1,8 @@
 ---
-title: "Lab 05 - Ugly Charts"
+title: "Guided Exercise 06 - Sad Plots"
 output: 
   tufte::tufte_html:
-    css: ../lab.css
+    css: ../ex.css
     tufte_variant: "envisioned"
     highlight: pygments
 link-citations: yes
@@ -15,7 +15,7 @@ library(tidyverse)
 
 The data visualization that's easiest to make with software is rarely the best design
 for human perception and cognition. In this lab, we'll build on what we studied
-in Weeks 1 and 2 about visualization design and combine it with our new data wrangling skills to be able to critique and improve plots.
+about visualization design and combine it with our new data wrangling skills to be able to critique and improve plots.
 
 The learning goals for this lab are:
 
@@ -29,101 +29,7 @@ Relevant readings include:
 
 ## Getting started
 
-Clone your team's repo as usual.
-
-### Workflow
-
-This is the second week you're working in teams, so we're going to make things a little more interesting and let all of you make changes and push those changes to your team repository. Sometimes things will go swimmingly, and sometimes you'll run into merge conflicts. So our first task today is to walk you through a merge conflict!
-
-## Merges and merge conflicts
-
-- Pushing a repo replaces the code on GitHub with the code you have on your computer. 
-- If someone else has made a change that you haven't incorporated into your repo, GitHub will stop you from pushing because it would lose their work!
-- So you need to explicitly "merge" your collaborators' work before you push.
-- If the changes are in different files, or different parts of the same file,
-  git merges the work for you automatically when you *pull*.
-- If you both changed the same part of a file, git will produce a **merge conflict**
-  because it doesn't know how which change to take.
-  
-Git will put conflict markers in your code that look like:
-
-```
-<<<<<<< HEAD
-See also: [re docs](https://docs.python.org/3/library/re.html)  
-=======
-See also [re docs](https://docs.python.org/3/library/re.html)  
->>>>>>> master
-```
-
-The `===`s separate *your* changes (top) from *their* changes (bottom)
-
-Your job is to *reconcile* the changes: edit the file so that it incorporates
-the best of both versions and delete the `<<<`, `===`, and `>>>` lines. Then
-Stage and Commit the result.
-
-### Setup
-
-- Clone the repo and open the .Rmd file.
-- Assign the numbers 1, 2, 3, and 4 to each of the team members. Some people will need to have multiple numbers.
-
-### Let's cause a merge conflict!
-
-Our goal is to see two different types of merges: first we'll see one that git
-can't figure out on its own (a "merge conflict"), then one that it can figure out.
-
-Doing this will require some tight choreography, so pay attention.
-
-Take turns in completing the exercise, only one member at a time. **Others should just watch, not doing anything on their own checkouts (including pull)** until they are instructed to.
-
-- **Before starting**: everyone should have the repo checked out and know which role number(s) they are.
-
-- **Role 1:**
-
-  * Change the team name to your actual team name.
-  * Knit, commit, push.  
-
-`r emo::ji("stop_sign")` Wait for instructions before moving on to the next step.
-
-- **Role 2:**
-
-  * Change the team name to some other word.
-  * Knit, commit, push. You should get an error.
-  * Pull. Take a look at the document with the merge conflict.
-  * Clear the merge conflict by choosing the correct/preferred change.
-  * Knit.
-  * **Click the Stage checkbox** for all files in your Git tab. Make sure they
-    all have check marks, not filled-in boxes.
-  * Commit and push.  
-
-`r emo::ji("stop_sign")` Wait for instructions before moving on to the next step.
-
-- **Role 3:**
-
-  * Add a label to the first code chunk
-  * Knit, commit, push. You should get an error.
-  * Pull. No merge conflicts should occur, but you should see a message about merging.
-  * Now push.
-
-`r emo::ji("stop_sign")` Wait for instructions before moving on to the next step.
-
-- **Role 4:**
-
-  * Add a different label to the first code chunk.
-  * Knit, commit, push. You should get an error.
-  * Pull. Take a look at the document with the merge conflict. Clear the merge conflict by choosing the correct/preferred change. Commit, and push.  
-`r emo::ji("stop_sign")` Wait for instructions before moving on to the next step.  
-
-- **All members:** Pull, and observe the changes in your document.
-
-### Tips for collaborating via GitHub
-
-- Always pull first before you start working.
-- Resolve a merge conflict (commit and push) *before* continuing your work. Never do
-  new work while resolving a merge conflict.
-- Knit, Commit, and Push often to minimize merge conflicts and/or to make merge conflicts easier to resolve.
-- If you find yourself in a situation that is difficult to resolve, ask questions ASAP. Don't let it linger and get bigger.
-
-(Optional further reading: [Merge conflicts in the classroom](https://github.blog/2018-08-22-merge-conflicts-in-the-classroom/).)
+Pull your portfolio repo as usual.
 
 ## Take a sad plot and make it better
 
@@ -154,7 +60,6 @@ of faculty for each year.
 staff
 ```
 
-Before we start: *in what way is this data not tidy*? 
 To recreate this visualization we need to make it tidy.
 We'll need the data to have one variable for faculty type and one variable for year. In other words, 
 we will convert the data from *wide* format to *long* format. 
@@ -163,7 +68,7 @@ But before we do so, a thought exercise: *How many rows will the long-format dat
 It will have a row for each combination of year and faculty type.
 If there are 5 faculty types and 11 years of data, how many rows will we have?
 
-We do the wide to long conversion using a function we met last week: `pivot_longer()`. 
+We do the wide to long conversion using a function we met this week: `pivot_longer()`. 
 Since we only saw it once there, let's slow down here and review how it works.
 The animation below show how this function works, as well as its counterpart 
 `pivot_wider()`.
