@@ -1,11 +1,10 @@
 ---
-title: "Lab 05 - Ugly charts"
-author: "YOUR TEAM NAME"
-date: "TODAY'S DATE"
-output: github_document
+title: "Guided Exercise 6 - Sad plots"
+author: "NAME"
+output: prettydoc::html_pretty
 ---
 
-### Load packages and data
+## Load packages and data
 
 ```{r load-packages, message=FALSE}
 library(tidyverse) 
@@ -17,14 +16,14 @@ fisheries <- read_csv("data/fisheries.csv")
 ```
 
 
-### Exercise 1
+## Exercise 1
 
 
 
-### Exercise 2
+## Exercise 2
 
 
 
-### Exercise 3
+## Exercise 3
 
 
