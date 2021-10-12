@@ -284,7 +284,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol start="8" style="list-style-type: decimal">
 <li>Write a function to perform the analysis for a given state. The function should take a state name (e.g., <code>&quot;NC&quot;</code>) and return the distances from each La Quinta location in that state to the closest Denny’s.</li>
 </ol>
-<p>Here’s the outline of how to write an R function for this:</p>
+<p>Remember what you learned in CS 104/6/8 about functions:</p>
+<ul>
+<li>Functions let us bundle up a multi-part computation (like our distance calculations here) and give it a name.</li>
+<li>Functions can take <em>parameters</em>, which work like placeholders that can get filled in with different values (like different states).</li>
+<li>Functions have a <em>local scope</em>: variables you define inside a function stay inside of it.</li>
+<li>Functions can <em>return</em> a value: when we evaluate <code>sqrt(4) - 1</code>, the <code>sqrt</code> function <em>returns</em> 2… and that gets substituted on the left side of the subtraction so we evaluate <code>2 - 1</code> to get 1.</li>
+</ul>
+<p>R functions work pretty much the same way as Python functions. The syntax is slightly different so I’ll help you with it. Here’s the outline of how to write an R function for this:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>compute_closest_dennys <span class="ot">&lt;-</span> <span class="cf">function</span>(the_state) {</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  dn_state <span class="ot">&lt;-</span> dennys <span class="sc">%&gt;%</span> </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(state <span class="sc">==</span> the_state)</span>
@@ -295,10 +302,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute distances</span></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute distance to closest Denny&#39;s for each La Quinta location.</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(dist_to_closest)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute distance to closest Denny&#39;s for each La Quinta location,</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># assign it to &quot;dist_to_closest&quot;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  dist_to_closest <span class="ot">&lt;-</span> ...</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(dist_to_closest)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><em>Caution</em>: You should copy and paste from your earlier code, but be sure to change everything from Alaska-specific.</p>
 <p><em>Optional aside</em>: It turns out that a full join isn’t quite the best join for this. Can you think of a case where <code>full_join</code> gives some unwanted results?</p>
 <ol start="9" style="list-style-type: decimal">
