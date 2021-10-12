@@ -113,13 +113,15 @@ otherwise students need to accept an emailed invite, and they can lose the email
 Now let's create portfolio repos for everyone.
 
 ```{r eval=FALSE}
-repo_set_template(paste0(ghorg, "/", "portfolio-reference"))
-org_create_assignment(
-  org = ghorg,
-  user = student_repos$username,
-  repo = student_repos$portfolio_repo,
-  source_repo = paste0(ghorg, "/", "portfolio-reference")
-)
+if (FALSE) {
+  repo_set_template(paste0(ghorg, "/", "portfolio-reference"))
+  org_create_assignment(
+    org = ghorg,
+    user = student_repos$username,
+    repo = student_repos$portfolio_repo,
+    source_repo = paste0(ghorg, "/", "portfolio-reference")
+  )
+}
 ```
 
 # Deploy assignments
@@ -154,7 +156,7 @@ deploy_assignment <- function(path, deploy_solutions = FALSE) {
   deploy_assignment_files(files)
 }
 
-#deploy_assignment("ex/ex03-more-plots")
+deploy_assignment("ex/ex06-sad-plot")
 #deploy_assignment("hw/hw02-vis")
 
 # If oops:
@@ -173,7 +175,10 @@ roster_with_repos <- roster %>%
   mutate(slugname = str_replace_all(paste0(fname, last_name), "[^A-Za-z]", "")) %>% 
   select(fname, last_name, slugname, github, email_address) %>% 
   left_join(student_repos, by = c('github' = 'username')) %>% 
-  mutate(branch = glue("{slugname}-main"))
+  mutate(
+    branch = glue("{slugname}-main"),
+    worktree = glue("../portfolio-{slugname}"),
+    worktree_full = paste0(portfolio_clone_path, '/', worktree))
 roster_with_repos
 ```
 
@@ -189,9 +194,16 @@ roster_with_repos %>%
 Fetch all.
 
 ```{r}
+# Fetch
 roster_with_repos %>% 
   rowwise() %>% 
   group_walk(~ system2('git', c('-C', portfolio_clone_path, 'fetch', .$slugname)))
+
+# Pull from worktrees
+roster_with_repos %>% 
+  rowwise() %>% 
+  group_walk(~ system2('git', c('-C', .$worktree_full, 'pull')))
+
 ```
 
 Setup branches (one-time)
@@ -200,6 +212,41 @@ Setup branches (one-time)
 roster_with_repos %>% 
   rowwise() %>% 
   group_walk(~ system2('git', c('-C', portfolio_clone_path, 'branch', paste0(.$slugname, "-main"), paste0(.$slugname, "/main"))))
+```
+
+
+Setup worktrees
+
+```{r eval=FALSE}
+roster_with_repos %>% 
+  rowwise() %>% 
+  group_walk(~ system2('git', c('-C', portfolio_clone_path, 'worktree', 'add', .$worktree, .$branch)))
+```
+
+Make pdf's for hw3.
+
+```{r eval=FALSE}
+roster_with_repos %>% 
+  rowwise() %>% 
+  group_walk(~ paste0(portfolio_clone_path, '/', .$worktree, "/hw/hw03-wrangling/hw03-wrangling.html") %>% pagedown::chrome_print())
+```
+
+Pull out submission for hw3.
+
+```{r eval=FALSE}
+roster_with_repos %>% 
+  rowwise() %>% 
+  group_walk(~ file.copy(
+    paste0(portfolio_clone_path, '/', .$worktree, "/hw/hw03-wrangling/hw03-wrangling.pdf"),
+    paste0("hw3-", .$slugname, ".pdf")))
+```
+
+
+
+```{r eval=FALSE}
+roster_with_repos %>% 
+  rowwise() %>% 
+  group_walk(~ )
 ```
 
 
@@ -219,5 +266,16 @@ tibble(file = c("iris.csv", "mtcars.csv"),
       write_csv(data[[1]], file)
     })
   })
+```
+
+
+```{r}
+roster
+```
+
+```{r}
+roster %>% 
+  select(1:3) %>% 
+  write_csv("gradescope_roster.csv")
 ```
 
