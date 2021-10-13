@@ -272,7 +272,33 @@ div.tocify {
 <li><strong>Organization-centered</strong>: Pick an organization that you’re interested in (company, NGO, government agency, sports team, hospital, school, scientific community, etc.) and find some graphic that is helpful for them as they make decisions.</li>
 <li><strong>Issue-centered</strong>: Pick an issue that’s important to you. Find a news article or opinion piece about that issue, ideally one that you <em>disagree</em> with, and try to replicate a visual that they’d use to support their claims.</li>
 </ul>
+<div id="your-plot" class="section level4">
+<h4>Your plot</h4>
+<ul>
+<li>Should make an interesting <em>claim</em>.
+<ul>
+<li>Shouldn’t just be <em>about</em> something (e.g., “number of wins by each athlete”)</li>
+<li>Most interesting claims are about <em>relationships</em> (e.g,. “the highest paid athletes don’t necessarily win more”)</li>
+</ul></li>
+<li>Should involve more than 2 variables.
+<ul>
+<li>Ideally they have to come from 2 separate data sources that you have to bring together.</li>
+</ul></li>
+<li>Should have some room for improvement, i.e., you’d be interested in trying a different way of presenting the data.</li>
+</ul>
 <p>If you are really stuck, I can simply assign something to do, but I’m hoping to avoid that.</p>
+</div>
+<div id="your-data" class="section level4">
+<h4>Your data</h4>
+<ul>
+<li>Should come from a reputable source.
+<ul>
+<li>If you use an aggregator site like OurWorldInData, try to track down where <em>they</em> got the data.</li>
+</ul></li>
+<li>Should require at least a little bit of wrangling (beware of sites where you can download <em>exactly</em> the data for a specific plot)</li>
+</ul>
+<p>There should be something interesting about the process of getting to the data frame that you plot. For example, you can focus on wrangling and manipuating the data, or you can focus on analyzing and critiquing the data collection process.</p>
+</div>
 </div>
 <div id="report-outline" class="section level3">
 <h3>Report Outline</h3>
@@ -588,7 +614,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2,h3,h4",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {

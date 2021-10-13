@@ -3,6 +3,7 @@ title: Projects
 output:
   html_document:
     toc: true
+    toc_depth: 4
     toc_float: true
 ---
 
@@ -35,7 +36,25 @@ You can pick one of these approaches:
 - **Organization-centered**: Pick an organization that you're interested in (company, NGO, government agency, sports team, hospital, school, scientific community, etc.) and find some graphic that is helpful for them as they make decisions.
 - **Issue-centered**: Pick an issue that's important to you. Find a news article or opinion piece about that issue, ideally one that you *disagree* with, and try to replicate a visual that they’d use to support their claims.
  
+#### Your plot
+
+- Should make an interesting *claim*.
+  - Shouldn't just be *about* something (e.g., "number of wins by each athlete")
+  - Most interesting claims are about *relationships* (e.g,. "the highest paid athletes don't necessarily win more")
+- Should involve more than 2 variables.
+  - Ideally they have to come from 2 separate data sources that you have to bring together.
+- Should have some room for improvement, i.e., you'd be interested in trying a different way of presenting the data.
+
 If you are really stuck, I can simply assign something to do, but I’m hoping to avoid that.
+
+#### Your data
+
+- Should come from a reputable source.
+  - If you use an aggregator site like OurWorldInData, try to track down where *they* got the data.
+- Should require at least a little bit of wrangling (beware of sites where you can download *exactly* the data for a specific plot)
+
+There should be something interesting about the process of getting to the data frame that you plot. For example, you can focus on wrangling and manipuating the data, or you can focus on analyzing and critiquing the data collection process.
+
 
 ### Report Outline
 
