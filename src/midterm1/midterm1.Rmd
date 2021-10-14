@@ -1,14 +1,14 @@
 ---
-title: "Midterm 1"
-author: "K Arnold"
-date: "10/13/2021"
+title: "21FA DATA 202 Midterm 1"
 output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
+library(patchwork)
 library(nycflights13)
+theme_set(theme_bw())
 ```
 
 ## Objectives
@@ -25,22 +25,29 @@ Consider the following two plots.
 
 TODO describe this data, label the plots
 
-```{r}
+```{r plots-to-analyze, fig.asp=1}
 mean_delays_by_hr <- nycflights13::flights %>% 
   filter(!is.na(dep_delay)) %>% 
   group_by(origin, hour) %>% 
   summarize(mean_delay = mean(dep_delay, na.rm = TRUE), .groups = "drop")
 
-mean_delays_by_hr %>% 
+plotA <- mean_delays_by_hr %>% 
   ggplot(aes(x = hour, y = mean_delay, color = origin)) +
     geom_point()
 
-mean_delays_by_hr %>% 
+plotB <- mean_delays_by_hr %>% 
   ggplot(aes(x = origin, y = mean_delay, fill = factor(hour))) +
-    geom_col(position = "dodge")
+    geom_col(position = "dodge") +
+    scale_fill_discrete(guide = guide_legend(nrow = 2, byrow = TRUE)) +
+    theme(legend.position = "bottom") +
+    labs(fill = "hour")
+
+plotA / plotB + plot_annotation(tag_levels = "A")
 ```
 
 1. What type of plot is plot A?
+
+\vspace{2em}
 
 2. What type of plot is plot B?
 
@@ -85,9 +92,49 @@ One with inappropriate aesthetic mapping, e.g., color for date.
   - Name plot type
   - Describe what variable is mapped to what aesthetic.
 
-### Describe structure along a pipeline
+### Predict results of data transformations
 
-- Given a basic group-summarize-arrange-join pipeline, draw the shape of the data, including all column names and a mutually consistent row count.
+```{r}
+set.seed(0)
+flights_sample <- flights %>% slice_sample(n = 10) %>% select(year, month, day, dep_delay, arr_delay, carrier, origin, dest, hour)
+flights_sample 
+```
 
-  
+Give the first two rows of the results of each of the following operations.
+
+```{r}
+flights_sample %>% 
+  arrange(dep_delay)
+```
+
+```{r}
+flights_sample %>%
+  filter(hour > 16 & arr_delay > 0)
+```
+
+
+```{r}
+flights_sample %>% 
+  group_by(origin) %>% 
+  summarize(count = n()) %>% 
+  arrange(desc(count))
+```
+
+```{r}
+flights_sample %>% 
+  filter(origin == "LGA") %>% 
+  left_join(nycflights13::airlines, by = "carrier")
+```
+
+```{r}
+flights_sample %>% 
+  pivot_longer(
+    cols = c('origin', 'dest'),
+    names_to = "role",
+    values_to = "airport") %>% 
+  group_by(role, airport) %>% 
+  summarize(count = n())
+```
+
+
   
