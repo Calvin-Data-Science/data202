@@ -1,0 +1,93 @@
+---
+title: "Midterm 1"
+author: "K Arnold"
+date: "10/13/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(nycflights13)
+```
+
+## Objectives
+
+- Relate the structure of a dataset to the structure of a visualization of it
+- Analyze a visualization in terms of the grammar of graphics.
+- Predict the effects of fundamental data manipulation operations
+- Compose a sequence of data manipulation steps to achieve a desired data manipulation operation
+
+
+## Exercises
+
+Consider the following two plots.
+
+TODO describe this data, label the plots
+
+```{r}
+mean_delays_by_hr <- nycflights13::flights %>% 
+  filter(!is.na(dep_delay)) %>% 
+  group_by(origin, hour) %>% 
+  summarize(mean_delay = mean(dep_delay, na.rm = TRUE), .groups = "drop")
+
+mean_delays_by_hr %>% 
+  ggplot(aes(x = hour, y = mean_delay, color = origin)) +
+    geom_point()
+
+mean_delays_by_hr %>% 
+  ggplot(aes(x = origin, y = mean_delay, fill = factor(hour))) +
+    geom_col(position = "dodge")
+```
+
+1. What type of plot is plot A?
+
+2. What type of plot is plot B?
+
+3. Make a table of the aesthetic mappings for plot A.
+
+4. Make a table of the aesthetic mappings for plot B.
+
+5. Suppose plot A was constructed by supplying `tableA` to a `ggplot` command, and that nothing fancy happens in the `ggplot` (no `geom`s that count rows, no `stat_*` commands, etc.).
+
+  a. Give a plausible example of the first 3 rows of `tableA` (i.e., `head(tableA, 3)`).
+  
+  b. How many rows do you expect `tableA` to have? Write (but do not evaluate) the multiplication expression that you would enter into a simple calculator to give the this result.
+
+6. Repeat problem 5 for plot B.
+
+7. Give an example of something that you can notice about the data (i.e., a comparison you can make) *more easily in plot A than in plot B*.
+
+  a. What is the specific observation you make? (e.g., "The mean delay for XXX is higher for YYY than ZZZ")
+  
+  b. What about the design of the visualization makes that comparison easier in plot A?
+
+8. Repeat problem 7, but for plot B instead.
+
+9. Identify a change to make to plot A that would improve it.
+
+  a. Circle or draw an arrow to the part of the plot that you would change.
+  
+  b. Sketch what that part of the plot would look like after your change.
+  
+10. Repeat problem 9 for plot B.
+
+### Contrast these two plots?
+
+One with inappropriate aesthetic mapping, e.g., color for date.
+
+### Design a vis
+
+- Sketch a *univariate* visualization of one variable of this dataset. Include all needed labels and guides.
+  - Name of the plot type.
+  - Describe what variable is mapped to what aesthetic.
+- Sketch a *bivariate* (or higher dimension) visualization.
+  - Name plot type
+  - Describe what variable is mapped to what aesthetic.
+
+### Describe structure along a pipeline
+
+- Given a basic group-summarize-arrange-join pipeline, draw the shape of the data, including all column names and a mutually consistent row count.
+
+  
+  
