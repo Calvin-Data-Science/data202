@@ -20,27 +20,12 @@ library(learnrhash)
 options(dplyr.summarise.inform = FALSE)
 theme_set(theme_light())
 
+set.seed(0)
+
 car_prices <- readxl::read_excel("data/kuiper.xlsx") %>% janitor::clean_names()
 fuel_eco <- read_csv("data/guide2005-2004oct15.csv") %>% janitor::clean_names()
-
-fuel_eco_avg <- 
-  fuel_eco %>% 
-  group_by(manufacturer, carline_name) %>% 
-  summarize(
-    city = mean(cty),
-    highway = mean(hwy),
-    combined = mean(cmb)
-  )
-
-car_prices_and_eco <- 
-  car_prices %>% 
-  mutate(carline_name = str_to_upper(model)) %>% 
-  left_join(
-    fuel_eco_avg,
-    by = "carline_name")
-
-set.seed(0)
 ```
+
 
 ## Visualization
 
@@ -135,7 +120,7 @@ car_prices %>%
 
 ## Data Wrangling
 
-**What was the most common car `make` in this data set?**
+**Make a table** that clearly shows the most and least common car `make` in this data set.
 
 ```{r most-common-make-sol, include=FALSE}
 car_prices %>% 
@@ -220,11 +205,22 @@ fuel economy for each car. (Use `manufacturer` and `carline_name` to identify ca
 While you're at it, use more sensible names:
 `city`, `highway`, and `combined`. The result should look like:
 
+
+```{r compute-fuel-eco-avg, include=FALSE, eval=TRUE}
+fuel_eco_avg <- 
+  fuel_eco %>% 
+  group_by(manufacturer, carline_name) %>% 
+  summarize(
+    city = mean(cty),
+    highway = mean(hwy),
+    combined = mean(cmb)
+  )
+```
+
+
 ```{r show-fuel-eco-avg, eval=TRUE}
 fuel_eco_avg
 ```
-
-<!-- TODO: don't allow this to use the result variable! -->
 
 ```{r fuel-eco-avg-repro, exercise=TRUE}
 
@@ -253,22 +249,40 @@ ignoring case, leave the fuel economies at `NA` (don't drop the row).
 
 Tip: how many rows should the result have?
 
-**How many rows in `car_prices` didn't match the EPA data?**
+Notes:
 
-<!-- TODO: don't allow this to use the result variable! -->
+- Include a caclucation at the end that shows how many rows in `car_prices` didn't match the EPA data
+- A correct `fuel_eco_avg` data frame is provided for you here, regardless of what you wrote in the previous exercise.
 
-```{r join-repro, exercise=TRUE}
 
+```{r join-repro, exercise=TRUE, exercise.setup = "compute-fuel-eco-avg", exercise.eval=TRUE}
+
+# How many rows didn't match?
 ```
+
+
+```{r compute-join, include=FALSE, eval=TRUE, exercise.setup = "compute-fuel-eco-avg"}
+car_prices_and_eco <- 
+  car_prices %>% 
+  mutate(carline_name = str_to_upper(model)) %>% 
+  left_join(
+    fuel_eco_avg,
+    by = "carline_name")
+```
+
 
 
 ```{r non-matches, include=FALSE}
 car_prices_and_eco %>% 
-  #distinct(model, combined) %>% 
   summarise(n = sum(is.na(combined)), frac = mean(is.na(combined)))
 ```
 
-**Reproduce the following plot** using the `car_prices_and_eco` data frame. *Note*: you will need to reshape the data.
+**Reproduce the following plot** using the `car_prices_and_eco` data frame.
+
+*Notes*:
+
+- You will need to reshape the data.
+- The code will use a correct `car_prices_and_eco` data frame, regardless of what you wrote in the previous exercise.
 
 ```{r price-by-eco}
 car_prices_and_eco %>% 
@@ -280,7 +294,7 @@ car_prices_and_eco %>%
   labs(x = "Fuel Economy", y = "Price ($1000)", color = "Measure")
 ```
 
-```{r price-by-eco-repro, exercise=TRUE}
+```{r price-by-eco-repro, exercise=TRUE, exercise.setup ="compute-join", exercise.eval=TRUE}
 
 ```
 
