@@ -1,5 +1,5 @@
 ---
-title: "Midterm 1"
+title: "Midterm 1 Take-Home Portion"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
@@ -11,9 +11,11 @@ library(learnr)
 library(dplyr)
 library(tidyr)
 library(readr)
+library(scales)
 library(stringr)
 library(forcats)
 library(ggplot2)
+library(learnrhash)
 # Disable a warning message.
 options(dplyr.summarise.inform = FALSE)
 theme_set(theme_light())
@@ -67,6 +69,8 @@ car_prices %>% glimpse()
 
 #### Price by Mileage
 
+*Mileage* refers to how many miles the car has been driven.
+
 **Write code to reproduce the following visualization**, intended to show that
 lower-mileage cars tend to be valued more highly.
 
@@ -80,8 +84,7 @@ car_prices %>%
   ggplot(aes(x = mileage, y = price / 1000, color = type, shape = type)) +
   geom_point() +
   scale_x_continuous(labels = scales::comma) +
-  labs(x = "Mileage (mi)", y = "Price ($1000)") + 
-  theme_light()
+  labs(x = "Mileage (mi)", y = "Price ($1000)")
 ```
 
 ```{r mileage-plot-reproduce, exercise=TRUE}
@@ -103,6 +106,7 @@ car_prices %>%
   facet_wrap(vars(type)) + 
   labs(x = "Mileage (1000 mi)", y = "Price ($1000)")
 ```
+
 ```{r mileage-plot-improved-repro, exercise=TRUE}
 
 ```
@@ -118,10 +122,10 @@ mileage.
 ```{r mileage-lo-hi, echo=FALSE}
 car_prices %>% 
   #group_by(type) %>% 
-  mutate(low_mileage = mileage < median(mileage)) %>% 
+  mutate(low_mileage = if_else(mileage < median(mileage), "Low mileage", "High mileage")) %>% 
   ggplot(aes(y = fct_reorder(type, price), x = price / 1000, color = low_mileage)) +
     geom_boxplot() +
-    labs(y = "", x = "Price ($1000)", color = "Low mileage") +
+    labs(y = "", x = "Price ($1000)", color = "") +
     xlim(c(0, NA))
 ```
 
@@ -144,47 +148,18 @@ car_prices %>%
 
 ```
 
-**Make a table** showing, for each car `type`, what proportion of the listed cars had
-cruise control. Note that the `cruise` column contains a 1 if the listed car
-has cruise control, 0 if it doesn't, so you can use math functions here. Your table should have 5 rows.
-**Sort the table from highest to lowest fraction**.
+**Make a table** showing which car `type` has the highest and lowest average price.
+Include only 4-door cars (`doors`).
 
-Which car type **least frequently** had cruise control?
-
-```{r cruise-control-by-type-sol, include=FALSE}
+```{r price-by-type-table-sol, include=FALSE}
 car_prices %>%
+  filter(doors == 4) %>% 
   group_by(type) %>% 
-  summarise(frac_cruise = mean(cruise)) %>% 
-  arrange(desc(frac_cruise))
+  summarize(avg_price = mean(price)) %>% 
+  arrange(desc(avg_price))
 ```
 
-```{r cruise-control-by-type-sol-alt, include=FALSE}
-car_prices %>%
-  group_by(type, cruise) %>% 
-  summarize(n = n()) %>% 
-  group_by(type) %>%
-  mutate(frac = n / sum(n)) %>% 
-  filter(cruise == 1) %>% 
-  arrange(desc(frac))
-```
-
-```{r cruise-control-repro, exercise=TRUE}
-
-```
-
-
-Do 2-door cars or 4-door (`doors`) cars have bigger engines (`liter` column) on average in this data set?
-
-<!-- TODO: replace this one. Too similar to prev, and mean vs median gives different results. -->
-
-```{r doors-engine-size-sol, include=FALSE}
-car_prices %>%
-  #distinct(Make, Model, Trim, Doors, Liter) %>% 
-  group_by(doors) %>% 
-  summarize(mean_engine_size = mean(liter))
-```
-
-```{r doors-engine-size, exercise=TRUE}
+```{r price-by-type-table, exercise=TRUE}
 
 ```
 
@@ -261,7 +236,9 @@ So none of the EPA's `carline_name`s in `fuel_eco` will match the `model`s in `c
 Let's look at `car_prices` again for reference:
 
 ```{r show-car-prices-head, echo=TRUE}
-car_prices %>% distinct(make, model) %>% head(5)
+car_prices %>%
+  distinct(make, model) %>%
+  head(5)
 ```
 
 But we won't let that stop us! Here's a strategy: ignore case. Specifically:
@@ -276,7 +253,7 @@ ignoring case, leave the fuel economies at `NA` (don't drop the row).
 
 Tip: how many rows should the result have?
 
-**How many distinct car models didn't match the EPA data?**
+**How many rows in `car_prices` didn't match the EPA data?**
 
 <!-- TODO: don't allow this to use the result variable! -->
 
@@ -285,18 +262,18 @@ Tip: how many rows should the result have?
 ```
 
 
-```{r distinct-non-matches, include=FALSE}
+```{r non-matches, include=FALSE}
 car_prices_and_eco %>% 
-  distinct(model, combined) %>% 
+  #distinct(model, combined) %>% 
   summarise(n = sum(is.na(combined)), frac = mean(is.na(combined)))
 ```
 
-**Reproduce the following plot** using the `car_prices_and_eco` dataset.
+**Reproduce the following plot** using the `car_prices_and_eco` data frame. *Note*: you will need to reshape the data.
 
 ```{r price-by-eco}
 car_prices_and_eco %>% 
   pivot_longer(c(city, highway, combined), names_to = "measure", values_to = "economy") %>% 
-  drop_na(economy) %>% 
+  drop_na(economy) %>%  # note: without this the y axis extends longer
   ggplot(aes(x = economy, y = price / 1000, color = fct_relevel(measure, "city", "highway", "combined"))) +
   geom_point(alpha = .5) +
   geom_smooth() +
@@ -309,3 +286,17 @@ car_prices_and_eco %>%
 
 *Note*: I used `fct_relevel` to adjust the order of the measures, but you may 
 leave it at the default order for full credit.
+
+## Submit
+
+```{r context="server"}
+learnrhash::encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+learnrhash::encoder_ui(
+  ui_before = shiny::div(
+    "When you're all done, click the button below to generate a code, then copy and paste it to Moodle."
+  )
+)
+```
