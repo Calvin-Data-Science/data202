@@ -5,10 +5,10 @@ account: ka37
 server: rsconnect.calvin.edu
 hostUrl: https://rsconnect.calvin.edu:3939/__api__
 appId: 164
-bundleId: 496
+bundleId: 501
 url: https://rsconnect.calvin.edu:3939/content/3d0cb5ae-b21a-4e62-8088-1a8c6ba3588e/
-when: 1634180276.37263
-lastSyncTime: 1634180276.37263
+when: 1634308182.01209
+lastSyncTime: 1634308182.0121
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: midterm1.pdf|midterm1.Rmd
+ignoredFiles: header.log|header.tex|midterm1_files/figure-latex/plots-to-analyze-1.pdf|midterm1.log|midterm1.pdf|midterm1.Rmd|midterm1.tex
