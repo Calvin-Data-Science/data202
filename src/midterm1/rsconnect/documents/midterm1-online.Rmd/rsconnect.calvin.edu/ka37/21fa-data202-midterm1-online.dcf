@@ -1,0 +1,14 @@
+name: 21fa-data202-midterm1-online
+title: 21fa-data202-midterm1-online
+username: ka37
+account: ka37
+server: rsconnect.calvin.edu
+hostUrl: https://rsconnect.calvin.edu:3939/__api__
+appId: 164
+bundleId: 496
+url: https://rsconnect.calvin.edu:3939/content/3d0cb5ae-b21a-4e62-8088-1a8c6ba3588e/
+when: 1634180276.37263
+lastSyncTime: 1634180276.37263
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: midterm1.pdf|midterm1.Rmd
