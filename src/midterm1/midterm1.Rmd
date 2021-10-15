@@ -1,6 +1,10 @@
 ---
 title: "21FA DATA 202 Midterm 1"
-output: pdf_document
+output:
+  pdf_document:
+    includes:
+      in_header: header.tex
+    keep_tex: true
 ---
 
 ```{r setup, include=FALSE}
@@ -11,6 +15,8 @@ library(nycflights13)
 theme_set(theme_bw())
 ```
 
+# 21FA DATA 202 Midterm 1
+
 <!-- ## Objectives -->
 
 <!-- - Relate the structure of a dataset to the structure of a visualization of it -->
@@ -20,7 +26,7 @@ theme_set(theme_bw())
 
 In a preparatory exercise you worked with data from the `nycflights13` package, which contains data about flights that departed from New York City (i.e., airports EWR, JFA, and LGA) in 2013. We will be working with the `flights` table, which has one row per flight. Here is a sample containing 10 rows of that table:
 
-```{r echo=TRUE, results='hide'}
+```{r echo=TRUE, results='hide', cache=TRUE}
 set.seed(0)
 flights_sample <- flights %>%
   slice_sample(n = 10) %>%
@@ -136,7 +142,7 @@ plotA / plotB + plot_annotation(tag_levels = "A")
 
 For each of the following pipelines:
 
-- Specify the total number of rows and columns in the result.
+- Specify the *shape*: the total number of rows and columns in the result.
 - Give the first two rows of the result.
 
 All of the pipelines use the table `flights_sample` shown on the first page. Note that it only has `r nrow(flights_sample)` rows, so you can perform all of these operations by hand. 
@@ -145,22 +151,30 @@ Each exercise is 2 points for  **correct** and **complete** column names, 1 poin
 
 #### Exercise 11
 
+Shape:
+
 ```{r echo=TRUE, results='hide'}
 flights_sample %>% 
   arrange(dep_delay)
 ```
+
 \vspace{4em}
 
 #### Exercise 12
+
+Shape:
 
 ```{r echo=TRUE, results='hide'}
 flights_sample %>%
   filter(hour > 16 & arr_delay > 0)
 ```
+
 \vspace{4em}
 
 
 #### Exercise 13
+
+Shape: 
 
 ```{r echo=TRUE, results='hide'}
 flights_sample %>% 
@@ -173,6 +187,8 @@ flights_sample %>%
 
 #### Exercise 14
 
+Shape:
+
 ```{r echo=TRUE, results='hide'}
 flights_sample %>% 
   filter(origin == "LGA") %>% 
@@ -181,6 +197,8 @@ flights_sample %>%
 \vspace{4em}
 
 #### Exercise 15
+
+Shape:
 
 ```{r results='hide', echo=TRUE, message=FALSE}
 flights_sample %>% 
