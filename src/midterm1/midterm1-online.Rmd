@@ -118,6 +118,8 @@ car_prices %>%
 
 ```
 
+Note on ordering: I used `fct_reorder` to reorder the car `type` by `price`, but it's fine if you don't.
+
 ## Data Wrangling
 
 **Make a table** that clearly shows the most and least common car `make` in this data set.
