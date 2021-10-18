@@ -41,7 +41,7 @@ options(
 )
 
 # figure height, width, dpi
-knitr::opts_chunk$set(echo = TRUE,
+knitr::opts_chunk$set(echo = TRUE, comment = "",
                       fig.width = 8,
                       fig.asp = 0.618,
                       out.width = "60%",

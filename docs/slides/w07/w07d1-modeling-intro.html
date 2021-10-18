@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Modeling: Introduction</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="DATA 202 21FA" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Modeling: Introduction
+### DATA 202 21FA
+
+---
+
+
+
+
+
+
+
+
+## Logistics
+
+- Midterm 1 Online Portion is on Moodle
+  - Don't forgot to copy-paste responses and completion code to Moodle
+  - Closes Wed evening
+- Project Milestone 2 due Friday
+- No quiz or Discussion this week
+
+---
+
+## Q&amp;A!
+
+&gt; What kinds of things can functions return?
+
+Anything you can assign to a variable. (numbers, strings, data frames, plots, ...)
+
+&gt; Are `as.numeric` and `as.integer` the same?
+
+&lt;style&gt;.compact-output pre { margin-top: 0; }&lt;/style&gt;
+
+.pull-left[
+
+```r
+as.numeric("1.7")
+```
+
+```
+[1] 1.7
+```
+
+```r
+as.integer("1.7")
+```
+
+```
+[1] 1
+```
+]
+.pull-right[
+
+```r
+as.integer("One Point Seven")
+```
+
+```
+Warning: NAs introduced by coercion
+```
+
+```
+[1] NA
+```
+]
+
+---
+
+
+
+&lt;img src="img/edmunds-estimate.png" width="35%" style="display: block; margin: auto;" /&gt;
+
+What data frame does Edmunds have? Sketch an example. (What are the columns? What does each row represent?)
+
+.floating-source[Edmunds.com]
+
+---
+
+# Missing Data
+
+- Tools so far very good when we have all the data we want.
+- Usually we *don't* -- or even we *can't*. 
+
+Different kinds of missingness:
+
+1. How much will this car / house sell for?
+2. What will Bitcoin trade for at end-of-day today?
+3. What will this addition do to the price of my house?
+4. I feel rotten. Is it Covid?
+5. What word will the user type next on their keyboard?
+6. Will this home-buyer default on their loan?
+
+Discussion:
+
+1. For each of these, discuss **what data is missing** (*why*?).
+2. Which of these situations are similar to each other?
+
+---
+
+## Some terminology
+
+- **Supervised learning**: for each item independently, fill in an unobserved variable
+  - **Regression**: fill in a *number*
+  - **Classification**: fill in a *choice*
+- **Unsupervised learning**: identify *relationships* between items
+- **Forecasting**: predict how a sequence will continue (future observations)
+- **Statistical inference**: fill in summary statistics (we wanted a population but only got a sample)
+- **Causal inference**: fill in counterfactuals (what if?)
+
+---
+
+## Predictive Analytics
+
+Mostly *supervised learning* (*regression* and *classification*), some *forecasting*.
+
+* A powerful tool to turn data into action.
+* It works because God made the universe predictable (and successful prediction rewarding)
+* **Need for wisdom**: It can be used for great good and great harm
+
+---
+
+## Power of Predictive Modeling
+
+* **Medicine**: wearable monitor for seizures or falls, detect malaria from blood smears, find effective drug regimens from medical records
+* **Drug Discovery**: predict the efficacy of a synthesis plan for a drug
+* **Precision Agriculture**: predict effect of micro-climate on plant growth
+* **Urban Planning**: forecast resource needs, extreme weather risks, ...
+* **Government**: classify feedback from constituents
+* **Retail**: predict items in a grocery order
+* **Recommendation systems**: Amazon, Netflix, YouTube, ...
+* **User interfaces**: gesture typing, autocomplete / autocorrect
+
+and so much more...
+
+---
+
+## The universe is surprisingly predictable
+
+* God created the world with actionable structure
+  * We gradually learn how to perceive that structure and act within it.
+  * The better our perceptions align with how the universe is structured, the better our actions
+  * We can discover that structure by learning to be less surprised by what we see ( = predicting our perceptions)
+* Perceptions are thus both accurate and fallable.
+
+---
+
+## Predictive modeling technology: Need for wisdom
+
+* Potential for great good
+* But also great harm:
+  * Lack of **fairness** in facial recognition, sentencing, lending, job applicant scoring, ...
+  * Lack of **transparency** in how "Big Data" systems make conclusions
+  * Lack of **privacy** as data is increasingly collected and aggregated
+  * Amplification of extreme positions in social media, YouTube, etc.
+  * Oversimplification of human experience
+  * Hidden human labor
+  * Illusion of objectivity
+  * ...!
+
+---
+
+## Example: Home Sale Prices
+
+
+
+From Ames, Iowa home sales, 2006-2010. (De Cock, 2011)
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Lot_Area &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Total_Bsmt_SF &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Gr_Liv_Area &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Garage_Cars &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sale_Price &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 31770 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1080 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1656 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 215000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 11622 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 882 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 896 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 105000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 14267 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1329 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1329 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 172000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 11160 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2110 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2110 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 244000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 13830 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 928 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1629 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 189900 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+(2930 total rows)
+
+* *Y*: *response* variable (aka *outcome*, *dependent variable*): `Sale_Price`
+* *X*: *features* (aka *predictors*, *covariates*, etc.): everything else
+
+Note: `X` is much easier to measure than `Y`
+
+---
+
+
+
+
+
+.panelset[
+.panel[.panel-name[Model]
+&lt;img src="w07d1-modeling-intro_files/figure-html/gr_liv_stub-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.panel[.panel-name[Predictions]
+&lt;img src="w07d1-modeling-intro_files/figure-html/decision-tree-example-fit-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

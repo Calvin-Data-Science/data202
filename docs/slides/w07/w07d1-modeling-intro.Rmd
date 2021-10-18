@@ -1,0 +1,226 @@
+---
+title: "Modeling: Introduction"
+author: "DATA 202 21FA"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    self_contained: false
+    nature:
+      ratio: "4:3"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+---
+
+```{r echo=FALSE, results='asis'}
+#getwd()
+#cat(knitr::knit_child('../slide-setup.Rmd', quiet = TRUE), sep = '\n')
+```
+
+
+```{r child = "../slide-setup.Rmd"}
+```
+
+## Logistics
+
+- Midterm 1 Online Portion is on Moodle
+  - Don't forgot to copy-paste responses and completion code to Moodle
+  - Closes Wed evening
+- Project Milestone 2 due Friday
+- No quiz or Discussion this week
+
+---
+
+## Q&A!
+
+> What kinds of things can functions return?
+
+Anything you can assign to a variable. (numbers, strings, data frames, plots, ...)
+
+> Are `as.numeric` and `as.integer` the same?
+
+<style>.compact-output pre { margin-top: 0; }</style>
+
+.pull-left[
+```{r}
+as.numeric("1.7")
+as.integer("1.7")
+```
+]
+.pull-right[
+```{r}
+as.integer("One Point Seven")
+```
+]
+
+---
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+invisible(file.link("../slides.css", "slides.css"))
+invisible(file.link("../xaringan-themer.css", "xaringan-themer.css"))
+```
+
+```{r fig.align='center', echo=FALSE, alt="Edmunds car price estimate", out.width="35%"}
+knitr::include_graphics("img/edmunds-estimate.png")
+```
+
+What data frame does Edmunds have? Sketch an example. (What are the columns? What does each row represent?)
+
+.floating-source[Edmunds.com]
+
+---
+
+# Missing Data
+
+- Tools so far very good when we have all the data we want.
+- Usually we *don't* -- or even we *can't*. 
+
+Different kinds of missingness:
+
+1. How much will this car / house sell for?
+2. What will Bitcoin trade for at end-of-day today?
+3. What will this addition do to the price of my house?
+4. I feel rotten. Is it Covid?
+5. What word will the user type next on their keyboard?
+6. Will this home-buyer default on their loan?
+
+Discussion:
+
+1. For each of these, discuss **what data is missing** (*why*?).
+2. Which of these situations are similar to each other?
+
+---
+
+## Some terminology
+
+- **Supervised learning**: for each item independently, fill in an unobserved variable
+  - **Regression**: fill in a *number*
+  - **Classification**: fill in a *choice*
+- **Unsupervised learning**: identify *relationships* between items
+- **Forecasting**: predict how a sequence will continue (future observations)
+- **Statistical inference**: fill in summary statistics (we wanted a population but only got a sample)
+- **Causal inference**: fill in counterfactuals (what if?)
+
+---
+
+## Predictive Analytics
+
+Mostly *supervised learning* (*regression* and *classification*), some *forecasting*.
+
+* A powerful tool to turn data into action.
+* It works because God made the universe predictable (and successful prediction rewarding)
+* **Need for wisdom**: It can be used for great good and great harm
+
+---
+
+## Power of Predictive Modeling
+
+* **Medicine**: wearable monitor for seizures or falls, detect malaria from blood smears, find effective drug regimens from medical records
+* **Drug Discovery**: predict the efficacy of a synthesis plan for a drug
+* **Precision Agriculture**: predict effect of micro-climate on plant growth
+* **Urban Planning**: forecast resource needs, extreme weather risks, ...
+* **Government**: classify feedback from constituents
+* **Retail**: predict items in a grocery order
+* **Recommendation systems**: Amazon, Netflix, YouTube, ...
+* **User interfaces**: gesture typing, autocomplete / autocorrect
+
+and so much more...
+
+---
+
+## The universe is surprisingly predictable
+
+* God created the world with actionable structure
+  * We gradually learn how to perceive that structure and act within it.
+  * The better our perceptions align with how the universe is structured, the better our actions
+  * We can discover that structure by learning to be less surprised by what we see ( = predicting our perceptions)
+* Perceptions are thus both accurate and fallable.
+
+---
+
+## Predictive modeling technology: Need for wisdom
+
+* Potential for great good
+* But also great harm:
+  * Lack of **fairness** in facial recognition, sentencing, lending, job applicant scoring, ...
+  * Lack of **transparency** in how "Big Data" systems make conclusions
+  * Lack of **privacy** as data is increasingly collected and aggregated
+  * Amplification of extreme positions in social media, YouTube, etc.
+  * Oversimplification of human experience
+  * Hidden human labor
+  * Illusion of objectivity
+  * ...!
+
+---
+
+## Example: Home Sale Prices
+
+```{r include=FALSE}
+ames_home_sales <- AmesHousing::make_ames()
+```
+
+From Ames, Iowa home sales, 2006-2010. (De Cock, 2011)
+
+.small[
+```{r echo=FALSE}
+ames_home_sales %>%
+  select(Lot_Area, Total_Bsmt_SF, Gr_Liv_Area, Garage_Cars, Sale_Price) %>% 
+  head(5) %>% 
+  kableExtra::kbl() %>% 
+    kableExtra::column_spec(5, background = "#8C2131", color = "white")
+```
+]
+(`r nrow(ames_home_sales)` total rows)
+
+* *Y*: *response* variable (aka *outcome*, *dependent variable*): `Sale_Price`
+* *X*: *features* (aka *predictors*, *covariates*, etc.): everything else
+
+Note: `X` is much easier to measure than `Y`
+
+---
+
+```{r include=FALSE}
+library(tidymodels)
+set.seed(10) # Seed the random number generator
+ames_split <- initial_split(ames_home_sales, prop = 2/3) # Split our data randomly
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+```{r echo=FALSE}
+decision_tree_fit <- decision_tree(mode = "regression", tree_depth = 3) %>% #<<
+  set_engine("rpart") %>% 
+  fit(Sale_Price ~ Gr_Liv_Area + Bldg_Type, data = ames_train)
+```
+
+.panelset[
+.panel[.panel-name[Model]
+```{r gr_liv_stub, echo=FALSE, out.width="100%"}
+decision_tree_fit$fit %>% rpart.plot::rpart.plot(roundint = FALSE)
+```
+]
+
+.panel[.panel-name[Predictions]
+```{r decision-tree-example-fit, echo=FALSE, out.width="100%"}
+sweep_model <- function(model, var_to_sweep, sweep_min, sweep_max, ...) {
+  X <- expand_grid(!!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500), ...)
+  model %>% 
+    predict(X) %>% 
+    bind_cols(X)
+}
+ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price / 1000)) +
+  geom_point(alpha = .5, size = .5) +
+  geom_line(data = sweep_model(
+    decision_tree_fit, Gr_Liv_Area, 0, 4000, Bldg_Type = levels(ames_train$Bldg_Type)),
+    mapping = aes(y = .pred / 1000),
+    color = "red") +
+  facet_wrap(vars(Bldg_Type)) +
+  labs(x = "Living Area", y = "Sale Price ($1k)")
+```
+
+]
+]
+
+
