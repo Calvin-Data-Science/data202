@@ -99,7 +99,7 @@ Please follow this general outline (though you may add or remove aspects if need
   * Include your code to replicate the visual, and the result.
   * Briefly describe any difficulties you encountered, both those you
     overcame and those you still have not.
-  * It's ok to not have a perfect graph here. If the essential structure is there,
+  * It's ok to not have a perfect plot here. If the essential structure is there,
     don't worry if the details are a bit different. 
     Focus your attention on making an interesting and polished alternative design.
 * Alternative Designs
@@ -146,7 +146,11 @@ Milestones are due along with the corresponding week's homework.
   - Regarding data:
     - If you are having trouble getting data, the course staff can be of help--but consider alternatives where you can get the data.
     - The data should require *some* wrangling. "Download data for this chart" links are red flags that you may be getting already-wrangled data.
-- **Week 8**: Rough-draft replication
+- **Week 8**: Rough-draft replication.
+  - Fill in the "Overview" and "Data" sections in `datavis.Rmd` in your portfolio repo.
+  - The code in "Wrangling" doesn't need to be complete yet.
+  - Knit-commit-push and submit a PDF.
+  - Email the instructional staff, or ask on Piazza, for what help you'll need!
 - **Week 9**: Refinements
 - **Week 10**: Final write-up
   
