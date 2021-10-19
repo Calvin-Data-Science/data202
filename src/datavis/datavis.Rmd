@@ -1,0 +1,98 @@
+---
+title: "YOUR TITLE HERE"
+author: "YOUR NAME HERE"
+output:
+  prettydoc::html_pretty
+#knit: pagedown::chrome_print
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+<!-- This template is intended to help you structure your report. Remove placeholders like this and make it your own. Not every question needs to be answered for every project, and some projects will have additional questions. -->
+
+## Overview
+
+Original visualization:
+
+```{r original-plot, echo=FALSE}
+# Here is an example of how to include graphics in your report.
+# See https://bookdown.org/yihui/rmarkdown-cookbook/figure-size.html for more details.
+# You can use a URL ("Copy Image Address" etc.) or a file in your repo.
+knitr::include_graphics("https://example.com/your-url-here")
+```
+
+Claim:
+
+> You can put the claim in a "block quote" like this.
+
+
+## Design
+
+<!-- What overall type of visualization was chosen? Why might the author have chosen it? -->
+<!-- What variables are being shown? -->
+<!-- What retinal variables and/or aesthetics were chosen to represent those data variables? -->
+<!--     For at least one of these variables, describe what makes that choice appropriate or inappropriate. -->
+<!-- Overall, what about the visual makes it effective, or ineffective, for making its claim? -->
+
+
+## Data
+
+### Data Overview
+
+<!-- Whether you were able to find the original data (if not, why not?) -->
+<!-- Where the data came from -->
+<!--     Direct URL and/or specific instructions for how to obtain it. -->
+<!--     Under what terms is the source allowing you to use the data? -->
+<!--     Try to trace it upstream as close to the source as you can. -->
+<!--     Who worked with the data on its way to you? (Include names and roles, if applicable.) -->
+<!--     What processing may have happened to it: was it aggregated? Anonymized? etc. -->
+<!-- What might we need to know about the data collection process in order to interpret the data correctly? (e.g., If it’s from a survey–who was surveyed?) -->
+
+### Data Details
+
+<!-- A low-level description of the size and structure of the data (include your data-loading code here) -->
+<!-- What does each row represent? -->
+<!-- How many rows are there? (use inline code: `r nrow(data)` etc.) -->
+<!--   What might be interesting to know about what information the data does, and doesn’t, provide? -->
+
+```{r load-data}
+# your code to load the data here
+```
+
+### Wrangling
+
+<!-- Describe, at a broad level, what you need to do to the data to make it into the form you need for the plot. -->
+
+<!-- Add code blocks, with appropriate names, for wrangling steps. -->
+
+## Replication
+
+<!-- Include your code to replicate the visual, and the result. -->
+<!-- Briefly describe any difficulties you encountered, both those you overcame and those you still have not. -->
+<!-- It’s ok to not have a perfect graph here. If the essential structure is there, don’t worry if the details are a bit different. Focus your attention on making an interesting and polished alternative design. -->
+
+## Alternatives
+
+### Design
+
+<!-- Describe at least two alternative design choices that could be made in visualizing your data. For each design, include: -->
+<!--     What choice did the original visual make? (e.g., to use a particular aesthetic mapping or glyph) -->
+<!--     What’s an alternative choice? (It should be a reasonable choice, but it doesn’t have to be an improvement.) -->
+<!--     How does that change affect how the visual supports the original claim? Can your redesign now support some different claim? -->
+
+### Implementation
+
+<!-- Make a solid attempt to implement your best alternative design. -->
+<!--     If creating it using ggplot/plotly/etc is too challenging, you may include a high-fidelity sketch of what the plot would look like (using PowerPoint or a vector graphics tool), along with a clear description of what you’d need to figure out in order to produce it with code. -->
+
+## Summary
+
+<!-- Now that you’ve gone through the whole process, how has your understanding of, and belief in, the original article’s claim changed? -->
+<!-- How faithful was your replication? -->
+<!-- How successful was your alternative design? -->
+<!-- What follow-up questions and ideas do you have about the data or visualization you worked with? -->
+<!-- What opportunities do you see for extending this work into a final project? e.g., is there some way you could apply predictive modeling? Get better data? Do a more rigorous analysis? etc. “This seems like a dead end” is valid. -->
+<!-- How do you feel about this whole experience? -->
