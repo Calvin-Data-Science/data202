@@ -54,15 +54,15 @@ Consider the following two plots. Both are based on the full `flights` data fram
 mean_delays_by_hr <- nycflights13::flights %>% 
   filter(!is.na(dep_delay)) %>% 
   group_by(origin, hour) %>% 
-  summarize(mean_delay = mean(dep_delay, na.rm = TRUE), .groups = "drop")
+  summarize(mean_dep_delay = mean(dep_delay, na.rm = TRUE), .groups = "drop")
 
 plotA <- mean_delays_by_hr %>% 
-  ggplot(aes(x = hour, y = mean_delay, color = origin, shape = origin)) +
+  ggplot(aes(x = hour, y = mean_dep_delay, color = origin, shape = origin)) +
     geom_point(size = 3) +
   scale_color_viridis_d()
 
 plotB <- mean_delays_by_hr %>% 
-  ggplot(aes(x = origin, y = mean_delay, fill = factor(hour))) +
+  ggplot(aes(x = origin, y = mean_dep_delay, fill = factor(hour))) +
     geom_col(position = "dodge") +
     scale_fill_viridis_d(guide = guide_legend(nrow = 2, byrow = TRUE)) +
     theme(legend.position = "bottom") +
