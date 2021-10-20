@@ -216,9 +216,10 @@ From Ames, Iowa home sales, 2006-2010. (De Cock, 2011)
 
 .small[
 ```{r echo=FALSE}
+set.seed(0)
 ames_home_sales %>%
-  select(Lot_Area, Total_Bsmt_SF, Gr_Liv_Area, Garage_Cars, Sale_Price) %>% 
-  head(5) %>% 
+  select(Lot_Area, Bldg_Type, Gr_Liv_Area, Garage_Cars, Sale_Price) %>% 
+  slice_sample(n = 5) %>% 
   kableExtra::kbl() %>% 
     kableExtra::column_spec(5, background = "#8C2131", color = "white")
 ```
