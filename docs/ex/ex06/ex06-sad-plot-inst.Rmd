@@ -90,8 +90,10 @@ You'll need the following:
 
 4. Make a stacked bar plot instead.
 
-```{r}
+```{r echo=FALSE}
 staff_long %>%
+  group_by(year) %>% 
+  mutate(percentage = percentage / sum(percentage) * 100) %>% 
   ggplot(aes(x = percentage, y = factor(year), fill = faculty_type)) +
   geom_col() +
   scale_fill_viridis_d() +
@@ -100,6 +102,7 @@ staff_long %>%
        caption = "Source: AAUP") +
   theme_minimal()
 ```
+
 
 Notes:
 
@@ -121,8 +124,18 @@ staff_long %>%
 Notes:
 
 - Note the use of a redundant encoding (`shape`). I had to add a `geom_point` layer to draw those.
-- Make sure that the year is handled correctly.
+- Make sure that the year is treated `as.numeric`.
 - If you made changes to earlier code, make sure your earlier plots still work. (You may need to replace `year` with `factor(year)` in those plots, depending on how you did it.)
+
+6. *optional*: Make this data frame. Can you do it starting with your *long*-format data? Can you do it without using `select()`? Tip: `2011` isn't normally a valid variable name, but you can use backticks (next to the 1 key): `` `2011` ``.
+
+```{r echo=FALSE}
+staff_long %>%
+  filter(year == 1975 | year == 2011) %>% 
+  pivot_wider(names_from = "year", values_from = "percentage") %>% 
+  mutate(change = `2011` - `1975`) %>% knitr::kable()
+```
+
 
 
 `r emo::ji("white_check_mark")` `r emo::ji("arrow_up")` *Commit and push your changes to GitHub with an appropriate commit message again. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
@@ -143,9 +156,9 @@ these data `r emo::ji("flushed")`.
 knitr::include_graphics("img/fisheries.png")
 ```
 
-6. Can you help them make improve it? First, brainstorm how you would improve it. Then create the improved visualization and write up the changes/decisions you made as bullet points. It’s ok if some of your improvements are aspirational, i.e. you don’t know how to implement it, but you think it’s a good idea.
+7. Can you help them make improve it? First, brainstorm how you would improve it. Then create the improved visualization and write up the changes/decisions you made as bullet points. It’s ok if some of your improvements are aspirational, i.e. you don’t know how to implement it, but you think it’s a good idea.
 
-7. Create a new data visualisation for these data that implements the improvements you proposed in the previous exercise (or many of them as you can).
+8. Create a new data visualisation for these data that implements the improvements you proposed in the previous exercise (or many of them as you can).
 
 
 ```{r load-data-fisheries, message=FALSE}
