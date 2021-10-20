@@ -31,7 +31,6 @@ class: center, middle, inverse, title-slide
 
 
 
-
 ## Logistics
 
 - Midterm 1 Online Portion is on Moodle
@@ -180,7 +179,57 @@ and so much more...
 
 ---
 
-## Example: Home Sale Prices
+class: center, middle
+
+# Wednesday
+
+---
+
+## Q&amp;A
+
+&gt; How will we code predictive models?
+
+- We'll use `tidymodels`, a toolkit like `tidyverse`. Preview today, practice Friday.
+- We'll need all our `tidyverse` skills to understand our data before modeling it and to visualize our models.
+
+&gt; What are the limits? Can we predict everything?
+
+- Silicon Valley: "Yes!"
+- Wisdom: "No!"
+  - [What failure to predict life outcomes can teach us](https://www.pnas.org/content/117/15/8234)
+  - Predictions can be inaccurate and biased, with disparate impacts on vulnerable people.
+
+
+---
+
+## Different kinds of missing data
+
+- Missing *items*: entire rows not in your data.
+  - Some people didn't fill out your survey.
+  - You only know about people who *did* visit your website, not those that didn't. etc.
+- Missing *observations*: row present, but some observations missing
+  - someone added a product to their cart but didn't buy it, so you don't know their address.
+  - only some people got an expensive diagnostic test. etc.
+
+---
+
+## Why not just ignore what's missing?
+
+- Ignoring missing data leads to [selection bias](https://catalogofbias.org/biases/selection-bias/) and related biases (see catalogofbias.org).
+- Missing *observations* can be exactly the info you need for making a decision, e.g., what price to list your product for.
+- Implications:
+  - **Never** `drop_na()` without explanation.
+  - "The map is not the territory" -- data ≠ objective reality
+
+---
+
+class: center, middle
+
+# Examples of Supervised Learning
+
+---
+
+## Regression Example: Home Sales
 
 
 
@@ -203,45 +252,45 @@ From Ames, Iowa home sales, 2006-2010. (De Cock, 2011)
    &lt;td style="text-align:right;"&gt; 1080 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1656 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 215000 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 215.0 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:right;"&gt; 11622 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 882 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 896 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 105000 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 105.0 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:right;"&gt; 14267 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1329 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1329 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 172000 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 172.0 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:right;"&gt; 11160 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2110 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2110 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 244000 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 244.0 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:right;"&gt; 13830 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 928 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1629 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 189900 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: #8C2131 !important;"&gt; 189.9 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 ]
-(2930 total rows)
+(2412 total rows)
 
-* *Y*: *response* variable (aka *outcome*, *dependent variable*): `Sale_Price`
+* *y*: *response* variable (aka *outcome*, *dependent variable*): `Sale_Price`
 * *X*: *features* (aka *predictors*, *covariates*, etc.): everything else
 
-Note: `X` is much easier to measure than `Y`
+Note: `X` is much easier to measure than `y`
 
 ---
 
@@ -258,8 +307,366 @@ Note: `X` is much easier to measure than `Y`
 &lt;img src="w07d1-modeling-intro_files/figure-html/decision-tree-example-fit-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
+.panel[.panel-name[Model code]
+
+
+```r
+library(tidymodels)
+set.seed(10) # Make consistent train-test splits.
+ames_split &lt;- initial_split(ames_home_sales, prop = 2/3) # Split our data randomly
+ames_train &lt;- training(ames_split)
+ames_test &lt;- testing(ames_split)
+```
+
+
+```r
+*decision_tree_fit &lt;- decision_tree(mode = "regression", tree_depth = 3) %&gt;%
+  set_engine("rpart") %&gt;% 
+  fit(
+    Sale_Price ~ Gr_Liv_Area + Bldg_Type,
+    data = ames_train)
+```
+
+
+Plotting the tree:
+
+
+```r
+decision_tree_fit %&gt;% 
+  extract_fit_engine() %&gt;% 
+  rpart.plot::rpart.plot(roundint = FALSE)
+```
+
+]
 ]
 
+---
+
+## Were those predictions good?
+
+
+```r
+metrics &lt;- yardstick::metric_set(rsq_trad, mae, mape, rmse)
+decision_tree_fit %&gt;% 
+  predict(ames_test) %&gt;% 
+  bind_cols(ames_test) %&gt;% 
+  metrics(truth = Sale_Price, estimate = .pred) %&gt;% 
+  select(-.estimator) %&gt;% knitr::kable()
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; .metric &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; .estimate &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; rsq_trad &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5254953 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; mae &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 35.3756288 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; mape &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.1170598 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; rmse &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 50.5840333 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+- Traditional R^2 (fraction of variance explained)
+- MAE: Mean Absolute Error ("predictions are usually off by $xxx")
+- MAPE: Mean Absolute Percent Error ("predictions are usually off by yy%")
+- RMSE: Root Mean Squared Error: mathy, but sorta like the standard deviation
+
+---
+
+## Classification example: Can a blood test diagnose autism?
+
+We'll use an example from a [2017 PLOS Computational Biology paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385)
+
+
+
+
+
+
+
+```r
+autism
+```
+
+```
+# A tibble: 206 × 26
+  Group Methion.   SAM   SAH `SAM/SAH` `% DNA methylatio… `8-OHG`
+  &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;              &lt;dbl&gt;   &lt;dbl&gt;
+1 ASD       17.3  56.2 15.2       3.69               3.35   0.055
+2 ASD       14.9  37.2  7.58      4.91               3.04   0.045
+3 ASD       15.9  37.9  9.87      3.84               2.81   0.058
+4 ASD       18.7  79.2 24.5       3.23               4.24   0.085
+5 ASD       21.5  77.6 19.2       4.04               3.49   0.041
+6 ASD       18.1  67.6 12.8       5.30               3.01   0.156
+# … with 200 more rows, and 19 more variables: Adenosine &lt;dbl&gt;,
+#   Homocysteine &lt;dbl&gt;, Cysteine &lt;dbl&gt;, Glu.-Cys. &lt;dbl&gt;,
+#   Cys.-Gly. &lt;dbl&gt;, tGSH &lt;dbl&gt;, fGSH &lt;dbl&gt;, GSSG &lt;dbl&gt;,
+#   fGSH/GSSG &lt;dbl&gt;, tGSH/GSSG &lt;dbl&gt;, Chlorotyrosine &lt;dbl&gt;,
+#   Nitrotyrosine &lt;dbl&gt;, Tyrosine &lt;dbl&gt;, Tryptophane &lt;dbl&gt;,
+#   fCystine &lt;dbl&gt;, fCysteine &lt;dbl&gt;, fCystine/fCysteine &lt;dbl&gt;,
+#   % oxidized &lt;dbl&gt;, Vineland ABC &lt;dbl&gt;
+```
+
+
+---
+
+We have 3 kinds of data about 206 children:
+
+1. The outcome (`Group`): ASD (diagnosed with ASD), SIB (sibling not diagnosed with ASD), and NEU (age-matched neurotypical children, for control)
+
+
+```r
+autism %&gt;% group_by(Group) %&gt;% summarize(n = n()) %&gt;% knitr::kable()
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Group &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ASD &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 83 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; NEU &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 76 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; SIB &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 47 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+1. The outcome (`Group`): ASD, SIB, NEU
+2. Concentrations of various metabolites in a blood sample:
+
+
+```r
+autism %&gt;% select(-1, -last_col())
+```
+
+```
+# A tibble: 206 × 24
+  Methion.   SAM   SAH `SAM/SAH` `% DNA methylation` `8-OHG`
+     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;               &lt;dbl&gt;   &lt;dbl&gt;
+1     17.3  56.2 15.2       3.69                3.35   0.055
+2     14.9  37.2  7.58      4.91                3.04   0.045
+3     15.9  37.9  9.87      3.84                2.81   0.058
+4     18.7  79.2 24.5       3.23                4.24   0.085
+5     21.5  77.6 19.2       4.04                3.49   0.041
+6     18.1  67.6 12.8       5.30                3.01   0.156
+# … with 200 more rows, and 18 more variables: Adenosine &lt;dbl&gt;,
+#   Homocysteine &lt;dbl&gt;, Cysteine &lt;dbl&gt;, Glu.-Cys. &lt;dbl&gt;,
+#   Cys.-Gly. &lt;dbl&gt;, tGSH &lt;dbl&gt;, fGSH &lt;dbl&gt;, GSSG &lt;dbl&gt;,
+#   fGSH/GSSG &lt;dbl&gt;, tGSH/GSSG &lt;dbl&gt;, Chlorotyrosine &lt;dbl&gt;,
+#   Nitrotyrosine &lt;dbl&gt;, Tyrosine &lt;dbl&gt;, Tryptophane &lt;dbl&gt;,
+#   fCystine &lt;dbl&gt;, fCysteine &lt;dbl&gt;, fCystine/fCysteine &lt;dbl&gt;,
+#   % oxidized &lt;dbl&gt;
+```
+
+---
+
+1. The outcome (`Group`): ASD, SIB, NEU
+2. Concentrations of various metabolites in a blood sample
+3. For the ASD children only, a measure of life skills ("Vineland ABC")
+
+
+```r
+autism %&gt;% 
+  ggplot(aes(x = `Vineland ABC`, y = Group)) + geom_boxplot()
+```
+
+```
+Warning: Removed 159 rows containing non-finite values
+(stat_boxplot).
+```
+
+&lt;img src="w07d1-modeling-intro_files/figure-html/show-behavior-score-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Exploratory Data Analysis (EDA)
+
+What do these metabolites look like?
+
+&lt;img src="w07d1-modeling-intro_files/figure-html/bad-metabolite-plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+code for the previous plot:
+
+```r
+library(ggridges)
+autism %&gt;%
+  select(-`Vineland ABC`) %&gt;% 
+  pivot_longer(-Group, names_to = "Measure") %&gt;% 
+  ggplot(aes(x = value, y = Measure)) +
+  geom_density_ridges() + 
+  facet_wrap(vars(Group), scales = "free_x")
+```
+
+---
+
+## EDA
+
+Better question: **Can these metabolites help us distinguish autism?**
+
+---
+
+&lt;img src="w07d1-modeling-intro_files/figure-html/ridgeplot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+code for previous plot:
+
+
+```r
+autism %&gt;%
+  select(-`Vineland ABC`) %&gt;% 
+  pivot_longer(-Group, names_to = "Measure") %&gt;% 
+  ggplot(aes(x = value, y = Group)) +
+  geom_density_ridges() +
+  facet_wrap(vars(Measure), scales = "free_x") + 
+  theme_ridges()
+```
+
+---
+
+## Can we predict ASD vs non-ASD from metabolites?
+
+* Let's start by (1) ignoring the behavior scores (that's an *outcome*) and comparing
+just ASD and NEU.
+* We need to drop SIB and encode `Group` as a factor.
+
+
+```r
+data &lt;- autism %&gt;% 
+  select(-`Vineland ABC`) %&gt;% 
+  filter(Group != "SIB") %&gt;% 
+  mutate(Group = as_factor(Group))
+```
+
+---
+
+## Decision Tree *Classification*
+
+
+```r
+spec &lt;- workflow() %&gt;% add_recipe(
+* recipe(Group ~ ., data = data)) %&gt;%
+* add_model(decision_tree(mode = "classification") %&gt;% set_engine("rpart"))
+model &lt;- spec %&gt;% fit(data)
+```
+
+
+&lt;img src="w07d1-modeling-intro_files/figure-html/show-tree-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### What do the *predictions* look like?
+
+
+```r
+model %&gt;% predict(data, type = "prob")
+```
+
+```
+# A tibble: 159 × 2
+  .pred_ASD .pred_NEU
+      &lt;dbl&gt;     &lt;dbl&gt;
+1     0.959    0.0411
+2     0.959    0.0411
+3     0.959    0.0411
+4     0.959    0.0411
+5     0.959    0.0411
+6     0.959    0.0411
+# … with 153 more rows
+```
+
+---
+
+### Were those predictions *good*?
+
+.small-code[
+
+```r
+model %&gt;%
+  predict(data, type = "prob") %&gt;%
+  bind_cols(data) %&gt;% 
+  mutate(idx = row_number()) %&gt;% 
+  ggplot(aes(x = idx, y = .pred_ASD, color = Group, shape = Group)) +
+  geom_hline(yintercept = .5) +
+  geom_point() 
+```
+
+&lt;img src="w07d1-modeling-intro_files/figure-html/plot-predicted-probs-tree-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Quantifying that:
+
+
+```r
+metrics &lt;- yardstick::metric_set(accuracy, sensitivity, specificity)
+model %&gt;% 
+  predict(data, type = "class") %&gt;% 
+  bind_cols(data) %&gt;% 
+  metrics(truth = Group, estimate = .pred_class)
+```
+
+```
+# A tibble: 3 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.912
+2 sens     binary         0.928
+3 spec     binary         0.895
+```
+
+---
+
+## Classification Metrics
+
+|                      | Event happened              | No event happened           |
+|----------------------|-------------------------------|-------------------------------|
+| Event predicted    | True positive                 | False positive (Type 1 error) |
+| No event predicted | False negative (Type 2 error) | True negative                 |
+
+--
+
+- **Accuracy** (% correct) = (TP + TN) / (# episodes)
+- **False negative** ("miss") **rate** = FN / (# actual events)
+- **False positive** ("false alarm") **rate** = FP / (# true non-events)
+
+--
+
+- **Sensitivity** ("true positive rate") = TP / (# actual events)
+  - Sensitivity = 1 − False negative rate
+- **Specificity** ("true negative rate") = TN / (# actual events)
+  - Specificity = 1 − False positive rate
+- [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
