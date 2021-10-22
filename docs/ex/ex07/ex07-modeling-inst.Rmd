@@ -1,0 +1,276 @@
+---
+title: "Guided Exercise 07 - Modeling Intro"
+output: 
+  tufte::tufte_html:
+    css: ../ex.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+library(tidyverse)
+library(tidymodels)
+theme_set(theme_bw())
+```
+
+The goal of this exercise is to start getting familiar with modeling. We'll try the same *regression* task that we saw in the slides,
+and we'll use a *decision tree* model just like we did there.
+
+If you want to read more about `tidymodels`, you can read some of the
+[tidymodels docs](https://www.tidymodels.org/) or [Tidy Modeling with R](https://www.tmwr.org/models.html).
+But those get deep into the details quickly; stick with us here and you'll be ok.
+
+## Getting started
+
+Pull your portfolio repo as usual.
+
+We'll be using the Ames home sales dataset that we saw in class.
+If you're curious, you can look at the [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
+that the author provided.
+In the [original paper](http://jse.amstat.org/v19n3/decock.pdf), 
+the author suggests working with a
+subset of the data. So let's do that:
+
+```{r load-and-subset-data}
+# Get the data from the "modeldata" package, which comes with tidymodels.
+data(ames, package = "modeldata")
+ames <- ames %>% 
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>% 
+  mutate(Sale_Price = Sale_Price / 1000)
+```
+
+
+## Exploratory analysis
+
+Good analysis starts by exploring the data. One compelling way to explore data
+is by making plots. Let's make one together.
+
+::: {.exercises}
+
+1. In your report, use inline code to report how many homes we're working with (after the above filtering).
+
+2. Make a plot of how the sale price (`Sale_Price`) related to the number of square feet of above-grade living area (`Gr_Liv_Area`)
+for different building types (`Bldg_Type`).
+
+Your graph might look something like this:
+
+```{r eda-living-area, echo=FALSE}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(size = .1, alpha = .25) +
+  facet_wrap(vars(Bldg_Type)) +
+  labs(x = "above-grade living area (ft^2)", y = "Sale Price ($1k)")
+```
+
+
+## Modeling
+
+We will now go through the basic steps of making a predictive model. We will add
+on to this workflow later, but this is a good start.
+
+Each step will provide the full code for you.
+
+### Hold out some unseen data
+
+Remember that our goal is to be able to *predict* what homes will sell for *before* they're sold.
+
+But our dataset has only homes that were already sold. How can we possibly figure out how well we'd predict a sale price *before* it's sold?
+
+Our strategy, which we'll discuss more in future weeks, will be to *hold out* a "testing set" of homes.
+We won't let our model see the actual sale price for these homes.
+
+The homes where we do show the model the sale price we'll call the "training" homes.
+
+We'll make this split randomly but consistently: we'll first *seed* the random number generator so it always gives the same sequence of numbers.
+
+```{r}
+set.seed(1234)
+
+# Split our data randomly
+ames_split <- initial_split(ames, prop = 2/3) 
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+3. How many home sales were in the training set? The testing set?
+
+
+### Construct a model specification
+
+The basic `tidymodels` interface is
+
+> `fit(model_spec, formula, data)`
+
+- `model_spec`: the kind of model we want to fit. We'll use a `decision_tree` in `regression` mode. We'll tell it we want trees that are at most 3 levels deep.
+- `formula`
+  - this goes *thing-to-predict* `~` *var1* `+` *var2* `+` ...
+  - In our case, well use `Gr_Liv_Area` and `Bldg_Type` to predict `Sale_Price`.
+- `data`: we'll give the tree-builder our *training* data to use to try to find a good tree.
+
+The result is a *model* object, which can make predictions for us.
+
+```{r fit-dt-ames}
+decision_tree_fit <- fit(
+  decision_tree(mode = "regression", tree_depth = 3),
+  
+  Sale_Price ~ Gr_Liv_Area + Bldg_Type,
+  
+  data = ames_train)
+```
+
+### Visualize the Model Internals
+
+If we just show the model object, we get a crude representation of its internals:
+
+```{r}
+decision_tree_fit
+```
+
+To make a more visual representation, we can use the `rpart.plot` package.
+
+```{r}
+decision_tree_fit %>% 
+  extract_fit_engine() %>% 
+  rpart.plot::rpart.plot(roundint = FALSE)
+```
+
+4. How many groups does the tree divide the data into?
+
+### Visualize the Model's Predictions
+
+We can ask the model for its predictions by using `predict`. Let's get predictions for the *training* homes (the same homes we built the tree with):
+
+```{r}
+ames_train_predictions <- 
+  decision_tree_fit %>% 
+    predict(ames_train)
+ames_train_predictions
+```
+
+5. How many predictions did the model make?
+
+Let's compare the predictions with the true sale prices. To do this, we'll want the predictions and the original data in the same data frame.
+Since they line up row-by-row, we can just staple the predictions column to the end:
+
+```{r}
+bind_cols(ames_train_predictions, ames_train)
+```
+
+Usually I do this in a single pipeline:
+
+```{r}
+ames_train_predictions <- 
+  decision_tree_fit %>% 
+    predict(ames_train) %>% 
+    bind_cols(ames_train)
+```
+
+
+Make the following plot (which I intentionally haven't labeled well, to help you make it). (*note*: the column name is `.pred`, with a period at the beginning. They named it that way just in case there was already a column named `pred`.)
+
+```{r resid-by-true, echo=FALSE}
+ames_train_predictions %>% 
+  ggplot(aes(x = Sale_Price, y = Sale_Price - .pred)) +
+    geom_point()
+```
+
+6. Just looking at the plot: are these good predictions? About how far off are they?
+
+### Quantify the Model's Performance
+
+To quantify the model's error, let's compute the *mean absolute error*.
+
+```{r}
+ames_train_predictions %>% 
+  mutate(error = Sale_Price - .pred) %>% 
+  summarize(mean(abs(error)))
+```
+
+The `yardstick` package includes functions that compute this and other metrics:
+
+```{r}
+metrics <- yardstick::metric_set(rsq_trad, mae, mape, rmse)
+ames_train_predictions %>% 
+  metrics(truth = Sale_Price, estimate = .pred) %>% 
+  select(-.estimator)
+```
+
+### Quantify the model's performance on the *test* set
+
+So far we've been evaluating the model's performance on the *training* set.
+
+But we already know the sale prices for those homes, so why do we really care about predicting them?
+
+What we'd really like to know is how well we'd predict the sale price for homes
+that our model never actually saw.
+
+Good thing we held out a *test set*!
+
+7. Repeat the visualization and quantification for the *test* set.
+
+### Tweak hyperparameters
+
+8. Try tweaking the `tree_depth` parameter. Try adding or removing features. How do those affect the model?
+
+:::
+
+
+## Appendix
+
+Here's the code I used in the slides to plot the model predictions. I needed a few extra things:
+
+- `sweep_model` is a helper function to try out all combinations of multiple variables: all the living area values for each building type.
+  The `tidyr::expand_grid` function helped me out there!
+- Individual `geom`s can be given a different `data` than the whole `ggplot`. I used that to draw the lines.
+
+```{r sweep-model}
+sweep_model <- function(model, ...) {
+  X <- expand_grid(...)
+  model %>% 
+    predict(X) %>% 
+    bind_cols(X)
+}
+
+ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(alpha = .5, size = .5) +
+  geom_line(data = sweep_model(
+      decision_tree_fit,
+      Gr_Liv_Area = seq(0, 4000, length.out = 500),
+      Bldg_Type = levels(ames_train$Bldg_Type)
+    ),
+    mapping = aes(y = .pred),
+    color = "red") +
+  facet_wrap(vars(Bldg_Type)) +
+  labs(x = "Living Area", y = "Sale Price ($1k)")
+```
+
+
+```{r echo=FALSE}
+ames_test_predictions <- 
+  decision_tree_fit %>% predict(ames_test) %>% bind_cols(ames_test)
+```
+
+Here's some results I got. I used this:
+
+```{r}
+all_preds <- bind_rows(
+  train = ames_train_predictions,
+  test = ames_test_predictions,
+  .id = 'set',
+)
+```
+
+
+```{r resid-by-true-test, echo=FALSE}
+all_preds %>% 
+  ggplot(aes(x = Sale_Price, y = Sale_Price - .pred, color = set)) +
+    geom_point(size = .5, alpha = .5)
+
+all_preds %>%
+  group_by(set) %>% 
+  metrics(truth = Sale_Price, estimate = .pred) %>% 
+  arrange(desc(set)) %>% 
+  select(-.estimator) %>% 
+  pivot_wider(names_from = "set", values_from = ".estimate") %>% knitr::kable()
+```
