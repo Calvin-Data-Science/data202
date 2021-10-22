@@ -95,6 +95,7 @@ Please follow this general outline (though you may add or remove aspects if need
 * Wrangling
   * Describe, at a broad level, what you need to do to the data to make it into the form you need for the plot
   * Include code blocks, with appropriate names, for wrangling steps.
+    * Explain the *why* for any choices you make (like filtering data).
 * Replication
   * Include your code to replicate the visual, and the result.
   * Briefly describe any difficulties you encountered, both those you
@@ -118,7 +119,7 @@ Please follow this general outline (though you may add or remove aspects if need
   * Now that you've gone through the whole process, *how has your
     understanding of, and belief in, the original article's claim changed*?
   * How faithful was your replication?
-  * How successful was your alternative design?
+  * How successful was your alternative design? Why?
   * What follow-up questions and ideas do you have about the data or visualization you worked with?
   * What opportunities do you see for extending this work into a final project?
     e.g., is there some way you could apply predictive modeling? Get better data?
