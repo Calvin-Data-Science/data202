@@ -92,8 +92,8 @@ roster %>% mutate(
 Create the repo manually for now. Clone:
 
 ```{r}
-if (!dir.exists(paste0(clones_path, "/portfolio-reference")))
-  local_repo_clone(glue("{ghorg}/portfolio-reference"), clones_path)
+#if (!dir.exists(paste0(clones_path, "/portfolio-reference")))
+#  local_repo_clone(glue("{ghorg}/portfolio-reference"), clones_path)
 ```
 
 STOP. Put some files in there by hand. Commit and push by hand.
@@ -142,22 +142,21 @@ get_assignment_files <- function(path, deploy_solutions) {
   }
 }
 
-deploy_assignment_files <- function(files, repos = student_repos$portfolio_repo_full) {
-  # Add to the reference and demo repos
-  instructor_repos <- glue("{ghorg}/portfolio-{c('demo', 'reference')}")
-  repo_add_file(instructor_repos, files, preserve_path = TRUE, overwrite = FALSE)
+instructor_repos <- glue("{ghorg}/portfolio-{c('demo', 'reference')}")
 
-  # Add to the student repos.
+deploy_assignment <- function(path, deploy_solutions = FALSE, repos = c(instructor_repos, student_repos$portfolio_repo_full)) {
+  files <- get_assignment_files(path, deploy_solutions = deploy_solutions)
   repo_add_file(repos, files, preserve_path = TRUE, overwrite = FALSE)
 }
 
-deploy_assignment <- function(path, deploy_solutions = FALSE) {
-  files <- get_assignment_files(path, deploy_solutions = deploy_solutions)
-  deploy_assignment_files(files)
-}
+# "ex/ex07-modeling" %>% 
+#   get_assignment_files(deploy_solutions = FALSE) %>% 
+#   repo_add_file(student_repos$portfolio_repo_full, ., preserve_path = TRUE, overwrite = FALSE)
 
-deploy_assignment("ex/ex06-sad-plot")
-#deploy_assignment("hw/hw02-vis")
+# deploy_assignment(
+#   "ex/ex07-modeling"
+#   #"datavis"
+# )
 
 # If oops:
 #repo_delete_file(
