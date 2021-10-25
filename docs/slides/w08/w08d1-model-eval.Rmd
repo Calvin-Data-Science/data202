@@ -13,320 +13,342 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r child = "../slide-setup.Rmd"}
+```{r setup, include=FALSE, code=xfun::read_utf8('../slide-setup.R')}
 ```
 
----
-
-class: center, middle
-
-# Examples of Supervised Learning
-
----
-
-## Regression Example: Home Sales
-
-```{r include=FALSE}
+```{r setup2, include=FALSE}
+library(knitr)
 library(tidyverse)
 library(tidymodels)
-ames_home_sales <- AmesHousing::make_ames() %>% 
-  mutate(Sale_Price = Sale_Price / 1000) %>% 
-  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal")
-```
 
-From Ames, Iowa home sales, 2006-2010. (De Cock, 2011)
-
-.small[
-```{r echo=FALSE}
-set.seed(0)
-ames_home_sales %>%
-  select(Lot_Area, Bldg_Type, Gr_Liv_Area, Garage_Cars, Sale_Price) %>% 
-  slice_sample(n = 5) %>% 
-  kableExtra::kbl() %>% 
-    kableExtra::column_spec(5, background = "#8C2131", color = "white")
-```
-]
-(`r nrow(ames_home_sales)` total rows)
-
-* *y*: *response* variable (aka *outcome*, *dependent variable*): `Sale_Price`
-* *X*: *features* (aka *predictors*, *covariates*, etc.): everything else
-
-Note: `X` is much easier to measure than `y`
-
----
-
-```{r split-ames, include=FALSE}
-library(tidymodels)
-set.seed(10) # Make consistent train-test splits.
-ames_split <- initial_split(ames_home_sales, prop = 2/3) # Split our data randomly
-ames_train <- training(ames_split)
-ames_test <- testing(ames_split)
-```
-
-```{r fit-dt-ames, echo=FALSE}
-decision_tree_fit <- decision_tree(mode = "regression", tree_depth = 30, cost_complexity = 1e-6, min_n = 2) %>% #<<
-  fit(
-    Sale_Price ~ Gr_Liv_Area + Bldg_Type,
-    data = ames_train)
-```
-
-.panelset[
-.panel[.panel-name[Model]
-```{r gr_liv_stub, echo=FALSE, out.width="100%", output.lines=18}
-decision_tree_fit
-```
-]
-
-.panel[.panel-name[Predictions]
-```{r decision-tree-example-fit, echo=FALSE, out.width="100%"}
 sweep_model <- function(model, var_to_sweep, sweep_min, sweep_max, ...) {
   X <- expand_grid(!!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500), ...)
   model %>% 
     predict(X) %>% 
     bind_cols(X)
 }
-ggplot(ames_train, aes(x = Gr_Liv_Area, y = Sale_Price)) +
-  geom_point(alpha = .5, size = .5) +
-  geom_line(data = sweep_model(
-    decision_tree_fit, Gr_Liv_Area, 0, 4000, Bldg_Type = levels(ames_train$Bldg_Type)),
-    mapping = aes(y = .pred),
-    color = "red") +
-  facet_wrap(vars(Bldg_Type)) +
-  labs(x = "Living Area", y = "Sale Price ($1k)")
+
+
+ames <- AmesHousing::make_ames() %>% 
+  mutate(Sale_Price = Sale_Price / 1000) %>% 
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal")
 ```
 
-]
-.panel[.panel-name[Model code]
+## Q&A
 
-```{r ref.label="split-ames", eval=FALSE}
+> What other kinds of models can we use?
 
-```
+- We'll also study *linear regression* (and its extensions) and *logistic regression* (which is a *classification* model despite the name).
+- Hot right now: Neural Networks
 
-```{r ref.label="fit-dt-ames", eval=FALSE}
+> Can we predict whether homes will get more expensive or not?
 
-```
-
-
-Plotting the tree:
-
-```{r ref.label="gr_liv_stub", eval=FALSE}
-
-```
-
-]
-]
+That would be *forecasting*, one type of prediction. Tricky to do right because you're *extrapolating*.
 
 ---
 
-## Were those predictions good?
+## Objectives
 
-```{r}
-metrics <- yardstick::metric_set(rsq_trad, mae, mape, rmse)
-decision_tree_fit %>% 
-  predict(ames_test) %>% 
-  bind_cols(ames_test) %>% 
-  metrics(truth = Sale_Price, estimate = .pred) %>% 
-  select(-.estimator) %>% knitr::kable()
+* Compare and contrast regression tasks and classification tasks, and give examples of each
+* Identify two different ways of measuring accuracy for regression and for classification
+* Identify several reasons why a model may predict better on some subsets of data than others
+
+---
+
+## Types of Tasks
+
+
+* **regression**: predict a *number* ("continuous")
+  * number should be "close" in some sense to the correct number
+* **classification**: predict a *category*
+  * which one of these two groups? three groups? 500,000 groups?
+  * could ask: "how likely is it to be in group *i*"
+
+---
+
+## Are these tasks *regression* or *classification*?
+
+1. Is this a picture of the inside or outside of the restaurant?
+1. How much will it rain in GR next year?
+1. Is this person having a seizure?
+1. How much will this home sell for?
+1. How much time will this person spend watching this video?
+1. How big a fruit will this plant produce?
+1. Which word did this person mean to type?
+1. Will this person "Like" this post?
+
+---
+
+## Today's examples
+
+**Regression**: housing prices in Ames, Iowa. Details:
+
+* [Paper](http://jse.amstat.org/v19n3/decock.pdf)
+* [Data Dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
+
+**Classification**: *seizure classification*.
+
+First FDA-approved AI-powered medical device: Empatica [Embrace2](https://www.empatica.com/embrace2/),
+company founded by MIT data scientist Rosalind Picard
+
+```{r echo=FALSE, out.width="20%"}
+include_graphics("https://www.empatica.com/assets/images/embrace/features_em2_mb_a-lg-xhdpi.png")
 ```
+
+
+---
+
+## What makes a good prediction? *Regression*
+
+We predicted the home would sell for $250k. It sold for $200k. Is that good?
+
+--
+
+* **residual**: actual minus predicted
+  * If home sold for $200k but we predicted $250k, residual is _______
+* **absolute error**
+* **squared error**
+
+--
+
+Across the entire dataset:
+
+* **average error**: do we tend to predict too high? too low? "*bias*"
+* **max** absolute error
+* **mean** absolute error
+* **mean squared error** (MSE)
+* normalized squared error: MSE / Variance
+  * The confusingly named "R2" = 1 - normalized squared error
+
+---
+
+## Most commonly used regression metrics
 
 - Traditional R^2 (fraction of variance explained)
 - MAE: Mean Absolute Error ("predictions are usually off by $xxx")
 - MAPE: Mean Absolute Percent Error ("predictions are usually off by yy%")
 - RMSE: Root Mean Squared Error: mathy, but sorta like the standard deviation
 
----
-
-## Classification example: Can a blood test diagnose autism?
-
-We'll use an example from a [2017 PLOS Computational Biology paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385)
-
-
-```{r download-data, include=FALSE}
-data_filename <- "data/autism.csv"
-if (!file.exists(data_filename)) {
-  dir.create("data")
-  download.file("https://doi.org/10.1371/journal.pcbi.1005385.s001", data_filename)
-}
-```
-
-```{r read-data, include=FALSE}
-col_names <- names(read_csv(data_filename, n_max = 1, col_types = cols(.default = col_character())))
-autism <- read_csv(data_filename, skip = 2, col_names = col_names, col_types = cols(
-  .default = col_double(),
-  Group = col_character()
-))
-```
-
-```{r}
-autism
-```
-
 
 ---
 
-We have 3 kinds of data about `r nrow(autism)` children:
+## What makes a good prediction? *Classification*
 
-1. The outcome (`Group`): ASD (diagnosed with ASD), SIB (sibling not diagnosed with ASD), and NEU (age-matched neurotypical children, for control)
+Suppose: every minute, the armband decides whether a seizure is occurring
 
-```{r group-counts}
-autism %>% group_by(Group) %>% summarize(n = n()) %>% knitr::kable()
-```
+<br>
 
----
+The child was perfectly fine but our armband flagged a seizure. Is that good?
 
-1. The outcome (`Group`): ASD, SIB, NEU
-2. Concentrations of various metabolites in a blood sample:
+--
 
-```{r show-metabolites}
-autism %>% select(-1, -last_col())
-```
+<br>
+
+The child was having a seizure but our armband didn't flag it. Is that good?
 
 ---
 
-1. The outcome (`Group`): ASD, SIB, NEU
-2. Concentrations of various metabolites in a blood sample
-3. For the ASD children only, a measure of life skills ("Vineland ABC")
+## What makes a good prediction? *Classification*
 
-```{r show-behavior-score, fig.asp=.25}
-autism %>% 
-  ggplot(aes(x = `Vineland ABC`, y = Group)) + geom_boxplot()
-```
+|                      | Seizure happened              | No seizure happened           |
+|----------------------|-------------------------------|-------------------------------|
+| Seizure predicted    | True positive                 | False positive (Type 1 error) |
+| No seizure predicted | False negative (Type 2 error) | True negative                 |
 
----
+--
+- **Accuracy** (% correct) = (TP + TN) / (# episodes)
+- **False negative** ("miss") **rate** = FN / (# actual seizures)
+- **False positive** ("false alarm") **rate** = FP / (# true non-seizures)
 
-## Exploratory Data Analysis (EDA)
-
-What do these metabolites look like?
-
-```{r bad-metabolite-plot, echo=FALSE, out.width="80%"}
-library(ggridges)
-autism %>%
-  select(-`Vineland ABC`) %>% 
-  pivot_longer(-Group, names_to = "Measure") %>% 
-  ggplot(aes(x = value, y = Measure)) +
-  geom_density_ridges() + 
-  facet_wrap(vars(Group), scales = "free_x")
-```
+--
+- **Sensitivity** ("true positive rate") = TP / (# actual seizures)
+  - Sensitivity = 1 − False negative rate
+- **Specificity** ("true negative rate") = TN / (# actual seizures)
+  - Specificity = 1 − False positive rate
+- [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
 
 ---
 
-code for the previous plot:
-```{r ref.label="bad-metabolite-plot", eval=FALSE}
-```
-
----
-
-## EDA
-
-Better question: **Can these metabolites help us distinguish autism?**
-
----
-
-```{r ridgeplot, fig.width=10, fig.asp=1, echo=FALSE, out.width="80%"}
-autism %>%
-  select(-`Vineland ABC`) %>% 
-  pivot_longer(-Group, names_to = "Measure") %>% 
-  ggplot(aes(x = value, y = Group)) +
-  geom_density_ridges() +
-  facet_wrap(vars(Measure), scales = "free_x") + 
-  theme_ridges()
-```
-
----
-
-code for previous plot:
-
-```{r ref.label="ridgeplot", eval=FALSE}
-```
-
----
-
-## Can we predict ASD vs non-ASD from metabolites?
-
-* Let's start by (1) ignoring the behavior scores (that's an *outcome*) and comparing
-just ASD and NEU.
-* We need to drop SIB and encode `Group` as a factor.
-
-```{r}
-data <- autism %>% 
-  select(-`Vineland ABC`) %>% 
-  filter(Group != "SIB") %>% 
-  mutate(Group = as_factor(Group))
-```
-
----
-
-## Decision Tree *Classification*
-
-```{r fit-tree}
-spec <- workflow() %>% add_recipe(
-  recipe(Group ~ ., data = data)) %>% #<<
-  add_model(decision_tree(mode = "classification") %>% set_engine("rpart")) #<<
-model <- spec %>% fit(data)
-```
-
-
-```{r show-tree, echo=FALSE, fig.asp= .4}
-extract_fit_engine(model) %>% 
-  rpart.plot::rpart.plot(roundint = FALSE)
-```
-
----
-
-### What do the *predictions* look like?
-
-```{r predicted-probs-tree}
-model %>% predict(data, type = "prob")
-```
-
----
-
-### Were those predictions *good*?
-
-.small-code[
-```{r plot-predicted-probs-tree, fig.asp=.4, out.width="90%"}
-model %>%
-  predict(data, type = "prob") %>%
-  bind_cols(data) %>% 
-  mutate(idx = row_number()) %>% 
-  ggplot(aes(x = idx, y = .pred_ASD, color = Group, shape = Group)) +
-  geom_hline(yintercept = .5) +
-  geom_point() 
-```
+.question[
+If you were designing a seizure alert system, would you want sensitivity and specificity to be high or low? What are the trade-offs associated with each decision? 
 ]
 
 ---
 
-### Quantifying that:
+class: middle, center
 
-```{r}
-metrics <- yardstick::metric_set(accuracy, sensitivity, specificity)
-model %>% 
-  predict(data, type = "class") %>% 
-  bind_cols(data) %>% 
-  metrics(truth = Group, estimate = .pred_class)
+## Validation
+
+.large[**Key point**: you *must* evaluate predictions on *unseen* data]
+
+---
+
+```{r include=FALSE}
+hack <- ames %>% arrange(Sale_Price) %>% select(Gr_Liv_Area, Sale_Price)# %>% mutate(idx = row_number())
+data1 <- hack %>% slice(c(1, nrow(hack)))
+data2 <- hack %>% slice(c(1, nrow(hack), as.integer(nrow(hack) / 2)))
+data2
+```
+
+Hey look! I can predict exactly how much a home will sell for!
+
+```{r include=FALSE}
+decision_tree_fit <- decision_tree(mode = "regression", min_n = 2) %>% 
+  fit(Sale_Price ~ Gr_Liv_Area, data = data1)
+```
+
+.small[
+```{r echo=FALSE}
+data1 %>% knitr::kable()
+```
+]
+
+.pull-left[
+```{r two-homes-dt, out.width="100%", echo=FALSE}
+decision_tree_fit %>% 
+  extract_fit_engine() %>% 
+  rpart.plot::rpart.plot(roundint = FALSE)
+```
+
+]
+
+.pull-right[
+```{r perfect-prediction-1, out.width="100%", echo = FALSE}
+ggplot(data1, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(size = 4) +
+  geom_line(data = sweep_model(
+    decision_tree_fit, Gr_Liv_Area, 0, 4000),
+    mapping = aes(y = .pred),
+    color = "red") +
+  labs(x = "Living Area", y = "Sale Price ($1k)")
+```
+]
+---
+
+## Validation: *unseen* data
+
+.pull-left[
+.small[
+```{r echo=FALSE}
+data2 %>% select(Gr_Liv_Area, Sale_Price) %>% knitr::kable()
+```
+]]
+
+.pull-right[
+```{r perfectly-wrong, out.width="100%", echo = FALSE}
+ggplot(data1, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(size = 4) +
+  geom_line(data = sweep_model(
+    decision_tree_fit, Gr_Liv_Area, 0, 4000),
+    mapping = aes(y = .pred),
+    color = "red") +
+  geom_point(data = data2 %>% slice_tail(n=1), color = "red", size = 4) +
+  labs(x = "Living Area", y = "Sale Price ($1k)")
+```
+]
+
+--
+
+```{r echo=FALSE}
+broom::augment(decision_tree_fit, new_data = data2) %>% knitr::kable()
 ```
 
 ---
 
-## Classification Metrics
+## Oh ok, I'll just fix that one...
 
-|                      | Event happened              | No event happened           |
-|----------------------|-------------------------------|-------------------------------|
-| Event predicted    | True positive                 | False positive (Type 1 error) |
-| No event predicted | False negative (Type 2 error) | True negative                 |
+```{r include=FALSE}
+decision_tree_fit <- decision_tree(mode = "regression", min_n = 2) %>% 
+  fit(Sale_Price ~ Gr_Liv_Area, data = data2)
+```
+
+.pull-left[
+```{r three-homes-dt, out.width="100%", echo=FALSE}
+decision_tree_fit %>% 
+  extract_fit_engine() %>% 
+  rpart.plot::rpart.plot(roundint = FALSE)
+```
+
+]
+
+.pull-right[
+```{r perfect-prediction-2, out.width="100%", echo = FALSE}
+ggplot(data2, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(size = 4) +
+  geom_line(data = sweep_model(
+    decision_tree_fit, Gr_Liv_Area, 0, 4000),
+    mapping = aes(y = .pred),
+    color = "red") +
+  labs(x = "Living Area", y = "Sale Price ($1k)")
+```
+]
+
+### and look, it works!
+
+```{r echo=FALSE}
+broom::augment(decision_tree_fit, new_data = data2) %>% kable()
+```
+
+*Do you really think so?*
+
+---
+
+## Now, all the data.
+
+```{r full-dataset-now, out.width="100%", echo = FALSE}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(size = .5) +
+  geom_line(data = sweep_model(
+    decision_tree_fit, Gr_Liv_Area, 0, 4000),
+    mapping = aes(y = .pred),
+    color = "red") +
+  labs(x = "Living Area", y = "Sale Price ($1k)")
+```
+
+.question[
+Our model had looked perfect. Where did we go wrong?
+]
+
+---
+
+## Failure to generalize
+
+Predictive models almost always do better on the data they're trained on than anything else.
+
+.question[
+Why?
+]
 
 --
 
-- **Accuracy** (% correct) = (TP + TN) / (# episodes)
-- **False negative** ("miss") **rate** = FN / (# actual events)
-- **False positive** ("false alarm") **rate** = FP / (# true non-events)
+
+
+* model uses a pattern that only held by chance
+* model uses a pattern that only holds for some data
+* model uses a pattern that's real but got a fuzzy picture of it
+
+---
+
+.question[
+How can we accurately assess our models?
+]
 
 --
 
-- **Sensitivity** ("true positive rate") = TP / (# actual events)
-  - Sensitivity = 1 − False negative rate
-- **Specificity** ("true negative rate") = TN / (# actual events)
-  - Specificity = 1 − False positive rate
-- [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
+General strategy: *hold out data*.
 
+```{r split-ames}
+set.seed(10) # Make consistent train-test splits.
+ames_split <- initial_split(ames, prop = 2/3)
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+`r nrow(ames)` total homes:
+
+- `r nrow(ames_train)` in `ames_train`
+- `r nrow(ames_test)` in `ames_test`
+
+.question[
+How should we use `ames_train`? `ames_test`?
+]
