@@ -86,16 +86,6 @@ That would be *forecasting*, one type of prediction. Tricky to do right because 
 * [Paper](http://jse.amstat.org/v19n3/decock.pdf)
 * [Data Dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
 
-**Classification**: *seizure classification*.
-
-First FDA-approved AI-powered medical device: Empatica [Embrace2](https://www.empatica.com/embrace2/),
-company founded by MIT data scientist Rosalind Picard
-
-```{r echo=FALSE, out.width="20%"}
-include_graphics("https://www.empatica.com/assets/images/embrace/features_em2_mb_a-lg-xhdpi.png")
-```
-
-
 ---
 
 ## What makes a good prediction? *Regression*
@@ -129,6 +119,17 @@ Across the entire dataset:
 - MAPE: Mean Absolute Percent Error ("predictions are usually off by yy%")
 - RMSE: Root Mean Squared Error: mathy, but sorta like the standard deviation
 
+
+---
+
+## Seizure classification
+
+First FDA-approved AI-powered medical device: Empatica [Embrace2](https://www.empatica.com/embrace2/),
+company founded by MIT data scientist Rosalind Picard
+
+```{r echo=FALSE, out.width="20%"}
+include_graphics("https://www.empatica.com/assets/images/embrace/features_em2_mb_a-lg-xhdpi.png")
+```
 
 ---
 
