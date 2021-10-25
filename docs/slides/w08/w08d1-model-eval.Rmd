@@ -150,20 +150,20 @@ The child was having a seizure but our armband didn't flag it. Is that good?
 
 ## What makes a good prediction? *Classification*
 
-|                      | Seizure happened              | No seizure happened           |
+|                      | Seizure predicted              | No seizure predicted           |
 |----------------------|-------------------------------|-------------------------------|
-| Seizure predicted    | True positive                 | False positive (Type 1 error) |
-| No seizure predicted | False negative (Type 2 error) | True negative                 |
+| Seizure happened    | True positive                 | False negative (Type 1 error) |
+| No seizure happened | False positive (Type 2 error) | True negative                 |
 
 --
-- **Accuracy** (% correct) = (TP + TN) / (# episodes)
+- **Accuracy** (% correct) = (TP + TN) / (# predictions made)
 - **False negative** ("miss") **rate** = FN / (# actual seizures)
 - **False positive** ("false alarm") **rate** = FP / (# true non-seizures)
 
 --
-- **Sensitivity** ("true positive rate") = TP / (# actual seizures)
+- **Sensitivity** ("true positive rate") = TP / (# true seizures)
   - Sensitivity = 1 − False negative rate
-- **Specificity** ("true negative rate") = TN / (# actual seizures)
+- **Specificity** ("true negative rate") = TN / (# true non-seizures)
   - Specificity = 1 − False positive rate
 - [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
 
