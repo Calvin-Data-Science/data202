@@ -104,11 +104,10 @@ We predicted the home would sell for $250k. It sold for $200k. Is that good?
 Across the entire dataset:
 
 * **average error**: do we tend to predict too high? too low? "*bias*"
-* **max** absolute error
-* **mean** absolute error
+* **mean** or **max** absolute error
 * **mean squared error** (MSE)
 * normalized squared error: MSE / Variance
-  * The confusingly named "R2" = 1 - normalized squared error
+  - "R2" = 1 - normalized squared error
 
 ---
 
