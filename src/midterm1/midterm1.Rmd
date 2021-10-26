@@ -155,7 +155,7 @@ Each exercise is 2 points for  **correct** and **complete** column names, 1 poin
 
 #### Exercise 11
 
-Shape:
+Shape: __ rows, __ cols
 
 ```{r echo=TRUE, results='hide'}
 flights_sample %>% 
