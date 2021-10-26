@@ -94,8 +94,8 @@ We predicted the home would sell for $250k. It sold for $200k. Is that good?
 
 --
 
-* **residual**: actual minus predicted
-  * If home sold for $200k but we predicted $250k, residual is _______
+* **residual**: actual minus predicted<br>
+  If home sold for $200k but we predicted $250k, residual is \_\_
 * **absolute error**
 * **squared error**
 
@@ -113,10 +113,13 @@ Across the entire dataset:
 
 ## Most commonly used regression metrics
 
-- Traditional R^2 (fraction of variance explained)
 - MAE: Mean Absolute Error ("predictions are usually off by $xxx")
 - MAPE: Mean Absolute Percent Error ("predictions are usually off by yy%")
-- RMSE: Root Mean Squared Error: mathy, but sorta like the standard deviation
+
+And some math-y ones:
+
+- Traditional R^2 (fraction of variance explained)
+- RMSE: Root Mean Squared Error: sorta like the standard deviation
 
 
 ---
