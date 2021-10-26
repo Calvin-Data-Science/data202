@@ -1,0 +1,28 @@
+---
+title: "Scraping Examples"
+author: "K Arnold"
+date: "10/26/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rvest)
+page <- read_html("https://www.hcup-us.ahrq.gov/reports/statbriefs/sb266-Injuries-Causes-ED-Visits-2017.jsp")
+```
+
+```{r}
+tables <- page %>% html_elements('table.pagetext')
+t <- tables[[1]] %>% html_table()
+```
+
+
+```{r}
+t %>% 
+  janitor::row_to_names(2) %>% 
+  slice(4:8)
+```
+
