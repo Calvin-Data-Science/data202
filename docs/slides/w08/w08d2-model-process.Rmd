@@ -1,0 +1,376 @@
+---
+title: "Modeling Process"
+author: "DATA 202 21FA"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    self_contained: false
+    nature:
+      ratio: "4:3"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, code=xfun::read_utf8('../slide-setup.R')}
+```
+
+```{r setup2, include=FALSE}
+if (interactive()) source('../slide-setup.R')
+library(tidyverse)
+library(tidymodels)
+
+sweep_model <- function(model, var_to_sweep, sweep_min, sweep_max, ...) {
+  X <- expand_grid(!!enquo(var_to_sweep) := seq(sweep_min, sweep_max, length.out = 500), ...)
+  model %>% 
+    predict(X) %>% 
+    bind_cols(X)
+}
+```
+
+## Q&A
+
+> Is there a case where false positive can cause more harm than false negative?
+
+```{r echo=FALSE, out.width="80%"}
+include_graphics("img/propublica-machine-bias.png")
+```
+
+.floating-source[https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing]
+
+---
+
+## Q&A
+
+> Is regression or classification more common?
+
+Depends on the application. But classification seems more fundamental.
+
+Think about how you'd do regression if all you had was a classification model. (Hint: histograms.)
+
+> Confusion matrices are confusing. Can we practice?
+
+In lab Friday!
+
+---
+
+## Objectives
+
+* What are the basic steps in training and validating any predictive model?
+* Why is each step important?
+* How can we use the `tidymodels` ecosystem to train and validate a linear model?
+
+---
+
+```{r echo=FALSE, out.width="100%"}
+include_graphics("img/modeling-process-FES.svg")
+```
+
+.small[Source: [Feature Engineering and Selection ch1](https://bookdown.org/max/FES/important-concepts.html)]
+
+---
+
+## Predictive Modeling Workflow
+
+Preliminaries:
+
+1. **Define the problem**: predict *what*, based on *what*? What *metrics* will indicate success? (Measure success in multiple ways!)
+2. **Explore your data** (EDA): understand its structure, make lots of plots
+
+--
+
+Modeling:
+
+1. **Pick a model**: Which type(s) of models are appropriate for task and data?
+2. **Transform the data** as needed by the model ("feature engineering", preprocessing", "recipe")
+3. **Split the data** to allow for validation.
+4. **Fit and evaluate the model**
+5. **Tune**: adjust model hyperparameters
+6. **Analyze model errors** and refine all earlier steps
+
+---
+
+
+```{r}
+library(tidymodels)
+```
+
+Packages:
+
+* `parsnip`: **Specify** and **train** the model you want
+* `recipes`: **Prepare** the data
+* `rsample`: **Split** data into training and validation
+* `yardstick`: Compute **metrics** for performance
+* `tune`: Helps you set the dials.
+
+---
+
+## Where to find documentation
+
+### Theory
+
+* [An Introduction to Statistical Learning](https://www.statlearning.com//)
+* [Feature Engineering and Selection](https://bookdown.org/max/FES/)
+
+### Practice
+
+* TidyModels website: [Getting Started](https://www.tidymodels.org/start/),
+  [vignettes](https://www.tidymodels.org/learn/)
+* [Tidy Modeling with R](https://www.tmwr.org/) book (work in progress)
+
+.small[
+Some others:
+
+* <https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/>
+* <https://juliasilge.com/blog/intro-tidymodels/>
+]
+
+---
+
+## Example data: Ames home sales
+
+Like before, but we subset the data as [De Cock](http://jse.amstat.org/v19n3/decock.pdf) suggests.
+Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
+
+```{r}
+data(ames, package = "modeldata")
+ames <- AmesHousing::make_ames() %>% 
+  mutate(Sale_Price = Sale_Price / 1000) %>% 
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal")
+nrow(ames)
+ames %>% head(5)
+```
+
+---
+
+## Defining the problem
+
+- Predict *what*? `Sale_Price`
+- How to measure success?
+
+```{r}
+metrics <- yardstick::metric_set(mae, mape, rsq_trad)
+```
+
+
+---
+
+## Exploratory Analysis (EDA)
+
+.tiny-table.col2[
+```{r}
+skimr::skim(ames)
+```
+]
+
+---
+
+## Exploratory Analysis (EDA): Make lots of plots.
+
+```{r eda-living-area, out.width="100%"}
+ames %>% 
+  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = Fireplaces > 0)) +
+  geom_point(alpha = .2) +
+  facet_wrap(vars(Bldg_Type))
+```
+
+---
+
+```{r eda-several-predictors, out.width="100%"}
+ames %>% select(Sale_Price, Gr_Liv_Area, Lot_Area, Full_Bath, Half_Bath, Fireplaces) %>% 
+  pivot_longer(-c(Sale_Price, Fireplaces)) %>% 
+  ggplot(aes(x = value, y = Sale_Price, color = Fireplaces > 0)) + geom_point(size = .5, alpha = .25) +
+  facet_wrap(vars(name), scales = "free") + theme_bw()
+```
+
+---
+
+# Specifying a Model
+
+---
+
+## Example (without validation)
+
+Specify the model:
+
+```{r}
+my_model_spec <-  parsnip::decision_tree(mode = "regression") #<<
+```
+
+
+Train it ("fit") on data:
+
+```{r}
+my_trained_model <- my_model_spec %>% 
+  fit(Sale_Price ~ Gr_Liv_Area, data = ames)
+```
+
+---
+
+## Example (without validation)
+
+Predict on new data:
+
+```{r new-data-code}
+new_data <- tibble(Gr_Liv_Area = c(1000, 2000), Sale_Price = c(239000, 185000))
+my_trained_model %>% 
+  predict(new_data) %>% 
+  bind_cols(new_data) # Put back the original data
+```
+
+Evaluate on all data:
+
+```{r}
+predictions <- my_trained_model %>% 
+  predict(ames) %>% 
+  bind_cols(ames)
+predictions %>% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+
+---
+
+.floating-source[
+<https://xkcd.com/1122/>
+]
+
+```{r echo=FALSE, out.width="100%"}
+include_graphics("https://imgs.xkcd.com/comics/electoral_precedent_2x.png")
+```
+
+---
+
+## Example, with validation
+
+---
+
+1. Hold out some data to use for validation:
+
+```{r}
+set.seed(10)
+ames_split <- initial_split(ames, prop = 3/4)
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+glue("Using {nrow(ames_train)} sales to train, {nrow(ames_test)} to test")
+```
+
+---
+
+1. Hold out some data to use for validation.
+2. Specify the model to use.
+3. Train the model **on the training set**:
+
+```{r}
+my_trained_model <- my_model_spec %>% 
+  fit(Sale_Price ~ Gr_Liv_Area, #<<
+      data = ames_train) #<<
+```
+
+---
+
+1. Hold out some data to use for validation.
+2. Specify the model to use.
+3. Train the model **on the training set**
+4. Evaluate on training set (optional):
+
+.pull-left[
+```{r}
+train_predictions <- 
+  my_trained_model %>% 
+    predict(ames_train) %>% 
+    bind_cols(ames_train) # Put back the original data
+
+train_predictions
+```
+]
+
+.pull-right[
+```{r}
+train_predictions %>% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+]
+
+---
+
+1. Hold out some data to use for validation
+2. Specify the model to use.
+3. Train the model **on the training set**
+4. Evaluate on training set (optional)
+5. Evaluate on **test set**:
+
+```{r}
+my_trained_model %>% 
+  predict(ames_test) %>% 
+  bind_cols(ames_test) %>% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+---
+
+> What's the optimal ratio of train to test?
+
+.question[
+What's the trade-off? What happens if train is too small? If test is too small?
+]
+
+
+---
+
+## Many models, same interface
+
+```{r}
+trained_linear_model <- 
+  parsnip::linear_reg() %>% #<<
+  fit(Sale_Price ~ Gr_Liv_Area,
+      data = ames_train)
+
+trained_linear_model %>% 
+  predict(ames_test) %>% 
+  bind_cols(ames_test) %>% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+
+
+---
+
+## Types of models
+
+* Linear models
+  * ordinary least-squares (OLS)
+  * Lasso, Ridge, etc.: penalize large coefficients
+  * Generalized Linear Models: outputs get transformed
+    * Logistic Regression (also Support Vector Machine): transform output to *score* for each class
+* Decision Lists and Trees
+  * extension: Random Forests
+* Neural Networks: layered combinations of the above
+* many, many more
+
+---
+
+## Which variables mean what?
+
+The *formula interface*:
+
+* `y ~ x`
+  * predict *y* using *x*. `Sale_Price ~ Gr_Liv_Area`
+* `y ~ x1 + x2 + x3`
+  * predict *y* using *x1* and *x2* and *x3*
+  * `Sale_Price ~ Gr_Liv_Area + Lot_Area + Full_Bath`
+
+Don't get confused: they "forgot" the coefficients! A fitted linear model will actually look like:
+<br>
+<br>
+Sale_Price = .red[c1] \* Gr_Liv_Area + .red[c2] \* Lot_Area + .red[c3] \* Full_Bath + intercept
+
+<br>
+
+
+But this works for specifying even models that aren't linear.
+
+<!--This is `+` like `ggplot` or like "determination + perseverance + grit = success",
+not like "2x + y = 4".-->
+
