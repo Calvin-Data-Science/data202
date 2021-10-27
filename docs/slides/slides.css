@@ -290,6 +290,9 @@ h2, h3, h4 {
 .smaller-table table {
   font-size: 0.6rem;
 }
+.tiny-table table {
+  font-size: 0.2rem;
+}
 .pagedtable-wrapper {
   font-size: 0.8rem;
 }
