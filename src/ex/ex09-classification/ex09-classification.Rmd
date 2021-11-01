@@ -2,6 +2,7 @@
 title: "Guided Exercise 9 - Classification"
 author: "NAME"
 output: pdf_document
+geometry: margin=.5in
 ---
 
 ```{r setup, include=FALSE}
@@ -15,7 +16,7 @@ theme_set(theme_bw())
 Construct the set of people, some who will repay and others who will not.
 
 ```{r}
-# "Deterministic normal": for n points, we expect n * pnorm(x, mu, sd) of them to be below x.
+# "Deterministic normal": we expect n * pnorm(x, mu, sd) of n points to be below x.
 make_group <- function(n, mean, sd, ...) {
   tibble(score = 0:100) %>% 
     mutate(n = floor(n * pnorm(score, mean, sd))) %>% 
@@ -35,7 +36,8 @@ Make a dotplot of the people.
 
 ```{r}
 ggplot(people, aes(x = score, fill = repay)) +
-  geom_dotplot(binwidth = 5, dotsize = .5, binpositions = "all", method = "histodot", stackgroups = TRUE)
+  geom_dotplot(binwidth = 5, dotsize = .5,
+               binpositions = "all", method = "histodot", stackgroups = TRUE)
 ```
 
 <!-- Add headers and chunks for exercises below. -->
