@@ -11,7 +11,6 @@ link-citations: yes
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, comment = "")
 library(tidyverse)
-library(tidymodels)
 theme_set(theme_bw())
 ```
 
@@ -42,24 +41,6 @@ Spend about 10 minutes playing with the demonstration. Discuss the following que
 Now let's implement those metrics ourselves to check our understanding.
 
 ```{r}
-tibble(score = 0:100) %>% 
-  mutate(n = floor(100 * pnorm(score, 60, 10))) %>% 
-  mutate(delta = c(diff(n), 0)) %>% 
-  uncount(delta) %>% 
-  pull(score)
-```
-
-
-```{r}
-# Constants from http://research.google.com/bigpicture/attacking-discrimination-in-ml/bundle.js
-p <- list(
-  s0 = 10,
-  s1 = 10,
-  d0 = 8,
-  d1 = 12,
-  m0 = 55,
-  m1 = 45
-)
 set.seed(0)
 make_group_rand <- function(n, mean, sd, ...) {
   tibble(score = rnorm(n, mean = mean, sd = sd), ...)
@@ -76,8 +57,6 @@ make_group <- function(n, mean, sd, ...) {
 }
 
 people <- bind_rows(
-  #make_group(100, mean = p$m0 + p$d0, p$s0),
-  #make_group(100, mean = p$m0 - d1)
   make_group(150, 60, 10, repay = TRUE),
   make_group(150, 40, 10, repay = FALSE)
 )
@@ -88,8 +67,12 @@ ggplot(people, aes(x = score, fill = repay)) +
   geom_dotplot(binwidth = 5, dotsize = .5, binpositions = "all", method = "histodot", stackgroups = TRUE)
 ```
 
+::: {.exercises}
+
 1. Add a new column, `granted`, to the `people` dataframe that indicates if the
-   bank grants the loan. Use a simple `threshold`.
+   bank grants the loan. Like the website, grant a loan if the score exceeds some fixed `threshold`.
+   (Use a threshold that results in all 4 colors being visible; it's especially visible in the Positive Rate pie.)
+   Save the results in `desicions`.
 
 ```{r}
 threshold <- 64
@@ -98,7 +81,25 @@ decisions <-
   mutate(granted = score >= threshold)
 ```
 
-```{r}
+2. Compute the Positive Rate and the True Positive Rate, and Correctness. (Use `summarize` and perhaps `filter` on the `decisions`.)
+   Check all of your results against the webapp; the numbers should be close although they may differ slightly because the data was not constructed identically.
+
+```{r include=FALSE}
+# Positive rate:
+decisions %>% 
+  summarize(mean(granted))
+
+#True positive rate:
+decisions %>% 
+  filter(repay) %>% 
+  summarize(mean(granted))
+```
+
+3. Compute the sensitivity and specificity. You may consult the [Wikipedia Page](https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix) if it's helpful. (Have you already computed one of these?) Discuss with your partner what "sensitivity" and "specificity" mean in this scenario.
+
+4. Add a column to `decisions` called `outcome` that gives a label to each decision as a "True Positive", "False Positive", etc. Use `case_when` with conditions like `repay & !granted`. Count how many of each outcome occurs at your current threshold.
+
+```{r include=FALSE}
 outcomes <- 
   decisions %>% 
     mutate(
@@ -119,33 +120,6 @@ outcome_counts <- outcomes %>%
 outcome_counts
 ```
 
-Compute the Positive Rate and the True Positive Rate.
+5. Adjust the `threshold` to maximize the Correct rate. What is the True Positive Rate then? What trade-off do we have to make if we want to maximize True Positive Rate instead?
 
-Positive rate:
-```{r}
-decisions %>% 
-  summarize(mean(granted))
-```
-True positive rate:
-```{r}
-decisions %>% 
-  filter(repay) %>% 
-  summarize(mean(granted))
-```
-
-
-```{r}
-
-library(personograph)
-outcome_counts %>%
-  transmute(outcome, frac = n / sum(n)) %>% 
-  deframe() %>% 
-  personograph(n.icons = nrow(people), colors = list(
-    "True Positive" = "#cc7700",
-    "False Negative" = "#555555",
-    "False Positive" = "#aa5500",
-    "True Negative" = "#333333"
-  ))
-```
-
-
+:::
