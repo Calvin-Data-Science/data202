@@ -22,11 +22,11 @@ We'll start today with an interactive activity.
 
 > [Attacking discrimination with smarter machine learning](http://research.google.com/bigpicture/attacking-discrimination-in-ml/)
 
-We'll focus today on the one-group example; we'll return to the blue-vs-orange group later.
+We'll focus today on the one-group example; we'll return to the part about blue vs orange groups later.
 
 ### Explore
 
-Spend about 10 minutes playing with the demonstration. Discuss the following questions with your partner:
+Spend about 10 minutes playing with the "Threshold Decision" demonstration. Discuss the following questions with your partner:
 
 1. What are the "scores"? What real-life concept does this capture? (Do you know your score?)
 
@@ -34,7 +34,7 @@ Spend about 10 minutes playing with the demonstration. Discuss the following que
 
 3. What sort of predictions are being made here? What constitutes a "correct" prediction?
 
-4. Under "Threshold Decision", slowly sweep the threshold from 0 to 100. On scrap paper, sketch how Correct, True Positive Rate, and Positive Rate change as the threshold changes.
+4. Slowly sweep the threshold from 0 to 100. On scrap paper, sketch how Correct, True Positive Rate, and Positive Rate change as the threshold changes.
 
 ### Implement
 
@@ -67,14 +67,26 @@ ggplot(people, aes(x = score, fill = repay)) +
   geom_dotplot(binwidth = 5, dotsize = .5, binpositions = "all", method = "histodot", stackgroups = TRUE)
 ```
 
+In your RStudio, find `ex09-classification.Rmd` and Run All. Look at the `people` data frame and make sure you
+understand what it is and how it relates to the data in the web demonstration.
+
+Also, study the following to understand how it works:
+
+```{r}
+people %>% 
+  summarize(num_repayed = sum(repay),
+            frac_repayed = mean(repay))
+```
+
+
 ::: {.exercises}
 
 1. Add a new column, `granted`, to the `people` dataframe that indicates if the
    bank grants the loan. Like the website, grant a loan if the score exceeds some fixed `threshold`.
    (Use a threshold that results in all 4 colors being visible; it's especially visible in the Positive Rate pie.)
-   Save the results in `desicions`.
+   Save the results in `decisions`.
 
-```{r}
+```{r echo=FALSE}
 threshold <- 64
 decisions <- 
   people %>% 
@@ -121,5 +133,21 @@ outcome_counts
 ```
 
 5. Adjust the `threshold` to maximize the Correct rate. What is the True Positive Rate then? What trade-off do we have to make if we want to maximize True Positive Rate instead?
+
+6. *bonus*: Create the following plot. You will need `expand_grid(threshold = 1:100)`.
+
+```{r echo=FALSE}
+all_decisions <- 
+  people %>% 
+    expand_grid(threshold = 1:100) %>% 
+    mutate(granted = score >= threshold)
+
+all_decisions %>% 
+  group_by(threshold) %>% 
+  summarize(positive_rate = mean(granted), true_positive_rate = sum(granted & repay) / sum(repay), correct = mean(granted == repay)) %>% 
+  pivot_longer(c(positive_rate, true_positive_rate, correct)) %>% 
+  ggplot(aes(x = threshold, y = value, color = name)) + geom_line()
+```
+
 
 :::
