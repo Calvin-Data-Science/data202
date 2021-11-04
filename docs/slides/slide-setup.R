@@ -23,8 +23,14 @@ kable <- knitr::kable
 glue <- glue::glue
 
 # Include styles.
-invisible(file.link("../slides.css", "slides.css"))
-invisible(file.link("../xaringan-themer.css", "xaringan-themer.css"))
+local({
+  linkifnotexist <- function(x) {
+    if (!file.exists(x))
+      invisible(file.symlink(paste0("../", x), x))
+  }
+  linkifnotexist("slides.css")
+  linkifnotexist("xaringan-themer.css")
+})
 
 calvin_maroon <- "#8C2131"
 calvin_gold <- "#F3CD00"
