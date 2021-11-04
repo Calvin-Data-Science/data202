@@ -8,6 +8,18 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Week 9: Modeling and Ethics
+
+## Prep
+
+- Read MDSR chapter 8, [Ethics](https://mdsr-book.github.io/mdsr2e/ch-ethics.html).
+  - Note: The discussion there is secular and left-leaning.
+  - As you read, try to identify at least one point of *resonance* with a Reformed Christian perspective, and at least one point of *tension*.
+- Finish working through the Google "[attacking discrimination](http://research.google.com/bigpicture/attacking-discrimination-in-ml/)" example that we started in class.
+  - Note that this whole scenario requires knowing something that is not knowable: the distinction between light and dark grey people.
+  - Explain each of the objectives in your own words. For each one, identify *who* would prefer that objective. For example, a big bank might prefer the "max profit" objective because they're legally required to make decisions to maximize value to their shareholders. Who might prefer "group unaware"? "Demographic parity"? "Equal opportunity"?
+  - Which of the objectives do you think is most "right"?
+
 # Week 7: Modeling intro, vis replication project
 
 This week we start modeling, which is what some people consider the coolest and most useful part of data science. Some people even go so far as to call it “AI”.
