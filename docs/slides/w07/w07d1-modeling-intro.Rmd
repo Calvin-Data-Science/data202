@@ -13,11 +13,6 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r echo=FALSE, results='asis'}
-#getwd()
-#cat(knitr::knit_child('../slide-setup.Rmd', quiet = TRUE), sep = '\n')
-```
-
 ```{r child = "../slide-setup.Rmd"}
 ```
 
@@ -302,7 +297,7 @@ Plotting the tree:
 ## Were those predictions good?
 
 ```{r}
-metrics <- yardstick::metric_set(rsq_trad, mae, mape, rmse)
+metrics <- yardstick::metric_set(mae, mape, rsq_trad, rmse)
 decision_tree_fit %>% 
   predict(ames_test) %>% 
   bind_cols(ames_test) %>% 
