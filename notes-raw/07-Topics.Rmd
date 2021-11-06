@@ -11,5 +11,4 @@
 
 ACM Selects:
 
-* [Algorithmic Fairness](https://selects.acm.org/selections/why-algorithmic-fairness)
 * [Data Science](https://selects.acm.org/selections/getting-started-with-data-science)
