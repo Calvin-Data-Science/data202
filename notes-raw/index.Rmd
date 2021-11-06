@@ -1,5 +1,5 @@
 ---
-title: "DATA 202 Fall 2020"
+title: "DATA 202 Supplemental Notes"
 author: "K Arnold"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site

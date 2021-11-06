@@ -23,16 +23,19 @@ Read [**Data Visualization**](https://moderndive.com/2-viz.html) from ModernDive
 
 Try to actually answer the "Learning Check" questions for yourself. Yes this takes longer than just skimming right past them. But they may show up on a quiz...
 
-## Application
-
-* You did some visualization in Lab 1. How did that exercise relate to the "why" reading?
-
 ## References
 
-* If you're the slides type, [here's some slides](https://datasciencebox.org/exploring-data.html#slides-application-exercises).
-We got to most of this material but not quite all of it yet.
-* <https://socviz.co/>
+### Visualization Design
+
+* A quick guide: the [Graphics Principles](https://graphicsprinciples.github.io/) [*cheat sheet*](https://github.com/GraphicsPrinciples/CheatSheet/blob/master/NVSCheatSheet.pdf).
 * [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/)
+* DataWrapper's blog has some great advice on [Area charts](https://blog.datawrapper.de/area-charts/), [colors](https://blog.datawrapper.de/beautifulcolors/), and [maps](https://blog.datawrapper.de/choroplethmaps/).
+* <https://socviz.co/>
+
+### Implementation
+
+* the [ggplot2 book](https://ggplot2-book.org/index.html)
+* the [R Graph Gallery](https://www.r-graph-gallery.com/)
 
 ## Tweaks
 

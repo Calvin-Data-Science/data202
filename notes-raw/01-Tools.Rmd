@@ -14,10 +14,10 @@
   * Its operations map pretty cleanly onto generalizable concepts
   * It has an extensive library of useful packages
   * It plays well with Python
-* Python
-  * It's very commonly used.
-  * It's extremely versatile.
-  * It's reasonably fast.
+<!-- * Python -->
+<!--   * It's very commonly used. -->
+<!--   * It's extremely versatile. -->
+<!--   * It's reasonably fast. -->
 * RMarkdown
   * It embodies reproducibility
   * ... which helps us practice integrity and humility.
@@ -60,18 +60,19 @@ update.packages()
 pkgs <- c(
   "rmarkdown",
   "tidyverse",
-  "ggformula",
+#  "ggformula",
   "plotly",
   "tidymodels",
-  "pins",
-  "reticulate",
-  "mosaic",
+#  "pins",
+#  "reticulate",
+#  "mosaic",
   "devtools",
   "usethis",
 #  "keras",
-  "nycflights13",
+#  "nycflights13",
   "skimr",
-  "timeDate"
+  "maps"
+#  "timeDate"
 #  "qualtRics"
 )
 
