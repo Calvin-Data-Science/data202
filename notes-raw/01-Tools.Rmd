@@ -25,6 +25,36 @@
   * It helps us be hospitable to teammates and future readers
   * It's very commonly used.
 
+### Why not just use Excel?
+
+For **data analysis**: [doing your analysis once in Excel](https://blog.rstudio.com/2021/09/07/my-excel-and-r-journey-in-financial-services/) can be instructive,
+especially for initial exploration or for demoing your ideas to 
+non-technical clients.
+
+But move to a reproducible platform for reporting.
+The ability to click a button to regenerate a report using new data will be well
+worth the additional time it takes to set up the report the first time.
+Also, spreadsheets are difficult to debug. For example, a mistake in a formula
+contributed to flawed conclusions in a study of economic austerity that was used
+to make policy decisions in several countries: "[The formula] averaged cells in lines 30 to 44 instead of lines 30 to 49.",
+"This spreadsheet error, compounded with other errors, is responsible for a −0.3 percentage-point error..." (Herndon, Ash, and Pollin 2013, [Does High Public Debt Consistently Stifle Economic Growth?](https://peri.umass.edu/images/WP322.pdf)).
+
+For **data management**, tread carefully. Spreadsheets might be fine for small data and small teams. But
+they fall over when either gets big.
+
+One reason is that spreadsheets have capacity limitations. For example, the limited number of rows
+and columns in an Excel spreadsheet [caused the UK to lose data about many Covid cases](https://theconversation.com/why-you-should-never-use-microsoft-excel-to-count-coronavirus-cases-147681) until it was discovered.
+
+Also, workflows that rely on emailing spreadsheets (or file-based databases) can lead to inconsistency,
+data corruption, lack of awareness of and accountability for changes, and tedium.
+
+Instead, seek more structure:
+
+* SQL-style databases
+* Salesforce or similar CRM platforms
+* Other data management platforms (AirTable, Notion, ...)
+
+
 ## R and RStudio
 
 ### rstudio.calvin.edu
