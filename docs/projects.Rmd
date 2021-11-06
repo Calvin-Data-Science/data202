@@ -130,7 +130,23 @@ Please follow this general outline (though you may add or remove aspects if need
 At least one of your visuals (either the original or alternative design) should be high
 quality, with effort spent getting the details right.
 
+### Report Notes
 
+- Use `output: pdf_document` to make clean PDFs. Ask on Piazza if you encounter any inscrutable errors knitting to PDF vs HTML.
+- Clean up messy outputs. e.g., use `message = FALSE` in the chunk header or `show_col_types = FALSE` for `read_csv` (the main culprit).
+- Write succinctly. Bulleted lists are fine when they're clear.
+- Use ordinary text formatting (not headings, blockquotes, etc.) for ordinary prose. Reserve headings and block quotes for headings and quotes.
+- Format your code cleanly. If lazy, select the code and click "Reformat Code" on the Code menu. (Make sure you Commit first.)
+- Read through the report before submitting. Check that code doesn't run into the margin, figures show correctly, you don't have placeholder text, the headings make sense, etc.
+
+Example chunk with some helpful flags:
+
+<!-- https://bookdown.org/yihui/rmarkdown-cookbook/verbatim-code-chunks.html -->
+`````
+```{r chunk-name, message = FALSE, fig.height=10, fig.width=10, comment = ""}`r ''`
+
+```
+`````
 
 
 ### Midterm Project Milestones
@@ -165,6 +181,12 @@ Milestones are due along with the corresponding week's homework.
 <!-- * **Week 4**: Create a rough-draft visualization, including brief notes on how the data were obtained and story was originally told using that data. We will workshop some visualizations in class. -->
 <!-- * **Week 5**: Provide feedback to other students. -->
 <!-- * **Week 6**: Final visual, plus your critique of the original article and some follow-up questions. -->
+
+### Helpful Resources
+
+* See the [Course Notes](notes/), especially for visualization tweaks.
+* [Some questions to ask if you're working with data that you didn't collect yourself](http://bit.ly/quaesita_notyours).
+
 
 ## **Final Project**: ask and answer your own data science question
 
