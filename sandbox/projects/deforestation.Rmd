@@ -1,0 +1,22 @@
+---
+title: "Untitled"
+author: "K Arnold"
+date: "11/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+```{r}
+data <- read_csv("/Users/ka37/Dropbox/Mac/Downloads/FAOSTAT/Environment_LandUse_E_All_Data_(Normalized)/Environment_LandUse_E_All_Data_(Normalized).csv") %>% janitor::clean_names()
+```
+
+```{r}
+data %>% 
+  filter(item == "Agricultural land", area_code >= 5000) %>% 
+  ggplot(aes(x = year, y = value, color = area)) + geom_line()
+```
+
