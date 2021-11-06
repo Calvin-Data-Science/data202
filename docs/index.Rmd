@@ -9,9 +9,10 @@ output:
 
 ## Quick Links
 
-* [Moodle](https://moodle.calvin.edu/course/view.php?id=54823)
-* [Slides](slides/)
-* [Calvin RStudio](https://rstudio.calvin.edu)
+[Moodle](https://moodle.calvin.edu/course/view.php?id=54823) | 
+[Slides](slides/) | 
+[Calvin RStudio](https://rstudio.calvin.edu) |
+[**Course Notes**](notes/)
 
 ## Description
 
