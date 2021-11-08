@@ -109,6 +109,16 @@ decisions %>%
 
 3. Compute the sensitivity and specificity. You may consult the [Wikipedia Page](https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix) if it's helpful. (Have you already computed one of these?) Discuss with your partner what "sensitivity" and "specificity" mean in this scenario.
 
+```{r include=FALSE}
+decisions %>% 
+  summarize(
+    true_positive_rate = sum(granted & repay) / sum(repay),    # frac of positives that were correct
+    true_negative_rate = sum(!granted & !repay) / sum(!repay), # frac of negatives that were correct
+    false_positive_rate = sum(granted & !repay) / sum(!repay)    # frac of negatives that were incorrect
+  )
+```
+
+
 4. Add a column to `decisions` called `outcome` that gives a label to each decision as a "True Positive", "False Positive", etc. Use `case_when` with conditions like `repay & !granted`. Count how many of each outcome occurs at your current threshold.
 
 ```{r include=FALSE}
@@ -142,11 +152,28 @@ all_decisions <-
     expand_grid(threshold = 1:100) %>% 
     mutate(granted = score >= threshold)
 
+outcomes_wide <- 
 all_decisions %>% 
   group_by(threshold) %>% 
-  summarize(positive_rate = mean(granted), true_positive_rate = sum(granted & repay) / sum(repay), correct = mean(granted == repay)) %>% 
+  summarize(
+    positive_rate = mean(granted),
+    true_positive_rate = sum(granted & repay) / sum(repay),
+    sensitivity = true_positive_rate,
+    true_negative_rate = sum(!granted & !repay) / sum(!repay),
+    specificity = true_negative_rate,
+    false_positive_rate = 1 - specificity,
+    correct = mean(granted == repay))
+
+outcomes_wide %>% 
   pivot_longer(c(positive_rate, true_positive_rate, correct)) %>% 
   ggplot(aes(x = threshold, y = value, color = name)) + geom_line()
+```
+
+```{r roc-curve, include=FALSE}
+outcomes_wide %>% 
+  ggplot(aes(x = false_positive_rate, y = true_positive_rate)) +
+  geom_line() +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed")
 ```
 
 
