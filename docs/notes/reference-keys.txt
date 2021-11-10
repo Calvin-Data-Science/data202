@@ -2,6 +2,7 @@ tab:multi-row-legend-ick
 tools
 useful-resources
 why-these-tools
+why-not-just-use-excel
 r-and-rstudio
 rstudio.calvin.edu
 rstudio-on-the-linux-machines
@@ -41,3 +42,6 @@ text-mining-and-bias
 resources-1
 communication
 resources-2
+ethics-and-social-impact
+background
+staying-up-to-date
