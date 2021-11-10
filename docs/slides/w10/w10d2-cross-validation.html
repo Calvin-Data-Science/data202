@@ -132,7 +132,11 @@ Yes, even across sections. See milestone instructions.
 
 ---
 
-## What made these models different? *Hyperparamaters*
+## What made these models different? *Hyperparameters*
+
+* Tree depth: how many levels of decisions
+* Leaf size: minimum number of observations for each leaf node
+* Complexity penalty: how much improvement for a split to be "worth it"
 
 
 ```r
@@ -147,9 +151,6 @@ model3 &lt;-
   fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
 
-* Tree depth: how many levels of decisions
-* Leaf size: minimum number of observations for each leaf node
-* Complexity penalty: how much improvement for a split to be "worth it"
 
 ---
 
@@ -213,7 +214,7 @@ Analogy by [Clem Wang](https://www.linkedin.com/pulse/metaphor-over-fitting-mach
 
 ---
 
-## But now we've peeked...
+## Cross-Validation
 
 #### Puzzle
 
