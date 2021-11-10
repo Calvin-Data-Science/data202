@@ -169,14 +169,15 @@ show_latlong_model(ames_train, model3) + guides(fill = "none", color = "none")
 
 ---
 
-## What made these models different? *Hyperparamaters*
-
-```{r ref.label=c("train-model1", "train-model2", "train-model3"), eval=FALSE}
-```
+## What made these models different? *Hyperparameters*
 
 * Tree depth: how many levels of decisions
 * Leaf size: minimum number of observations for each leaf node
 * Complexity penalty: how much improvement for a split to be "worth it"
+
+```{r ref.label=c("train-model1", "train-model2", "train-model3"), eval=FALSE}
+```
+
 
 ---
 
@@ -236,7 +237,7 @@ include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Snel
 
 ---
 
-## But now we've peeked...
+## Cross-Validation
 
 #### Puzzle
 
