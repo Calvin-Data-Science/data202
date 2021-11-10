@@ -178,6 +178,8 @@ roster_with_repos <- roster %>%
     branch = glue("{slugname}-main"),
     worktree = glue("../portfolio-{slugname}"),
     worktree_full = paste0(portfolio_clone_path, '/', worktree))
+
+write_csv(roster_with_repos, "../student_data/roster-with-repos.csv")
 roster_with_repos
 ```
 
