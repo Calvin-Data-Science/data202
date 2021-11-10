@@ -322,8 +322,10 @@ knitr::include_graphics("https://www.tmwr.org/premade/resampling.svg")
 ---
 
 ```{r three-cv-iter, echo=FALSE, out.width="100%"}
-knitr::include_graphics("https://www.tmwr.org/premade/three-CV-iter.svg")
+knitr::include_graphics("img/tmwr-three-CV-iter.png")
 ```
+
+.floating-source[Source: [Tidy Modeling with R](https://www.tmwr.org/premade/three-CV-iter.svg)]
 
 ---
 
