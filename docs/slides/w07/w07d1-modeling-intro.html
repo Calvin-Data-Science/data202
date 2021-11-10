@@ -29,8 +29,6 @@ class: center, middle, inverse, title-slide
 
 
 
-
-
 ## Logistics
 
 - Midterm 1 Online Portion is on Moodle
@@ -346,7 +344,7 @@ decision_tree_fit %&gt;%
 
 
 ```r
-metrics &lt;- yardstick::metric_set(rsq_trad, mae, mape, rmse)
+metrics &lt;- yardstick::metric_set(mae, mape, rsq_trad, rmse)
 decision_tree_fit %&gt;% 
   predict(ames_test) %&gt;% 
   bind_cols(ames_test) %&gt;% 
@@ -363,16 +361,16 @@ decision_tree_fit %&gt;%
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; rsq_trad &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.5254953 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; mae &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 35.3756288 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; mape &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 21.1170598 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; rsq_trad &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5254953 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; rmse &lt;/td&gt;
