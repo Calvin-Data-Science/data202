@@ -29,6 +29,7 @@ class: center, middle, inverse, title-slide
 
 
 
+.small-code[
 
 ```r
 data(ames, package = "modeldata")
@@ -54,7 +55,6 @@ ames_test &lt;- testing(ames_split)
 
 
 
-]
 
 ```r
 model1 &lt;-
@@ -75,8 +75,30 @@ model3 &lt;-
   decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2) %&gt;%
   fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
+]
 
 ---
+
+## Q&amp;A
+
+&gt; Where to look for final project ideas? How modeling is used?
+
+Pick a topic, search for "*topic* Kaggle", "*topic* data science blog" etc.; more ideas on the Projects page.
+
+&lt;!-- &gt; How might we use modeling and classifier evaluation in our projects? --&gt;
+
+&lt;!-- - Classification: label things as good/bad, customers as sale/bounce, land as crop/forest, ... --&gt;
+
+&gt; What other areas does sensitivity/specificity matter for?
+
+Medical tests. Fraud detection. Content moderation. Lots!
+
+&gt; Can we do final project in teams?
+
+Yes, even across sections. See milestone instructions.
+
+---
+
 
 ## Location, Location, Location!
 
