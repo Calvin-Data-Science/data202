@@ -30,20 +30,6 @@ sweep_model <- function(model, var_to_sweep, sweep_min, sweep_max, ...) {
     bind_cols(X)
 }
 
-# add_predictions <- function(data, ...) {
-#   model_names <- as.character(eval(substitute(alist(...))))
-#   models <- list(...)
-#   map2_dfr(
-#     model_names,
-#     models,
-#     function(model_name, model) {
-#       model %>%
-#         predict(data) %>%
-#         bind_cols(data) %>%
-#         mutate(model = !!model_name)
-#     }
-#   )
-# }
 add_predictions <- function(data, model, variable_name = ".pred", model_name = deparse(substitute(model))) {
   model %>%
     predict(data) %>%
@@ -51,9 +37,9 @@ add_predictions <- function(data, model, variable_name = ".pred", model_name = d
     mutate(model = model_name) %>%
     bind_cols(data)
 }
-
 ```
 
+.small-code[
 ```{r load-and-subset-data}
 data(ames, package = "modeldata")
 ames_all <- ames %>%
@@ -95,7 +81,6 @@ show_latlong_model <- function(dataset, model, model_name = deparse(substitute(m
 }
 ```
 
-]
 ```{r train-model1}
 model1 <-
   decision_tree(mode = "regression", tree_depth = 2) %>%
@@ -113,8 +98,30 @@ model3 <-
   decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2) %>%
   fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
+]
 
 ---
+
+## Q&A
+
+> Where to look for final project ideas? How modeling is used?
+
+Pick a topic, search for "*topic* Kaggle", "*topic* data science blog" etc.; more ideas on the Projects page.
+
+<!-- > How might we use modeling and classifier evaluation in our projects? -->
+
+<!-- - Classification: label things as good/bad, customers as sale/bounce, land as crop/forest, ... -->
+
+> What other areas does sensitivity/specificity matter for?
+
+Medical tests. Fraud detection. Content moderation. Lots!
+
+> Can we do final project in teams?
+
+Yes, even across sections. See milestone instructions.
+
+---
+
 
 ## Location, Location, Location!
 
