@@ -12,7 +12,8 @@ output:
 [Moodle](https://moodle.calvin.edu/course/view.php?id=54823) | 
 [Slides](slides/) | 
 [Calvin RStudio](https://rstudio.calvin.edu) |
-[**Course Notes**](notes/)
+[**Course Notes**](notes/) | 
+[**Project**](projects.html)
 
 ## Description
 
