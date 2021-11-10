@@ -188,21 +188,51 @@ Milestones are due along with the corresponding week's homework.
 * [Some questions to ask if you're working with data that you didn't collect yourself](http://bit.ly/quaesita_notyours).
 
 
-## **Final Project**: ask and answer your own data science question
+## **Final Project**: A complete Data Science process
 
-This project will require doing new work, either extending some existing work (like the first project) or starting from scratch. Results will be presented as a report, supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components. The report should be at the level of polish and formality of a blog post (more than a class homework assignment, less than an academic paper). The overview and primary visualizations should be intelligible to a non-technical audience; the methods should be described in precise technical language as appropriate.
+```{r echo=FALSE, fig.cap="Source: [R4DS](https://r4ds.had.co.nz/introduction.html)"}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/571b056757d68e6df81a3e3853f54d3c76ad6efc/32d37/diagrams/data-science.png")
+```
 
-The final course meeting (during the designated final exam period) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
 
-<!--
-### Project 2 Milestones
+The goal of this project is to practice a complete data science workflow: question, data, exploration, modeling, and communication.
+Results will be presented as a report, supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components. The report should be at the level of polish and formality of a blog post (more than a class homework assignment, less than an academic paper). The overview and primary visualizations should be intelligible to a non-technical audience; the methods should be described in precise technical language as appropriate.
 
-* **Week 7**: Draft of a project proposal including specific questions
-* **Week 8**: Revised project proposal
-* **Week 10**: Dataset and exploratory visualization done
-* **Week 12**: Initial modeling and visualization
-* **Week 15**: Final presentation
--->
+An important component of this project is a *critique* of some related prior work. That is, you are not simply demonstrating that you can perform an analysis, but also that you can evaluate the strengths and weaknesses of others' analyses. This may be the most important take-away from this class for your future career.
+
+### Logistics
+
+**Teams**: Both individual and team projects are permitted, with a mild encouragement towards teams. We will create repos for teams.
+
+**Presentations**: The final course meeting (during the designated final exam period) will be devoted to final project presentations. Feedback on others' projects will be part of your final project grade, so attendance is mandatory.
+
+There are two sections of this class, thus two sessions: Tuesday 12/14 at 9am and Wed 12/15 at 1:30pm. Your team must choose which to present at. You are welcome to attend both sessions to see everyone's work.
+
+### Milestones
+
+* Nov 12: **Initial proposal**. This should include:
+  * A tentative *topic* (kind of data you want to work with, question you'd like to ask). Include a brief description of what drives your interest in it.
+  * An *example* or two of some data science work you've found on the topic already. See below for some guidance on this. Include the URLs of resources you found, and some brief commentary about each one (does it seem good?)
+  * A proposal of *what you'd like to do*. A first step will usually be to do an analysis similar to one of the examples you found, and you may not have much idea beyond that at this time. But if you do have some ideas for what you might want to do differently, this is a good place to include them. Note that your overall task should include some modeling (predictive or otherwise).
+  * Tentative *Teams*: If you have already found people who may be interested in working with you, note that here.
+* Nov 19: **Revised proposal**
+* Dec 3: **Dataset and exploratory visualization**
+* Dec 10: **Initial modeling and visualization**
+* Dec 15: **Final report**
+
+### Choosing a project and examples
+
+You can find examples of data science work on sites like Kaggle, TowardsDataScience, Reddit, YouTube, and GitHub. Also check out the TidyTuesday project and r-bloggers.
+
+Your project should include some modeling, so it should involve more than making visualizations.
+Predictive modeling is closest to the emphasis of this class, but other kinds of modeling are often ok.
+
+Your data should be rich enough to support the kind of modeling you want to do, but not too complex to work with.
+For example, avoid any dataset larger than 500 MB since it probably won't fit.
+Also, avoid image and sound data for similar reasons. (Although if you really want to work with images, there are ways to do this.)
+
+---
+
 
 ### Project 2 Detailed Expectations
 
