@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Text Classification and Bias</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="DATA 202 21FA" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Text Classification and Bias
+### DATA 202 21FA
+
+---
+
+
+
+
+
+
+class: center, middle
+
+## Text Analysis
+
+---
+
+### Why?
+
+* Lots of data is *only* in text form
+  * reviews (products, movies, travel destinations, etc.)
+  * social media posts
+  * articles (news, Wikipedia, etc.)
+  * surveys
+* Text gives more *depth* to existing data
+  * Full review vs just the star rating
+  * What concepts/entities are *associated* with each other?
+* Text enables new interactions with data
+  * Conversational interfaces
+  * Q&amp;A systems
+
+---
+
+### What can we do with text data?
+
+* Sentiment analysis
+* Categorization (spam!)
+* Information extraction
+* Relationship extraction
+* Topic analysis
+* ... lots more!
+
+---
+
+### Example: Revealing Fake Comments
+
+In 2017, the FCC solicited public comments about proposed changes to Net Neutrality
+protections. They got *flooded with fake comments*.
+
+&lt;img src="https://hackernoon.com/hn-images/1*shWYIe0km5rYxPebfGPTTg.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+
+.floating-source[
+Source: Jeff Kao, [More than a Million Pro-Repeal Net Neutrality Comments were Likely Faked](https://hackernoon.com/more-than-a-million-pro-repeal-net-neutrality-comments-were-likely-faked-e9f0e3ed36a6)
+See also [BuzzFeed News article](https://www.buzzfeednews.com/article/jsvine/net-neutrality-fcc-fake-comments-impersonation)
+]
+
+---
+
+### Some examples
+
+
+```r
+if (!py_module_available("torch"))
+  py_install("pytorch", channel = "pytorch")
+if (!py_module_available("transformers"))
+  reticulate::py_install('transformers', pip = TRUE)
+```
+
+
+
+```python
+from transformers import pipeline
+from pprint import pprint
+```
+
+---
+
+### Sentiment Analysis
+
+We'll load up the default sentiment analysis pipeline, which uses a model called
+[distilbert-base-uncased-finetuned-sst-2-english](https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english).
+It is:
+
+* Google's [BERT](https://arxiv.org/abs/1810.04805) language model, trained on English Wikipedia and books
+* "[distilled](https://arxiv.org/abs/1910.01108)" into a smaller model that performs similarly
+* "fine-tuned" to the task of predicting sentiment on the [Stanford Sentiment Treebank](https://nlp.stanford.edu/sentiment/index.html) (SST-2) dataset.
+
+
+```python
+sentiment_pipeline = pipeline("sentiment-analysis")
+```
+
+
+
+```python
+def text_to_sentiment(sentence):
+  result = sentiment_pipeline(sentence)[0]
+  if result['label'] == "POSITIVE": return result['score']
+  if result['label'] == "NEGATIVE": return -result['score']
+  raise ValueError("Unknown result label: " + result['label'])
+```
+
+---
+
+#### Sentiment Examples
+
+
+```python
+text_to_sentiment("I hate you")
+```
+
+```
+-0.9991129040718079
+```
+
+```python
+text_to_sentiment("I love you")
+```
+
+```
+0.9998656511306763
+```
+
+
+```python
+text_to_sentiment("This is bad.")
+```
+
+```
+-0.9997842311859131
+```
+
+```python
+text_to_sentiment("This is not that bad.")
+```
+
+```
+0.9995995163917542
+```
+
+---
+
+### Sentiment Bias
+
+Examples from &lt;https://blog.conceptnet.io/posts/2017/how-to-make-a-racist-ai-without-really-trying/&gt;
+
+
+```python
+text_to_sentiment("Let's go get Italian food")
+```
+
+```
+-0.8368805050849915
+```
+
+```python
+text_to_sentiment("Let's go get Chinese food")
+```
+
+```
+0.7037906646728516
+```
+
+```python
+text_to_sentiment("Let's go get Mexican food")
+```
+
+```
+-0.6264737248420715
+```
+
+---
+
+
+```python
+text_to_sentiment("My name is Emily")
+```
+
+```
+0.9860560894012451
+```
+
+```python
+text_to_sentiment("My name is Heather")
+```
+
+```
+0.9748725891113281
+```
+
+```python
+text_to_sentiment("My name is Latisha")
+```
+
+```
+-0.9962578415870667
+```
+
+```python
+text_to_sentiment("My name is Nour")
+```
+
+```
+-0.81707364320755
+```
+
+---
+
+### It's not just in toy examples
+
+&lt;img src="img/algorithmwatch-toxicity.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+
+.floating-source[
+Source: [AlgorithmWatch](https://algorithmwatch.org/en/story/automated-moderation-perspective-bias/)
+]
+---
+
+### Quantifying Bias
+
+.small-code[
+
+```python
+NAMES_BY_ETHNICITY = {
+    # The first two lists are from the Caliskan et al. appendix describing the
+    # Word Embedding Association Test.
+    'White': [
+        'Adam', 'Chip', 'Harry', 'Josh', 'Roger', 'Alan', 'Frank', 'Ian', 'Justin',
+        'Ryan', 'Andrew', 'Fred', 'Jack', 'Matthew', 'Stephen', 'Brad', 'Greg', 'Jed',
+        'Paul', 'Todd', 'Brandon', 'Hank', 'Jonathan', 'Peter', 'Wilbur', 'Amanda',
+        'Courtney', 'Heather', 'Melanie', 'Sara', 'Amber', 'Crystal', 'Katie',
+        'Meredith', 'Shannon', 'Betsy', 'Donna', 'Kristin', 'Nancy', 'Stephanie',
+        'Bobbie-Sue', 'Ellen', 'Lauren', 'Peggy', 'Sue-Ellen', 'Colleen', 'Emily',
+        'Megan', 'Rachel', 'Wendy'
+    ],
+
+    'Black': [
+        'Alonzo', 'Jamel', 'Lerone', 'Percell', 'Theo', 'Alphonse', 'Jerome',
+        'Leroy', 'Rasaan', 'Torrance', 'Darnell', 'Lamar', 'Lionel', 'Rashaun',
+        'Tyree', 'Deion', 'Lamont', 'Malik', 'Terrence', 'Tyrone', 'Everol',
+        'Lavon', 'Marcellus', 'Terryl', 'Wardell', 'Aiesha', 'Lashelle', 'Nichelle',
+        'Shereen', 'Temeka', 'Ebony', 'Latisha', 'Shaniqua', 'Tameisha', 'Teretha',
+        'Jasmine', 'Latonya', 'Shanise', 'Tanisha', 'Tia', 'Lakisha', 'Latoya',
+        'Sharise', 'Tashika', 'Yolanda', 'Lashandra', 'Malika', 'Shavonn',
+        'Tawanda', 'Yvette'
+    ],
+    
+    # This list comes from statistics about common Hispanic-origin names in the US.
+    'Hispanic': [
+        'Juan', 'José', 'Miguel', 'Luís', 'Jorge', 'Santiago', 'Matías', 'Sebastián',
+        'Mateo', 'Nicolás', 'Alejandro', 'Samuel', 'Diego', 'Daniel', 'Tomás',
+        'Juana', 'Ana', 'Luisa', 'María', 'Elena', 'Sofía', 'Isabella', 'Valentina',
+        'Camila', 'Valeria', 'Ximena', 'Luciana', 'Mariana', 'Victoria', 'Martina'
+    ],
+    
+    # The following list conflates religion and ethnicity, I'm aware. So do given names.
+    #
+    # This list was cobbled together from searching baby-name sites for common Muslim names,
+    # as spelled in English. I did not ultimately distinguish whether the origin of the name
+    # is Arabic or Urdu or another language.
+    #
+    # I'd be happy to replace it with something more authoritative, given a source.
+    'Arab/Muslim': [
+        'Mohammed', 'Omar', 'Ahmed', 'Ali', 'Youssef', 'Abdullah', 'Yasin', 'Hamza',
+        'Ayaan', 'Syed', 'Rishaan', 'Samar', 'Ahmad', 'Zikri', 'Rayyan', 'Mariam',
+        'Jana', 'Malak', 'Salma', 'Nour', 'Lian', 'Fatima', 'Ayesha', 'Zahra', 'Sana',
+        'Zara', 'Alya', 'Shaista', 'Zoya', 'Yasmin'
+    ]
+}
+```
+]
+
+---
+
+
+```r
+name_sentiments &lt;- 
+  py$NAMES_BY_ETHNICITY %&gt;% enframe("ethnicity", "name") %&gt;% unnest(name) %&gt;% 
+  rowwise() %&gt;% 
+  mutate(sentiment = py$text_to_sentiment(glue("My name is {name}")))
+name_sentiments %&gt;% arrange(sentiment)
+```
+
+```
+# A tibble: 160 × 3
+# Rowwise: 
+  ethnicity   name    sentiment
+  &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt;
+1 Black       Latisha    -0.996
+2 Black       Latoya     -0.938
+3 Black       Deion      -0.936
+4 Arab/Muslim Sana       -0.924
+5 Arab/Muslim Nour       -0.817
+6 Arab/Muslim Malak      -0.801
+# … with 154 more rows
+```
+
+---
+
+
+```r
+ggplot(name_sentiments, aes(x = sentiment, y = ethnicity)) + geom_boxplot()
+```
+
+&lt;img src="w10d1-text_files/figure-html/name-sentiments-plot-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+### Question Answering
+
+
+```python
+qa_pipeline = pipeline("question-answering")
+```
+
+
+
+```python
+context = r"""
+Extractive Question Answering is the task of extracting an answer from a text given a question. An example of a
+question answering dataset is the SQuAD dataset, which is entirely based on that task. If you would like to fine-tune
+a model on a SQuAD task, you may leverage the examples/question-answering/run_squad.py script.
+"""
+
+result = qa_pipeline(question="What is extractive question answering?", context=context)
+print(f"Answer: '{result['answer']}', score: {round(result['score'], 4)}, start: {result['start']}, end: {result['end']}")
+```
+
+```
+Answer: 'the task of extracting an answer from a text given a question', score: 0.6226, start: 34, end: 95
+```
+
+
+
+```python
+result = qa_pipeline(question="What is a good example of a question answering dataset?", context=context)
+print(f"Answer: '{result['answer']}', score: {round(result['score'], 4)}, start: {result['start']}, end: {result['end']}")
+```
+
+```
+Answer: 'SQuAD dataset', score: 0.5053, start: 147, end: 160
+```
+
+---
+
+### Named Entity Recognition
+
+
+```python
+ner_pipeline = pipeline("ner", grouped_entities = True)
+sequence = ("Hugging Face Inc. is a company based in New York City. Its headquarters are in DUMBO, therefore very"
+           "close to the Manhattan Bridge which is visible from the window.")
+```
+
+
+```python
+pprint(ner_pipeline(sequence))
+```
+
+```
+[{'entity_group': 'ORG',
+  'score': 0.9972161799669266,
+  'word': 'Hugging Face Inc'},
+ {'entity_group': 'LOC', 'score': 0.999382734298706, 'word': 'New York City'},
+ {'entity_group': 'LOC', 'score': 0.9394184549649557, 'word': 'DUMBO'},
+ {'entity_group': 'LOC',
+  'score': 0.9830368161201477,
+  'word': 'Manhattan Bridge'}]
+```
+
+---
+
+class: center, middle
+
+## Other Text Tasks
+
+---
+
+### Comparing texts: [`scattertext`](https://github.com/JasonKessler/scattertext)
+
+&lt;img src="https://raw.githubusercontent.com/JasonKessler/jasonkessler.github.io/master/demo_compact.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Topic Modeling
+
+&lt;img src="img/cleannlp-topic-model.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+.floating-source[
+From a [vignette](https://statsmaths.github.io/cleanNLP/state-of-union.html) in the `cleanNLP` package
+]
+
+---
+
+class: center, middle
+
+## Other Issues
+
+---
+
+### Fake News
+
+.small[
+&gt; In addition to the potential for AI-generated false stories, there’s a simultaneously scary and exciting future where AI-generated false stories are the norm. The rise of the software engineer has given us the power to create new kinds of spaces: virtual reality and augmented reality are now possible, and the “Internet of things” is increasingly entering our homes. This past year, we’ve seen a new type of art: that which is created by algorithms and not humans. In this future, AI-generated content will continue to become more sophisticated, and it will be increasingly difficult to differentiate it from the content that is created by humans. One of the implications of the rise in AI-generated content is that the public will have to contend with the reality that it will be increasingly difficult to differentiate between generated content and human-generated content.
+]
+
+* Written by GPT-3 for [The Atlantic](https://www.theatlantic.com/ideas/archive/2020/09/future-propaganda-will-be-computer-generated/616400/)
+* See also: [The Radicalization Risks of GPT-3 and Advanced Neural Language Models](https://arxiv.org/abs/2009.06807)
+
+---
+
+### Climate Impact
+
+* GPT-3 training required about 190,000 kWh (about 85,000 kg CO2)
+  * but Microsoft pledged "carbon negative" by 2030
+
+&lt;img src="https://www.microsoft.com/en-us/research/uploads/prod/2020/02/TurningNGL_Model__1400x788.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+
+
+.floating-source[
+Sources: [The Register](https://www.theregister.com/2020/11/04/gpt3_carbon_footprint_estimate/),
+[Carbontracker](https://arxiv.org/abs/2007.03051)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
