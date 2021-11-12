@@ -56,6 +56,19 @@ metrics <- yardstick::metric_set(mae, mape, rsq_trad)
 ```
 
 
+Here's a utility function we may need:
+
+```{r}
+add_predictions <- function(data, model, variable_name = ".pred", model_name = deparse(substitute(model))) {
+  model %>%
+    predict(data) %>%
+    rename(!!enquo(variable_name) := .pred) %>%
+    mutate(model = model_name) %>%
+    bind_cols(data)
+}
+```
+
+
 **Note**: unless explicitly mentioned below, use the *training set* for plots
 and models.
 
@@ -141,15 +154,24 @@ To see the model's predictions alongside that data, we generally have to do `pre
 augment(model1, new_data = lat_long_grid)
 ```
 
+Some people may find that a bit confusing, and for others it might simply not work because of package versions. So I've provided another function
+above, called `add_predictions`, that you can use instead:
 
-Here's a utility function to show a model's predictions:
+```{r}
+lat_long_grid %>% add_predictions(model1)
+```
+
+
+
+Here's a utility function to show a model's predictions; don't worry about how it works since
+it's pretty customized to this scenario:
 
 ```{r plot-util}
 show_latlong_model <- function(dataset, model,
                                model_name = deparse(substitute(model))) {
   ggplot(dataset, aes(x = Longitude, y = Latitude)) +
     geom_raster(
-      data = augment(model, lat_long_grid),
+      data = add_predictions(lat_long_grid, model),
       mapping = aes(fill = .pred)
     ) +
     # Draw two point layers, so each point gets a little black outline.
@@ -162,7 +184,7 @@ show_latlong_model <- function(dataset, model,
 }
 ```
 
-Let's see how `model1` predicts.
+Let's see what `model1` predicts.
 
 ```{r show-model1-data}
 show_latlong_model(ames_train, model1)
@@ -173,7 +195,8 @@ show_latlong_model(ames_train, model1)
 Make a histogram of the residuals. Recall the the "residual" is "actual minus predicted".
 
 ```{r}
-augment(model1, new_data = ames_train) %>% 
+ames_train %>% 
+  add_predictions(model1) %>% 
   mutate(resid = Sale_Price - .pred) %>%
   ggplot(aes(x = resid)) +
     geom_histogram(binwidth = 10)
@@ -182,7 +205,8 @@ augment(model1, new_data = ames_train) %>%
 We can summarize that by looking at the mean absolute error.
 
 ```{r}
-augment(model1, ames_train) %>% 
+ames_train %>% 
+  add_predictions(model1) %>% 
   # summarize(mae = mean(abs(Sale_Price - .pred)))
   mae(truth = Sale_Price, estimate = .pred)
 ```
@@ -221,7 +245,8 @@ filling in the minimum and maximum appropriately, so that all of your residuals
 histograms are on the same scale. (Don't try to calculate the range, just hard-code it.)
 
 ```{r echo=FALSE}
-augment(model2, ames_train) %>% 
+ames_train %>% 
+  add_predictions(model2) %>% 
   mutate(resid = Sale_Price - .pred) %>%
   ggplot(aes(x = resid)) +
   geom_histogram(binwidth = 10) +
@@ -231,7 +256,8 @@ augment(model2, ames_train) %>%
 And we can quantify with MAE again:
 
 ```{r}
-augment(model2, ames_train) %>% 
+ames_train %>% 
+  add_predictions(model2) %>% 
   mae(truth = Sale_Price, estimate = .pred)
 ```
 
@@ -263,7 +289,8 @@ above. What do you notice?
 Now we analyze the errors again.
 
 ```{r}
-augment(model3, ames_train) %>% 
+ames_train %>% 
+  add_predictions(model3) %>% 
   mutate(resid = Sale_Price - .pred) %>%
   ggplot(aes(x = resid)) +
   geom_histogram(binwidth = 1) +
@@ -282,9 +309,9 @@ The following code fragment collects the residuals for all 3 models on `ames_tra
 
 ```{r}
 bind_rows(
-  model1 = augment(model1, ames_train),
-  model2 = augment(model2, ames_train),
-  model3 = augment(model3, ames_train),
+  model1 = add_predictions(ames_train, model1),
+  model2 = add_predictions(ames_train, model2),
+  model3 = add_predictions(ames_train, model3),
   .id = "model"
 ) %>% 
   group_by(model) %>% 
@@ -297,9 +324,9 @@ Now let's try that on the **test set**.
 
 ```{r}
 bind_rows(
-  model1 = augment(model1, ames_test),
-  model2 = augment(model2, ames_test),
-  model3 = augment(model3, ames_test),
+  model1 = add_predictions(ames_test, model1),
+  model2 = add_predictions(ames_test, model2),
+  model3 = add_predictions(ames_test, model3),
   .id = "model"
 ) %>% 
   group_by(model) %>% 
@@ -370,6 +397,7 @@ first_split_fitted_model <- model1_workflow %>%
   fit(analysis(first_split))
 first_split_predictions <- first_split_fitted_model %>% 
   augment(new_data = assessment(first_split))
+# or: assessment(first_split) %>% add_predictions(first_split_fitted_model)
 first_split_metrics <- first_split_predictions %>% metrics(truth = Sale_Price, estimate = .pred)
 first_split_metrics
 ```
