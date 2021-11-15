@@ -198,7 +198,7 @@ forest_internals %>%
   pluck("predictions")
 ```
 
-```{r}
+```{r include=FALSE}
 forest_internals %>% 
   predict(
     data = ames_test %>% head(8),
@@ -258,14 +258,14 @@ coef_living_area <- 0.1029
 
 
 ```{r}
-intercept + coef_living_area * 1610
+intercept + coef_living_area * 1804
 ```
 ]
 
 .pull-right[.small-code[
 ```{r price-vs-liv-area, out.width="100%"}
 ggplot(ames_all, aes(x = Gr_Liv_Area, y = Sale_Price)) +
-  geom_point() +
+  geom_point(alpha = .25) +
   geom_hline(yintercept = example_home$Sale_Price, color = "red") +
   geom_vline(xintercept = example_home$Gr_Liv_Area, color = "red") +
   geom_point(data = example_home, color = 'red', size = 5) +
@@ -344,9 +344,9 @@ How could a *linear model* treat remodeled homes differently from non-remodeled?
 
 ```
 if remodeled:
-  Sale_Price = intercept_remodeled + coef_sqft * Gr_Liv_Arera
+  Sale_Price = intercept_remodeled + coef_sqft * Gr_Liv_Area
 else:
-  Sale_Price = intercept_other + coef_sqft * Gr_Liv_Arera
+  Sale_Price = intercept_other + coef_sqft * Gr_Liv_Area
 ```
 
 --
@@ -420,10 +420,10 @@ ames_model_2 %>% tidy() %>% pull(estimate, name = term) %>%
   glue::glue_data("
   \`\`\`
   if remodeled:
-    Sale_Price = {(Intercept)} + {Gr_Liv_Area} * Gr_Liv_Arera - {remodeled_TRUE.} * (1)
-    Sale_Price = ({(Intercept)} - {remodeled_TRUE.}) + {Gr_Liv_Area} * Gr_Liv_Arera
+    Sale_Price = {(Intercept)} + {Gr_Liv_Area} * Gr_Liv_Area - {remodeled_TRUE.} * (1)
+    Sale_Price = ({(Intercept)} - {remodeled_TRUE.}) + {Gr_Liv_Area} * Gr_Liv_Area
   else:
-    Sale_Price = {(Intercept)} + {Gr_Liv_Area} * Gr_Liv_Arera
+    Sale_Price = {(Intercept)} + {Gr_Liv_Area} * Gr_Liv_Area
   \`\`\`", .transformer = function(text, envir) {
     formatC(envir[[text]], format = "f", digits = 1)
   })
@@ -435,8 +435,8 @@ ames_model_2 %>% tidy() %>% pull(estimate, name = term) %>%
 ```{r price-vs-liv-area-remodeled, out.width="100%"}
 ggplot(baked_ames_train, aes(x = Gr_Liv_Area, y = Sale_Price, color = remodeled_TRUE.)) +
   geom_point() +
-  geom_function(fun = function(x) (22643.4248 - 18424.0789) + 109.1132 * x, color = "blue") +
-  geom_function(fun = function(x) 22643.4248 + 109.1132 * x, color = "green")
+  geom_function(fun = function(x) (22.6434248 - 18424.0789) + .1091132 * x, color = "blue") +
+  geom_function(fun = function(x) 22.6434248 + .1091132 * x, color = "green")
   
 ```
 
