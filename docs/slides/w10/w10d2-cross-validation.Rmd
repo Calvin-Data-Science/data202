@@ -337,7 +337,7 @@ ames_train %>%
   iwalk(function(split, split_idx) {
     print(
       bind_rows(analysis = analysis(split), assessment = assessment(split), .id = "role") %>% 
-      ggplot(aes(x = Latitude, y = Longitude, color = role, shape = role)) +
+      ggplot(aes(y = Latitude, x = Longitude, color = role, shape = role)) +
       geom_point(size = 1) +
       scale_color_manual(values = c("analysis" = "grey", "assessment" = "red")) +
       labs(title = glue("Fold {split_idx}")) +
@@ -380,7 +380,7 @@ withr::with_seed(0, {
         pull(.estimate)
       print(
         bind_rows(analysis = analysis(split), assessment = assessment(split), .id = "role") %>% 
-        ggplot(aes(x = Latitude, y = Longitude, color = role)) +
+        ggplot(aes(y = Latitude, x = Longitude, color = role)) +
         geom_raster(
           data = lat_long_grid %>% add_predictions(model),
           mapping = aes(fill = .pred, color = NULL)
