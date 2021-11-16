@@ -1,5 +1,5 @@
 ---
-title: "HW 9: Predictive Modeling"
+title: "HW 10: Predictive Modeling"
 output: 
   tufte::tufte_html:
     css: ../hw.css
@@ -22,19 +22,23 @@ options(dplyr.summarise.inform = FALSE) # silence a warning message
 * Use visualization to understand the strengths and weaknesses of different models
 * Compare and contrast linear regression and decision trees
 
-We'll again be using the Capital Bike Share dataset. In hw3 we wrangled this
+We'll again be using the Capital Bike Share dataset. In an earlier assignment we wrangled this
 raw data ourselves, but we'll go back to the pre-wrangled data we worked with
 before since our focus here is on the modeling.
 
-Here are some useful utility functions. They will let you omit the `set_engine`
-step; just use `linear_reg() %>% fit(...)`. This upgraded `add_predictions`
-function can now take multiple models too (e.g., `data %>% add_predictions(model1, model2, model3)`,
-and makes a tidy data frame with the predictions of each model for each data point,
+First, here is a utility function. You pipe in a dataset and pass one or more 
+models as arguments:
+
+```r
+data %>% add_predictions(model1, model2, model3)
+```
+
+It makes a tidy data frame with the predictions of each model for each data point,
 and a column called `model` that gives the name of the model.
 
 ```{r echo=TRUE}
 add_predictions <- function(data, ...) {
-  imap_dfr(
+  purrr::imap_dfr(
     rlang::dots_list(..., .named = TRUE),
     function(model, model_name) {
       model %>%
@@ -43,15 +47,6 @@ add_predictions <- function(data, ...) {
         mutate(model = !!model_name)
     }
   )
-}
-
-linear_reg <- function(engine = "lm", ...) {
-  parsnip::linear_reg(...) %>% set_engine(engine)
-}
-
-decision_tree <- function(mode = "regression", engine = "rpart", ...) {
-  parsnip::decision_tree(mode = "regression", ...) %>%
-    set_engine(engine)
 }
 ```
 
@@ -77,12 +72,12 @@ read_csv("../../data/bikeshare/day.csv", col_types = cols(
   rename(
     year = yr,
     date = dteday
-  ) %>% write_csv("data/day-hw09.csv")
-file.copy("data/day-hw09.csv", "../../../src/hw/hw09-modeling/data/day-hw09.csv")
+  ) %>% write_csv("data/day-hw10.csv")
+file.copy("data/day-hw10.csv", "../../../src/hw/hw10-modeling/data/day-hw10.csv")
 ```
 
 ```{r load-data, echo=TRUE}
-daily_rides <- read_csv("data/day-hw09.csv", col_types = cols_only(
+daily_rides <- read_csv("data/day-hw10.csv", col_types = cols_only(
   date = col_date(),
   year = col_integer(),
   workingday = col_character(),
@@ -162,13 +157,12 @@ Complete this sentence: "For every additional degree C, model1 predicts ___ addi
 
 ### Predictions
 
-Plot the model's predictions along with the number of casual rides.
+Plot the model's predictions along with the number of casual rides. Do this by piping `train` into `add_predictions(model1)`
+to make the predictions, then plot the result. You'll want to add a `geom_line`
+where you specify `.pred` as the `y` aesthetic.
 
-(Start by piping `train` into `add_predictions(model1)`. You'll want to add a `geom_line`
-where you specify `.pred` as the `y` aesthetic. This works because the dataset is sorted by `date` already.)
-
-(For this plot, and only this plot, the result will look cleaner if you specify
-a `color` for `geom_line` outside of the aesthetic mapping. But that's optional.)
+(*Very Optional*: For this plot, and only this plot, the result will look cleaner if you specify
+a `color` for `geom_line` outside of the aesthetic mapping.)
 
 ```{r show-model1}
 train %>%
@@ -387,11 +381,11 @@ Use the default settings.
 
 ```{r}
 model3 <-
-  decision_tree() %>%
+  decision_tree(mode = "regression") %>%
   fit(casual ~ temp + workingday, data = train)
 ```
 
-We can show the tree using the same method we used in Lab 9.
+We can show the tree using the same method we used in class and lab:
 
 ```{r echo=TRUE}
 model3 %>%

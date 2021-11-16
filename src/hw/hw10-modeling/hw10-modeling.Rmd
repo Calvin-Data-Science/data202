@@ -1,8 +1,7 @@
 ---
-title: "Homework 9: Predictive Modeling"
+title: "Homework 10: Predictive Modeling"
 author: "YOUR NAME"
-date: "TODAY'S DATE"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -16,27 +15,15 @@ options(dplyr.summarise.inform = FALSE) # silence a warning message
 
 ```{r utilities, echo=FALSE}
 add_predictions <- function(data, ...) {
-  model_names <- as.character(eval(substitute(alist(...))))
-  models <- list(...)
-  map2_dfr(
-    model_names,
-    models,
-    function(model_name, model) {
+  purrr::imap_dfr(
+    rlang::dots_list(..., .named = TRUE),
+    function(model, model_name) {
       model %>%
         predict(data) %>%
         bind_cols(data) %>%
         mutate(model = !!model_name)
     }
   )
-}
-
-linear_reg <- function(engine = "lm", ...) {
-  parsnip::linear_reg(...) %>% set_engine(engine)
-}
-
-decision_tree <- function(mode = "regression", engine = "rpart", ...) {
-  parsnip::decision_tree(mode = "regression", ...) %>%
-    set_engine(engine)
 }
 ```
 
@@ -45,7 +32,7 @@ decision_tree <- function(mode = "regression", engine = "rpart", ...) {
 ### Load data
 
 ```{r load-data, include=TRUE}
-daily_rides <- read_csv("data/day-hw09.csv", col_types = cols_only(
+daily_rides <- read_csv("data/day-hw10.csv", col_types = cols_only(
   date = col_date(),
   year = col_integer(),
   workingday = col_character(),
