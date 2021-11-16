@@ -309,12 +309,12 @@ h2, h3, h4 {
   margin: 5px;
 }
 .scripture {
-  max-width: 80%;
+  max-width: 90%;
   margin: 10px auto;
 }
 .scripture .remark-code {
   font-family: "Noto Sans", sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 .scripture .ref {
   display: block;

@@ -206,6 +206,25 @@ forest_internals %>%
   pluck("predictions")
 ```
 
+
+---
+
+## Value of Diversity
+
+.scripture[
+```
+I looked and there before me
+was a great multitude that no one could count,
+from every nation, tribe, people and language,
+standing before the throne.
+```
+
+.ref[Revelation 7:9, as quoted in Calvin's "From Every Nation"]
+]
+
+- Random Forests work because they combine diverse perspectives (from different training data, different choices)
+- Reflects value of diversity in God's Kingdom (see also Rev 5:9, 1 Cor 12, etc.)
+
 ---
 
 class: center, middle
