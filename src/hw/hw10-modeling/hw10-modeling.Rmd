@@ -1,7 +1,8 @@
 ---
-title: "Homework 10: Predictive Modeling"
+title: 'Homework 10: Predictive Modeling'
 author: "YOUR NAME"
-output: html_document
+output:
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}

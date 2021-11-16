@@ -26,7 +26,15 @@ We'll again be using the Capital Bike Share dataset. In an earlier assignment we
 raw data ourselves, but we'll go back to the pre-wrangled data we worked with
 before since our focus here is on the modeling.
 
-First, here is a utility function. You pipe in a dataset and pass one or more 
+## Getting Started
+
+Pull your portfolio repo and find the template in the `hw10` folder.
+
+Your template includes a utility function called `add_predictions`. It's just a
+convenience shortcut for the `predict %>% bind_cols` pipeline we use to add 
+predictions to a model; you're welcome to just use that and ignore this utility.
+
+To use `add_predictions`, you pipe in a dataset and pass one or more 
 models as arguments:
 
 ```r
@@ -34,7 +42,8 @@ data %>% add_predictions(model1, model2, model3)
 ```
 
 It makes a tidy data frame with the predictions of each model for each data point,
-and a column called `model` that gives the name of the model.
+and a column called `model` that gives the name of the model. Here is the source
+code (but it's already in your template):
 
 ```{r echo=TRUE}
 add_predictions <- function(data, ...) {
@@ -50,10 +59,7 @@ add_predictions <- function(data, ...) {
 }
 ```
 
-## Getting Started
 
-Find your repo in the [usual spot](https://github.com/Calvin-DS202-FA20/)
-and clone it as usual.
 
 ### Load data
 
@@ -389,7 +395,7 @@ We can show the tree using the same method we used in class and lab:
 
 ```{r echo=TRUE}
 model3 %>%
-  pluck("fit") %>%
+  extract_fit_engine() %>% 
   rpart.plot::rpart.plot(roundint = FALSE, digits = 3, type = 4)
 ```
 
