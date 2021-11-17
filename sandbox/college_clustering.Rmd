@@ -1,0 +1,48 @@
+---
+
+Source: [College Scorecard Data](https://data.ed.gov/dataset/college-scorecard-all-data-files-through-6-2020/resources)
+
+```{r}
+# https://data.ed.gov/dataset/9dc70e6b-8426-4d71-b9d5-70ce6094a3f4/resource/823ac095-bdfc-41b0-b508-4e8fc3110082/download/most-recent-cohorts-all-data-elements_08032021.zip
+library(vroom)
+data <- vroom("data/Most-Recent-Cohorts-All-Data-Elements.csv.gz", col_types = cols(
+  LATITUDE = col_number(),
+  LONGITUDE = col_number(),
+  UGDS = col_number()
+))
+```
+
+---
+
+```{r}
+mi_colleges <- data %>% 
+  filter(STABBR == "MI", !is.na(LATITUDE), !is.na(UGDS), UGDS > 500) %>% 
+  mutate(name = glue("{INSTNM} ({CITY})"))
+
+data_to_cluster <- mi_colleges %>% 
+  select(name, LATITUDE, LONGITUDE) %>% 
+  #select(name, UGDS) %>% 
+  drop_na()
+```
+
+
+<!-- e sure to include variables related to student debt, number of students, graduation rate, and selectivity. -->
+
+```{r}
+mi_colleges %>% ggplot(aes(x = UGDS)) + geom_histogram()
+```
+
+
+```{r fig.height=10}
+library(ape)
+distances <- locations %>% column_to_rownames(var = "name") %>% dist()
+distances %>% hclust() %>% as.phylo() %>%   plot(cex = 0.8, label.offset = 1)
+```
+
+
+
+```{r}
+#install_github_if_missing("Amherst-Statistics/CollegeScorecard")
+#library(CollegeScorecard)
+```
+
