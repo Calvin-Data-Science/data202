@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Modeling Process</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="DATA 202 21FA" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Modeling Process
+### DATA 202 21FA
+
+---
+
+
+
+
+
+
+## Q&amp;A
+
+&gt; Is there a case where false positive can cause more harm than false negative?
+
+&lt;img src="img/propublica-machine-bias.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+.floating-source[https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing]
+
+---
+
+## Q&amp;A
+
+&gt; Is regression or classification more common?
+
+Depends on the application. But classification seems more fundamental.
+
+Think about how you'd do regression if all you had was a classification model. (Hint: histograms.)
+
+&gt; Confusion matrices are confusing. Can we practice?
+
+In lab Friday!
+
+---
+
+## Objectives
+
+* What are the basic steps in training and validating any predictive model?
+* Why is each step important?
+* How can we use the `tidymodels` ecosystem to train and validate a linear model?
+
+---
+
+&lt;img src="img/modeling-process-FES.svg" width="100%" style="display: block; margin: auto;" /&gt;
+
+.small[Source: [Feature Engineering and Selection ch1](https://bookdown.org/max/FES/important-concepts.html)]
+
+---
+
+## Predictive Modeling Workflow
+
+Preliminaries:
+
+1. **Define the problem**: predict *what*, based on *what*? What *metrics* will indicate success? (Measure success in multiple ways!)
+2. **Explore your data** (EDA): understand its structure, make lots of plots
+
+--
+
+Modeling:
+
+1. **Pick a model**: Which type(s) of models are appropriate for task and data?
+2. **Transform the data** as needed by the model ("feature engineering", preprocessing", "recipe")
+3. **Split the data** to allow for validation.
+4. **Fit and evaluate the model**
+5. **Tune**: adjust model hyperparameters
+6. **Analyze model errors** and refine all earlier steps
+
+---
+
+
+
+```r
+library(tidymodels)
+```
+
+Packages:
+
+* `parsnip`: **Specify** and **train** the model you want
+* `recipes`: **Prepare** the data
+* `rsample`: **Split** data into training and validation
+* `yardstick`: Compute **metrics** for performance
+* `tune`: Helps you set the dials.
+
+---
+
+## Where to find documentation
+
+### Theory
+
+* [An Introduction to Statistical Learning](https://www.statlearning.com//)
+* [Feature Engineering and Selection](https://bookdown.org/max/FES/)
+
+### Practice
+
+* TidyModels website: [Getting Started](https://www.tidymodels.org/start/),
+  [vignettes](https://www.tidymodels.org/learn/)
+* [Tidy Modeling with R](https://www.tmwr.org/) book (work in progress)
+
+.small[
+Some others:
+
+* &lt;https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/&gt;
+* &lt;https://juliasilge.com/blog/intro-tidymodels/&gt;
+]
+
+---
+
+## Example data: Ames home sales
+
+Like before, but we subset the data as [De Cock](http://jse.amstat.org/v19n3/decock.pdf) suggests.
+Again, see [Data dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
+
+
+```r
+data(ames, package = "modeldata")
+ames &lt;- AmesHousing::make_ames() %&gt;% 
+  mutate(Sale_Price = Sale_Price / 1000) %&gt;% 
+  filter(Gr_Liv_Area &lt; 4000, Sale_Condition == "Normal")
+nrow(ames)
+```
+
+```
+[1] 2412
+```
+
+```r
+ames %&gt;% head(5)
+```
+
+```
+# A tibble: 5 × 81
+  MS_SubClass     MS_Zoning   Lot_Frontage Lot_Area Street Alley 
+  &lt;fct&gt;           &lt;fct&gt;              &lt;dbl&gt;    &lt;int&gt; &lt;fct&gt;  &lt;fct&gt; 
+1 One_Story_1946… Residentia…          141    31770 Pave   No_Al…
+2 One_Story_1946… Residentia…           80    11622 Pave   No_Al…
+3 One_Story_1946… Residentia…           81    14267 Pave   No_Al…
+4 One_Story_1946… Residentia…           93    11160 Pave   No_Al…
+5 Two_Story_1946… Residentia…           74    13830 Pave   No_Al…
+# … with 75 more variables: Lot_Shape &lt;fct&gt;, Land_Contour &lt;fct&gt;,
+#   Utilities &lt;fct&gt;, Lot_Config &lt;fct&gt;, Land_Slope &lt;fct&gt;,
+#   Neighborhood &lt;fct&gt;, Condition_1 &lt;fct&gt;, Condition_2 &lt;fct&gt;,
+#   Bldg_Type &lt;fct&gt;, House_Style &lt;fct&gt;, Overall_Qual &lt;fct&gt;,
+#   Overall_Cond &lt;fct&gt;, Year_Built &lt;int&gt;, Year_Remod_Add &lt;int&gt;,
+#   Roof_Style &lt;fct&gt;, Roof_Matl &lt;fct&gt;, Exterior_1st &lt;fct&gt;,
+#   Exterior_2nd &lt;fct&gt;, Mas_Vnr_Type &lt;fct&gt;, …
+```
+
+---
+
+## Defining the problem
+
+- Predict *what*? `Sale_Price`
+- How to measure success?
+
+
+```r
+metrics &lt;- yardstick::metric_set(mae, mape, rsq_trad)
+```
+
+
+---
+
+## Exploratory Analysis (EDA)
+
+.tiny-table.col2[
+
+```r
+skimr::skim(ames)
+```
+
+
+Table: Data summary
+
+|                         |     |
+|:------------------------|:----|
+|Name                     |ames |
+|Number of rows           |2412 |
+|Number of columns        |81   |
+|_______________________  |     |
+|Column type frequency:   |     |
+|factor                   |46   |
+|numeric                  |35   |
+|________________________ |     |
+|Group variables          |None |
+
+
+**Variable type: factor**
+
+|skim_variable  | n_missing| complete_rate|ordered | n_unique|top_counts                              |
+|:--------------|---------:|-------------:|:-------|--------:|:---------------------------------------|
+|MS_SubClass    |         0|             1|FALSE   |       16|One: 866, Two: 464, One: 247, One: 155  |
+|MS_Zoning      |         0|             1|FALSE   |        7|Res: 1890, Res: 394, Flo: 92, Res: 20   |
+|Street         |         0|             1|FALSE   |        2|Pav: 2403, Grv: 9                       |
+|Alley          |         0|             1|FALSE   |        3|No_: 2258, Gra: 100, Pav: 54            |
+|Lot_Shape      |         0|             1|FALSE   |        4|Reg: 1533, Sli: 802, Mod: 65, Irr: 12   |
+|Land_Contour   |         0|             1|FALSE   |        4|Lvl: 2184, Bnk: 91, HLS: 86, Low: 51    |
+|Utilities      |         0|             1|FALSE   |        2|All: 2410, NoS: 2, NoS: 0               |
+|Lot_Config     |         0|             1|FALSE   |        5|Ins: 1765, Cor: 410, Cul: 151, FR2: 74  |
+|Land_Slope     |         0|             1|FALSE   |        3|Gtl: 2295, Mod: 106, Sev: 11            |
+|Neighborhood   |         0|             1|FALSE   |       28|Nor: 395, Col: 226, Old: 204, Edw: 155  |
+|Condition_1    |         0|             1|FALSE   |        9|Nor: 2083, Fee: 130, Art: 77, Pos: 35   |
+|Condition_2    |         0|             1|FALSE   |        8|Nor: 2390, Fee: 12, Art: 2, Pos: 2      |
+|Bldg_Type      |         0|             1|FALSE   |        5|One: 2001, Twn: 188, Twn: 93, Dup: 78   |
+|House_Style    |         0|             1|FALSE   |        8|One: 1189, Two: 725, One: 270, SLv: 115 |
+|Overall_Qual   |         0|             1|FALSE   |       10|Ave: 715, Abo: 640, Goo: 493, Ver: 256  |
+|Overall_Cond   |         0|             1|FALSE   |        9|Ave: 1282, Abo: 473, Goo: 352, Ver: 139 |
+|Roof_Style     |         0|             1|FALSE   |        6|Gab: 1936, Hip: 432, Gam: 18, Fla: 13   |
+|Roof_Matl      |         0|             1|FALSE   |        7|Com: 2381, Tar: 15, WdS: 7, WdS: 6      |
+|Exterior_1st   |         0|             1|FALSE   |       15|Vin: 781, HdB: 396, Met: 390, Wd : 371  |
+|Exterior_2nd   |         0|             1|FALSE   |       16|Vin: 770, Met: 388, HdB: 363, Wd : 357  |
+|Mas_Vnr_Type   |         0|             1|FALSE   |        4|Non: 1492, Brk: 749, Sto: 153, Brk: 18  |
+|Exter_Qual     |         0|             1|FALSE   |        4|Typ: 1562, Goo: 770, Exc: 53, Fai: 27   |
+|Exter_Cond     |         0|             1|FALSE   |        5|Typ: 2080, Goo: 266, Fai: 53, Exc: 11   |
+|Foundation     |         0|             1|FALSE   |        6|CBl: 1090, PCo: 1002, Brk: 264, Sla: 41 |
+|Bsmt_Qual      |         0|             1|FALSE   |        6|Typ: 1117, Goo: 1002, Exc: 152, Fai: 72 |
+|Bsmt_Cond      |         0|             1|FALSE   |        6|Typ: 2169, Goo: 86, Fai: 84, No_: 67    |
+|Bsmt_Exposure  |         0|             1|FALSE   |        5|No: 1611, Av: 315, Gd: 218, Mn: 199     |
+|BsmtFin_Type_1 |         0|             1|FALSE   |        7|GLQ: 694, Unf: 644, ALQ: 378, Rec: 250  |
+|BsmtFin_Type_2 |         0|             1|FALSE   |        7|Unf: 2026, Rec: 96, LwQ: 78, No_: 68    |
+|Heating        |         0|             1|FALSE   |        6|Gas: 2374, Gas: 24, Gra: 6, Wal: 5      |
+|Heating_QC     |         0|             1|FALSE   |        5|Exc: 1183, Typ: 726, Goo: 422, Fai: 80  |
+|Central_Air    |         0|             1|FALSE   |        2|Y: 2259, N: 153                         |
+|Electrical     |         0|             1|FALSE   |        5|SBr: 2207, Fus: 158, Fus: 39, Fus: 7    |
+|Kitchen_Qual   |         0|             1|FALSE   |        5|Typ: 1294, Goo: 941, Exc: 115, Fai: 61  |
+|Functional     |         0|             1|FALSE   |        6|Typ: 2239, Min: 63, Min: 55, Mod: 30    |
+|Fireplace_Qu   |         0|             1|FALSE   |        6|No_: 1164, Goo: 555, Typ: 554, Fai: 68  |
+|Garage_Type    |         0|             1|FALSE   |        7|Att: 1420, Det: 684, Bui: 140, No_: 116 |
+|Garage_Finish  |         0|             1|FALSE   |        4|Unf: 1066, RFn: 671, Fin: 558, No_: 117 |
+|Garage_Qual    |         0|             1|FALSE   |        6|Typ: 2163, No_: 117, Fai: 105, Goo: 20  |
+|Garage_Cond    |         0|             1|FALSE   |        6|Typ: 2204, No_: 117, Fai: 65, Goo: 13   |
+|Paved_Drive    |         0|             1|FALSE   |        3|Pav: 2175, Dir: 178, Par: 59            |
+|Pool_QC        |         0|             1|FALSE   |        5|No_: 2403, Typ: 3, Exc: 2, Fai: 2       |
+|Fence          |         0|             1|FALSE   |        5|No_: 1910, Min: 286, Goo: 107, Goo: 99  |
+|Misc_Feature   |         0|             1|FALSE   |        5|Non: 2316, She: 87, Gar: 5, Oth: 3      |
+|Sale_Type      |         0|             1|FALSE   |        9|WD : 2324, COD: 39, Con: 21, CWD: 10    |
+|Sale_Condition |         0|             1|FALSE   |        1|Nor: 2412, Abn: 0, Adj: 0, All: 0       |
+
+
+**Variable type: numeric**
+
+|skim_variable      | n_missing| complete_rate|     mean|      sd|      p0|     p25|     p50|      p75|      p100|hist  |
+|:------------------|---------:|-------------:|--------:|-------:|-------:|-------:|-------:|--------:|---------:|:-----|
+|Lot_Frontage       |         0|             1|    55.44|   33.53|    0.00|   37.00|   60.00|    76.25|    313.00|▇▇▁▁▁ |
+|Lot_Area           |         0|             1| 10055.45| 8221.14| 1300.00| 7389.50| 9360.00| 11401.00| 215245.00|▇▁▁▁▁ |
+|Year_Built         |         0|             1|  1969.43|   29.49| 1872.00| 1953.00| 1971.00|  1998.00|   2010.00|▁▂▃▇▇ |
+|Year_Remod_Add     |         0|             1|  1983.27|   20.33| 1950.00| 1965.00| 1991.00|  2002.00|   2010.00|▅▃▂▅▇ |
+|Mas_Vnr_Area       |         0|             1|    95.20|  170.88|    0.00|    0.00|    0.00|   148.00|   1600.00|▇▁▁▁▁ |
+|BsmtFin_SF_1       |         0|             1|     4.08|    2.22|    1.00|    2.00|    3.00|     7.00|      7.00|▆▆▁▁▇ |
+|BsmtFin_SF_2       |         0|             1|    55.15|  177.32|    0.00|    0.00|    0.00|     0.00|   1526.00|▇▁▁▁▁ |
+|Bsmt_Unf_SF        |         0|             1|   528.35|  417.42|    0.00|  209.50|  438.50|   776.00|   2336.00|▇▅▂▁▁ |
+|Total_Bsmt_SF      |         0|             1|  1022.24|  408.04|    0.00|  784.00|  970.00|  1246.00|   3206.00|▂▇▂▁▁ |
+|First_Flr_SF       |         0|             1|  1133.31|  365.55|  334.00|  866.00| 1060.00|  1349.25|   3820.00|▇▇▁▁▁ |
+|Second_Flr_SF      |         0|             1|   338.61|  422.13|    0.00|    0.00|    0.00|   704.00|   1836.00|▇▂▂▁▁ |
+|Low_Qual_Fin_SF    |         0|             1|     4.31|   45.01|    0.00|    0.00|    0.00|     0.00|   1064.00|▇▁▁▁▁ |
+|Gr_Liv_Area        |         0|             1|  1476.23|  479.69|  334.00| 1100.00| 1430.50|  1724.00|   3820.00|▂▇▃▁▁ |
+|Bsmt_Full_Bath     |         0|             1|     0.43|    0.51|    0.00|    0.00|    0.00|     1.00|      2.00|▇▁▆▁▁ |
+|Bsmt_Half_Bath     |         0|             1|     0.06|    0.24|    0.00|    0.00|    0.00|     0.00|      2.00|▇▁▁▁▁ |
+|Full_Bath          |         0|             1|     1.54|    0.54|    0.00|    1.00|    2.00|     2.00|      4.00|▁▇▇▁▁ |
+|Half_Bath          |         0|             1|     0.38|    0.50|    0.00|    0.00|    0.00|     1.00|      2.00|▇▁▅▁▁ |
+|Bedroom_AbvGr      |         0|             1|     2.85|    0.81|    0.00|    2.00|    3.00|     3.00|      6.00|▁▃▇▂▁ |
+|Kitchen_AbvGr      |         0|             1|     1.04|    0.20|    0.00|    1.00|    1.00|     1.00|      3.00|▁▇▁▁▁ |
+|TotRms_AbvGrd      |         0|             1|     6.37|    1.52|    2.00|    5.00|    6.00|     7.00|     13.00|▂▇▆▁▁ |
+|Fireplaces         |         0|             1|     0.60|    0.65|    0.00|    0.00|    1.00|     1.00|      4.00|▇▇▁▁▁ |
+|Garage_Cars        |         0|             1|     1.73|    0.73|    0.00|    1.00|    2.00|     2.00|      5.00|▅▇▂▁▁ |
+|Garage_Area        |         0|             1|   461.10|  201.58|    0.00|  315.00|  471.50|   576.00|   1488.00|▃▇▂▁▁ |
+|Wood_Deck_SF       |         0|             1|    95.76|  130.14|    0.00|    0.00|    0.00|   168.00|   1424.00|▇▁▁▁▁ |
+|Open_Porch_SF      |         0|             1|    44.66|   62.95|    0.00|    0.00|   24.00|    68.00|    570.00|▇▁▁▁▁ |
+|Enclosed_Porch     |         0|             1|    23.40|   64.47|    0.00|    0.00|    0.00|     0.00|   1012.00|▇▁▁▁▁ |
+|Three_season_porch |         0|             1|     2.50|   25.24|    0.00|    0.00|    0.00|     0.00|    508.00|▇▁▁▁▁ |
+|Screen_Porch       |         0|             1|    16.30|   57.10|    0.00|    0.00|    0.00|     0.00|    576.00|▇▁▁▁▁ |
+|Pool_Area          |         0|             1|     1.78|   31.38|    0.00|    0.00|    0.00|     0.00|    800.00|▇▁▁▁▁ |
+|Misc_Val           |         0|             1|    51.50|  514.78|    0.00|    0.00|    0.00|     0.00|  15500.00|▇▁▁▁▁ |
+|Mo_Sold            |         0|             1|     6.12|    2.63|    1.00|    4.00|    6.00|     7.25|     12.00|▃▆▇▃▃ |
+|Year_Sold          |         0|             1|  2007.87|    1.31| 2006.00| 2007.00| 2008.00|  2009.00|   2010.00|▆▇▇▇▅ |
+|Sale_Price         |         0|             1|   175.33|   70.01|   35.00|  129.50|  158.75|   206.22|    625.00|▇▇▂▁▁ |
+|Longitude          |         0|             1|   -93.64|    0.03|  -93.69|  -93.66|  -93.64|   -93.62|    -93.58|▅▅▇▇▁ |
+|Latitude           |         0|             1|    42.03|    0.02|   41.99|   42.02|   42.03|    42.05|     42.06|▂▂▇▇▆ |
+]
+
+---
+
+## Exploratory Analysis (EDA): Make lots of plots.
+
+
+```r
+ames %&gt;% 
+  ggplot(aes(x = Gr_Liv_Area, y = Sale_Price, color = Fireplaces &gt; 0)) +
+  geom_point(alpha = .2) +
+  facet_wrap(vars(Bldg_Type))
+```
+
+&lt;img src="w08d2-model-process_files/figure-html/eda-living-area-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+ames %&gt;% select(Sale_Price, Gr_Liv_Area, Lot_Area, Full_Bath, Half_Bath, Fireplaces) %&gt;% 
+  pivot_longer(-c(Sale_Price, Fireplaces)) %&gt;% 
+  ggplot(aes(x = value, y = Sale_Price, color = Fireplaces &gt; 0)) + geom_point(size = .5, alpha = .25) +
+  facet_wrap(vars(name), scales = "free") + theme_bw()
+```
+
+&lt;img src="w08d2-model-process_files/figure-html/eda-several-predictors-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Specifying a Model
+
+---
+
+## Example (without validation)
+
+Specify the model:
+
+
+```r
+*my_model_spec &lt;-  parsnip::decision_tree(mode = "regression")
+```
+
+
+Train it ("fit") on data:
+
+
+```r
+my_trained_model &lt;- my_model_spec %&gt;% 
+  fit(Sale_Price ~ Gr_Liv_Area, data = ames)
+```
+
+---
+
+## Example (without validation)
+
+Predict on new data:
+
+
+```r
+new_data &lt;- tibble(Gr_Liv_Area = c(1000, 2000), Sale_Price = c(239000, 185000))
+my_trained_model %&gt;% 
+  predict(new_data) %&gt;% 
+  bind_cols(new_data) # Put back the original data
+```
+
+```
+# A tibble: 2 × 3
+  .pred Gr_Liv_Area Sale_Price
+  &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+1  119.        1000     239000
+2  228.        2000     185000
+```
+
+Evaluate on all data:
+
+
+```r
+predictions &lt;- my_trained_model %&gt;% 
+  predict(ames) %&gt;% 
+  bind_cols(ames)
+predictions %&gt;% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+```
+# A tibble: 3 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 mae      standard      34.5  
+2 mape     standard      21.4  
+3 rsq_trad standard       0.528
+```
+
+
+---
+
+.floating-source[
+&lt;https://xkcd.com/1122/&gt;
+]
+
+&lt;img src="https://imgs.xkcd.com/comics/electoral_precedent_2x.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Example, with validation
+
+---
+
+1. Hold out some data to use for validation:
+
+
+```r
+set.seed(10)
+ames_split &lt;- initial_split(ames, prop = 3/4)
+ames_train &lt;- training(ames_split)
+ames_test &lt;- testing(ames_split)
+glue("Using {nrow(ames_train)} sales to train, {nrow(ames_test)} to test")
+```
+
+```
+Using 1809 sales to train, 603 to test
+```
+
+---
+
+1. Hold out some data to use for validation.
+2. Specify the model to use.
+3. Train the model **on the training set**:
+
+
+```r
+my_trained_model &lt;- my_model_spec %&gt;% 
+* fit(Sale_Price ~ Gr_Liv_Area,
+*     data = ames_train)
+```
+
+---
+
+1. Hold out some data to use for validation.
+2. Specify the model to use.
+3. Train the model **on the training set**
+4. Evaluate on training set (optional):
+
+.pull-left[
+
+```r
+train_predictions &lt;- 
+  my_trained_model %&gt;% 
+    predict(ames_train) %&gt;% 
+    bind_cols(ames_train) # Put back the original data
+
+train_predictions
+```
+
+```
+# A tibble: 1,809 × 82
+  .pred MS_SubClass  MS_Zoning Lot_Frontage Lot_Area Street Alley
+  &lt;dbl&gt; &lt;fct&gt;        &lt;fct&gt;            &lt;dbl&gt;    &lt;int&gt; &lt;fct&gt;  &lt;fct&gt;
+1  118. One_Story_1… Resident…           65     7150 Pave   No_A…
+2  155. One_Story_1… Resident…            0    10710 Pave   No_A…
+3  194. One_Story_P… Resident…            0     3621 Pave   No_A…
+4  118. One_Story_1… Resident…           50     5000 Pave   No_A…
+5  297. Two_Story_1… Resident…          105    13693 Pave   No_A…
+6  118. One_Story_1… Resident…          109     8724 Pave   No_A…
+# … with 1,803 more rows, and 75 more variables:
+#   Lot_Shape &lt;fct&gt;, Land_Contour &lt;fct&gt;, Utilities &lt;fct&gt;,
+#   Lot_Config &lt;fct&gt;, Land_Slope &lt;fct&gt;, Neighborhood &lt;fct&gt;,
+#   Condition_1 &lt;fct&gt;, Condition_2 &lt;fct&gt;, Bldg_Type &lt;fct&gt;,
+#   House_Style &lt;fct&gt;, Overall_Qual &lt;fct&gt;, Overall_Cond &lt;fct&gt;,
+#   Year_Built &lt;int&gt;, Year_Remod_Add &lt;int&gt;, Roof_Style &lt;fct&gt;,
+#   Roof_Matl &lt;fct&gt;, Exterior_1st &lt;fct&gt;, Exterior_2nd &lt;fct&gt;, …
+```
+]
+
+.pull-right[
+
+```r
+train_predictions %&gt;% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+```
+# A tibble: 3 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 mae      standard      35.1  
+2 mape     standard      22.0  
+3 rsq_trad standard       0.513
+```
+]
+
+---
+
+1. Hold out some data to use for validation
+2. Specify the model to use.
+3. Train the model **on the training set**
+4. Evaluate on training set (optional)
+5. Evaluate on **test set**:
+
+
+```r
+my_trained_model %&gt;% 
+  predict(ames_test) %&gt;% 
+  bind_cols(ames_test) %&gt;% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+```
+# A tibble: 3 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 mae      standard      33.2  
+2 mape     standard      19.6  
+3 rsq_trad standard       0.563
+```
+
+---
+
+&gt; What's the optimal ratio of train to test?
+
+.question[
+What's the trade-off? What happens if train is too small? If test is too small?
+]
+
+
+---
+
+## Many models, same interface
+
+
+```r
+trained_linear_model &lt;- 
+* parsnip::linear_reg() %&gt;%
+  fit(Sale_Price ~ Gr_Liv_Area,
+      data = ames_train)
+
+trained_linear_model %&gt;% 
+  predict(ames_test) %&gt;% 
+  bind_cols(ames_test) %&gt;% 
+  metrics(truth = Sale_Price, estimate = .pred)
+```
+
+```
+# A tibble: 3 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 mae      standard      31.0  
+2 mape     standard      18.0  
+3 rsq_trad standard       0.586
+```
+
+
+
+---
+
+## Types of models
+
+* Linear models
+  * ordinary least-squares (OLS)
+  * Lasso, Ridge, etc.: penalize large coefficients
+  * Generalized Linear Models: outputs get transformed
+    * Logistic Regression (also Support Vector Machine): transform output to *score* for each class
+* Decision Lists and Trees
+  * extension: Random Forests
+* Neural Networks: layered combinations of the above
+* many, many more
+
+---
+
+## Which variables mean what?
+
+The *formula interface*:
+
+* `y ~ x`
+  * predict *y* using *x*. `Sale_Price ~ Gr_Liv_Area`
+* `y ~ x1 + x2 + x3`
+  * predict *y* using *x1* and *x2* and *x3*
+  * `Sale_Price ~ Gr_Liv_Area + Lot_Area + Full_Bath`
+
+Don't get confused: they "forgot" the coefficients! A fitted linear model will actually look like:
+&lt;br&gt;
+&lt;br&gt;
+Sale_Price = .red[c1] \* Gr_Liv_Area + .red[c2] \* Lot_Area + .red[c3] \* Full_Bath + intercept
+
+&lt;br&gt;
+
+
+But this works for specifying even models that aren't linear.
+
+&lt;!--This is `+` like `ggplot` or like "determination + perseverance + grit = success",
+not like "2x + y = 4".--&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
