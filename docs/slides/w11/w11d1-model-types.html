@@ -61,6 +61,7 @@ model2 &lt;-
   decision_tree(mode = "regression", tree_depth = 30) %&gt;%
   fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
+]
 
 ---
 
@@ -225,7 +226,7 @@ linear_model
 ```
 parsnip model object
 
-Fit time:  2ms 
+Fit time:  3ms 
 
 Call:
 stats::lm(formula = Sale_Price ~ Gr_Liv_Area, data = data)

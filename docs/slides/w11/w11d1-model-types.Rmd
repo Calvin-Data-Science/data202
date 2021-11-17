@@ -86,6 +86,7 @@ model2 <-
   decision_tree(mode = "regression", tree_depth = 30) %>%
   fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
+]
 
 ---
 
