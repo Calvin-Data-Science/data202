@@ -178,11 +178,11 @@ Crucial questions:
 ```r
 set.seed(20201120)
 data_for_clustering &lt;- ames_all %&gt;% 
-  #select(Latitude, Longitude) %&gt;% 
-  select(Year_Built) %&gt;% 
+  select(Latitude, Longitude) %&gt;% 
+  #select(Year_Built, Gr_Liv_Area) %&gt;% 
   mutate(
-    #Latitude = rescale(Latitude, to = c(0, 1)),
-    #Longitude = rescale(Longitude, to = c(0, 1)),
+    #Gr_Liv_Area = rescale(Gr_Liv_Area, to = c(0, 1)),
+    #Year_Built = rescale(Year_Built, to = c(0, 1))
   )
 clustering_results &lt;- kmeans(
   data_for_clustering, nstart = 4, centers = 3
@@ -201,9 +201,9 @@ glance(clustering_results)
 
 ```
 # A tibble: 1 × 4
-     totss tot.withinss betweenss  iter
-     &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
-1 2096724.      220924.  1875800.     2
+  totss tot.withinss betweenss  iter
+  &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
+1  2.43        0.687      1.75     3
 ```
 
 ```r
@@ -211,12 +211,12 @@ tidy(clustering_results)
 ```
 
 ```
-# A tibble: 3 × 4
-  Year_Built  size withinss cluster
-       &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;fct&gt;  
-1      1923.   468   90255. 1      
-2      1964.  1035   95208. 2      
-3      1999.   909   35461. 3      
+# A tibble: 3 × 5
+  Latitude Longitude  size withinss cluster
+     &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;fct&gt;  
+1     42.0     -93.7   801    0.251 1      
+2     42.0     -93.6   845    0.326 2      
+3     42.1     -93.6   766    0.110 3      
 ```
 
 ---
@@ -230,6 +230,7 @@ latlong_plot &lt;-
 
 year_area_plot &lt;- 
   ggplot(ames_with_clusters, aes(x = Gr_Liv_Area, y = Year_Built, color = cluster)) +
+  #coord_equal() +
     geom_point(alpha = .5)
 
 library(patchwork)
