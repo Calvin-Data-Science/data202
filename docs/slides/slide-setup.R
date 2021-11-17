@@ -42,6 +42,8 @@ calvin_truegreen <- "#A2D683"
 # Code setup.
 library(conflicted)
 conflict_prefer("filter", "dplyr", quiet = TRUE)
+conflict_prefer("cols", "vroom", quiet = TRUE)
+conflict_prefer("col_number", "vroom", quiet = TRUE)
 set.seed(1234)
 
 options(
