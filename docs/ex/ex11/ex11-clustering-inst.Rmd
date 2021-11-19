@@ -9,6 +9,7 @@ link-citations: yes
 ---
 
 <!-- Next year: -->
+<!-- Maybe start by having students figure out what number to divide by to put everything on the same scale. -->
 <!-- - 0-1 scaling for Gr_Liv_Area didn't make enough of a difference for students -->
 <!-- - Provide a mechanism for students to see the effective ranges -->
 <!-- - Provide a visual explanation of the sum-of-squares, or just drop it. -->
