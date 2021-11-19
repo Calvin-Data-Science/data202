@@ -170,7 +170,7 @@ ames_with_clusters %>%
 
 ```{r include=FALSE, eval=FALSE}
 # This is a way to show lots of clusters.
-ggplot(ames_with_clusters, aes(x = Latitude, y = Longitude, color = cluster)) +
+ggplot(ames_with_clusters, aes(y = Latitude, x = Longitude, color = cluster)) +
     geom_point(data = select(ames_with_clusters, -cluster), color = "grey") +
     geom_point(alpha = .5) +
   facet_wrap(vars(cluster)) + 

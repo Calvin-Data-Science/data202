@@ -225,7 +225,7 @@ tidy(clustering_results)
 
 ```r
 latlong_plot &lt;- 
-  ggplot(ames_with_clusters, aes(x = Latitude, y = Longitude, color = cluster)) +
+  ggplot(ames_with_clusters, aes(y = Latitude, x = Longitude, color = cluster)) +
     geom_point(alpha = .5)
 
 year_area_plot &lt;- 

@@ -53,7 +53,7 @@ tidy(clustering_results)
 
 ```{r cluster-plots, fig.asp=0.4}
 latlong_plot <- 
-  ggplot(ames_with_clusters, aes(x = Latitude, y = Longitude, color = cluster)) +
+  ggplot(ames_with_clusters, aes(y = Latitude, x = Longitude, color = cluster)) +
     geom_point(alpha = .5)
 
 year_area_plot <- 
