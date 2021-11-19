@@ -8,6 +8,12 @@ output:
 link-citations: yes
 ---
 
+<!-- Next year: -->
+<!-- - 0-1 scaling for Gr_Liv_Area didn't make enough of a difference for students -->
+<!-- - Provide a mechanism for students to see the effective ranges -->
+<!-- - Provide a visual explanation of the sum-of-squares, or just drop it. -->
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, comment = "")
 library(tidyverse)
