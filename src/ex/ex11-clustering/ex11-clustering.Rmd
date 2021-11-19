@@ -1,0 +1,74 @@
+---
+title: "Guided Exercise 11 - Clustering"
+output: 
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+library(tidyverse)
+library(tidymodels)
+theme_set(theme_bw())
+options(scipen = 5) # encourage metrics to print in fixed-point notation
+options(dplyr.summarise.inform = FALSE) # silence a warning message
+```
+
+```{r load-and-subset-data}
+# Get the data from the "modeldata" package, which comes with tidymodels.
+data(ames, package = "modeldata")
+ames_all <- ames %>% 
+  filter(Gr_Liv_Area < 4000, Sale_Condition == "Normal") %>% 
+  mutate(Sale_Price = Sale_Price / 1000)
+rm(ames)
+```
+
+```{r train-test-split}
+set.seed(10) # Seed the random number generator
+ames_split <- initial_split(ames_all, prop = 4 / 5) # Split our data randomly
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+```
+
+## Clustering
+
+```{r clustering}
+data_for_clustering <- ames_train %>% 
+  select(Latitude, Longitude)
+
+set.seed(20211119)
+clustering_results <- data_for_clustering %>% 
+  kmeans(nstart = 10, centers = 3)
+
+ames_with_clusters <- ames_train %>% 
+  mutate(cluster = as.factor(clustering_results$cluster))
+```
+
+```{r glance-clustering-results}
+glance(clustering_results)
+```
+
+```{r tidy-clustering-results}
+tidy(clustering_results)
+```
+
+```{r cluster-plots, fig.asp=0.4}
+latlong_plot <- 
+  ggplot(ames_with_clusters, aes(x = Latitude, y = Longitude, color = cluster)) +
+    geom_point(alpha = .5)
+
+year_area_plot <- 
+  ggplot(ames_with_clusters, aes(x = Gr_Liv_Area, y = Year_Built, color = cluster)) +
+    geom_point(alpha = .5)
+
+library(patchwork)
+latlong_plot + year_area_plot + plot_layout(guides='collect')
+```
+
+## Exploring Parameter Settings
+
+## Relating to sale price
+
+```{r sale-price-by-cluster, fig.asp=0.4}
+ames_with_clusters %>% 
+  ggplot(aes(x = Sale_Price, y = cluster)) + geom_boxplot()
+```

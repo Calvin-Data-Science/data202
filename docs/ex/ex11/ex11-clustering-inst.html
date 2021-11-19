@@ -565,7 +565,7 @@ padding-left: 1em;
 1     42.0     -93.7   650   0.209  1      
 2     42.0     -93.6   657   0.256  2      
 3     42.1     -93.6   622   0.0929 3      </code></pre>
-<p>Let’s plot that.</p>
+<p>Let’s plot that. We’re using a neat library called <code>patchwork</code> that lets us put <code>ggplot</code> plots side by side. Basically we just make the plots and instead of showning them immediately we assign them to variables… and then we can <code>+</code> them together to put them side-by-side, or <code>/</code> them to put them top and bottom. See the <a href="https://patchwork.data-imaginist.com/index.html"><code>patchwork</code> docs</a> for details.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>latlong_plot <span class="ot">&lt;-</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(ames_with_clusters, <span class="fu">aes</span>(<span class="at">x =</span> Latitude, <span class="at">y =</span> Longitude, <span class="at">color =</span> cluster)) <span class="sc">+</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> .<span class="dv">5</span>)</span>
