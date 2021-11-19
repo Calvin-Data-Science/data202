@@ -165,3 +165,14 @@ Do the patterns captured by these clusters also happen to relate to sale price?
 ames_with_clusters %>% 
   ggplot(aes(x = Sale_Price, y = cluster)) + geom_boxplot()
 ```
+
+
+```{r include=FALSE, eval=FALSE}
+# This is a way to show lots of clusters.
+ggplot(ames_with_clusters, aes(x = Latitude, y = Longitude, color = cluster)) +
+    geom_point(data = select(ames_with_clusters, -cluster), color = "grey") +
+    geom_point(alpha = .5) +
+  facet_wrap(vars(cluster)) + 
+  guides(color = "none")
+```
+
