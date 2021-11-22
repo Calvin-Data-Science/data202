@@ -26,7 +26,6 @@ We'll be working with the flights data from our textbook. Here's the code to con
 
 ```{r}
 library(tidyverse)
-library(mdsr)
 library(DBI)
 db <- DBI::dbConnect(RMariaDB::MariaDB(), dbname = "airlines", host = "mdsr.cdc7tgkkqd0n.us-east-1.rds.amazonaws.com", 
     user = "mdsr_public", password = "ImhsmflMDSwR")

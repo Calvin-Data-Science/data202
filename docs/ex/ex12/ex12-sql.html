@@ -509,10 +509,9 @@ padding-left: 1em;
 <p>Pull your portfolio repo as usual.</p>
 <p>We’ll be working with the flights data from our textbook. Here’s the code to connect to the database:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mdsr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(), <span class="at">dbname =</span> <span class="st">&quot;airlines&quot;</span>, <span class="at">host =</span> <span class="st">&quot;mdsr.cdc7tgkkqd0n.us-east-1.rds.amazonaws.com&quot;</span>, </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">user =</span> <span class="st">&quot;mdsr_public&quot;</span>, <span class="at">password =</span> <span class="st">&quot;ImhsmflMDSwR&quot;</span>)</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(), <span class="at">dbname =</span> <span class="st">&quot;airlines&quot;</span>, <span class="at">host =</span> <span class="st">&quot;mdsr.cdc7tgkkqd0n.us-east-1.rds.amazonaws.com&quot;</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">user =</span> <span class="st">&quot;mdsr_public&quot;</span>, <span class="at">password =</span> <span class="st">&quot;ImhsmflMDSwR&quot;</span>)</span></code></pre></div>
 <p>And we’ll get references to two specific tables we’ll be working with.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">&lt;-</span> <span class="fu">tbl</span>(db, <span class="st">&quot;flights&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>carriers <span class="ot">&lt;-</span> <span class="fu">tbl</span>(db, <span class="st">&quot;carriers&quot;</span>)</span></code></pre></div>
