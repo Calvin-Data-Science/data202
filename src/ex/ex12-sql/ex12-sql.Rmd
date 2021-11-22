@@ -4,16 +4,6 @@ output:
   html_document: default
 ---
 
----
-title: "Guided Exercise 12 - Databases"
-output: 
-  tufte::tufte_html:
-    css: ../ex.css
-    tufte_variant: "envisioned"
-    highlight: pygments
-link-citations: yes
----
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, comment = "")
 library(tidyverse)
@@ -25,7 +15,6 @@ options(dplyr.summarise.inform = FALSE) # silence a warning message
 ```{r}
 library(tidyverse)
 library(mdsr)
-library(RMySQL)
 db <- DBI::dbConnect(RMariaDB::MariaDB(), dbname = "airlines", host = "mdsr.cdc7tgkkqd0n.us-east-1.rds.amazonaws.com", 
     user = "mdsr_public", password = "ImhsmflMDSwR")
 ```
