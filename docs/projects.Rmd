@@ -217,6 +217,7 @@ There are two sections of this class, thus two sessions: Tuesday 12/14 at 9am an
   * Tentative *Teams*: If you have already found people who may be interested in working with you, note that here.
 * Nov *23*: **Revised proposal**
 * Dec 3: **Dataset and exploratory visualization**
+  - You should have the EDA section of your report complete, and a good start on everything before that.
 * Dec 10: **Initial modeling and visualization**
 * Dec 15: **Final report**
 
@@ -279,7 +280,7 @@ Your report should include the following general elements (though treat this spe
   * The number of records (rows) in the dataset, and what each one represents.
     * Give an example of some part of the data in your dataset.
     * Consider writing a simple sentence that conveys the information in the first row, as an example.
-  * A list of the features in the dataset and their [types](https://www.textbook.ds100.org/ch/04/eda_data_types.html)
+  * A list of the features in the dataset and their types.
   * An analysis of the **appropriateness of your dataset** for your approach. (What's good about it? What do you wish were better?)
   * *This section should also discuss the overall approach of any basic data wrangling needed to get the data into an overall usable form. More specific wrangling may be needed for constructing plots or models later.*
 * **Exploratory Data Analysis** (EDA)
