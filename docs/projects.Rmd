@@ -260,6 +260,13 @@ Your report should include the following general elements (though treat this spe
     * This question should be stated in language that is understandable to someone who hasn't studied data science and doesn't know the details of your dataset.
     * The best questions include motivation from prior literature that gives, for example, some pattern or relationship that you'd *expect* to find and why.
   * A brief (2-4 sentences) high-level description of the dataset: what is the dataset about? Where did it come from? What sort of data does it contain?
+* **Prior Work**
+  * A summary of what you have found that others have done with your data or question. Include URLs and author names.
+  * A response to their work:
+    * What did they do well that is inspiring?
+    * What could they improve on or explore further?
+    * Do you trust their results? Why or why not?
+  * In what ways do you intend for this project to extend or enhance that prior work? (Save the details of *how* for the Approach section.)
 * **Approach**
   * A **problem description** or **specific question**
     * This question should be stated in more specific technical terms than the real-world question.

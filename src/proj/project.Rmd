@@ -16,6 +16,11 @@ library(tidyverse)
 
 ### Summary of Findings
 
+## Prior Work
+
+### Summary and critique of prior work
+
+### How this project extends prior work
 
 ## Approach
 
