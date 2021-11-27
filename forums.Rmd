@@ -8,6 +8,25 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+# Unit 12: Geospatial Data and More Modeling
+
+- I have created team repos for your final projects.
+  - Find your team's repo by going to our [class GitHub organization](https://github.com/Calvin-DS202-21FA) and finding the `proj-` repo with your name on it.
+  - Each person on the team has read/write access to the repo.
+  - If the team membership is incorrect in any way, please let me know ASAP.
+  - You can each make your own clones of the repo, or you can "Share Project" for a "Google Docs" collaborative editing experience. See the [project sharing documentation](https://support.rstudio.com/hc/en-us/articles/211659737-Sharing-Projects-in-RStudio-Workbench-RStudio-Server-Pro) for details.
+  - Remember to knit-commit-push often, whether you're using separate clones or a shared project. If you're using a shared project, acknowledge who did what work in the commit message.
+- Please submit your milestones under the Final Project assignment in Moodle.
+  - You should be able to update the submission as you progress.
+  - Only one person from each team needs to submit; Moodle is configured so that everyone on a team shares that assignment.
+  - Select "Knit to PDF" to make a PDF for submission (normally knitting will make just an HTML document, which is faster but doesn't show up well in Moodle).
+- The next milestone is to have some exploratory visualizations and analyses of your data. That is, you should have the EDA section of your report complete, and a good start on everything before that. See the suggested report outline in the [project spec](https://cs.calvin.edu/courses/data/202/21fa/projects.html#Project_2_Detailed_Expectations) for details.
+- Discussion 12, on recommendation systems, is due Tuesday. The readings there could be fodder for family discussions. (Sorry I didn't remind you about this before Thanksgiving... my family had some health issues of our own, but nothing serious and resolved by now)
+- If you didn't get to Prep 12 last week, this would be a good time: we're reading about [SQL](https://mdsr-book.github.io/mdsr2e/ch-sql.html), [Geospatial](https://mdsr-book.github.io/mdsr2e/ch-spatial.html), and [Text](https://mdsr-book.github.io/mdsr2e/ch-text.html). (Text won't be till next week.) This could also be a good time to skim any of the other chapters that we haven\'t covered. In particular, you should know that the tools in [chapter 14](https://mdsr-book.github.io/mdsr2e/ch-vizIII.html) exist and are relatively easy to use.
+
+
+
 # Week 9: Modeling and Ethics
 
 ## Prep
