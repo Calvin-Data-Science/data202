@@ -24,7 +24,7 @@
 <meta name="author" content="K Arnold" />
 
 
-<meta name="date" content="2021-11-06" />
+<meta name="date" content="2021-11-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,8 +56,8 @@
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 
@@ -204,8 +204,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="other-topics.html"><a href="other-topics.html"><i class="fa fa-check"></i><b>5</b> Other Topics</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="other-topics.html"><a href="other-topics.html#text-mining-and-bias"><i class="fa fa-check"></i><b>5.1</b> Text Mining (and bias)</a></li>
-<li class="chapter" data-level="5.2" data-path="other-topics.html"><a href="other-topics.html#resources-1"><i class="fa fa-check"></i><b>5.2</b> Resources</a></li>
+<li class="chapter" data-level="5.1" data-path="other-topics.html"><a href="other-topics.html#recommendation-systems"><i class="fa fa-check"></i><b>5.1</b> Recommendation Systems</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="other-topics.html"><a href="other-topics.html#discussion-activity"><i class="fa fa-check"></i><b>5.1.1</b> Discussion Activity</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="other-topics.html"><a href="other-topics.html#text-mining-and-bias"><i class="fa fa-check"></i><b>5.2</b> Text Mining (and bias)</a></li>
+<li class="chapter" data-level="5.3" data-path="other-topics.html"><a href="other-topics.html#resources-1"><i class="fa fa-check"></i><b>5.3</b> Resources</a></li>
+<li class="chapter" data-level="5.4" data-path="other-topics.html"><a href="other-topics.html#relational-databases"><i class="fa fa-check"></i><b>5.4</b> Relational Databases</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="communication.html"><a href="communication.html"><i class="fa fa-check"></i><b>6</b> Communication</a>
 <ul>
@@ -235,20 +240,81 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="other-topics" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Other Topics</h1>
-<div id="text-mining-and-bias" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Text Mining (and bias)</h2>
+<div id="recommendation-systems" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Recommendation Systems</h2>
+<div id="discussion-activity" class="section level3" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Discussion Activity</h3>
+<p>Pick one of the following questions. Read one or more of the linked articles, or find a different article on the topic. Write a response of a paragraph or two where you:</p>
+<ul>
+<li>Summarize the main point of the article, for the sake of others who didn’t read it,</li>
+<li>Argue why the question is (or isn’t) important or interesting, and</li>
+<li>State your own response: a counter-point, an additional example, a question it raises for you, how it might shape your own life, etc.</li>
+</ul>
+<p>Here are the list of questions:</p>
+<ul>
+<li>Should social media platforms be legally responsible for the content they recommend to you?
+<ul>
+<li><a href="https://lib-proxy.calvin.edu/login?url=https://cacm.acm.org/magazines/2021/12/256928-when-curation-becomes-creation/fulltext">When Curation Becomes Creation</a> (<a href="https://cacm.acm.org/magazines/2021/12/256928-when-curation-becomes-creation/fulltext">original link</a>), By Liu Leqi, Dylan Hadfield-Menell, Zachary C. Lipton.</li>
+<li><a href="https://www.wsj.com/articles/the-facebook-files-11631713039">the facebook files</a></li>
+</ul></li>
+<li>How do social media platforms determine what content to recommend?
+<ul>
+<li>Read <code>rsweeny21</code>’s <a href="https://news.ycombinator.com/item?id=20566514">comment</a> from a developer of Netflix’s autoplay.</li>
+<li>Do you use Pinterest? <a href="https://blog.acolyer.org/2018/05/23/pixie-a-system-for-recommending-3-billion-items-to-200-million-users-in-real-time/">Here’s how Pintrest’s recommender system works</a>, at least a few years ago.</li>
+<li><a href="https://blog.acolyer.org/2016/09/19/deep-neural-networks-for-youtube-recommendations/">YouTube’s Recommender System</a> uses neural nets to learn from watch times. This paper is a few years old but still insightful.</li>
+</ul></li>
+<li>Do recommendation systems “radicalize” people?
+<ul>
+<li>search for “YouTube radicalize” or similar. You’ll probably find articles asserting that it happens.</li>
+<li>But you’ll hopefully find some counterpoints, like <a href="https://www.pnas.org/content/118/32/e2101967118.short">Examining the consumption of radical content on YouTube | PNAS</a>.</li>
+<li><a href="https://arxiv.org/abs/2107.04953">Designing Recommender Systems to Depolarize | Abstract</a></li>
+</ul></li>
+<li>What do recommendation systems do to human creativity?
+<ul>
+<li><a href="https://www.eecs.harvard.edu/~kgajos/papers/2020/arnold20predictcive.shtml">Predictive Text Encourages Predictable Writing</a></li>
+</ul></li>
+<li>Ads are often shown alongside other recommended content. Can ads be harmful?
+<ul>
+<li><a href="https://arxiv.org/abs/1301.6822">Discrimination in Online Ad Delivery</a> – classic paper by Harvard professor Latanya Sweeney</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="text-mining-and-bias" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Text Mining (and bias)</h2>
 <ul>
 <li><a href="https://www.tidytextmining.com/sentiment.html#sentiment-analysis-with-inner-join">Tidy Text Mining</a> (link is to a specific interesting section)</li>
 <li><a href="https://blog.conceptnet.io/posts/2017/how-to-make-a-racist-ai-without-really-trying/">How to make a racist AI without really trying</a>
 and a <a href="https://notstatschat.rbind.io/2018/09/27/how-to-write-a-racist-ai-in-r-without-really-trying/">follow-up in R</a></li>
 </ul>
 </div>
-<div id="resources-1" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Resources</h2>
+<div id="resources-1" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Resources</h2>
 <p>ACM Selects:</p>
 <ul>
 <li><a href="https://selects.acm.org/selections/getting-started-with-data-science">Data Science</a></li>
 </ul>
+</div>
+<div id="relational-databases" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Relational Databases</h2>
+<p>Contrasting data storage formats:
+* CSVs are useful to store and exchange <em>small</em> to <em>medium</em> amounts of “static” data
+* relational databases are useful when data is growing / changing (especially from multiple sources)
+* relational databases are useful when multiple systems or stakeholders need the same data
+* relational databases are useful when data is too big to fit in memory, since RDBMS’s can often automatically figure out how to compute things in a “distributed” or “streaming” way
+* So-called NoSQL systems, like MongoDB and Firebase, have been popular in recent years, but SQL remains pervasive in industry because of its robustness, consistency, and performance.</p>
+<p>SQL tutorials:</p>
+<ul>
+<li><a href="https://www.codecademy.com/learn/learn-sql">Codecademy</a></li>
+<li><a href="https://www.w3schools.com/sql/">w3schools</a></li>
+</ul>
+<p>SQL Syntax reference</p>
+<ul>
+<li>I kinda like the “railway diagrams” in the <a href="https://www.sqlite.org/lang.html">sqlite syntax documentation</a> (e.g., for the <a href="https://www.sqlite.org/lang_select.html">SELECT statement</a>)</li>
+<li><a href="https://www.codecademy.com/articles/sql-commands">Codecademy has a reference</a></li>
+<li><a href="https://www.tutorialspoint.com/sql/sql-syntax.htm">TutorialsPoint</a></li>
+</ul>
+<p><a href="http://sqlfiddle.com/">sqlfiddle</a></p>
 
 </div>
 </div>

@@ -1,7 +1,7 @@
 ---
 title: "DATA 202 Supplemental Notes"
 author: "K Arnold"
-date: "2021-11-06"
+date: "2021-11-23"
 site: bookdown::bookdown_site
 output:
   bookdown::gitbook: default

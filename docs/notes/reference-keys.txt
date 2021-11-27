@@ -38,8 +38,11 @@ tidymodels
 modeling-goals
 defining-overfitting
 other-topics
+recommendation-systems
+discussion-activity
 text-mining-and-bias
 resources-1
+relational-databases
 communication
 resources-2
 ethics-and-social-impact
