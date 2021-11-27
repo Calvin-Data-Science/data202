@@ -130,7 +130,7 @@ Once an assignment is deployed, we should treat that as final. Updating template
 
 ```{r eval=FALSE}
 # This works because this Rmd file is in the `src` directory, and the directory structure here matches the portfolio repo.
-get_assignment_files <- function(path, deploy_solutions) {
+get_assignment_files <- function(path, deploy_solutions, deploy_knitted) {
   # Need to pull out the names so we don't get gobbledygook color control characters in the commit messages.
   files <- names(fs::dir_ls(path, recurse = TRUE, type = "file"))
   
@@ -140,29 +140,39 @@ get_assignment_files <- function(path, deploy_solutions) {
   } else {
     files <- files[!is_solution]
   }
+  if (!deploy_knitted) files <- files[!(str_ends(files, ".html") | str_ends(files, '.pdf'))]
+  files
 }
 
 instructor_repos <- glue("{ghorg}/portfolio-{c('demo', 'reference')}")
 
-deploy_assignment <- function(path, deploy_solutions = FALSE, repos = c(instructor_repos, student_repos$portfolio_repo_full)) {
-  files <- get_assignment_files(path, deploy_solutions = deploy_solutions)
+deploy_assignment <- function(path, deploy_solutions = FALSE, repos = c(instructor_repos, student_repos$portfolio_repo_full),
+                              deploy_knitted = FALSE) {
+  files <- get_assignment_files(path, deploy_solutions = deploy_solutions, deploy_knitted = deploy_knitted)
   repo_add_file(repos, files, preserve_path = TRUE, overwrite = FALSE)
 }
 
 # "ex/ex07-modeling" %>% 
 #   get_assignment_files(deploy_solutions = FALSE) %>% 
 #   repo_add_file(student_repos$portfolio_repo_full, ., preserve_path = TRUE, overwrite = FALSE)
-
-# deploy_assignment(
-#   "ex/ex07-modeling"
-#   #"datavis"
-# )
+if (FALSE) {
+  deploy_assignment(
+   #"hw/hw10-modeling"
+    "ex/ex12-sql"
+  #   #"datavis"
+  )
+}
 
 # If oops:
 #repo_delete_file(
 #  c(student_repos$portfolio_repo_full, ),
 #  "hw/hw02-vis/hw02-vis.md")
 ```
+
+```{r}
+#get_assignment_files("hw/hw10-modeling/", deploy_solutions = F, deploy_knitted = F)
+```
+
 
 ## Local clones
 
@@ -171,15 +181,21 @@ I did `git clone --bare git@github.com:Calvin-DS202-21FA/portfolio-reference.git
 ```{r}
 roster_with_repos <- roster %>% 
   separate(preferred_name, into = "fname", extra = "drop", remove = FALSE) %>% 
+  mutate(
+    full_name = paste0(fname, " ", last_name),
+    full_name = case_when(
+      full_name == "Grace Grace" ~ "Gloria Grace",
+      TRUE ~ full_name
+    )) %>% 
   mutate(slugname = str_replace_all(paste0(fname, last_name), "[^A-Za-z]", "")) %>% 
-  select(fname, last_name, slugname, github, email_address) %>% 
+  select(fname, last_name, full_name, slugname, github, email_address) %>% 
   left_join(student_repos, by = c('github' = 'username')) %>% 
   mutate(
     branch = glue("{slugname}-main"),
     worktree = glue("../portfolio-{slugname}"),
     worktree_full = paste0(portfolio_clone_path, '/', worktree))
 
-write_csv(roster_with_repos, "../student_data/roster-with-repos.csv")
+#write_csv(roster_with_repos, "../student_data/roster-with-repos.csv")
 roster_with_repos
 ```
 
@@ -245,14 +261,6 @@ roster_with_repos %>%
 
 
 ```{r eval=FALSE}
-roster_with_repos %>% 
-  rowwise() %>% 
-  group_walk(~ )
-```
-
-
-
-```{r eval=FALSE}
 # https://stackoverflow.com/questions/62621474/run-an-expression-rowwise-for-its-side-effect-only/69486771#69486771
 tibble(file = c("iris.csv", "mtcars.csv"),
        data = list(iris, mtcars)) %>% 
@@ -269,14 +277,57 @@ tibble(file = c("iris.csv", "mtcars.csv"),
   })
 ```
 
+## Team Repos
+
+First, create the template repo.
 
 ```{r}
-roster
+template_repo_name <- "proj-template"
+template_repo_fullname <- paste0(ghorg, "/", template_repo_name)
+src_dir <- "proj/"
+if (!repo_exists(ghorg, template_repo_name))
+  repo_create(ghorg, template_repo_name)
+
+withr::with_dir(src_dir, {
+  repo_add_file(
+    template_repo_fullname,
+    get_assignment_files(".", deploy_solutions = FALSE, deploy_knitted = FALSE),
+    preserve_path = TRUE,
+    overwrite = FALSE
+  )
+})
+
+repo_set_template(template_repo_fullname, TRUE)
 ```
 
+Step 2: Figure out the teams.
+
 ```{r}
-roster %>% 
-  select(1:3) %>% 
-  write_csv("gradescope_roster.csv")
+team_roster <- readxl::read_excel("~/OneDrive - Calvin University/Teaching/21FA DATA202/21FA DATA202 Students.xlsx")
+```
+
+
+```{r}
+team_githubs <- team_roster %>% select(
+  full_name = 1,
+  team = 2
+) %>% 
+  left_join(roster_with_repos, by = "full_name") %>% 
+  mutate(proj_repo = paste0("proj-", team))
+team_githubs %>% filter(is.na(github))
+team_githubs
+```
+
+Step 3: Make clones for each team. See <https://rundel.github.io/ghclass/articles/articles/ghclass.html#distributing-a-team-assignment>
+
+```{r}
+org_create_assignment(
+  org = ghorg,
+  user = team_githubs$github,
+  repo = team_githubs$proj_repo,
+  team = team_githubs$team,
+  source_repo = template_repo_fullname,
+  private = TRUE
+)
 ```
 
