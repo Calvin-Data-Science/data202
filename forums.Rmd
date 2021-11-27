@@ -9,7 +9,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# Unit 12: Geospatial Data and More Modeling
+# Unit 12
+
+We're approaching the end, folks! Although our main focus will be final projects,
+we'll be taking the last 5(!) days of class to discuss some additional useful
+topics to round out your data science expertise, including geospatial data,
+text data, and more data science ethics.
+
+Logistics:
 
 - I have created team repos for your final projects.
   - Find your team's repo by going to our [class GitHub organization](https://github.com/Calvin-DS202-21FA) and finding the `proj-` repo with your name on it.
@@ -22,9 +29,14 @@ knitr::opts_chunk$set(echo = TRUE)
   - Only one person from each team needs to submit; Moodle is configured so that everyone on a team shares that assignment.
   - Select "Knit to PDF" to make a PDF for submission (normally knitting will make just an HTML document, which is faster but doesn't show up well in Moodle).
 - The next milestone is to have some exploratory visualizations and analyses of your data. That is, you should have the EDA section of your report complete, and a good start on everything before that. See the suggested report outline in the [project spec](https://cs.calvin.edu/courses/data/202/21fa/projects.html#Project_2_Detailed_Expectations) for details.
-- Discussion 12, on recommendation systems, is due Tuesday. The readings there could be fodder for family discussions. (Sorry I didn't remind you about this before Thanksgiving... my family had some health issues of our own, but nothing serious and resolved by now)
-- If you didn't get to Prep 12 last week, this would be a good time: we're reading about [SQL](https://mdsr-book.github.io/mdsr2e/ch-sql.html), [Geospatial](https://mdsr-book.github.io/mdsr2e/ch-spatial.html), and [Text](https://mdsr-book.github.io/mdsr2e/ch-text.html). (Text won't be till next week.) This could also be a good time to skim any of the other chapters that we haven\'t covered. In particular, you should know that the tools in [chapter 14](https://mdsr-book.github.io/mdsr2e/ch-vizIII.html) exist and are relatively easy to use.
+- Discussion 12, on recommendation systems, is due Tuesday. The readings there could be fodder for family discussions. (Sorry I didn't remind you about this before Thanksgiving.)
+- If you didn't get to Prep 12 last week, this would be a good time: we're reading about [SQL](https://mdsr-book.github.io/mdsr2e/ch-sql.html), [Geospatial](https://mdsr-book.github.io/mdsr2e/ch-spatial.html), and [Text](https://mdsr-book.github.io/mdsr2e/ch-text.html). This could also be a good time to skim any of the other chapters that we haven't covered. In particular, check out [chapter 14](https://mdsr-book.github.io/mdsr2e/ch-vizIII.html) for some tools that may be useful for your project.
 
+Finally: as much as we may want Covid to be over, it isn't. Especially in Michigan.
+Here's [some plots](https://covidactnow.org/us/michigan-mi/county/kent_county/?s=26051513),
+although note that there are some [artifacts with moving averages around holidays](https://www.nytimes.com/interactive/2021/11/22/us/covid-data-holiday-averages.html).
+So: this is the time to **wear masks like it matters** and maybe even keep some distance,
+even if you're vaccinated, until this surge abates.
 
 
 # Week 9: Modeling and Ethics
