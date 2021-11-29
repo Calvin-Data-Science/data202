@@ -207,13 +207,13 @@ mapview(nc_merged,
 
 <https://www.accesskent.com/pdfs/GIS_DataDownloadLicense.pdf>
 
-```{r}
+```{r eval=FALSE}
 dsn <- "~/Downloads/City_of_Grand_Rapids_Parcels/"
 parcels <- st_read(dsn, layer = "City_of_Grand_Rapids_Parcels")
 parcels
 ```
 
-```{r}
+```{r eval=FALSE}
 parcels %>% 
   head(50) %>% 
   ggplot() +
@@ -222,25 +222,21 @@ parcels %>%
 ```
 
 
-```{r}
+```{r eval=FALSE}
 st_geometry(parcels) %>% plot()
 ```
 
 
-```{r}
+```{r eval=FALSE}
 parcels %>% 
   head(10) %>% 
   plot()
 ```
 
 
-```{r}
+```{r eval=FALSE}
 parcels %>% nrow()
 parcels %>% distinct(Address, City, Zip_Code) %>% nrow()
-```
-
-```{r}
-mapview(cholera_latlong)
 ```
 
 
