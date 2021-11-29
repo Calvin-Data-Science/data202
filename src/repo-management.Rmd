@@ -285,7 +285,7 @@ First, create the template repo.
 template_repo_name <- "proj-template"
 template_repo_fullname <- paste0(ghorg, "/", template_repo_name)
 src_dir <- "proj/"
-if (!repo_exists(ghorg, template_repo_name))
+if (!repo_exists(template_repo_fullname))
   repo_create(ghorg, template_repo_name)
 
 withr::with_dir(src_dir, {
@@ -329,5 +329,20 @@ org_create_assignment(
   source_repo = template_repo_fullname,
   private = TRUE
 )
+```
+
+Oops, push update to template. (Next time: `distinct(proj_repo)`!)
+
+```{r}
+if (FALSE) {
+  withr::with_dir(src_dir, {
+    repo_add_file(
+      paste0(ghorg, "/", team_githubs$proj_repo),
+      get_assignment_files(".", deploy_solutions = FALSE, deploy_knitted = FALSE),
+      preserve_path = TRUE,
+      overwrite = TRUE
+    )
+  })
+}
 ```
 
