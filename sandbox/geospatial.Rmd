@@ -18,12 +18,20 @@ library(mapview)
 library(leafem)
 ```
 
+Objectives:
+
+- Identify the basic structure of geospatial data
+- Identify the basic types of geospatial visualizations
+- Apply data wrangling to geospatial data
+
 References:
 
 - [MDSR2e chapter](https://mdsr-book.github.io/mdsr2e/ch-spatial.html)
 - [sf package](https://r-spatial.github.io/sf/index.html)
 - [mapview package](https://r-spatial.github.io/mapview/)
 - [geocomputation with R book](https://geocompr.robinlovelace.net/location.html)
+
+## Cholera
 
 ```{r}
 dsn <- "data/SnowGIS_SHP/"
@@ -115,7 +123,8 @@ district_elections <- results_house %>%
   ) %>%
   mutate(
     other_votes = total_votes - d_votes - r_votes,
-    r_prop = r_votes / total_votes,  
+    r_prop = r_votes / total_votes, 
+    d_prop = d_votes / total_votes,
     winner = ifelse(r_votes > d_votes, "Republican", "Democrat")
   ) %>% 
   ungroup()
@@ -186,12 +195,11 @@ districts %>% filter(statename == "Michigan") %>%
 
 
 ```{r}
-pal <- leaflet::colorNumeric(palette = "RdBu", domain = c(.2, .8))
+#pal <- leaflet::colorNumeric(palette = "RdBu", domain = c(.2, .8))
 mapview(nc_merged, 
-        #col.regions = pal(seq(0, 100, 1)/100),
-        #at = seq(.2, .8, length.out = 100),
-        zcol = "r_prop")
-#nc_merged$r_prop %>% pal
+        col.regions = RColorBrewer::brewer.pal(9, "RdBu"),
+        at = seq(.2, .8, length.out = 9),
+        zcol = "d_prop")
 ```
 
 
