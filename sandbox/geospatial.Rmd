@@ -18,15 +18,23 @@ library(mapview)
 library(leafem)
 ```
 
+References:
+
+- [MDSR2e chapter](https://mdsr-book.github.io/mdsr2e/ch-spatial.html)
+- [sf package](https://r-spatial.github.io/sf/index.html)
+- [mapview package](https://r-spatial.github.io/mapview/)
+- [geocomputation with R book](https://geocompr.robinlovelace.net/location.html)
+
 ```{r}
-dsn <- "~/Downloads/SnowGIS_SHP/"
+dsn <- "data/SnowGIS_SHP/"
+if (!dir.exists(dsn))
+  usethis::use_zip("http://rtwilson.com/downloads/SnowGIS_SHP.zip", destdir = "data/", cleanup = TRUE)
 st_layers(dsn)
 ```
 
 ```{r}
 cholera_deaths <-  st_read(dsn, layer = "Cholera_Deaths")
 cholera_pumps <- st_read(dsn, layer = "Pumps")
-#CholeraDeaths
 ```
 
 ```{r}
@@ -37,7 +45,6 @@ What are those?
 
 ```{r}
 ggplot(cholera_deaths) +
-  #coord_sf(lims_method = "geometry_bbox") +
   annotation_map_tile(type = "osm", zoomin = 0) +
   geom_sf(aes(size = Count), alpha = 0.7)
 ```
@@ -46,7 +53,6 @@ Oops this is incorrectly projected.
 
 ```{r}
 st_crs(cholera_deaths)
-
 ```
 
 Project this into the EPSG 4326 / WGS84 coordinate system (standard for GPS systems and Google Earth).
@@ -62,8 +68,12 @@ But that was still wrong: we need datum. The original still was missing some dat
 st_crs(cholera_deaths)$proj4string
 st_crs(27700)$proj4string
 ```
+
 ```{r}
 cholera_latlong <- cholera_deaths %>% 
+  st_set_crs(27700) %>% 
+  st_transform(4326)
+pumps_latlong <- cholera_pumps %>% 
   st_set_crs(27700) %>% 
   st_transform(4326)
 ```
@@ -74,10 +84,11 @@ cholera_latlong <- cholera_deaths %>%
 ggplot(cholera_latlong) +
   #coord_sf(lims_method = "geometry_bbox") +
   annotation_map_tile(type = "osm", zoomin = 0) +
-  geom_sf(aes(size = Count), alpha = 0.7)
+  geom_sf(aes(size = Count), alpha = 0.7) +
+  geom_sf(data = pumps_latlong, size = 3, color = "red")
 ```
 
-Mapview just takes care of all of this, why use anything else?
+Mapview just takes care of all of this (but it's not as clear how to control scales etc.)
 
 ```{r}
 mapview(cholera_pumps, col.regions = "red", homebutton = FALSE) +
@@ -116,17 +127,45 @@ nc_results %>%
 ```
 
 ```{r}
+results_house
+```
+
+Data source: <https://cdmaps.polisci.ucla.edu/>
+
+
+```{r}
 src <- "http://cdmaps.polisci.ucla.edu/shp/districts113.zip"
-# download that...
-dsn_districts <- "districtShapes/" #usethis::use_zip(src, destdir = "data")
+# download that, extract to data/districtShapes
+dsn_districts <- "data/districtShapes/"
 #st_layers(dsn_districts)
 districts <- st_read(dsn_districts, layer = "districts113") %>%
-  mutate(DISTRICT = parse_number(as.character(DISTRICT)))
+  mutate(DISTRICT = parse_number(as.character(DISTRICT))) %>% 
+  janitor::clean_names()
 ```
+```{r}
+districts$statename %>% unique()
+```
+
 
 ```{r}
 nc_shp <- districts %>%
-  filter(STATENAME == "North Carolina")
+  filter(statename == "North Carolina")
+mi_shp <- districts %>% filter(statename == "Michigan")
+```
+
+```{r}
+mapview(mi_shp)
+```
+
+
+```{r}
+mi_shp
+```
+
+```{r}
+mi_shp %>% 
+  inner_join(district_elections %>% filter(state == "MI")) %>% 
+  mapview(zcol = "r_prop")
 ```
 
 
@@ -137,8 +176,14 @@ mapview(nc_shp)
 ```{r}
 nc_merged <- nc_shp %>%
   #st_transform(4326) %>%
-  inner_join(nc_results, by = c("DISTRICT" = "district"))
+  inner_join(nc_results, by = c("district"))
 ```
+
+```{r}
+districts %>% filter(statename == "Michigan") %>% 
+  mapview()
+```
+
 
 ```{r}
 pal <- leaflet::colorNumeric(palette = "RdBu", domain = c(.2, .8))
@@ -188,5 +233,30 @@ parcels %>% distinct(Address, City, Zip_Code) %>% nrow()
 
 ```{r}
 mapview(cholera_latlong)
+```
+
+
+## Geocoding
+
+[tidygeocoder](https://jessecambon.github.io/tidygeocoder/)
+
+```{r}
+addr <- tibble(address = c(
+  "3201 Burton Street SE, Grand Rapids, MI, 49546", # Calvin
+  "2470 Burton St SE, Grand Rapids, MI, 49546" # Fresh Thyme
+  )) %>% 
+  tidygeocoder::geocode(address, method = "osm")
+```
+
+```{r}
+addr
+```
+
+
+```{r}
+addr %>% st_as_sf(coords = c("long", "lat"), crs = 4326) %>% 
+  ggplot() +
+    annotation_map_tile() +
+    geom_sf()
 ```
 
