@@ -127,3 +127,22 @@ No, you need to Pull to get any changes from GitHub. I recommend doing all of yo
 
 Yes! You can click the History button in RStudio, or go to a GitHub commits page ([example](https://github.com/tidyverse/ggplot2/commits/master)) and keep clicking Older.
 
+## Database / SQL stuff
+
+### How popular is SQL in industry?
+
+Very. It makes most top-10 lists.
+
+### How big of a dataset can I manage in R before having to go to SQL?
+
+- How much *memory* (RAM) does your computer have? (Can you just pay for more?)
+- Can you avoid working with some data altogether? (e.g., keep only a few columns you need)
+- Can you work with data "out of core" (on disk instead of memory)? e.g., R `vroom` package
+
+Rules of thumb:
+
+- less than a GB: your laptop, comfortably
+- up to a couple GB: your laptop, carefully
+- 10+ GB: a server or big desktop machine, comfortably
+- 50+ GB: a server or big desktop machine, carefully
+- 100+ GB: several servers, e.g., clusters.
