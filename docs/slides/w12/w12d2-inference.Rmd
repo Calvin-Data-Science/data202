@@ -1,56 +1,35 @@
 ---
 title: "Making Inferences about Features"
-author: "K Arnold"
+author: "DATA 202 21FA"
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
-    self_contained: FALSE
+    css: ["xaringan-themer.css", "slides.css"]
     lib_dir: libs
-    df_print: paged
+    self_contained: false
     nature:
-      ratio: "16:9"
+      ratio: "4:3"
       highlightLines: true
+      highlightStyle: solarized-light
       countIncrementalSlides: false
 ---
 
-```{r setup, include=FALSE, message=FALSE}
-source("../slides-common.R")
-slideSetup()
-knitr::opts_chunk$set(echo = TRUE)
-theme_set(theme_minimal())
+```{r setup, include=FALSE, code=xfun::read_utf8('../slide-setup.R')}
+```
+
+```{r setup2, include=FALSE}
+if (interactive()) source('../slide-setup.R')
+library(tidyverse)
 library(tidymodels)
+library(patchwork)
 library(vip)
 ```
 
-## Q&A
+## Logistics
 
-> Logistics impact of moving online?
-
-* We'll continue normal class meetings. **Your job** is to ask questions, interrupting if necessary.
-
-> Projects?
-
-* Our [final exam slot](https://calvin.edu/offices-services/center-for-student-success/registration/exam-schedule/)
-is Friday Dec. 11 at 1:30 pm.
-* Final project presentations will be virtual, details TBA
-
----
-
-## Q&A
-
-> Is web scraping legal??
-
-* Publicly available data? [Yes.](https://realpython.com/podcasts/rpp/12/) (see [EFF article](https://www.eff.org/deeplinks/2019/09/victory-ruling-hiq-v-linkedin-protects-scraping-public-data))
-* If you need a login? Maybe. Ask for permission.
-
-> How hard is it to scrape Twitter?
-
-Constraints about what you can access without paying. But [tools available](https://guides.lib.utexas.edu/c.php?g=743999&p=5326728)
-
-> What's a good Python dev environment?
-
-I use: RStudio when integrating with R, VS Code for command-line or web dev, Jupyter Notebooks
-for pure-Python data science.
+- Final projects
+- Midterm 2??
+- Discussions
+- Quizzes and Homework
 
 ---
 
@@ -97,6 +76,8 @@ include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/
 
 ```{r message=FALSE}
 library(palmerpenguins)
+penguins <- palmerpenguins::penguins %>% 
+  filter(!is.na(bill_length_mm), !is.na(bill_depth_mm))
 ```
 ]
 
@@ -126,7 +107,6 @@ ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm)) +
 
 ## How does bill length relate to bill depth?
 
-.small-code[
 ```{r penguins-with-species, warning=FALSE, echo=FALSE}
 ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species, shape = species)) +
   geom_point() +
@@ -141,8 +121,121 @@ ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species, sha
   theme(legend.position = c(0.85, 0.15),
         legend.background = element_rect(fill = "white", color = NA))
 ```
+
+---
+
+###  One big model
+
+.panelset[
+.panel[.panel-name[Fit Model]
+```{r overall-model-fit}
+overall_model <- linear_reg() %>%
+  fit(bill_depth_mm ~ bill_length_mm, data = penguins)
+tidy(overall_model, conf.int = TRUE)
+```
+]
+.panel[.panel-name[Coefficients]
+```{r overall-model-coef, message=FALSE, fig.asp = .3}
+GGally::ggcoef_model(overall_model$fit) + labs(x = "Coefficient")
+```
 ]
 
+.panel[.panel-name[Predictions]
+.small-code[
+```{r single-model, message=FALSE}
+augment(overall_model, penguins) %>% 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
+    geom_point() +
+    geom_line(aes(y = .pred), color = "blue", size = 1) +
+    labs(title = "Penguin bill dimensions", subtitle = "Palmer Station LTER", x = "Bill length (mm)", y = "Bill depth (mm)")
+
+```
+]]
+]
+
+---
+
+### Parallel slopes
+
+.panelset[
+.panel[.panel-name[Fit Model]
+```{r parallel-slopes-fit}
+parallel_slopes_model <- linear_reg() %>%
+  fit(bill_depth_mm ~ bill_length_mm
+      + species, #<<
+      data = penguins)
+tidy(parallel_slopes_model, conf.int = TRUE)
+```
+]
+.panel[.panel-name[Coefficients]
+```{r parallel-slopes-coef}
+GGally::ggcoef_model(parallel_slopes_model$fit) + labs(x = "Coefficient")
+```
+]
+
+.panel[.panel-name[Predictions]
+.small-code[
+```{r parallel-slopes-model, message=FALSE}
+augment(parallel_slopes_model, penguins) %>% 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = species)) + #<<
+    geom_point() +
+    geom_line(aes(y = .pred), size = 1) +
+    labs(title = "Penguin bill dimensions", subtitle = "Palmer Station LTER", x = "Bill length (mm)", y = "Bill depth (mm)")
+```
+]
+]]
+
+---
+
+### Interactions
+
+.panelset[
+.panel[.panel-name[Fit Model]
+```{r interaction-fit}
+interaction_model <- linear_reg() %>%
+  fit(bill_depth_mm ~ bill_length_mm
+      * species, #<<
+      data = penguins)
+tidy(interaction_model, conf.int = TRUE)
+```
+]
+.panel[.panel-name[Coefficients]
+```{r interaction-coef}
+GGally::ggcoef_model(interaction_model$fit) + labs(x = "Coefficient")
+```
+]
+
+.panel[.panel-name[Predictions]
+.small-code[
+```{r interaction-model, message=FALSE}
+augment(interaction_model, penguins) %>% 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = species)) + #<<
+    geom_point() +
+    geom_line(aes(y = .pred), size = 1) +
+    labs(title = "Penguin bill dimensions", subtitle = "Palmer Station LTER", x = "Bill length (mm)", y = "Bill depth (mm)")
+```
+]
+]]
+
+---
+
+## LINE Assumptions for making inference
+
+- **Linearity**: there's actually a linear relationship
+- **Independence**: there's no pattern to the errors
+- **Normality of residuals**: no major outliers
+- **Equal variance of residuals**: variability doesn't change systematically
+
+These are colloquial wordings. See textbook [section E.4](https://mdsr-book.github.io/mdsr2e/ch-regression.html#assumptions-underlying-regression) for technical and how to verify.
+
+---
+
+## Examples of broken assumptions
+
+- **Linearity**: the hotter the temperature, the more each degree of temperature matters
+- **Independence**: ridership for adjacent hours is similar
+- **Normality of residuals**: spike in demand after championship game
+- **Equal variance of residuals**: bigger variability in demand on weekends vs weekdays
 
 ---
 
@@ -173,7 +266,7 @@ model <- regresion_workflow %>%
   add_recipe(recipe(Sale_Price ~ ., data = ames_train)) %>% 
   fit(data = ames_train)
 
-model %>% pull_workflow_fit() %>% vip::vip(num_features = 15L)
+model %>% extract_fit_engine() %>% vip::vip(num_features = 15L)
 ```
 ]
 
@@ -181,11 +274,12 @@ model %>% pull_workflow_fit() %>% vip::vip(num_features = 15L)
 
 ## How much does it help to have a feature in?
 
-```{r make-resamples, cache=TRUE}
-set.seed(20201118)
+```{r make-resamples, cache=TRUE, echo=FALSE}
+set.seed(0)
 resamples <- vfold_cv(ames_train, v = 10)
 ```
 
+.small-code[
 ```{r tree-all-features, cache=TRUE}
 regresion_workflow %>% 
   add_recipe(recipe(Sale_Price ~ ., data = ames_train)) %>% 
@@ -199,6 +293,7 @@ regresion_workflow %>%
   add_recipe(recipe(Sale_Price ~ ., data = ames_train) %>% step_rm(ends_with("Qual"))) %>% #<<
   fit_resamples(resamples = resamples, metrics = metric_set(mae, rmse)) %>% collect_metrics()
 ```
+]
 
 ---
 
@@ -208,7 +303,7 @@ regresion_workflow %>%
 regresion_workflow %>% 
   add_recipe(recipe(Sale_Price ~ ., data = ames_train) %>% step_rm(ends_with("Qual"))) %>% #<<
   fit(data = ames_train) %>%
-  pull_workflow_fit() %>% vip::vip(num_features = 15L)
+  extract_fit_engine() %>% vip::vip(num_features = 15L)
 ```
 
 
