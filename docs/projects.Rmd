@@ -294,7 +294,7 @@ Your report should include the following general elements (though treat this spe
     * which variables (features) you are using to predict it, and why you chose those features
     * how you will measure accuracy (can you give meaningful units?)
     * what validation method did you choose and why
-  * Fit a basic predictive model using one of the techniques we discussed in class (*regression*: Nearest Neighbors or Linear Regression, *classification*: Decision Trees or Logistic Regression; other choices such as Nearest Neighbors or Random Forest are also fine)
+  * Fit a basic predictive model using one of the techniques we discussed in class (e.g., Decision Trees, Linear/Logistic Regression, Random Forest)
     * Describe why you chose that model (and its features and any hyperparameters)
     * Describe what kind of performance you expect from it
   * Report the results of your basic predictive model via cross-validation.
