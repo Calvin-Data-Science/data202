@@ -1,7 +1,7 @@
 ALL: deploy-all
 
 docs := $(patsubst %.Rmd,%.html,$(shell find docs -iname '*.Rmd' -and -not -iname "*slides-common*" -and -not -iname "slide-setup.Rmd"))
-slide_sources := $(shell find docs/slides -iname '*.Rmd' -and -not -iname "*slides-common*" -and -not -iname "slide-setup.Rmd" -and -not -path "*/slides/index.Rmd")
+slide_sources := $(wildcard docs/slides/*/*.Rmd)
 slide_pdfs := $(patsubst %.Rmd,%.pdf,$(slide_sources))
 
 
