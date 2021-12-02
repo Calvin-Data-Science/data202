@@ -58,7 +58,7 @@ options(
 knitr::opts_chunk$set(echo = TRUE, comment = "",
                       fig.width = 8,
                       fig.asp = 0.618,
-                      out.width = "60%",
+                      out.width = "90%",
                       fig.align = "center",
                       dpi = 300,
                       message = FALSE)
