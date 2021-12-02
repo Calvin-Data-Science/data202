@@ -46,5 +46,9 @@ relational-databases
 communication
 resources-2
 ethics-and-social-impact
+privacy-and-surveillance-discussion-reidentification-and-facial-recognition
+reidentification
+face-recognition
+articles-or-videos
 background
-staying-up-to-date
+current-issues
