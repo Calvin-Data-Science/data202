@@ -1,0 +1,92 @@
+---
+title: "Guided Exercise 13 - Text"
+output: 
+  tufte::tufte_html:
+    css: ../ex.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+library(tidyverse)
+theme_set(theme_bw())
+options(scipen = 5) # encourage metrics to print in fixed-point notation
+options(dplyr.summarise.inform = FALSE) # silence a warning message
+```
+
+Humans, created as representatives of a speaking God, do a lot of speaking. So, naturally, text data is everywhere: social media posts, product descriptions, customer surveys, newspaper articles, emails, press releases, etc.
+
+Words is amazingly flexible, but sometimes we want to quantify, which entails reducing that flexibility to overly simplistic numbers.
+Keeping in mind that trade-off, this exercise is about equipping you with a few tools to turn text into tabular data.
+The tools we'll see today are:
+
+- *regular expressions* (**regex**): a little programming language used for looking for specific kinds of things in text strings. For example, the regular expression `th[eo]se` matches either "these" or "those" (and nothing else)
+- *web scraping*: a way of pulling text (or other data) out of loosely-structured web pages
+
+Learning objectives:
+
+- Predict how a regular expression will match a given text
+- Write regular expressions to perform extraction and separation tasks
+- Scrape data from web pages
+
+## Getting started
+
+Pull your portfolio repo as usual.
+
+We'll be working through exactly the examples in [Chapter 19](https://mdsr-book.github.io/mdsr2e/ch-text.html) of our textbook, so you might want to have that handy.
+You may also want to refer to the [Strings chapter in *R for Data Science*](https://r4ds.had.co.nz/strings.html) for more details.
+
+## `separate`
+
+First, let's hit one of the most common things you need to do with string data: separate a string into several pieces. So: **do the `separate()` section of the [Tidy Your Data primer](https://rstudio.cloud/learn/primers/4.2)**. (Don't worry about `unite()`, and come back later to the Case Study if you want more practice with a cool wrangling puzzle.)
+
+> Note: the tutorial uses the old name of `pivot_longer`, which was `gather`.
+
+
+## Macbeth
+
+```{r}
+macbeth_url <- "http://www.gutenberg.org/cache/epub/1129/pg1129.txt"
+#macbeth_raw <- read_file(macbeth_url)
+data(Macbeth_raw, package = "mdsr")
+```
+
+We'll start with a data frame that has a row for each line in Macbeth.
+
+```{r}
+macbeth <- Macbeth_raw %>% 
+  stringi::stri_split_lines() %>%
+  pluck(1) %>% 
+  enframe("line_num", "line")
+macbeth
+```
+
+The `str_detect` function tells whether or not a line contains a pattern.
+
+```{r}
+pattern <- "MACBETH"
+macbeth %>% 
+  mutate(matches = str_detect(line, pattern)) %>% 
+  filter(matches)
+```
+
+1. How many lines contain "MACBETH"? How many lines contain "MACDUFF"?
+
+The `.` character matches any single character.
+
+```{r}
+pattern <- "MAC."
+macbeth %>% 
+  mutate(matches = str_detect(line, pattern)) %>% 
+  filter(matches)
+```
+
+The `extract` function (from `tidyr`) pulls out what matched:
+
+```{r}
+macbeth %>% 
+  extract(line, into = "what_matched", regex = )
+```
+
