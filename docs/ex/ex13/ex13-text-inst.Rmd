@@ -18,9 +18,9 @@ options(dplyr.summarise.inform = FALSE) # silence a warning message
 
 Humans, created as representatives of a speaking God, do a lot of speaking. So, naturally, text data is everywhere: social media posts, product descriptions, customer surveys, newspaper articles, emails, press releases, etc.
 
-Words is amazingly flexible, but sometimes we want to quantify, which entails reducing that flexibility to overly simplistic numbers. Keeping in mind that trade-off, this exercise is about equipping you with a few tools to turn text into tabular data. The tools we'll see today are:
+Words are amazingly flexible, but sometimes we want to quantify, which entails reducing that flexibility to overly simplistic numbers. Keeping in mind that trade-off, this exercise is about equipping you with a few tools to turn text into tabular data. The tools we'll see today are:
 
--   *regular expressions* (**regex**): a little programming language used for looking for specific kinds of things in text strings. For example, the regular expression `th[eo]se` matches either "these" or "those" (and nothing else)
+-   *regular expressions* (**regex**): a little programming language used for looking for specific kinds of things in text strings. For example, the regular expression `th[eo]se` matches either "these" or "those" (and nothing else).
 -   *web scraping*: a way of pulling text (or other data) out of loosely-structured web pages
 
 Learning objectives:
@@ -31,7 +31,7 @@ Learning objectives:
 
 ## Getting started
 
-**There isn't a template today**. Instead, create a new R Markdown document in an `ex13` folder in your portfolio.
+**There isn't a template today**. Instead, create a new R Markdown document in an `ex13` folder in your portfolio. Refer to past exercises to see how to write the YAML header (with title etc.) and the setup chunk (to load `tidyverse`).
 
 You may also want to have the following resources handy:
 
@@ -48,11 +48,19 @@ First, let's hit one of the most common things you need to do with string data: 
 
 ## Macbeth
 
+Following the textbook, we'll be working with the text of Macbeth.
+
+We can retrieve this text from Project Gutenberg. But to avoid making too many requests to the Project Gutenberg web server, the textbook
+authors included the text data in their `mdsr` package. So we'll load it from there instead. 
+The commented code may be useful if you want to pull in text from a different source, though.
+
 ```{r}
-macbeth_url <- "http://www.gutenberg.org/cache/epub/1129/pg1129.txt"
+#macbeth_url <- "http://www.gutenberg.org/cache/epub/1129/pg1129.txt"
 #macbeth_raw <- read_file(macbeth_url)
-data(Macbeth_raw, package = "mdsr")
+Macbeth_raw <- mdsr::Macbeth_raw
 ```
+
+Now we split the raw text into lines:
 
 ```{r}
 macbeth <- Macbeth_raw %>% 
@@ -74,7 +82,10 @@ We can also filter for which lines contain a pattern, using `str_subset`:
 
 ```{r}
 macbeth %>% str_subset(pattern) %>% head()
+macbeth %>% str_subset(pattern) %>% length()
 ```
+
+::: {.exercises}
 
 1.  How many lines contain "MACBETH"? How many lines contain "MACDUFF"?
 
@@ -116,9 +127,9 @@ macbeth %>% str_subset(pattern) %>% head()
 
 Also:
 
-- `\d` matches a digit
+- `\d` matches a digit (though you'll need to escape the backslash; see note below)
 - `\s` matches a whitespace character (space, newline, etc.) 
-- `[^a-c] matches any character *except* a, b, or c. 
+- `[^a-c]` matches any character *except* a, b, or c. 
 
 2.  How many times does *i* follow *e* in the play? How many times does *e* follow *i*?
 
@@ -136,11 +147,22 @@ Also:
 - `{n,m}`: between *n* and *m* times
 - omit either *n* or *m*: at least *n* or at most *m*.
 
+Compare the following three regex's:
+
 ```{r eval=FALSE}
 macbeth %>% str_subset("^ +L")
+macbeth %>% str_subset(" +L")
+macbeth %>% str_subset("^ L")
 ```
 
-3. Which of the following strings will match this expression: `^la{2,3}`
+**Bonus**: Are there any lines that start with a number?
+
+```{r include=FALSE}
+macbeth %>% str_subset('^[0-9]')
+```
+
+
+3. Predict which of the following strings will match this expression: `^la{2,3}`
 
 - ""
 - "la"
@@ -148,18 +170,26 @@ macbeth %>% str_subset("^ +L")
 - "lala"
 - "lalala"
 - "lalalala"
+- "blalalala"
 
-Now, try them:
+Now, try them. Here are those strings as a character vector (to use instead of `macbeth`):
 
 ```{r}
-c("", "la", "laa", "lala", "lalala", "lalalala")
+c("", "la", "laa", "lala", "lalala", "lalalala", "blalalala")
 ```
 
-4. Give an example of a string that matches this expression: `\d{3}-\d{3}-\d{4}`. Hint: you probably know several of these from memory and share them with others regularly.
+Follow-up:
+
+- What happens if you put `(`s around `la`?
+- You'll notice that something matched that was longer than you expected. Can you figure out how to modify the pattern so it *doesn`t* match the long one?
+
+4. Give an example of a string that matches this expression: `\d{3}-\d{3}-\d{4}`. Hint: you probably know several of these from memory and share them with others regularly. **Note**: when you write these in your code, you'll need to double the `\`s because a single `\` is used as an escape character. Or use a new feature called *raw character constants*: `r"(\d{3}-\d{3}-\d{4})"`. (The `(` is not counted as part of the string.)
 
 5. In CS 108 or 106, you wrote a function to check whether a string was a valid SSN (123-45-6789). Write a regular expression that does the same thing.
 
 > Note: The `tidyr::separate()` function allows regular expressions for the `sep`. For more advanced text extraction, see `tidyr::extract()`.
+
+:::
 
 ## Web scraping
 
