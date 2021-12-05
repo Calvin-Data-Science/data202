@@ -1,0 +1,92 @@
+---
+title: "Final Homework"
+output: 
+  tufte::tufte_html:
+    css: ../hw.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+theme_set(theme_bw())
+```
+
+This homework is to wrap up our last few units with some hands-on practice.
+It focuses on breadth rather than depth. They are very strongly based on exercises from the textbook.
+Submit a well-formatted and reproducible R Markdown document that shows the process and clearly specifies the answer.
+
+## Getting Started
+
+Pull your portfolio repo and find the template in the `hwZ` folder.
+
+## Supervised Learning
+
+Build a decision tree classifier for the `type` of each storm in `nasaweather::storms` based on its `wind` speed and `pressure`.
+Report its accuracy.
+
+```{r}
+head(nasaweather::storms)
+ggplot(data = nasaweather::storms, aes(x = pressure, y = wind)) +
+  geom_point(data = nasaweather::storms %>% select(-type), alpha = .25, color = "grey") +
+  geom_point(alpha = .25, position = position_jitter(.1), color = "green") +
+  facet_wrap(vars(type))
+  
+```
+
+
+## Clustering
+
+Consider the 4,000 biggest cities in the world, given by:
+
+```{r}
+big_cities <- mdsr::world_cities %>% 
+  arrange(desc(population)) %>% 
+  slice_head(n = 4000)
+```
+
+Construct a *k*-means clustering of the `latitude` and `longitude` of these cities.
+Describe (qualitatively) the results of clustering with *k*=2.
+
+## Databases
+
+(Chapter 15, problem 9c)
+
+Which baseball players have hit 500 home runs (`H`) OR 3000 hits (`H`) but have not (yet?) been inducted into the Baseball Hall of Fame?
+
+Use the `Lahman` package. Consider:
+
+- the `inducted` column of `HallOfFame` 
+- the `HR` and `H` columns of `Batting` (note that there are *many rows for each `playerID`*)
+- the `nameFirst` and `nameLast` columns of `People`
+
+```{r}
+library(Lahman)
+```
+
+```{r include=FALSE}
+Lahman::Batting %>% 
+  group_by(playerID) %>% 
+  summarize(H = sum(H), HR = sum(HR)) %>% 
+  mutate(should_hof = HR >= 500 | H >= 3000) %>% 
+  filter(should_hof) %>% 
+  anti_join(Lahman::HallOfFame %>% filter(inducted == "Y")) %>% 
+  left_join(Lahman::People %>% select(playerID, nameFirst, nameLast))
+```
+
+## Text Data
+
+1. (*problem 1a*) How many speaking lines are there in Macbeth? Speaking lines are identified by a line that starts with two spaces, then a string of capital letters (possibly including spaces) indicating the character's name, followed by a period.
+
+2. (*problem 4a*) Find the 10 most popular boys' names in 2017 that end in a vowel. Use the `babynames::babynames` table. (Hint: `str_detect`.)
+
+```{r include=FALSE}
+babynames::babynames %>% 
+  filter(year == 2017, sex == "M", str_detect(name, "[aeiou]$")) %>% 
+  arrange(desc(n)) %>% 
+  head(10) %>% 
+  select(!c(year, sex))
+```
+
