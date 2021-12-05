@@ -131,7 +131,13 @@ Also:
 - `\s` matches a whitespace character (space, newline, etc.) 
 - `[^a-c]` matches any character *except* a, b, or c. 
 
-2.  How many times does *i* follow *e* in the play? How many times does *e* follow *i*?
+2.  How many lines have a vowel followed by an exclamation point?
+<!-- times does *i* follow *e* in the play? How many times does *e* follow *i*? -->
+
+```{r include=FALSE}
+macbeth %>% str_subset("[aeiou]!")
+```
+
 
 ### Anchors
 
@@ -161,8 +167,14 @@ macbeth %>% str_subset("^ L")
 macbeth %>% str_subset('^[0-9]')
 ```
 
+### Escaping
 
-3. Predict which of the following strings will match this expression: `^la{2,3}`
+What if we wanted to match a literal `.`, `?`, `[`, etc? We need to *escape* them: `\.` matches a period.
+
+But `\` is itself a special character for strings, so we need to escape *it*! So we'd write `"\\."`.
+
+
+3. Consider the expression `^la{2,3}`. Predict which of the following strings will match:
 
 - ""
 - "la"
@@ -178,12 +190,17 @@ Now, try them. Here are those strings as a character vector (to use instead of `
 c("", "la", "laa", "lala", "lalala", "lalalala", "blalalala")
 ```
 
+> Note: you might try this in RegExr, but you'll need to set the MULTILINE flag... and get rid of the quotes.
+
+
 Follow-up:
 
 - What happens if you put `(`s around `la`?
 - You'll notice that something matched that was longer than you expected. Can you figure out how to modify the pattern so it *doesn`t* match the long one?
 
-4. Give an example of a string that matches this expression: `\d{3}-\d{3}-\d{4}`. Hint: you probably know several of these from memory and share them with others regularly. **Note**: when you write these in your code, you'll need to double the `\`s because a single `\` is used as an escape character. Or use a new feature called *raw character constants*: `r"(\d{3}-\d{3}-\d{4})"`. (The `(` is not counted as part of the string.)
+4. Give an example of a string that matches this expression: `\d{3}-\d{3}-\d{4}`. Hint: you probably know several of these from memory and share them with others regularly.
+
+**Note**: when you write these in your code, you'll need to double the `\`s because a single `\` is used as an escape character. Or use a new feature called *raw character constants*: `r"(\d{3}-\d{3}-\d{4})"`. (The `(` is not counted as part of the string.)
 
 5. In CS 108 or 106, you wrote a function to check whether a string was a valid SSN (123-45-6789). Write a regular expression that does the same thing.
 

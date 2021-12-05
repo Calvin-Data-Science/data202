@@ -601,7 +601,7 @@ padding-left: 1em;
 <li><code>[^a-c]</code> matches any character <em>except</em> a, b, or c. </li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li>How many times does <em>i</em> follow <em>e</em> in the play? How many times does <em>e</em> follow <em>i</em>?</li>
+<li>How many lines have a vowel followed by an exclamation point? <!-- times does *i* follow *e* in the play? How many times does *e* follow *i*? --></li>
 </ol>
 </div>
 </div>
@@ -624,8 +624,13 @@ padding-left: 1em;
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>macbeth <span class="sc">%&gt;%</span> <span class="fu">str_subset</span>(<span class="st">&quot; +L&quot;</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>macbeth <span class="sc">%&gt;%</span> <span class="fu">str_subset</span>(<span class="st">&quot;^ L&quot;</span>)</span></code></pre></div>
 <p><strong>Bonus</strong>: Are there any lines that start with a number?</p>
+</div>
+<div id="escaping" class="section level3">
+<h3>Escaping</h3>
+<p>What if we wanted to match a literal <code>.</code>, <code>?</code>, <code>[</code>, etc? We need to <em>escape</em> them: <code>\.</code> matches a period.</p>
+<p>But <code>\</code> is itself a special character for strings, so we need to escape <em>it</em>! So we’d write <code>&quot;\\.&quot;</code>.</p>
 <ol start="3" style="list-style-type: decimal">
-<li>Predict which of the following strings will match this expression: <code>^la{2,3}</code></li>
+<li>Consider the expression <code>^la{2,3}</code>. Predict which of the following strings will match:</li>
 </ol>
 <ul>
 <li>“”</li>
@@ -640,14 +645,20 @@ padding-left: 1em;
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;la&quot;</span>, <span class="st">&quot;laa&quot;</span>, <span class="st">&quot;lala&quot;</span>, <span class="st">&quot;lalala&quot;</span>, <span class="st">&quot;lalalala&quot;</span>, <span class="st">&quot;blalalala&quot;</span>)</span></code></pre></div>
 <pre><code>[1] &quot;&quot;          &quot;la&quot;        &quot;laa&quot;       &quot;lala&quot;      &quot;lalala&quot;    &quot;lalalala&quot; 
 [7] &quot;blalalala&quot;</code></pre>
+<blockquote>
+<p>Note: you might try this in RegExr, but you’ll need to set the MULTILINE flag… and get rid of the quotes.</p>
+</blockquote>
 <p>Follow-up:</p>
 <ul>
 <li>What happens if you put <code>(</code>s around <code>la</code>?</li>
 <li>You’ll notice that something matched that was longer than you expected. Can you figure out how to modify the pattern so it <em>doesn`t</em> match the long one?</li>
 </ul>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Give an example of a string that matches this expression: <code>\d{3}-\d{3}-\d{4}</code>. Hint: you probably know several of these from memory and share them with others regularly. <strong>Note</strong>: when you write these in your code, you’ll need to double the <code>\</code>s because a single <code>\</code> is used as an escape character. Or use a new feature called <em>raw character constants</em>: <code>r&quot;(\d{3}-\d{3}-\d{4})&quot;</code>. (The <code>(</code> is not counted as part of the string.)</p></li>
-<li><p>In CS 108 or 106, you wrote a function to check whether a string was a valid SSN (123-45-6789). Write a regular expression that does the same thing.</p></li>
+<li>Give an example of a string that matches this expression: <code>\d{3}-\d{3}-\d{4}</code>. Hint: you probably know several of these from memory and share them with others regularly.</li>
+</ol>
+<p><strong>Note</strong>: when you write these in your code, you’ll need to double the <code>\</code>s because a single <code>\</code> is used as an escape character. Or use a new feature called <em>raw character constants</em>: <code>r&quot;(\d{3}-\d{3}-\d{4})&quot;</code>. (The <code>(</code> is not counted as part of the string.)</p>
+<ol start="5" style="list-style-type: decimal">
+<li>In CS 108 or 106, you wrote a function to check whether a string was a valid SSN (123-45-6789). Write a regular expression that does the same thing.</li>
 </ol>
 <blockquote>
 <p>Note: The <code>tidyr::separate()</code> function allows regular expressions for the <code>sep</code>. For more advanced text extraction, see <code>tidyr::extract()</code>.</p>
