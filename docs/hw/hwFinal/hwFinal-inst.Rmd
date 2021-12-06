@@ -18,13 +18,13 @@ This homework is to wrap up our last few units with some hands-on practice.
 It focuses on breadth rather than depth. They are very strongly based on exercises from the textbook.
 Submit a well-formatted and reproducible R Markdown document that shows the process and clearly specifies the answer.
 
-## Getting Started
+This homework should be completed individually, but you are heartily invited to ask questions on Piazza.
 
-Pull your portfolio repo and find the template in the `hwZ` folder.
+A template for this assignment is found in the `hwFinal` folder of your portfolio repo.
 
 ## Supervised Learning
 
-Build a decision tree classifier for the `type` of each storm in `nasaweather::storms` based on its `wind` speed and `pressure`.
+(*MDSR2e Exercise 11.4*) Build a decision tree classifier for the `type` of each storm in `nasaweather::storms` based on its `wind` speed and `pressure`.
 Report its accuracy.
 
 ```{r}
@@ -39,7 +39,7 @@ ggplot(data = nasaweather::storms, aes(x = pressure, y = wind)) +
 
 ## Clustering
 
-Consider the 4,000 biggest cities in the world, given by:
+(*MDSR Exercise 12.1*) Consider the 4,000 biggest cities in the world, given by:
 
 ```{r}
 big_cities <- mdsr::world_cities %>% 
@@ -52,19 +52,19 @@ Describe (qualitatively) the results of clustering with *k*=2.
 
 ## Databases
 
-(Chapter 15, problem 9c)
+(*MDSR Exercise 15.9c*) Which baseball players have hit 500 home runs (`H`) OR 3000 hits (`H`) but have not (yet?) been inducted into the Baseball Hall of Fame?
 
-Which baseball players have hit 500 home runs (`H`) OR 3000 hits (`H`) but have not (yet?) been inducted into the Baseball Hall of Fame?
-
-Use the `Lahman` package. Consider:
-
-- the `inducted` column of `HallOfFame` 
-- the `HR` and `H` columns of `Batting` (note that there are *many rows for each `playerID`*)
-- the `nameFirst` and `nameLast` columns of `People`
+Use the `Lahman` package.
 
 ```{r}
 library(Lahman)
 ```
+
+Consider:
+
+- the `inducted` column of `HallOfFame` 
+- the `HR` and `H` columns of `Batting` (note that there are *many rows for each `playerID`*)
+- the `nameFirst` and `nameLast` columns of `People`
 
 ```{r include=FALSE}
 Lahman::Batting %>% 
@@ -78,9 +78,9 @@ Lahman::Batting %>%
 
 ## Text Data
 
-1. (*problem 1a*) How many speaking lines are there in Macbeth? Speaking lines are identified by a line that starts with two spaces, then a string of capital letters (possibly including spaces) indicating the character's name, followed by a period.
+1. (*MDSR Exercise  19.1a*) How many speaking lines are there in Macbeth? Speaking lines are identified by a line that starts with two spaces, then a string of capital letters (possibly including spaces) indicating the character's name, followed by a period.
 
-2. (*problem 4a*) Find the 10 most popular boys' names in 2017 that end in a vowel. Use the `babynames::babynames` table. (Hint: `str_detect`.)
+2. (*MDSR Exercise 19.4a*) Find the 10 most popular boys' names in 2017 that end in a vowel. Use the `babynames::babynames` table. (Hint: `str_detect`.)
 
 ```{r include=FALSE}
 babynames::babynames %>% 
