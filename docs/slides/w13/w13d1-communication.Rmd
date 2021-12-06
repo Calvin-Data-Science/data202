@@ -1,0 +1,123 @@
+- Describe components of an effective data science report
+- Contrast a report with a dashboard
+- Choose a reporting and presentation strategy appropriate for a given audience
+
+---
+
+class: center, middle
+
+## Making a Data-Driven Argument
+
+---
+
+### Make a point
+
+.pull-left[
+**Report A**
+
+MAIN POINT
+
+* Supporting chart 1
+* Supporting table 2
+* Supporting model 3
+
+Discussion about how each supports main point
+]
+
+.pull-right[
+**Report B**
+
+* Chart 1
+* Table 2
+* Model 3
+* Chart 4
+* Table 5
+* Chart 6
+* Model 7
+* Chart 12
+* Table 25
+]
+
+---
+
+### Tell a Story
+
+* Chart 1
+* Therefore, chart 2
+* BUT, chart 3
+
+[but-therefore](https://www.youtube.com/watch?v=vGUNqq3jVLg)
+
+---
+
+### Anchor conclusions in data
+
+.pull-left[
+* The units are probably seconds<br><br>
+* The fit looks good<br><br>
+* This was surprising
+]
+
+--
+
+.pull-right[
+* because the median, 600, would be 10 minutes
+* because the mean error of $15 is less than 0.1% of the price
+* because I expected that people would leave higher ratings on products they enjoyed more
+]
+
+---
+
+### Use appropriate language
+
+.pull-left[
+**Plain language** for the overview, conclusion, and visuals.
+
+* Labels in visuals: use real names, not `code_names`. (For all aesthetics, not just x and y.)
+* Don't assume the reader knows the structure of the data.
+]
+
+.pull-right[
+**Technical language** when describing methods (data acquisition, wrangling, modeling, etc.).
+
+* What data representation choices did you make? *why*?
+* What modeling choices? Why? etc.
+]
+
+---
+
+### Some color tips
+
+<https://blog.datawrapper.de/beautifulcolors/>
+
+---
+
+class: center, middle
+
+## Start Simple!
+
+---
+
+## Tools for Communication
+
+* Slides
+  * Xaringan
+* RStudio Connect
+* GitHub Pages
+* `flexdashboard`
+* Shiny apps
+
+---
+
+### Example: [Shiny](https://shiny.rstudio.com/) Apps
+
+<https://shiny.rstudio.com/gallery/>
+
+* [Engineering Production-Grade Shiny Apps](https://engineering-shiny.org/)
+
+---
+
+## Let's critique a dashboard
+
+- weather app
+- Kent County COVID
