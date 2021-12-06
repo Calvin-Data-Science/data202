@@ -1,0 +1,37 @@
+---
+title: "Final Homework"
+author: "YOUR NAME"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(Lahman)
+theme_set(theme_bw())
+```
+
+
+## Supervised Learning
+
+```{r}
+head(nasaweather::storms)
+```
+
+
+## Clustering
+
+```{r}
+big_cities <- mdsr::world_cities %>% 
+  arrange(desc(population)) %>% 
+  slice_head(n = 4000)
+```
+
+
+## Databases
+
+
+## Text Data
+
+
