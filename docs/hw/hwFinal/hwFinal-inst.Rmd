@@ -52,7 +52,7 @@ Describe (qualitatively) the results of clustering with *k*=2.
 
 ## Databases
 
-(*MDSR Exercise 15.9c*) Which baseball players have hit 500 home runs (`H`) OR 3000 hits (`H`) but have not (yet?) been inducted into the Baseball Hall of Fame?
+(*MDSR Exercise 15.9c*) Which baseball players have hit 500 home runs (`HR`) OR 3000 hits (`H`) but have not (yet?) been inducted into the Baseball Hall of Fame?
 
 Use the `Lahman` package.
 
