@@ -9,6 +9,24 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+# Unit 13
+
+Last week of class!
+
+Regarding the second midterm exam: instead of holding it in class, it'll be a [wrap-up homework](https://cs.calvin.edu/courses/data/202/21fa/hw/hwFinal/hwFinal-inst.html). Officially it'll be due on Reading Recess, but extensions will be freely granted.  Given the short time, I tried to keep it small.
+(Why? We didn't get enough quiz/homework practice on the material in the second half to make me comfortable giving a high-stakes exam on it.
+This is a bug with how I scheduled things this year.)
+
+We'll be in the classroom both days this week:
+
+- Monday we'll discuss communication and reporting.
+- Come to class on Wednesday ready to reflect on all our Discussions this semester. So you should have Discussion 12 done by then. We'll also take a few minutes to do course evaluations.
+
+As I mentioned in class, I'm expecting that most project teams will want to meet with me at least once for some reason or another. In anticipation of that,
+I am not holding regular office hours this week; just message me and we'll find a time.
+
+See you in class!
+
 # Unit 12
 
 We're approaching the end, folks! Although our main focus will be final projects,
