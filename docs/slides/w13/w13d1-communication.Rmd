@@ -1,3 +1,82 @@
+---
+title: "Communication and Reporting"
+author: "DATA 202 21FA"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    self_contained: false
+    nature:
+      ratio: "4:3"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, code=xfun::read_utf8('../slide-setup.R')}
+```
+
+```{r setup2, include=FALSE}
+if (interactive()) source('../slide-setup.R')
+library(tidyverse)
+```
+
+
+## Q&A
+
+> Are regex's useful in any real life dataset?
+
+--
+
+.pull-left[
+```{r echo=FALSE}
+knitr::include_graphics("img/team-conference.png")
+```
+]
+
+.pull-right[
+> "We also tried using a space as the separate factor, but ran into problems with a team like Air Force (MWC) as it would separate the "Air" and "Force" and omit the conference."
+]
+
+---
+
+.pull-left[
+```{r echo=FALSE}
+knitr::include_graphics("img/team-conference.png")
+```
+]
+
+.pull-right[
+- Team name is anything except open paren, at least once. `([^(]+)`
+- Then space and open paren. ` \(`
+- Then conference is anything except close paren, at least once. `([^)]+)`
+- Then close paren. `\)`
+]
+
+---
+
+## Q&A
+
+> What's the valid SSN regex?
+
+```
+^     # beginning of string
+\d{3} # 3 digits
+-     # hyphen
+\d{2} # 2 digits
+-     # hyphen
+\d{4} # 4 digits
+$     # end of string
+```
+
+> Are regexes used in every programming language?
+
+Pretty much. JavaScript even has regex *literals* (`/regex/.match(string)`)
+
+---
+
+## Objectives
+
 - Describe components of an effective data science report
 - Contrast a report with a dashboard
 - Choose a reporting and presentation strategy appropriate for a given audience
@@ -6,7 +85,25 @@
 
 class: center, middle
 
+## Final Project Expectations
+
+<https://cs.calvin.edu/courses/data/202/21fa/projects.html#Project_2_Detailed_Expectations>
+
+---
+
+class: center, middle
+
 ## Making a Data-Driven Argument
+
+---
+
+## Key points
+
+- Consider the *audience* to get the level of detail right.
+  - Never assume your audience can rapidly process complex visuals. ([Claus Wilke](https://clauswilke.com/dataviz/telling-a-story.html#make-a-figure-for-the-generals))
+- Consider the *purpose* to choose report vs dashboard vs presentation
+- Anchor *claims* in *data*.
+- Tell stories (e.g., "but-therefore")
 
 ---
 
@@ -47,6 +144,8 @@ Discussion about how each supports main point
 * BUT, chart 3
 
 [but-therefore](https://www.youtube.com/watch?v=vGUNqq3jVLg)
+
+See also: "[Telling a story and making a point](https://clauswilke.com/dataviz/telling-a-story.html)"
 
 ---
 
@@ -100,14 +199,49 @@ class: center, middle
 
 ## Tools for Communication
 
-* Slides
-  * Xaringan
-* RStudio Connect
-* GitHub Pages
-* `flexdashboard`
-* Shiny apps
+- Markdown: **know** your *formatting*, including `- lists` and `[links](URL)`.
+- Data graphics: `ggplot`, `plotly`, [`rbokeh`](https://hafen.github.io/rbokeh/articles/rbokeh.html)
+- Slides:
+  - These slides are `xaringan` + [`xaringanthemer`](https://pkg.garrickadenbuie.com/xaringanthemer/index.html) + [`xaringanExtra`](https://github.com/gadenbuie/xaringanExtra/)
+  - [Other options](https://bookdown.org/yihui/rmarkdown/presentations.html) include `ioslides`, `slidy`, ...
+- Getting on the web
+  - GitHub Pages
+  - `flexdashboard`
+  - Shiny apps
+  - RStudio Connect
 
 ---
+
+## Dashboard vs Report
+
+```{r echo=FALSE}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Toyota_Corolla_2016_speedometer.jpg/1280px-Toyota_Corolla_2016_speedometer.jpg")
+```
+
+.floating-source[.small[Source: <https://commons.wikimedia.org/wiki/File:Toyota_Corolla_2016_speedometer.jpg>]]
+
+
+---
+
+## Dashboard vs Report
+
+| aspect | Dashboard | Report |
+|---|----------|-----|
+| shows data? | | |
+| uses visuals? | | |
+| explanation? | | |
+| single page? | | |
+
+.floating-source[Inspired by <https://chartio.com/blog/dashboards-vs-reports-how-theyre-the-same-how-theyre-different/>]
+
+---
+
+## `flexdashboard`
+
+<https://pkgs.rstudio.com/flexdashboard/articles/examples.html>
+
+---
+
 
 ### Example: [Shiny](https://shiny.rstudio.com/) Apps
 
@@ -117,7 +251,15 @@ class: center, middle
 
 ---
 
-## Let's critique a dashboard
+## Analyzing a dashboard
+
+Questions:
+
+1. What are the first things that draw your eye?
+1. What information seems to be the most important?
+1. For what purpose was this dashboard probably designed?
+
+Examples: 
 
 - weather app
 - Kent County COVID
