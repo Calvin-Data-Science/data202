@@ -195,7 +195,7 @@ c("", "la", "laa", "lala", "lalala", "lalalala", "blalalala")
 
 Follow-up:
 
-- What happens if you put `(`s around `la`?
+- What happens if you put parentheses around `la`?
 - You'll notice that something matched that was longer than you expected. Can you figure out how to modify the pattern so it *doesn`t* match the long one?
 
 4. Give an example of a string that matches this expression: `\d{3}-\d{3}-\d{4}`. Hint: you probably know several of these from memory and share them with others regularly.
