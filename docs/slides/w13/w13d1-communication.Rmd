@@ -47,10 +47,10 @@ knitr::include_graphics("img/team-conference.png")
 ]
 
 .pull-right[
-- Team name is anything except open paren, at least once. `([^(]+)`
-- Then space and open paren. ` \(`
-- Then conference is anything except close paren, at least once. `([^)]+)`
-- Then close paren. `\)`
+- Team name is anything except open paren, at least once. `"([^(]+)"`
+- Then space and open paren. `" \("`
+- Then conference is anything except close paren, at least once. `"([^)]+)"`
+- Then close paren. `"\)"`
 ]
 
 ---
@@ -71,7 +71,7 @@ $     # end of string
 
 > Are regexes used in every programming language?
 
-Pretty much. JavaScript even has regex *literals* (`/regex/.match(string)`)
+Pretty much. JavaScript even has regex *literals* (`string.match(/regex/)`)
 
 ---
 
