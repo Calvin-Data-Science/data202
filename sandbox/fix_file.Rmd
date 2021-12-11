@@ -12,9 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 fix_file <- function(filename) { 
   contents <- readr::read_file_raw(filename)
+  if (length(contents) == 0) stop("Refusing to fix a file that seems empty.")
   unlink(filename)
   readr::write_file(contents, filename)
 }
-
 ```
 
