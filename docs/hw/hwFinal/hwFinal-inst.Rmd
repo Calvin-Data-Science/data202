@@ -108,13 +108,22 @@ Consider:
 - the `nameFirst` and `nameLast` columns of `People`
 
 ```{r include=FALSE}
+hof_summary <- Lahman::HallOfFame %>%
+  group_by(playerID) %>%
+  summarize(
+    hof = "Y" %in% inducted,
+    num_fails_before_success = sum(inducted == "N"),
+    num_ballots = length(inducted))
 Lahman::Batting %>% 
   group_by(playerID) %>% 
-  summarize(H = sum(H), HR = sum(HR)) %>% 
-  mutate(should_hof = HR >= 500 | H >= 3000) %>% 
-  filter(should_hof) %>% 
-  anti_join(Lahman::HallOfFame %>% filter(inducted == "Y")) %>% 
-  left_join(Lahman::People %>% select(playerID, nameFirst, nameLast))
+  summarize(career_H = sum(H), career_HR = sum(HR)) %>% 
+  left_join(hof_summary, by = "playerID") %>% 
+  mutate(hof = coalesce(hof, FALSE)) %>% 
+  filter(career_HR >= 500 | career_H >= 3000, !coalesce(hof, FALSE)) %>% #coalesce(num_fails_before_success, 9999) > 0) %>% 
+  #anti_join(Lahman::HallOfFame %>% filter(inducted == "Y")) %>% 
+  left_join(Lahman::People %>% select(playerID, nameFirst, nameLast), by = "playerID") %>% 
+  #arrange(desc(num_fails_before_success))
+  arrange(playerID)
 ```
 
 ## Text Data
