@@ -1,0 +1,20 @@
+---
+title: "Untitled"
+author: "Ken Arnold"
+date: "12/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+fix_file <- function(filename) { 
+  contents <- readr::read_file_raw(filename)
+  unlink(filename)
+  readr::write_file(contents, filename)
+}
+
+```
+
