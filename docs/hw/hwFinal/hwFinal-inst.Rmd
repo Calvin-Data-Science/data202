@@ -11,6 +11,8 @@ link-citations: yes
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(tidymodels)
+#library(mclust)
 theme_set(theme_bw())
 ```
 
@@ -27,13 +29,38 @@ A template for this assignment is found in the `hwFinal` folder of your portfoli
 (*MDSR2e Exercise 11.4*) Build a decision tree classifier for the `type` of each storm in `nasaweather::storms` based on its `wind` speed and `pressure`.
 Report its accuracy.
 
+**Note**: there is also a `storms` data frame in `dplyr`. Use the one in `nasaweather`.
+
 ```{r}
-head(nasaweather::storms)
-ggplot(data = nasaweather::storms, aes(x = pressure, y = wind)) +
-  geom_point(data = nasaweather::storms %>% select(-type), alpha = .25, color = "grey") +
+storms <- nasaweather::storms %>% mutate(type = as_factor(type))
+head(storms)
+ggplot(data = storms, aes(x = pressure, y = wind)) +
+  geom_point(data = storms %>% select(-type), alpha = .25, color = "grey") +
   geom_point(alpha = .25, position = position_jitter(.1), color = "green") +
   facet_wrap(vars(type))
-  
+```
+
+```{r include=FALSE}
+storms %>% count(type)
+nrow(storms)
+set.seed(0)
+storms_split <- initial_split(storms, prop = 9/10)
+
+storm_model <- decision_tree(mode = "classification") %>% 
+  fit(type ~ wind + pressure, data = training(storms_split))
+storm_model %>%
+  predict(testing(storms_split)) %>% 
+  bind_cols(testing(storms_split)) %>% 
+  summarize(accuracy = mean(.pred_class == type))
+```
+
+```{r include=FALSE, eval=FALSE}
+# Demonstrate the problem in https://github.com/tidymodels/parsnip/issues/621
+class(dplyr::storms$status)
+parsnip::fit(
+  parsnip::decision_tree(mode = "regression"),
+  status ~ wind,
+  data = dplyr::storms)
 ```
 
 
@@ -49,6 +76,20 @@ big_cities <- mdsr::world_cities %>%
 
 Construct a *k*-means clustering of the `latitude` and `longitude` of these cities.
 Describe (qualitatively) the results of clustering with *k*=2.
+
+```{r include=FALSE}
+set.seed(0)
+clustering_results <- big_cities %>% 
+  select(latitude, longitude) %>% 
+  kmeans(centers = 2) %>% 
+  fitted("classes") %>% 
+  as_factor()
+big_cities %>% 
+  mutate(cluster = clustering_results) %>% 
+  ggplot(aes(x = longitude, y = latitude, color = cluster)) +
+    geom_point()
+```
+
 
 ## Databases
 
