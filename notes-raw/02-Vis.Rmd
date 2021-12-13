@@ -184,6 +184,11 @@ This document shows examples of two simple mapping tasks using Plotly. More deta
 
 We'll be using the `tidyverse` and the `plotly` package.
 
+```{r include=FALSE}
+htmlwidgets::setWidgetIdSeed(1234)
+```
+
+
 ```{r message=FALSE}
 library(tidyverse)
 library(plotly)
