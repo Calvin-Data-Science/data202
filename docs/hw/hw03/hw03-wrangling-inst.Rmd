@@ -24,6 +24,13 @@ show_df <- function(x, ...) {
 }
 ```
 
+
+<!-- For next time: -->
+<!-- "Thread it through" needs more explanation (add to grouping variables) -->
+<!-- Students got confused about "Unknown" vs NA -->
+
+
+
 In this exercise, we'll continue our study of the bike sharing data, but we’re
 starting to take off the training wheels: rather than using
 pre-wrangled data, you’ll be doing some of the data wrangling yourself!
