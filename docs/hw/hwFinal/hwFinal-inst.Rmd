@@ -130,6 +130,13 @@ Lahman::Batting %>%
 
 1. (*MDSR Exercise  19.1a*) How many speaking lines are there in Macbeth? Speaking lines are identified by a line that starts with two spaces, then a string of capital letters (possibly including spaces) indicating the character's name, followed by a period.
 
+```{r include=FALSE}
+macbeth <- mdsr::Macbeth_raw %>% 
+  stringi::stri_split_lines1()
+macbeth %>% str_subset("^\\s{2}[A-Z\\s]+\\. ") %>% length()
+```
+
+
 2. (*MDSR Exercise 19.4a*) Find the 10 most popular boys' names in 2017 that end in a vowel. Use the `babynames::babynames` table. (Hint: `str_detect`.)
 
 ```{r include=FALSE}
