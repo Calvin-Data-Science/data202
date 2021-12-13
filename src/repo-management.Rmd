@@ -157,8 +157,8 @@ deploy_assignment <- function(path, deploy_solutions = FALSE, repos = c(instruct
 #   repo_add_file(student_repos$portfolio_repo_full, ., preserve_path = TRUE, overwrite = FALSE)
 if (FALSE) {
   deploy_assignment(
-   #"hw/hw10-modeling"
-    "ex/ex12-sql"
+   "hw/hwFinal"
+    #"ex/ex12-sql"
   #   #"datavis"
   )
 }
@@ -222,6 +222,11 @@ roster_with_repos %>%
   group_walk(~ system2('git', c('-C', .$worktree_full, 'pull')))
 
 ```
+
+```{r}
+
+```
+
 
 Setup branches (one-time)
 
@@ -288,6 +293,7 @@ src_dir <- "proj/"
 if (!repo_exists(template_repo_fullname))
   repo_create(ghorg, template_repo_name)
 
+if (FALSE) {
 withr::with_dir(src_dir, {
   repo_add_file(
     template_repo_fullname,
@@ -298,6 +304,7 @@ withr::with_dir(src_dir, {
 })
 
 repo_set_template(template_repo_fullname, TRUE)
+}
 ```
 
 Step 2: Figure out the teams.
@@ -321,6 +328,7 @@ team_githubs
 Step 3: Make clones for each team. See <https://rundel.github.io/ghclass/articles/articles/ghclass.html#distributing-a-team-assignment>
 
 ```{r}
+if (FALSE) {
 org_create_assignment(
   org = ghorg,
   user = team_githubs$github,
@@ -329,6 +337,7 @@ org_create_assignment(
   source_repo = template_repo_fullname,
   private = TRUE
 )
+}
 ```
 
 Oops, push update to template. (Next time: `distinct(proj_repo)`!)
@@ -344,5 +353,14 @@ if (FALSE) {
     )
   })
 }
+```
+
+Clone local repos
+
+
+```{r}
+team_githubs %>% distinct(proj_repo) %>% 
+  pull(proj_repo) %>% 
+  walk(\(repo) local_repo_clone(glue("{ghorg}/{repo}"), clones_path))
 ```
 
