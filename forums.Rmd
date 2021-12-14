@@ -8,6 +8,24 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Final Presentation Notes
+
+Good work to those who presented today! Here are a few things that came up for several presentations, so I thought I'd share them with the whole class:
+
+- What does each row of the data represent?
+- If you're doing predictive modeling, be very clear about what your *task* is:
+  "I'm trying to predict the XXX of each YYY based on measures of ZZZ".
+- Make your plots and tables *human-friendly*:
+  - Label plots with meaningful names (vs, say, "model1")
+  - Show only the important stuff (vs, say, every single column of your data including ones you're not using)
+  - `knitr::kable` your tables
+  - Consider using `comment = ""` as a chunk option. e.g., my `setup` chunk often contains `knitr::opts_chunk$set(echo = TRUE, comment = "")`
+  - Show stuff in inline code. *For an example of how to do this for model accuracy, search for `model1_accuracy_estimate` in [Exercise 10](https://cs.calvin.edu/courses/data/202/21fa/ex/ex10/ex10-validation-inst.html).
+- Do your data wrangling *once*, especially *before* splitting into train and test, so that the only difference between the datasets is which rows are included in which one.
+- The projector in the classroom is 4x3, so "wide" presentations will run off the edge of the screen.
+
+Meeting in the classroom worked well today, so let's do that again tomorrow. Even those who presented today are also welcome tomorrow; there's enough room.
+
 
 # Unit 13
 
