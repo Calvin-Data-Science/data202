@@ -37,6 +37,7 @@ linear-models-for-regression
 tidymodels
 modeling-goals
 defining-overfitting
+setting-up-a-predictive-modeling-task
 other-topics
 recommendation-systems
 discussion-activity

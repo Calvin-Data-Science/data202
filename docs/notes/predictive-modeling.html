@@ -200,6 +200,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="predictive-modeling.html"><a href="predictive-modeling.html#modeling-goals"><i class="fa fa-check"></i><b>4.3</b> Modeling Goals</a></li>
 <li class="chapter" data-level="4.4" data-path="predictive-modeling.html"><a href="predictive-modeling.html#defining-overfitting"><i class="fa fa-check"></i><b>4.4</b> Defining Overfitting</a></li>
+<li class="chapter" data-level="4.5" data-path="predictive-modeling.html"><a href="predictive-modeling.html#setting-up-a-predictive-modeling-task"><i class="fa fa-check"></i><b>4.5</b> Setting up a predictive modeling task</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="other-topics.html"><a href="other-topics.html"><i class="fa fa-check"></i><b>5</b> Other Topics</a>
 <ul>
@@ -357,17 +358,29 @@ could never fit a parabola (without feature engineering). One
 definition of bias is the test-set error when you have infinite
 training data.</li>
 <li><strong>variance</strong>: the amount that test-set predictions change when the
-model is trained with different subsets of the training data. e.g.,
-how robust the model is to having outliers or other things in the
-training set.</li>
+model is trained with different subsets of all possible data. This measures,
+among other things, how robust the model is to having outliers or other
+unusual things in the training set.</li>
 </ul>
 <p>The old conventional wisdom was that there's necessarily a
 <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff">trade-off</a>
 between bias and variance. But that's not actually true: for example,
 even if one model has high variance, the average of many of them can
-have low variance while staying low-bias. Some have theorized that this
+have low variance while staying low-bias. (This is called <em>bagging</em>.)
+Some have theorized that this
 is key to how deep learning works so well: it arrives at the same
 conclusions through many different paths.</p>
+</div>
+<div id="setting-up-a-predictive-modeling-task" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Setting up a predictive modeling task</h2>
+<p>Predictive modeling works best when the units (rows) you analyze are <em>interchangeable</em>.
+That is, ideally for predictive modeling you’d have each row be drawn from a big pool of basically interchangeable units.
+For example, suppose you’re trying to label the genre of a song given its audio features.
+These units are interchangeable: each song could just come or go without affecting anything about the other songs (unless, say, one is a cover of another or something).
+If your data has interrelationships between rows, like repeated measurements of the same cities / teams / countries / …,
+this makes your units much less interchangeable.
+So you either need to be creative in how to set up a prediction problem where each row is interchangeable,
+or think about how the lack of interchangeability might affect your results.</p>
 
 </div>
 </div>

@@ -109,14 +109,28 @@ confusing names:
     definition of bias is the test-set error when you have infinite
     training data.
 -   **variance**: the amount that test-set predictions change when the
-    model is trained with different subsets of the training data. e.g.,
-    how robust the model is to having outliers or other things in the
-    training set.
+    model is trained with different subsets of all possible data. This measures,
+    among other things, how robust the model is to having outliers or other 
+    unusual things in the training set.
 
 The old conventional wisdom was that there\'s necessarily a
 [trade-off](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff)
 between bias and variance. But that\'s not actually true: for example,
 even if one model has high variance, the average of many of them can
-have low variance while staying low-bias. Some have theorized that this
+have low variance while staying low-bias. (This is called *bagging*.) 
+Some have theorized that this
 is key to how deep learning works so well: it arrives at the same
 conclusions through many different paths.
+
+
+## Setting up a predictive modeling task
+
+Predictive modeling works best when the units (rows) you analyze are *interchangeable*.
+That is, ideally for predictive modeling you’d have each row be drawn from a big pool of basically interchangeable units.
+For example, suppose you're trying to label the genre of a song given its audio features.
+These units are interchangeable: each song could just come or go without affecting anything about the other songs (unless, say, one is a cover of another or something).
+If your data has interrelationships between rows, like repeated measurements of the same cities / teams / countries / ...,
+this makes your units much less interchangeable.
+So you either need to be creative in how to set up a prediction problem where each row is interchangeable,
+or think about how the lack of interchangeability might affect your results.
+
