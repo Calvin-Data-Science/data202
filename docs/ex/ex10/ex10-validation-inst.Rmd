@@ -205,11 +205,22 @@ ames_train %>%
 We can summarize that by looking at the mean absolute error.
 
 ```{r}
-ames_train %>% 
+model1_accuracy_estimates_table <- ames_train %>% 
   add_predictions(model1) %>% 
   # summarize(mae = mean(abs(Sale_Price - .pred)))
   mae(truth = Sale_Price, estimate = .pred)
+model1_accuracy_estimates_table
 ```
+
+Note: when you're reporting this, you'll probably want to use inline R code. Here's how to get that number out:
+
+```{r}
+model1_accuracy_estimates <- model1_accuracy_estimates_table %>% 
+  pull(.estimate, name = .metric)
+model1_accuracy_estimates[['mae']]
+```
+
+So you'd write: the accuracy on the training set was `` `r knitr::inline_expr("signif(model1_accuracy_estimates[['mae']], 3)")` ``.
 
 ## A richer model
 
@@ -256,7 +267,7 @@ ames_train %>%
 And we can quantify with MAE again:
 
 ```{r}
-ames_train %>% 
+model2_accuracy_estimates <- ames_train %>% 
   add_predictions(model2) %>% 
   mae(truth = Sale_Price, estimate = .pred)
 ```
@@ -278,6 +289,13 @@ model3 <-
   decision_tree(mode = "regression", cost_complexity = 1e-6, min_n = 2) %>%
   fit(Sale_Price ~ Latitude + Longitude, data = ames_train)
 ```
+
+```{r}
+model3_accuracy_estimates <- ames_train %>% 
+  add_predictions(model3) %>% 
+  mae(truth = Sale_Price, estimate = .pred)
+```
+
 
 ```{r}
 show_latlong_model(ames_train, model3)
@@ -305,7 +323,7 @@ ames_train %>%
 
 Now we evaluate the three models on the test set.
 
-The following code fragment collects the residuals for all 3 models on `ames_train` and `ames_test`.
+The following code fragment collects the predictions and metrics for all 3 models on `ames_train`.
 
 ```{r}
 bind_rows(
@@ -392,7 +410,10 @@ first_split
 
 So we'll be training a model on `r nrow(analysis(first_split))` homes and assessing its performance on `r nrow(assessment(first_split))` homes.
 
+Here's an example of what would happen an a single split. (**Note: the `fit_resamples` function does this internally; you won't need to write code like this.** This is just for illustration.)
+
 ```{r}
+# Note: you won't need to write code like this; fit_resamples below does this stuff internally.
 first_split_fitted_model <- model1_workflow %>% 
   fit(analysis(first_split))
 first_split_predictions <- first_split_fitted_model %>% 
