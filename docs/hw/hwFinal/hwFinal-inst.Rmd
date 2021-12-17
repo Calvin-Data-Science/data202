@@ -108,6 +108,18 @@ Consider:
 - the `nameFirst` and `nameLast` columns of `People`
 
 ```{r include=FALSE}
+Lahman::Batting %>% 
+  group_by(playerID) %>% 
+  summarize(career_H = sum(H), career_HR = sum(HR)) %>% 
+  filter(career_HR >= 500 | career_H >= 3000) %>% 
+  anti_join(Lahman::HallOfFame %>% filter(inducted == "Y"), by = "playerID") %>% 
+  left_join(Lahman::People %>% select(playerID, nameFirst, nameLast), by = "playerID")
+```
+
+```{r include=FALSE}
+# This is a more complex version to illustrate some of the ways that you can get it wrong,
+# e.g., by assuming that a N vote in HoF implies that the player was *never* inducted,
+# when in fact some players just took several times.
 hof_summary <- Lahman::HallOfFame %>%
   group_by(playerID) %>%
   summarize(
@@ -133,7 +145,15 @@ Lahman::Batting %>%
 ```{r include=FALSE}
 macbeth <- mdsr::Macbeth_raw %>% 
   stringi::stri_split_lines1()
-macbeth %>% str_subset("^\\s{2}[A-Z\\s]+\\. ") %>% length()
+macbeth %>% str_subset("^\\s{2}[A-Z ]+\\. ") %>% length()
+
+# Close but incorrect results:
+# 646 for not requiring a space after the period:
+macbeth %>% str_subset("^\\s{2}[A-Z ]+\\.") %>% length()
+# 1140 for forgetting that `.` matches *any* character
+macbeth %>% str_subset("^\\s{2}[A-Z ]+. ") %>% length()
+# 477 for not allowing spaces in character names (e.g., "FIRST WITCH")
+macbeth %>% str_subset("^\\s{2}[A-Z]+\\. ") %>% length()
 ```
 
 
@@ -144,6 +164,6 @@ babynames::babynames %>%
   filter(year == 2017, sex == "M", str_detect(name, "[aeiou]$")) %>% 
   arrange(desc(n)) %>% 
   head(10) %>% 
-  select(!c(year, sex))
+  select(name, n, prop)
 ```
 
