@@ -3,8 +3,10 @@ ALL: deploy-all
 docs := $(patsubst %.Rmd,%.html,$(shell find docs -iname '*.Rmd' -and -not -iname "*slides-common*" -and -not -iname "slide-setup.Rmd"))
 slide_sources := $(wildcard docs/slides/*/*.Rmd)
 slide_pdfs := $(patsubst %.Rmd,%.pdf,$(slide_sources))
+#hw_sources := $(wildcard docs/*/hw/*.Rmd)
+#hw_pdfs := $(patsubst %.Rmd,%.pdf,$(hw_sources))
 
-
+WEB_DEST := csweb:/webroot/courses/data/202
 
 %.html: %.Rmd
 	Rscript -e "rmarkdown::render('"$<"')"
@@ -12,14 +14,17 @@ slide_pdfs := $(patsubst %.Rmd,%.pdf,$(slide_sources))
 docs/slides/index.html: docs/slides/index.Rmd $(slide_sources)
 	Rscript -e "rmarkdown::render('"$<"')"
 
-%.pdf: %.html
-	decktape --pause 500 --chrome-arg=--allow-file-access-from-files "$<" "$@"
+$(slide_pdfs) : %.pdf: %.html
+	decktape --pause 300 --chrome-arg=--allow-file-access-from-files "$<" "$@"
+
+$(hw_pdfs) : %.pdf : %.html
+	Rscript -e "pagedown::chrome_print('"$<"', '"$@"')"
 
 deploy-rmarkdown: $(docs)
-	rsync -rxi --copy-links --times --exclude="*.Rmd" --delete-after --delete-excluded docs/ cs-prod:/webroot/courses/data/202/21fa
+	rsync -rxi --copy-links --times --exclude="*.Rmd" --delete-after --delete-excluded docs/ ${WEB_DEST}
 
-deploy-pdf: $(slide_pdfs)
-	rsync -rxi --copy-links --times --exclude="*.Rmd" --delete-after docs/ cs-prod:/webroot/courses/data/202/21fa
+deploy-pdf: $(slide_pdfs)# $(hw_pdfs)
+	rsync -rxi --copy-links --times --exclude="*.Rmd" --delete-after docs/ ${WEB_DEST}
 
 book:
 	Rscript -e 'withr::with_dir("notes-raw", bookdown::render_book("."))'
