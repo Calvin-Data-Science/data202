@@ -102,15 +102,18 @@ Changes to this policy may be made at the instructor's discretion.
 
 ## Schedule
 
-### Weekly expectations
+### In Class
 
-Most weeks will look like this:
+- **Monday** class: discuss a previous assignment
+- **Wednesday** class: work on lab exercises
+- **Friday** class: weekly quiz, finish lab, start on homework
 
-- **Monday**: Complete preparation activities before class
-- **Tuesday**: Discussion forum initial post is due
-- **Wednesday**: Weekly quiz
-- **Thursday**: Discussion forum reply due
-- **Friday**: Homework due
+### At home
+
+- **Monday**: Preparation and Lecture quizzes due
+- **Tuesday**: Previous week's labs due
+- **Wednesday**: Post or reply in a discussion forum
+- **Thursday**: Previous week's homework due
 
 ### Exam Scheduling
 
@@ -174,28 +177,27 @@ Also, learning how to ask for help is an important part of the college experienc
 
 ## Course Outline
 
-```{r echo=FALSE, results='asis'}
-topics <- c(
-  "Visualization Overview",
-  "Visualization Details",
-  "Wrangling (single-table)",
-  "Wrangling (multiple tables)",
-  "Tidy data",
-  "Applications and Ethics",
-  "Statistical Foundations Review",
-  "Supervised Learning using Trees",
-  "Unsupervised Learning",
-  "Databases and APIs",
-  "Other Supervised Learning Methods",
-  "Parameter Tuning and Overfitting",
-  "Text as Data",
-  "Geospatial Data"
-)
-cat(paste0("- ", topics, collapse = "\n"))
-```
-
+- Introduction and Toolset (week 1)
+- Data Visualization Design and Implementation (weeks 2 and 3)
+- Data Wrangling (single-table and multiple-table) (weeks 4 and 5)
+- Data Tidying (week 6)
+- Midterm project: redesign and recreate a visualization (weeks 7 and 8)
+- Making Estimates using Data (week 9)
+- Making Predictions using Data (Supervised Learning) (weeks 10 and 11)
+- Supervised Learning using Trees (weeks 12 and 13)
+- Effective and Interpretable Models (week 14)
+- Final Project (week 15)
 
 See Moodle for details. We will also be discussing a variety of societal and ethical topics.
+
+## Optional material
+
+- Clustering (Unsupervised Learning)
+- Databases and APIs
+- Text Data
+- Geospatial Data
+- Audio and Image Data
+
 
 ## License
 
