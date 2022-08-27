@@ -119,7 +119,7 @@ tidy(clustering_results)
 ```
 
 Let's plot that. We're using a neat library called `patchwork` that lets us
-put `ggplot` plots side by side. Basically we just make the plots and instead of showning
+put `ggplot` plots side by side. Basically we just make the plots and instead of showing
 them immediately we assign them to variables... and then we can `+` them together 
 to put them side-by-side, or `/` them to put them top and bottom. See the [`patchwork` docs](https://patchwork.data-imaginist.com/index.html)
 for details.
