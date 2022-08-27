@@ -18,6 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 <!-- * Some of the questions could be worded more clearly -->
 <!-- * Partner work helped many. -->
 <!-- * Maybe use checklists? -->
+<!-- Just use a PAT: https://usethis.r-lib.org/articles/git-credentials.html -->
 
 ## How Guided Exercises work
 
