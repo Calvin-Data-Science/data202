@@ -219,11 +219,7 @@ roster_with_repos %>%
 # Pull from worktrees
 roster_with_repos %>% 
   rowwise() %>% 
-  group_walk(~ system2('git', c('-C', .$worktree_full, 'pull')))
-
-```
-
-```{r}
+  group_walk(~ {cat(.$worktree_full); system2('git', c('-C', .$worktree_full, 'pull'))})
 
 ```
 
@@ -310,7 +306,7 @@ repo_set_template(template_repo_fullname, TRUE)
 Step 2: Figure out the teams.
 
 ```{r}
-team_roster <- readxl::read_excel("~/OneDrive - Calvin University/Teaching/21FA DATA202/21FA DATA202 Students.xlsx")
+team_roster <- readxl::read_excel("~/OneDrive - Calvin University/Teaching/21FA DATA202/21FA DATA202 Students and Project Feedback.xlsx")
 ```
 
 
@@ -362,5 +358,10 @@ Clone local repos
 team_githubs %>% distinct(proj_repo) %>% 
   pull(proj_repo) %>% 
   walk(\(repo) local_repo_clone(glue("{ghorg}/{repo}"), clones_path))
+```
+
+
+```{r}
+team_githubs %>% pull(proj_repo) %>% unique() %>% file.path(clones_path, .) %>% local_repo_pull()
 ```
 
