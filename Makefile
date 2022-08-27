@@ -7,6 +7,8 @@ slide_pdfs := $(patsubst %.Rmd,%.pdf,$(slide_sources))
 #hw_pdfs := $(patsubst %.Rmd,%.pdf,$(hw_sources))
 
 WEB_DEST := csweb:/webroot/courses/data/202/22fa
+#DELETE_OPTS := --delete-after --delete-excluded
+DELETE_OPTS :=
 
 %.html: %.Rmd
 	Rscript -e "rmarkdown::render('"$<"')"
@@ -21,10 +23,10 @@ $(hw_pdfs) : %.pdf : %.html
 	Rscript -e "pagedown::chrome_print('"$<"', '"$@"')"
 
 deploy-rmarkdown: $(docs)
-	rsync -rxi --copy-links --times --exclude="*.Rmd" --delete-after --delete-excluded docs/ ${WEB_DEST}
+	rsync -rxi --copy-links --times --exclude="*.Rmd" ${DELETE_OPTS} docs/ ${WEB_DEST}
 
 deploy-pdf: $(slide_pdfs)# $(hw_pdfs)
-	rsync -rxi --copy-links --times --exclude="*.Rmd" --delete-after docs/ ${WEB_DEST}
+	rsync -rxi --copy-links --times --exclude="*.Rmd" ${DELETE_OPTS} docs/ ${WEB_DEST}
 
 book:
 	Rscript -e 'withr::with_dir("notes-raw", bookdown::render_book("."))'
