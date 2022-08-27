@@ -15,14 +15,14 @@ output:
 [**Course Notes**](notes/) | 
 [**Project**](projects.html)
 
-## Description
+
+<details><summary><b>Catalog Description</b></summary>
 
 An introduction to the conceptual foundations and practical skills needed to transform data into useful forms and apply predictive analytics to discover patterns and anticipate trends. Primary focus is on the core skills and concepts needed to pull data from a range of sources; to filter, transform, and combine data sets to prepare them for analysis; and to construct quantitative summaries and basic visualizations. Programming is used throughout to assemble data-processing pipelines. Students will also discuss ethical and social considerations of data collection and data-driven systems.
 
-Prerequisites:
+Prerequisite: CS 104, CS 106, or CS 108. A minimum grade of C in the chosen course is required.
 
-- DATA 101 / DATA 175 / STAT 243 / STAT 245, **and**
-- CS 106 / CS 108 / CS 104 (grade of C or higher)
+</details>
 
 ### Technical Objectives
 
@@ -58,8 +58,8 @@ Time permitting, students will also learn to obtain data from web sources (eithe
 	- section A: MWF 12:30-1:20pm
 	- section B: MWF 1:30-2:20pm
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723
-* Teaching Assistant / Grader: Tomoki Takeuchi (tt35)
-* **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment. Generally Mondays 2:30-3:30 in Maroon lab.
+* Teaching Assistant / Grader: Andrew Hill
+* **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment. Generally TBD
 
 ## Materials
 
@@ -67,18 +67,18 @@ Time permitting, students will also learn to obtain data from web sources (eithe
 
 We will use the following communication tools:
 
-* Outside of class, we'll communicate primarily on Piazza
+- Outside of class, we'll communicate primarily on Ed Discussions, aka EdStem. See link on Moodle.
     - Post *questions* about assignments, concepts, or when you have problems getting code to run.
     - Post *answers* as well. Answering helps the community and also gives you practice explaining something you just learned.
     - Post *notes* about interesting articles or events.
     - Posts can be public or private, anonymous or not. In general, **don't post code publicly** . If you do have to include code, make the post private so the course staff can decide if it's ok to share.
-* Use **email** for requests for accommodations such as missing class or health issues.
-* Use **Teams** for friendly chat; I'll redirect most questions about course content to Piazza.
-* **Moodle** is the home page for all class materials and discussion forums. It will include links as necessary to other materials.
+- Use **email** for personal issues.
+- Use **Teams** for friendly chat; I'll redirect most questions about course content to EdStem.
+- **Moodle** is the home page for all class materials and discussion forums. It will include links as necessary to other materials.
 
 ### Textbook
 
-We will use the book [Modern Data Science with R](https://mdsr-book.github.io/). It is [freely available online](https://mdsr-book.github.io/mdsr2e/), but some may also be purchased in hardcover if desired.
+We will use the book [Modern Data Science with R](https://mdsr-book.github.io/). It is [freely available online](https://mdsr-book.github.io/mdsr2e/), but may also be purchased in hardcover if desired.
 
 The following resources may also be helpful:
 
@@ -91,26 +91,23 @@ The following resources may also be helpful:
 
 ### Technology
 
-* [GitHub](https://github.com/)
-  * As part of our objective of reproducibility, we will be using `git` for distributing assignments, collaboration, and tracking progress.
-* [RStudio Server](https://rstudio.calvin.edu/)
-  * The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
+- [RStudio Server](https://rstudio.calvin.edu/)
+  - The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
 
 ## Grading
 
 Unless otherwise arranged, grades will be weighted as follows:
 
-* 10% Prep and Participation
-* 10% Discussion forums
-* 20% Homework
-* 10% Quizzes
-* 25% Midterm Exams (2)
-* 10% Midterm Project
-* 15% Final Project
+- 10% Prep and Participation
+- 10% Discussion forums
+- 20% Homework
+- 30% Weekly Quizzes (in class)
+- 15% Midterm Project
+- 15% Final Project
 
 Your lowest quiz score will get thrown out.
 
-Late work is not officially accepted.
+Late work will be accepted without penalty if you make prior arrangements or present documentation of a hardship.
 
 Changes to this policy may be made at the instructor's discretion.
 
@@ -128,13 +125,6 @@ Most weeks will look like this:
 - **Friday**: Homework due
 
 ### Exam Scheduling
-
-We plan to hold midterm exams for both sections of the course on the same day:
-
-* Midterm 1: Friday October 15
-* Midterm 2: Wednesday December 8
-
-Please consult the exam schedules for your other classes. If this schedule would require you to take exams in two different classes on the same day, please advise the instructor ASAP as we may be able to shift the dates.
 
 The oral and written presentation of the final project will serve as the final exam; there will not be a separate test.
 
@@ -213,7 +203,7 @@ topics <- c(
   "Text as Data",
   "Geospatial Data"
 )
-cat(paste0("* ", topics, collapse = "\n"))
+cat(paste0("- ", topics, collapse = "\n"))
 ```
 
 
@@ -229,3 +219,4 @@ A substantial amount of content for the first few weeks of this course is based
 on material from the "[Data Science in a Box](https://datasciencebox.org/)"
 (abbreviated "dsbox" in the materials here) project led by Dr. Mine Çetinkaya-Rundel.
 
+Keith Vander Linden made major revisions to the material in the first half of this course.
