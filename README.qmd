@@ -1,0 +1,14 @@
+---
+title: "README"
+format: gfm
+editor: visual
+---
+
+## Moodle Page
+
+### General
+
+-   [Syllabus](https://cs.calvin.edu/courses/data/202/22fa/)
+-   [Ed Discussion (EdStem)](https://edstem.org/us/join/xD85KA)
+-   [Calvin RStudio](https://rstudio.calvin.edu)
+
