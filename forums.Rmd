@@ -8,6 +8,26 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Before First Week
+
+Welcome to DATA 202!
+
+We'll be meeting in our classroom space, NH 253, on Monday. But starting Wednesday we'll be in our *lab* space, SB 372 (the "Maroon" lab), for most of the rest of the semester.
+
+Although you'll be fine just showing up on Monday morning, here's how to prep for this class:
+
+1. Skim through the [Syllabus](https://cs.calvin.edu/courses/data/202/22fa/).
+2. Start working on Preparation 1 and Lecture 1 (which you can do in either order) on Moodle.
+
+See the links on Moodle to sign up on EdStem and try logging into RStudio. (What are those? Come to class!)
+
+Please email/Teams me any questions you may have. I'm excited to be embarking on this data science journey with all of you this semester.
+
+See you Monday!\
+Prof. Arnold
+
+
+
 # Final Presentation Notes
 
 Good work to those who presented today! Here are a few things that came up for several presentations, so I thought I'd share them with the whole class:
