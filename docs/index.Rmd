@@ -1,5 +1,5 @@
 ---
-title: "DATA 202 (Wrangling and Analytics), Fall 2021"
+title: "DATA 202 (Wrangling and Analytics), Fall 2022"
 output:
   html_document:
     toc: true
@@ -9,7 +9,7 @@ output:
 
 ## Quick Links
 
-[Moodle](https://moodle.calvin.edu/course/view.php?id=54823) | 
+[Moodle](https://moodle.calvin.edu/course/view.php?id=58159) | 
 [Slides](slides/) | 
 [Calvin RStudio](https://rstudio.calvin.edu) |
 [**Course Notes**](notes/) | 
@@ -24,39 +24,26 @@ Prerequisite: CS 104, CS 106, or CS 108. A minimum grade of C in the chosen cour
 
 </details>
 
-### Technical Objectives
+### Learning Outcomes
 
-This course integrates the data acumen and visualization skills you developed in prior DATA or STAT courses with the computational and mathematical/statistical skills you have been developing in other classes. We will emphasize data wrangling, predictive modeling, and visualization. Specifically, upon completing this course, students should be able to:
+Upon successful completion of this course students will be able to:
 
-- **Data Wrangling**: Perform basic and advanced data management tasks.
-  - Characterize the shape and structure of tabular data
-  - Store and query data using files (CSV, Excel), databases (SQL)
-  - Identify appropriate data types
-  - Manipulate tabular data structure using
-    - Boolean expressions
-    - Vectorized data transformations
-    - String manipulation
-- **Communication**: Create, interpret, critique and refine visualizations of data.
-  - Graphical visualization
-  - Tabular visualization
-  - Communication using reports
-- **Predictive Analytics**:
-  - Select predictive analytics methods appropriate to the data and task from among the approaches surveyed in the course.
-  - Interpret the outcomes of selected predictive analytics techniques.
+- Prepare tabular data for visualization and analytics by constructing generalizable workflows for loading, transforming, joining, and reshaping data.
+- Create, interpret, critique, and refine graphical and tabular visualizations of data.
+- Translate a real-world need into an appropriate analytics task, considering available data.
+- Select analytics methods appropriate to the data and task from among the approaches surveyed in the course.
+- Interpret the outcomes of selected predictive analytics techniques.
+- Communicate analytics results using reports that clearly motivate the problem and approach, elucidate the data used, and present both the strengths and shortcomings of analytics results.
+- Discuss ethical and social considerations of data collection and data-driven systems.
 
-Time permitting, students will also learn to obtain data from web sources (either by "scraping" or APIs), plot geospatial data, and mine text data.
-
-### Faith Integration Objectives
-
-- Students will discuss ethical and social considerations of data collection and data-driven systems from Christian and secular perspectives.
-- Using transparent reproducible workflows and regularly acknowledging limitations will help students practice virtues including integrity, humility, and justice.
+Additionally, using transparent reproducible workflows and regularly acknowledging limitations will help students practice virtues including integrity, humility, and justice.
 
 ## Staff
 
 * **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298
-* **Meetings** in SB 382, or occasionally in the SB 354 ("Gold") lab
-	- section A: MWF 12:30-1:20pm
-	- section B: MWF 1:30-2:20pm
+* **Meetings** in SB 372 ("Maroon") lab, except for first day we meet in NH 253.
+	- section A: MWF 8:30-9:20am
+	- section B: MWF 9:30-10:20am
 * **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723
 * Teaching Assistant / Grader: Andrew Hill
 * **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), or by appointment. Generally TBD
@@ -98,7 +85,8 @@ The following resources may also be helpful:
 
 Unless otherwise arranged, grades will be weighted as follows:
 
-- 10% Prep and Participation
+- 5% Preparation readings and activities
+- 5% Class participation
 - 10% Discussion forums
 - 20% Homework
 - 30% Weekly Quizzes (in class)
