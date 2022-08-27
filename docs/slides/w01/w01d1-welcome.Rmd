@@ -35,6 +35,23 @@ library(scales)
 
 ---
 
+## What might this mean for us working with data?
+
+> Seek good and not evil, that you may live,<br>
+> and so the Lord, the God of hosts, will be with you, just as you have said.
+> Hate evil and love good, and establish justice in the gate;<br>
+> it may be that the Lord, the God of hosts, will be gracious to the remnant of Joseph.
+>
+> ...
+> 
+> I hate, I despise your festivals, and I take no delight in your solemn assemblies.<br>
+> Even though you offer me your burnt offerings and grain offerings, I will not accept them,<br>
+> and the offerings of well-being of your fatted animals I will not look upon. ...<br>
+> But let justice roll down like water and righteousness like an ever-flowing stream.
+
+[Amos 5:14-15, 21-24 NRSV](https://www.biblegateway.com/passage/?search=Amos+5&version=NRSVUE&interface=print)
+
+---
 
 class: middle
 
@@ -132,11 +149,29 @@ Overall, *flipped*.
 
 # Weekly Rhythm
 
+.pull-left[
+### In Class
+
 - **Monday** class: discuss a previous assignment
-- **Monday evening** (so you don't have to work on weekends) preparation materials should be complete
+- **Wednesday** class: work on lab exercises
+- **Friday** class: weekly quiz, finish lab, start on homework
+]
+.pull-right[
+### At home
+
+- **Monday**: Preparation and Lecture quizzes due (first week: delayed one week)
+- **Tuesday**: Previous week's labs due.
+- **Wednesday**: Post or reply in a discussion forum
+- **Thursday**: Previous week's homework due.
+]
+
+At-home activities are due at end-of-day, scheduled so you don't have to work on weekends
 
 ---
 
+## Example Projects
+
+---
 
 ```{r echo=FALSE, out.width="100%"}
 knitr::include_graphics("img/f1-safety.png")
