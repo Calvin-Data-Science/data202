@@ -4,18 +4,15 @@
 # That's important so that results are actually evaluated and printed into the Rmd.
 # xaringinextra needs this, for example.
 
-install_github_if_missing <- function(repo) {
-  parts <- strsplit(repo, '/')[[1]]
-  user <- parts[1]
-  pkg <- parts[2]
+install_github_if_missing <- function(user, pkg) {
   # Approach from https://hohenfeld.is/posts/check-if-a-package-is-installed-in-r/
   if (!nzchar(system.file(package = pkg))) {
-    remotes::install_github(repo)
+    remotes::install_github(paste0(user, "/", pkg))
   }
 }
-install_github_if_missing("gadenbuie/countdown")
-install_github_if_missing("gadenbuie/xaringanExtra")
-install_github_if_missing("hadley/emo")
+install_github_if_missing("gadenbuie", "countdown")
+install_github_if_missing("gadenbuie", "xaringanExtra")
+install_github_if_missing("hadley", "emo")
 
 # Some manual imports
 include_graphics <- knitr::include_graphics
