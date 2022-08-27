@@ -20,7 +20,7 @@ tibble(filename = Sys.glob("w??/*.html")) %>%
   mutate(rmd = str_replace(filename, ".html", ".Rmd")) %>% 
   rowwise() %>% 
   mutate(title = rmarkdown::yaml_front_matter(rmd)$title) %>% 
-  separate(title, into = c("title", NA), sep = fixed("<br>"), fill = "right") %>% 
+  mutate(title = str_replace(title, "<br>.*", "")) %>% 
   mutate(md = glue("  * [{str_trim(title)}]({filename})")) %>% 
   mutate(week = parse_number(week)) %>% 
   group_by(week) %>% 
