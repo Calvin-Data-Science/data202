@@ -1,3 +1,5 @@
+.PHONY: all deploy-all deploy-rmarkdown deploy-pdf book clean
+
 ALL: deploy-all
 
 docs := $(patsubst %.Rmd,%.html,$(shell find docs -iname '*.Rmd' -and -not -iname "*slides-common*" -and -not -iname "slide-setup.Rmd"))
@@ -32,3 +34,6 @@ book:
 	Rscript -e 'withr::with_dir("notes-raw", bookdown::render_book("."))'
 
 deploy-all: deploy-rmarkdown deploy-pdf
+
+clean:
+	rm $(docs) $(slide_pdfs)
