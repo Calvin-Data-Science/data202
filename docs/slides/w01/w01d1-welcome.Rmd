@@ -23,6 +23,18 @@ library(scales)
 #if (!interactive()) knitr::opts_chunk$set(message = FALSE)
 ```
 
+# Welcome to DATA 202!
+
+### As you enter...
+
+- Make a **name card**
+- Sit next to someone you **don't know well**
+- Introduce yourself. *Share either*:
+  - Something you're passionate about outside of this class: a cause, a subject, a hobby, etc.
+  - Something you're excited about for this semester
+
+---
+
 
 class: middle
 
@@ -58,21 +70,67 @@ class: middle
 # Where are we going?
 
 .col2[
-* Visualization Overview
-* Visualization Details
-* Wrangling (single-table)
-* Wrangling (multiple tables)
-* Tidy data
-* Applications and Ethics
-* Statistical Foundations Review
-* Supervised Learning using Trees
-* Unsupervised Learning
-* Databases and APIs
-* Other Supervised Learning Methods
-* Parameter Tuning and Overfitting
-* Text as Data
-* Geospatial Data
+- Introduction and Toolset (week 1)
+- Data Visualization Design and Implementation (weeks 2 and 3)
+- Data Wrangling (single-table and multiple-table) (weeks 4 and 5)
+- Data Tidying (week 6)
+- Midterm project: redesign and recreate a visualization (weeks 7 and 8)
+- Making Estimates using Data (week 9)
+- Making Predictions using Data (Supervised Learning) (weeks 10 and 11)
+- Supervised Learning using Trees (weeks 12 and 13)
+- Effective and Interpretable Models (week 14)
+- Final Project (week 15)
 ]
+
+Discussions on *ethics* and *perspectives* are woven in throughout the course.
+
+---
+
+## Optional material
+
+- Clustering (Unsupervised Learning)
+- Databases and APIs
+- Text Data
+- Geospatial Data
+- Audio and Image Data
+
+---
+
+# Feedback from Last Year
+
+"What aspects of this course most helped your learning?"
+
+> **Lab**. **Homework**. "forced our brains to work."
+
+"What additional or different things could you have done to enhance your learning?"
+
+> "gone to more office hours", "gone over the exercises and homework more"
+
+
+---
+
+# Structure
+
+Overall, *flipped*.
+
+- Read and watch *at home* (at 2x speed if you want)
+- Solve problems *together in lab*
+
+---
+
+# Ways to participate
+
+- Hot-seat coding
+- Hot seat explaining
+- Present an explanation
+- Present a homework or lab
+- Give feedback on project presentations
+
+**Intentional imperfection**: presenters *should make mistakes* so we can all learn.
+
+---
+
+# How will you succeed in this class?
 
 ---
 
@@ -281,7 +339,7 @@ ggplot(un_uk_us_tr,
 ```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
 ggplot(un_uk_us_tr,
        aes(x = year, y = percent_yes, color = country)) +
-  geom_point(alpha = 0.4) + #<<
+  geom_point(size = .25) + #<<
   facet_wrap(~issue)
 ```
 ]
@@ -292,7 +350,7 @@ ggplot(un_uk_us_tr,
 ```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
 ggplot(un_uk_us_tr,
        aes(x = year, y = percent_yes, color = country)) +
-  geom_point(alpha = 0.4) +
+  geom_point(size = .25) +
   geom_smooth(method = "loess", se = FALSE) + #<<
   facet_wrap(~issue) 
 ```
@@ -304,7 +362,7 @@ ggplot(un_uk_us_tr,
 ```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
 ggplot(un_uk_us_tr,
        aes(x = year, y = percent_yes, color = country)) +
-  geom_point(alpha = 0.4) +
+  geom_point(size = .25) +
   geom_smooth(method = "loess", se = FALSE) +
   facet_wrap(~issue) +
   labs( #<<
@@ -321,7 +379,7 @@ ggplot(un_uk_us_tr,
 ```{r out.width = "80%", fig.asp = 0.45, fig.width = 10}
 ggplot(un_uk_us_tr, 
        aes(x = year, y = percent_yes, color = country)) +
-  geom_point(alpha = 0.4) +
+  geom_point(size = .25) +
   geom_smooth(method = "loess", se = FALSE) +
   facet_wrap(~issue) +
   labs(
