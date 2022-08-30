@@ -27,7 +27,7 @@ library(scales)
 
 ### As you enter...
 
-- Make a **name card**
+- Make a **name card** (name on front *and back*)
 - Sit next to someone you **don't know well**
 - Introduce yourself. *Share either*:
   - Something you're passionate about outside of this class: a cause, a subject, a hobby, etc.
@@ -41,11 +41,9 @@ library(scales)
 > and so the Lord, the God of hosts, will be with you, just as you have said.
 > Hate evil and love good, and establish justice in the gate;<br>
 > it may be that the Lord, the God of hosts, will be gracious to the remnant of Joseph.
->
-> ...
-> 
-> I hate, I despise your festivals, and I take no delight in your solemn assemblies.<br>
-> Even though you offer me your burnt offerings and grain offerings, I will not accept them,<br>
+> <br> ... <br>
+> I hate, I despise your festivals, and I take no delight in your solemn assemblies.
+> Even though you offer me your burnt offerings and grain offerings, I will not accept them,
 > and the offerings of well-being of your fatted animals I will not look upon. ...<br>
 > But let justice roll down like water and righteousness like an ever-flowing stream.
 
@@ -60,17 +58,6 @@ class: middle
 From the apostle Paul's letter to the Philippians:
 
 > This is my prayer: <br>that your love may abound more and more<br> in knowledge and depth of insight,<br>so that you may be able to discern what is best and may be pure and blameless for the day of Christ, filled with the fruit of righteousness that comes through Jesus Christ—to the glory and praise of God.
-
----
-
-class: middle
-
-# What is Data Science?
-
---
-
-* **Data**: information, collected systematically
-* **Science**: systematic study of that data
 
 ---
 
@@ -135,18 +122,6 @@ Overall, *flipped*.
 
 ---
 
-# Ways to participate
-
-- Hot-seat coding
-- Hot seat explaining
-- Present an explanation
-- Present a homework or lab
-- Give feedback on project presentations
-
-**Intentional imperfection**: presenters *should make mistakes* so we can all learn.
-
----
-
 # Weekly Rhythm
 
 .pull-left[
@@ -159,15 +134,42 @@ Overall, *flipped*.
 .pull-right[
 ### At home
 
-- **Monday**: Preparation and Lecture quizzes due (first week: delayed one week)
-- **Tuesday**: Previous week's labs due.
+- **Monday**: Preparation and Lecture quizzes due
+- **Tuesday**: Previous week's labs due
 - **Wednesday**: Post or reply in a discussion forum
-- **Thursday**: Previous week's homework due.
+- **Thursday**: Previous week's homework due
 ]
 
 At-home activities are due at end-of-day, scheduled so you don't have to work on weekends
 
+
 ---
+
+# Ways to participate
+
+- Hot-seat coding
+- Hot-seat explaining
+- Present an explanation
+- Present a homework or lab
+- Give feedback on project presentations
+
+**Intentional imperfection**: presenters *should make mistakes* so we can all learn.
+
+---
+
+## Technology We'll Use
+
+- **RStudio**: A powerful environment for working with data
+  - Most students will use Calvin's installation `https://rstudio.calvin.edu/`
+  - You can also install it on your own computer like I do
+- Ed Discussion (**EdStem**)
+  - Organized Q&A, tips, announcements
+  - Anonymous questions (fear not!)
+  - Ask questions in class without interrupting
+
+---
+
+class: center, middle
 
 ## Example Projects
 
