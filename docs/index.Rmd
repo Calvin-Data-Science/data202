@@ -115,11 +115,6 @@ Changes to this policy may be made at the instructor's discretion.
 - **Wednesday**: Post or reply in a discussion forum
 - **Thursday**: Previous week's homework due
 
-### Exam Scheduling
-
-The oral and written presentation of the final project will serve as the final exam; there will not be a separate test.
-
-
 ### Projects
 
 You will complete two multi-week projects in this class.
@@ -133,8 +128,6 @@ Final projects may be completed in teams of up to 3. Teams will have the followi
 * Teams must submit a team contract about how they will work together
 * Teams must convince the instructional staff that each team member learned something substantial from completing the project.
 * Each team member must submit an assessment of how they and other team members fulfilled their contract.
-
-Details of these expectations are forthcoming.
 
 ## Academic Integrity
 
@@ -157,7 +150,7 @@ I came to Calvin because I wanted to explore what our Christian calling to “ac
 
 I intend for this class to be an environment where we equally respect people of every ethnicity, gender, socioeconomic background, political learning, religious background, etc. I will try to create that community by having us read diverse voices, engage with issues of importance to people unlike ourselves, and structure discussions that require students to engage respectfully with perspectives different from their own. I invite your help.
 
-We will not always do this well. If you or someone else in this class is hurt by something I say or do in class, I would like to work to remedy it. I’ll welcome this feedback in whatever way is comfortable for you: in public, in private, anonymously via Piazza, via my department chair (Professor VanderLinden), or via a report to [Safer Spaces](https://calvin.edu/offices-services/safer-spaces/) or the [provost's office](http://www.calvin.edu/go/comments-on-faculty/).
+We will not always do this well. If you or someone else in this class is hurt by something I say or do in class, I would like to work to remedy it. I’ll welcome this feedback in whatever way is comfortable for you: in public, in private, anonymously via EdStem, via my department chair (Professor VanderLinden), or via a report to [Safer Spaces](https://calvin.edu/offices-services/safer-spaces/) or the [provost's office](http://www.calvin.edu/go/comments-on-faculty/).
 
 ## Special Circumstances
 
