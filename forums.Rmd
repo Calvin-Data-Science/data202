@@ -18,8 +18,7 @@ Although you'll be fine just showing up on Monday morning, here's how to prep fo
 
 1. Skim through the [Syllabus](https://cs.calvin.edu/courses/data/202/22fa/).
 2. Start working on Preparation 1 and Lecture 1 (which you can do in either order) on Moodle.
-
-See the links on Moodle to sign up on EdStem and try logging into RStudio. (What are those? Come to class!)
+3. See the links on Moodle to sign up on EdStem and try logging into RStudio. (What are those? Come to class!)
 
 Please email/Teams me any questions you may have. I'm excited to be embarking on this data science journey with all of you this semester.
 
