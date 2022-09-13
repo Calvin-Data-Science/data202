@@ -170,11 +170,12 @@ Also, learning how to ask for help is an important part of the college experienc
 
 ## Course Outline
 
-- Introduction and Toolset (week 1)
-- Data Visualization Design and Implementation (weeks 2 and 3)
-- Data Wrangling (single-table and multiple-table) (weeks 4 and 5)
-- Data Tidying (week 6)
-- Midterm project: redesign and recreate a visualization (weeks 7 and 8)
+- Introduction (week 1)
+- Toolset (week 2)
+- Data Visualization Design and Implementation (weeks 3 and 4)
+- Data Wrangling (single-table and multiple-table) (weeks 5 and 6)
+- Data Tidying (week 7)
+- Midterm project: redesign and recreate a visualization (starts week 3, presentations and revision week 8)
 - Making Estimates using Data (week 9)
 - Making Predictions using Data (Supervised Learning) (weeks 10 and 11)
 - Supervised Learning using Trees (weeks 12 and 13)
