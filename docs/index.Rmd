@@ -80,6 +80,7 @@ The following resources may also be helpful:
 
 - [RStudio Server](https://rstudio.calvin.edu/)
   - The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
+  - You may also install [RStudio Desktop](https://www.rstudio.com/products/rstudio/) on your own computer.
 
 ## Grading
 
