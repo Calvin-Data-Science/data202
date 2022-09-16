@@ -102,18 +102,30 @@ Changes to this policy may be made at the instructor's discretion.
 
 ## Schedule
 
+Each unit starts on a Monday. The structure is "flipped" -- you will watch most lecture content at home (where you can choose to go slower or faster, etc.), and you will complete most technical work in class.
+
 ### In Class
 
-- **Monday** class: discuss a previous assignment
-- **Wednesday** class: work on lab exercises
-- **Friday** class: weekly quiz, finish lab, start on homework
+- **Monday**: intro to the week (10 min); team work on lab (40 min)
+- **Wednesday**: varies. Typically: logistics, extra technical content, discussion on perspectives forum, quiz some weeks
+- **Friday**: Review technical content, time for work on lab or homework.
+
+Attendance in class on Fridays is optional; you may choose to take the time to watch the Lecture materials instead.
 
 ### At home
 
-- **Monday**: Preparation and Lecture quizzes due
+- **Monday**: Preparation and Lecture quizzes due. One of these (student's choice) should be done **before** class, the other should be done **after** class.
+  - Time estimate:
+    - Preparation: 30 minutes reading, 30 minutes reviewing and doing the quiz.
+    - Lecture: 30 minutes watching, 30 minutes reviewing and doing the quiz
 - **Tuesday**: Previous week's labs due
-- **Wednesday**: Post or reply in a discussion forum
-- **Thursday**: Previous week's homework due
+  - Time estimate: 15 minutes (most lab work done in Monday class)
+- **Wednesday**: Post (even weeks) or reply (odd weeks) in a discussion forum
+  - Time estimate: 60 minutes for initial post, 30 minutes for reply
+- **Thursday** of odd weeks: Previous week's homework due
+  - Time estimate: 60 minutes total time at home
+
+Homework is assigned on even weeks, covers material through that week, and is due on the following Thursday.
 
 ### Projects
 
