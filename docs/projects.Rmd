@@ -154,7 +154,7 @@ Example chunk with some helpful flags:
 Milestones are due along with the corresponding week's homework.
 
 - **Week 6**: Initial proposal.
-  - Submit a PDF (produced using a word processor if you like) including the following information:
+  - Submit an HTML file (knitted from an `Rmd`) including the following information:
     - A screenshot of the visualization you propose to reproduce
     - A citation to an article that uses that visualization to make a claim (e.g., a complete URL)
     - A succinct statement of that claim
@@ -163,16 +163,16 @@ Milestones are due along with the corresponding week's homework.
   - Regarding data:
     - If you are having trouble getting data, the course staff can be of help--but consider alternatives where you can get the data.
     - The data should require *some* wrangling. "Download data for this chart" links are red flags that you may be getting already-wrangled data.
-- **Week 8** (Oct 22): Rough-draft replication.
+- **Week 8**: Rough-draft replication.
   - Fill in the "Overview" and "Data" sections in `datavis.Rmd` in your portfolio repo.
   - The code in "Wrangling" doesn't need to be complete yet.
   - Knit-commit-push and submit a PDF.
   - Email the instructional staff, or ask on Piazza, for what help you'll need!
-- **Week 9** (Oct 29): Refinements
+- **Week 9**: Refinements
   - Have a complete replication of the original visualization
   - Have concrete ideas about alternative designs
   - Report should be complete through part 1 of Alternative Designs
-- **Week 10** (Nov 5): Final write-up
+- **Week 10**: Final write-up
   
   
 
