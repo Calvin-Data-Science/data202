@@ -25,10 +25,10 @@ $(hw_pdfs) : %.pdf : %.html
 	Rscript -e "pagedown::chrome_print('"$<"', '"$@"')"
 
 deploy-rmarkdown: $(docs)
-	rsync -rxi --copy-links --times --exclude="*.Rmd" ${DELETE_OPTS} docs/ ${WEB_DEST}
+	rsync -rxi --copy-links --times --include="project/*" --exclude="*.Rmd" ${DELETE_OPTS} docs/ ${WEB_DEST}
 
 deploy-pdf: $(slide_pdfs)# $(hw_pdfs)
-	rsync -rxi --copy-links --times --exclude="*.Rmd" ${DELETE_OPTS} docs/ ${WEB_DEST}
+	rsync -rxi --copy-links --times --include="project/*" --exclude="*.Rmd" ${DELETE_OPTS} docs/ ${WEB_DEST}
 
 book:
 	Rscript -e 'withr::with_dir("notes-raw", bookdown::render_book("."))'
