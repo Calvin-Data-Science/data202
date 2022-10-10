@@ -4,10 +4,6 @@ author: "K Arnold"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Before First Week
 
 Welcome to DATA 202!
@@ -96,8 +92,6 @@ even if you're vaccinated, until this surge abates.
 
 # Week 9: Modeling and Ethics
 
-## Prep
-
 - Read MDSR chapter 8, [Ethics](https://mdsr-book.github.io/mdsr2e/ch-ethics.html).
   - Note: The discussion there is secular and left-leaning.
   - As you read, try to identify at least one point of *resonance* with a Reformed Christian perspective, and at least one point of *tension*.
@@ -141,51 +135,3 @@ Also, see Moodle for the usual weekly assignments:
 - **Homework 3** is posted, due on Friday.
 - **Discussion 4** is posted (see Moodle); it's asking you to make specific replies to other students in *last week's* forum. So it's due on Reply day (Thursday).
 - Don't forget **Preparation 5** (due by class time Monday).
-
-
-
-# Week 4 Logistics
-
-I hope you all enjoyed making some plots in lab today! If you didn't get finished, I highly recommend trying working through it more on your own. Please post questions on Piazza, including any code you're having trouble with.
-
-Now that we've got some basic visualization skills down, we're going to learn some data wrangling. You might have noticed that we wanted to `filter` the data for our exercise today, and we often need to summarize or reorganize data--that's where data wrangling comes in. R gives us some powerful data wrangling tools and I'm excited to help you all learn how to use them.
-
-A few reminders about our weekly rhythm (now that we're back to it)!
-
--   **Preparation 4** involves some reading and some interactive tutorials, and a short open-book quiz to check that you got a few things. These should be done by class time on Monday as usual.
-
--   **Homework 1** is graded (thanks, Tom!). Please review the feedback on Moodle.
-
--   We've bumped homework back by a week, so **Homework 2** was just released and is due by next Friday.
-
--   **Discussion 3** is up, with a local flair and a bit more technical discussion.
-
-    -   Initial posts are due on Tuesday as usual.
-
-    -   For the reply post on Thursday, I have an exercise for you to do with each other's plots, but I'll tell you about it once we've gotten a few plots posted.
-
--   I'll post Quiz 4 early next week, to close Wednesday as usual.
-
--   The Moodle calendar should have all the dates, and the Moodle quizzes and gradebook should have feedback for you. (If you notice something missing or incorrect, please let me know!)
-
-See you in class on Monday!
-
-# Week 2 Logistics
-
-Hi everyone! We're starting our second week, focusing on the design of visualizations. A few reminders about our weekly rhythm:
-
--   Remember that you should have the **Preparation done before the first class of the week**. So check Prep 1 and 2.
--   **Quiz 2 closes on Wednesday**. It's mostly a review of Exercise 1.
--   **Homework 1 is due on Friday**, as will be typical. It looks superficially like a coding exercise, but it's really more about the design of visualizations.
--   **Discussion 2** is up. Initial posts would normally be due toady, but I don't want anyone to rush this important topic, so if you need a couple more days that's ok.
--   Ensure that the first week (Introduction) is all checked off for you on Moodle.
-
-If any of this is coming as a surprise to you and you need more time to finish something, let me know.
-
-We'll be **in the classroom** (not lab) on Wednesday this week. I'm thinking of doing Friday in lab, but I'll confirm.
-
-# Final Grading
-
--   21 rubric items on a scale of 0 to 3.
--   100% should be achievable by having a 2 in all categories.
--   So I need to multiply each grade by 3 / 2 = 1.5.
