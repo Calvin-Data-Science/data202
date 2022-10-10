@@ -19,7 +19,7 @@ The project will explore the intersection between three things:
 
 The three components to this project involve each of these three things:
 
-* **Data**: Obtain some real-world dataset. Trace where it came from and how it's structured. Load it and process it using one of the data science toolkits we're studying to a form that's appropriate for making the visualization.
+* **Data**: Obtain some real-world dataset. Trace where it came from and how it's structured. Load it and process it *using the data science toolkit we're studying* to a form that's appropriate for making the visualization.
 * **Visualization**: Replicate (re-create) a visualization that someone else already made based on that data. Evaluate some of the choices and assumptions that were made in the visualization process: in what ways does the visualization faithfully represent the data (or not)? What sort of stories does the chosen visualization amplify?
 * **Story**: Consider the story that the original source told using the visualization. Is that story accurate? complete? clearly articulated? How did choices in the data collection, preparation, and visualization affect the storytelling? Are there other stories that the data might also be telling?
 
@@ -41,7 +41,7 @@ You can pick one of these approaches:
 - Should make an interesting *claim*.
   - Shouldn't just be *about* something (e.g., "number of wins by each athlete")
   - Most interesting claims are about *relationships* (e.g,. "the highest paid athletes don't necessarily win more")
-- Should involve more than 2 variables.
+- Should involve **more than 2 variables**.
   - Ideally they have to come from 2 separate data sources that you have to bring together.
 - Should have some room for improvement, i.e., you'd be interested in trying a different way of presenting the data.
 
@@ -50,93 +50,34 @@ If you are really stuck, I can simply assign something to do, but I’m hoping t
 #### Your data
 
 - Should come from a reputable source.
-  - If you use an aggregator site like OurWorldInData, try to track down where *they* got the data.
+  - If you use an aggregation site like OurWorldInData, try to track down where *they* got the data.
 - Should require at least a little bit of wrangling (beware of sites where you can download *exactly* the data for a specific plot)
 
-There should be something interesting about the process of getting to the data frame that you plot. For example, you can focus on wrangling and manipuating the data, or you can focus on analyzing and critiquing the data collection process.
+There should be something interesting about the process of getting to the data frame that you plot. For example, you can focus on wrangling and manipulating the data, or you can focus on analyzing and critiquing the data collection process.
 
 
 ### Report Outline
 
 Your report should be:
 
-* *understandable by itself*: a reader should not need to see your discussion posts or prior submissions.
-* *reproducible* (no paths that only work on your computer, for example)
-* *understandable without the code*: a reader should be able to skip over all of the code and understand all of the results.
+- *understandable by itself*: a reader should not need to see your discussion posts or prior submissions.
+- *reproducible* -- if a new version of the data becomes available, anyone should be able to re-run your code and get an updated plot. Things to avoid:
+  - paths that only work on your computer
+  - making modifications to your raw data (e.g., editing it in Excel)
+  - hard-coding row numbers or other things that are likely to change
+- *understandable without the code*: a reader should be able to skip over all of the code and understand all of the results.
 
-Please follow this general outline (though you may add or remove aspects if needed).
+At least one of your visuals (either the original or alternative design) should be high quality, with effort spent getting the details right.
 
-* Overview: Introduce the article you've found and the specific visualization you're replicating, including:
-  * A complete URL to the article
-  * An image or screenshot of the visualization.
-  * A concise statement (ideally a quote) of the claim that the article uses the visualization to make
-    (or the claim you invented if there wasn't a clear one)
-* Design
-  * What overall type of visualization was chosen? Why might the author have chosen it?
-  * What variables are being shown?
-  * What retinal variables and/or aesthetics were chosen to represent those data variables?
-    * For at least one of these variables, describe what makes that choice appropriate or inappropriate.
-  * Overall, what about the visual makes it effective, or ineffective, for making its claim?
-* Data
-  * A high-level overview of the data you're working with, including:
-    * Whether you were able to find the original data (if not, why not?)
-    * Where the data came from
-      * Direct URL and/or specific instructions for how to obtain it.
-      * Under what terms is the source allowing you to use the data?
-      * Try to trace it upstream as close to the source as you can.
-      * Who worked with the data on its way to you? (Include names and roles, if applicable.)
-      * What processing may have happened to it: was it aggregated? Anonymized? etc.
-    * What might we need to know about the data collection process in order to interpret the data correctly?
-      (e.g., If it's from a survey--who was surveyed?)
-  * A low-level description of the size and structure of the data  (include your data-loading code here)
-    * What does each row represent?
-    * How many rows are there? (use inline code)
-    * What might be interesting to know about what information the data does, and doesn't, provide?
-* Wrangling
-  * Describe, at a broad level, what you need to do to the data to make it into the form you need for the plot
-  * Include code blocks, with appropriate names, for wrangling steps.
-    * Explain the *why* for any choices you make (like filtering data).
-* Replication
-  * Include your code to replicate the visual, and the result.
-  * Briefly describe any difficulties you encountered, both those you
-    overcame and those you still have not.
-  * It's ok to not have a perfect plot here. If the essential structure is there,
-    don't worry if the details are a bit different. 
-    Focus your attention on making an interesting and polished alternative design.
-* Alternative Designs
-  * Describe at least two alternative design choices that could be made in
-    visualizing your data. For each design, include:
-    * What choice did the original visual make? (e.g., to use a particular aesthetic mapping or glyph)
-    * What's an alternative choice? (It should be a *reasonable* choice, but it
-      doesn't have to be an *improvement*.)
-    * How does that change affect how the visual supports the original claim?
-      Can your redesign now support some *different* claim?
-  * Make a solid attempt to implement your best alternative design.
-    * If creating it using ggplot/plotly/etc is too challenging, you may submit
-      a high-fidelity sketch of what the visualization would look like along with
-      a clear description of what you'd need to figure out in order to produce it with code.
-* Summary
-  * Now that you've gone through the whole process, *how has your
-    understanding of, and belief in, the original article's claim changed*?
-  * How faithful was your replication?
-  * How successful was your alternative design? Why?
-  * What follow-up questions and ideas do you have about the data or visualization you worked with?
-  * What opportunities do you see for extending this work into a final project?
-    e.g., is there some way you could apply predictive modeling? Get better data?
-    Do a more rigorous analysis? etc. "This seems like a dead end" is valid.
-  * How do you feel about this whole experience?
-  
+The [template Rmd file](project/datavis.Rmd) ([rendered version](project/datavis.html)) includes a suggested outline for your report.
 
-At least one of your visuals (either the original or alternative design) should be high
-quality, with effort spent getting the details right.
 
 ### Report Notes
 
-- Use `output: pdf_document` to make clean PDFs. Ask on Piazza if you encounter any inscrutable errors knitting to PDF vs HTML.
 - Clean up messy outputs. e.g., use `message = FALSE` in the chunk header or `show_col_types = FALSE` for `read_csv` (the main culprit).
 - Write succinctly. Bulleted lists are fine when they're clear.
 - Use ordinary text formatting (not headings, blockquotes, etc.) for ordinary prose. Reserve headings and block quotes for headings and quotes.
-- Format your code cleanly. If lazy, select the code and click "Reformat Code" on the Code menu. (Make sure you Commit first.)
+- Format your code cleanly. If lazy, select the code and click "Reformat Code" on the Code menu. (Make sure you save first.)
 - Read through the report before submitting. Check that code doesn't run into the margin, figures show correctly, you don't have placeholder text, the headings make sense, etc.
 
 Example chunk with some helpful flags:
@@ -148,6 +89,7 @@ Example chunk with some helpful flags:
 ```
 `````
 
+**Academic Integrity**: Any code that you take from elsewhere **must** be *very clearly documented*. If you find a plot and it has R code already, I advise against looking at it, and possibly even finding a different plot. Code using a different toolkit (e.g., Python) is probably okay.
 
 ### Midterm Project Milestones
 
