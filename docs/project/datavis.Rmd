@@ -132,7 +132,7 @@ Now that you’ve gone through the whole process, how has your understanding of,
 🚧
 How faithful was your replication?
 🚧
-How successful was your alternative design?
+Compare your original and alternative designs. Which is best for what purpose?
 🚧
 What follow-up questions and ideas do you have about the data or visualization you worked with?
 🚧
