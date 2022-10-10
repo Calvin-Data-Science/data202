@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="qa1_files/libs/clipboard/clipboard.min.js"></script>
-<script src="qa1_files/libs/quarto-html/tabby.min.js"></script>
-<script src="qa1_files/libs/quarto-html/popper.min.js"></script>
-<script src="qa1_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="qa1_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="qa1_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="qa1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.1.189">
+<script src="qa2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="qa2_files/libs/quarto-html/tabby.min.js"></script>
+<script src="qa2_files/libs/quarto-html/popper.min.js"></script>
+<script src="qa2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="qa2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="qa2_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="qa2_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.1.251">
 
-  <title>Q&amp;A 1</title>
+  <title>Q&amp;A 2</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="qa1_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="qa1_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="qa2_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="qa2_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -28,11 +28,11 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="qa1_files/libs/revealjs/dist/theme/quarto.css" id="theme">
-  <link href="qa1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="qa1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="qa1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="qa1_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="qa2_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link href="qa2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="qa2_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="qa2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="qa2_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -323,125 +323,57 @@
     <div class="slides">
 
 <section id="title-slide" class="center">
-  <h1 class="title">Q&amp;A 1</h1>
+  <h1 class="title">Q&amp;A 2</h1>
 </section>
 
-<section id="choice-of-r" class="slide level2">
-<h2>Choice of R</h2>
+<section id="technical" class="slide level2">
+<h2>Technical</h2>
 <ul>
-<li>What is the industry standard language for data science? What is the industry standard computer for data science?<br>
-</li>
-<li>Is R still the best language for data processing?<br>
-</li>
-<li>What other platforms are there for statistical analysis? Why are we using R?</li>
+<li>Is there a reference sheet for all this?</li>
+<li>ggplot with more than one geom? Mapping globally vs locally?</li>
+<li>How do you change the color/size/font and other design aspects of graphs in R?</li>
+</ul>
+<p><a href="awesome-ggplot2">https://github.com/erikgahner/awesome-ggplot2</a></p>
+</section>
+<section id="ggplot-vs-ggformula" class="slide level2">
+<h2>ggplot vs ggformula</h2>
+<ul>
+<li>Why <code>+</code> instead of <code>|&gt;</code> or <code>%&gt;%</code>?</li>
+<li>Do geom_ and gf_ plots look different? Why would a person use one of these function sets over another?</li>
 </ul>
 </section>
-<section id="packages" class="slide level2">
-<h2>Packages</h2>
+<section id="faceting" class="slide level2">
+<h2>Faceting</h2>
 <ul>
-<li>If one were to RStudio locally rather than Calvin’s server, what packages should they download?<br>
-</li>
-<li>How many packages are in existence? Could I make my own package?</li>
+<li>How many facets are too much?</li>
+<li>What if you don’t want the charts exactly the same? different aesthetic mappings etc?</li>
 </ul>
 </section>
-<section id="toolkit" class="slide level2">
-<h2>Toolkit</h2>
+<section id="plot-types" class="slide level2">
+<h2>Plot types</h2>
 <ul>
-<li>Do most data scientists use RStudio to write R code? Do they write R code using some other program?</li>
-<li>Why are R, RStudio, and R Markdown classified as three different things?<br>
-</li>
-<li>Can something like RStudio or R Markdown be implemented into another coding language?<br>
-</li>
-<li>How would R Studio function without R Markdown? (I still don’t completely understand what R Markdown is, but I understand what it does.)</li>
+<li>Should we memorize which plot types to use?</li>
+<li>If our data fits a graph type, will we ever get marked down because a different graph type could have been better?</li>
 </ul>
 </section>
-<section id="what-is-ds" class="slide level2">
-<h2>What is DS?</h2>
+<section id="art" class="slide level2">
+<h2>Art</h2>
 <ul>
-<li>Why is Data Science not just part of under computer science?<br>
-</li>
-<li>What is the difference between data analytics and data science? Both seem to be about analyzing and deriving important information from the data.</li>
-<li>What does “modeling” mean in data science (as opposed to natural science)?</li>
+<li>Could you make an “In the Barrel” that actually works?</li>
+<li>Is it possible, and if so, how do you create literal pictures/graphics in R rather than just graphs?</li>
 </ul>
 </section>
-<section id="where-are-we-going" class="slide level2">
-<h2>Where are we going?</h2>
-<ul>
-<li>Will we be doing modeling?</li>
-<li>How advanced of statistics are we going to end up using?</li>
-</ul>
+<section id="history" class="slide level2">
+<h2>History</h2>
+<p>Some of the examples that Prof VanderLinden uses date back 100s of years ago, which is really cool! I am curious when all of the different types of visualizations were organized and named and compared. Was it in the before or during the 1990s or more recent?</p>
+<p>Are there people working on making new charts now?</p>
 </section>
-<section id="perspectives" class="slide level2">
-<h2>Perspectives</h2>
-<ul>
-<li>how can hospitality extend beyond just being easily understood in data science? what would be an excellent demonstration of hospitality in this field of science.<br>
-</li>
-<li>I am interested to see how many aspects of our lives data science actually affects.<br>
-</li>
-<li>After watching the second video, I noticed that if people blindly believe in data and charts, but data analysts intentionally sift through the data during wrangling, then objective data wrangling becomes associated with justice.<br>
-</li>
-<li>I’m interested in learning more about Hans Rosling’s work.</li>
-</ul>
-</section>
-<section id="logistics" class="slide level2">
-<h2>Logistics</h2>
-<ul>
-<li>Are midterm and final projects done individually or group?</li>
-<li>Once I graduate from Calvin, can I access RStudio?</li>
-<li>Can we see the correct answer after getting the question wrong?</li>
-</ul>
-</section>
-<section id="memorizing" class="slide level2">
-<h2>Memorizing</h2>
-<ul>
-<li>What is the best way to memorize these functions? Or do you recommend we focus more on notes of functions rather than memorization at the moment?<br>
-</li>
-<li>What is the best way of retaining the information from these videos? Should we do practice problems related to them afterwards?<br>
-</li>
-<li>What functions are most important to know at the beginning of this course?<br>
-</li>
-<li>Are we expected to be able to write code similar to in the videos already?</li>
-</ul>
-</section>
-<section id="plotting" class="slide level2">
-<h2>Plotting</h2>
-<ul>
-<li>Can we use <code>ggformula</code> that we’re learning in stats class?</li>
-<li>Can we make animations?</li>
-<li>Can we make interactive plots?</li>
-</ul>
-</section>
-<section id="well-get-to-it" class="slide level2">
-<h2>We’ll get to it…</h2>
-<ul>
-<li>Why is a logarithmic scale helpful? It seems to me like that’s just making the data more confusing and potentially misleading.<br>
-</li>
-<li>What other types of visualization of data will we use besides dot plots and line plots, if any?<br>
-</li>
-<li>How do I make a plot in R Studio?<br>
-</li>
-<li>Why is the package called “tidyverse”? Is the tidyverse package big or small as far as packages go?<br>
-</li>
-<li>I am struggling with understanding the basics of TidyVerse. Could you possibly help explain that to me? Could you also go over how objects work and the difference between vectors and other common objects<br>
-(matrices, arrays, and factors)?<br>
-</li>
-<li>In the future, will we be provided datasets to work along side the instructor so that we can get some hands on work in?</li>
-</ul>
-</section>
-<section id="piping" class="slide level2">
-<h2>Piping</h2>
-<ul>
-<li>Pipes? Huh?</li>
-<li><code>|&gt;</code> vs <code>%&gt;%</code>?</li>
-<li>Should we pipe <em>everything</em>?</li>
-</ul>
-</section>
-<section id="perspectives-discussion" class="slide level2">
-<h2>Perspectives Discussion</h2>
-<ul>
-<li>What’s something you learned from reading other posts?</li>
-<li>What’s some way that you’d want the Manifesto to be more specific (or different) related to this topic?</li>
-</ul>
+<section id="other" class="slide level2">
+<h2>Other</h2>
+<p>Are there good colors to stick to? The cheat sheet has a lot of blue/red/yellow but that’s partially because of it’s color scheme.</p>
+<p>When a person ever use geographic coordinates when not referring to geography?</p>
+<p>“visualization relative percentages of a whole?” what does this mean?</p>
+<p>We’re taught early to always start at 0 on the y-axis, but that’s not the case when the data is hard to represent with that kind of scale. In the video is shows that we need truncate based on context. What is the best way to provide that context if your goal is to have a singular graph tell a story as an advertisement per se, but do not want your audience thinking you are skewing the data to fit your storyline?</p>
 <div class="footer footer-default">
 
 </div>
@@ -450,19 +382,19 @@
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="qa1_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="qa2_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="qa1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="qa2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="qa2_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="qa2_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="qa2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="qa2_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="qa1_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="qa2_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="qa2_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="qa2_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="qa2_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

@@ -1,0 +1,82 @@
+---
+title: "Q&A 3"
+format: revealjs
+editor: visual
+---
+
+## "Each Datum Represents"
+
+## Consolidate `aes`
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```r
+gapminder %>% 
+  filter(country %in% countries) %>% 
+  ggplot() +
+    aes(x = year, y = lifeExp) +
+    geom_line()
+```
+
+:::
+
+::: {.column width="50%"}
+
+```r
+gapminder %>% 
+  filter(country %in% countries) %>% 
+  ggplot(aes(x = year, y = lifeExp)) +
+    geom_line()
+```
+
+
+:::
+
+::::
+
+## Perspectives
+
+```{r echo=FALSE}
+knitr::include_graphics("https://assets.rbl.ms/17684964/origin.jpg")
+```
+
+
+## Perspectives
+
+- Look for the broader context  
+- Go back to the source  
+- Beware the Fundamental Attribution Error  
+
+## Intro
+
+- "This unit was hard, look forward to reviewing it, I need to study more."
+- I still have issues figuring out which dplyr function to use and what arguments they require. But I am starting to see the power and usefulness of the package. 
+
+## count vs group_by - summarize
+
+- Is it advantageous to use the count function or to use the group by and then summarize method?
+- When would you use the count function vs the summary or group by functions? Is there a good time to use one versus the other?
+- Are there any times that we would want to use other dplyr functions instead of the count function?
+
+## bar vs column plots
+
+-  I was confused on which geom_ function is used to summarize data. I may have misunderstood the wording of the question, or maybe I missed it in the lecture video.
+- What's the difference between geom_bar and geom_col?
+
+## practicalities
+
+- What is the best way to keep track of all of all modifications that have been made so we don't clobber the data? If we accidentally transformed the original, can we undo?
+- When we are given multiple ways to approach an issue, how do we know which is best?
+- Should we be referencing the book for functional help or should we look online? 
+- Is there any downside to making more columns for wrangling? Do we ever remove parts for size or speed constraints?
+- Are data cleansing, tidying, and wrangling all essentially the same processes with the same goals — they just happen in different places with different tools?
+
+## factors vs arrange
+
+- I am still bit confused about how to use arrange command. When adjusting the order of months, can we also use arrange to adjust it? Is relevel command generally used to change the order of category labels?
+
+See [Factors in R4DS](https://r4ds.had.co.nz/factors.html) and the [forcats vignette](https://cran.r-project.org/web/packages/forcats/vignettes/forcats.html)
+
+- Could we go over select and filter? Also could we go over mutate() please?

@@ -74,3 +74,9 @@ editor: visual
 - Pipes? Huh?
 - `|>` vs `%>%`?
 - Should we pipe *everything*?
+
+
+## Perspectives Discussion
+
+- What's something you learned from reading other posts?
+- What's some way that you'd want the Manifesto to be more specific (or different) related to this topic?

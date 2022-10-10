@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="qa1_files/libs/clipboard/clipboard.min.js"></script>
-<script src="qa1_files/libs/quarto-html/tabby.min.js"></script>
-<script src="qa1_files/libs/quarto-html/popper.min.js"></script>
-<script src="qa1_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="qa1_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="qa1_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="qa1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.1.189">
+<script src="qa3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="qa3_files/libs/quarto-html/tabby.min.js"></script>
+<script src="qa3_files/libs/quarto-html/popper.min.js"></script>
+<script src="qa3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="qa3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="qa3_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="qa3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.1.251">
 
-  <title>Q&amp;A 1</title>
+  <title>Q&amp;A 3</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="qa1_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="qa1_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="qa3_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="qa3_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -27,12 +27,76 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="qa1_files/libs/revealjs/dist/theme/quarto.css" id="theme">
-  <link href="qa1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="qa1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="qa1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="qa1_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="qa3_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link href="qa3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="qa3_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="qa3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="qa3_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -323,124 +387,83 @@
     <div class="slides">
 
 <section id="title-slide" class="center">
-  <h1 class="title">Q&amp;A 1</h1>
+  <h1 class="title">Q&amp;A 3</h1>
 </section>
 
-<section id="choice-of-r" class="slide level2">
-<h2>Choice of R</h2>
-<ul>
-<li>What is the industry standard language for data science? What is the industry standard computer for data science?<br>
-</li>
-<li>Is R still the best language for data processing?<br>
-</li>
-<li>What other platforms are there for statistical analysis? Why are we using R?</li>
-</ul>
+<section id="each-datum-represents" class="slide level2">
+<h2>“Each Datum Represents”</h2>
 </section>
-<section id="packages" class="slide level2">
-<h2>Packages</h2>
-<ul>
-<li>If one were to RStudio locally rather than Calvin’s server, what packages should they download?<br>
-</li>
-<li>How many packages are in existence? Could I make my own package?</li>
-</ul>
-</section>
-<section id="toolkit" class="slide level2">
-<h2>Toolkit</h2>
-<ul>
-<li>Do most data scientists use RStudio to write R code? Do they write R code using some other program?</li>
-<li>Why are R, RStudio, and R Markdown classified as three different things?<br>
-</li>
-<li>Can something like RStudio or R Markdown be implemented into another coding language?<br>
-</li>
-<li>How would R Studio function without R Markdown? (I still don’t completely understand what R Markdown is, but I understand what it does.)</li>
-</ul>
-</section>
-<section id="what-is-ds" class="slide level2">
-<h2>What is DS?</h2>
-<ul>
-<li>Why is Data Science not just part of under computer science?<br>
-</li>
-<li>What is the difference between data analytics and data science? Both seem to be about analyzing and deriving important information from the data.</li>
-<li>What does “modeling” mean in data science (as opposed to natural science)?</li>
-</ul>
-</section>
-<section id="where-are-we-going" class="slide level2">
-<h2>Where are we going?</h2>
-<ul>
-<li>Will we be doing modeling?</li>
-<li>How advanced of statistics are we going to end up using?</li>
-</ul>
+<section id="consolidate-aes" class="slide level2">
+<h2>Consolidate <code>aes</code></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> countries) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-3"><a href="#cb1-3"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>    <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> lifeExp) <span class="sc">+</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>    <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:50%;">
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> countries) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </section>
 <section id="perspectives" class="slide level2">
 <h2>Perspectives</h2>
+
+<img data-src="https://assets.rbl.ms/17684964/origin.jpg" class="r-stretch"></section>
+<section id="perspectives-1" class="slide level2">
+<h2>Perspectives</h2>
 <ul>
-<li>how can hospitality extend beyond just being easily understood in data science? what would be an excellent demonstration of hospitality in this field of science.<br>
+<li>Look for the broader context<br>
 </li>
-<li>I am interested to see how many aspects of our lives data science actually affects.<br>
+<li>Go back to the source<br>
 </li>
-<li>After watching the second video, I noticed that if people blindly believe in data and charts, but data analysts intentionally sift through the data during wrangling, then objective data wrangling becomes associated with justice.<br>
-</li>
-<li>I’m interested in learning more about Hans Rosling’s work.</li>
+<li>Beware the Fundamental Attribution Error</li>
 </ul>
 </section>
-<section id="logistics" class="slide level2">
-<h2>Logistics</h2>
+<section id="intro" class="slide level2">
+<h2>Intro</h2>
 <ul>
-<li>Are midterm and final projects done individually or group?</li>
-<li>Once I graduate from Calvin, can I access RStudio?</li>
-<li>Can we see the correct answer after getting the question wrong?</li>
+<li>“This unit was hard, look forward to reviewing it, I need to study more.”</li>
+<li>I still have issues figuring out which dplyr function to use and what arguments they require. But I am starting to see the power and usefulness of the package.</li>
 </ul>
 </section>
-<section id="memorizing" class="slide level2">
-<h2>Memorizing</h2>
+<section id="count-vs-group_by---summarize" class="slide level2">
+<h2>count vs group_by - summarize</h2>
 <ul>
-<li>What is the best way to memorize these functions? Or do you recommend we focus more on notes of functions rather than memorization at the moment?<br>
-</li>
-<li>What is the best way of retaining the information from these videos? Should we do practice problems related to them afterwards?<br>
-</li>
-<li>What functions are most important to know at the beginning of this course?<br>
-</li>
-<li>Are we expected to be able to write code similar to in the videos already?</li>
+<li>Is it advantageous to use the count function or to use the group by and then summarize method?</li>
+<li>When would you use the count function vs the summary or group by functions? Is there a good time to use one versus the other?</li>
+<li>Are there any times that we would want to use other dplyr functions instead of the count function?</li>
 </ul>
 </section>
-<section id="plotting" class="slide level2">
-<h2>Plotting</h2>
+<section id="bar-vs-column-plots" class="slide level2">
+<h2>bar vs column plots</h2>
 <ul>
-<li>Can we use <code>ggformula</code> that we’re learning in stats class?</li>
-<li>Can we make animations?</li>
-<li>Can we make interactive plots?</li>
+<li>I was confused on which geom_ function is used to summarize data. I may have misunderstood the wording of the question, or maybe I missed it in the lecture video.</li>
+<li>What’s the difference between geom_bar and geom_col?</li>
 </ul>
 </section>
-<section id="well-get-to-it" class="slide level2">
-<h2>We’ll get to it…</h2>
+<section id="practicalities" class="slide level2">
+<h2>practicalities</h2>
 <ul>
-<li>Why is a logarithmic scale helpful? It seems to me like that’s just making the data more confusing and potentially misleading.<br>
-</li>
-<li>What other types of visualization of data will we use besides dot plots and line plots, if any?<br>
-</li>
-<li>How do I make a plot in R Studio?<br>
-</li>
-<li>Why is the package called “tidyverse”? Is the tidyverse package big or small as far as packages go?<br>
-</li>
-<li>I am struggling with understanding the basics of TidyVerse. Could you possibly help explain that to me? Could you also go over how objects work and the difference between vectors and other common objects<br>
-(matrices, arrays, and factors)?<br>
-</li>
-<li>In the future, will we be provided datasets to work along side the instructor so that we can get some hands on work in?</li>
+<li>What is the best way to keep track of all of all modifications that have been made so we don’t clobber the data? If we accidentally transformed the original, can we undo?</li>
+<li>When we are given multiple ways to approach an issue, how do we know which is best?</li>
+<li>Should we be referencing the book for functional help or should we look online?</li>
+<li>Is there any downside to making more columns for wrangling? Do we ever remove parts for size or speed constraints?</li>
+<li>Are data cleansing, tidying, and wrangling all essentially the same processes with the same goals — they just happen in different places with different tools?</li>
 </ul>
 </section>
-<section id="piping" class="slide level2">
-<h2>Piping</h2>
+<section id="factors-vs-arrange" class="slide level2">
+<h2>factors vs arrange</h2>
 <ul>
-<li>Pipes? Huh?</li>
-<li><code>|&gt;</code> vs <code>%&gt;%</code>?</li>
-<li>Should we pipe <em>everything</em>?</li>
+<li>I am still bit confused about how to use arrange command. When adjusting the order of months, can we also use arrange to adjust it? Is relevel command generally used to change the order of category labels?</li>
 </ul>
-</section>
-<section id="perspectives-discussion" class="slide level2">
-<h2>Perspectives Discussion</h2>
+<p>See <a href="https://r4ds.had.co.nz/factors.html">Factors in R4DS</a> and the <a href="https://cran.r-project.org/web/packages/forcats/vignettes/forcats.html">forcats vignette</a></p>
 <ul>
-<li>What’s something you learned from reading other posts?</li>
-<li>What’s some way that you’d want the Manifesto to be more specific (or different) related to this topic?</li>
+<li>Could we go over select and filter? Also could we go over mutate() please?</li>
 </ul>
 <div class="footer footer-default">
 
@@ -450,19 +473,19 @@
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="qa1_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="qa3_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="qa1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="qa3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="qa3_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="qa3_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="qa3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="qa3_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="qa1_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="qa1_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="qa3_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="qa3_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="qa3_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="qa3_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -657,6 +680,48 @@
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          // dispatch for htmlwidgets
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for reveal
+        if (window.Reveal) {
+          window.Reveal.addEventListener("slidechanged", function(event) {
+            fireSlideChanged(event.previousSlide, event.currentSlide);
+          });
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
