@@ -28,6 +28,9 @@ data-wrangling
 resources
 practice
 sql-and-bigquery
+panel-survey-data-e.g.-pew-research
+reading-spss-files-with-haven
+weights
 afterward
 predictive-modeling
 lingo

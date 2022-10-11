@@ -186,7 +186,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1.1" data-path="data-wrangling.html"><a href="data-wrangling.html#practice"><i class="fa fa-check"></i><b>3.1.1</b> Practice</a></li>
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="data-wrangling.html"><a href="data-wrangling.html#sql-and-bigquery"><i class="fa fa-check"></i><b>3.2</b> SQL and BigQuery</a></li>
-<li class="chapter" data-level="3.3" data-path="data-wrangling.html"><a href="data-wrangling.html#afterward"><i class="fa fa-check"></i><b>3.3</b> Afterward</a></li>
+<li class="chapter" data-level="3.3" data-path="data-wrangling.html"><a href="data-wrangling.html#panel-survey-data-e.g.-pew-research"><i class="fa fa-check"></i><b>3.3</b> Panel Survey Data (e.g., Pew Research)</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data-wrangling.html"><a href="data-wrangling.html#reading-spss-files-with-haven"><i class="fa fa-check"></i><b>3.3.1</b> Reading SPSS files with <code>haven</code></a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-wrangling.html"><a href="data-wrangling.html#weights"><i class="fa fa-check"></i><b>3.3.2</b> Weights</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="data-wrangling.html"><a href="data-wrangling.html#afterward"><i class="fa fa-check"></i><b>3.4</b> Afterward</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="predictive-modeling.html"><a href="predictive-modeling.html"><i class="fa fa-check"></i><b>4</b> Predictive Modeling</a>
 <ul>
@@ -255,7 +260,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="https://r4ds.had.co.nz/factors.html">R for Data Science: Factors</a></li>
 <li><a href="https://dplyr.tidyverse.org/">dplyr</a>: <a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf">cheat sheet</a></li>
 <li><a href="https://lubridate.tidyverse.org/">lubridate</a>: <a href="https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf">cheat sheet</a></li>
-<li>Some <a href="https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html">tips for working with SPSS data</a> (e.g., Pew)</li>
 </ul>
 <div id="practice" class="section level3 hasAnchor" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Practice<a href="data-wrangling.html#practice" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -278,8 +282,122 @@ datasets. Some examples:</p>
 <li><a href="https://github.com/fivethirtyeight/data/tree/master/subreddit-algebra">FiveThirtyEight analysis of subreddit relationships</a></li>
 </ul>
 </div>
-<div id="afterward" class="section level2 hasAnchor" number="3.3">
-<h2><span class="header-section-number">3.3</span> Afterward<a href="data-wrangling.html#afterward" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="panel-survey-data-e.g.-pew-research" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Panel Survey Data (e.g., Pew Research)<a href="data-wrangling.html#panel-survey-data-e.g.-pew-research" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Pew and other sources release data in a file format used by SPSS, a commercial
+statistical analysis tool. Fortunately it’s straightforward to read this data
+in R, using the <a href="https://haven.tidyverse.org/"><code>haven</code></a> package.</p>
+<p>I’ll show an example with the <a href="https://www.pewresearch.org/our-methods/u-s-surveys/the-american-trends-panel/">American Trends Panel</a>.</p>
+<div id="reading-spss-files-with-haven" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Reading SPSS files with <code>haven</code><a href="data-wrangling.html#reading-spss-files-with-haven" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="data-wrangling.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb22-2"><a href="data-wrangling.html#cb22-2" aria-hidden="true" tabindex="-1"></a>atp_w34 <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">&quot;data/W34_Apr18/ATP W34.sav&quot;</span>)</span></code></pre></div>
+<p>The easiest way to look at this data is to click on it in the “Environment” panel,
+or run <code>View(atp_w34)</code> on the Console. (Remember not to leave a <code>View</code> call in
+an Rmd when you Knit.)</p>
+<p>You’ll see that each column has a label. It might be hard to read all of them, so
+here’s a bit of magic code to make a table of just the column labels:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="data-wrangling.html#cb23-1" aria-hidden="true" tabindex="-1"></a>getColumnLabels <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb23-2"><a href="data-wrangling.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb23-3"><a href="data-wrangling.html#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">names</span>(df),</span>
+<span id="cb23-4"><a href="data-wrangling.html#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">map_chr</span>(<span class="fu">names</span>(df), <span class="sc">~</span> <span class="fu">attr</span>(df[[.]], <span class="st">&quot;label&quot;</span>))</span>
+<span id="cb23-5"><a href="data-wrangling.html#cb23-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-6"><a href="data-wrangling.html#cb23-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-7"><a href="data-wrangling.html#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">getColumnLabels</span>(atp_w34)</span></code></pre></div>
+<pre><code>## # A tibble: 140 × 2
+##    name            label                                                        
+##    &lt;chr&gt;           &lt;chr&gt;                                                        
+##  1 QKEY            Unique ID USE THIS TO MERGE WAVES                            
+##  2 Device_Type_W34 Wave 34 New Device Type                                      
+##  3 LANGUAGE_W34    Language                                                     
+##  4 FORM_W34        FORM Assignment                                              
+##  5 SCI1_W34        SCI1. Overall, do you think science has made life easier or …
+##  6 SCI2A_W34       SCI2A. Do you think science has had a mostly positive or mos…
+##  7 SCI2B_W34       SCI2B. Do you think science has had a mostly positive or mos…
+##  8 SCI2C_W34       SCI2C. Do you think science has had a mostly positive or mos…
+##  9 SCI3A_W34       SCI3A. In your opinion, do you think government investments …
+## 10 SCI3B_W34       SCI3B. In your opinion, do you think government investments …
+## # … with 130 more rows</code></pre>
+<p>Many of the columns are actually factors in disguise. To decode their labels,
+call <code>as_factor</code>. For example, to get party affiliations and leanings from
+the ATP data, we can do:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="data-wrangling.html#cb25-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="ot">&lt;-</span> atp_w34 <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="data-wrangling.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb25-3"><a href="data-wrangling.html#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">party =</span> <span class="fu">as_factor</span>(F_PARTY_FINAL),</span>
+<span id="cb25-4"><a href="data-wrangling.html#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">party_lean =</span> <span class="fu">as_factor</span>(F_PARTYLN_FINAL),</span>
+<span id="cb25-5"><a href="data-wrangling.html#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">as_factor</span>(F_AGECAT_FINAL))</span>
+<span id="cb25-6"><a href="data-wrangling.html#cb25-6" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> <span class="fu">select</span>(party, party_lean)</span></code></pre></div>
+<pre><code>## # A tibble: 2,537 × 2
+##    party       party_lean          
+##    &lt;fct&gt;       &lt;fct&gt;               
+##  1 Republican  &lt;NA&gt;                
+##  2 Democrat    &lt;NA&gt;                
+##  3 Democrat    &lt;NA&gt;                
+##  4 Independent The Republican Party
+##  5 Republican  &lt;NA&gt;                
+##  6 Republican  &lt;NA&gt;                
+##  7 Democrat    &lt;NA&gt;                
+##  8 Republican  &lt;NA&gt;                
+##  9 Independent The Republican Party
+## 10 Republican  &lt;NA&gt;                
+## # … with 2,527 more rows</code></pre>
+</div>
+<div id="weights" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Weights<a href="data-wrangling.html#weights" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Note that Pew survey data include <em>weights</em>. Read their Methodology sections for details about these weights.
+Once you’ve identified the correct weights to use, you can use the <code>wt</code> parameter to <code>count</code>
+to weight your counts accordingly, or the <code>weighted.mean</code> function if you’re interested in a
+specific outcome.</p>
+<p>For example, the following gives the proportion of each party among <em>survey respondents</em>:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="data-wrangling.html#cb27-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="data-wrangling.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(party) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="data-wrangling.html#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   party              n proportion
+##   &lt;fct&gt;          &lt;int&gt;      &lt;dbl&gt;
+## 1 Republican       575   0.227   
+## 2 Democrat         973   0.384   
+## 3 Independent      696   0.274   
+## 4 Something else   280   0.110   
+## 5 Refused           12   0.00473 
+## 6 &lt;NA&gt;               1   0.000394</code></pre>
+<p>while this gives the (estimated) proportion of each party in the US:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="data-wrangling.html#cb29-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="data-wrangling.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(party, <span class="at">wt =</span> WEIGHT_W34) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="data-wrangling.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   party               n proportion
+##   &lt;fct&gt;           &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Republican     619.     0.244   
+## 2 Democrat       804.     0.317   
+## 3 Independent    728.     0.287   
+## 4 Something else 370.     0.146   
+## 5 Refused         14.8    0.00583 
+## 6 &lt;NA&gt;             1.42   0.000558</code></pre>
+<p>Add more variables to <code>count</code> to get cross-tabulations:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="data-wrangling.html#cb31-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="data-wrangling.html#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(party, age, <span class="at">wt =</span> WEIGHT_W34) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="data-wrangling.html#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age) <span class="sc">%&gt;%</span> <span class="co"># Get party membership within each age range</span></span>
+<span id="cb31-4"><a href="data-wrangling.html#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<pre><code>## # A tibble: 23 × 4
+## # Groups:   age [5]
+##    party       age        n proportion
+##    &lt;fct&gt;       &lt;fct&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Republican  18-29  68.0       0.132
+##  2 Republican  30-49 173.        0.209
+##  3 Republican  50-64 198.        0.289
+##  4 Republican  65+   177.        0.353
+##  5 Republican  &lt;NA&gt;    2.23      0.573
+##  6 Democrat    18-29 128.        0.248
+##  7 Democrat    30-49 287.        0.345
+##  8 Democrat    50-64 233.        0.340
+##  9 Democrat    65+   157.        0.312
+## 10 Independent 18-29 172.        0.334
+## # … with 13 more rows</code></pre>
+</div>
+</div>
+<div id="afterward" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Afterward<a href="data-wrangling.html#afterward" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><a href="https://observablehq.com/@uwdata/introducing-arquero">Arquero</a> is a new
 JavaScript library that uses almost all of the same basic concepts

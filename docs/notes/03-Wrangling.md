@@ -12,7 +12,6 @@ For more resources, see the previous chapter but also:
 * [R for Data Science: Factors](https://r4ds.had.co.nz/factors.html)
 * [dplyr](https://dplyr.tidyverse.org/): [cheat sheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
 * [lubridate](https://lubridate.tidyverse.org/): [cheat sheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf)
-* Some [tips for working with SPSS data](https://cs.calvin.edu/courses/data/202/fa20/spss-tips.html) (e.g., Pew)
 
 ### Practice
 
@@ -34,6 +33,167 @@ datasets. Some examples:
 * [NFL Play-by-Play](https://calogica.com/r/bigquery/2020/08/18/r-bigquery.html)
 * [NYC Yellow-Cab Trips](https://cfss.uchicago.edu/notes/sql-databases/#interacting-with-google-bigquery-via-dplyr)
 * [FiveThirtyEight analysis of subreddit relationships](https://github.com/fivethirtyeight/data/tree/master/subreddit-algebra)
+
+## Panel Survey Data (e.g., Pew Research)
+
+Pew and other sources release data in a file format used by SPSS, a commercial
+statistical analysis tool. Fortunately it's straightforward to read this data
+in R, using the [`haven`](https://haven.tidyverse.org/) package.
+
+I'll show an example with the [American Trends Panel](https://www.pewresearch.org/our-methods/u-s-surveys/the-american-trends-panel/).
+
+### Reading SPSS files with `haven`
+
+
+```r
+library(tidyverse)
+atp_w34 <- haven::read_sav("data/W34_Apr18/ATP W34.sav")
+```
+
+The easiest way to look at this data is to click on it in the "Environment" panel,
+or run `View(atp_w34)` on the Console. (Remember not to leave a `View` call in
+an Rmd when you Knit.)
+
+You'll see that each column has a label. It might be hard to read all of them, so
+here's a bit of magic code to make a table of just the column labels:
+
+
+```r
+getColumnLabels <- function(df) {
+  tibble(
+    name = names(df),
+    label = map_chr(names(df), ~ attr(df[[.]], "label"))
+  )
+}
+getColumnLabels(atp_w34)
+```
+
+```
+## # A tibble: 140 × 2
+##    name            label                                                        
+##    <chr>           <chr>                                                        
+##  1 QKEY            Unique ID USE THIS TO MERGE WAVES                            
+##  2 Device_Type_W34 Wave 34 New Device Type                                      
+##  3 LANGUAGE_W34    Language                                                     
+##  4 FORM_W34        FORM Assignment                                              
+##  5 SCI1_W34        SCI1. Overall, do you think science has made life easier or …
+##  6 SCI2A_W34       SCI2A. Do you think science has had a mostly positive or mos…
+##  7 SCI2B_W34       SCI2B. Do you think science has had a mostly positive or mos…
+##  8 SCI2C_W34       SCI2C. Do you think science has had a mostly positive or mos…
+##  9 SCI3A_W34       SCI3A. In your opinion, do you think government investments …
+## 10 SCI3B_W34       SCI3B. In your opinion, do you think government investments …
+## # … with 130 more rows
+```
+
+Many of the columns are actually factors in disguise. To decode their labels,
+call `as_factor`. For example, to get party affiliations and leanings from
+the ATP data, we can do:
+
+
+```r
+atp_w34_wrangled <- atp_w34 %>% 
+  mutate(
+    party = as_factor(F_PARTY_FINAL),
+    party_lean = as_factor(F_PARTYLN_FINAL),
+    age = as_factor(F_AGECAT_FINAL))
+atp_w34_wrangled %>% select(party, party_lean)
+```
+
+```
+## # A tibble: 2,537 × 2
+##    party       party_lean          
+##    <fct>       <fct>               
+##  1 Republican  <NA>                
+##  2 Democrat    <NA>                
+##  3 Democrat    <NA>                
+##  4 Independent The Republican Party
+##  5 Republican  <NA>                
+##  6 Republican  <NA>                
+##  7 Democrat    <NA>                
+##  8 Republican  <NA>                
+##  9 Independent The Republican Party
+## 10 Republican  <NA>                
+## # … with 2,527 more rows
+```
+
+### Weights
+
+Note that Pew survey data include *weights*. Read their Methodology sections for details about these weights.
+Once you've identified the correct weights to use, you can use the `wt` parameter to `count`
+to weight your counts accordingly, or the `weighted.mean` function if you're interested in a
+specific outcome.
+
+For example, the following gives the proportion of each party among *survey respondents*:
+
+
+```r
+atp_w34_wrangled %>% 
+  count(party) %>% 
+  mutate(proportion = n / sum(n))
+```
+
+```
+## # A tibble: 6 × 3
+##   party              n proportion
+##   <fct>          <int>      <dbl>
+## 1 Republican       575   0.227   
+## 2 Democrat         973   0.384   
+## 3 Independent      696   0.274   
+## 4 Something else   280   0.110   
+## 5 Refused           12   0.00473 
+## 6 <NA>               1   0.000394
+```
+
+while this gives the (estimated) proportion of each party in the US:
+
+
+```r
+atp_w34_wrangled %>% 
+  count(party, wt = WEIGHT_W34) %>% 
+  mutate(proportion = n / sum(n))
+```
+
+```
+## # A tibble: 6 × 3
+##   party               n proportion
+##   <fct>           <dbl>      <dbl>
+## 1 Republican     619.     0.244   
+## 2 Democrat       804.     0.317   
+## 3 Independent    728.     0.287   
+## 4 Something else 370.     0.146   
+## 5 Refused         14.8    0.00583 
+## 6 <NA>             1.42   0.000558
+```
+
+Add more variables to `count` to get cross-tabulations:
+
+
+```r
+atp_w34_wrangled %>% 
+  count(party, age, wt = WEIGHT_W34) %>% 
+  group_by(age) %>% # Get party membership within each age range
+  mutate(proportion = n / sum(n))
+```
+
+```
+## # A tibble: 23 × 4
+## # Groups:   age [5]
+##    party       age        n proportion
+##    <fct>       <fct>  <dbl>      <dbl>
+##  1 Republican  18-29  68.0       0.132
+##  2 Republican  30-49 173.        0.209
+##  3 Republican  50-64 198.        0.289
+##  4 Republican  65+   177.        0.353
+##  5 Republican  <NA>    2.23      0.573
+##  6 Democrat    18-29 128.        0.248
+##  7 Democrat    30-49 287.        0.345
+##  8 Democrat    50-64 233.        0.340
+##  9 Democrat    65+   157.        0.312
+## 10 Independent 18-29 172.        0.334
+## # … with 13 more rows
+```
+
+
 
 
 ## Afterward
