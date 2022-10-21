@@ -137,3 +137,8 @@ Compare your original and alternative designs. Which is best for what purpose?
 What follow-up questions and ideas do you have about the data or visualization you worked with?
 🚧
 How do you feel about this whole experience?
+
+## Acknowledgments
+
+🚧
+Include the full names of any students outside your team who helped you and a brief description of how they helped.
