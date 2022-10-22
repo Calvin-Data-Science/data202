@@ -56,7 +56,9 @@ If you are really stuck, I can simply assign something to do, but I’m hoping t
 There should be something interesting about the process of getting to the data frame that you plot. For example, you can focus on wrangling and manipulating the data, or you can focus on analyzing and critiquing the data collection process.
 
 
-### Report Outline
+### Report
+
+**Start with [this template Rmd file](project/datavis.Rmd)**. It includes a suggested outline for your report, which you can also view in this [rendered version](project/datavis.html).
 
 Your report should be:
 
@@ -69,7 +71,6 @@ Your report should be:
 
 At least one of your visuals (either the original or alternative design) should be high quality, with effort spent getting the details right.
 
-The [template Rmd file](project/datavis.Rmd) ([rendered version](project/datavis.html)) includes a suggested outline for your report.
 
 
 ### Report Notes
@@ -134,6 +135,22 @@ Milestones are due along with the corresponding week's homework.
 * See the [Course Notes](notes/), especially for visualization tweaks.
 * [Some questions to ask if you're working with data that you didn't collect yourself](http://bit.ly/quaesita_notyours).
 
+
+### Shared Projects
+
+RStudio has a feature called Shared Projects that many teams will find helpful. But there's a bug involving uploading files to shared projects: only one person ends up able to read the file.
+
+To fix it, the person who **can** read the file should run the following code chunk. (Change the file name, of course.) After the code chunk runs successfully, you should remove it from your report.
+
+```r
+fix_file <- function(filename) { 
+  contents <- readr::read_file_raw(filename)
+  if (length(contents) == 0) stop("Refusing to fix a file that seems empty.")
+  unlink(filename)
+  readr::write_file(contents, filename)
+}
+fix_file("data/YOUR-FILE-NAME.csv")
+```
 
 ## **Final Project**: A complete Data Science process
 

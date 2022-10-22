@@ -1592,8 +1592,12 @@ and manipulating the data, or you can focus on analyzing and critiquing
 the data collection process.</p>
 </div>
 </div>
-<div id="report-outline" class="section level3">
-<h3>Report Outline</h3>
+<div id="report" class="section level3">
+<h3>Report</h3>
+<p><strong>Start with <a href="project/datavis.Rmd">this template Rmd
+file</a></strong>. It includes a suggested outline for your report,
+which you can also view in this <a href="project/datavis.html">rendered
+version</a>.</p>
 <p>Your report should be:</p>
 <ul>
 <li><em>understandable by itself</em>: a reader should not need to see
@@ -1614,8 +1618,6 @@ skip over all of the code and understand all of the results.</li>
 <p>At least one of your visuals (either the original or alternative
 design) should be high quality, with effort spent getting the details
 right.</p>
-<p>The <a href="project/datavis.Rmd">template Rmd file</a> (<a href="project/datavis.html">rendered version</a>) includes a suggested
-outline for your report.</p>
 </div>
 <div id="report-notes" class="section level3">
 <h3>Report Notes</h3>
@@ -1714,6 +1716,23 @@ visualization tweaks.</li>
 <li><a href="http://bit.ly/quaesita_notyours">Some questions to ask if
 you’re working with data that you didn’t collect yourself</a>.</li>
 </ul>
+</div>
+<div id="shared-projects" class="section level3">
+<h3>Shared Projects</h3>
+<p>RStudio has a feature called Shared Projects that many teams will
+find helpful. But there’s a bug involving uploading files to shared
+projects: only one person ends up able to read the file.</p>
+<p>To fix it, the person who <strong>can</strong> read the file should
+run the following code chunk. (Change the file name, of course.) After
+the code chunk runs successfully, you should remove it from your
+report.</p>
+<pre class="r"><code>fix_file &lt;- function(filename) { 
+  contents &lt;- readr::read_file_raw(filename)
+  if (length(contents) == 0) stop(&quot;Refusing to fix a file that seems empty.&quot;)
+  unlink(filename)
+  readr::write_file(contents, filename)
+}
+fix_file(&quot;data/YOUR-FILE-NAME.csv&quot;)</code></pre>
 </div>
 </div>
 <div id="final-project-a-complete-data-science-process" class="section level2">
