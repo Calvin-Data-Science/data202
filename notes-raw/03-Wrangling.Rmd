@@ -66,6 +66,8 @@ getColumnLabels <- function(df) {
 getColumnLabels(atp_w34)
 ```
 
+
+
 Many of the columns are actually factors in disguise. To decode their labels,
 call `as_factor`. For example, to get party affiliations and leanings from
 the ATP data, we can do:
@@ -78,6 +80,22 @@ atp_w34_wrangled <- atp_w34 %>%
     age = as_factor(F_AGECAT_FINAL))
 atp_w34_wrangled %>% select(party, party_lean)
 ```
+
+Here's a function to rename a bunch of columns to match their labels. I think it's clumsy; probably the above is better.
+
+```{r}
+name_as_label <- function(df, cols_to_rename) {
+  new_names <- list()
+  for (col in cols_to_rename) {
+    new_names[[attr(df[[col]], "label")]] = col
+  }
+  df %>% rename(!!as_vector(new_names))
+}
+
+atp_w34 %>% 
+  name_as_label(cols_to_rename = c("F_PARTY_FINAL", "Device_Type_W34", "LANGUAGE_W34"))
+```
+
 
 ### Weights
 

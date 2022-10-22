@@ -85,6 +85,8 @@ getColumnLabels(atp_w34)
 ## # … with 130 more rows
 ```
 
+
+
 Many of the columns are actually factors in disguise. To decode their labels,
 call `as_factor`. For example, to get party affiliations and leanings from
 the ATP data, we can do:
@@ -115,6 +117,46 @@ atp_w34_wrangled %>% select(party, party_lean)
 ## 10 Republican  <NA>                
 ## # … with 2,527 more rows
 ```
+
+Here's a function to rename a bunch of columns to match their labels. I think it's clumsy; probably the above is better.
+
+
+```r
+name_as_label <- function(df, cols_to_rename) {
+  new_names <- list()
+  for (col in cols_to_rename) {
+    new_names[[attr(df[[col]], "label")]] = col
+  }
+  df %>% rename(!!as_vector(new_names))
+}
+
+atp_w34 %>% 
+  name_as_label(cols_to_rename = c("F_PARTY_FINAL", "Device_Type_W34", "LANGUAGE_W34"))
+```
+
+```
+## # A tibble: 2,537 × 140
+##      QKEY Wave 34 New …¹ Langu…² FORM_…³ SCI1_…⁴ SCI2A…⁵ SCI2B…⁶ SCI2C…⁷ SCI3A…⁸
+##     <dbl>      <dbl+lbl> <dbl+l> <dbl+l> <dbl+l> <dbl+l> <dbl+l> <dbl+l> <dbl+l>
+##  1 100314 1 [Mobile pho… 9 [Eng… 1 [For… 1 [Eas… 1 [Mos… 1 [Mos… 1 [Mos… 1 [Gov…
+##  2 100363 1 [Mobile pho… 9 [Eng… 2 [For… 1 [Eas… 2 [Mos… 1 [Mos… 1 [Mos… 1 [Gov…
+##  3 100588 1 [Mobile pho… 9 [Eng… 1 [For… 1 [Eas… 1 [Mos… 1 [Mos… 2 [Mos… 1 [Gov…
+##  4 100637 3 [Desktop]    9 [Eng… 1 [For… 1 [Eas… 1 [Mos… 1 [Mos… 1 [Mos… 2 [Gov…
+##  5 101224 3 [Desktop]    9 [Eng… 1 [For… 1 [Eas… 1 [Mos… 1 [Mos… 1 [Mos… 2 [Gov…
+##  6 101322 1 [Mobile pho… 9 [Eng… 1 [For… 1 [Eas… 2 [Mos… 2 [Mos… 2 [Mos… 2 [Gov…
+##  7 101400 1 [Mobile pho… 9 [Eng… 1 [For… 1 [Eas… 1 [Mos… 1 [Mos… 1 [Mos… 1 [Gov…
+##  8 101437 3 [Desktop]    9 [Eng… 1 [For… 1 [Eas… 2 [Mos… 2 [Mos… 1 [Mos… 2 [Gov…
+##  9 101472 3 [Desktop]    9 [Eng… 1 [For… 1 [Eas… 1 [Mos… 1 [Mos… 1 [Mos… 1 [Gov…
+## 10 101493 1 [Mobile pho… 9 [Eng… 1 [For… 1 [Eas… 1 [Mos… 1 [Mos… 1 [Mos… 1 [Gov…
+## # … with 2,527 more rows, 131 more variables: SCI3B_W34 <dbl+lbl>,
+## #   SCI3C_W34 <dbl+lbl>, SCI4_W34 <dbl+lbl>, SCI5_W34 <dbl+lbl>,
+## #   EAT1_W34 <dbl+lbl>, EAT2_W34 <dbl+lbl>, FUD30A_W34 <dbl+lbl>,
+## #   FUD30B_W34 <dbl+lbl>, FUD30C_W34 <dbl+lbl>, FUD30D_W34 <dbl+lbl>,
+## #   EAT3A_W34 <dbl+lbl>, EAT3B_W34 <dbl+lbl>, EAT3C_W34 <dbl+lbl>,
+## #   EAT3D_W34 <dbl+lbl>, EAT3E_W34 <dbl+lbl>, EAT3F_W34 <dbl+lbl>,
+## #   EAT3G_W34 <dbl+lbl>, EAT3H_W34 <dbl+lbl>, EAT3I_W34 <dbl+lbl>, …
+```
+
 
 ### Weights
 
