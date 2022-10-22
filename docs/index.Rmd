@@ -86,11 +86,12 @@ The following resources may also be helpful:
 
 Unless otherwise arranged, grades will be weighted as follows:
 
-- 5% Preparation readings and activities
+- 5% Preparation readings and activities (Preparation, Lecture, and Study Quizzes)
 - 5% Class participation
 - 10% Discussion forums
+- 5% Labs
 - 20% Homework
-- 30% Weekly Quizzes (some in class, some at home)
+- 25% Weekly Review Quizzes (some in class, some at home)
 - 15% Midterm Project
 - 15% Final Project
 
