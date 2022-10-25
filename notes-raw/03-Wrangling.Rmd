@@ -1,6 +1,11 @@
 
 # Data Wrangling
 
+```{r message=FALSE}
+library(tidyverse)
+```
+
+
 ## Resources
 
 First, here are [some questions to ask if you're working with data that you didn't collect yourself](http://bit.ly/quaesita_notyours).
@@ -33,6 +38,50 @@ datasets. Some examples:
 * [NFL Play-by-Play](https://calogica.com/r/bigquery/2020/08/18/r-bigquery.html)
 * [NYC Yellow-Cab Trips](https://cfss.uchicago.edu/notes/sql-databases/#interacting-with-google-bigquery-via-dplyr)
 * [FiveThirtyEight analysis of subreddit relationships](https://github.com/fivethirtyeight/data/tree/master/subreddit-algebra)
+
+## A File Per Year
+
+When you have multiple data files containing the same data, differing only by year or the like, it's typically best to combine them together early and do all the data wrangling to the combined data frame. For example, let's *pretend* that gapminder gave us their data one year at a time, and we got data frames like:
+
+```{r include=FALSE}
+# Just pretending -- don't actually do this!
+library(gapminder)
+gm_1952 <- gapminder %>% filter(year == 1952) %>% select(-year)
+gm_1957 <- gapminder %>% filter(year == 1957) %>% select(-year)
+# etc.
+```
+
+```{r}
+head(gm_1952, 3)
+head(gm_1957, 3)
+```
+
+etc. We could merge those together like this:
+
+```{r}
+gm_combined <- bind_rows(
+  year_1952 = gm_1952,
+  year_1957 = gm_1957,
+  .id = "year"
+)
+gm_combined
+```
+
+We'd then want to convert that `year` column into a number. Two approaches: first the lazy one:
+
+```{r}
+gm_combined %>% mutate(year = parse_number(year))
+```
+
+And then the more principled one:
+
+```{r}
+gm_combined %>% 
+  separate(year, into = c(NA, "year")) %>% 
+  mutate(year = as.numeric(year)) # or pass `convert = TRUE` to separate
+```
+
+For some more advanced techniques, see "[Read Multiple Files into a Single Data Frame](https://www.mjandrews.org/blog/readmultifile/)".
 
 ## Panel Survey Data (e.g., Pew Research)
 
