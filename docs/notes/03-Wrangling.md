@@ -1,6 +1,12 @@
 
 # Data Wrangling
 
+
+```r
+library(tidyverse)
+```
+
+
 ## Resources
 
 First, here are [some questions to ask if you're working with data that you didn't collect yourself](http://bit.ly/quaesita_notyours).
@@ -33,6 +39,120 @@ datasets. Some examples:
 * [NFL Play-by-Play](https://calogica.com/r/bigquery/2020/08/18/r-bigquery.html)
 * [NYC Yellow-Cab Trips](https://cfss.uchicago.edu/notes/sql-databases/#interacting-with-google-bigquery-via-dplyr)
 * [FiveThirtyEight analysis of subreddit relationships](https://github.com/fivethirtyeight/data/tree/master/subreddit-algebra)
+
+## A File Per Year
+
+When you have multiple data files containing the same data, differing only by year or the like, it's typically best to combine them together early and do all the data wrangling to the combined data frame. For example, let's *pretend* that gapminder gave us their data one year at a time, and we got data frames like:
+
+
+
+
+```r
+head(gm_1952, 3)
+```
+
+```
+## # A tibble: 3 × 5
+##   country     continent lifeExp     pop gdpPercap
+##   <fct>       <fct>       <dbl>   <int>     <dbl>
+## 1 Afghanistan Asia         28.8 8425333      779.
+## 2 Albania     Europe       55.2 1282697     1601.
+## 3 Algeria     Africa       43.1 9279525     2449.
+```
+
+```r
+head(gm_1957, 3)
+```
+
+```
+## # A tibble: 3 × 5
+##   country     continent lifeExp      pop gdpPercap
+##   <fct>       <fct>       <dbl>    <int>     <dbl>
+## 1 Afghanistan Asia         30.3  9240934      821.
+## 2 Albania     Europe       59.3  1476505     1942.
+## 3 Algeria     Africa       45.7 10270856     3014.
+```
+
+etc. We could merge those together like this:
+
+
+```r
+gm_combined <- bind_rows(
+  year_1952 = gm_1952,
+  year_1957 = gm_1957,
+  .id = "year"
+)
+gm_combined
+```
+
+```
+## # A tibble: 284 × 6
+##    year      country     continent lifeExp      pop gdpPercap
+##    <chr>     <fct>       <fct>       <dbl>    <int>     <dbl>
+##  1 year_1952 Afghanistan Asia         28.8  8425333      779.
+##  2 year_1952 Albania     Europe       55.2  1282697     1601.
+##  3 year_1952 Algeria     Africa       43.1  9279525     2449.
+##  4 year_1952 Angola      Africa       30.0  4232095     3521.
+##  5 year_1952 Argentina   Americas     62.5 17876956     5911.
+##  6 year_1952 Australia   Oceania      69.1  8691212    10040.
+##  7 year_1952 Austria     Europe       66.8  6927772     6137.
+##  8 year_1952 Bahrain     Asia         50.9   120447     9867.
+##  9 year_1952 Bangladesh  Asia         37.5 46886859      684.
+## 10 year_1952 Belgium     Europe       68    8730405     8343.
+## # … with 274 more rows
+```
+
+We'd then want to convert that `year` column into a number. Two approaches: first the lazy one:
+
+
+```r
+gm_combined %>% mutate(year = parse_number(year))
+```
+
+```
+## # A tibble: 284 × 6
+##     year country     continent lifeExp      pop gdpPercap
+##    <dbl> <fct>       <fct>       <dbl>    <int>     <dbl>
+##  1  1952 Afghanistan Asia         28.8  8425333      779.
+##  2  1952 Albania     Europe       55.2  1282697     1601.
+##  3  1952 Algeria     Africa       43.1  9279525     2449.
+##  4  1952 Angola      Africa       30.0  4232095     3521.
+##  5  1952 Argentina   Americas     62.5 17876956     5911.
+##  6  1952 Australia   Oceania      69.1  8691212    10040.
+##  7  1952 Austria     Europe       66.8  6927772     6137.
+##  8  1952 Bahrain     Asia         50.9   120447     9867.
+##  9  1952 Bangladesh  Asia         37.5 46886859      684.
+## 10  1952 Belgium     Europe       68    8730405     8343.
+## # … with 274 more rows
+```
+
+And then the more principled one:
+
+
+```r
+gm_combined %>% 
+  separate(year, into = c(NA, "year")) %>% 
+  mutate(year = as.numeric(year)) # or pass `convert = TRUE` to separate
+```
+
+```
+## # A tibble: 284 × 6
+##     year country     continent lifeExp      pop gdpPercap
+##    <dbl> <fct>       <fct>       <dbl>    <int>     <dbl>
+##  1  1952 Afghanistan Asia         28.8  8425333      779.
+##  2  1952 Albania     Europe       55.2  1282697     1601.
+##  3  1952 Algeria     Africa       43.1  9279525     2449.
+##  4  1952 Angola      Africa       30.0  4232095     3521.
+##  5  1952 Argentina   Americas     62.5 17876956     5911.
+##  6  1952 Australia   Oceania      69.1  8691212    10040.
+##  7  1952 Austria     Europe       66.8  6927772     6137.
+##  8  1952 Bahrain     Asia         50.9   120447     9867.
+##  9  1952 Bangladesh  Asia         37.5 46886859      684.
+## 10  1952 Belgium     Europe       68    8730405     8343.
+## # … with 274 more rows
+```
+
+For some more advanced techniques, see "[Read Multiple Files into a Single Data Frame](https://www.mjandrews.org/blog/readmultifile/)".
 
 ## Panel Survey Data (e.g., Pew Research)
 
