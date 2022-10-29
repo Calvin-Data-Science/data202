@@ -173,8 +173,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3.2" data-path="visualization.html"><a href="visualization.html#tweaking-scales"><i class="fa fa-check"></i><b>2.3.2</b> Tweaking scales</a></li>
 <li class="chapter" data-level="2.3.3" data-path="visualization.html"><a href="visualization.html#direct-labels"><i class="fa fa-check"></i><b>2.3.3</b> Direct Labels</a></li>
 <li class="chapter" data-level="2.3.4" data-path="visualization.html"><a href="visualization.html#legends-and-labels"><i class="fa fa-check"></i><b>2.3.4</b> Legends and Labels</a></li>
+<li class="chapter" data-level="2.3.5" data-path="visualization.html"><a href="visualization.html#context-and-small-multiples"><i class="fa fa-check"></i><b>2.3.5</b> Context and Small Multiples</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#mapping"><i class="fa fa-check"></i><b>2.4</b> Mapping</a>
+<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#maps"><i class="fa fa-check"></i><b>2.4</b> Maps</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#plotly"><i class="fa fa-check"></i><b>2.4.1</b> Plotly</a></li>
 </ul></li>
@@ -252,7 +253,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="data-wrangling" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">3</span> Data Wrangling<a href="data-wrangling.html#data-wrangling" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="data-wrangling.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="data-wrangling.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <div id="resources" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Resources<a href="data-wrangling.html#resources" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First, here are <a href="http://bit.ly/quaesita_notyours">some questions to ask if you’re working with data that you didn’t collect yourself</a>.
@@ -287,14 +288,14 @@ datasets. Some examples:</p>
 <div id="a-file-per-year" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> A File Per Year<a href="data-wrangling.html#a-file-per-year" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>When you have multiple data files containing the same data, differing only by year or the like, it’s typically best to combine them together early and do all the data wrangling to the combined data frame. For example, let’s <em>pretend</em> that gapminder gave us their data one year at a time, and we got data frames like:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="data-wrangling.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gm_1952, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="data-wrangling.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gm_1952, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 5
 ##   country     continent lifeExp     pop gdpPercap
 ##   &lt;fct&gt;       &lt;fct&gt;       &lt;dbl&gt;   &lt;int&gt;     &lt;dbl&gt;
 ## 1 Afghanistan Asia         28.8 8425333      779.
 ## 2 Albania     Europe       55.2 1282697     1601.
 ## 3 Algeria     Africa       43.1 9279525     2449.</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="data-wrangling.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gm_1957, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="data-wrangling.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gm_1957, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 5
 ##   country     continent lifeExp      pop gdpPercap
 ##   &lt;fct&gt;       &lt;fct&gt;       &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -302,12 +303,12 @@ datasets. Some examples:</p>
 ## 2 Albania     Europe       59.3  1476505     1942.
 ## 3 Algeria     Africa       45.7 10270856     3014.</code></pre>
 <p>etc. We could merge those together like this:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="data-wrangling.html#cb27-1" aria-hidden="true" tabindex="-1"></a>gm_combined <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb27-2"><a href="data-wrangling.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">year_1952 =</span> gm_1952,</span>
-<span id="cb27-3"><a href="data-wrangling.html#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">year_1957 =</span> gm_1957,</span>
-<span id="cb27-4"><a href="data-wrangling.html#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">.id =</span> <span class="st">&quot;year&quot;</span></span>
-<span id="cb27-5"><a href="data-wrangling.html#cb27-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-6"><a href="data-wrangling.html#cb27-6" aria-hidden="true" tabindex="-1"></a>gm_combined</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="data-wrangling.html#cb30-1" aria-hidden="true" tabindex="-1"></a>gm_combined <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb30-2"><a href="data-wrangling.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">year_1952 =</span> gm_1952,</span>
+<span id="cb30-3"><a href="data-wrangling.html#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">year_1957 =</span> gm_1957,</span>
+<span id="cb30-4"><a href="data-wrangling.html#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">.id =</span> <span class="st">&quot;year&quot;</span></span>
+<span id="cb30-5"><a href="data-wrangling.html#cb30-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-6"><a href="data-wrangling.html#cb30-6" aria-hidden="true" tabindex="-1"></a>gm_combined</span></code></pre></div>
 <pre><code>## # A tibble: 284 × 6
 ##    year      country     continent lifeExp      pop gdpPercap
 ##    &lt;chr&gt;     &lt;fct&gt;       &lt;fct&gt;       &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -323,7 +324,7 @@ datasets. Some examples:</p>
 ## 10 year_1952 Belgium     Europe       68    8730405     8343.
 ## # … with 274 more rows</code></pre>
 <p>We’d then want to convert that <code>year</code> column into a number. Two approaches: first the lazy one:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="data-wrangling.html#cb29-1" aria-hidden="true" tabindex="-1"></a>gm_combined <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">parse_number</span>(year))</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="data-wrangling.html#cb32-1" aria-hidden="true" tabindex="-1"></a>gm_combined <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">parse_number</span>(year))</span></code></pre></div>
 <pre><code>## # A tibble: 284 × 6
 ##     year country     continent lifeExp      pop gdpPercap
 ##    &lt;dbl&gt; &lt;fct&gt;       &lt;fct&gt;       &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -339,9 +340,9 @@ datasets. Some examples:</p>
 ## 10  1952 Belgium     Europe       68    8730405     8343.
 ## # … with 274 more rows</code></pre>
 <p>And then the more principled one:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="data-wrangling.html#cb31-1" aria-hidden="true" tabindex="-1"></a>gm_combined <span class="sc">%&gt;%</span> </span>
-<span id="cb31-2"><a href="data-wrangling.html#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(year, <span class="at">into =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;year&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-3"><a href="data-wrangling.html#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year)) <span class="co"># or pass `convert = TRUE` to separate</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="data-wrangling.html#cb34-1" aria-hidden="true" tabindex="-1"></a>gm_combined <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="data-wrangling.html#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(year, <span class="at">into =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;year&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="data-wrangling.html#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year)) <span class="co"># or pass `convert = TRUE` to separate</span></span></code></pre></div>
 <pre><code>## # A tibble: 284 × 6
 ##     year country     continent lifeExp      pop gdpPercap
 ##    &lt;dbl&gt; &lt;fct&gt;       &lt;fct&gt;       &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -366,20 +367,20 @@ in R, using the <a href="https://haven.tidyverse.org/"><code>haven</code></a> pa
 <p>I’ll show an example with the <a href="https://www.pewresearch.org/our-methods/u-s-surveys/the-american-trends-panel/">American Trends Panel</a>.</p>
 <div id="reading-spss-files-with-haven" class="section level3 hasAnchor" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Reading SPSS files with <code>haven</code><a href="data-wrangling.html#reading-spss-files-with-haven" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="data-wrangling.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb33-2"><a href="data-wrangling.html#cb33-2" aria-hidden="true" tabindex="-1"></a>atp_w34 <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">&quot;data/W34_Apr18/ATP W34.sav&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="data-wrangling.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb36-2"><a href="data-wrangling.html#cb36-2" aria-hidden="true" tabindex="-1"></a>atp_w34 <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">&quot;data/W34_Apr18/ATP W34.sav&quot;</span>)</span></code></pre></div>
 <p>The easiest way to look at this data is to click on it in the “Environment” panel,
 or run <code>View(atp_w34)</code> on the Console. (Remember not to leave a <code>View</code> call in
 an Rmd when you Knit.)</p>
 <p>You’ll see that each column has a label. It might be hard to read all of them, so
 here’s a bit of magic code to make a table of just the column labels:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="data-wrangling.html#cb34-1" aria-hidden="true" tabindex="-1"></a>getColumnLabels <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
-<span id="cb34-2"><a href="data-wrangling.html#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
-<span id="cb34-3"><a href="data-wrangling.html#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">names</span>(df),</span>
-<span id="cb34-4"><a href="data-wrangling.html#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">map_chr</span>(<span class="fu">names</span>(df), <span class="sc">~</span> <span class="fu">attr</span>(df[[.]], <span class="st">&quot;label&quot;</span>))</span>
-<span id="cb34-5"><a href="data-wrangling.html#cb34-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb34-6"><a href="data-wrangling.html#cb34-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb34-7"><a href="data-wrangling.html#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">getColumnLabels</span>(atp_w34)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="data-wrangling.html#cb37-1" aria-hidden="true" tabindex="-1"></a>getColumnLabels <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb37-2"><a href="data-wrangling.html#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb37-3"><a href="data-wrangling.html#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">names</span>(df),</span>
+<span id="cb37-4"><a href="data-wrangling.html#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">map_chr</span>(<span class="fu">names</span>(df), <span class="sc">~</span> <span class="fu">attr</span>(df[[.]], <span class="st">&quot;label&quot;</span>))</span>
+<span id="cb37-5"><a href="data-wrangling.html#cb37-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb37-6"><a href="data-wrangling.html#cb37-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-7"><a href="data-wrangling.html#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">getColumnLabels</span>(atp_w34)</span></code></pre></div>
 <pre><code>## # A tibble: 140 × 2
 ##    name            label                                                        
 ##    &lt;chr&gt;           &lt;chr&gt;                                                        
@@ -397,12 +398,12 @@ here’s a bit of magic code to make a table of just the column labels:</p>
 <p>Many of the columns are actually factors in disguise. To decode their labels,
 call <code>as_factor</code>. For example, to get party affiliations and leanings from
 the ATP data, we can do:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="data-wrangling.html#cb36-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="ot">&lt;-</span> atp_w34 <span class="sc">%&gt;%</span> </span>
-<span id="cb36-2"><a href="data-wrangling.html#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb36-3"><a href="data-wrangling.html#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">party =</span> <span class="fu">as_factor</span>(F_PARTY_FINAL),</span>
-<span id="cb36-4"><a href="data-wrangling.html#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">party_lean =</span> <span class="fu">as_factor</span>(F_PARTYLN_FINAL),</span>
-<span id="cb36-5"><a href="data-wrangling.html#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">as_factor</span>(F_AGECAT_FINAL))</span>
-<span id="cb36-6"><a href="data-wrangling.html#cb36-6" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> <span class="fu">select</span>(party, party_lean)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="data-wrangling.html#cb39-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="ot">&lt;-</span> atp_w34 <span class="sc">%&gt;%</span> </span>
+<span id="cb39-2"><a href="data-wrangling.html#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb39-3"><a href="data-wrangling.html#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">party =</span> <span class="fu">as_factor</span>(F_PARTY_FINAL),</span>
+<span id="cb39-4"><a href="data-wrangling.html#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">party_lean =</span> <span class="fu">as_factor</span>(F_PARTYLN_FINAL),</span>
+<span id="cb39-5"><a href="data-wrangling.html#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">as_factor</span>(F_AGECAT_FINAL))</span>
+<span id="cb39-6"><a href="data-wrangling.html#cb39-6" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> <span class="fu">select</span>(party, party_lean)</span></code></pre></div>
 <pre><code>## # A tibble: 2,537 × 2
 ##    party       party_lean          
 ##    &lt;fct&gt;       &lt;fct&gt;               
@@ -418,16 +419,16 @@ the ATP data, we can do:</p>
 ## 10 Republican  &lt;NA&gt;                
 ## # … with 2,527 more rows</code></pre>
 <p>Here’s a function to rename a bunch of columns to match their labels. I think it’s clumsy; probably the above is better.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="data-wrangling.html#cb38-1" aria-hidden="true" tabindex="-1"></a>name_as_label <span class="ot">&lt;-</span> <span class="cf">function</span>(df, cols_to_rename) {</span>
-<span id="cb38-2"><a href="data-wrangling.html#cb38-2" aria-hidden="true" tabindex="-1"></a>  new_names <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb38-3"><a href="data-wrangling.html#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (col <span class="cf">in</span> cols_to_rename) {</span>
-<span id="cb38-4"><a href="data-wrangling.html#cb38-4" aria-hidden="true" tabindex="-1"></a>    new_names[[<span class="fu">attr</span>(df[[col]], <span class="st">&quot;label&quot;</span>)]] <span class="ot">=</span> col</span>
-<span id="cb38-5"><a href="data-wrangling.html#cb38-5" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb38-6"><a href="data-wrangling.html#cb38-6" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="sc">!!</span><span class="fu">as_vector</span>(new_names))</span>
-<span id="cb38-7"><a href="data-wrangling.html#cb38-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb38-8"><a href="data-wrangling.html#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-9"><a href="data-wrangling.html#cb38-9" aria-hidden="true" tabindex="-1"></a>atp_w34 <span class="sc">%&gt;%</span> </span>
-<span id="cb38-10"><a href="data-wrangling.html#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">name_as_label</span>(<span class="at">cols_to_rename =</span> <span class="fu">c</span>(<span class="st">&quot;F_PARTY_FINAL&quot;</span>, <span class="st">&quot;Device_Type_W34&quot;</span>, <span class="st">&quot;LANGUAGE_W34&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="data-wrangling.html#cb41-1" aria-hidden="true" tabindex="-1"></a>name_as_label <span class="ot">&lt;-</span> <span class="cf">function</span>(df, cols_to_rename) {</span>
+<span id="cb41-2"><a href="data-wrangling.html#cb41-2" aria-hidden="true" tabindex="-1"></a>  new_names <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb41-3"><a href="data-wrangling.html#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (col <span class="cf">in</span> cols_to_rename) {</span>
+<span id="cb41-4"><a href="data-wrangling.html#cb41-4" aria-hidden="true" tabindex="-1"></a>    new_names[[<span class="fu">attr</span>(df[[col]], <span class="st">&quot;label&quot;</span>)]] <span class="ot">=</span> col</span>
+<span id="cb41-5"><a href="data-wrangling.html#cb41-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb41-6"><a href="data-wrangling.html#cb41-6" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="sc">!!</span><span class="fu">as_vector</span>(new_names))</span>
+<span id="cb41-7"><a href="data-wrangling.html#cb41-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-8"><a href="data-wrangling.html#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="data-wrangling.html#cb41-9" aria-hidden="true" tabindex="-1"></a>atp_w34 <span class="sc">%&gt;%</span> </span>
+<span id="cb41-10"><a href="data-wrangling.html#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">name_as_label</span>(<span class="at">cols_to_rename =</span> <span class="fu">c</span>(<span class="st">&quot;F_PARTY_FINAL&quot;</span>, <span class="st">&quot;Device_Type_W34&quot;</span>, <span class="st">&quot;LANGUAGE_W34&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 2,537 × 140
 ##      QKEY Wave 34 New …¹ Langu…² FORM_…³ SCI1_…⁴ SCI2A…⁵ SCI2B…⁶ SCI2C…⁷ SCI3A…⁸
 ##     &lt;dbl&gt;      &lt;dbl+lbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;
@@ -456,9 +457,9 @@ Once you’ve identified the correct weights to use, you can use the <code>wt</c
 to weight your counts accordingly, or the <code>weighted.mean</code> function if you’re interested in a
 specific outcome.</p>
 <p>For example, the following gives the proportion of each party among <em>survey respondents</em>:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="data-wrangling.html#cb40-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> </span>
-<span id="cb40-2"><a href="data-wrangling.html#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(party) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-3"><a href="data-wrangling.html#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="data-wrangling.html#cb43-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> </span>
+<span id="cb43-2"><a href="data-wrangling.html#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(party) <span class="sc">%&gt;%</span> </span>
+<span id="cb43-3"><a href="data-wrangling.html#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
 ##   party              n proportion
 ##   &lt;fct&gt;          &lt;int&gt;      &lt;dbl&gt;
@@ -469,9 +470,9 @@ specific outcome.</p>
 ## 5 Refused           12   0.00473 
 ## 6 &lt;NA&gt;               1   0.000394</code></pre>
 <p>while this gives the (estimated) proportion of each party in the US:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="data-wrangling.html#cb42-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> </span>
-<span id="cb42-2"><a href="data-wrangling.html#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(party, <span class="at">wt =</span> WEIGHT_W34) <span class="sc">%&gt;%</span> </span>
-<span id="cb42-3"><a href="data-wrangling.html#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="data-wrangling.html#cb45-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> </span>
+<span id="cb45-2"><a href="data-wrangling.html#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(party, <span class="at">wt =</span> WEIGHT_W34) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-3"><a href="data-wrangling.html#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
 ##   party               n proportion
 ##   &lt;fct&gt;           &lt;dbl&gt;      &lt;dbl&gt;
@@ -482,10 +483,10 @@ specific outcome.</p>
 ## 5 Refused         14.8    0.00583 
 ## 6 &lt;NA&gt;             1.42   0.000558</code></pre>
 <p>Add more variables to <code>count</code> to get cross-tabulations:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="data-wrangling.html#cb44-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> </span>
-<span id="cb44-2"><a href="data-wrangling.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(party, age, <span class="at">wt =</span> WEIGHT_W34) <span class="sc">%&gt;%</span> </span>
-<span id="cb44-3"><a href="data-wrangling.html#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age) <span class="sc">%&gt;%</span> <span class="co"># Get party membership within each age range</span></span>
-<span id="cb44-4"><a href="data-wrangling.html#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="data-wrangling.html#cb47-1" aria-hidden="true" tabindex="-1"></a>atp_w34_wrangled <span class="sc">%&gt;%</span> </span>
+<span id="cb47-2"><a href="data-wrangling.html#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(party, age, <span class="at">wt =</span> WEIGHT_W34) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-3"><a href="data-wrangling.html#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age) <span class="sc">%&gt;%</span> <span class="co"># Get party membership within each age range</span></span>
+<span id="cb47-4"><a href="data-wrangling.html#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 23 × 4
 ## # Groups:   age [5]
 ##    party       age        n proportion

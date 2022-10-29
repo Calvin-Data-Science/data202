@@ -20,7 +20,8 @@ reordering-bars-in-a-bar-plot
 tweaking-scales
 direct-labels
 legends-and-labels
-mapping
+context-and-small-multiples
+maps
 plotly
 markers
 choropleths
