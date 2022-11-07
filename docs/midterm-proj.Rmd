@@ -93,6 +93,23 @@ Example chunk with some helpful flags:
 
 **Academic Integrity**: Any code that you take from elsewhere **must** be *very clearly documented*. If you find a plot and it has R code already, I advise against looking at it, and possibly even finding a different plot. Code using a different toolkit (e.g., Python) is probably okay.
 
+### Presentation
+
+To practice making data-driven arguments, this project includes a brief presentation, done on VoiceThread.
+
+Keep it short and simple. The slides should be as follows:
+
+1. Original Plot and Claim
+2. Data (where'd you get it, anything interesting about it or what you had to do with it)
+3. Replication
+4. Alternative 1: what did you change? why?
+5. Alternative 2: (same)
+6. Summary: one or two take-aways
+
+Use a presentation tool like Google Slides or PowerPoint.
+
+Use voice comments to narrate. Each team member should make at least one comment.
+
 ### Midterm Project Milestones
 
 Milestones are due along with the corresponding week's homework.
@@ -116,7 +133,8 @@ Milestones are due along with the corresponding week's homework.
   - Have a complete replication of the original visualization
   - Have concrete ideas about alternative designs
   - Report should be complete through part 1 of Alternative Designs
-- **Week 10**: Final write-up
+- **Week 10**: *either* Final write-up *or* Presentation due
+- **Week 11**: all parts due
   
 ### Submission instructions
 
