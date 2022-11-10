@@ -68,7 +68,6 @@ Also, avoid image and sound data for similar reasons. (Although if you really wa
   * **Do** include things you tried that led to an important observation later on.
 * If you use any code from the Internet, you should acknowledge its source and provide a link.
 * You should submit all of the code needed to replicate your results, but **your report should be understandable without looking at the code**.
-* Each project team has a `proj` repo; please use it.
 * The repo includes a template that gives one possible outline. You may adapt the outline as needed for your project.
 The template includes an "appendix" block that should cause all code to appear there. You may also set `echo=TRUE` on any particular code block if you want to highlight something about it.
 * You may make slides if you like (using Xaringan, ioslides, PowerPoint, etc.), Shiny apps, etc., but please also submit a report document in HTML format (PDF is also allowed if you have a good reason to).
