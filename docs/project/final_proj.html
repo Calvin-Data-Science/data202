@@ -11,7 +11,7 @@
 
 <meta name="author" content="YOUR NAME(S)" />
 
-<meta name="date" content="2022-11-07" />
+<meta name="date" content="2022-11-09" />
 
 <title>YOUR PROJECT TITLE HERE</title>
 
@@ -394,23 +394,17 @@ overflow-y: auto;
 border: 1px solid #ddd;
 border-radius: 4px;
 }
-.tabset-dropdown > .nav-tabs > li.active:before {
-content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+content: "\e259";
 font-family: 'Glyphicons Halflings';
 display: inline-block;
 padding: 10px;
 border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-content: "";
-border: none;
-}
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-content: "";
+content: "\e258";
 font-family: 'Glyphicons Halflings';
-display: inline-block;
-padding: 10px;
-border-right: 1px solid #ddd;
+border: none;
 }
 .tabset-dropdown > .nav-tabs > li.active {
 display: block;
@@ -463,7 +457,7 @@ display: none;
 
 <h1 class="title toc-ignore">YOUR PROJECT TITLE HERE</h1>
 <h4 class="author">YOUR NAME(S)</h4>
-<h4 class="date">2022-11-07</h4>
+<h4 class="date">2022-11-09</h4>
 
 </div>
 
@@ -481,6 +475,8 @@ display: none;
 <h2>Prior Work</h2>
 <div id="summary-and-critique-of-prior-work" class="section level3">
 <h3>Summary and critique of prior work</h3>
+<p>Ideally this section compares two different prior analyses on similar
+topics.</p>
 </div>
 <div id="how-this-project-extends-prior-work" class="section level3">
 <h3>How this project extends prior work</h3>
@@ -523,6 +519,9 @@ display: none;
 <h2>Summary</h2>
 <div id="discussion-of-findings" class="section level3">
 <h3>Discussion of Findings</h3>
+<p>This section must compare two different approaches (models,
+representation choices, evaluation methods, or whatever you have
+chosen).</p>
 </div>
 <div id="limitations-and-social-ethical-considerations" class="section level3">
 <h3>Limitations and Social / Ethical Considerations</h3>
@@ -532,7 +531,7 @@ display: none;
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiWU9VUiBQUk9KRUNUIFRJVExFIEhFUkUiCmF1dGhvcjogIllPVVIgTkFNRShTKSIKZGF0ZTogImByIFN5cy5EYXRlKClgIgpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0KIyBTZXQgc29tZSB1c2VmdWwgY2h1bmsgb3B0aW9ucyBmb3IgY29kZSBjaHVua3MuCmtuaXRyOjpvcHRzX2NodW5rJHNldCgKICBlY2hvID0gVFJVRSwKICBlcnJvciA9IFRSVUUsICAgICMgZGlzcGxheSBlcnJvcnMgYnV0IGtlZXAgZ29pbmcuCiAgY29tbWVudCA9ICIiLCAgICAjIGRvbid0IGFkZCAnIyMnIGNoYXJhY3RlcnMgYmVmb3JlIG91dHB1dC4KICBtZXNzYWdlID0gRkFMU0UgICMgZG9uJ3QgaW5jbHVkZSBtZXNzYWdlcyBpbiB0aGUga25pdHRlZCBvdXRwdXQgKGNoZWNrIHRoZW0gaW4gUlN0dWRpbykKICApCmxpYnJhcnkodGlkeXZlcnNlKQp0aGVtZV9zZXQodGhlbWVfYncoKSkKYGBgCgojIyBPdmVydmlldwoKIyMjIFF1ZXN0aW9uCgojIyMgU3VtbWFyeSBvZiBGaW5kaW5ncwoKIyMgUHJpb3IgV29yawoKIyMjIFN1bW1hcnkgYW5kIGNyaXRpcXVlIG9mIHByaW9yIHdvcmsKCiMjIyBIb3cgdGhpcyBwcm9qZWN0IGV4dGVuZHMgcHJpb3Igd29yawoKIyMgQXBwcm9hY2gKCiMjIyBQcm9ibGVtIERlc2NyaXB0aW9uCgojIyMgRGF0YQoKIyMjIyBQcm92ZW5hbmNlCgojIyMjIFN0cnVjdHVyZQoKIyMjIyBBcHByb3ByaWF0ZW5lc3MgZm9yIHRhc2sKCiMjIyBNb2RlbGluZyBRdWVzdGlvbiBhbmQgQXBwcm9hY2gKCgojIyBFeHBsb3JhdG9yeSBEYXRhIEFuYWx5c2lzCgojIyMgSW5kaXZpZHVhbCBWYXJpYWJsZXMKCiMjIyBDb21iaW5hdGlvbnMgb2YgVmFyaWFibGVzCgoKIyMgTW9kZWxpbmcKCgojIyBTdW1tYXJ5CgojIyMgRGlzY3Vzc2lvbiBvZiBGaW5kaW5ncwoKIyMjIExpbWl0YXRpb25zIGFuZCBTb2NpYWwgLyBFdGhpY2FsIENvbnNpZGVyYXRpb25zCgojIyMgRnV0dXJlIERpcmVjdGlvbnMK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiWU9VUiBQUk9KRUNUIFRJVExFIEhFUkUiCmF1dGhvcjogIllPVVIgTkFNRShTKSIKZGF0ZTogImByIFN5cy5EYXRlKClgIgpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0KIyBTZXQgc29tZSB1c2VmdWwgY2h1bmsgb3B0aW9ucyBmb3IgY29kZSBjaHVua3MuCmtuaXRyOjpvcHRzX2NodW5rJHNldCgKICBlY2hvID0gVFJVRSwKICBlcnJvciA9IFRSVUUsICAgICMgZGlzcGxheSBlcnJvcnMgYnV0IGtlZXAgZ29pbmcuCiAgY29tbWVudCA9ICIiLCAgICAjIGRvbid0IGFkZCAnIyMnIGNoYXJhY3RlcnMgYmVmb3JlIG91dHB1dC4KICBtZXNzYWdlID0gRkFMU0UgICMgZG9uJ3QgaW5jbHVkZSBtZXNzYWdlcyBpbiB0aGUga25pdHRlZCBvdXRwdXQgKGNoZWNrIHRoZW0gaW4gUlN0dWRpbykKICApCmxpYnJhcnkodGlkeXZlcnNlKQp0aGVtZV9zZXQodGhlbWVfYncoKSkKYGBgCgojIyBPdmVydmlldwoKIyMjIFF1ZXN0aW9uCgojIyMgU3VtbWFyeSBvZiBGaW5kaW5ncwoKIyMgUHJpb3IgV29yawoKIyMjIFN1bW1hcnkgYW5kIGNyaXRpcXVlIG9mIHByaW9yIHdvcmsKCklkZWFsbHkgdGhpcyBzZWN0aW9uIGNvbXBhcmVzIHR3byBkaWZmZXJlbnQgcHJpb3IgYW5hbHlzZXMgb24gc2ltaWxhciB0b3BpY3MuCgojIyMgSG93IHRoaXMgcHJvamVjdCBleHRlbmRzIHByaW9yIHdvcmsKCiMjIEFwcHJvYWNoCgojIyMgUHJvYmxlbSBEZXNjcmlwdGlvbgoKIyMjIERhdGEKCiMjIyMgUHJvdmVuYW5jZQoKIyMjIyBTdHJ1Y3R1cmUKCiMjIyMgQXBwcm9wcmlhdGVuZXNzIGZvciB0YXNrCgojIyMgTW9kZWxpbmcgUXVlc3Rpb24gYW5kIEFwcHJvYWNoCgoKIyMgRXhwbG9yYXRvcnkgRGF0YSBBbmFseXNpcwoKIyMjIEluZGl2aWR1YWwgVmFyaWFibGVzCgojIyMgQ29tYmluYXRpb25zIG9mIFZhcmlhYmxlcwoKCiMjIE1vZGVsaW5nCgoKIyMgU3VtbWFyeQoKIyMjIERpc2N1c3Npb24gb2YgRmluZGluZ3MKClRoaXMgc2VjdGlvbiBtdXN0IGNvbXBhcmUgdHdvIGRpZmZlcmVudCBhcHByb2FjaGVzIChtb2RlbHMsIHJlcHJlc2VudGF0aW9uIGNob2ljZXMsIGV2YWx1YXRpb24gbWV0aG9kcywgb3Igd2hhdGV2ZXIgeW91IGhhdmUgY2hvc2VuKS4KCiMjIyBMaW1pdGF0aW9ucyBhbmQgU29jaWFsIC8gRXRoaWNhbCBDb25zaWRlcmF0aW9ucwoKIyMjIEZ1dHVyZSBEaXJlY3Rpb25zCg==</div>
 
 
 

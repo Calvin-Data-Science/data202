@@ -29,6 +29,8 @@ theme_set(theme_bw())
 
 ### Summary and critique of prior work
 
+Ideally this section compares two different prior analyses on similar topics.
+
 ### How this project extends prior work
 
 ## Approach
@@ -59,6 +61,8 @@ theme_set(theme_bw())
 ## Summary
 
 ### Discussion of Findings
+
+This section must compare two different approaches (models, representation choices, evaluation methods, or whatever you have chosen).
 
 ### Limitations and Social / Ethical Considerations
 
