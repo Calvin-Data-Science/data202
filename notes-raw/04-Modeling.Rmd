@@ -141,12 +141,14 @@ or think about how the lack of interchangeability might affect your results.
 
 ```{r echo=FALSE, message=FALSE}
 FivePeople <- read.csv('data/five-people.csv') |>
-  mutate(region = if_else(sex == "M", 1, 2), stars = (score + 5) / 2, liked = score >= 0) |> select(-score, -sex)
+  mutate(liked = stars >= 3) |>
+  mutate(instance = row_number(), .before = everything())
+#pander::emphasize.cols(4)
 FivePeople |> pander::pander()
 ```
 
-Our goal is to predict the score (how much the person would like a given product on a scale
-from -5 to 5) from some predictors (features) such as age, region, and whether they use a 
+Our goal is to predict the star rating (how much the person would like a given product, on a scale
+from 1 to 5) from some predictors (features) such as age, region, and whether they use a 
 computer most days. Here our five people, affectionately named 1, 2, 3, 4, and 5:
 
 ```{r, echo = FALSE}
@@ -155,7 +157,7 @@ knitr::include_graphics('images/five-people-column.png')
 
 ### A Classification Task
 
-Construct a tree that tells whether the person likes the product (stars >= 3) or doesn't (stars < 3).
+Construct a tree that predicts whether the person would like the product (stars >= 3) or not (stars < 3).
 
 **Note**: This doesn't have to be the *best possible* tree; just try to come up with some tree.
 
