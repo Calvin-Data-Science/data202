@@ -1,0 +1,31 @@
+```{r}
+decisions <- people %>% 
+  expand_grid(threshold = 1:100) %>% 
+  mutate(
+    granted = score >= threshold,
+    correct = granted == repay)
+
+outcomes <- decisions %>% 
+  group_by(threshold) %>% 
+  summarize(correct_rate = sum(correct) / sum(correct | !correct),
+            positive_rate = sum(granted) / length(granted),
+            true_positive_rate = sum(repay & granted) / sum(repay),
+            sensitivity = true_positive_rate,
+            true_negative_rate = sum(!repay & !granted) / sum(!repay),
+            specificity = true_negative_rate,
+            false_positive_rate = 1 - true_negative_rate
+            )
+
+outcomes %>% 
+  pivot_longer(
+    cols = c(correct_rate, positive_rate, true_positive_rate, true_negative_rate)) %>% 
+  ggplot(aes(x = threshold, y = value, color = name)) + geom_line()
+
+outcomes %>% 
+  ggplot(aes(x = false_positive_rate, y = true_positive_rate)) +
+  geom_line() +
+  geom_abline(slope = 1, linetype = "dashed") +
+  labs(title = "ROC (Receiver Operating Characteristic) curve for loan classifier")
+
+```
+

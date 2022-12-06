@@ -17,7 +17,7 @@ knitr::opts_chunk$set(eval = TRUE)
 knitr::include_graphics("img/mitch-hedgeberg-lqd.jpg")
 ```
 
-Have you ever taken a road trip in the US and thought to yourself "I wonder what La Quinta means".
+Have you ever taken a road trip in the US and thought to yourself "I wonder what La Quinta means"?
 Well, the late comedian [Mitch Hedberg](https://en.wikipedia.org/wiki/Mitch_Hedberg) thinks it's Spanish for *next to Denny's*.
 
 If you're not familiar with these two establishments, [Denny's](https://www.dennys.com/) is a casual diner chain that is open 24 hours and [La Quinta Inn and Suites](http://www.lq.com/) is a hotel chain.
