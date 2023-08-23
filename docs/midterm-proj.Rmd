@@ -42,6 +42,7 @@ You can pick one of these approaches:
 - Should make an interesting *claim*.
   - Shouldn't just be *about* something (e.g., "number of wins by each athlete")
   - Most interesting claims are about *relationships* (e.g,. "the highest paid athletes don't necessarily win more")
+  - A claim finishes the sentence: "The article uses this graphic to back up the claim that BLANK".
 - Should involve **more than 2 variables**.
   - Ideally they have to come from 2 separate data sources that you have to bring together.
 - Should have some room for improvement, i.e., you'd be interested in trying a different way of presenting the data.
@@ -159,16 +160,26 @@ Milestones are due along with the corresponding week's homework.
 
 RStudio has a feature called Shared Projects that many teams will find helpful. But there's a bug involving uploading files to shared projects: only one person ends up able to read the file.
 
-To fix it, the person who **can** read the file should run the following code chunk. (Change the file name, of course.) After the code chunk runs successfully, you should remove it from your report.
+To fix it, the person who **can** read the file should run the following code chunk. After the code chunk runs successfully, you should remove it from your report.
 
 ```r
-fix_file <- function(filename) { 
-  contents <- readr::read_file_raw(filename)
-  if (length(contents) == 0) stop("Refusing to fix a file that seems empty.")
-  unlink(filename)
-  readr::write_file(contents, filename)
-}
-fix_file("data/YOUR-FILE-NAME.csv")
+ds202calvin::fix_perm()
 ```
 
 Note: be careful doing this for `Rmd` files: *make sure everyone has the Rmd file closed first*.
+
+## Grading Guide
+
+
+Overall
+
+- Data
+  - Wrangling (20)
+  - Discussion (15)
+- Visualization
+  - Analysis (15)
+  - Quality (20)
+  - Alternatives (20)
+- Report
+  - legibility (5)
+  - reproducibility (5)

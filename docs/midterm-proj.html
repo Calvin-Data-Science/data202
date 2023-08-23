@@ -1371,23 +1371,17 @@ overflow-y: auto;
 border: 1px solid #ddd;
 border-radius: 4px;
 }
-.tabset-dropdown > .nav-tabs > li.active:before {
-content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+content: "\e259";
 font-family: 'Glyphicons Halflings';
 display: inline-block;
 padding: 10px;
 border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-content: "";
-border: none;
-}
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-content: "";
+content: "\e258";
 font-family: 'Glyphicons Halflings';
-display: inline-block;
-padding: 10px;
-border-right: 1px solid #ddd;
+border: none;
 }
 .tabset-dropdown > .nav-tabs > li.active {
 display: block;
@@ -1568,6 +1562,8 @@ they’d use to support their claims.</li>
 each athlete”)</li>
 <li>Most interesting claims are about <em>relationships</em> (e.g,. “the
 highest paid athletes don’t necessarily win more”)</li>
+<li>A claim finishes the sentence: “The article uses this graphic to
+back up the claim that BLANK”.</li>
 </ul></li>
 <li>Should involve <strong>more than 2 variables</strong>.
 <ul>
@@ -1762,6 +1758,28 @@ fix_file(&quot;data/YOUR-FILE-NAME.csv&quot;)</code></pre>
 <p>Note: be careful doing this for <code>Rmd</code> files: <em>make sure
 everyone has the Rmd file closed first</em>.</p>
 </div>
+</div>
+<div id="grading-guide" class="section level2">
+<h2>Grading Guide</h2>
+<p>Overall</p>
+<ul>
+<li>Data
+<ul>
+<li>Wrangling</li>
+<li>Discussion</li>
+</ul></li>
+<li>Visualization
+<ul>
+<li>Analysis</li>
+<li>Quality</li>
+<li>Alternatives</li>
+</ul></li>
+<li>Report
+<ul>
+<li>legibility</li>
+<li>reproducibility</li>
+</ul></li>
+</ul>
 </div>
 
 

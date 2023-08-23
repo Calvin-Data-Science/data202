@@ -118,11 +118,13 @@ Your report should include the following general elements (though treat this spe
   * Report the results of your basic predictive model via cross-validation.
   * Make one or more changes to the predictive model to (attempt to) improve the accuracy. Discuss what changes you made, why you made them, and what the results were.
   * The strongest reports will include insightful visualizations of the model, its predictions, and/or its mistakes, and a discussion of what those plots tell us.
-  * Report on the final accuracy of your best model the test set, if applicable.
+  * Report on the final accuracy of your best model on the test set, if applicable.
   * **Alternative**: instead of a supervised prediction task, you can define an unsupervised learning task and use clustering. In this case, clearly state what you want to understand through the clustering, and report your observations.
 * **Findings**: Summarize the analyses you performed and what the results told you. What do your findings say about the real-world and prediction (or clustering) questions you posed?
 * **Limitations**: What are some limitations of your analyses? Did you notice any  potential biases in the data you used or analysis you did? Any other ethical questions raised during this project?
 * **Future Directions**: What new questions came up following your exploration of this data? Identify at least one question that would require new data or a new analysis approach, and specify what steps would be required.
+
+You might additionally walk through what the model predicts, and how it does it, for one or two specific examples, ideally ones that aren't even part of your dataset.
 
 (Project descriptions originally thanks to [Ofra Amir](https://scholar.harvard.edu/oamir/home))
 
