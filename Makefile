@@ -8,7 +8,7 @@ slide_pdfs := $(patsubst %.Rmd,%.pdf,$(slide_sources))
 #hw_sources := $(wildcard docs/*/hw/*.Rmd)
 #hw_pdfs := $(patsubst %.Rmd,%.pdf,$(hw_sources))
 
-WEB_DEST := csweb:/webroot/courses/data/202/22fa
+WEB_DEST := csweb:/webroot/courses/data/202/23fa
 #DELETE_OPTS := --delete-after --delete-excluded
 DELETE_OPTS :=
 
