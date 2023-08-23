@@ -11,9 +11,8 @@ filters:
 
 ## Quick Links
 
-[Moodle](https://moodle.calvin.edu/course/view.php?id=58159) | 
 [Slides](slides/) | 
-[Calvin RStudio](https://rstudio.calvin.edu) |
+[Calvin RStudio](https://r.cs.calvin.edu) |
 [**Course Notes**](notes/) | 
 [**Project**](projects.html)
 
@@ -42,13 +41,9 @@ Additionally, using transparent reproducible workflows and regularly acknowledgi
 
 ## Staff
 
-* **Instructor**: Kenneth C. Arnold, Calvin University, North Hall NH298
-* **Meetings** in SB 372 ("Maroon") lab, except for first day of the semester and our final exam time we meet in NH 253.
-	- section A: MWF 8:30-9:20am
-	- section B: MWF 9:30-10:20am
-* **Contact**: Preferred: ka37@calvin.edu, Office: 616-526-8723
-* Teaching Assistant / Grader: Andrew Hill
-* **Office Hours**: See [my Google Calendar](https://kenarnold.org/calendar.html), generally Thursdays 3-4pm and Fridays 2-3pm. Or just stop by whenever my door is open, or message me to make an appointment. If you want to do lunch or coffee, we can find a time for that too!
+- **Section A**: [Ken Arnold](https://kenarnold.org), <ken.arnold@calvin.edu>, Calvin University, North Hall NH298
+- **Section B**: Fernando Pasquini Santos
+- **Teaching Assistant / Grader**: Yuqian (Eason) Wang
 
 ## Materials
 
@@ -56,33 +51,32 @@ Additionally, using transparent reproducible workflows and regularly acknowledgi
 
 We will use the following communication tools:
 
-- Outside of class, we'll communicate primarily on Ed Discussions, aka EdStem. See link on Moodle.
+- Outside of class, we'll communicate primarily using the forums on Perusall. See link on Moodle.
     - Post *questions* about assignments, concepts, or when you have problems getting code to run.
     - Post *answers* as well. Answering helps the community and also gives you practice explaining something you just learned.
     - Post *notes* about interesting articles or events.
-    - Posts can be public or private, anonymous or not. In general, **don't post code publicly** . If you do have to include code, make the post private so the course staff can decide if it's ok to share.
 - Use **email** for personal issues.
-- Use **Teams** for friendly chat; I'll redirect most questions about course content to EdStem.
-- **Moodle** is the home page for all class materials and discussion forums. It will include links as necessary to other materials.
+- Use **Teams** for friendly chat; I'll redirect most questions about course content to Perusall.
 
 ### Textbook
 
-We will use the book [Modern Data Science with R](https://mdsr-book.github.io/). It is [freely available online](https://mdsr-book.github.io/mdsr2e/), but may also be purchased in hardcover if desired.
+All readings wil be posted in Perusall. They will be taken from:
 
-The following resources may also be helpful:
-
-- Cheat sheets: [all](https://rstudio.cloud/learn/cheat-sheets), [Vis](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization-2.1.pdf), [Wrangling](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf), [Tidying](https://raw.githubusercontent.com/rstudio/cheatsheets/master/tidyr.pdf)
-- [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke: *for foundational concepts of data visualization*
-- [ggplot2: elegant graphics for data analysis](https://ggplot2-book.org/index.html) book: a great `ggplot` reference by some of the main software authors
-- [R Graph Gallery](https://www.r-graph-gallery.com/): a visual dictionary of data graphics and corresponding code
-- [Interactive web-based data visualization with R, plotly, and shiny](https://plotly-r.com/): *for more visualization*
-- Misc topics: [background data in facets](https://drsimonj.svbtle.com/plotting-background-data-for-groups-with-ggplot2)
+- [Learning Data Science](https://learningds.org/intro.html) by Sam Lau, Joey Gonzalez, and Deb Nolan. (we'll abbreviate this **LGN**).
+  - Will be published in late 2023, but the online version is free.
+- [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke
 
 ### Technology
 
-- [RStudio Server](https://rstudio.calvin.edu/)
+We will be using **Python** and the following tools:
+
+- **pandas** for data wrangling
+- **Seaborn and Matplotlib** for data visualization (using the Seaborn Objects interface)
+- **scikit-learn** for modeling
+- [**Quarto**](https://quarto.org/) for creating reports
+- [RStudio Server](https://r.cs.calvin.edu/)
   - The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
-  - You may also install [RStudio Desktop](https://www.rstudio.com/products/rstudio/) on your own computer.
+  - You may also install [RStudio Desktop](https://posit.co/downloads/) on your own computer.
 
 ## Grading
 
