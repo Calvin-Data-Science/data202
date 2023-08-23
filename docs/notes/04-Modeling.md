@@ -1,4 +1,5 @@
 
+
 # Predictive Modeling
 
 
@@ -133,4 +134,37 @@ If your data has interrelationships between rows, like repeated measurements of 
 this makes your units much less interchangeable.
 So you either need to be creative in how to set up a prediction problem where each row is interchangeable,
 or think about how the lack of interchangeability might affect your results.
+
+## A simple example
+
+
+------------------------------------------------------
+ instance   region   age   daily_comp   stars   liked 
+---------- -------- ----- ------------ ------- -------
+    1         1      13        Y         4.5    TRUE  
+
+    2         2      23        Y          4     TRUE  
+
+    3         1      55        N          2     FALSE 
+
+    4         2      14        N          3     TRUE  
+
+    5         2      60        N         1.5    FALSE 
+------------------------------------------------------
+
+Our goal is to predict the star rating (how much the person would like a given product, on a scale
+from 1 to 5) from some predictors (features) such as age, region, and whether they use a 
+computer most days. Here our five people, affectionately named 1, 2, 3, 4, and 5:
+
+<img src="images/five-people-column.png" width="143" />
+
+### A Classification Task
+
+Construct a tree that predicts whether the person would like the product (stars >= 3) or not (stars < 3).
+
+**Note**: This doesn't have to be the *best possible* tree; just try to come up with some tree.
+
+### A Regression Task
+
+Construct a tree that predicts the star rating value.
 

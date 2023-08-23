@@ -43,6 +43,9 @@ tidymodels
 modeling-goals
 defining-overfitting
 setting-up-a-predictive-modeling-task
+a-simple-example
+a-classification-task
+a-regression-task
 other-topics
 recommendation-systems
 discussion-activity

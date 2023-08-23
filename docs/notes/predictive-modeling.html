@@ -207,6 +207,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3" data-path="predictive-modeling.html"><a href="predictive-modeling.html#modeling-goals"><i class="fa fa-check"></i><b>4.3</b> Modeling Goals</a></li>
 <li class="chapter" data-level="4.4" data-path="predictive-modeling.html"><a href="predictive-modeling.html#defining-overfitting"><i class="fa fa-check"></i><b>4.4</b> Defining Overfitting</a></li>
 <li class="chapter" data-level="4.5" data-path="predictive-modeling.html"><a href="predictive-modeling.html#setting-up-a-predictive-modeling-task"><i class="fa fa-check"></i><b>4.5</b> Setting up a predictive modeling task</a></li>
+<li class="chapter" data-level="4.6" data-path="predictive-modeling.html"><a href="predictive-modeling.html#a-simple-example"><i class="fa fa-check"></i><b>4.6</b> A simple example</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="predictive-modeling.html"><a href="predictive-modeling.html#a-classification-task"><i class="fa fa-check"></i><b>4.6.1</b> A Classification Task</a></li>
+<li class="chapter" data-level="4.6.2" data-path="predictive-modeling.html"><a href="predictive-modeling.html#a-regression-task"><i class="fa fa-check"></i><b>4.6.2</b> A Regression Task</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="other-topics.html"><a href="other-topics.html"><i class="fa fa-check"></i><b>5</b> Other Topics</a>
 <ul>
@@ -387,7 +392,85 @@ If your data has interrelationships between rows, like repeated measurements of 
 this makes your units much less interchangeable.
 So you either need to be creative in how to set up a prediction problem where each row is interchangeable,
 or think about how the lack of interchangeability might affect your results.</p>
+</div>
+<div id="a-simple-example" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> A simple example<a href="predictive-modeling.html#a-simple-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<table style="width:76%;">
+<colgroup>
+<col width="15%" />
+<col width="12%" />
+<col width="8%" />
+<col width="18%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">instance</th>
+<th align="center">region</th>
+<th align="center">age</th>
+<th align="center">daily_comp</th>
+<th align="center">stars</th>
+<th align="center">liked</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">13</td>
+<td align="center">Y</td>
+<td align="center">4.5</td>
+<td align="center">TRUE</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">23</td>
+<td align="center">Y</td>
+<td align="center">4</td>
+<td align="center">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">55</td>
+<td align="center">N</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">14</td>
+<td align="center">N</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">60</td>
+<td align="center">N</td>
+<td align="center">1.5</td>
+<td align="center">FALSE</td>
+</tr>
+</tbody>
+</table>
+<p>Our goal is to predict the star rating (how much the person would like a given product, on a scale
+from 1 to 5) from some predictors (features) such as age, region, and whether they use a
+computer most days. Here our five people, affectionately named 1, 2, 3, 4, and 5:</p>
+<p><img src="images/five-people-column.png" width="143" /></p>
+<div id="a-classification-task" class="section level3 hasAnchor" number="4.6.1">
+<h3><span class="header-section-number">4.6.1</span> A Classification Task<a href="predictive-modeling.html#a-classification-task" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Construct a tree that predicts whether the person would like the product (stars &gt;= 3) or not (stars &lt; 3).</p>
+<p><strong>Note</strong>: This doesn’t have to be the <em>best possible</em> tree; just try to come up with some tree.</p>
+</div>
+<div id="a-regression-task" class="section level3 hasAnchor" number="4.6.2">
+<h3><span class="header-section-number">4.6.2</span> A Regression Task<a href="predictive-modeling.html#a-regression-task" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Construct a tree that predicts the star rating value.</p>
 
+</div>
 </div>
 </div>
             </section>
