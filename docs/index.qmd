@@ -1,5 +1,5 @@
 ---
-title: "DATA 202 (Wrangling and Analytics), Fall 2022"
+title: "DATA 202 (Wrangling and Analytics), Fall 2023"
 format:
   html:
     toc: true
@@ -82,14 +82,13 @@ We will be using **Python** and the following tools:
 
 Unless otherwise arranged, grades will be weighted as follows:
 
-- 5% Preparation readings and activities (Preparation, Lecture, and Study Quizzes)
-- 5% Class participation
-- 10% Discussion forums
-- 5% Labs
-- 20% Homework
-- 25% Weekly Review Quizzes (some in class, some at home)
-- 15% Midterm Project
-- 15% Final Project
+- Tests (7, including during final exam time): 35%
+- Projects: 30%
+  - Midterm project: 10%
+  - Final project: 20%
+- Exercises (labs and homework): 20%
+- Discussion forums: 10%
+- Participation: 5%
 
 Your lowest quiz score will get thrown out.
 
@@ -97,33 +96,15 @@ Late work will be accepted without penalty if you make prior arrangements or pre
 
 Changes to this policy may be made at the instructor's discretion.
 
+## Class Structure
 
-## Schedule
+1. **Preparation** (before class): Readings and quizzes to prepare you for class.
+2. **Lecture** (in class): We'll review the material from the preparation, and add some additional content.
+3. **Exercises** to practice what we're learning. We will usually start some of the week's exercises in class and finish them at home.
+4. **Project** (outside of class): You will complete two multi-week projects in this class.
+5. **Discussion forums** (outside of class): We will discuss a variety of societal and ethical topics through a Reformed Christian lens.
 
-Each unit starts on a Monday. The structure is "flipped" -- you will watch most lecture content at home (where you can choose to go slower or faster, etc.), and you will complete most technical work in class.
-
-### In Class
-
-- **Monday**: intro to the week (10 min); team work on lab (40 min)
-- **Wednesday**: varies. Typically: logistics, extra technical content, discussion on perspectives forum, quiz some weeks
-- **Friday**: Review technical content, time for work on lab or homework.
-
-Attendance in class on Fridays is optional; you may choose to take the time to watch the Lecture materials instead.
-
-### At home
-
-- **Monday**: Preparation and Lecture quizzes due. One of these (student's choice) should be done **before** class, the other should be done **after** class.
-  - Time estimate:
-    - Preparation: 30 minutes reading, 30 minutes reviewing and doing the quiz.
-    - Lecture: 30 minutes watching, 30 minutes reviewing and doing the quiz
-- **Tuesday**: Previous week's labs due
-  - Time estimate: 15 minutes (most lab work done in Monday class)
-- **Wednesday**: Post (even weeks) or reply (odd weeks) in a discussion forum
-  - Time estimate: 60 minutes for initial post, 30 minutes for reply
-- **Thursday** of odd weeks: Previous week's homework due
-  - Time estimate: 60 minutes total time at home
-
-Homework is assigned on even weeks, covers material through that week, and is due on the following Thursday.
+We will typically meet in the classroom on Monday and Wednesday and in the lab on Friday. If you have a laptop, please bring it to Monday and Wednesday classes.
 
 ### Projects
 
@@ -151,16 +132,16 @@ Data science is a fundamentally collaborative endeavor. Collaboration brings the
   * It is okay and sometimes encouraged to look up how to do something online! But if you do:
     1. Record the exact URL that had the information that helped you. (This will help improve our instructional materials for next year.)
     2. Retype any code yourself, from memory, even if you have to switch back and forth a lot. (This will help *you* internalize what you're borrowing.)
-    3. Beware that there is lots of *bad* R code out there. Strive to do better.
+    3. Beware that there is lots of *bad* code out there. Strive to do better.
 * **When** asking for help (and everyone *should* ask for help when they need it), *try to solve the problem on your own first*. This is critical. Then, when you ask for help, share *what you've tried* and *what leads you to think it's not working.* (not just "It's not working!!")
 
 ## Diversity and Inclusion
 
-I came to Calvin because I wanted to explore what our Christian calling to “act justly” means in the context of data and the technologies that we use with it. Engaging that question wholeheartedly requires that each of us, me included, engage respectfully with perspectives very different from our own. For example, we must question those who abuse data for selfish gain, but we also must question the perspectives of those who challenge those abuses on purely secular grounds.
+I (Prof. Arnold) came to Calvin because I wanted to explore what our Christian calling to “act justly” means in the context of data and the technologies that we use with it. Engaging that question wholeheartedly requires that each of us, me included, engage respectfully with perspectives very different from our own. For example, we must question those who abuse data for selfish gain, but we also must question the perspectives of those who challenge those abuses on purely secular grounds.
 
-I intend for this class to be an environment where we equally respect people of every ethnicity, gender, socioeconomic background, political learning, religious background, etc. I will try to create that community by having us read diverse voices, engage with issues of importance to people unlike ourselves, and structure discussions that require students to engage respectfully with perspectives different from their own. I invite your help.
+We intend for this class to be an environment where we equally respect people of every ethnicity, gender, socioeconomic background, political learning, religious background, etc. We will try to create that community by having us read diverse voices, engage with issues of importance to people unlike ourselves, and structure discussions that require students to engage respectfully with perspectives different from their own. We invite your help.
 
-We will not always do this well. If you or someone else in this class is hurt by something I say or do in class, I would like to work to remedy it. I’ll welcome this feedback in whatever way is comfortable for you: in public, in private, anonymously via EdStem, via my department chair (Professor VanderLinden), or via a report to [Safer Spaces](https://calvin.edu/offices-services/safer-spaces/) or the [provost's office](http://www.calvin.edu/go/comments-on-faculty/).
+We will not always do this well. If you or someone else in this class is hurt by something we say or do in class, we would like to work to remedy it. We will welcome this feedback in whatever way is comfortable for you: in public, in private, anonymously via Perusall, via my department chair (Professor VanderLinden), or via a report to [Safer Spaces](https://calvin.edu/offices-services/safer-spaces/) or the [provost's office](http://www.calvin.edu/go/comments-on-faculty/).
 
 ## Special Circumstances
 
@@ -180,17 +161,16 @@ Also, learning how to ask for help is an important part of the college experienc
 
 ## Course Outline
 
-- Introduction (week 1)
-- Toolset (week 2)
-- Data Visualization Design and Implementation (weeks 3 and 4)
-- Data Wrangling (single-table and multiple-table) (weeks 5 and 6)
-- Data Tidying (week 7)
+- Introduction (weeks 1 and 2)
+- Vis Design (week 3)
+- Vis Implementation (week 4)
+- Wrangling (weeks 5 and 6)
 - Midterm project: redesign and recreate a visualization (starts week 3, presentations and revision week 8)
-- Making Estimates using Data (week 9)
-- Making Predictions using Data (Supervised Learning) (weeks 10 and 11)
-- Supervised Learning using Trees (weeks 12 and 13)
-- Effective and Interpretable Models (week 14)
-- Final Project (week 15)
+- Modeling: Design (week 9)
+- Modeling: Neighbors and trees (week 10)
+- Modeling: Other models (week 11)
+- Validation (week 12)
+- LLMs, other topics, and final project (weeks 13, 14 and 15)
 
 See Moodle for details. We will also be discussing a variety of societal and ethical topics.
 
