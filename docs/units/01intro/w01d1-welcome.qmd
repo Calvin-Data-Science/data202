@@ -100,7 +100,7 @@ Discussions on *ethics* and *perspectives* are woven in throughout the course.
 
 ---
 
-## Technology We'll Use
+## Technology We'll Use {.smaller}
 
 - **RStudio**: A powerful environment for working with data (even in Python!)
   - Most students will use Calvin's installation `https://r.cs.calvin.edu/`
@@ -109,8 +109,6 @@ Discussions on *ethics* and *perspectives* are woven in throughout the course.
   - Textbook reading assignments: **ask questions** so we know what to focus on in class
   - Announcement and Q&A forums; you can **post anonymously** if you want
   - Perspectival readings: **annotate** to share your thoughts
-
----
 
 # Example Projects
 
@@ -176,8 +174,6 @@ Reflected on original's design choice of red for young adults (pre-attentive pro
 * *Skill*: how to do these things
 * *Knowledge*: understanding the underlying concepts
 * *Dispositions*: wisdom in practicing these skills
-
----
 
 # Data Dispositions
 
