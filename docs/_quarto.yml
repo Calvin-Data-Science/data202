@@ -1,0 +1,20 @@
+project:
+  type: "website"
+  output-dir: _site
+  post-render: "rsync -r static/ _site"
+ 
+website:
+  title: "DATA 202 (Wrangling and Analytics), Fall 2023"
+  site-url: "https://calvin-data-science.github.io/data202/"
+  navbar:
+    right:
+      - index.qmd
+  sidebar: 
+    contents: auto
+  page-navigation: true
+  reader-mode: true
+
+format:
+  html:
+    css: styles.css
+
