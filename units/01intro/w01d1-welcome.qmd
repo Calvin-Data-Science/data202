@@ -227,3 +227,171 @@ So we will:
 
 * Study examples of how data might cause harm
 * Study examples of how harm might be mitigated or revealed
+
+# A Worked Example
+
+---
+
+## The data {.smaller}
+
+```{python}
+#| include: false
+import pandas as pd
+import plotly.express as px
+
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+
+r_wrangling_code = """
+un_uk_us_tr <- un_votes %>%
+  mutate(
+    country = case_when(
+      country == "United Kingdom" ~ "UK",
+      country == "United States" ~ "US",
+      TRUE ~ country
+    )
+  ) %>%
+  inner_join(un_roll_calls, by = "rcid") %>%
+  inner_join(un_roll_call_issues, by = "rcid") %>%
+  mutate(
+    issue = fct_recode(issue,  "Nuclear weapons and material" = "Nuclear weapons and nuclear material")
+  ) %>%
+  filter(country %in% c("UK", "US", "Turkey")) %>%
+  mutate(year = year(date)) %>%
+  group_by(country, year, issue) %>%
+  summarize(percent_yes = mean(vote == "yes"))
+"""
+
+votes = pd.read_csv("data/un_uk_us_tr.csv")
+```
+
+```{python}
+votes
+```
+
+::: aside
+Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge Handbook of International Organization, edited by Bob Reinalda (published May 27, 2013)
+:::
+
+
+
+---
+
+## {.smaller}
+
+```{python}
+#| echo: true
+#| code-line-numbers: "2"
+show_plot(
+  px.scatter(votes, x='year', y='percent_yes'))
+```
+
+---
+
+## {.smaller}
+
+```{python}
+#| echo: true
+#| code-line-numbers: "3"
+show_plot(
+  px.scatter(votes, x='year', y='percent_yes',
+    facet_col='issue', facet_col_wrap=3, facet_col_spacing=.1))
+```
+
+---
+
+## {.smaller}
+
+```{python}
+#| echo: true
+#| code-line-numbers: "2"
+show_plot(
+  px.scatter(votes, x='year', y='percent_yes', color='country',
+    facet_col='issue', facet_col_wrap=3, facet_col_spacing=.1))
+```
+
+
+---
+
+## {.smaller}
+
+```{python}
+#| echo: true
+#| code-line-numbers: "4"
+show_plot(
+  px.scatter(votes, x='year', y='percent_yes', color='country',
+    facet_col='issue', facet_col_wrap=3, facet_col_spacing=.1,
+    trendline='lowess'))
+```
+
+
+---
+
+## {.smaller}
+
+```{python}
+#| echo: true
+#| code-line-numbers: "5-6"
+show_plot(
+  px.scatter(votes, x='year', y='percent_yes', color='country',
+    facet_col='issue', facet_col_wrap=3, facet_col_spacing=.1,
+    trendline='lowess',
+    labels={"percent_yes": "% Yes Votes", "year": "Year", "country": "Country"},
+    title="Percentage of 'Yes' votes in the UN General Assembly"))
+```
+
+---
+
+## {.smaller}
+
+```{python}
+#| echo: true
+#| code-line-numbers: "7"
+show_plot(
+  px.scatter(votes, x='year', y='percent_yes', color='country',
+    facet_col='issue', facet_col_wrap=3, facet_col_spacing=.1,
+    trendline='lowess',
+    labels={"percent_yes": "% Yes Votes", "year": "Year", "country": "Country"},
+    title="Percentage of 'Yes' votes in the UN General Assembly")
+  .update_traces(marker_size=2)) # Smaller markers
+```
+
+---
+
+## {.smaller}
+
+```{python}
+#| echo: true
+#| code-line-numbers: "9"
+show_plot(
+  px.scatter(votes, x='year', y='percent_yes', color='country',
+    facet_col='issue', facet_col_wrap=3, facet_col_spacing=.1,
+    trendline='lowess',
+    labels={"percent_yes": "% Yes Votes", "year": "Year", "country": "Country"},
+    title="Percentage of 'Yes' votes in the UN General Assembly")
+  .update_traces(marker_size=2) # Smaller markers
+  # Remove the "issue="
+  .for_each_annotation(lambda a: a.update(text=a.text.split("=", 1)[-1])))
+```
+
+---
+
+## {.smaller}
+
+```{python}
+#| echo: true
+#| code-line-numbers: "10"
+show_plot(
+  px.scatter(votes, x='year', y='percent_yes', color='country',
+    facet_col='issue', facet_col_wrap=3, facet_col_spacing=.1,
+    trendline='lowess',
+    labels={"percent_yes": "% Yes Votes", "year": "Year", "country": "Country"},
+    title="Percentage of 'Yes' votes in the UN General Assembly")
+  .update_traces(marker_size=2) # Smaller markers
+  # Remove the "issue="
+  .for_each_annotation(lambda a: a.update(text=a.text.split("=", 1)[-1]))
+  .update_yaxes(tickformat=",.0%")) # Percent labels
+```
