@@ -1,14 +1,13 @@
 ---
 title: "Midterm Project"
-output:
-  html_document:
+format:
+  html:
     toc: true
-    toc_depth: 4
-    toc_float:
-      collapsed: false
+    toc_depth: 2
+    toc_float: true
 ---
 
-## **Midterm Project**: replicate and critique a visual
+**Replicate and critique a visual**.
 
 For this project you will pick some existing data science work (a blog post, report, research paper, etc.) and replicate a visual from it.
 
