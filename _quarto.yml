@@ -2,6 +2,7 @@ project:
   type: "website"
   output-dir: _site
   render:
+    - "*.qmd"
     - "!private"
   post-render: "rsync -r static/ _site"
  
