@@ -1,5 +1,5 @@
 ---
-title: "DATA 202 (Wrangling and Analytics), Fall 2023"
+title: "Syllabus"
 format:
   html:
     toc: true
