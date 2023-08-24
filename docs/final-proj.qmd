@@ -1,7 +1,7 @@
 ---
 title: "Final Project"
-output:
-  html_document:
+format:
+  html:
     toc: true
     toc_depth: 4
     toc_float:
@@ -11,10 +11,7 @@ output:
 
 ## **Final Project**: A complete Data Science process
 
-```{r echo=FALSE, fig.cap="Source: [R4DS](https://r4ds.had.co.nz/introduction.html)"}
-knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/571b056757d68e6df81a3e3853f54d3c76ad6efc/32d37/diagrams/data-science.png")
-```
-
+![](https://r4ds.hadley.nz/diagrams/data-science/base.png)
 
 The goal of this project is to practice a complete data science workflow: question, data, exploration, modeling, and communication.
 Results will be presented as a report, supporting code, and a brief presentation to the class. Successful outcomes should include visual, analytical, and perspectival components. The report should be at the level of polish and formality of a blog post (more than a class homework assignment, less than an academic paper). The overview and primary visualizations should be intelligible to a non-technical audience; the methods should be described in precise technical language as appropriate.
