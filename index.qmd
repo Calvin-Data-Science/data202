@@ -71,7 +71,7 @@ All readings wil be posted in Perusall. They will be taken from:
 We will be using **Python** and the following tools:
 
 - **pandas** for data wrangling
-- **Seaborn and Matplotlib** for data visualization (using the Seaborn Objects interface)
+- **Plotly** for data visualization
 - **scikit-learn** for modeling
 - [**Quarto**](https://quarto.org/) for creating reports
 - [RStudio Server](https://r.cs.calvin.edu/)
