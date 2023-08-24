@@ -171,9 +171,9 @@ Reflected on original's design choice of red for young adults (pre-attentive pro
 
 ## Our Goals
 
-* *Skill*: how to do these things
-* *Knowledge*: understanding the underlying concepts
-* *Dispositions*: wisdom in practicing these skills
+- *Skill*: how to do these things
+- *Knowledge*: understanding the underlying concepts
+- *Dispositions*: wisdom in practicing these skills
 
 # Data Dispositions
 
