@@ -42,7 +42,7 @@ Additionally, using transparent reproducible workflows and regularly acknowledgi
 ## Staff
 
 - **Section A**: [Ken Arnold](https://kenarnold.org), <ken.arnold@calvin.edu>, Calvin University, North Hall NH298
-- **Section B**: Fernando Pasquini Santos
+- **Section B**: Fernando Pasquini Santos, <fernando.santos@calvin.edu>, Calvin University, North Hall NH291
 - **Teaching Assistant / Grader**: Yuqian (Eason) Wang
 
 ## Materials
