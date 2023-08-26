@@ -12,10 +12,11 @@ website:
   navbar:
     right:
       - index.qmd
+      - text: "RStudio"
+        href: "https://r.cs.calvin.edu/"
   sidebar:
     contents: auto
   page-navigation: true
-  reader-mode: true
 
 format:
   html:
