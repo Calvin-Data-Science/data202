@@ -1,0 +1,173 @@
+---
+title: "Homework 1: Warmup"
+execute: 
+  echo: false
+---
+
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# DATA 202 hack for displaying plotly within RStudio:
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+# End hack
+```
+
+
+
+## Learning Goals
+
+When you've finished this exercise, you'll have some basic experience with RStudio, Python, data frames, and plotting.
+
+## Getting Help
+
+If you have any questions about the assignment, please post them on EdStem!
+
+## Getting started
+
+1. Launch RStudio by clicking on the link in Moodle and starting a new Session.
+2. If you haven't already done so, create a new project for your class exercises; call it `data202-exercises` and place it in the `rprojects` folder.
+3. Create a new Quarto document called `hw01.qmd` in the `hw` folder of your project.
+4. Make sure the `Source` mode is selected in the top left corner of the editor pane. (the next step won't work in the Visual mode, but you can switch back to Visual mode afterwards.)
+5. Expand the block below, click the Copy button in the top-right, then paste the copied text into your new document.
+
+::: {.callout-note collapse="true" title="Template for hw01.qmd"}
+
+```{python}
+#| echo: false
+#| output: asis
+print("`````python")
+print(open('hw01-template.qmd').read())
+print(("`````"))
+
+```
+
+:::
+
+
+The document contains placeholders for the following exercises.
+
+# The Data
+
+Let's imagine we're hired by the administrators of the [Capital Bikeshare program](https://www.capitalbikeshare.com) program in Washington D.C., to **help them understand and predict the hourly demand for rental bikes**. We will be working with this data in several activities throughout this semester.
+
+This understanding will help them plan the number of bikes that need to be available at different parts of the system at different times, to avoid the case where someone wants a bike but the station is empty, or someone wants to return a bike but the station is full.
+
+The data for this problem were collected from the Capital Bikeshare program over the course of two years (2011 and 2012). Researchers at the University of Porto processed the data and augmented it with extra information, as described [on this page](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset). It has been cleaned up slightly for this assignment.
+
+
+## Load and Explore Data
+
+The data is in a CSV (comma separated values) file that we've pre-wrangled for you (you'll do your own wrangling later). The following code block, already included, uses the `read_csv` function in pandas to load the data into a data frame called `daily_rides`.
+
+```{python}
+#| echo: fenced
+daily_rides = pd.read_csv("https://calvin-data-science.github.io/data202/data/bikeshare/day_simple.csv", parse_dates=["date"])
+```
+
+::: {.callout-note}
+The `parse_dates` argument tells pandas to convert the `date` column to a date object, rather than leaving it as a string. (CSV files don't usually specify the data *type* of each column, so we need to tell pandas to interpret those as dates and not as strings like "2011-01-01".)
+:::
+
+The variables and their descriptions are given below:
+
+::: margin
+Note: the original dataset also includes rides by users who didn't register for a Capital Bikeshare account. That data has been removed for this first assignment to keep things simple.
+:::
+
+- `date`
+- `day_of_week`: an integer between 0 and 6 inclusive. In a later exercise you will decode which number represents Monday, etc.
+- `workingday`: either "weekday" or "weekend" (which actually includes holidays too).
+- `total_rides`: the number of rides that day by users who registered for a Capital Bikeshare account
+
+::: {.exercises}
+
+1. Write a sentence answering the following two questions: How many rows does the dataset contain? What does each row represent?
+
+::: {.callout-important}
+Write the answer outside a code chunk.
+
+There are 5 rows in the dataset. Each row represents a different type of fruit.
+
+Not like this:
+
+```{python}
+print("There are 5 rows in the dataset")
+```
+
+And not like this:
+
+```{{python}}
+# There are 5 rows in the dataset
+```
+
+Once you're confident with this, you can try using an `asis`-output code chunk; see the class notes.
+
+:::
+
+**Click Render** to check that you can view the rendered output of your document.
+
+2. Create a scatter plot showing the *total number of rides* each day. Sample code is provided below, but you will need to fill in the blanks.
+
+```{{python}}
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="____", y="____",
+    trendline="lowess",
+    labels={"date": "____", "____": "Number of Rides"}
+    ))
+```
+
+
+Let's deconstruct this code: 
+
+- `show_plot()` is a hack we're using in this class to display plots within the RStudio IDE. Once [this bug](https://github.com/rstudio/rstudio/issues/8762) in RStudio is fixed we can remove this hack.
+- `px.scatter` is the Plotly Express (`px`) function we'll use to easily construct a scatter plot. We always specify the data frame as the first argument.
+- The next arguments define the mappings between the variables in the dataset and the aesthetics of the plot (e.g. x and y coordinates, colors, etc.). 
+- The `trendline` argument tells Plotly Express to add a smoothing trend line to the plot. (Try removing this argument to see what happens.) Lowess is a smooth curve; you can try switching it to `ols` to see a linear trend line.
+- Finally, the `labels` argument lets us make the visualization more hospitable by specifing the labels for the x and y axes. We pass a dictionary with the column names as keys and the labels as values.
+
+The result should look like:
+
+```{python}
+#| echo: false
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="date", y="total_rides",
+    trendline="lowess",
+    labels={"date": "Date", "total_rides": "Number of Rides"}
+    ))
+```
+
+**Click Render** to check that you can view the rendered output of your document.
+
+4. Add a new code chunk that creates the same plot again, but add a mapping of `workingday` to the `color` aesthetic. Your result should look like:
+
+::: margin
+You should start by coping and pasting from your previous code chunk.
+:::
+
+```{python}
+#| echo: false
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="date", y="total_rides", color="workingday",
+    trendline="lowess",
+    labels={"date": "Date", "total_rides": "Number of Rides", "workingday": "Day of Week"}
+    ))
+```
+
+5. Write a one or two sentence interpretation of the graph, focusing on the following question: *How do the number of rides compare for weekdays vs weekends?* Based on this, make a guess about what Capital Bikeshare riders use the bikes for.
+
+**Click Render** to check that you can view the rendered output of your document.
+
+:::
+
+Finally, return to the Moodle quiz to answer the questions there.
