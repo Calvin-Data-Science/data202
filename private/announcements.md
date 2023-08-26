@@ -14,7 +14,7 @@ If you want to get a head start, you can:
 
 1. Read through the [Syllabus](https://calvin-data-science.github.io/data202/).
 2. Start working on Reading 1 on Moodle.
-3. See the links on Moodle to try logging into RStudio. (What are those? Come to class!)
+3. See the links on Moodle to try logging into RStudio. (Python in RStudio? What’s going on??? Come to class!)
 
 Please email/Teams us any questions you may have. We're excited to be embarking on this data science journey with all of you this semester.
 
