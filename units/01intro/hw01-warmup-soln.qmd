@@ -1,0 +1,75 @@
+---
+title: "DATA 202 Homework 1 solution"
+author: "DATA 202 Staff"
+---
+
+# Load Packages
+
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# DATA 202 hack for displaying plotly within RStudio:
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+# End hack
+```
+
+
+# Read Data
+
+```{python}
+daily_rides = pd.read_csv("https://calvin-data-science.github.io/data202/data/bikeshare/day_simple.csv", parse_dates=["date"])
+```
+
+# Exercise 1
+
+```{python}
+#| echo: false
+#| output: asis
+print("""
+There are *{num_rows}* rows in the data frame.
+
+Each row represents a day of data.
+""".format(num_rows=daily_rides.shape[0]))
+```
+
+Replace this sentence with your short answer about rows and what each row represents.
+
+# Exercise 2
+
+The following plot shows the total number of rides each day.
+
+```{python}
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="date", y="total_rides",
+    trendline="lowess",
+    labels={"date": "Date", "total_rides": "Number of Rides"}
+    ))
+```
+
+# Exercise 3
+
+The following plot shows the total number of rides for weekdays vs weekends.
+
+```{python}
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="date", y="total_rides", color="workingday",
+    trendline="lowess",
+    labels={"date": "Date", "total_rides": "Number of Rides", "workingday": "Day of Week"}
+    ))
+```
+
+
+
+# Exercise 4
+
+Replace this sentence with your short answer about interpreting the graph.
+
