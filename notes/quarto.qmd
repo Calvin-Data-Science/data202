@@ -1,0 +1,26 @@
+---
+title: "Quarto Documents"
+---
+
+::: {.callout-note title="Putting computed results in the document"}
+
+`print` out the Markdown you want to include in the document, and use the `asis` output option. Turn off `echo` so that the code isn't included in the document.
+
+Note: The hidden chunk shouldn't do any non-obvious calculation. Do that in a different chunk and assign the result to a variable.
+
+```{{python}}
+#| echo: false
+num_rows = daily_rides.shape[0]
+```
+
+```{{python}}
+#| echo: false
+#| output: asis
+print("""
+There are *{num_rows}* rows in the data frame.
+
+Each row represents a day of data.
+""".format(num_rows=num_rows))
+```
+
+:::
