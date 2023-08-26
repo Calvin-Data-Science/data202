@@ -11,3 +11,4 @@ rosm.cache
 /.luarc.json
 /.quarto/
 _site
+*_files
