@@ -9,21 +9,13 @@ filters:
   - nutshell
 ---
 
-## Quick Links
-
-[Slides](slides/) | 
-[Calvin RStudio](https://r.cs.calvin.edu) |
-[**Course Notes**](notes/) | 
-[**Project**](projects.html)
-
-
-<details><summary><b>Catalog Description</b></summary>
+::: {.callout-note collapse="true" title="Catalog Description"}
 
 An introduction to the conceptual foundations and practical skills needed to transform data into useful forms and apply predictive analytics to discover patterns and anticipate trends. Primary focus is on the core skills and concepts needed to pull data from a range of sources; to filter, transform, and combine data sets to prepare them for analysis; and to construct quantitative summaries and basic visualizations. Programming is used throughout to assemble data-processing pipelines. Students will also discuss ethical and social considerations of data collection and data-driven systems.
 
 Prerequisite: CS 104, CS 106, or CS 108. A minimum grade of C in the chosen course is required.
 
-</details>
+:::
 
 ### Learning Outcomes
 
@@ -114,11 +106,14 @@ In the *Midterm Project*, you will practice some parts of the data science lifec
 In the *Final Project*, you will additionally *apply predictive analytics*. You may choose to use the same or different dataset.
 [Details about the projects](projects.html)
 
+::: {.callout-note collapse="true" title="Teams"}
 Final projects may be completed in teams of up to 3. Teams will have the following additional expectations:
 
 * Teams must submit a team contract about how they will work together
 * Teams must convince the instructional staff that each team member learned something substantial from completing the project.
 * Each team member must submit an assessment of how they and other team members fulfilled their contract.
+
+:::
 
 ## Academic Integrity
 
@@ -173,7 +168,7 @@ Also, learning how to ask for help is an important part of the college experienc
 
 See Moodle for details. We will also be discussing a variety of societal and ethical topics.
 
-## Optional material
+### Optional material
 
 - Clustering (Unsupervised Learning)
 - Databases and APIs
