@@ -45,6 +45,5 @@ out_dir <- here::here("static/data/bikeshare/")
 if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
 
 write_csv(daily_rides, paste0(out_dir, "day_simple.csv"))
-#write_csv(daily_rides, here::here("src/hw/hw01-warmup/data/day_simple.csv"))
 daily_rides %>% glimpse()
 ```
