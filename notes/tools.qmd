@@ -1,0 +1,32 @@
+---
+title: "Tool References"
+---
+
+## Cheatsheets
+
+Quick references for technology we're using
+
+- [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- [Plotly Express](https://franzdiebold.github.io/plotly-express-cheat-sheet/Plotly_Express_cheat_sheet.pdf) or [this one](https://www.kaggle.com/code/themlphdstudent/cheat-sheet-plotly-charts)
+
+## Tutorials
+
+- [Markdown](https://www.markdowntutorial.com/)
+
+[Pandas Tutor](https://pandastutor.com/index.html)
+
+### Python tutorials
+
+- [Codecademy’s “Learn Python” Tutorial](https://www.codecademy.com/learn/learn-python)
+- [futurecoder python tutorial](https://futurecoder.io/): nicely done, but only covers the basics
+- [educative python tutorial](https://www.educative.io/courses/learn-python-3-from-scratch): not quite as slick as futurecoder, but it covers some important things that are missing there.
+- [W3Schools Python Tutorial](https://www.w3schools.com/python/default.asp) and [Quiz](https://www.w3schools.com/python/python_quiz.asp)
+- Kaggle [tutorials](https://www.kaggle.com/learn):
+    -   [learn python](https://www.kaggle.com/learn/python)
+    -   [learn pandas](https://www.kaggle.com/learn/pandas)
+
+## Reference Materials
+
+- [Plotly](https://plotly.com/python/plotly-express/)
+    - ignore everything in the Plotly docs about "Dash"
+- [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook//)

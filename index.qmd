@@ -9,21 +9,13 @@ filters:
   - nutshell
 ---
 
-## Quick Links
-
-[Slides](slides/) | 
-[Calvin RStudio](https://r.cs.calvin.edu) |
-[**Course Notes**](notes/) | 
-[**Project**](projects.html)
-
-
-<details><summary><b>Catalog Description</b></summary>
+::: {.callout-note collapse="true" title="Catalog Description"}
 
 An introduction to the conceptual foundations and practical skills needed to transform data into useful forms and apply predictive analytics to discover patterns and anticipate trends. Primary focus is on the core skills and concepts needed to pull data from a range of sources; to filter, transform, and combine data sets to prepare them for analysis; and to construct quantitative summaries and basic visualizations. Programming is used throughout to assemble data-processing pipelines. Students will also discuss ethical and social considerations of data collection and data-driven systems.
 
 Prerequisite: CS 104, CS 106, or CS 108. A minimum grade of C in the chosen course is required.
 
-</details>
+:::
 
 ### Learning Outcomes
 
@@ -114,11 +106,14 @@ In the *Midterm Project*, you will practice some parts of the data science lifec
 In the *Final Project*, you will additionally *apply predictive analytics*. You may choose to use the same or different dataset.
 [Details about the projects](projects.html)
 
+::: {.callout-note collapse="true" title="Teams"}
 Final projects may be completed in teams of up to 3. Teams will have the following additional expectations:
 
 * Teams must submit a team contract about how they will work together
 * Teams must convince the instructional staff that each team member learned something substantial from completing the project.
 * Each team member must submit an assessment of how they and other team members fulfilled their contract.
+
+:::
 
 ## Academic Integrity
 
@@ -145,19 +140,18 @@ We will not always do this well. If you or someone else in this class is hurt by
 
 ## Special Circumstances
 
-Occasionally there are special circumstances that require that course policies be adjusted for a particular student. In such cases, it is the responsibility of the student to inform me of the situation as soon as possible, so that the appropriate arrangements can be made. This includes, but is not limited to, students with documented disabilities.
+Occasionally there are special circumstances that require that course policies be adjusted for a particular student. In such cases, it is the responsibility of the student to inform us of the situation as soon as possible, so that the appropriate arrangements can be made. This includes, but is not limited to, students with documented disabilities.
 
-Calvin University has a continuing commitment to providing reasonable accommodations for students with documented disabilities. Like so many things this fall, the need for accommodations and the process for arranging them may be altered by the COVID-19 changes we are experiencing and the safety protocols currently in place. Students with disabilities who may need some accommodation in order to fully participate in this class are urged to contact Disability Services in the Center for Student Success (disabilityservices@calvin.edu) as soon as possible to explore what arrangements need to be made to assure access. The three of us (student, instructor, and Disability Services) will work together to come up with an appropriate solution.
+Calvin University is committed to providing access to all students. If you need additional accommodations to succeed in this class, please contact Disability Services in the Center for Student Success (disabilityservices@calvin.edu) as soon as possible to explore what arrangements can be made. The three of us (student, instructor, and Disability Services) will work together to come up with an appropriate solution.
 
-We will give an incomplete grade (`I`) only in unusual circumstances, and only if those circumstances have been confirmed by the Student Life office.
+We will give a grade of Incomplete (I) only in unusual circumstances that have been confirmed by the Student Life office.
 
 ## Wellness
 
 A wide range of things can interfere with your learning: trouble concentrating, stress/anxiety, relationship troubles, family situations, food or housing insecurity, substance use, and many more.
 You are encouraged to care well for yourself by keeping a consistent sleep schedule, eating well, avoiding drugs and alcohol, exercising, and taking time to relax and connect with friends and family.
 
-Also, learning how to ask for help is an important part of the college experience. Many people on campus are eager to support you. The [Center for Counseling and Wellness](https://www.calvin.edu/go/counseling) sees one out of five students each year and can connect you with a variety of mental health resources on and off campus. You can also reach out to me, another faculty/staff, a friend, or a family member you trust for help getting connected to support. You are not alone, and help is available!
-
+Also, learning how to ask for help is an important part of the college experience. Many people on campus are eager to support you. The [Center for Counseling and Wellness](https://www.calvin.edu/go/counseling) sees one out of five students each year and can connect you with a variety of mental health resources on and off campus. You can also reach out to your instructor, another faculty/staff, a friend, or a family member you trust for help getting connected to support. You are not alone, and help is available!
 
 ## Course Outline
 
@@ -174,7 +168,7 @@ Also, learning how to ask for help is an important part of the college experienc
 
 See Moodle for details. We will also be discussing a variety of societal and ethical topics.
 
-## Optional material
+### Optional material
 
 - Clustering (Unsupervised Learning)
 - Databases and APIs

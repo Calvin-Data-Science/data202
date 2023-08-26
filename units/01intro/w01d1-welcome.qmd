@@ -13,7 +13,7 @@ format: revealjs
 
 ---
 
-## What might this mean for us working with data? {.smaller}
+## A reading {.smaller}
 
 > Seek good and not evil, that you may live,<br>
 > and so the Lord, the God of hosts, will be with you, just as you have said.
@@ -26,6 +26,8 @@ format: revealjs
 > But let justice roll down like water and righteousness like an ever-flowing stream.
 
 [Amos 5:14-15, 21-24 NRSV](https://www.biblegateway.com/passage/?search=Amos+5&version=NRSVUE&interface=print)
+
+**What might this mean for us working with data?**
 
 ---
 
