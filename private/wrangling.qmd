@@ -1,0 +1,50 @@
+---
+title: "Wrangling"
+---
+
+This document does all the data wrangling for DATA 202.
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(pins)
+board <- board_connect()
+```
+
+
+## bikeshare
+
+
+```{r wrangle}
+# This simplifies the given day data.
+daily_rides <- read_csv(here::here("data/bikeshare/day.csv")) %>%
+  mutate(workingday = as.factor(case_when(
+    workingday == 1 ~ "workday",
+    TRUE            ~ "weekend"))) %>% 
+  select(
+    date = dteday,
+    day_of_week = weekday,
+    workingday,
+    #unregistered_rides = casual,
+    #registered_rides = registered,
+    total_rides = registered
+  )
+
+pin_write(
+  board = board,
+  x = daily_rides,
+  name = "data202_bikeshare_day_simple_csv",
+  type = "csv",
+  title = "Capital Bikeshare data, day-level, simplified"
+)
+
+#pin_browse(board, "data202_bikeshare_day_simple_csv")
+out_dir <- here::here("static/data/bikeshare/")
+if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+
+write_csv(daily_rides, paste0(out_dir, "day_simple.csv"))
+#write_csv(daily_rides, here::here("src/hw/hw01-warmup/data/day_simple.csv"))
+daily_rides %>% glimpse()
+```
