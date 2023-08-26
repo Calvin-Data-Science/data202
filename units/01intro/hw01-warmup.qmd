@@ -41,7 +41,7 @@ If you have any questions about the assignment, please post them on EdStem!
 #| echo: false
 #| output: asis
 print("`````python")
-print(open('hw01-template.qmd').read())
+print(open('hw01-warmup-template.qmd').read())
 print(("`````"))
 
 ```
