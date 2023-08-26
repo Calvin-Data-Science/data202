@@ -4,6 +4,7 @@ project:
   render:
     - "*.qmd"
     - "!private"
+    - "!*-soln.qmd"
   post-render: "rsync -r static/ _site"
 
 website:
