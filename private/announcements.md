@@ -8,15 +8,15 @@ output: html_document
 
 Welcome to DATA 202!
 
-We'll be meeting in our classroom space, NH 253, on Monday. But starting Wednesday we'll be in our *lab* space, SB 372 (the "Maroon" lab), for most of the rest of the semester.
+We'll be meeting in our classroom space, NH 253, on Monday and Wednesday. (We'll be in the Maroon lab, SB 372, most Fridays.) If you have a laptop, bring it with you.
 
-Although you'll be fine just showing up on Monday morning, here's how to prep for this class:
+If you want to get a head start, you can: 
 
-1. Skim through the [Syllabus](https://cs.calvin.edu/courses/data/202/22fa/).
-2. Start working on Preparation 1 and Lecture 1 (which you can do in either order) on Moodle.
-3. See the links on Moodle to sign up on EdStem and try logging into RStudio. (What are those? Come to class!)
+1. Read through the [Syllabus](https://calvin-data-science.github.io/data202/).
+2. Start working on Reading 1 on Moodle.
+3. See the links on Moodle to try logging into RStudio. (What are those? Come to class!)
 
-Please email/Teams me any questions you may have. I'm excited to be embarking on this data science journey with all of you this semester.
+Please email/Teams us any questions you may have. We're excited to be embarking on this data science journey with all of you this semester.
 
 See you Monday!\
 Prof. Arnold
