@@ -1,5 +1,5 @@
 ---
-title: "Homework 1: Warmup"
+title: "Exercise 1: Warmup"
 execute: 
   echo: false
 ---
@@ -30,18 +30,18 @@ If you have any questions about the assignment, please post them on EdStem!
 ## Getting started
 
 1. Launch RStudio by clicking on the link in Moodle and starting a new Session.
-2. If you haven't already done so, create a new project for your class exercises; call it `data202-exercises` and place it in the `rprojects` folder.
-3. Create a new Quarto document called `hw01.qmd` in the `hw` folder of your project.
+2. If you haven't already done so, create a new project for your class exercises; call it `data202-exercises` and place it in the `rprojects` folder in your home folder.
+3. Create a new Quarto document called `ex01.qmd` in the `ex` folder of your project.
 4. Make sure the `Source` mode is selected in the top left corner of the editor pane. (the next step won't work in the Visual mode, but you can switch back to Visual mode afterwards.)
 5. Expand the block below, click the Copy button in the top-right, then paste the copied text into your new document.
 
-::: {.callout-note collapse="true" title="Template for hw01.qmd"}
+::: {.callout-note collapse="true" title="Template for ex01.qmd"}
 
 ```{python}
 #| echo: false
 #| output: asis
 print("`````python")
-print(open('hw01-warmup-template.qmd').read())
+print(open('ex01-warmup-template.qmd').read())
 print(("`````"))
 
 ```
@@ -147,7 +147,7 @@ show_plot(
 
 **Click Render** to check that you can view the rendered output of your document.
 
-4. Add a new code chunk that creates the same plot again, but add a mapping of `workingday` to the `color` aesthetic. Your result should look like:
+3. Add a new code chunk that creates the same plot again, but add a mapping of `workingday` to the `color` aesthetic. Your result should look like:
 
 ::: margin
 You should start by coping and pasting from your previous code chunk.
@@ -164,10 +164,38 @@ show_plot(
     ))
 ```
 
-5. Write a one or two sentence interpretation of the graph, focusing on the following question: *How do the number of rides compare for weekdays vs weekends?* Based on this, make a guess about what Capital Bikeshare riders use the bikes for.
+4. Write a one or two sentence interpretation of the graph, focusing on the following question: *How do the number of rides compare for weekdays vs weekends?* Based on this, make a guess about what Capital Bikeshare riders use the bikes for.
 
 **Click Render** to check that you can view the rendered output of your document.
 
 :::
 
-Finally, return to the Moodle quiz to answer the questions there.
+## Reflection
+
+At the end of your document, write a sentence or two of your overall reflections on this exercise. You may write whatever you want, but you might perhaps respond to one or two of these questions:
+
+- Was anything unclear about this assignment?
+- How hard was it for you? Where did you get "stuck"?
+- How long did it take you?
+- What questions or uncertainties remain?
+- What skills do you think you'll need more practice with?
+- Did you try anything out of curiosity that you weren't specifically asked to do?
+
+::: {.callout-note}
+We'll respond to these reflections in class, but only in an overall sense and only once we've had a chance to review them. If you have a question that needs a response, please post it on EdStem.
+:::
+
+## Submitting
+
+First, make sure that your `qmd` file is free of template text. (*Did you change the title and author names? Did you remove the "your code here" lines? Did you delete any "replace this line" text?*)
+
+Make sure that your `qmd` file renders successfully by clicking Render. Spot-check that your most recent change is reflected in the rendered output. Then, submit your `qmd` file to Moodle. Here's how:
+
+::: {.callout-tip collapse="true" title="How to export your document from the Posit server"}
+1. Find the Files pane in the lower-right pane of RStudio.
+2. Find your `.qmd` file.
+3. Tick the checkbox next to the file name.
+4. Under the More button (a gear icon), choose Export.
+5. Click the Download button.
+6. Upload the resulting file to Moodle (in some browsers, you can drag and drop it onto the Moodle page).
+:::

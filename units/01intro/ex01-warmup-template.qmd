@@ -1,6 +1,6 @@
 ---
-title: "DATA 202 Homework 1 solution"
-author: "DATA 202 Staff"
+title: "Title Goes Here"
+author: "Author Name(s) Goes Here"
 ---
 
 # Load Packages
@@ -27,16 +27,6 @@ daily_rides = pd.read_csv("https://calvin-data-science.github.io/data202/data/bi
 
 # Exercise 1
 
-```{python}
-#| echo: false
-#| output: asis
-print("""
-There are *{num_rows}* rows in the data frame.
-
-Each row represents a day of data.
-""".format(num_rows=daily_rides.shape[0]))
-```
-
 Replace this sentence with your short answer about rows and what each row represents.
 
 # Exercise 2
@@ -44,13 +34,7 @@ Replace this sentence with your short answer about rows and what each row repres
 The following plot shows the total number of rides each day.
 
 ```{python}
-show_plot(
-  px.scatter(
-    daily_rides,
-    x="date", y="total_rides",
-    trendline="lowess",
-    labels={"date": "Date", "total_rides": "Number of Rides"}
-    ))
+# your code here
 ```
 
 # Exercise 3
@@ -58,13 +42,7 @@ show_plot(
 The following plot shows the total number of rides for weekdays vs weekends.
 
 ```{python}
-show_plot(
-  px.scatter(
-    daily_rides,
-    x="date", y="total_rides", color="workingday",
-    trendline="lowess",
-    labels={"date": "Date", "total_rides": "Number of Rides", "workingday": "Day of Week"}
-    ))
+# your code here
 ```
 
 
@@ -73,3 +51,6 @@ show_plot(
 
 Replace this sentence with your short answer about interpreting the graph.
 
+# Reflections
+
+Write a sentence or two of your reflections on this exercise here.
