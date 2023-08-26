@@ -1,5 +1,5 @@
 ---
-title: "Welcome to DATA 202!"
+title: "DATA 202 Week 1 Day 1: Welcome!"
 format: revealjs
 ---
 
@@ -275,7 +275,7 @@ votes
 ```
 
 ::: aside
-Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge Handbook of International Organization, edited by Bob Reinalda (published May 27, 2013)
+Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge Handbook of International Organization, edited by Bob Reinalda (published May 27, 2013). Available at <http://ssrn.com/abstract=2111149>
 :::
 
 
