@@ -7,9 +7,20 @@ format: revealjs
 
 - Make a **name card** (name on front *and back*)
 - Sit next to someone you **don't know well**
-- Introduce yourself. *Share either*:
+- Introduce yourself. *Ideas*:
+  - What you’re studying (and how you got to that answer)
   - Something you're passionate about outside of this class: a cause, a subject, a hobby, etc.
   - Something you're excited about for this semester
+
+---
+
+## Introduction - Ken Arnold
+
+- From east coast (North Carolina, Maryland, NY, Boston)
+- 5th year at Calvin
+- Partner with an architect
+- Dad of twin kindergarteners
+- Member of New City Fellowship
 
 ---
 
