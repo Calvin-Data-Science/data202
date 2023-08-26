@@ -1,11 +1,5 @@
 ---
 title: "Final Project"
-format:
-  html:
-    toc: true
-    toc_depth: 4
-    toc_float:
-      collapsed: false
 ---
 
 

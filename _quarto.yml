@@ -23,6 +23,9 @@ website:
 format:
   html:
     css: styles.css
+    toc: true
+    toc_depth: 2
+    toc_float: true
 
 execute:
   freeze: auto
