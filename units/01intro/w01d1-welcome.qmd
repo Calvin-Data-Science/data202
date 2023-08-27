@@ -24,6 +24,18 @@ format: revealjs
 
 ---
 
+## Introduction - Fernando Santos
+
+- From São Carlos, Brazil
+  - Portuguese, not Spanish
+  - Cerrado (brazilian savannah), not jungle
+  - Be patient with my English, I promise it will get better!
+- Just arrived at Calvin
+- Major in computer engineering, PhD in complex systems modeling
+- Married to Jemima, dad of Suzana (5) and Natanael (3)
+
+---
+
 ## Opening Prayer
 
 From the apostle Paul's letter to the Philippians:
