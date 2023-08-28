@@ -34,22 +34,22 @@ Write a comment line (`# `) above each one to document what you observe that it 
 
 ```{python df-info-1, exercise=TRUE, exercise.lines = 2}
 # This shows the first and last rows in the data frame.
-health_and_wealth
+health_and_wealth_2007
 ```
 
 ```{python df-info-2, exercise=TRUE, exercise.lines = 2}
 # This ...
-health_and_wealth.info()
+health_and_wealth_2007.info()
 ```
 
 ```{python df-info-3, exercise=TRUE, exercise.lines = 2}
 # ...
-health_and_wealth.head()
+health_and_wealth_2007.head()
 ```
 
 ```{python df-info-4, exercise=TRUE, exercise.lines = 2}
 # ...
-health_and_wealth.shape[0]
+health_and_wealth_2007.shape[0]
 ```
 
 
@@ -69,43 +69,3 @@ health_and_wealth = px.data.gapminder(year=2007)
 health_and_wealth.info()
 px.scatter(health_and_wealth, x="gdpPercap", y="lifeExp", color="continent")
 ```
-
-## Topic 2
-
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaluated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
-)
-```
-
