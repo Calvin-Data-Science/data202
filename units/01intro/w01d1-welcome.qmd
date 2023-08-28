@@ -3,31 +3,36 @@ title: "DATA 202 Week 1 Day 1: Welcome!"
 format: revealjs
 ---
 
-### As you enter...
+## As you enter...
 
 - Make a **name card** (name on front *and back*)
 - Sit next to someone you **don't know well**
-- Introduce yourself. *Share either*:
+- Introduce yourself. *Ideas*:
+  - What you’re studying (and how you got to that answer)
   - Something you're passionate about outside of this class: a cause, a subject, a hobby, etc.
   - Something you're excited about for this semester
 
 ---
 
-## A reading {.smaller}
+## Introduction - Ken Arnold
 
-> Seek good and not evil, that you may live,<br>
-> and so the Lord, the God of hosts, will be with you, just as you have said.
-> Hate evil and love good, and establish justice in the gate;<br>
-> it may be that the Lord, the God of hosts, will be gracious to the remnant of Joseph.
-> <br> ... <br>
-> I hate, I despise your festivals, and I take no delight in your solemn assemblies.
-> Even though you offer me your burnt offerings and grain offerings, I will not accept them,
-> and the offerings of well-being of your fatted animals I will not look upon. ...<br>
-> But let justice roll down like water and righteousness like an ever-flowing stream.
+- From east coast (North Carolina, Maryland, NY, Boston)
+- 5th year at Calvin
+- Partner with an architect
+- Dad of twin kindergarteners
+- Member of New City Fellowship
 
-[Amos 5:14-15, 21-24 NRSV](https://www.biblegateway.com/passage/?search=Amos+5&version=NRSVUE&interface=print)
+---
 
-**What might this mean for us working with data?**
+## Introduction - Fernando Santos
+
+- From São Carlos, Brazil
+  - Portuguese, not Spanish
+  - Cerrado (brazilian savannah), not jungle
+  - Be patient with my English, I promise it will get better!
+- Just arrived at Calvin
+- Major in computer engineering, PhD in complex systems modeling
+- Married to Jemima, dad of Suzana (5) and Natanael (3)
 
 ---
 
@@ -106,11 +111,13 @@ Discussions on *ethics* and *perspectives* are woven in throughout the course.
 
 - **RStudio**: A powerful environment for working with data (even in Python!)
   - Most students will use Calvin's installation `https://r.cs.calvin.edu/`
-  - You can also install it on your own computer like I do
+  - You can also install it on your own computer
 - Perusall
   - Textbook reading assignments: **ask questions** so we know what to focus on in class
   - Announcement and Q&A forums; you can **post anonymously** if you want
   - Perspectival readings: **annotate** to share your thoughts
+
+Note: Perusall is new for this course, so expect some growing pains.
 
 # Example Projects
 
@@ -171,13 +178,32 @@ Reflected on original's design choice of red for young adults (pre-attentive pro
 
 ---
 
+# Goals
+
+
+## A reading {.smaller}
+
+> Seek good and not evil, that you may live,<br>
+> and so the Lord, the God of hosts, will be with you, just as you have said.
+> Hate evil and love good, and establish justice in the gate;<br>
+> it may be that the Lord, the God of hosts, will be gracious to the remnant of Joseph.
+> <br> ... <br>
+> I hate, I despise your festivals, and I take no delight in your solemn assemblies.
+> Even though you offer me your burnt offerings and grain offerings, I will not accept them,
+> and the offerings of well-being of your fatted animals I will not look upon. ...<br>
+> But let justice roll down like water and righteousness like an ever-flowing stream.
+
+[Amos 5:14-15, 21-24 NRSV](https://www.biblegateway.com/passage/?search=Amos+5&version=NRSVUE&interface=print)
+
+**What might this mean for us working with data?**
+
+---
+
 ## Our Goals
 
-- *Skill*: how to do these things
+- *Skill*: how to work with the tools
 - *Knowledge*: understanding the underlying concepts
-- *Dispositions*: wisdom in practicing these skills
-
-# Data Dispositions
+- *Dispositions* (*virtues*): habits of using these skills wisely
 
 ---
 
