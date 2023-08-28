@@ -49,6 +49,8 @@ From the apostle Paul's letter to the Philippians:
 - **visualization**: communicating data to humans
 - **modeling** and validation: using data to perform tasks
 - but first, **data wrangling**: How to transform data into the structure you need for visualization and modeling
+  - Not covering data collection
+  - Often where important decisions are made
 
 ...using **computing** in Python and occasionally other tools
 
@@ -112,6 +114,8 @@ Discussions on *ethics* and *perspectives* are woven in throughout the course.
 - **RStudio**: A powerful environment for working with data (even in Python!)
   - Most students will use Calvin's installation `https://r.cs.calvin.edu/`
   - You can also install it on your own computer
+  - Quarto for reproducible reports
+  - Plotly for making plots
 - Perusall
   - Textbook reading assignments: **ask questions** so we know what to focus on in class
   - Announcement and Q&A forums; you can **post anonymously** if you want
