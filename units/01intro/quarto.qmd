@@ -66,12 +66,11 @@ RStudio session where you are creating your document.
 
 ### Create a Quarto file
 
-In RStudio, navigate to **File > New File > Quarto Document**, or click on
-the white rectangle with a green circle+ 
+In RStudio, navigate to **File > New File > Quarto Document**.
 
 ![](images/new-quarto-document.png){fig-align=center width="75%"}
 
-Then give your document a title and click **create**.
+Then give your document a title and click **Create**.
 
 ![](images/quarto-create-document.png){width="50%" fig-align=center}
 
@@ -120,9 +119,16 @@ For certain operations, they are not allowed, and if you use them, it may *seem*
 but then stop working later. Just trust me -- **no spaces!**
 :::
 
+:::{.callout-note}
+After you have opened a file on the RStudio server, 
+that file will live in its own tab.  One one of the panes will be home
+to all of these file tabs. If you close all of the files, this pane goes away to make
+more room for other panes.
+:::
+
 ### Render
 
-How do qmd files actually work? What's so cool about them?
+How do `qmd` files actually work? What's so cool about them?
 
 Click on the **Render** (there is a blue arrow icon next to it).
 
@@ -141,6 +147,8 @@ If you prefer to have your rendered file in a separate window, you can change yo
 in **Tools > Global Options > R Markdown**.  Select a "Window" for "Show output preview in:"
 to have your rendered document show up in a new window. (This can be useful if your screen is small.)
 
+*R Markdown was the predecessor of Quarto. You may see the old name in some places.*
+
 ![](images/rstudio-rmarkdown-options.png)
 :::
 
@@ -152,13 +160,12 @@ tries to open a new window. You can give blanket permission to RStudio to open n
 windows to avoid this, and I recommend that you do.
 
 Instructions for doing this vary a bit from browser to browser and operating system to
-operating system. Your browser may even have asked you if you wanted to do this the 
-first time. If you don't' know how to turn off your pop-up blocker, google 
+operating system. If you don't know how to turn off your pop-up blocker, google 
 "turn off pop-up blocker chrome mac" or something similar for your browser and
 operating system.
 :::
 
-## Qmd file anatomy
+## `qmd` file anatomy
 
 ### The YAML header
 
@@ -172,7 +179,7 @@ will be processed.
 ::: {#exr-edit-yaml}
 Edit your YAML to look like this (but use your name instead of John Calvin):
 
-```{yaml eval=FALSE}
+```yaml
 ---
 title: "My First Quarto Document"
 author: "John Calvin"
@@ -181,10 +188,7 @@ editor: visual
 ---
 ```
 
-Now render again. This time you will get a PDF instead of html, and your name and the date
-will be included at the top of the file.
-
-![](images/quarto-pdf-viewer.png){width="60%" fig-align=center}
+Now render again. Your name and the date should be included at the top of the file.
 
 :::
 
@@ -194,7 +198,7 @@ will be included at the top of the file.
 If you accidentally delete a quotation mark or mess up the indentation, for example, 
 then your file will probably not render properly. 
 When this happens, you will typically get an error message with YAML or yaml in it 
-some where.  That's a clue to look at the YAML header to see what happened.
+somewhere.  That's a clue to look at the YAML header to see what happened.
 
 Can't figure it out? Create a new document (or open a document you created before) 
 and copy and paste its YAML header into your current document to start fresh.
@@ -207,7 +211,7 @@ Don't forget that the YAML header must begin and end with `---`.
 
 Below the YAML header is where the content of your document lives. Some of 
 this is just text that you write. You can format the text much like you would 
-in Word using the tool bar at the top of the file
+in Word using the tool bar at the top of the file.
 
 ![](images/quarto-edit-toolbar.png)
 
@@ -236,6 +240,10 @@ more about working directly in Markdown, see this from RStudio:
 
 * [Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)
 
+:::{.callout-note title="Shared Projects"}
+RStudio allows you to share projects to work together. But unfortunately the current version of RStudio doesn't support the visual editor when working on shared projects. So if you are working on a shared project, you will have to work in the source editor.
+:::
+
 ::: {#exr-edit-text}
 Before moving on, try a few of the tricks you just learned in your qmd
 file. 
@@ -253,39 +261,6 @@ file.
 * Render your document so you can see the results as a PDF (or HTML).
 :::
 
-### Mathematical notation 
-
-You can include mathematical notation in your text. To do that, just surround 
-the mathematics with \$ or \$\$.
-For example, `$x^2$` becomes $x^2$. and 
-
-```
-$$
-r = \sqrt{x^2 + y^2}
-$$
-```
-
-becomes
-
-$$
-r = \sqrt{x^2 + y^2}
-$$
-
-::: {.callout-caution}
-The formatting for mathematics is quite picky. In particular, there can be no spaces after the 
-initial \$ or before the ending \$.  And the \$\$ must appear all alone on a line.
-:::
-
-::: {.callout-note collapse="true" #math-in-quarto}
-#### Additional info about mathematical notation
-
-This information is also avialable as a separate document [here](Math-in-Rmd.html).
-
-<iframe width="100%" height = 1000 src="Math-in-Rmd.html" title="Mathematical notation in R Markdown and Quarto"> </iframe>
-
-
-:::
-
 ### Code chunks
 
 ### Executing code
@@ -296,11 +271,6 @@ You can *do* things in R or Python by typing commands in the *Console* panel;
 made)**. 
 For this class, you will instead 
 **work in Quarto files, which can contain text, code, and output (including figures)**.
-
-After you have opened a file on the RStudio server, 
-that file will live in its own tab.  One one of the panes will be home
-to all of these file tabs. If you close all of the files, this pane goes away to make
-more room for other panes.
 
 ### Python in RStudio
 
@@ -445,9 +415,7 @@ whatever you are trying to do must be included in the qmd file itself!
 
 For example, if you use the point-and-click user interface in the
 RStudio *Environment* tab to import a data file, the read-in dataset
-will *not* be available for use within your qmd file. (But the code
-needed to do this task will appear in your console, and you can copy it from
-there into your qmd file.)
+will *not* be available for use within your qmd file.
 
 Keep your qmd files stand-alone! (You have no choice, actually...) This is actually a
 good thing, you wouldn't want your document to change based on things not in the document,
