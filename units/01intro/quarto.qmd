@@ -22,10 +22,10 @@ title: "Creating Quarto Documents"
 
 While you work through this tutorial, you will create a **Quarto document**.
 Quarto is a simple document type for authoring documents (in many formats,
-including HTML, PDF, and Word) that include R code and results (including graphics)
+including HTML, PDF, and Word) that include code and results (including graphics)
 in addition to text that you write.
 
-It's like magic: you save all your text and R code in a simple file;
+It's like magic: you save all your text and code in a simple file;
 when you're ready, push a button and it's rendered into an output
 document with nicely formatted text, code (optional to include, but for
 this class you always will), and 
@@ -43,9 +43,7 @@ useful for you early on.
 * [Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)
 * [A Gallery of examples](https://quarto.org/docs/gallery/)
 
-:::{.callout-note}
-
-#### There is a LOT of Quarto documentation
+::: {.callout-note title="There is a LOT of Quarto documentation"}
 
 The Quarto documenation provides far more information than you will need for this course,
 including how to use quarto with other programming languages (like python), and how to 
@@ -59,27 +57,12 @@ or reach out with questions.
 :::
 
 
-To create a Quarto documennt (*.qmd file), you will have to work in RStudio (not in an
-interactive tutorial environment). So, as you work on this tutorial, you will
+To create a Quarto documennt (`.qmd` file), you will have to work in RStudio.
+So, as you work on this tutorial, you will
 probably want to switch back and forth between this tutorial and an 
 RStudio session where you are creating your document.
 
-### Executing R code
-
-You can *do* things in R by typing commands in the *Console* panel;
-**however, working that way makes it hard to keep a record of your work
-(and hard to redo things if anything changes or if a mistake was
-made)**. 
-For this class, you will instead 
-**work in Quarto files, which can contain text, R code, and R output (including figures)**.
-
-After you have opened a file on the RStudio server, 
-that file will live in its own tab.  One one of the panes will be home
-to all of these file tabs. If you close all of the files, this pane goes away to make
-more room for other panes.
-
-## Qmd Files
-
+## `qmd` Files
 
 ### Create a Quarto file
 
@@ -194,7 +177,6 @@ Edit your YAML to look like this (but use your name instead of John Calvin):
 title: "My First Quarto Document"
 author: "John Calvin"
 date: last-modified
-format: pdf
 editor: visual
 ---
 ```
@@ -304,20 +286,32 @@ This information is also avialable as a separate document [here](Math-in-Rmd.htm
 
 :::
 
-### R code chunks
+### Code chunks
 
-:::{.callout-note}
+### Executing code
 
-#### Other languages
+You can *do* things in R or Python by typing commands in the *Console* panel;
+**however, working that way makes it hard to keep a record of your work
+(and hard to redo things if anything changes or if a mistake was
+made)**. 
+For this class, you will instead 
+**work in Quarto files, which can contain text, code, and output (including figures)**.
 
-This tutorial focuses on R, but **Quarto is not limited to R**. You can create
-chunks for for other languages like Python, SQL, Observable, etc. in essentially
-the same way.
-:::
+After you have opened a file on the RStudio server, 
+that file will live in its own tab.  One one of the panes will be home
+to all of these file tabs. If you close all of the files, this pane goes away to make
+more room for other panes.
 
-An qmd file can also contain one or more **R code chunks.** These
-sections of the file have a grey background onscreen. You will see that
-our document has a little bit of R in it to demonstrate.
+### Python in RStudio
+
+As its name suggests, RStudio's native language is R. So in various places, R will be the default. But it's easy to switch to Python.
+
+
+A `qmd` file can contain one or more **code chunks.** These
+sections of the file have a grey background onscreen.
+
+Depending on how you created your document, you may have one or more example code chunks in your file already.
+
 
 ![](images/quarto-rcode.png){width="60%" fig-align=center}
 
@@ -330,12 +324,18 @@ c. Render the document to see the results there as well.
 
 #### Inserting new R code chunks
 
-You can add new R code chunks using **Insert Chunk**
+You can add new code chunks using **Insert Chunk**
 
 ![](images/quarto-new-chunk.png)
 
-(There is also a separate little icon in the tool bar, and a keyboard sort cut.)
+(There is also a separate little icon in the tool bar, and a keyboard shortcut.)
 
+:::{.callout-warning}
+Your first code chunks might default to R, not Python. To fix that, replace the `r` in the header with `python`:
+
+```{python}
+2 + 2
+```
 
 #### Chunk settings
 
@@ -374,16 +374,6 @@ Here are a few other options that may be interesting to you:
     
 * `#| fig-cap: This is a cool caption!` -- Add a caption to your figures!
 
-::: {.callout-tip}
-
-#### Control the size of your figures
-
-The default size for figures is a bit large, so you will likely want to 
-choose a smaller size for most figures.
-
-Figures should be large enough to be read clearly, but not much larger.
-:::
-
 
 ::: {#exr-cleaning-up}
 
@@ -401,35 +391,6 @@ and text.
 :::
 
 
-### Output formats: PDF, HTML, or Word?
-
-We've seen how to edit the YAML header to change from html to PDF.
-One other format you might be interested in is Word (`format: docx`)
-
-* I think **PDFs** are a little more portable and a good default option, and
-their formatting is best for anything you are going to *print out* or 
-hand in -- it will look nicer and the same content will take up fewer
-pages.
-
-* The main advantage of **HTML** is that it looks nice in the **Viewer** tab.
-And it is just the right thing for creating web documents.
-Also, there are some interactive components that can be added to HTML documents that can
-make for very nice ways to present data.
-
-* **Word** is dangerous.  The conversion might tempt you to edit the Word document that is 
-produced.  But any edits there will not be reflected in the qmd file, so you will have to re-do
-them all if you ever render the file again. But if you ever need to give someone a
-Word document, it is nice to know you have that option.
-
-* **Other formats.**  There are dozens of other options (see [this list](https://quarto.org/docs/output-formats/all-formats.html)). Most of these won't be
-interesting to you, but one that might be is PowerPoint. There are also templates
-that match the required styles of a number of journals.
-
-:::{.callout-tip}
-I generally work in HTML while I am creating a document, then switch to PDF for the final
-product (unless I'm creating a web document, in which case I stick with HTML).
-:::
-
 ### Quick recap
 
 Quarto documents have 3 main kinds of components
@@ -445,19 +406,19 @@ the document that is created. Code in the code chunks is executed, and the resul
 are included in the document (unless we specify not to do that).
 
 
-## Running the R code in a Quarto document
+## Running the code in a Quarto document
 
-There are multiple ways to run and test R code from a Quarto file.
-Sometimes you want to render the whole file and get the PDF or HTML; other
+There are multiple ways to run and test code from a Quarto file.
+Sometimes you want to render the whole file and get the HTML; other
 times you want to run just a specific bit of code to make sure it's
 working correctly.
 
-### Render to run all the code
+### *Render* to run all the code
 
-Every time you render the file, all R code will be run automatically.
+Every time you render the file, all code will be run automatically.
 This is the safest way to make sure everything is working correctly.
 
-### Using the Run Menu
+### Using the *Run* Menu
 
 The run menu allows you select individual chunks or selected lines,
 or all chunks up to a certain point, etc. and have them run in the console.
@@ -470,24 +431,16 @@ You can even choose to run all the chunks.
 
 Here is another way to run the code in an individual chunk:
 Click on the green arrow at the upper right of a code
-chunk to run the chunk. (The downward pointing triangle can be used
+chunk to run the chunk. (The downward-pointing triangle can be used
 to run all the code *above* the current chunk.)
 
 ![](images/quarto-run-button.png)
 
-### Copying code and pasting it into the console
-
-Finally, here's a third way to run some of your code: Copy the code you want to
-run, paste to the console window, and hit Enter.
-
-There is also a shortcut for this:  Highlight the code you want to run
-and hit ctrl + enter (Windows) or command + enter (Mac).
-
 ## Quarto files stand alone!
 
-Every Quarto file (qmd file) must be completely stand-alone. It
+Every Quarto file (`qmd` file) must be completely stand-alone. It
 doesn't share any information with the *Console* or the *Environment*
-that you see in your RStudio session. **All** R code that you need to do
+that you see in your RStudio session. **All** code that you need to do
 whatever you are trying to do must be included in the qmd file itself!
 
 For example, if you use the point-and-click user interface in the
@@ -495,15 +448,6 @@ RStudio *Environment* tab to import a data file, the read-in dataset
 will *not* be available for use within your qmd file. (But the code
 needed to do this task will appear in your console, and you can copy it from
 there into your qmd file.)
-
-Similarly, if you load a package by typing
-
-```{r, eval=FALSE}
-library(mosaic)
-```
-
-in the *Console* window, `mosaic` functions and data 
-**will be available in the console, but will not be available to use within the qmd file.**
 
 Keep your qmd files stand-alone! (You have no choice, actually...) This is actually a
 good thing, you wouldn't want your document to change based on things not in the document,
