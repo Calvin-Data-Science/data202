@@ -11,7 +11,7 @@ library(reticulate)
 reticulate::py_run_string(r"--(
 import pandas as pd
 import plotly.express as px
-health_and_wealth_2007 = px.data.gapminder(year=2007)
+health_and_wealth_2007 = px.data.gapminder(year=2007).reset_index(drop=True)
 )--")
 ```
 
@@ -32,22 +32,22 @@ Run each of these exercises to explore different ways of seeing what's in a data
 
 Write a comment line (`# `) above each one to document what you observe that it does.
 
-```{python df-info-1, exercise=TRUE, exercise.lines = 2}
+```{python df-info-1, exercise=TRUE, exercise.lines = 4}
 # This shows the first and last rows in the data frame.
 health_and_wealth_2007
 ```
 
-```{python df-info-2, exercise=TRUE, exercise.lines = 2}
+```{python df-info-2, exercise=TRUE, exercise.lines = 4}
 # This ...
 health_and_wealth_2007.info()
 ```
 
-```{python df-info-3, exercise=TRUE, exercise.lines = 2}
+```{python df-info-3, exercise=TRUE, exercise.lines = 4}
 # ...
 health_and_wealth_2007.head()
 ```
 
-```{python df-info-4, exercise=TRUE, exercise.lines = 2}
+```{python df-info-4, exercise=TRUE, exercise.lines = 4}
 # ...
 health_and_wealth_2007.shape[0]
 ```
@@ -56,16 +56,39 @@ health_and_wealth_2007.shape[0]
 
 ### Making a Plot
 
-Use color to show which continent each country is in. To do this, add a mapping from `color` to `continent`.
+<script type="text/javascript" src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+<script>
+define('plotly', [], function() { return window.Plotly});
+</script>
+
+Here's the first step in replicating Rosling's "Health and Wealth" plot from the video.
+
+```{python}
+#health_and_wealth = px.data.gapminder(year=2007)
+#px.scatter(health_and_wealth, x="gdpPercap", y="lifeExp")
+```
+
+**Exercise**: Use color to show which continent each country is in. To do this, add a mapping from `color` to `continent`.
 
 ```{python plot-gdp, exercise=TRUE, exercise.lines = 5}
 health_and_wealth = px.data.gapminder(year=2007)
-health_and_wealth.info()
 px.scatter(health_and_wealth, x="gdpPercap", y="lifeExp")
 ```
 
 ```{python plot-gdp-solution}
 health_and_wealth = px.data.gapminder(year=2007)
-health_and_wealth.info()
 px.scatter(health_and_wealth, x="gdpPercap", y="lifeExp", color="continent")
+```
+
+If this doesn't work in the tutorial environment, you can use RStudio. You'll need this code chunk:
+
+```python
+import pandas as pd
+import plotly.express as px
+
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
 ```
