@@ -22,6 +22,22 @@ See you Monday!\
 Prof. Arnold
 
 
+# During first week
+
+Hi DATA 202 students! A few notes and reminders:
+
+1. Remember to complete the first week's reading on Perusall.
+  - Spread it out over several sessions; don't try to do it all at once.
+  - It will be helpful to have **watched the video** (by Rosling) in Reading 1 by class tomorrow.
+2. Remember to complete the after-class quiz and make a post on this week's discussion forum.
+3. If it's easy for you, please bring a laptop to class tomorrow. (A tablet might work fine.)
+  - We'll start class by working on the Python review exercise ("quiz"), first individually then in clusters. So it'll be helpful to have tried some of that before class, but it's ok if you don't get to it.
+  - We'll then do some work with RStudio, Quarto, pandas, and Plotly, just to get your feet wet.
+
+We're looking forward to seeing you in class tomorrow!
+Profs Arnold and Santos
+
+
 
 # Final Presentation Notes
 
