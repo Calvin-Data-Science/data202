@@ -2,6 +2,17 @@
 title: "Quarto Documents"
 ---
 
+::: {.callout-note title="Chunk Options"}
+```{{python}}
+#| echo: false
+#| include: false
+# This code won't get shown because echo is false.
+x = 2
+# but it still runs.
+print("This output won't show because include is false")
+```
+:::
+
 ::: {.callout-note title="Using Plotly in RStudio"}
 Plotly works fine in Quarto rendered documents, but to have plots show up in the RStudio editor when you run a chunk, you'll need to include this code chunk:
 
