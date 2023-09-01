@@ -199,3 +199,11 @@ Make sure that your `qmd` file renders successfully by clicking Render. Spot-che
 5. Click the Download button.
 6. Upload the resulting file to Moodle (in some browsers, you can drag and drop it onto the Moodle page).
 :::
+
+## Going Further
+
+Once you've finished this exercise, you might try:
+
+1. Can you use *code* to get the number of rows, instead of typing it out? See "[Putting computed results in the document](https://calvin-data-science.github.io/data202/notes/quarto-recipes.html)" in the notes.
+2. Can you try out some of the other options for `px.scatter`? See the plotly reference materials linked to from the [notes](https://calvin-data-science.github.io/data202/notes/tools.html)
+3. Can you reproduce the Gapminder "health and wealth" plot from the video?
