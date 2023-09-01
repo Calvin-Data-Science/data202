@@ -2,6 +2,22 @@
 title: "Quarto Documents"
 ---
 
+::: {.callout-note title="Using Plotly in RStudio"}
+Plotly works fine in Quarto rendered documents, but to have plots show up in the RStudio editor when you run a chunk, you'll need to include this code chunk:
+
+```{{python}}
+import pandas as pd
+import plotly.express as px
+
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+```
+
+:::
+
 ::: {.callout-note title="Putting computed results in the document"}
 
 `print` out the Markdown you want to include in the document, and use the `asis` output option. Turn off `echo` so that the code isn't included in the document.
