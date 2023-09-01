@@ -25,6 +25,8 @@ When you've finished this exercise, you'll have some basic experience with RStud
 
 ## Getting Help
 
+If you haven't yet done this week's tutorials, I recommend finishing them before starting this activity. You may want to have them open for reference too.
+
 If you have any questions about the assignment, please post them on EdStem!
 
 ## Getting started
@@ -120,7 +122,7 @@ show_plot(
     daily_rides,
     x="____", y="____",
     trendline="lowess",
-    labels={"date": "____", "____": "Number of Rides"}
+    labels={"date": "____", "____": "Number of Rides"},
     ))
 ```
 
@@ -142,7 +144,7 @@ show_plot(
     daily_rides,
     x="date", y="total_rides",
     trendline="lowess",
-    labels={"date": "Date", "total_rides": "Number of Rides"}
+    labels={"date": "Date", "total_rides": "Number of Rides"},
     ))
 ```
 
@@ -152,6 +154,8 @@ show_plot(
 
 ::: margin
 You should start by coping and pasting from your previous code chunk.
+
+Don't forget to separate arguments with commas (`,`).
 :::
 
 ```{python}
@@ -207,5 +211,5 @@ Once you've finished this exercise, you might try:
 
 1. Normally we'll leave code displayed, but you might try hiding the code for some of the plots.
 2. Can you use *code* to get the number of rows, instead of typing it out? See "[Putting computed results in the document](https://calvin-data-science.github.io/data202/notes/quarto-recipes.html)" in the notes.
-3. Can you try out some of the other options for `px.scatter`? See the plotly reference materials linked to from the [notes](https://calvin-data-science.github.io/data202/notes/tools.html)
+3. Can you try out some of the other options for `px.scatter`? Maybe make the dots smaller? See the plotly reference materials linked to from the [notes](https://calvin-data-science.github.io/data202/notes/tools.html)
 4. Can you reproduce the Gapminder "health and wealth" plot from the video?
