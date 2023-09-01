@@ -8,7 +8,11 @@ author: "Author Name(s) Goes Here"
 ```{python}
 import pandas as pd
 import plotly.express as px
+```
 
+
+```{python}
+#| include: false
 # DATA 202 hack for displaying plotly within RStudio:
 if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
   r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None

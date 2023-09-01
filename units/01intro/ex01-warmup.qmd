@@ -31,9 +31,10 @@ If you have any questions about the assignment, please post them on EdStem!
 
 1. Launch RStudio by clicking on the link in Moodle and starting a new Session.
 2. If you haven't already done so, create a new project for your class exercises; call it `data202-exercises` and place it in the `rprojects` folder in your home folder.
-3. Create a new Quarto document called `ex01.qmd` in the `ex` folder of your project.
-4. Make sure the `Source` mode is selected in the top left corner of the editor pane. (the next step won't work in the Visual mode, but you can switch back to Visual mode afterwards.)
-5. Expand the block below, click the Copy button in the top-right, then paste the copied text into your new document.
+3. Create an `ex01` folder in your project (the New Folder button is on the toolbar of the Files pane).
+4. Create a new Quarto document called `ex01.qmd` in the folder you just created.
+5. Make sure the `Source` mode is selected in the top left corner of the editor pane. (the next step won't work in the Visual mode, but you can switch back to Visual mode afterwards.)
+6. Expand the block below, click the Copy button in the top-right, then Select All in your `ex01.qmd` document and paste the copied text, replacing all existing text in the document.
 
 ::: {.callout-note collapse="true" title="Template for ex01.qmd"}
 
@@ -57,7 +58,7 @@ Let's imagine we're hired by the administrators of the [Capital Bikeshare progra
 
 This understanding will help them plan the number of bikes that need to be available at different parts of the system at different times, to avoid the case where someone wants a bike but the station is empty, or someone wants to return a bike but the station is full.
 
-The data for this problem were collected from the Capital Bikeshare program over the course of two years (2011 and 2012). Researchers at the University of Porto processed the data and augmented it with extra information, as described [on this page](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset). It has been cleaned up slightly for this assignment.
+The data for this problem were collected from the Capital Bikeshare program over the course of two years (2011 and 2012). Researchers at the University of Porto obtained it from the Capital Bikeshare [data website](https://capitalbikeshare.com/system-data), processed the data, and augmented it with extra information, as described [on this page](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset). It has been simplified slightly for this assignment.
 
 
 ## Load and Explore Data
@@ -204,6 +205,7 @@ Make sure that your `qmd` file renders successfully by clicking Render. Spot-che
 
 Once you've finished this exercise, you might try:
 
-1. Can you use *code* to get the number of rows, instead of typing it out? See "[Putting computed results in the document](https://calvin-data-science.github.io/data202/notes/quarto-recipes.html)" in the notes.
-2. Can you try out some of the other options for `px.scatter`? See the plotly reference materials linked to from the [notes](https://calvin-data-science.github.io/data202/notes/tools.html)
-3. Can you reproduce the Gapminder "health and wealth" plot from the video?
+1. Normally we'll leave code displayed, but you might try hiding the code for some of the plots.
+2. Can you use *code* to get the number of rows, instead of typing it out? See "[Putting computed results in the document](https://calvin-data-science.github.io/data202/notes/quarto-recipes.html)" in the notes.
+3. Can you try out some of the other options for `px.scatter`? See the plotly reference materials linked to from the [notes](https://calvin-data-science.github.io/data202/notes/tools.html)
+4. Can you reproduce the Gapminder "health and wealth" plot from the video?
