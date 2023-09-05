@@ -26,11 +26,93 @@ format: revealjs
 
 ---
 
-# Example: replicating the Health and Wealth plot
+# Retrieval Break
+
+## On a sheet of paper
+
+- Sketch one of the *data frame*s we looked at last week. (bikeshare, gapminder, or UN votes)
+  - What columns did it have?
+  - What did each row represent?
+  - Fill in (made up) values for one or two rows.
+
+- Sketch one of the plots that we made with that data. What went on the axes? (Do you happen to remember the syntax we used to make the plot? okay if not yet!)
+
+- In the tutorial we looked at a few ways of seeing the overall shape of a data frame. Do you remember:
+  - What did one of those results look like?
+  - Do you remember what syntax we used to get it? (okay if not yet)
+
+
+## Example: replicating the Health and Wealth plot
 
 - [Gapminder](https://www.gapminder.org/tools/#$chart-type=bubbles)
+- [Gapminder data](https://www.gapminder.org/data/)
+- [Gapminder data documentation](https://www.gapminder.org/data/documentation/)
+
+
+# Tools for Reproducible Analyses
+
+<a title="StackExchange Data Science user Stephan Kolassa, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Data_scientist_Venn_diagram.png"><img width="512" alt="Data scientist Venn diagram" src="https://upload.wikimedia.org/wikipedia/commons/7/7f/Data_scientist_Venn_diagram.png"></a>
+
+## Reproducible Analyses {.smaller}
+
+Science is based on experiments and analyses that are *reproducible*. 
+
+::: {.columns}
+::: {.column width="50%"}
+
+In data science, achieving reproducibility requires that we be clear about:
+
+- the nature and source of our data.
+- the process we used to analyze that data.
+- the results of the analysis.
+- the justifications for our conclusions.
+
+:::
+::: {.column width="50%"}
+
+Our documented analyses must be clear enough that others can:
+
+- access or reproduce the original data.
+- understand/rerun the data processing code.
+- rebuild the tables and the visualizations.
+- assess the reasoning behind the conclusions.
+
+:::
+:::
+
+Ultimately, we'd like to extend the work to other related datasets and analyses.
+
+::: {.notes}
+Reproducing an analysis is the best way to demonstrate the validity of conclusions. The most useful conclusions can be applied in other, similar contexts.
+
+In data science, spreadsheets can make analyses clear (somewhat), but they don't work well for reproducing the analyses on different (or updated) datasets.
+
+References
+- MDSR D
+:::
+
+## Why not just use Excel?
+
+- Spreadsheets are useful
+- Often good for exploring data, trying out initial analysis
+- But:
+    - code is hard to debug.
+    - limited statistical and modeling tools
+    - analyses are not:
+        - Reproducible (recreate the same analysis).
+        - Reusable (apply the same analysis to different data).
 
 ---
 
-# Tools: replicable data analysis
+## Building Reproducible Analyses
+
+To achieve the goal of reproducibility, data scientists commonly use the following toolkit:
+
+- Programming (e.g., Python or R)
+- *Literate* programming (e.g., Quarto, RMarkdown, Jupyter Notebooks)
+- Version control (e.g., Git and GitHub)
+
+RStudio integrates support for all three. 
+
+We focus on the first two in this course.
 
