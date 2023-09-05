@@ -1,0 +1,36 @@
+---
+title: "DATA 202 Week 2 Day 1: Tools, Data Issues"
+format: revealjs
+---
+
+## Prayer for humility
+
+
+
+## Data Issues (from textbook)
+
+- Important to *recognize* potential data issues:
+    - You never have all the data you'd ideally have.
+    - You probably got a subset of data that isn't representative.
+    - The measurements in your data probably aren't what you'd hope for.
+    - You probably won't be able to make causal claims.
+- But nevertheless data can be really useful!
+- *Not important*: memorizing *terminology* for these issues. (textbook's terms aren't universal)
+
+## Data Lifecycle
+
+- Sometimes: start with a question, seek out data
+- Sometimes: start with data, "I wonder..."
+
+## Example from textbook: CO2 measurement
+
+---
+
+# Example: replicating the Health and Wealth plot
+
+- [Gapminder](https://www.gapminder.org/tools/#$chart-type=bubbles)
+
+---
+
+# Tools: replicable data analysis
+
