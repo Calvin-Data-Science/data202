@@ -48,7 +48,7 @@ Modeling helps us see something we can't see:
 
 # Retrieval Break
 
-## On a sheet of paper
+## On a sheet of paper {.smaller}
 
 - Sketch one of the *data frame*s we looked at last week. (bikeshare, gapminder, or UN votes)
   - What columns did it have?
@@ -61,6 +61,7 @@ Modeling helps us see something we can't see:
   - What did one of those results look like?
   - Do you remember what syntax we used to get it? (okay if not yet)
 
+# Review of Plotting
 
 ## Example: replicating the Health and Wealth plot
 
