@@ -1,6 +1,8 @@
 ---
 title: "DATA 202 Week 2 Day 1: Tools, Data Issues"
 format: revealjs
+execute: 
+  echo: true
 ---
 
 ## Prayer for humility
@@ -102,8 +104,6 @@ References
         - Reproducible (recreate the same analysis).
         - Reusable (apply the same analysis to different data).
 
----
-
 ## Building Reproducible Analyses
 
 To achieve the goal of reproducibility, data scientists commonly use the following toolkit:
@@ -116,3 +116,92 @@ RStudio integrates support for all three.
 
 We focus on the first two in this course.
 
+## Libraries
+
+- Python provides basic data structures (lists, dictionaries, etc.)
+- But many common operations are not built in.
+- Instead, we use *libraries* (also called *packages*).
+
+Examples:
+
+- `pandas` provides `DataFrame` data structures for tabular data
+- `plotly` provides plotting functions
+- `scikit-learn` provides machine learning algorithms
+
+## Tabular data: The data frame
+
+- A *rectangular table* of data, like a spreadsheet
+- Each row is an *observation*
+- Each column is a *variable*
+- Each cell is a *value*
+- All rows have the same columns
+- Columns have names
+- Values in a column have the same type
+
+## Loading data from CSV
+
+"Comma-Separated Values": each line is a row, columns are separated by commas
+
+```{python}
+#| echo: false
+!head -n 5 ../../data/bikeshare/day_simple.csv
+print("...")
+```
+
+Load into a data frame:
+
+```{python}
+#| echo: true
+import pandas as pd
+daily_rides = pd.read_csv("https://calvin-data-science.github.io/data202/data/bikeshare/day_simple.csv", parse_dates=["date"])
+```
+
+Note: pandas has to *guess* data types. Sometimes it guesses wrong. e.g., `date` column is a string, but we want it to be a date.
+
+## Inspecting a data frame
+
+::: {.columns}
+::: {.column width="50%"}
+
+::: {.smaller}
+
+```{python}
+daily_rides.head()
+```
+
+:::
+
+```{python}
+daily_rides.shape
+```
+
+::: 
+::: {.column width="50%"}
+
+```{python}
+daily_rides.info()
+```
+
+:::
+:::
+
+## Accessing a data frame
+
+- `df["column_name"]` accesses a column
+- `df.loc[row_index, "column_name"]` accesses a cell
+- `df.iloc[row_index, column_index]` accesses a cell by index
+
+Example:
+
+```{python}
+daily_rides["date"]
+```
+
+```{python}
+daily_rides['data'][0]
+```
+
+
+```{python}
+daily_rides.loc[0, "date"]
+```
