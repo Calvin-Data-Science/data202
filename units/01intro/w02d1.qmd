@@ -5,9 +5,9 @@ execute:
   echo: true
 ---
 
-## Prayer for humility
+## Humility
 
-
+"God opposes the proud but gives grace to the humble"
 
 ## Data Issues (from textbook)
 
