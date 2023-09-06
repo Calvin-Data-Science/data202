@@ -196,7 +196,7 @@ First, make sure that your `qmd` file is free of template text. (*Did you change
 
 Make sure that your `qmd` file renders successfully by clicking Render. Spot-check that your most recent change is reflected in the rendered output. Then, submit your `qmd` file to Moodle. Here's how:
 
-::: {.callout-tip collapse="true" title="How to export your document from the Posit server"}
+::: {.callout-tip title="How to export your document from the Posit server"}
 1. Find the Files pane in the lower-right pane of RStudio.
 2. Find your `.qmd` file.
 3. Tick the checkbox next to the file name.
