@@ -1,5 +1,5 @@
 ---
-title: "DATA 202 Week 2 Day 1: Tools, Data Issues"
+title: "W02D1: Data, Questions, Tools"
 format: revealjs
 execute: 
   echo: true
