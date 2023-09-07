@@ -1,0 +1,256 @@
+---
+title: "Exercise 2: Bikeshare"
+execute: 
+  echo: false
+---
+
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# DATA 202 hack for displaying plotly within RStudio:
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+# End hack
+```
+
+We will be continuing our work with the [Capital Bikeshare dataset](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset) that we started in the previous exercise.
+
+## The Purpose
+
+Our goal continues to be to understand ridership patterns to evaluate the current system and suggest potential improvements.
+
+Towards that end, we will construct some more visualizations, this time using more fine-grained ridership data.
+
+## The Document
+
+We'll start by creating a Quarto document, exactly like what we did last week. Note that the template is slightly different this time.
+
+1. Open the `data202-exercises` project that you created for the previous exercise.
+2. Create a new folder called `ex02` in your project.
+3. Create a new Quarto document called `ex02.qmd` in the folder you just created.
+4. Make sure the `Source` mode is selected in the top left corner of the editor pane. (the next step won't work in the Visual mode, but you can switch back to Visual mode afterwards.)
+5. Expand the block below, click the Copy button in the top-right, then Select All in your `ex02.qmd` document and paste the copied text, replacing all existing text in the document.
+
+::: {.callout-note collapse="true" title="Template for ex02.qmd"}
+
+```{python}
+#| echo: false
+#| output: asis
+print("`````python")
+print(open('ex02-bikeshare-template.qmd').read())
+print(("`````"))
+
+```
+
+:::
+
+## The Data
+
+We'll use an updated dataset based on the Capital Bikeshape dataset we used previously.
+
+### Uploading the Dataset
+
+Last time we gave you a code chunk that loaded data directly from the class website. But usually you'll be working with data that you've downloaded to your computer. So let's practice that.
+
+1. Download the following data file. (Right-click and choose "Save link as...".) [`day_by_type.csv`](https://calvin-data-science.github.io/data202/data/bikeshare/day_by_type.csv)
+2. Create a `data` folder within your `ex02` folder.
+3. Upload the downloaded file to the `data` folder.
+
+### What are the columns?
+
+Observe that there are some extra columns in the dataset now.
+
+The **id columns** are the columns that uniquely identify an observation (sometimes called a "case" instead of "observation"). In Homework 1, we only had one id column, `date`, because we had one observation for each date. The dataset for this homework has *two* id columns:
+
+-   `date`: as before
+-   `rider_type`: `registered` or `casual` (see below)
+
+The additional id column means that we've now broken down the data by rider type (`rider_type`). Some riders have `registered` for a Capital Bikeshare membership to get better rates. Other riders just bought a single trip or short-term pass, so we call them `casual` riders. (Nb., according to the [source data](https://www.capitalbikeshare.com/system-data), "casual" riders include: Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass). So we'll now have two rows for each date: one for registered riders and one for casual riders.
+
+So: each row is the count of how many *rides* were completed on a given day by a given type of rider. For each row, we have the following observed variables:
+
+-   `rides`: the number of rides by that type of rider
+-   `season`: Winter, Spring, sUmmer, or Fall
+-   `year`: 2011 or 2012.
+-   `holiday`: `N` for ordinary days, `Y` for holidays
+-   `workingday`: either "weekday" or "weekend" (where "weekend" includes holidays too).
+-   `day_of_week`: an integer between 0 and 6 inclusive. In this exercise, you will decode which number represents Monday, etc.
+-   `temp`: the average temperature that day, in degrees C
+-   `feels_like`: the "feels-like" temperature in degrees C
+-   `humidity`: relative humidity, scaled to range from 0 to 1
+-   `weather_type`: four coded weather types here
+-   `windspeed`: scaled to 67 max
+
+For a description of the original fields, perhaps with different names, see the [source data](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset).
+
+::: {.exercises}
+
+1. Write a sentence answering the following two questions: How many rows does the dataset contain? What does each row represent?
+
+This time, try to use a code chunk to compute the answer. (See the class notes for how to do this.)
+
+
+## Exercise 1: Label days of week
+
+The data set uses the integers 0 through 6 to label days of the week. It does not document, however, what 0 means, or what 6 means. If we want to make understandable plots, we should label these days of the week. To do this: first, figure out what day-of-week codes map to what days-of-week (see the glimpse of the dataset given above for evidence); and then do the following.
+
+1.  Write a brief description of what the mapping is and your evidence that you got it correct.
+2.  Fill in the blank in the given code block to give labels to the weekdays. Use abbreviations ("Wed", "Fri", ...).
+3.  Check your `daily_rides` dataframe to make sure the result is correct.
+
+```
+daily_rides <- daily_rides %>%
+  mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c(_____)))
+```
+
+## Exercise 2: Describe a row
+
+Describe, in one  or two English sentences, the information conveyed by the first row in the data frame. Focus you description on only following fields: `date`; `rider_type`; `rides`; `holiday`; `workingday`; and `day_of_week`.
+
+## Exercise 3: Rides by date, by rider type
+
+Make a scatterplot of the number of rides by date, broken down by type of rider. Tips:
+
+-   Refer to your Homework 1 solution for a very similar (but not identical) plot.
+-   Make the points smaller (`size` of 1) and partially transparent (`alpha` of 0.5) to reduce *overplotting*.
+-   Fully label your plot to make the context clear.
+
+Here is one possibility:<br>
+![hw2 Date vs. Rides](images/hw2_bikeshare_date-rides.png)
+
+Write a brief interpretation of this plot.
+
+## Exercise 4: Mapping vs Faceting
+
+Now let's look at workdays vs weekends (and holidays), which is encoded in the `workingday` variable, like in Homework 1. Try the following.
+
+1. Make a scatterplot like in Exercise 3, but map `shape` to `workingday`.
+2. Try *faceting* by `workingday` instead.
+3. Try swapping the roles of `rider_type` and `workingday` in the faceted scatterplot.
+4. Try adjusting parameters for the faceting, considering whether you should use rows or columns, and whether you should use free or fixed y scales.
+
+Once you're done, pick two plots to leave in this section and remove all the others. Describe the structure the each plot, and compare and contrast the value of the two plots. For which purpose is each one better? What about the design of the plot makes it fit that purpose?
+
+## Exercise 5: How does ridership vary over a typical week?
+
+We want to find out how ridership varies over a typical week. Before moving on, consider
+what question is being asking about the relationship between which variables. It can help to
+sketch a visualization on scrap paper.
+
+Here's one possible plot; try to make it.<br>
+![hw2 day vs rides](images/hw2_bikeshare_day-rides.png)
+
+Once you have that plot, try a few variations: faceting, using different plot types, etc.
+
+Finally, write a one-or-two-sentence description of what the plot tells you about the data.
+
+## Exercise 6: Plot of your choice
+
+Pick another variable or two from the list of variables above. Make a plot of their relationship. 
+
+Write a one-sentence description of what the plot suggests about ridership based on the data.
+
+
+2. Create a scatter plot showing the *total number of rides* each day. Sample code is provided below, but you will need to fill in the blanks.
+
+```{{python}}
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="____", y="____",
+    trendline="lowess",
+    labels={"date": "____", "____": "Number of Rides"},
+    ))
+```
+
+
+Let's deconstruct this code: 
+
+- `show_plot()` is a hack we're using in this class to display plots within the RStudio IDE. Once [this bug](https://github.com/rstudio/rstudio/issues/8762) in RStudio is fixed we can remove this hack.
+- `px.scatter` is the Plotly Express (`px`) function we'll use to easily construct a scatter plot. We always specify the data frame as the first argument.
+- The next arguments define the mappings between the variables in the dataset and the aesthetics of the plot (e.g. x and y coordinates, colors, etc.). 
+- The `trendline` argument tells Plotly Express to add a smoothing trend line to the plot. (Try removing this argument to see what happens.) Lowess is a smooth curve; you can try switching it to `ols` to see a linear trend line.
+- Finally, the `labels` argument lets us make the visualization more hospitable by specifing the labels for the x and y axes. We pass a dictionary with the column names as keys and the labels as values.
+
+The result should look like:
+
+```{python}
+#| echo: false
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="date", y="total_rides",
+    trendline="lowess",
+    labels={"date": "Date", "total_rides": "Number of Rides"},
+    ))
+```
+
+**Click Render** to check that you can view the rendered output of your document.
+
+3. Add a new code chunk that creates the same plot again, but add a mapping of `workingday` to the `color` aesthetic. Your result should look like:
+
+::: margin
+You should start by coping and pasting from your previous code chunk.
+
+Don't forget to separate arguments with commas (`,`).
+:::
+
+```{python}
+#| echo: false
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="date", y="total_rides", color="workingday",
+    trendline="lowess",
+    labels={"date": "Date", "total_rides": "Number of Rides", "workingday": "Day of Week"}
+    ))
+```
+
+4. Write a one or two sentence interpretation of the graph, focusing on the following question: *How do the number of rides compare for weekdays vs weekends?* Based on this, make a guess about what Capital Bikeshare riders use the bikes for.
+
+**Click Render** to check that you can view the rendered output of your document.
+
+:::
+
+## Reflection
+
+At the end of your document, write a sentence or two of your overall reflections on this exercise. You may write whatever you want, but you might perhaps respond to one or two of these questions:
+
+- Was anything unclear about this assignment?
+- How hard was it for you? Where did you get "stuck"?
+- How long did it take you?
+- What questions or uncertainties remain?
+- What skills do you think you'll need more practice with?
+- Did you try anything out of curiosity that you weren't specifically asked to do?
+
+::: {.callout-note}
+We'll respond to these reflections in class, but only in an overall sense and only once we've had a chance to review them. If you have a question that needs a response, please post it on EdStem.
+:::
+
+## Submitting
+
+First, make sure that your `qmd` file is free of template text. (*Did you change the title and author names? Did you remove the "your code here" lines? Did you delete any "replace this line" text?*)
+
+Make sure that your `qmd` file renders successfully by clicking Render. Spot-check that your most recent change is reflected in the rendered output. Then, submit your `qmd` file to Moodle. Here's how:
+
+::: {.callout-tip title="How to export your document from the Posit server"}
+1. Find the Files pane in the lower-right pane of RStudio.
+2. Find your `.qmd` file.
+3. Tick the checkbox next to the file name.
+4. Under the More button (a gear icon), choose Export.
+5. Click the Download button.
+6. Upload the resulting file to Moodle (in some browsers, you can drag and drop it onto the Moodle page).
+:::
+
+## Going Further
+
+Once you've finished this exercise, you might try:
+
+1. Normally we'll leave code displayed, but you might try hiding the code for some of the plots.
+2. Can you use *code* to get the number of rows, instead of typing it out? See "[Putting computed results in the document](https://calvin-data-science.github.io/data202/notes/quarto-recipes.html)" in the notes.
+3. Can you try out some of the other options for `px.scatter`? Maybe make the dots smaller? See the plotly reference materials linked to from the [notes](https://calvin-data-science.github.io/data202/notes/tools.html)
+4. Can you reproduce the Gapminder "health and wealth" plot from the video?
