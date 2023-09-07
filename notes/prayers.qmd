@@ -1,0 +1,29 @@
+---
+title: "Prayers for Data Science"
+---
+
+This semester, we pray according to this general pattern:
+
+- **Monday**: for us as data scientists and citizens and neighbors
+- **Wednesday**: for those affected by what we study
+- **Friday**: lectio continua, open to what God will say. (This semester we will choose a reading from the week's Lectionary.)
+
+Log:
+
+### Week 1
+
+- Monday: for knowledge and discernment in love, towards justice
+    - Philippains 1:9-11
+    - [Amos 5:14-15, 21-24 NRSV](https://www.biblegateway.com/passage/?search=Amos+5&version=NRSVUE&interface=print)
+- Wednesday: for those affected by data-driven recommendations
+    - [Philippains 4:8](https://www.biblegateway.com/passage/?search=phil+4%3A8&version=NIV&interface=print)
+    - People watching to be able to discern what is true, honorable, and pure, especially when that's different than what grabs attention or agrees with assumptions
+    - People creating videos to strive for what is just, right, commendable, especially when that's different than what will get rewarded by the recommendation algorithms
+    - People building data-driven systems to make them in ways that bend towards justice.
+- Friday: Psalm 124 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=156#psalm_reading)
+
+### Week 2
+
+- No class Monday (Labor Day)
+- Wednesday: for humility as we consider the limitations of data science
+    - "God opposes the proud but gives grace to the humble" (James 4:6, 1 Peter 5:5)
