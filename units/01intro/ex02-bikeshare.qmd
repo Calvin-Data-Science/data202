@@ -62,9 +62,11 @@ Last time we gave you a code chunk that loaded data directly from the class webs
 
 ### What are the columns?
 
+Run the data-loading chunk in the Quarto document. In the Environment pane, click the `daily_rides` dataframe to open a view of the data.
+
 Observe that there are some extra columns in the dataset now.
 
-The **id columns** are the columns that uniquely identify an observation (sometimes called a "case" instead of "observation"). In Homework 1, we only had one id column, `date`, because we had one observation for each date. The dataset for this homework has *two* id columns:
+The **id columns** are the columns that uniquely identify an observation (sometimes called a "case" instead of "observation"). In the previous Exercise, we only had one id column, `date`, because we had one observation for each date. The dataset for this exercise has *two* id columns:
 
 -   `date`: as before
 -   `rider_type`: `registered` or `casual` (see below)
@@ -94,7 +96,7 @@ For a description of the original fields, perhaps with different names, see the 
 This time, try to use a code chunk to compute the answer. (See the class notes for how to do this.)
 
 
-## Exercise 1: Label days of week
+## Exercise 2: Label days of week
 
 The data set uses the integers 0 through 6 to label days of the week. It does not document, however, what 0 means, or what 6 means. If we want to make understandable plots, we should label these days of the week. To do this: first, figure out what day-of-week codes map to what days-of-week (see the glimpse of the dataset given above for evidence); and then do the following.
 
@@ -107,28 +109,31 @@ daily_rides <- daily_rides %>%
   mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c(_____)))
 ```
 
-## Exercise 2: Describe a row
+## Exercise 3: Describe a row
 
-Describe, in one  or two English sentences, the information conveyed by the first row in the data frame. Focus you description on only following fields: `date`; `rider_type`; `rides`; `holiday`; `workingday`; and `day_of_week`.
+Describe, in one  or two English sentences, the information conveyed by the first row in the data frame. Focus your description on only following fields: `date`; `rider_type`; `rides`; `holiday`; `workingday`; and `day_of_week`.
 
-## Exercise 3: Rides by date, by rider type
+## Exercise 4: Rides by date, by rider type
 
 Make a scatterplot of the number of rides by date, broken down by type of rider. Tips:
 
--   Refer to your Homework 1 solution for a very similar (but not identical) plot.
+-   Refer to your Exercise 1 solution for a very similar (but not identical) plot.
 -   Make the points smaller (`size` of 1) and partially transparent (`alpha` of 0.5) to reduce *overplotting*.
 -   Fully label your plot to make the context clear.
 
-Here is one possibility:<br>
+Here is one possibility:
+
+
+
 ![hw2 Date vs. Rides](images/hw2_bikeshare_date-rides.png)
 
 Write a brief interpretation of this plot.
 
 ## Exercise 4: Mapping vs Faceting
 
-Now let's look at workdays vs weekends (and holidays), which is encoded in the `workingday` variable, like in Homework 1. Try the following.
+Now let's look at workdays vs weekends (and holidays), which is encoded in the `workingday` variable, like in Exercise 1. Try the following.
 
-1. Make a scatterplot like in Exercise 3, but map `shape` to `workingday`.
+1. Make a scatterplot like in Exercise 4, but map `shape` to `workingday`.
 2. Try *faceting* by `workingday` instead.
 3. Try swapping the roles of `rider_type` and `workingday` in the faceted scatterplot.
 4. Try adjusting parameters for the faceting, considering whether you should use rows or columns, and whether you should use free or fixed y scales.
@@ -153,64 +158,6 @@ Finally, write a one-or-two-sentence description of what the plot tells you abou
 Pick another variable or two from the list of variables above. Make a plot of their relationship. 
 
 Write a one-sentence description of what the plot suggests about ridership based on the data.
-
-
-2. Create a scatter plot showing the *total number of rides* each day. Sample code is provided below, but you will need to fill in the blanks.
-
-```{{python}}
-show_plot(
-  px.scatter(
-    daily_rides,
-    x="____", y="____",
-    trendline="lowess",
-    labels={"date": "____", "____": "Number of Rides"},
-    ))
-```
-
-
-Let's deconstruct this code: 
-
-- `show_plot()` is a hack we're using in this class to display plots within the RStudio IDE. Once [this bug](https://github.com/rstudio/rstudio/issues/8762) in RStudio is fixed we can remove this hack.
-- `px.scatter` is the Plotly Express (`px`) function we'll use to easily construct a scatter plot. We always specify the data frame as the first argument.
-- The next arguments define the mappings between the variables in the dataset and the aesthetics of the plot (e.g. x and y coordinates, colors, etc.). 
-- The `trendline` argument tells Plotly Express to add a smoothing trend line to the plot. (Try removing this argument to see what happens.) Lowess is a smooth curve; you can try switching it to `ols` to see a linear trend line.
-- Finally, the `labels` argument lets us make the visualization more hospitable by specifing the labels for the x and y axes. We pass a dictionary with the column names as keys and the labels as values.
-
-The result should look like:
-
-```{python}
-#| echo: false
-show_plot(
-  px.scatter(
-    daily_rides,
-    x="date", y="total_rides",
-    trendline="lowess",
-    labels={"date": "Date", "total_rides": "Number of Rides"},
-    ))
-```
-
-**Click Render** to check that you can view the rendered output of your document.
-
-3. Add a new code chunk that creates the same plot again, but add a mapping of `workingday` to the `color` aesthetic. Your result should look like:
-
-::: margin
-You should start by coping and pasting from your previous code chunk.
-
-Don't forget to separate arguments with commas (`,`).
-:::
-
-```{python}
-#| echo: false
-show_plot(
-  px.scatter(
-    daily_rides,
-    x="date", y="total_rides", color="workingday",
-    trendline="lowess",
-    labels={"date": "Date", "total_rides": "Number of Rides", "workingday": "Day of Week"}
-    ))
-```
-
-4. Write a one or two sentence interpretation of the graph, focusing on the following question: *How do the number of rides compare for weekdays vs weekends?* Based on this, make a guess about what Capital Bikeshare riders use the bikes for.
 
 **Click Render** to check that you can view the rendered output of your document.
 
