@@ -78,42 +78,14 @@ show_plot(
     daily_rides,
     x="date", y="rides", color="rider_type",
     trendline="lowess",
+    title="Number of Rides by Date, by Type of Rider",
     labels={"date": "Date", "rides": "Number of Rides", "rider_type": "Type of Rider"}
     )
     .update_traces(marker_size=3, marker_opacity=.5)
 )
 ```
 
-# Exercise 5: Mapping vs Faceting
-
-```{python}
-show_plot(
-  px.scatter(
-    daily_rides,
-    x="date", y="rides", color="rider_type",
-    symbol="workingday",
-    trendline="lowess",
-    labels={"date": "Date", "rides": "Number of Rides", "rider_type": "Type of Rider"}
-    )
-    .update_traces(marker_size=3, marker_opacity=.5)
-)
-```
-
-
-```{python}
-show_plot(
-  px.scatter(
-    daily_rides,
-    x="date", y="rides", color="rider_type",
-    facet_col="workingday",
-    trendline="lowess",
-    labels={"date": "Date", "rides": "Number of Rides", "rider_type": "Type of Rider"}
-    )
-    .update_traces(marker_size=3, marker_opacity=.5)
-    .update_yaxes(matches=None, showticklabels=True)
-)
-```
-
+## Exercise 5: Rides by day of week, by rider type
 
 ```{python}
 show_plot(
@@ -124,7 +96,7 @@ show_plot(
 ```
 
 
-# Another plot
+## Exercise 6: Another plot
 
 
 ```{python}

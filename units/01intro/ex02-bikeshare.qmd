@@ -95,9 +95,11 @@ For a description of the original fields, perhaps with different names, see the 
 
 ::: {.exercises}
 
-1. Write a sentence answering the following two questions: How many rows does the dataset contain? What does each row represent?
+## Exercise 1: Describe the dataset
 
-This time, try to use a code chunk to compute the answer. (See the [class notes on Quarto](../../notes/quarto.qmd) for how to do this.)
+Write a sentence answering the following two questions: How many rows does the dataset contain? What does each row represent?
+
+This time, try to use a code chunk to compute the row counts. (See the [class notes on Quarto](../../notes/quarto.qmd) for how to do this.)
 
 
 ## Exercise 2: Label days of week
@@ -147,6 +149,7 @@ show_plot(
     daily_rides,
     x="date", y="rides", color="rider_type",
     trendline="lowess",
+    title="Number of Rides by Date, by Type of Rider",
     labels={"date": "Date", "rides": "Number of Rides", "rider_type": "Type of Rider"}
     )
     .update_traces(marker_size=3, marker_opacity=.5)
@@ -154,17 +157,6 @@ show_plot(
 ```
 
 Write a brief interpretation of this plot.
-
-## Exercise 4: Mapping vs Faceting
-
-Now let's look at workdays vs weekends (and holidays), which is encoded in the `workingday` variable, like in Exercise 1. Try the following.
-
-1. Make a scatterplot like in Exercise 4, but map `shape` to `workingday`.
-2. Try *faceting* by `workingday` instead.
-3. Try swapping the roles of `rider_type` and `workingday` in the faceted scatterplot.
-4. Try adjusting parameters for the faceting, considering whether you should use rows or columns, and whether you should use free or fixed y scales.
-
-Once you're done, pick two plots to leave in this section and remove all the others. Describe the structure the each plot, and compare and contrast the value of the two plots. For which purpose is each one better? What about the design of the plot makes it fit that purpose?
 
 ## Exercise 5: How does ridership vary over a typical week?
 
@@ -189,8 +181,6 @@ show_plot(
     x="__", y="__", color="___",
 ))
 ```
-
-
 
 Once you have that plot, try a few variations: faceting, using different plot types, etc.
 
@@ -225,13 +215,4 @@ We'll respond to these reflections in class, but only in an overall sense and on
 
 First, make sure that your `qmd` file is free of template text. (*Did you change the title and author names? Did you remove the "your code here" lines? Did you delete any "replace this line" text?*)
 
-Make sure that your `qmd` file renders successfully by clicking Render. Spot-check that your most recent change is reflected in the rendered output. Then, submit your `html` file to Moodle. Here's how:
-
-::: {.callout-tip title="How to export your document from the Posit server"}
-1. Find the Files pane in the lower-right pane of RStudio.
-2. Find your `.html` file.
-3. Tick the checkbox next to the file name.
-4. Under the More button (a gear icon), choose Export.
-5. Click the Download button.
-6. Upload the resulting file to Moodle (in some browsers, you can drag and drop it onto the Moodle page).
-:::
+Make sure that your `qmd` file renders successfully by clicking Render. Spot-check that your most recent change is reflected in the rendered output. Then, submit your `html` file to Moodle. Refer to the first Exercise for how---but this time, submit your HTML file.
