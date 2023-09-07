@@ -33,6 +33,13 @@ else:
 daily_rides = pd.read_csv("https://calvin-data-science.github.io/data202/data/bikeshare/day_by_type.csv", parse_dates=["date"])
 ```
 
+Example row:
+
+```{python}
+daily_rides.head(1).T.style.hide(axis='columns')
+```
+
+
 # Exercise 1
 
 ```{python}
@@ -41,7 +48,7 @@ daily_rides = pd.read_csv("https://calvin-data-science.github.io/data202/data/bi
 print("""
 There are *{num_rows}* rows in the data frame.
 
-Each row represents a day of data.
+Each row represents a day of data, for a given rider type (casual or registered).
 """.format(num_rows=daily_rides.shape[0]))
 ```
 
@@ -57,7 +64,9 @@ daily_rides['day_of_week'] = daily_rides['day_of_week'].map(get_day_label)
 ```
 
 
-# Exercise 3
+# Exercise 3: Describe a row
+
+On January 1, 2011, which was a Saturday (so not a working day), there were 331 rides by casual (not-registered) riders. The temperature was 8.2 degrees Celsius but felt slightly colder, 8 degrees Celsius.
 
 # Exercise 4: Rides by date, by rider type
 

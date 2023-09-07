@@ -62,7 +62,11 @@ Last time we gave you a code chunk that loaded data directly from the class webs
 
 ### What are the columns?
 
-Run the data-loading chunk in the Quarto document. In the Environment pane, click the `daily_rides` dataframe to open a view of the data.
+Run the data-loading chunk in the Quarto document. (You might want to actually Run All, to make sure all the imports have run.) In the Environment pane, click the `daily_rides` dataframe to open a view of the data.
+
+```{python}
+daily_rides = pd.read_csv("../../static/data/bikeshare/day_by_type.csv", parse_dates=["date"])
+```
 
 Observe that there are some extra columns in the dataset now.
 
@@ -93,39 +97,61 @@ For a description of the original fields, perhaps with different names, see the 
 
 1. Write a sentence answering the following two questions: How many rows does the dataset contain? What does each row represent?
 
-This time, try to use a code chunk to compute the answer. (See the class notes for how to do this.)
+This time, try to use a code chunk to compute the answer. (See the [class notes on Quarto](../../notes/quarto.qmd) for how to do this.)
 
 
 ## Exercise 2: Label days of week
 
-The data set uses the integers 0 through 6 to label days of the week. It does not document, however, what 0 means, or what 6 means. If we want to make understandable plots, we should label these days of the week. To do this: first, figure out what day-of-week codes map to what days-of-week (see the glimpse of the dataset given above for evidence); and then do the following.
+The data set uses the integers 0 through 6 to label days of the week. It does not document, however, what 0 means, or what 6 means. If we want to make understandable plots, we should label these days of the week. To do this: first, figure out what day-of-week codes map to what days-of-week (see the glimpse of the dataset given above for evidence; you may want to look at a [calendar](https://www.timeanddate.com/calendar/monthly.html?year=2011&month=1&country=1)); and then do the following.
 
 1.  Write a brief description of what the mapping is and your evidence that you got it correct.
 2.  Fill in the blank in the given code block to give labels to the weekdays. Use abbreviations ("Wed", "Fri", ...).
 3.  Check your `daily_rides` dataframe to make sure the result is correct.
 
+```{{python}}
+weekdays = [list of weekday abbreviations]
+
+def get_day_label(day_number):
+  return weekdays[day_number]
+
+daily_rides['day_of_week'] = daily_rides['day_of_week'].map(get_day_label)
 ```
-daily_rides <- daily_rides %>%
-  mutate(day_of_week = factor(day_of_week, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c(_____)))
+
+```{python}
+weekdays = ["Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat"]
+
+def get_day_label(day_number):
+  return weekdays[day_number]
+
+daily_rides['day_of_week'] = daily_rides['day_of_week'].map(get_day_label)
 ```
+
 
 ## Exercise 3: Describe a row
 
-Describe, in one  or two English sentences, the information conveyed by the first row in the data frame. Focus your description on only following fields: `date`; `rider_type`; `rides`; `holiday`; `workingday`; and `day_of_week`.
+Describe, in one or two English sentences, the information conveyed by the first row in the data frame. Focus your description on only following fields: `date`; `rider_type`; `rides`; `workingday`; `day_of_week`; `temp`; and `feels_like`.
 
 ## Exercise 4: Rides by date, by rider type
 
 Make a scatterplot of the number of rides by date, broken down by type of rider. Tips:
 
 -   Refer to your Exercise 1 solution for a very similar (but not identical) plot.
--   Make the points smaller (`size` of 1) and partially transparent (`alpha` of 0.5) to reduce *overplotting*.
+-   Make the points smaller (`marker_size` of 3) and partially transparent (`marker_opacity` of 0.5) to reduce *overplotting*.
 -   Fully label your plot to make the context clear.
 
 Here is one possibility:
 
-
-
-![hw2 Date vs. Rides](images/hw2_bikeshare_date-rides.png)
+```{python}
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="date", y="rides", color="rider_type",
+    trendline="lowess",
+    labels={"date": "Date", "rides": "Number of Rides", "rider_type": "Type of Rider"}
+    )
+    .update_traces(marker_size=3, marker_opacity=.5)
+)
+```
 
 Write a brief interpretation of this plot.
 
@@ -146,8 +172,25 @@ We want to find out how ridership varies over a typical week. Before moving on, 
 what question is being asking about the relationship between which variables. It can help to
 sketch a visualization on scrap paper.
 
-Here's one possible plot; try to make it.<br>
-![hw2 day vs rides](images/hw2_bikeshare_day-rides.png)
+Here's one possible plot; fill in the blanks to make it.
+
+```{python}
+show_plot(
+  px.box(
+    daily_rides,
+    x="day_of_week", y="rides", color="rider_type",
+))
+```
+
+```{{python}}
+show_plot(
+  px.box(
+    daily_rides,
+    x="__", y="__", color="___",
+))
+```
+
+
 
 Once you have that plot, try a few variations: faceting, using different plot types, etc.
 
@@ -175,29 +218,20 @@ At the end of your document, write a sentence or two of your overall reflections
 - Did you try anything out of curiosity that you weren't specifically asked to do?
 
 ::: {.callout-note}
-We'll respond to these reflections in class, but only in an overall sense and only once we've had a chance to review them. If you have a question that needs a response, please post it on EdStem.
+We'll respond to these reflections in class, but only in an overall sense and only once we've had a chance to review them. If you have a question that needs a response, please post it on Perusall.
 :::
 
 ## Submitting
 
 First, make sure that your `qmd` file is free of template text. (*Did you change the title and author names? Did you remove the "your code here" lines? Did you delete any "replace this line" text?*)
 
-Make sure that your `qmd` file renders successfully by clicking Render. Spot-check that your most recent change is reflected in the rendered output. Then, submit your `qmd` file to Moodle. Here's how:
+Make sure that your `qmd` file renders successfully by clicking Render. Spot-check that your most recent change is reflected in the rendered output. Then, submit your `html` file to Moodle. Here's how:
 
 ::: {.callout-tip title="How to export your document from the Posit server"}
 1. Find the Files pane in the lower-right pane of RStudio.
-2. Find your `.qmd` file.
+2. Find your `.html` file.
 3. Tick the checkbox next to the file name.
 4. Under the More button (a gear icon), choose Export.
 5. Click the Download button.
 6. Upload the resulting file to Moodle (in some browsers, you can drag and drop it onto the Moodle page).
 :::
-
-## Going Further
-
-Once you've finished this exercise, you might try:
-
-1. Normally we'll leave code displayed, but you might try hiding the code for some of the plots.
-2. Can you use *code* to get the number of rows, instead of typing it out? See "[Putting computed results in the document](https://calvin-data-science.github.io/data202/notes/quarto-recipes.html)" in the notes.
-3. Can you try out some of the other options for `px.scatter`? Maybe make the dots smaller? See the plotly reference materials linked to from the [notes](https://calvin-data-science.github.io/data202/notes/tools.html)
-4. Can you reproduce the Gapminder "health and wealth" plot from the video?
