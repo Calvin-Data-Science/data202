@@ -1,6 +1,11 @@
 ---
 title: "Title Goes Here"
 author: "Author Name(s) Goes Here"
+format:
+  html:
+    embed-resources: true
+    code-tools: true
+    code-fold: true
 ---
 
 # Load Packages
