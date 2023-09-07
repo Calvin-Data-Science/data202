@@ -37,8 +37,6 @@ Each row represents a day of data.
 """.format(num_rows=daily_rides.shape[0]))
 ```
 
-Replace this sentence with your short answer about rows and what each row represents.
-
 # Exercise 2
 
 The following plot shows the total number of rides each day.
@@ -71,5 +69,5 @@ show_plot(
 
 # Exercise 4
 
-Replace this sentence with your short answer about interpreting the graph.
+People use bikes for commuting to work as well as recreation, but the number of rides is much higher on weekdays than weekends, so perhaps most users are commuters. (or perhaps tourists)
 
