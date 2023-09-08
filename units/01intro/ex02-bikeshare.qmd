@@ -114,7 +114,7 @@ For a description of the original fields, perhaps with different names, see the 
 
 Write a sentence answering the following two questions: How many rows does the dataset contain? What does each row represent?
 
-This time, try to use a code chunk to compute the row counts. (See the [class notes on Quarto](../../notes/quarto.qmd) for how to do this.)
+This time, try to use a code chunk to compute the row counts. (See the [class notes on Quarto](../../notes/quarto.qmd#computations-in-text) for how to do this.)
 
 
 ## Exercise 2: Label days of week

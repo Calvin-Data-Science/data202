@@ -14,7 +14,7 @@ print("This output won't show because include is false")
 ```
 
 
-## Putting computed results in the document
+## Computations in Text
 
 `print` out the Markdown you want to include in the document, and use the `asis` output option. Turn off `echo` so that the code isn't included in the document.
 
