@@ -73,7 +73,7 @@ Run the data-loading chunk in the Quarto document. (You might want to actually R
 
 The chunk after the loading chunk displays an example row, `T`ransposed to make it easier to read.
 
-::: {.callout-tip collapse="true" title="How to make that show nicer"}
+::: {.callout-tip collapse="true" title="How to make that display nicer"}
 
 Add `.style.hide(axis='columns')` after the `.T` to hide the meaningless column name. This only works when rendering, though.
 
@@ -103,8 +103,8 @@ So: each row is the count of how many *rides* were completed on a given day by a
 -   `temp`: the average temperature that day, in degrees C
 -   `feels_like`: the "feels-like" temperature in degrees C
 -   `humidity`: relative humidity, scaled to range from 0 to 1
--   `weather_type`: four coded weather types here
--   `windspeed`: scaled to 67 max
+-   `weather_type`: four coded weather types here (see the source data)
+-   `windspeed`: wind speed in mph
 
 For a description of the original fields, perhaps with different names, see the [source data](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset).
 
@@ -155,6 +155,10 @@ daily_rides['day_of_week'] = daily_rides['day_of_week'].map(get_day_label)
 ## Exercise 3: Describe a row
 
 Describe, in one or two English sentences, the information conveyed by the first row in the data frame. Focus your description on only following fields: `date`; `rider_type`; `rides`; `workingday`; `day_of_week`; `temp`; and `feels_like`.
+
+::: {.callout-tip}
+Don't use code for this one, just type it out.
+:::
 
 ## Exercise 4: Rides by date, by rider type
 
