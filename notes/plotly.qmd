@@ -1,0 +1,28 @@
+---
+title: "Plotly Tips"
+---
+
+- [`px.scatter` API reference](https://plotly.com/python-api-reference/generated/plotly.express.scatter.html)
+
+Here's a demo of various Plotly features and hacks.
+
+```python
+show_plot( # <8>
+  px.scatter(votes, x='year', y='percent_yes', color='country',
+    facet_col='issue', facet_col_wrap=3, facet_col_spacing=.1, # <1>
+    trendline='lowess', # <2>
+    labels={"percent_yes": "% Yes Votes", "year": "Year", "country": "Country"}, # <3>
+    title="Percentage of 'Yes' votes in the UN General Assembly" # <4>
+  )
+  .update_traces(marker_size=2) # <5>
+  .for_each_annotation(lambda a: a.update(text=a.text.split("=", 1)[-1])) # <6>
+  .update_yaxes(tickformat=",.0%")) # <7>
+```
+1. **Faceting**: facet by `col`umns. `wrap` at 3 columns. `spacing` between columns.
+2. **Trendline**: add a `lowess` trendline. (Other options: `ols` for a linear regression)
+3. **Labels**: use human-readable labels for the axes and legend.
+4. Plot **title**.
+5. `update_traces` sets attributes on everything that gets drawn. `marker_size=2` is shorthand for `marker={'size': 2}`. See [Styling Markers](https://plotly.com/python/marker-style/) 
+6. Remove the `=` from the annotation text. See [Annotations](https://plotly.com/python/text-and-annotations/)
+7. **Tick format**: use a percentage format for the y-axis. See [Tick Formatting](https://plotly.com/python/tick-formatting/)
+8. Hack for making plots show in RStudio. This also, incidentally, gives us an open paren, which is helpful because Python doesn't try to think that the code is done until we close that paren at the end.
