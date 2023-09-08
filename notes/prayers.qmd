@@ -27,3 +27,5 @@ Log:
 - No class Monday (Labor Day)
 - Wednesday: for humility as we consider the limitations of data science
     - "God opposes the proud but gives grace to the humble" (James 4:6, 1 Peter 5:5)
+- Friday: Psalm 105 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=157#psalm_reading)
+    - God works throughout history, over long periods of time. We prayed that we would be faithful in our small contributions and trust that God will work out his will in data science.
