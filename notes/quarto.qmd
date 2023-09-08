@@ -44,10 +44,11 @@ num_rows = daily_rides.shape[0]
 #| echo: false
 #| output: asis
 print("""
-There are *{num_rows}* rows in the data frame.
+There are {num_rows} rows in the data frame.
 
 Each row represents a day of data.
 """.format(num_rows=num_rows))
 ```
 
+The `format` method on strings fills in `{}` blanks with the values of the named arguments. (You can also use f-strings (`f"There are {num_rows} rows in the data frame."`) if you know what those are.)
 :::
