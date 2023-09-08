@@ -177,7 +177,7 @@ Make a scatterplot of the number of rides by date, broken down by type of rider.
 
 Tips:
 -   Refer to your Exercise 1 solution for a very similar (but not identical) plot.
--   Make the points smaller (`marker_size` of 3) and partially transparent (`marker_opacity` of 0.5) to reduce *overplotting*. The `update_traces` function in the template can be used for this; we will discuss this more fully in the next week or two.
+-   Make the points smaller (`marker_size` of 3) and partially transparent (`marker_opacity` of 0.5) to reduce *overplotting*. See below for an example of how to use `update_traces`  for this; we will discuss this more fully in the next week or two.
 -   Fully label your plot to make the context clear.
 
 Here is one possibility:
@@ -194,6 +194,22 @@ show_plot(
     .update_traces(marker_size=3, marker_opacity=.5)
 )
 ```
+
+::: {.callout-tip}
+
+You can use the `update_traces` method to update the properties of all the traces in a plot. For example, to change the marker size, you can do:
+
+```{{python}}
+show_plot(
+  px.scatter(
+    ...
+    )
+    .update_traces(marker_size=...)
+)
+```
+
+:::
+
 
 
 ## Exercise 5: How does ridership vary over a typical week?

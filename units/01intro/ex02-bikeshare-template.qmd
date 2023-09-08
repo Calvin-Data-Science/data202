@@ -50,17 +50,7 @@ Your answer here.
 """.format())
 ```
 
-# Exercise 2
-
-```{python}
-weekdays = [list of weekday abbreviations]
-
-def get_day_label(day_number):
-  return weekdays[day_number]
-
-daily_rides['day_of_week'] = daily_rides['day_of_week'].map(get_day_label)
-```
-
+# Exercise 2: Label days of the week
 
 # Exercise 3: Describe a row
 
@@ -68,16 +58,6 @@ Your answer here.
 
 # Exercise 4: Rides by date, by rider type
 
-The following plot shows the number of rides each day, broken down by type of rider.
-
-```{python}
-show_plot(
-  px.scatter(
-    ...
-    )
-    .update_traces(marker_size=...)
-)
-```
 
 # Exercise 5
 
