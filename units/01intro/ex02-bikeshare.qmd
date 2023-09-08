@@ -138,6 +138,17 @@ daily_rides['day_of_week'] = daily_rides['day_of_week'].map(get_day_label)
 The RStudio viewer does an unnecessary time zone conversion, causing it to incorrectly show 2010-12-31. The first date in the dataset should be 2011-01-01.
 :::
 
+::: {.callout-note collapse="true" title="Working around that bug"}
+Right after the `read_csv` line, add the following code:
+
+```python
+# Fix the time zone, to work around an RStudio Viewer bug.
+daily_rides['date'] = daily_rides['date'].dt.tz_localize("US/Eastern")
+```
+
+This has not been adequately tested, so it hasn't been included in the template.
+:::
+
 ::: {.callout-caution}
 The cell *reassigns* the column. So if you run it twice, you'll get an error. If you do get an error, you can re-run the cell above to re-load the data.
 :::
