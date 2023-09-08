@@ -17,6 +17,13 @@ else:
 # End hack
 ```
 
+::: {.callout-important}
+Please shutdown your RStudio session when you're not using it.
+
+This will ensure that your work is saved and that we don't waste server resources.
+:::
+
+
 We will be continuing our work with the [Capital Bikeshare dataset](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset) that we started in the previous exercise.
 
 ## The Purpose

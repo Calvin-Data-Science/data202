@@ -30,7 +30,7 @@ else:
 # Read Data
 
 ```{python}
-daily_rides = pd.read_csv("https://calvin-data-science.github.io/data202/data/bikeshare/day_by_type.csv", parse_dates=["date"])
+daily_rides = pd.read_csv("data/day_by_type.csv", parse_dates=["date"])
 ```
 
 Example row:
