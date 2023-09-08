@@ -134,6 +134,14 @@ def get_day_label(day_number):
 daily_rides['day_of_week'] = daily_rides['day_of_week'].map(get_day_label)
 ```
 
+::: {.callout-warning}
+The RStudio viewer does an unnecessary time zone conversion, causing it to incorrectly show 2010-12-31. The first date in the dataset should be 2011-01-01.
+:::
+
+::: {.callout-caution}
+The cell *reassigns* the column. So if you run it twice, you'll get an error. If you do get an error, you can re-run the cell above to re-load the data.
+:::
+
 ```{python}
 weekdays = ["Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat"]
 
@@ -150,10 +158,11 @@ Describe, in one or two English sentences, the information conveyed by the first
 
 ## Exercise 4: Rides by date, by rider type
 
-Make a scatterplot of the number of rides by date, broken down by type of rider. Tips:
+Make a scatterplot of the number of rides by date, broken down by type of rider. Then, write a brief interpretation of this plot.
 
+Tips:
 -   Refer to your Exercise 1 solution for a very similar (but not identical) plot.
--   Make the points smaller (`marker_size` of 3) and partially transparent (`marker_opacity` of 0.5) to reduce *overplotting*.
+-   Make the points smaller (`marker_size` of 3) and partially transparent (`marker_opacity` of 0.5) to reduce *overplotting*. The `update_traces` function in the template can be used for this; we will discuss this more fully in the next week or two.
 -   Fully label your plot to make the context clear.
 
 Here is one possibility:
@@ -171,7 +180,6 @@ show_plot(
 )
 ```
 
-Write a brief interpretation of this plot.
 
 ## Exercise 5: How does ridership vary over a typical week?
 
