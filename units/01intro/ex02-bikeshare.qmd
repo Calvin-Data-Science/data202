@@ -71,6 +71,14 @@ Last time we gave you a code chunk that loaded data directly from the class webs
 
 Run the data-loading chunk in the Quarto document. (You might want to actually Run All, to make sure all the imports have run.) In the Environment pane, click the `daily_rides` dataframe to open a view of the data.
 
+The chunk after the loading chunk displays an example row, `T`ransposed to make it easier to read.
+
+::: {.callout-tip collapse="true" title="How to make that show nicer"}
+
+Add `.style.hide(axis='columns')` after the `.T` to hide the meaningless column name. This only works when rendering, though.
+
+:::
+
 ```{python}
 daily_rides = pd.read_csv("../../static/data/bikeshare/day_by_type.csv", parse_dates=["date"])
 ```

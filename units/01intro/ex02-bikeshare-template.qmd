@@ -36,7 +36,7 @@ daily_rides = pd.read_csv("data/day_by_type.csv", parse_dates=["date"])
 Example row:
 
 ```{python}
-daily_rides.head(1).T.style.hide(axis='columns')
+daily_rides.head(1).T
 ```
 
 
