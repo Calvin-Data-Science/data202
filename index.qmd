@@ -5,24 +5,22 @@ filters:
 ---
 
 ::: {.callout-note collapse="true" title="Catalog Description"}
-
 An introduction to the conceptual foundations and practical skills needed to transform data into useful forms and apply predictive analytics to discover patterns and anticipate trends. Primary focus is on the core skills and concepts needed to pull data from a range of sources; to filter, transform, and combine data sets to prepare them for analysis; and to construct quantitative summaries and basic visualizations. Programming is used throughout to assemble data-processing pipelines. Students will also discuss ethical and social considerations of data collection and data-driven systems.
 
 Prerequisite: CS 104, CS 106, or CS 108. A minimum grade of C in the chosen course is required.
-
 :::
 
 ### Learning Outcomes
 
 Upon successful completion of this course students will be able to:
 
-- Prepare tabular data for visualization and analytics by constructing generalizable workflows for loading, transforming, joining, and reshaping data.
-- Create, interpret, critique, and refine graphical and tabular visualizations of data.
-- Translate a real-world need into an appropriate analytics task, considering available data.
-- Select analytics methods appropriate to the data and task from among the approaches surveyed in the course.
-- Interpret the outcomes of selected predictive analytics techniques.
-- Communicate analytics results using reports that clearly motivate the problem and approach, elucidate the data used, and present both the strengths and shortcomings of analytics results.
-- Discuss ethical and social considerations of data collection and data-driven systems.
+-   Prepare tabular data for visualization and analytics by constructing generalizable workflows for loading, transforming, joining, and reshaping data.
+-   Create, interpret, critique, and refine graphical and tabular visualizations of data.
+-   Translate a real-world need into an appropriate analytics task, considering available data.
+-   Select analytics methods appropriate to the data and task from among the approaches surveyed in the course.
+-   Interpret the outcomes of selected predictive analytics techniques.
+-   Communicate analytics results using reports that clearly motivate the problem and approach, elucidate the data used, and present both the strengths and shortcomings of analytics results.
+-   Discuss ethical and social considerations of data collection and data-driven systems.
 
 Additionally, using transparent reproducible workflows and regularly acknowledging limitations will help students practice virtues including integrity, humility, and justice.
 
@@ -30,58 +28,99 @@ Additionally, using transparent reproducible workflows and regularly acknowledgi
 
 Subject to change. Updates will be made here and on Moodle.
 
-| week        | Topic                        | Assignments                         | Readings                  |
-|-------------|------------------------------|-------------------------------------|---------------------------|
-| 1 (Aug 28)  | Intro 1                      | Exercise 1                          | LGN 1-2                   |
-| 2 (Sep 04)  | Intro 2                      | Exercise 2                          | LGN 3-5 (selections)      |
-| 3 (Sep 11)  | Visualization Design         | Quiz 1, Exercise 3                  | Wilke 2-5                 |
-| 4 (Sep 18)  | Visualization Implementation | Exercise 4, Vis Project Milestone 1 | LGN 10-11                 |
-| 5 (Sep 25)  | Wrangling 1                  | Quiz 2, Exercise 5                  | LGN 8-9, pandas tutorials |
-| 6 (Oct 02)  | Wrangling 2                  | Project Milestone 2, Exercise 6     | LGN 8-9, pandas tutorials |
-| 7 (Oct 09)  | Project (Communication)      | Quiz 3                              | LGN 12, Wilke selections  |
-| 8 (Oct 16)  | (continued)                  | Midterm project due                 |                           |
-| 9 (Oct 23)  | Modeling—Design              | Exercise 7                          | sklearn user guide        |
-| 10 (Oct 30) | Modeling—Neighbors and trees | Quiz 4, Exercise 8                  |                           |
-| 11 (Nov 06) | Modeling—Other models        | Exercise 9                          |                           |
-| 12 (Nov 13) | Validation                   | Quiz 5, Exercise 10                 |                           |
-| 13 (Nov 20) | LLMs                         | none                                |                           |
-| 14 (Nov 27) | Topics                       | Quiz 6, Exercise 11                 | LGN 13-15                 |
-| 15 (Dec 04) | Project (Communication)      | Project Milestone                   |                           |
++--------------+--------------------------------+-----------------------------------------------------+
+| week         | Topic                          | Notes                                               |
++==============+================================+=====================================================+
+| 1 (Aug 28)   | Intro 1                        | **Reading**: LGN 1-2                                |
+|              |                                |                                                     |
+|              |                                | **Exercise** 1                                      |
++--------------+--------------------------------+-----------------------------------------------------+
+| 2 (Sep 04)   | Intro 2                        | No Monday (Labor Day)\                              |
+|              |                                | **Reading:** LGN 3-5 (selections)\                  |
+|              |                                | **Exercise** 2                                      |
++--------------+--------------------------------+-----------------------------------------------------+
+| 3 (Sep 11)   | Visualization Design           | **Reading**: Wilke 2-5\                             |
+|              |                                | **Quiz** 1\                                         |
+|              |                                | **Exercise** 3                                      |
++--------------+--------------------------------+-----------------------------------------------------+
+| 4 (Sep 18)   | Visualization Implementation   | **Reading**: LGN 10-11\                             |
+|              |                                | **Exercise** 4\                                     |
+|              |                                | Vis Project **Milestone** 1                         |
++--------------+--------------------------------+-----------------------------------------------------+
+| 5 (Sep 25)   | Wrangling 1                    | **Reading**: LGN 8-9, pandas tutorials\             |
+|              |                                | **Quiz** 2\                                         |
+|              |                                | **Exercise** 5                                      |
++--------------+--------------------------------+-----------------------------------------------------+
+| 6 (Oct 02)   | Wrangling 2                    | **Reading**: LGN 8-9, pandas tutorials\             |
+|              |                                | Project **Milestone** 2\                            |
+|              |                                | **Exercise** 6                                      |
++--------------+--------------------------------+-----------------------------------------------------+
+| 7 (Oct 09)   | Project (Communication)        | **No Friday** (Fall Break)**\                       |
+|              |                                | Reading**: LGN 12, Wilke selections\                |
+|              |                                | **Quiz** 3                                          |
++--------------+--------------------------------+-----------------------------------------------------+
+| 8 (Oct 16)   | (continued)                    | **No Monday and Wednesday** (Fall Break, Advising)\ |
+|              |                                | Midterm project due                                 |
++--------------+--------------------------------+-----------------------------------------------------+
+| 9 (Oct 23)   | Modeling---Design              | **Reading**: sklearn user guide (selections)\       |
+|              |                                | **Exercise** 7                                      |
++--------------+--------------------------------+-----------------------------------------------------+
+| 10 (Oct 30)  | Modeling---Neighbors and trees | **Quiz** 4\                                         |
+|              |                                | **Exercise** 8                                      |
++--------------+--------------------------------+-----------------------------------------------------+
+| 11 (Nov 06)  | Modeling---Other models        | Exercise 9                                          |
++--------------+--------------------------------+-----------------------------------------------------+
+| 12 (Nov 13)  | Validation                     | Quiz 5, Exercise 10                                 |
++--------------+--------------------------------+-----------------------------------------------------+
+| 13 (Nov 20)  | LLMs                           | **No Wednesday or Friday** (Thanksgiving)           |
++--------------+--------------------------------+-----------------------------------------------------+
+| 14 (Nov 27)  | Topics                         | **Reading**: LGN 13-15\                             |
+|              |                                | **Quiz** 6, **Exercise** 11                         |
++--------------+--------------------------------+-----------------------------------------------------+
+| 15 (Dec 04)  | Project (Communication)        | Project **Milestone**                               |
++--------------+--------------------------------+-----------------------------------------------------+
 
-- LGN = [Learning Data Science](https://learningds.org/intro.html) by Sam Lau, Joey Gonzalez, and Deb Nolan
-- Wilke = [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke
-- sklearn = [scikit-learn user guide](https://scikit-learn.org/stable/user_guide.html)
+-   LGN = [Learning Data Science](https://learningds.org/intro.html) by Sam Lau, Joey Gonzalez, and Deb Nolan
 
+-   Wilke = [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke
 
-- Introduction (weeks 1 and 2)
-- Vis Design (week 3)
-- Vis Implementation (week 4)
-- Wrangling (weeks 5 and 6)
-- Midterm project: redesign and recreate a visualization (starts week 3, presentations and revision week 8)
-- Modeling: Design (week 9)
-- Modeling: Neighbors and trees (week 10)
-- Modeling: Other models (week 11)
-- Validation (week 12)
-- LLMs, other topics, and final project (weeks 13, 14 and 15)
+-   sklearn = [scikit-learn user guide](https://scikit-learn.org/stable/user_guide.html)
+
+-   Introduction (weeks 1 and 2)
+
+-   Vis Design (week 3)
+
+-   Vis Implementation (week 4)
+
+-   Wrangling (weeks 5 and 6)
+
+-   Midterm project: redesign and recreate a visualization (starts week 3, presentations and revision week 8)
+
+-   Modeling: Design (week 9)
+
+-   Modeling: Neighbors and trees (week 10)
+
+-   Modeling: Other models (week 11)
+
+-   Validation (week 12)
+
+-   LLMs, other topics, and final project (weeks 13, 14 and 15)
 
 See Moodle for details. We will also be discussing a variety of societal and ethical topics.
 
 ### Optional material
 
-- Clustering (Unsupervised Learning)
-- Databases and APIs
-- Text Data
-- Geospatial Data
-- Audio and Image Data
-
-
-
+-   Clustering (Unsupervised Learning)
+-   Databases and APIs
+-   Text Data
+-   Geospatial Data
+-   Audio and Image Data
 
 ## Staff
 
-- **Section A**: [Ken Arnold](https://kenarnold.org), <ken.arnold@calvin.edu>, Calvin University, North Hall NH298
-- **Section B**: Fernando Pasquini Santos, <fernando.santos@calvin.edu>, Calvin University, North Hall NH291
-- **Teaching Assistant / Grader**: Yuqian (Eason) Wang
+-   **Section A**: [Ken Arnold](https://kenarnold.org), [ken.arnold\@calvin.edu](mailto:ken.arnold@calvin.edu){.email}, Calvin University, North Hall NH298
+-   **Section B**: Fernando Pasquini Santos, [fernando.santos\@calvin.edu](mailto:fernando.santos@calvin.edu){.email}, Calvin University, North Hall NH291
+-   **Teaching Assistant / Grader**: Yuqian (Eason) Wang
 
 ## Materials
 
@@ -89,44 +128,44 @@ See Moodle for details. We will also be discussing a variety of societal and eth
 
 We will use the following communication tools:
 
-- Outside of class, we'll communicate primarily using the forums on Perusall. See link on Moodle.
-    - Post *questions* about assignments, concepts, or when you have problems getting code to run.
-    - Post *answers* as well. Answering helps the community and also gives you practice explaining something you just learned.
-    - Post *notes* about interesting articles or events.
-- Use **email** for personal issues.
-- Use **Teams** for friendly chat; I'll redirect most questions about course content to Perusall.
+-   Outside of class, we'll communicate primarily using the forums on Perusall. See link on Moodle.
+    -   Post *questions* about assignments, concepts, or when you have problems getting code to run.
+    -   Post *answers* as well. Answering helps the community and also gives you practice explaining something you just learned.
+    -   Post *notes* about interesting articles or events.
+-   Use **email** for personal issues.
+-   Use **Teams** for friendly chat; I'll redirect most questions about course content to Perusall.
 
 ### Textbook
 
 All readings wil be posted in Perusall. They will be taken from:
 
-- [Learning Data Science](https://learningds.org/intro.html) by Sam Lau, Joey Gonzalez, and Deb Nolan. (we'll abbreviate this **LGN**).
-  - Will be published in late 2023, but the online version is free.
-- [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke
+-   [Learning Data Science](https://learningds.org/intro.html) by Sam Lau, Joey Gonzalez, and Deb Nolan. (we'll abbreviate this **LGN**).
+    -   Will be published in late 2023, but the online version is free.
+-   [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke
 
 ### Technology
 
 We will be using **Python** and the following tools:
 
-- **pandas** for data wrangling
-- **Plotly** for data visualization
-- **scikit-learn** for modeling
-- [**Quarto**](https://quarto.org/) for creating reports
-- [RStudio Server](https://r.cs.calvin.edu/)
-  - The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
-  - You may also install [RStudio Desktop](https://posit.co/downloads/) on your own computer.
+-   **pandas** for data wrangling
+-   **Plotly** for data visualization
+-   **scikit-learn** for modeling
+-   [**Quarto**](https://quarto.org/) for creating reports
+-   [RStudio Server](https://r.cs.calvin.edu/)
+    -   The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
+    -   You may also install [RStudio Desktop](https://posit.co/downloads/) on your own computer.
 
 ## Grading
 
 Unless otherwise arranged, grades will be weighted as follows:
 
-- Tests (7, including during final exam time): 35%
-- Projects: 30%
-  - Midterm project: 10%
-  - Final project: 20%
-- Exercises (labs and homework): 20%
-- Discussion forums: 10%
-- Participation: 5%
+-   Tests (7, including during final exam time): 35%
+-   Projects: 30%
+    -   Midterm project: 10%
+    -   Final project: 20%
+-   Exercises (labs and homework): 20%
+-   Discussion forums: 10%
+-   Participation: 5%
 
 Your lowest test score will get thrown out.
 
@@ -136,11 +175,11 @@ Changes to this policy may be made at the instructor's discretion.
 
 ## Class Structure
 
-1. **Preparation** (before class): Readings and quizzes to prepare you for class.
-2. **Lecture** (in class): We'll review the material from the preparation, and add some additional content.
-3. **Exercises** to practice what we're learning. We will usually start some of the week's exercises in class and finish them at home.
-4. **Project** (outside of class): You will complete two multi-week projects in this class.
-5. **Discussion forums** (outside of class): We will discuss a variety of societal and ethical topics through a Reformed Christian lens.
+1.  **Preparation** (before class): Readings and quizzes to prepare you for class.
+2.  **Lecture** (in class): We'll review the material from the preparation, and add some additional content.
+3.  **Exercises** to practice what we're learning. We will usually start some of the week's exercises in class and finish them at home.
+4.  **Project** (outside of class): You will complete two multi-week projects in this class.
+5.  **Discussion forums** (outside of class): We will discuss a variety of societal and ethical topics through a Reformed Christian lens.
 
 We will typically meet in the classroom on Monday and Wednesday and in the lab on Friday. If you have a laptop, please bring it to Monday and Wednesday classes.
 
@@ -148,17 +187,14 @@ We will typically meet in the classroom on Monday and Wednesday and in the lab o
 
 You will complete two multi-week projects in this class.
 
-In the *Midterm Project*, you will practice some parts of the data science lifecycle by *reproducing a published visualization of your choice* from source data.
-In the *Final Project*, you will additionally *apply predictive analytics*. You may choose to use the same or different dataset.
-[Details about the projects](projects.html)
+In the *Midterm Project*, you will practice some parts of the data science lifecycle by *reproducing a published visualization of your choice* from source data. In the *Final Project*, you will additionally *apply predictive analytics*. You may choose to use the same or different dataset. [Details about the projects](projects.html)
 
 ::: {.callout-note collapse="true" title="Teams"}
 Final projects may be completed in teams of up to 3. Teams will have the following additional expectations:
 
-* Teams must submit a team contract about how they will work together
-* Teams must convince the instructional staff that each team member learned something substantial from completing the project.
-* Each team member must submit an assessment of how they and other team members fulfilled their contract.
-
+-   Teams must submit a team contract about how they will work together
+-   Teams must convince the instructional staff that each team member learned something substantial from completing the project.
+-   Each team member must submit an assessment of how they and other team members fulfilled their contract.
 :::
 
 ## Academic Integrity
@@ -167,18 +203,18 @@ As the [Calvin Academic Integrity Policy](https://calvin.edu/directory/policies/
 
 Data science is a fundamentally collaborative endeavor. Collaboration brings the benefits of multiple perspectives, needed to tackle complex problems faithfully and responsibly. But teamwork also brings the risk of one person doing all of the "learning" for the other. Thus:
 
-* *Collaboration on homework and labs is encouraged*. For integrity, humility, and gratitude, you should acknowledge any help you receive by name in your submission.
-  * Even if you work side by side with someone, *submissions should be your own words and code*.
-  * _Exception_: Some assignments will be pair or team work. The assignment will indicate which.
-  * It is okay and sometimes encouraged to look up how to do something online! But if you do:
-    1. Record the exact URL that had the information that helped you. (This will help improve our instructional materials for next year.)
-    2. Retype any code yourself, from memory, even if you have to switch back and forth a lot. (This will help *you* internalize what you're borrowing.)
-    3. Beware that there is lots of *bad* code out there. Strive to do better.
-* **When** asking for help (and everyone *should* ask for help when they need it), *try to solve the problem on your own first*. This is critical. Then, when you ask for help, share *what you've tried* and *what leads you to think it's not working.* (not just "It's not working!!")
+-   *Collaboration on homework and labs is encouraged*. For integrity, humility, and gratitude, you should acknowledge any help you receive by name in your submission.
+    -   Even if you work side by side with someone, *submissions should be your own words and code*.
+    -   *Exception*: Some assignments will be pair or team work. The assignment will indicate which.
+    -   It is okay and sometimes encouraged to look up how to do something online! But if you do:
+        1.  Record the exact URL that had the information that helped you. (This will help improve our instructional materials for next year.)
+        2.  Retype any code yourself, from memory, even if you have to switch back and forth a lot. (This will help *you* internalize what you're borrowing.)
+        3.  Beware that there is lots of *bad* code out there. Strive to do better.
+-   **When** asking for help (and everyone *should* ask for help when they need it), *try to solve the problem on your own first*. This is critical. Then, when you ask for help, share *what you've tried* and *what leads you to think it's not working.* (not just "It's not working!!")
 
 ## Diversity and Inclusion
 
-I (Prof. Arnold) came to Calvin because I wanted to explore what our Christian calling to “act justly” means in the context of data and the technologies that we use with it. Engaging that question wholeheartedly requires that each of us, me included, engage respectfully with perspectives very different from our own. For example, we must question those who abuse data for selfish gain, but we also must question the perspectives of those who challenge those abuses on purely secular grounds.
+I (Prof. Arnold) came to Calvin because I wanted to explore what our Christian calling to "act justly" means in the context of data and the technologies that we use with it. Engaging that question wholeheartedly requires that each of us, me included, engage respectfully with perspectives very different from our own. For example, we must question those who abuse data for selfish gain, but we also must question the perspectives of those who challenge those abuses on purely secular grounds.
 
 We intend for this class to be an environment where we equally respect people of every ethnicity, gender, socioeconomic background, political learning, religious background, etc. We will try to create that community by having us read diverse voices, engage with issues of importance to people unlike ourselves, and structure discussions that require students to engage respectfully with perspectives different from their own. We invite your help.
 
@@ -188,25 +224,22 @@ We will not always do this well. If you or someone else in this class is hurt by
 
 Occasionally there are special circumstances that require that course policies be adjusted for a particular student. In such cases, it is the responsibility of the student to inform us of the situation as soon as possible, so that the appropriate arrangements can be made. This includes, but is not limited to, students with documented disabilities.
 
-Calvin University is committed to providing access to all students. If you need additional accommodations to succeed in this class, please contact Disability Services in the Center for Student Success (disabilityservices@calvin.edu) as soon as possible to explore what arrangements can be made. The three of us (student, instructor, and Disability Services) will work together to come up with an appropriate solution.
+Calvin University is committed to providing access to all students. If you need additional accommodations to succeed in this class, please contact Disability Services in the Center for Student Success (disabilityservices\@calvin.edu) as soon as possible to explore what arrangements can be made. The three of us (student, instructor, and Disability Services) will work together to come up with an appropriate solution.
 
 We will give a grade of Incomplete (I) only in unusual circumstances that have been confirmed by the Student Life office.
 
 ## Wellness
 
-A wide range of things can interfere with your learning: trouble concentrating, stress/anxiety, relationship troubles, family situations, food or housing insecurity, substance use, and many more.
-You are encouraged to care well for yourself by keeping a consistent sleep schedule, eating well, avoiding drugs and alcohol, exercising, and taking time to relax and connect with friends and family.
+A wide range of things can interfere with your learning: trouble concentrating, stress/anxiety, relationship troubles, family situations, food or housing insecurity, substance use, and many more. You are encouraged to care well for yourself by keeping a consistent sleep schedule, eating well, avoiding drugs and alcohol, exercising, and taking time to relax and connect with friends and family.
 
 Also, learning how to ask for help is an important part of the college experience. Many people on campus are eager to support you. The [Center for Counseling and Wellness](https://www.calvin.edu/go/counseling) sees one out of five students each year and can connect you with a variety of mental health resources on and off campus. You can also reach out to your instructor, another faculty/staff, a friend, or a family member you trust for help getting connected to support. You are not alone, and help is available!
 
 ## License
 
-<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-sa/4.0/88x31.png"/></a><br />This online work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 Internationale</a>. Visit [here](https://github.com/rstudio-education/datascience-box/blob/master/LICENSE.md) for more information about the license.
+<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" alt="Creative Commons License" style="border-width:0"/></a><br />This online work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 Internationale</a>. Visit [here](https://github.com/rstudio-education/datascience-box/blob/master/LICENSE.md) for more information about the license.
 
 ## Acknowledgments
 
-A substantial amount of content for the first few weeks of this course is based
-on material from the "[Data Science in a Box](https://datasciencebox.org/)"
-(abbreviated "dsbox" in the materials here) project led by Dr. Mine Çetinkaya-Rundel.
+A substantial amount of content for the first few weeks of this course is based on material from the "[Data Science in a Box](https://datasciencebox.org/)" (abbreviated "dsbox" in the materials here) project led by Dr. Mine Çetinkaya-Rundel.
 
 Keith Vander Linden made major revisions to the material in the first half of this course.
