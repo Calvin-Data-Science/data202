@@ -207,11 +207,11 @@ px.scatter(gapminder, x="gdpPercap", y="lifeExp", color="continent",
 
 ::: {.column width="50%"}
 
-- Purpose <br><br>
-  - Question <br><br>
-  - Context <br><br><br>
-- Composition <br><br>
-  - Graphic Design <br><br>
+- Purpose 
+  - Question 
+  - Context <br>
+- Composition 
+  - Graphic Design 
   - Yau&rsquo;s taxonomy
 :::
 :::
