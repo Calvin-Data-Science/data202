@@ -6,6 +6,13 @@ This document does all the data wrangling for DATA 202.
 
 ```{r setup}
 library(tidyverse)
+
+get_out_dir <- function(kind) {
+  out_dir <- here::here(paste0("static/data/", kind, "/"))
+  if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+  out_dir
+}
+
 ```
 
 ```{r}
@@ -83,9 +90,14 @@ pin_write(
 )
 
 #pin_browse(board, "data202_bikeshare_day_simple_csv")
-out_dir <- here::here("static/data/bikeshare/")
-if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
-
-write_csv(daily_rides, paste0(out_dir, "day_simple.csv"))
-write_csv(daily_rides_bytype, paste0(out_dir, "day_by_type.csv"))
+write_csv(daily_rides, paste0(get_out_dir('bikeshare'), "day_simple.csv"))
+write_csv(daily_rides_bytype, paste0(get_out_dir('bikeshare'), "day_by_type.csv"))
 ```
+
+## datasaurus
+
+```{r}
+library(datasauRus)
+write_csv(datasaurus_dozen, paste0(get_out_dir())
+```
+
