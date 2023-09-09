@@ -26,6 +26,57 @@ Upon successful completion of this course students will be able to:
 
 Additionally, using transparent reproducible workflows and regularly acknowledging limitations will help students practice virtues including integrity, humility, and justice.
 
+### Schedule
+
+Subject to change. Updates will be made here and on Moodle.
+
+| week        | Topic                        | Assignments                         | Readings                  |
+|-------------|------------------------------|-------------------------------------|---------------------------|
+| 1 (Aug 28)  | Intro 1                      | Exercise 1                          | LGN 1-2                   |
+| 2 (Sep 04)  | Intro 2                      | Exercise 2                          | LGN 3-5 (selections)      |
+| 3 (Sep 11)  | Visualization Design         | Quiz 1, Exercise 3                  | Wilke 2-5                 |
+| 4 (Sep 18)  | Visualization Implementation | Exercise 4, Vis Project Milestone 1 | LGN 10-11                 |
+| 5 (Sep 25)  | Wrangling 1                  | Quiz 2, Exercise 5                  | LGN 8-9, pandas tutorials |
+| 6 (Oct 02)  | Wrangling 2                  | Project Milestone 2, Exercise 6     | LGN 8-9, pandas tutorials |
+| 7 (Oct 09)  | Project (Communication)      | Quiz 3                              | LGN 12, Wilke selections  |
+| 8 (Oct 16)  | (continued)                  | Midterm project due                 |                           |
+| 9 (Oct 23)  | Modeling—Design              | Exercise 7                          | sklearn user guide        |
+| 10 (Oct 30) | Modeling—Neighbors and trees | Quiz 4, Exercise 8                  |                           |
+| 11 (Nov 06) | Modeling—Other models        | Exercise 9                          |                           |
+| 12 (Nov 13) | Validation                   | Quiz 5, Exercise 10                 |                           |
+| 13 (Nov 20) | LLMs                         | none                                |                           |
+| 14 (Nov 27) | Topics                       | Quiz 6, Exercise 11                 | LGN 13-15                 |
+| 15 (Dec 04) | Project (Communication)      | Project Milestone                   |                           |
+
+- LGN = [Learning Data Science](https://learningds.org/intro.html) by Sam Lau, Joey Gonzalez, and Deb Nolan
+- Wilke = [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/) by Claus O. Wilke
+- sklearn = [scikit-learn user guide](https://scikit-learn.org/stable/user_guide.html)
+
+
+- Introduction (weeks 1 and 2)
+- Vis Design (week 3)
+- Vis Implementation (week 4)
+- Wrangling (weeks 5 and 6)
+- Midterm project: redesign and recreate a visualization (starts week 3, presentations and revision week 8)
+- Modeling: Design (week 9)
+- Modeling: Neighbors and trees (week 10)
+- Modeling: Other models (week 11)
+- Validation (week 12)
+- LLMs, other topics, and final project (weeks 13, 14 and 15)
+
+See Moodle for details. We will also be discussing a variety of societal and ethical topics.
+
+### Optional material
+
+- Clustering (Unsupervised Learning)
+- Databases and APIs
+- Text Data
+- Geospatial Data
+- Audio and Image Data
+
+
+
+
 ## Staff
 
 - **Section A**: [Ken Arnold](https://kenarnold.org), <ken.arnold@calvin.edu>, Calvin University, North Hall NH298
@@ -147,30 +198,6 @@ A wide range of things can interfere with your learning: trouble concentrating, 
 You are encouraged to care well for yourself by keeping a consistent sleep schedule, eating well, avoiding drugs and alcohol, exercising, and taking time to relax and connect with friends and family.
 
 Also, learning how to ask for help is an important part of the college experience. Many people on campus are eager to support you. The [Center for Counseling and Wellness](https://www.calvin.edu/go/counseling) sees one out of five students each year and can connect you with a variety of mental health resources on and off campus. You can also reach out to your instructor, another faculty/staff, a friend, or a family member you trust for help getting connected to support. You are not alone, and help is available!
-
-## Course Outline
-
-- Introduction (weeks 1 and 2)
-- Vis Design (week 3)
-- Vis Implementation (week 4)
-- Wrangling (weeks 5 and 6)
-- Midterm project: redesign and recreate a visualization (starts week 3, presentations and revision week 8)
-- Modeling: Design (week 9)
-- Modeling: Neighbors and trees (week 10)
-- Modeling: Other models (week 11)
-- Validation (week 12)
-- LLMs, other topics, and final project (weeks 13, 14 and 15)
-
-See Moodle for details. We will also be discussing a variety of societal and ethical topics.
-
-### Optional material
-
-- Clustering (Unsupervised Learning)
-- Databases and APIs
-- Text Data
-- Geospatial Data
-- Audio and Image Data
-
 
 ## License
 
