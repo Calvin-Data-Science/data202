@@ -3,7 +3,7 @@ title: "Visualization 1: Principles"
 format: revealjs
 ---
 
-## The Purpose of Data Visualization 
+## The Purpose of Data Visualization {.smaller}
 
 
 ```{python}
@@ -26,9 +26,7 @@ datasaurus_dozen
 
 :::
 
-. . .
-
-::: {.column width="50%"}
+::: {.column width="50%" .fragment}
 
 ```{python}
 #| echo: true
@@ -48,6 +46,7 @@ There 142 observations for each of 13 datasets.
 ## Let's look at summary statistics
 
 ```{python}
+#| echo: true
 selected_datasets = datasaurus_dozen[datasaurus_dozen['dataset'].isin(["away", "bullseye", "dots", "star", "dino"])]
 selected_datasets.groupby("dataset").mean()
 ```
@@ -61,8 +60,8 @@ And yet...
 ## Visualize
 
 ```{python}
-px.scatter(selected_datasets, x="x", y="y", 
-           facet_col="dataset", 
+#| echo: true
+px.scatter(selected_datasets, x="x", y="y", facet_col="dataset", 
            width=1000, height=300)
 ```
 
@@ -85,9 +84,6 @@ See: https://cran.r-project.org/web/packages/datasauRus/vignettes/Datasaurus.htm
 ::: aside
 [Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics through Simulated Annealing](https://www.research.autodesk.com/publications/same-stats-different-graphs/)
 :::
-
----
-
 
 ::: notes
 Never trust summary statistics alone. 
