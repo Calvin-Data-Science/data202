@@ -98,6 +98,6 @@ write_csv(daily_rides_bytype, paste0(get_out_dir('bikeshare'), "day_by_type.csv"
 
 ```{r}
 library(datasauRus)
-write_csv(datasaurus_dozen, paste0(get_out_dir())
+write_csv(datasaurus_dozen, paste0(get_out_dir('datasaurus'), 'datasaurus.csv'))
 ```
 
