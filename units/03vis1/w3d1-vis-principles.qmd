@@ -299,7 +299,7 @@ References:
 
 # Logistics
 
-## Quiz 1
+## Quiz 1 {.smaller}
 
 - Quizzes in general:
   - Last 20-30 minutes on Friday
