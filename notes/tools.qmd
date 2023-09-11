@@ -6,14 +6,18 @@ title: "Tool References"
 
 Quick references for technology we're using
 
+- See the Notes section in the sidebar here for various, especially:
+    - [Plotly](plotly.qmd)
+    - [Quarto](quarto.qmd)
 - [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 - [Plotly Express](https://franzdiebold.github.io/plotly-express-cheat-sheet/Plotly_Express_cheat_sheet.pdf) or [this one](https://www.kaggle.com/code/themlphdstudent/cheat-sheet-plotly-charts)
 
 ## Tutorials
 
-- [Markdown](https://www.markdowntutorial.com/)
-
-[Pandas Tutor](https://pandastutor.com/index.html)
+- Quarto tutorial: [hello](https://quarto.org/docs/get-started/hello/rstudio.html), [computations](https://quarto.org/docs/get-started/computations/rstudio.html), [authoring](https://quarto.org/docs/get-started/authoring/rstudio.html)
+  - [Markdown](https://www.markdowntutorial.com/)
+  - See also our [in-class tutorial](../units/01intro/quarto.qmd)
+- [Pandas Tutor](https://pandastutor.com/index.html)
 
 ### Python tutorials
 
