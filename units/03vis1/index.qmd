@@ -1,0 +1,14 @@
+---
+title: "3: Visualization Design"
+---
+
+This unit we dive into the theory and practice of visualization, which will give you the power—and responsibility—to make clear graphs. Meanwhile we'll get some more practice with our workflow and tools.
+
+## Learning Outcomes
+
+At the end of this unit, students will be able to:
+
+- Describe some elements of visualizations
+- Analyze the structure of a visualization in terms of the grammar of graphics
+- Design a visualization
+- Write a reproducible data analysis report
