@@ -109,10 +109,10 @@ Designing an effective visualization requires that we determine:
   - the context
 
 - The most appropriate visual *composition* using:
-  - Principles of effective graphic design
-  - N. Yau&rsquo;s taxonomy (visual cues, coordinate systems, scale, context)
+  - The structure of our data (e.g., types of variables)
+  - How the human visual system works (e.g., visual cues)
 
-These ideas are summarized in the Novartis [Graphics Principles Cheat Sheet](https://github.com/GraphicsPrinciples/CheatSheet/blob/master/NVSCheatSheet.pdf)
+Summary: Novartis [Graphics Principles Cheat Sheet](https://github.com/GraphicsPrinciples/CheatSheet/blob/master/NVSCheatSheet.pdf)
 
 ::: aside
 
@@ -208,7 +208,7 @@ px.scatter(gapminder, x="gdpPercap", y="lifeExp", color="continent",
   - Context <br>
 - Composition 
   - Graphic Design 
-  - Yau&rsquo;s taxonomy
+  - Visual Cues and scales
 :::
 :::
 
@@ -232,9 +232,10 @@ px.scatter(gapminder, x="gdpPercap", y="lifeExp", color="continent",
 :::
 
 ---
-# Identifying Visualization Issues
 
-Evaluate the following visualizations.
+# Analyzing Visualizations
+
+Describe the design of each of the following visualizations.
 
 - [In the Barrel&hellip;](images/oil_prices.png)
 
@@ -295,3 +296,23 @@ References:
     - <https://www.wisdom.weizmann.ac.il/~zvika/course2015/announcements/WainerAmericanStatistician1984.pdf>
 
 :::
+
+# Logistics
+
+## Quiz 1
+
+- Quizzes in general:
+  - Last 20-30 minutes on Friday
+  - Some weeks will be on paper, others on Moodle
+  - This week: Moodle
+- Topics
+  - Anything from CS 104/6/8 (since it's a prerequisite)
+  - Anything you've seen more than once so far (e.g., exercises, slides, reading, ...)
+- Paper notes allowed
+- Memorization of syntax not required, but concepts behind the syntax are required
+
+## Other Assignments
+
+- Midterm Project first milestone posted this week, due next week
+- Exercise 1
+- Reading 3
