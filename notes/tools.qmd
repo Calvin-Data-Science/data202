@@ -17,6 +17,7 @@ Quick references for technology we're using
 
 ### Python tutorials
 
+- The ["official" Python tutorial](https://docs.python.org/3/tutorial/index.html)
 - [Codecademy’s “Learn Python” Tutorial](https://www.codecademy.com/learn/learn-python)
 - [futurecoder python tutorial](https://futurecoder.io/): nicely done, but only covers the basics
 - [educative python tutorial](https://www.educative.io/courses/learn-python-3-from-scratch): not quite as slick as futurecoder, but it covers some important things that are missing there.
@@ -27,6 +28,11 @@ Quick references for technology we're using
 
 ## Reference Materials
 
-- [Plotly](https://plotly.com/python/plotly-express/)
-    - ignore everything in the Plotly docs about "Dash"
+- [Plotly](https://plotly.com/python/plotly-express/) (ignore everything in the Plotly docs about "Dash")
 - [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook//)
+- [Python documentation](https://docs.python.org/3/index.html). Especially useful:
+  - [built-in functions](https://docs.python.org/3/library/functions.html)
+  - [data types](https://docs.python.org/3/library/stdtypes.html)
+  - [other built-in functionality ("standard library")](https://docs.python.org/3/library/index.html)
+  - [Regular Expression How-To](https://docs.python.org/3/howto/regex.html)
+  - the [language reference](https://docs.python.org/3/reference/index.html) has way more than you ever wanted to know about Python
