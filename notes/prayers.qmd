@@ -29,3 +29,10 @@ Log:
     - "God opposes the proud but gives grace to the humble" (James 4:6, 1 Peter 5:5)
 - Friday: Psalm 105 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=157#psalm_reading)
     - God works throughout history, over long periods of time. We prayed that we would be faithful in our small contributions and trust that God will work out his will in data science.
+
+##  Week 3
+
+- Monday: [Proverbs 12:15-20](https://www.biblegateway.com/passage/?search=proverbs%2012&version=NRSV&interface=print) (Truth)
+  - That our minds not be deceitful (verse 20)
+  - That we'd avoid confirmation bias and seek out good advice (verse 15)
+  - *GitHub Copilot adds*: That we'd be careful with our words (verse 18)
