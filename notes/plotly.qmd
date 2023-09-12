@@ -25,4 +25,12 @@ show_plot( # <8>
 5. `update_traces` sets attributes on everything that gets drawn. `marker_size=2` is shorthand for `marker={'size': 2}`. See [Styling Markers](https://plotly.com/python/marker-style/) 
 6. Remove the `=` from the annotation text. See [Annotations](https://plotly.com/python/text-and-annotations/)
 7. **Tick format**: use a percentage format for the y-axis. See [Tick Formatting](https://plotly.com/python/tick-formatting/)
-8. Hack for making plots show in RStudio. This also, incidentally, gives us an open paren, which is helpful because Python doesn't try to think that the code is done until we close that paren at the end.
+8. Hack for making plots show in RStudio. This also, incidentally, gives us an open paren, which is helpful because Python doesn't try to think that the code is done until we close that paren at the end. See [the Quarto page in these notes](quarto.qmd) for details on this hack.
+
+
+## Typical imports
+
+```python
+import pandas as pd
+import plotly.express as px
+```
