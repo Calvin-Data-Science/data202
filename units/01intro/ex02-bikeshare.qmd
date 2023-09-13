@@ -117,6 +117,12 @@ Write a sentence answering the following two questions: How many rows does the d
 This time, try to use a code chunk to compute the row counts. (See the [class notes on Quarto](../../notes/quarto.qmd#computations-in-text) for how to do this.)
 
 
+- [ ] Does my answer use a code chunk to compute the row count?
+- [ ] Does my answer include the number of rows?
+- [ ] Does my answer describe what each row represents?
+- [ ] When I render my document, do I see the correct number of rows?
+- [ ] When I render my document, does the result show up like code or like text?
+
 ## Exercise 2: Label days of week
 
 The data set uses the integers 0 through 6 to label days of the week. It does not document, however, what 0 means, or what 6 means. If we want to make understandable plots, we should label these days of the week. To do this: first, figure out what day-of-week codes map to what days-of-week (see the glimpse of the dataset given above for evidence; you may want to look at a [calendar](https://www.timeanddate.com/calendar/monthly.html?year=2011&month=1&country=1)); and then do the following.
@@ -124,6 +130,11 @@ The data set uses the integers 0 through 6 to label days of the week. It does no
 1.  Write a brief description of what the mapping is and your evidence that you got it correct.
 2.  Fill in the blank in the given code block to give labels to the weekdays. Use abbreviations ("Wed", "Fri", ...).
 3.  Check your `daily_rides` dataframe to make sure the result is correct.
+
+- [ ] Did I describe the mapping in prose?
+- [ ] Did I include evidence that the mapping is correct?
+- [ ] Did I fill in the blank in the code block?
+- [ ] Did I check that the result is correct?
 
 ```{{python}}
 weekdays = [list of weekday abbreviations]
