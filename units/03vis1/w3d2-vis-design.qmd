@@ -1,6 +1,8 @@
 ---
 title: "W3.2 Visualizing"
 format: revealjs
+execute: 
+  echo: true
 ---
 
 # Review
@@ -34,7 +36,7 @@ Fill in the table using variables from the health and wealth gapminder plot.
 
 Concisely describe the components of a graphic
 
-![](img/grammar-of-graphics.png)
+![](images/grammar-of-graphics.png)
 
 ::: aside
 Source: [BloggoType](http://bloggotype.blogspot.com/2016/08/holiday-notes2-grammar-of-graphics.html)
@@ -44,10 +46,10 @@ Source: [BloggoType](http://bloggotype.blogspot.com/2016/08/holiday-notes2-gramm
 
 ::: {.columns}
 ::: {.column width="50%"}
-![](img/channels-continuous-part1.png)
+![](images/channels-continuous-part1.png)
 :::
 ::: {.column width="50%"}
-![](img/channels-continuous-part2.png)
+![](images/channels-continuous-part2.png)
 :::
 :::
 
