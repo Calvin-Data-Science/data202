@@ -15,7 +15,10 @@ At the end of this unit, students will be able to:
 
 ## From Class
 
-- [Slides](w3d1-vis-principles.qmd)
+- Slides:
+  - [Monday](w3d1-vis-principles.qmd)
+  - [Wednesday](w3d2-vis-design.qmd)
 - Section B
     - Dorothy Sayers - [The Mind of the Maker](https://en.wikipedia.org/wiki/The_Mind_of_the_Maker)
     - Tangible representations of data, e.g., [Materiable](https://tangible.media.mit.edu/project/materiable/)
+- Some additional exercises on the [plotting tutorial](https://connect.cs.calvin.edu/data202/intro/)
