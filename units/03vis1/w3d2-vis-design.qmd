@@ -57,7 +57,7 @@ Source: [BloggoType](http://bloggotype.blogspot.com/2016/08/holiday-notes2-gramm
 Source: https://socviz.co/lookatdata.html#channels-for-representing-data
 :::
 
-## In Plotly...
+## In Plotly... {.smaller}
 
 ::: {.columns}
 ::: {.column width="50%"}
@@ -107,7 +107,7 @@ votes = pd.read_csv("../01intro/data/un_uk_us_tr.csv")
 
 ::: {.columns}
 ::: {.column width="30%"}
-![](img/penguins.png)
+![](images/penguins.png)
 :::
 ::: {.column width="70%"}
 
@@ -136,14 +136,13 @@ px.scatter(
 )
 ```
 
-## Color vision deficiency? {auto-animate="true"}
+## Color vision deficiency 1 {.smaller}
 
 1. **Redundant encoding**: use two visual cues to encode the same variable
 
 ```{python}
-#| code-line-numbers: "4"
-px.scatter(
-    penguins,
+#| code-line-numbers: "3"
+px.scatter(penguins,
     x='bill_depth_mm', y='bill_length_mm', color='species', 
     symbol='species',
     title="Bill length vs depth",
@@ -151,17 +150,15 @@ px.scatter(
 )
 ```
 
----
 
-## Color vision deficiency {auto-animate="true"}
+## Color vision deficiency 2 {.smaller}
 
 1. **Redundant encoding**: use two visual cues to encode the same variable
 2. **Color palette**
 
 ```{python}
-#| code-line-numbers: "7"
-px.scatter(
-    penguins,
+#| code-line-numbers: "6"
+px.scatter(penguins,
     x='bill_depth_mm', y='bill_length_mm', color='species', 
     symbol='species',
     title="Bill length vs depth",
@@ -182,7 +179,7 @@ penguins2 = penguins.dropna(subset=['body_mass_g'])
 ::: {.columns}
 ::: {.column width="50%"}
 
-## Mapping
+Mapping
 
 ```{python}
 px.scatter(
@@ -195,7 +192,7 @@ px.scatter(
 
 ::: {.column width="50%"}
 
-## Setting
+Setting
 
 ```{python}
 (
@@ -203,10 +200,11 @@ px.scatter(
   .update_traces(marker_color='red', marker_size=4)
 )
 ```
+
 :::
 :::
 
-## Mapping vs Setting {#MapVsSet2}
+## Mapping vs Setting Defined
 
 - **Mapping:** Determine the color, size, etc. of points based on the values of a variable in the data
   - goes into the initial plot function (`px.scatter()`)
@@ -226,3 +224,27 @@ px.scatter(
     facet_col="island"
 )
 ```
+
+# Visualization Design Questions
+
+## Relationship between bill depth and length?
+
+```{python}
+px.scatter(
+    penguins,
+    x='bill_depth_mm', y='bill_length_mm', 
+    trendline='ols',
+)
+```
+
+## Simpson's Paradox
+
+```{python}
+px.scatter(
+    penguins,
+    x='bill_depth_mm', y='bill_length_mm', 
+    trendline='ols',
+    color='species',
+)
+```
+
