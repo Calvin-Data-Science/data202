@@ -136,44 +136,36 @@ px.scatter(
 )
 ```
 
-## Color vision deficiency?
+## Color vision deficiency? {auto-animate="true"}
 
 1. **Redundant encoding**: use two visual cues to encode the same variable
 
 ```{python}
 #| code-line-numbers: "4"
-#| output-location: column
 px.scatter(
     penguins,
     x='bill_depth_mm', y='bill_length_mm', color='species', 
     symbol='species',
     title="Bill length vs depth",
-    labels={
-        "bill_depth_mm": "Bill Depth (mm)",
-        "bill_length_mm": "Bill Length (mm)",
-        "species": "Species"
-    },
+    labels={"bill_depth_mm": "Bill Depth (mm)", "bill_length_mm": "Bill Length (mm)", "species": "Species"},
 )
 ```
 
 ---
 
+## Color vision deficiency {auto-animate="true"}
+
 1. **Redundant encoding**: use two visual cues to encode the same variable
 2. **Color palette**
 
 ```{python}
-#| code-line-numbers: "11"
-#| output-location: column
+#| code-line-numbers: "7"
 px.scatter(
     penguins,
     x='bill_depth_mm', y='bill_length_mm', color='species', 
     symbol='species',
     title="Bill length vs depth",
-    labels={
-        "bill_depth_mm": "Bill Depth (mm)",
-        "bill_length_mm": "Bill Length (mm)",
-        "species": "Species"
-    },
+    labels={"bill_depth_mm": "Bill Depth (mm)", "bill_length_mm": "Bill Length (mm)", "species": "Species"},
     color_discrete_sequence=px.colors.qualitative.Safe
 )
 ```
@@ -182,8 +174,8 @@ px.scatter(
 
 ## Mapping vs Setting
 
-::: aside
 ```{python}
+#| echo: false
 penguins2 = penguins.dropna(subset=['body_mass_g'])
 ```
 
@@ -214,7 +206,7 @@ px.scatter(
 :::
 :::
 
-## Mapping vs Setting
+## Mapping vs Setting {#MapVsSet2}
 
 - **Mapping:** Determine the color, size, etc. of points based on the values of a variable in the data
   - goes into the initial plot function (`px.scatter()`)
