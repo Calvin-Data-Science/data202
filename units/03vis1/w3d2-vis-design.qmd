@@ -62,17 +62,10 @@ Source: [BloggoType](http://bloggotype.blogspot.com/2016/08/holiday-notes2-gramm
 
 ---
 
-::: {.columns}
-::: {.column width="50%"}
-![](images/channels-continuous-part1.png)
-:::
-::: {.column width="50%"}
-![](images/channels-continuous-part2.png)
-:::
-:::
+![](images/visual-cues.png)
 
 ::: aside
-Source: https://socviz.co/lookatdata.html#channels-for-representing-data
+Source: Novartis [Graphics Principles Cheat Sheet](https://github.com/GraphicsPrinciples/CheatSheet/blob/master/NVSCheatSheet.pdf)
 :::
 
 ## In Plotly... {.smaller}
