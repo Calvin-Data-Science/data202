@@ -169,7 +169,7 @@ px.scatter(penguins,
 
 ---
 
-## Mapping vs Setting
+## Mapping vs Setting {.smaller}
 
 ```{python}
 #| echo: false
@@ -217,7 +217,6 @@ Setting
 ## Faceting (Small Multiples)
 
 ```{python}
-#| output-location: column
 px.scatter(
     penguins,
     x='bill_depth_mm', y='bill_length_mm', color='species', 
@@ -227,7 +226,7 @@ px.scatter(
 
 # Visualization Design Questions
 
-## Relationship between bill depth and length?
+## Bill depth vs length? {.smaller}
 
 ```{python}
 px.scatter(
@@ -237,7 +236,7 @@ px.scatter(
 )
 ```
 
-## Simpson's Paradox
+## Simpson's Paradox {.smaller}
 
 ```{python}
 px.scatter(
