@@ -20,6 +20,22 @@ Fill in the table using variables from the health and wealth gapminder plot.
 | country | | |
 | year | | |
 
+# Q&A
+
+## Why does data type matter?
+
+::: {.columns}
+::: {.column width="50%"}
+
+![](https://cs.calvin.edu/courses/data/202/21fa/slides/w03/w03-ggplot_files/figure-html/good-format-1.png)
+:::
+::: {.column width="50%"}
+![](https://cs.calvin.edu/courses/data/202/21fa/slides/w03/w03-ggplot_files/figure-html/broken-format-1.png)
+:::
+:::
+
+Is date continuous or discrete?
+
 ## Composing a plot
 
 ::: {.incremental}
@@ -247,3 +263,39 @@ px.scatter(
 )
 ```
 
+# Which species was most commonly observed? {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{python}
+px.pie(
+    penguins,
+    names='species',
+    title="Penguin Species",
+)
+```
+
+:::
+::: {.column width="50%" .fragment}
+
+```{python}
+px.bar(
+    penguins,
+    x='species',
+    title="Penguin Species",
+)
+```
+
+:::
+:::
+
+## Pie charts are useful for {.smaller}
+
+- Evaluating whether one category is more or less than half
+- And also for *groups of adjacent categories*
+- and for cueing "part of a whole"
+
+But *not* useful for comparing categories.
+
+Just use a bar chart.
