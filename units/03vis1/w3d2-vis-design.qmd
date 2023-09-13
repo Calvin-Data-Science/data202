@@ -50,7 +50,7 @@ Is date continuous or discrete?
 - What labels and annotations are added?
 :::
 
-## Grammar of Graphics
+## Grammar of Graphics ([2005](https://link.springer.com/book/10.1007/0-387-28695-0))
 
 Concisely describe the components of a graphic
 
@@ -137,6 +137,12 @@ penguins.info()
 ```
 
 :::
+:::
+
+::: aside
+Source: [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/)
+
+Artwork by @allison_horst
 :::
 
 ---
@@ -231,14 +237,17 @@ Setting
 - **Setting:** Determine the color, size, etc. of points **not** based on the values of a variable in the data
   - in plotly we have to update the "traces" after we create the plot
   - plotly uses the value you give it directly (sets the color to literally "red")
+  - "make all the points smaller"
 
 ## Faceting (Small Multiples)
 
 ```{python}
+#| code-line-numbers: "4"
 px.scatter(
     penguins,
     x='bill_depth_mm', y='bill_length_mm', color='species', 
-    facet_col="island"
+    facet_col="island",
+    width=1000
 )
 ```
 
@@ -246,6 +255,7 @@ px.scatter(
 
 ## Bill depth vs length? {.smaller}
 
+::: {.smaller}
 ```{python}
 px.scatter(
     penguins,
@@ -253,8 +263,9 @@ px.scatter(
     trendline='ols',
 )
 ```
+:::
 
-## Simpson's Paradox {.smaller}
+## [Simpson's Paradox](https://en.wikipedia.org/wiki/Simpson%27s_paradox) {.smaller}
 
 ```{python}
 px.scatter(
@@ -265,7 +276,7 @@ px.scatter(
 )
 ```
 
-# Which species was most commonly observed? {.smaller}
+## Most commonly observed species? {.smaller}
 
 ::: {.columns}
 ::: {.column width="50%"}
@@ -292,7 +303,21 @@ px.bar(
 :::
 :::
 
-## Pie charts are useful for {.smaller}
+## Even slightly better
+
+```{python}
+#| code-line-numbers: "1"
+px.histogram(
+    penguins,
+    x='species',
+    title="Penguin Species",
+)
+```
+
+- `px.bar`: one mark for each row
+- `px.histogram`: count how many rows have each species, make a single mark for each species
+
+## Pie charts are useful for
 
 - Evaluating whether one category is more or less than half
 - And also for *groups of adjacent categories*
@@ -301,3 +326,7 @@ px.bar(
 But *not* useful for comparing categories.
 
 Just use a bar chart.
+
+## Your Turn
+
+[Extended activities in the plotting tutorial](https://connect.cs.calvin.edu/data202/intro/)
