@@ -116,6 +116,7 @@ Write a sentence answering the following two questions: How many rows does the d
 
 This time, try to use a code chunk to compute the row counts. (See the [class notes on Quarto](../../notes/quarto.qmd#computations-in-text) for how to do this.)
 
+Checklist:
 
 - [ ] Does my answer use a code chunk to compute the row count?
 - [ ] Does my answer include the number of rows?
@@ -130,6 +131,8 @@ The data set uses the integers 0 through 6 to label days of the week. It does no
 1.  Write a brief description of what the mapping is and your evidence that you got it correct.
 2.  Fill in the blank in the given code block to give labels to the weekdays. Use abbreviations ("Wed", "Fri", ...).
 3.  Check your `daily_rides` dataframe to make sure the result is correct.
+
+Checklist:
 
 - [ ] Did I describe the mapping in prose?
 - [ ] Did I include evidence that the mapping is correct?
