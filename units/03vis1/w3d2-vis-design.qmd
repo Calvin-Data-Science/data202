@@ -1,6 +1,8 @@
 ---
 title: "W3.2 Visualizing"
-format: revealjs
+format:
+  revealjs:
+    scrollable: true
 execute: 
   echo: true
 ---
