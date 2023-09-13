@@ -5,9 +5,9 @@ account: ka37
 server: connect.cs.calvin.edu
 hostUrl: https://connect.cs.calvin.edu/__api__
 appId: 194
-bundleId: 817
+bundleId: 831
 url: https://connect.cs.calvin.edu/data202/intro/
-when: 1693405048.53739
-lastSyncTime: 1693405048.5374
+when: 1694606435.07572
+lastSyncTime: 1694606435.07572
 asMultiple: FALSE
 asStatic: FALSE
