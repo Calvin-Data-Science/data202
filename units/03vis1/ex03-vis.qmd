@@ -1,0 +1,115 @@
+---
+title: "Exercise 3: Visualization Design"
+execute: 
+  echo: false
+---
+
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# DATA 202 hack for displaying plotly within RStudio:
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+# End hack
+```
+
+::: {.callout-important}
+Please shutdown your RStudio session when you're not using it.
+
+This will ensure that your work is saved and that we don't waste server resources.
+:::
+
+In the past several exercises, you've typically been given a lot of template code and specific instructions. This time, we'll do some of the same tasks, but without the training wheels.
+
+For example, you should make your own qmd file. You may use past exercises as inspiration, but avoid copy and paste.
+
+```{python}
+daily_rides = pd.read_csv("../../static/data/bikeshare/day_by_type.csv", parse_dates=["date"])
+```
+
+
+## Exercise 1
+
+Replicate this plot. Write one or two sentences about what it tells you.
+
+```{python}
+show_plot(
+  px.scatter(
+    daily_rides,
+    x="date", y="rides", color="rider_type",
+    facet_col="workingday",
+    trendline="lowess",
+    labels={"date": "Date", "rides": "Number of Rides", "rider_type": "Type of Rider"}
+    )
+    .update_traces(marker_size=3, marker_opacity=.5)
+)
+```
+
+- [ ] Have you replicated the plot?
+- [ ] Are all the labels correct?
+- [ ] Have you set the marker size (attribute `marker_size`) to 3?
+- [ ] Have you set the marker opacity (attribute `marker_opacity`) to 0.5?
+- [ ] Have you written one or two sentences about what the plot tells you?
+
+## Exercise 2
+
+Make another plot of the same variables as in Exercise 1, but choose a different mapping of variables to visual cues. Write a sentence about what is now easier, or harder, to see in this plot compared with the previous one.
+
+- [ ] Have you made a plot with the same variables as Exercise 1?
+- [ ] Have you chosen a different mapping of variables to visual cues?
+- [ ] Have you stated something that's easier to see in this plot compared with the previous one?
+
+## Exercise 3
+
+Now use the gapminder data; you may use the data from Plotly Express. The following code chunk also creates some filtered data frames that are needed for the following exercises.
+
+```{python}
+#| echo: true
+gapminder = px.data.gapminder()
+just_usa = gapminder.query("country == 'United States'")
+
+countries = [
+  "China", "India", "United States",
+  "Indonesia", "Brazil", "Pakistan",
+  "Bangladesh", "Nigeria", "Japan"]
+
+gapminder_9_countries = gapminder.query("country in @countries")
+```
+
+Make the following plot:
+
+```{python}
+show_plot(
+  px.line(
+    just_usa,
+    x="year", y="lifeExp",
+    labels={"year": "Year", "lifeExp": "Life Expectancy (years)"},
+    title="Life Expectancy in the United States",
+  )
+  .update_traces(line_color='green')
+)
+```
+
+- [ ] Are your axes labeled?
+- [ ] Does the plot have a title?
+- [ ] Is the line `green`? (The trace attribute is called `line_color`.)
+
+## Exercise 4
+
+Make two plots of the `gapmind_9_countries` data. Both plots should use `year`, `lifeExp`, and `country`, but one should use color for `country` and the other should use faceting (I suggest making the facets wrap). Compare and contrast the two plots: What is easier to see in one plot compared with the other?
+
+- [ ] Are your axes labeled?
+- [ ] Do the plots have titles?
+- [ ] Do you have a plot colored by `country`?
+- [ ] Do you have a plot that's faceted by `country`?
+- [ ] Have you stated something that's easier to see in one plot compared with the other?
+
+
+
+# Submitting
+
+Submit your rendered HTML file to Moodle. (Make sure it renders cleanly.)
