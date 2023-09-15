@@ -296,19 +296,33 @@ px.bar(
 :::
 :::
 
-## Even slightly better
+## Even slightly better {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{python}
+#| code-line-numbers: "1"
+px.bar(
+  penguins, x='species', height=400,
+)
+```
+
+:::
+::: {.column width="50%"}
 
 ```{python}
 #| code-line-numbers: "1"
 px.histogram(
-    penguins,
-    x='species',
-    title="Penguin Species",
+  penguins, x='species', height=400,
 )
 ```
 
-- `px.bar`: one mark for each row
-- `px.histogram`: count how many rows have each species, make a single mark for each species
+:::
+:::
+
+- `px.bar`: *stack* one mark for each row (notice the little gaps between the bars)
+- `px.histogram`: *count* how many rows have each species, make a single mark for each species
 
 ## Pie charts are useful for
 
