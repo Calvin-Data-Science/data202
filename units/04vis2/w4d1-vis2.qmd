@@ -1,0 +1,10 @@
+---
+title: "4.1: Visualization Implementation"
+---
+
+## Q&A
+
+- Bar vs histogram
+- Color schemes
+- Map vs set
+- discrete vs continuous scales
