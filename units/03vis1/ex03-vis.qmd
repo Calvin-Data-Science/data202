@@ -27,6 +27,7 @@ For example, you should make your own `qmd` file. You may use past exercises as 
 
 ```{python}
 daily_rides = pd.read_csv("../../static/data/bikeshare/day_by_type.csv", parse_dates=["date"])
+daily_rides['month'] = daily_rides['date'].dt.month
 ```
 
 
@@ -108,12 +109,27 @@ Make two plots of the `gapmind_9_countries` data. Both plots should use `year`, 
 
 ## Exercise 5
 
-Replicate the [Gapminder "health and wealth"](https://www.gapminder.org/tools/#$chart-type=bubbles&url=v1) plot.
+Replicate the [Gapminder "health and wealth"](https://www.gapminder.org/tools/#$chart-type=bubbles&url=v1) plot -- as much as you can.
 
-- [ ] Correct axes labels?
 - [ ] Markers are sized by `pop`? (you may want to use `size_max` to make the largest marker smaller)
 - [ ] Markers are colored by `continent`?
 - [ ] Animation is by `year` (`animation_frame`)?
+- [ ] GDP axis is log-scaled (`log_x`)?
+- [ ] Life expectancy doesn't go off the top of the plot (`range_y`)?
+- [ ] Axes have correct labels?
+
+Here's what one might look like:
+
+```{python}
+gapminder.info()
+px.scatter(gapminder,
+  x="gdpPercap", y="lifeExp", size="pop", color="continent", animation_frame="year", 
+  log_x=True, size_max=60, range_x=[100,100000], range_y=[25,90],
+  hover_name="country",
+  labels={"gdpPercap": "GDP per capita", "lifeExp": "Life expectancy (at birth)", "pop": "Population", "continent": "Continent", "year": "Year"},
+  title="Life expectancy vs. GDP per capita, 1952-2007",
+)
+```
 
 # Submitting
 
