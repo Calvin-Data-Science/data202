@@ -121,7 +121,6 @@ Replicate the [Gapminder "health and wealth"](https://www.gapminder.org/tools/#$
 Here's what one might look like:
 
 ```{python}
-gapminder.info()
 px.scatter(gapminder,
   x="gdpPercap", y="lifeExp", size="pop", color="continent", animation_frame="year", 
   log_x=True, size_max=60, range_x=[100,100000], range_y=[25,90],
