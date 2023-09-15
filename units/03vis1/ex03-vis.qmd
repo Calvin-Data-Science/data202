@@ -19,13 +19,11 @@ else:
 
 ::: {.callout-important}
 Please shutdown your RStudio session when you're not using it.
-
-This will ensure that your work is saved and that we don't waste server resources.
 :::
 
-In the past several exercises, you've typically been given a lot of template code and specific instructions. This time, we'll do some of the same tasks, but without the training wheels.
+In the past several exercises, you've typically been given a lot of template code and very specific instructions. This time, we'll do some of the same tasks, but without the training wheels.
 
-For example, you should make your own qmd file. You may use past exercises as inspiration, but avoid copy and paste.
+For example, you should make your own `qmd` file. You may use past exercises as inspiration, but avoid copy and paste.
 
 ```{python}
 daily_rides = pd.read_csv("../../static/data/bikeshare/day_by_type.csv", parse_dates=["date"])
@@ -34,7 +32,7 @@ daily_rides = pd.read_csv("../../static/data/bikeshare/day_by_type.csv", parse_d
 
 ## Exercise 1
 
-Replicate this plot. Write one or two sentences about what it tells you.
+Replicate this plot, made using the ridership data from the previous exercise. Write one or two sentences about what it tells you.
 
 ```{python}
 show_plot(
@@ -108,7 +106,14 @@ Make two plots of the `gapmind_9_countries` data. Both plots should use `year`, 
 - [ ] Do you have a plot that's faceted by `country`?
 - [ ] Have you stated something that's easier to see in one plot compared with the other?
 
+## Exercise 5
 
+Replicate the [Gapminder "health and wealth"](https://www.gapminder.org/tools/#$chart-type=bubbles&url=v1) plot.
+
+- [ ] Correct axes labels?
+- [ ] Markers are sized by `pop`? (you may want to use `size_max` to make the largest marker smaller)
+- [ ] Markers are colored by `continent`?
+- [ ] Animation is by `year` (`animation_frame`)?
 
 # Submitting
 
