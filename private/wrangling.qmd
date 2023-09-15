@@ -115,6 +115,6 @@ openxlsx::write.xlsx(
   openintro::loans_full_schema,
   get_out_filename("openintro_loans_full_schema.xlsx")
 )
-  
+#write_csv(openintro::loans_full_schema, get_out_filename("openintro_loans.csv"))
 ```
 
