@@ -2,15 +2,21 @@
 title: "Wrangling"
 ---
 
-This document does all the data wrangling for DATA 202.
+This document does all the data wrangling and pulling data in from R for DATA 202.
 
 ```{r setup}
 library(tidyverse)
 
-get_out_dir <- function(kind) {
-  out_dir <- here::here(paste0("static/data/", kind, "/"))
+get_out_dir <- function(kind = '') {
+  path <- "static/data/"
+  if (kind != '') path <- paste0(path, kind, '/')
+  out_dir <- here::here(path)
   if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
   out_dir
+}
+
+get_out_filename <- function(filename, kind = '') {
+  paste0(get_out_dir(kind = kind), filename)
 }
 
 ```
@@ -90,7 +96,7 @@ pin_write(
 )
 
 #pin_browse(board, "data202_bikeshare_day_simple_csv")
-write_csv(daily_rides, paste0(get_out_dir('bikeshare'), "day_simple.csv"))
+write_csv(daily_rides, get_out_filename("day_simple.csv", kind = 'bikeshare'))
 write_csv(daily_rides_bytype, paste0(get_out_dir('bikeshare'), "day_by_type.csv"))
 ```
 
@@ -99,5 +105,16 @@ write_csv(daily_rides_bytype, paste0(get_out_dir('bikeshare'), "day_by_type.csv"
 ```{r}
 library(datasauRus)
 write_csv(datasaurus_dozen, paste0(get_out_dir('datasaurus'), 'datasaurus.csv'))
+```
+
+
+## openintro loans (vis-numerical)
+
+```{r}
+openxlsx::write.xlsx(
+  openintro::loans_full_schema,
+  get_out_filename("openintro_loans_full_schema.xlsx")
+)
+  
 ```
 
