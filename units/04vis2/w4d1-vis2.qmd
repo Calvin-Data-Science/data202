@@ -2,9 +2,49 @@
 title: "4.1: Visualization Implementation"
 ---
 
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# DATA 202 hack for displaying plotly within RStudio:
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+# End hack
+```
+
+
 ## Q&A
 
 - Bar vs histogram
 - Color schemes
 - Map vs set
 - discrete vs continuous scales
+
+## bar plots
+
+```{python}
+loans_full_schema = pd.read_excel('../../static/data/openintro_loans_full_schema.xlsx')
+```
+
+https://plotly.com/python/reference/layout/xaxis/#layout-xaxis-categoryorder
+
+```{python}
+loans = loans_full_schema[['loan_amount', 'interest_rate', 'term', 'grade', 'state', 'annual_income', 'homeownership', 'debt_to_income']]
+```
+
+
+```{python}
+show_plot(
+  px.histogram(loans, x="state")
+  .update_xaxes(categoryorder="total descending"))
+```
+
+
+```{python}
+show_plot(
+  px.histogram(loans_full_schema, y="loan_purpose")
+  .update_yaxes(categoryorder="total ascending"))
+```
