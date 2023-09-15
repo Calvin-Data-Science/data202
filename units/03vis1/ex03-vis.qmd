@@ -31,7 +31,7 @@ daily_rides['month'] = daily_rides['date'].dt.month
 ```
 
 
-## Exercise 1
+## Part 1
 
 Replicate this plot, made using the ridership data from the previous exercise. Write one or two sentences about what it tells you.
 
@@ -54,7 +54,7 @@ show_plot(
 - [ ] Have you set the marker opacity (attribute `marker_opacity`) to 0.5?
 - [ ] Have you written one or two sentences about what the plot tells you?
 
-## Exercise 2
+## Part 2
 
 Make another plot of the same variables as in Exercise 1, but choose a different mapping of variables to visual cues. Write a sentence about what is now easier, or harder, to see in this plot compared with the previous one.
 
@@ -62,7 +62,7 @@ Make another plot of the same variables as in Exercise 1, but choose a different
 - [ ] Have you chosen a different mapping of variables to visual cues?
 - [ ] Have you stated something that's easier to see in this plot compared with the previous one?
 
-## Exercise 3
+## Part 3
 
 Now use the gapminder data; you may use the data from Plotly Express. The following code chunk also creates some filtered data frames that are needed for the following exercises.
 
@@ -97,7 +97,7 @@ show_plot(
 - [ ] Does the plot have a title?
 - [ ] Is the line `green`? (The trace attribute is called `line_color`.)
 
-## Exercise 4
+## Part 4
 
 Make two plots of the `gapmind_9_countries` data. Both plots should use `year`, `lifeExp`, and `country`, but one should use color for `country` and the other should use faceting (I suggest making the facets wrap). Compare and contrast the two plots: What is easier to see in one plot compared with the other?
 
@@ -107,7 +107,7 @@ Make two plots of the `gapmind_9_countries` data. Both plots should use `year`, 
 - [ ] Do you have a plot that's faceted by `country`?
 - [ ] Have you stated something that's easier to see in one plot compared with the other?
 
-## Exercise 5
+## Part 5
 
 Replicate the [Gapminder "health and wealth"](https://www.gapminder.org/tools/#$chart-type=bubbles&url=v1) plot -- as much as you can.
 
