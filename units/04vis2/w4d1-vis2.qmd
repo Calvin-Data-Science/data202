@@ -1,6 +1,9 @@
 ---
 title: "4.1: Visualization Implementation"
-format: revealjs
+format:
+  revealjs:
+    revealjs-plugins:
+      - "fix-plotly-size"
 execute: 
   echo: true
 include-in-header: 
