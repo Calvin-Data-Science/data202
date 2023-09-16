@@ -79,7 +79,29 @@ Looking beyond this week for the midterm project, other steps will be:
 4. Make an initial plot and a todo list of things to improve; sketch ideas for alternative ways to plot the same data
 5. Present the original, replication, and alternative plots to the class and in a Quarto report (week 8)
 
+## Week 4
 
+This week we'll round out our discussion of visualizations by looking at various different plot types and a little bit about how Plotly works inside. We'll also sneak in a preview of data wrangling, since often you need to wrangle data into a form needed for your plots. (Next week we'll dive deep into data wrangling with pandas.)
+
+- My regular office hours are Tuesdays 2-3pm, Wednesdays 3-4pm, NH 298 (posted on Moodle for reference) Or just stop by whenever my door is open, or message me to make an appointment. If you want to do lunch or coffee, we can find a time for that too!
+- **Exercise 3** has been updated:
+  - Updated the intro to specify that your `qmd` file should actually have a few options set.
+  - Gave some additional things to aim for on Exercise 5, and an example of what it might look like.
+  - Added the usual Reflections section in the report (there's still the usual check-in "quiz" from Friday class; not many people filled that out)
+  - Clarified the difference between Exercises and Parts (sorry, that was confusing).
+  - Due on Wednesday.
+- The [**Midterm Project** page](https://calvin-data-science.github.io/data202/midterm-proj.html) is updated with descriptions of the **next milestone**. Specifically, you'll be uploading a plot you're considering replicating to a [Plot Gallery](https://moodle.calvin.edu/mod/data/view.php?id=1705052) on Moodle. 
+  - Since you already did the hardest part (finding a plot you're interested in) in Discussion 2, this milestone should be done by Friday.
+  - This doesn't have to be your final choice of plot. The course staff can work with you to refine your choice.
+  - I've uploaded an example.
+- **Exercise 2** was graded too harshly, but we're fixing that.
+- **Reading 4**, on visualization, should be done by Friday. (We'll probably take some time on Wednesday's class to address things that came up during the reading, so ideally you'd have most of it done by Tuesday so we can prep that.)
+
+We'll get Quiz 1 graded once a few people who weren't in class get to take it. The autograder tends to be too harsh; I usually go back and tweak it to give more credit.
+
+Finally, now that we're trying more open-ended things, our mistakes are getting more interesting. To celebrate them, I've made a "Mistakes Showcase" at the top of Moodle. Thanks to Lillian for our first post there!
+
+See you Monday!
 
 
 # Final Presentation Notes
