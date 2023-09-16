@@ -74,6 +74,10 @@ else:
 :::
 :::
 
+::: aside
+This example draws heavily on [Data Science in a Box](https://datasciencebox.org/) by Mine Çetinkaya-Rundel.
+:::
+
 ## Take a peek at the data {.smaller}
 
 ```{python}
