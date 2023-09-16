@@ -1,8 +1,12 @@
 ---
 title: "4.1: Visualization Implementation"
+format: revealjs
+execute: 
+  echo: true
 ---
 
 ```{python}
+#| echo: false
 import pandas as pd
 import plotly.express as px
 
@@ -23,28 +27,250 @@ else:
 - Map vs set
 - discrete vs continuous scales
 
-## bar plots
+
+# Terminology
+
+## Number of variables involved
+
+- **Univariate** data analysis - distribution of single variable
+- **Bivariate** data analysis - relationship between two variables
+- **Multivariate** data analysis - relationship between many variables at once
+  - usually focusing on bivariate relationships assuming other variables are held constant
+
+---
+
+## Types of variables
+
+- **Numerical variables** can be classified as **continuous** or **discrete** based on whether or not the variable can take on an infinite number of values or only non-negative whole numbers, respectively.
+- If the variable is **categorical**, we can determine if it is **ordinal** based on whether or not the levels have a natural ordering.
+
+# Data
+
+---
+
+## Data: Lending Club
+
+::: {.columns}
+::: {.column width="80%"}
+- Thousands of loans made through the Lending Club, a platform that allowed individuals to lend to other individuals
+
+- Not all loans are created equal -- ease of getting a loan depends on (apparent) ability to pay back the loan
+
+- Data includes loans *made*, these are not loan applications
+:::
+
+::: {.column width="20%"}
+![Lending Club logo](images/lending-club.png)
+:::
+:::
+
+## Take a peek at the data
 
 ```{python}
 loans_full_schema = pd.read_excel('../../static/data/openintro_loans_full_schema.xlsx')
+loans_full_schema.info()
+loans_full_schema.head()
 ```
 
-https://plotly.com/python/reference/layout/xaxis/#layout-xaxis-categoryorder
+## Select a few variables
 
 ```{python}
-loans = loans_full_schema[['loan_amount', 'interest_rate', 'term', 'grade', 'state', 'annual_income', 'homeownership', 'debt_to_income']]
+loans = loans_full_schema[['loan_amount', 'loan_purpose', 'interest_rate', 'term', 'grade', 'state', 'annual_income', 'homeownership', 'debt_to_income']]
+loans.head()
 ```
+
+
+## Selected variables
+
+::: {.smaller}
+variable        | description
+----------------|-------------
+`loan_amount`   |	Amount of the loan received, in US dollars
+`loan_purpose`  |	Purpose of the loan
+`interest_rate` |	Interest rate on the loan, in an annual percentage
+`term`	        | The length of the loan, which is always set as a whole number of months
+`grade`	        | Loan grade, which takes a values A through G and represents the quality of the loan and its likelihood of being repaid
+`state`         |	US state where the borrower resides
+`annual_income` |	Borrower’s annual income, including any second income, in US dollars
+`homeownership`	| Indicates whether the person owns, owns but has a mortgage, or rents
+`debt_to_income` | Debt-to-income ratio
+:::
+
+
+## Variable types
+
+variable        | type
+----------------|-------------
+`loan_amount`   |	numerical, continuous
+`loan_purpose`  |	categorical, not ordinal
+`interest_rate` |	numerical, continuous
+`term`	        | numerical, discrete
+`grade`	        | categorical, ordinal
+`state`         |	categorical, not ordinal
+`annual_income` |	numerical, continuous
+`homeownership`	| categorical, not ordinal
+`debt_to_income` | numerical, continuous
+
+
+# Visualizing numerical data
+
+---
+
+## Describing shapes of numerical distributions
+
+- center: mean (`mean`), median (`median`), mode (not always useful)
+- spread: range (`range`), standard deviation (`sd`), inter-quartile range (`IQR`)
+- shape:
+    - skewness: right-skewed, left-skewed, symmetric (skew is to the side of the longer tail)
+    - modality: unimodal, bimodal, multimodal, uniform
+- unusual observations
+
+# Histograms
+
+## Plotting a histogram
+
+```{python}
+px.histogram(loans, x="loan_amount")
+```
+
+## Effect of bin count
+
+::: {.panel-tabset}
+
+### Bin count = 10
+
+```{python}
+px.histogram(loans, x="loan_amount", nbins=10)
+```
+
+### Bin count = 30
+
+```{python}
+px.histogram(loans, x="loan_amount", nbins=30)
+```
+
+### Bin count = 100
+
+```{python}
+px.histogram(loans, x="loan_amount", nbins=100)
+```
+
+:::
+
+## Aside: be careful with histograms on discrete data
+
+```{python}
+uniform = pd.DataFrame({'x': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})
+```
+
+::: {.columns}
+::: {.column width="50%"}
+```{python}
+px.histogram(uniform, x="x", nbins=10)
+```
+:::
+::: {.column width="50%"}
+```{python}
+px.histogram(uniform, x="x", nbins=9)
+```
+:::
+:::
+
+Binning discrete data can be misleading.
+
+## Yes you should label histograms
+
+```{python}
+#| code-line-numbers: "2"
+px.histogram(loans, x="loan_amount", nbins=30,
+  labels={'loan_amount': 'Loan amount (USD)'}, title="Amounts of Lending Club loans")
+```
+
+
+## Fill with a categorical variable
+
+```{python}
+px.histogram(loans, x="loan_amount", nbins=30, color="homeownership", barmode="overlay")
+```
+
+## Should we stack?
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{python}
+px.histogram(loans, x="loan_amount", nbins=30, color="homeownership", barmode="overlay")
+```
+
+:::
+::: {.column width="50%"}
+
+```{python}
+px.histogram(loans, x="loan_amount", nbins=30, color="homeownership",  barmode="stack")
+```
+:::
+:::
+
+## Should we facet instead?
 
 
 ```{python}
-show_plot(
-  px.histogram(loans, x="state")
-  .update_xaxes(categoryorder="total descending"))
+(
+  px.histogram(loans, x="loan_amount", nbins=30, facet_row="homeownership")
+  .for_each_annotation(lambda a: a.update(text=a.text.split("=", 1)[-1]))
+)
+# TODO: remove the = signs
 ```
+
+# Categorical Data
+
+## Histogram on categorical data
+
+Often called a bar chart.
+
+```{python}
+px.histogram(loans, x="homeownership")
+```
+
+## px.bar vs px.histogram
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{python}
+counts = loans["homeownership"].value_counts()
+counts
+```
+
+:::
+::: {.column width="50%"}
+
+```{python}
+px.bar(counts)
+```
+
+## Bar chart with lots of categories
 
 
 ```{python}
-show_plot(
-  px.histogram(loans_full_schema, y="loan_purpose")
-  .update_yaxes(categoryorder="total ascending"))
+px.histogram(loans, x="loan_purpose")
 ```
+
+## Don't make me read sideways!
+
+```{python}
+px.histogram(loans, y="loan_purpose")
+```
+
+## Use a meaningful order!
+
+```{python}
+(
+  px.histogram(loans, y="loan_purpose")
+  .update_yaxes(categoryorder="total ascending")
+)
+```
+
+[Documentation on `categoryorder`](https://plotly.com/python/reference/layout/xaxis/#layout-xaxis-categoryorder)
+
+<!-- TODO: more from w03-viz-numerical -->
