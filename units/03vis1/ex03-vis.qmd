@@ -56,15 +56,15 @@ show_plot(
 
 ## Part 2
 
-Make another plot of the same variables as in Exercise 1, but choose a different mapping of variables to visual cues. Write a sentence about what is now easier, or harder, to see in this plot compared with the previous one.
+Make another plot of the same variables as in Part 1, but choose a different mapping of variables to visual cues. Write a sentence about what is now easier, or harder, to see in this plot compared with the previous one.
 
-- [ ] Have you made a plot with the same variables as Exercise 1?
+- [ ] Have you made a plot with the same variables as Part 1?
 - [ ] Have you chosen a different mapping of variables to visual cues?
 - [ ] Have you stated something that's easier to see in this plot compared with the previous one?
 
 ## Part 3
 
-Now use the gapminder data; you may use the data from Plotly Express. The following code chunk also creates some filtered data frames that are needed for the following exercises.
+Now use the gapminder data; you may use the data from Plotly Express. The following code chunk also creates some filtered data frames that are needed for the following problems.
 
 ```{python}
 #| echo: true
@@ -130,6 +130,23 @@ px.scatter(gapminder,
 )
 ```
 
-# Submitting
 
-Submit your rendered HTML file to Moodle. (Make sure it renders cleanly.)
+## Reflection
+
+At the end of your document, write a sentence or two of your overall reflections on this exercise. You may write whatever you want, but you might perhaps respond to one or two of these questions:
+
+- Was anything unclear about this assignment?
+- How hard was it for you? Where did you get "stuck"?
+- How long did it take you?
+- What questions or uncertainties remain?
+- What skills do you think you'll need more practice with?
+- Did you try anything out of curiosity that you weren't specifically asked to do?
+
+::: {.callout-note}
+We'll respond to these reflections in class, but only in an overall sense and only once we've had a chance to review them. If you have a question that needs a response, please post it on Perusall.
+:::
+
+## Submitting
+
+Submit your rendered HTML file to Moodle. (Make sure it renders cleanly, and shows correctly on your computer.)
+
