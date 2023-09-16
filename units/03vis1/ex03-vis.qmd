@@ -97,6 +97,19 @@ show_plot(
 - [ ] Does the plot have a title?
 - [ ] Is the line `green`? (The trace attribute is called `line_color`.)
 
+```{python}
+#| include: false
+#| eval: false
+# An example of the problem of not mapping color.
+show_plot(
+  px.line(
+    gapminder.query("country in ['China', 'United States']"),
+    x="year", y="lifeExp",
+    labels={"year": "Year", "lifeExp": "Life Expectancy (years)"},
+  )
+)
+```
+
 ## Part 4
 
 Make two plots of the `gapmind_9_countries` data. Both plots should use `year`, `lifeExp`, and `country`, but one should use color for `country` and the other should use faceting (I suggest making the facets wrap). Compare and contrast the two plots: What is easier to see in one plot compared with the other?
