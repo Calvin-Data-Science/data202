@@ -3,6 +3,13 @@ title: "4.1: Visualization Implementation"
 format: revealjs
 execute: 
   echo: true
+include-in-header: 
+  text: |
+    <style>
+      .smaller table {
+        font-size: .5em
+      }
+    </style>
 ---
 
 ```{python}
@@ -60,11 +67,11 @@ else:
 :::
 
 ::: {.column width="20%"}
-![Lending Club logo](images/lending-club.png)
+![](images/lending-club.png)
 :::
 :::
 
-## Take a peek at the data
+## Take a peek at the data {.smaller}
 
 ```{python}
 loans_full_schema = pd.read_excel('../../static/data/openintro_loans_full_schema.xlsx')
@@ -72,7 +79,7 @@ loans_full_schema.info()
 loans_full_schema.head()
 ```
 
-## Select a few variables
+## Select a few variables {.smaller}
 
 ```{python}
 loans = loans_full_schema[['loan_amount', 'loan_purpose', 'interest_rate', 'term', 'grade', 'state', 'annual_income', 'homeownership', 'debt_to_income']]
@@ -81,6 +88,7 @@ loans.head()
 
 
 ## Selected variables
+
 
 ::: {.smaller}
 variable        | description
@@ -97,7 +105,7 @@ variable        | description
 :::
 
 
-## Variable types
+## Variable types {.smaller}
 
 variable        | type
 ----------------|-------------
@@ -157,7 +165,7 @@ px.histogram(loans, x="loan_amount", nbins=100)
 
 :::
 
-## Aside: be careful with histograms on discrete data
+## Aside: be careful with histograms on discrete data {.smaller}
 
 ```{python}
 uniform = pd.DataFrame({'x': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})
@@ -219,7 +227,6 @@ px.histogram(loans, x="loan_amount", nbins=30, color="homeownership",  barmode="
   px.histogram(loans, x="loan_amount", nbins=30, facet_row="homeownership")
   .for_each_annotation(lambda a: a.update(text=a.text.split("=", 1)[-1]))
 )
-# TODO: remove the = signs
 ```
 
 # Categorical Data
@@ -248,6 +255,8 @@ counts
 ```{python}
 px.bar(counts)
 ```
+:::
+:::
 
 ## Bar chart with lots of categories
 
