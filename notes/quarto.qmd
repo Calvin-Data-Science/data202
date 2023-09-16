@@ -39,7 +39,9 @@ The `embed-resources` option makes the HTML file self-contained, so you can shar
 :::
 
 ::: {.callout-note title="Plotly Explanation" collapse="true"}
-Plotly works fine in Quarto *rendered* documents, but to have plots show up in the RStudio *editor* when you run a chunk, you'll need to include that hack and surround your plot with `show_plot()`. 
+Plotly works fine in Quarto *rendered* documents, but to have plots show up in the RStudio *editor* when you run a chunk, you'll need to include that hack and surround your plot with `show_plot()`.
+
+You are not expected to understand this hack; just copy and paste it into your document.
 
 Once [this bug](https://github.com/rstudio/rstudio/issues/8762) in RStudio is fixed we can remove this hack.
 :::
