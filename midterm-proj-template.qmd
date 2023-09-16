@@ -1,14 +1,27 @@
 ---
-title: "YOUR TITLE HERE"
-author: "YOUR NAME HERE"
-output:
-  html_document:
-    code_download: true
+title: "A title"
+author: "Your name"
+format:
+  html:
+    embed-resources: true
+    code-tools: true
+    code-fold: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)
+```{{python}}
+#| echo: true
+import pandas as pd
+import plotly.express as px
+```
+
+```{{python}}
+#| echo: false
+# Hack to make plotly work in RStudio
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
 ```
 
 🚧
@@ -22,12 +35,7 @@ We are interested in TOPIC because STORY. So we chose to replicate a plot from [
 🚧
 Original visualization:
 
-```{r original-plot, echo=FALSE}
-# Here is an example of how to include graphics in your report.
-# See https://bookdown.org/yihui/rmarkdown-cookbook/figure-size.html for more details.
-# You can use a URL ("Copy Image Address" etc.) or a file in your repo.
-knitr::include_graphics("https://example.com/your-url-here")
-```
+![](https://example.com/your-url-here)
 
 🚧
 Claim:
@@ -81,9 +89,8 @@ What might we need to know about the data collection process in order to interpr
 🚧
 A low-level description of the size and structure of the data.
 🚧
+How many rows are there?
 What does a single row represent? (Translate the first observation in the dataset into an English sentence.)
-🚧
-How many rows are there? (use inline code: `r nrow(data)` etc.)
 🚧
 What might be interesting to know about what information the data does, and doesn’t, provide?
 
@@ -123,7 +130,7 @@ How does that change affect how the visual supports the original claim? Can your
 
 🚧
 Make a solid attempt to implement your best alternative design.
-If creating it using ggplot/plotly/etc is too challenging, you may include a high-fidelity sketch of what the plot would look like (using PowerPoint, a vector graphics tool, or a good-quality scan of a paper or whiteboard), along with a clear description of what you’d need to figure out in order to produce it with code.
+If creating it using plotly is too challenging, you may include a high-fidelity sketch of what the plot would look like (using PowerPoint, a vector graphics tool, or a good-quality scan of a paper or whiteboard), along with a clear description of what you’d need to figure out in order to produce it with code.
 
 ## Summary
 
