@@ -2,6 +2,49 @@
 title: "Quarto Documents"
 ---
 
+## Class Standards
+
+Your `qmd` files should generally start like this:
+
+````yaml
+---
+title: "A title"
+author: "Your name"
+format:
+  html:
+    embed-resources: true
+    code-tools: true
+    code-fold: true
+---
+
+```{{python}}
+#| echo: true
+import pandas as pd
+import plotly.express as px
+```
+
+```{{python}}
+#| echo: false
+# Hack to make plotly work in RStudio
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+```
+````
+
+::: {.callout-note title="YAML Explanation" collapse="true"}
+The `embed-resources` option makes the HTML file self-contained, so you can share it with others. The `code-tools` option adds a button to the top of the document that lets you run all the code chunks at once. The `code-fold` option lets you collapse code chunks in the document. (You may omit this option if you prefer to see all the code.)
+:::
+
+::: {.callout-note title="Plotly Explanation" collapse="true"}
+Plotly works fine in Quarto *rendered* documents, but to have plots show up in the RStudio *editor* when you run a chunk, you'll need to include that hack and surround your plot with `show_plot()`. 
+
+Once [this bug](https://github.com/rstudio/rstudio/issues/8762) in RStudio is fixed we can remove this hack.
+:::
+
+
 ## Chunk Options
 
 ```{{python}}
@@ -40,16 +83,3 @@ Triple-quoted strings (`"""`) can span multiple lines. They can also have single
 
 The `format` method on strings fills in `{}` blanks with the values of the named arguments. (You can also use f-strings (`f"There are {num_rows} rows in the data frame."`) if you know what those are.)
 :::
-
-
-## Using Plotly in RStudio
-
-Plotly works fine in Quarto rendered documents, but to have plots show up in the RStudio editor when you run a chunk, you'll need to include this code chunk:
-
-```{{python}}
-if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
-  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
-  def show_plot(p): r.to_html(p._repr_html_())
-else:
-  def show_plot(p): return p
-```
