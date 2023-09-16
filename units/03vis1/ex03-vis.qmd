@@ -23,7 +23,7 @@ Please shutdown your RStudio session when you're not using it.
 
 In the past several exercises, you've typically been given a lot of template code and very specific instructions. This time, we'll do some of the same tasks, but without the training wheels.
 
-For example, you should make your own `qmd` file, following the [Class Standards](../../notes/quarto.qmd#class-standards) (especially regarding the YAML header). You may use past exercises as inspiration, but avoid copy and paste.
+Make your own `qmd` file, following the [Class Standards](../../notes/quarto.qmd#class-standards) (especially regarding the YAML header). You may use past exercises as inspiration, but avoid copy and paste except for the text in Class Standards.
 
 ```{python}
 daily_rides = pd.read_csv("../../static/data/bikeshare/day_by_type.csv", parse_dates=["date"])
