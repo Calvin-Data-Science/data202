@@ -10,8 +10,11 @@ execute:
 include-in-header: 
   text: |
     <style>
+      .midi table {
+        font-size: .8em;
+      }
       .smaller table {
-        font-size: .5em
+        font-size: .5em;
       }
     </style>
 ---
@@ -113,7 +116,7 @@ variable        | description
 :::
 
 
-## Variable types {.smaller}
+## Variable types {.midi}
 
 variable        | type
 ----------------|-------------
@@ -156,19 +159,19 @@ px.histogram(loans, x="loan_amount")
 ### Bin count = 10
 
 ```{python}
-px.histogram(loans, x="loan_amount", nbins=10)
+px.histogram(loans, x="loan_amount", nbins=10, range_x=[0, 45000])
 ```
 
 ### Bin count = 30
 
 ```{python}
-px.histogram(loans, x="loan_amount", nbins=30)
+px.histogram(loans, x="loan_amount", nbins=30, range_x=[0, 45000])
 ```
 
 ### Bin count = 100
 
 ```{python}
-px.histogram(loans, x="loan_amount", nbins=100)
+px.histogram(loans, x="loan_amount", nbins=100, range_x=[0, 45000])
 ```
 
 :::
@@ -194,7 +197,7 @@ px.histogram(uniform, x="x", nbins=9)
 
 Binning discrete data can be misleading.
 
-## Yes you should label histograms
+## Yes, you should label histograms
 
 ```{python}
 #| code-line-numbers: "2"
@@ -215,27 +218,45 @@ px.histogram(loans, x="loan_amount", nbins=30, color="homeownership", barmode="o
 ::: {.column width="50%"}
 
 ```{python}
-px.histogram(loans, x="loan_amount", nbins=30, color="homeownership", barmode="overlay")
+#| code-line-numbers: "3"
+px.histogram(loans, x="loan_amount",
+  nbins=30, color="homeownership",
+  barmode="overlay")
 ```
 
 :::
 ::: {.column width="50%"}
 
 ```{python}
-px.histogram(loans, x="loan_amount", nbins=30, color="homeownership",  barmode="stack")
+#| code-line-numbers: "3"
+px.histogram(loans, x="loan_amount",
+  nbins=30, color="homeownership",
+  barmode="stack")
 ```
 :::
 :::
 
 ## Should we facet instead?
 
-
 ```{python}
+#| code-line-numbers: "2"
 (
   px.histogram(loans, x="loan_amount", nbins=30, facet_row="homeownership")
   .for_each_annotation(lambda a: a.update(text=a.text.split("=", 1)[-1]))
 )
 ```
+
+## Normalize?
+
+```{python}
+#| code-line-numbers: "3"
+(
+  px.histogram(loans, x="loan_amount", nbins=30, facet_row="homeownership",
+    histnorm="percent")
+  .for_each_annotation(lambda a: a.update(text=a.text.split("=", 1)[-1]))
+)
+```
+
 
 ## Alternative plot types
 
