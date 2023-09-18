@@ -176,6 +176,12 @@ px.histogram(loans, x="loan_amount", nbins=100, range_x=[0, 45000])
 
 :::
 
+## Summary of bin count effect
+
+- **Overall**: histograms emphasize mode and skewness, not mean/median
+- **Lots of bins**: easier to see modes, harder to see skewness
+- **Few bins**: easier to see skewness, harder to see multiple modes
+
 ## Aside: be careful with histograms on discrete data {.smaller}
 
 ```{python}
@@ -205,6 +211,7 @@ px.histogram(loans, x="loan_amount", nbins=30,
   labels={'loan_amount': 'Loan amount (USD)'}, title="Amounts of Lending Club loans")
 ```
 
+But many plots in this presentation will be unlabeled for space.
 
 ## Fill with a categorical variable
 
@@ -213,6 +220,8 @@ px.histogram(loans, x="loan_amount", nbins=30, color="homeownership", barmode="o
 ```
 
 ## Should we stack?
+
+**Overlay**: bars start at axis. **Stacked**: start at top of previous bar.
 
 ::: {.columns}
 ::: {.column width="50%"}
@@ -234,6 +243,10 @@ px.histogram(loans, x="loan_amount",
   barmode="stack")
 ```
 :::
+:::
+
+::: notes
+Stacking bars is useful only if order matters.
 :::
 
 ## Should we facet instead?
@@ -263,7 +276,6 @@ px.histogram(loans, x="loan_amount",
 ```{python}
 px.box(loans, x="loan_amount", y="homeownership")
 ```
-
 
 ```{python}
 px.violin(loans, x="loan_amount", y="homeownership")
