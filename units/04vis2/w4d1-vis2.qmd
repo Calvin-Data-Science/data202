@@ -2,6 +2,7 @@
 title: "4.1: Visualization Implementation"
 format:
   revealjs:
+    scrollable: true
     revealjs-plugins:
       - "fix-plotly-size"
 execute: 
@@ -131,10 +132,10 @@ variable        | type
 
 ---
 
-## Describing shapes of numerical distributions
+## Describing shapes of numerical distributions {.smaller}
 
-- center: mean (`mean`), median (`median`), mode (not always useful)
-- spread: range (`range`), standard deviation (`sd`), inter-quartile range (`IQR`)
+- center: mean, median, mode (not always useful)
+- spread: range, standard deviation, inter-quartile range
 - shape:
     - skewness: right-skewed, left-skewed, symmetric (skew is to the side of the longer tail)
     - modality: unimodal, bimodal, multimodal, uniform
@@ -236,6 +237,59 @@ px.histogram(loans, x="loan_amount", nbins=30, color="homeownership",  barmode="
 )
 ```
 
+## Alternative plot types
+
+```{python}
+px.box(loans, x="loan_amount", y="homeownership")
+```
+
+
+```{python}
+px.violin(loans, x="loan_amount", y="homeownership")
+```
+
+*Ridgeline* plot
+
+```{python}
+(
+  px.violin(loans, x="loan_amount", y="homeownership")
+  .update_traces(side = 'positive', width=3)
+)
+```
+
+# Retrieval Break
+
+## Mapping vs Setting
+
+Which one of these *maps* color? Which one *sets* color?
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{python}
+(
+  px.scatter(loans, x="loan_amount", y="interest_rate")
+  .update_traces(marker_color="red", marker_size=3)
+)
+```
+:::
+
+::: {.column width="50%"}
+```{python}
+px.scatter(loans, x="loan_amount", y="interest_rate", color="grade")
+```
+:::
+:::
+
+## What is the error in the following code?
+
+```python
+px.scatter(gapminder,
+  x="gdpPercap", y="lifeExp"
+  animation_frame="year"
+)
+```
+
 # Categorical Data
 
 ## Histogram on categorical data
@@ -248,22 +302,14 @@ px.histogram(loans, x="homeownership")
 
 ## px.bar vs px.histogram
 
-::: {.columns}
-::: {.column width="50%"}
-
 ```{python}
 counts = loans["homeownership"].value_counts()
 counts
 ```
 
-:::
-::: {.column width="50%"}
-
 ```{python}
-px.bar(counts)
+px.bar(counts, height=300)
 ```
-:::
-:::
 
 ## Bar chart with lots of categories
 
@@ -281,6 +327,7 @@ px.histogram(loans, y="loan_purpose")
 ## Use a meaningful order!
 
 ```{python}
+#| code-line-numbers: "3"
 (
   px.histogram(loans, y="loan_purpose")
   .update_yaxes(categoryorder="total ascending")
@@ -290,3 +337,6 @@ px.histogram(loans, y="loan_purpose")
 [Documentation on `categoryorder`](https://plotly.com/python/reference/layout/xaxis/#layout-xaxis-categoryorder)
 
 <!-- TODO: more from w03-viz-numerical -->
+
+# Your turn
+
