@@ -12,3 +12,5 @@ rosm.cache
 /.quarto/
 _site
 *_files
+# VS Code adds these...
+.vdoc.py
