@@ -292,7 +292,7 @@ px.violin(loans, x="loan_amount", y="homeownership")
 
 # Retrieval Break
 
-## Mapping vs Setting
+## Mapping vs Setting {.smaller}
 
 Which one of these *maps* color? Which one *sets* color?
 
@@ -351,13 +351,15 @@ px.bar(counts, height=300)
 px.histogram(loans, x="loan_purpose")
 ```
 
-## Don't make me read sideways!
+## Category labels should be legible {.smaller}
+
+Tip: flip bar charts so the categorical variable is on the y-axis.
 
 ```{python}
 px.histogram(loans, y="loan_purpose")
 ```
 
-## Use a meaningful order!
+## Order categories meaningfully. {.smaller}
 
 ```{python}
 #| code-line-numbers: "3"
