@@ -1,13 +1,26 @@
 window.FixPlotlySize = {
   id: 'FixPlotlySize',
   init: function(Reveal) {
-    Reveal.addEventListener( 'slidechanged', function( event ) {
-      let curSlide = Reveal.getCurrentSlide();
-      require(['plotly'], function(Plotly) {
-        let plotlyDivs = curSlide.querySelectorAll('.js-plotly-plot');
-        for (let i = 0; i < plotlyDivs.length; i++) {
-          Plotly.Plots.resize(plotlyDivs[i]);
-        }
+    require(['plotly'], function(Plotly) {
+      // Trigger once on initial load
+      document.querySelectorAll('.js-plotly-plot').forEach(plotlyDiv => {
+        Plotly.Plots.resize(plotlyDiv);
+      })
+
+      function resizeCurSlide() {
+        let curSlide = Reveal.getCurrentSlide();
+        curSlide.querySelectorAll('.js-plotly-plot').forEach(plotlyDiv => {
+          Plotly.Plots.resize(plotlyDiv);
+        });
+      }
+      // Then trigger on every slide change, since panelsets sometimes change
+      Reveal.addEventListener( 'slidechanged', event => {
+        resizeCurSlide();
+      });
+
+      // Also listen to tabby changes, which are custom events called 'tabby'
+      window.addEventListener('tabby', event => {
+        resizeCurSlide();
       });
     });
   }
