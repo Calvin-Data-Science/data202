@@ -87,7 +87,7 @@ If you are really stuck, I can simply assign something to do, but I’m hoping t
 #### Your data
 
 - Should come from a reputable source.
-  - If you use an aggregation site like OurWorldInData, try to track down where *they* got the data.
+  - If you use an aggregation site like [OurWorldInData](https://ourworldindata.org/), try to track down where *they* got the data.
 - Should require at least a little bit of wrangling
   - Beware of sites where you can download *exactly* the data for a specific plot)
   - "Download data for this chart" links are red flags that you may be getting already-wrangled data.
