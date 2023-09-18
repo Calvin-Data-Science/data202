@@ -18,6 +18,14 @@ else:
 # End hack
 ```
 
+::: {.callout-warning}
+This exercise is not yet finalized; it may still be changed before Friday.
+:::
+
+## Setup
+
+Start with the usual setup code, given in the [course notes](../../notes/quarto.qmd#class-standards).
+
 ::: {.callout-important}
 Please shutdown your RStudio session when you're not using it.
 :::
