@@ -16,11 +16,22 @@ include-in-header:
       .smaller table {
         font-size: .5em;
       }
+      .copilot::before {
+        content: "GitHub Copilot says:";
+      }
+      /* grey text, light background */
+      .copilot {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+      }
     </style>
 ---
 
 ```{python}
 #| echo: false
+import numpy as np
 import pandas as pd
 import plotly.express as px
 
@@ -373,5 +384,182 @@ px.histogram(loans, y="loan_purpose")
 
 <!-- TODO: more from w03-viz-numerical -->
 
+## Segmented bar plots
+
+```{python}
+px.histogram(loans, x="homeownership", color="grade")
+```
+
+## oops, order those categories
+  
+```{python}
+fig = (
+  px.histogram(loans, x="homeownership", color="grade")
+  .update_yaxes(categoryorder="category ascending")
+)
+fig
+```
+
+
+## no?
+
+```{python}
+print(len(fig.data))
+print([d.name for d in fig.data])
+print(list(loans['grade'].unique()))
+```
+
+## Fix the *data* order
+
+```{python}
+#| code-line-numbers: "2"
+px.histogram(
+  loans.sort_values(by="grade"),
+  x="homeownership", color="grade"
+)
+```
+
+## Choosing a color palette
+
+::: {.columns}
+::: {.column width="50%"}
+```{python}
+px.colors.sequential.swatches()
+```
+:::
+::: {.column width="50%"}
+```{python}
+px.colors.qualitative.swatches()
+```
+:::
+:::
+
+
+## Implementing that color palette
+
+
+::: {.columns}
+::: {.column width="50%"}
+```{python}
+#| code-line-numbers: "4"
+px.histogram(
+  loans.sort_values(by="grade"),
+  x="homeownership", color="grade",
+  color_discrete_sequence=px.colors.qualitative.G10
+)
+```
+:::
+::: {.column width="50%"}
+```{python}
+#| code-line-numbers: "4"
+px.histogram(
+  loans.sort_values(by="grade"),
+  x="homeownership", color="grade",
+  color_discrete_sequence=px.colors.sequential.Cividis_r
+)
+```
+:::
+:::
+
+## Should we normalize the bars?
+
+::: {.columns}
+::: {.column width="50%"}
+```{python}
+#| code-line-numbers: "5"
+px.histogram(
+  loans.sort_values(by="grade"),
+  x="homeownership", color="grade",
+  color_discrete_sequence=px.colors.sequential.Cividis_r,
+  barnorm=None
+)
+```
+:::
+::: {.column width="50%"}
+```{python}
+#| code-line-numbers: "5"
+px.histogram(
+  loans.sort_values(by="grade"),
+  x="homeownership", color="grade",
+  color_discrete_sequence=px.colors.sequential.Cividis_r,
+  barnorm="percent"
+)
+```
+:::
+:::
+
+
 # Your turn
+
+Start work on Exercise 4.
+
+# Wednesday
+
+## EDA
+
+::: copilot
+- **Exploratory data analysis** (EDA) is the process of exploring data, usually with visualization, to understand the data and to generate hypotheses.
+- EDA is not a formal process, but it is a process that can be learned.
+- EDA is not a substitute for formal statistical inference, but it is a useful precursor.
+:::
+
+
+## Primary keys
+
+- **Primary key**: a column or set of columns that uniquely identifies each row in a table
+- When we say "each row is a ___", the BLANK is the primary key
+
+::: exercise
+{{< fa pencil >}}
+What's the primary key for the `gapminder_latest` from Exercise 4?
+:::
+
+::: exercise
+{{< fa pencil >}}
+What's the primary key for `gapminder`?
+:::
+
+::: exercise
+{{< fa pencil >}}
+Does `loans` have a primary key?
+:::
+
+## Relationships between continuous variables
+
+```{python}
+px.scatter(loans, x="debt_to_income", y="interest_rate")
+```
+
+## Overplotting
+
+Easy fixes: transparency, smaller points
+
+```{python}
+(
+  px.scatter(loans, x="debt_to_income", y="interest_rate")
+  .update_traces(marker_opacity=0.1, marker_size=3)
+)
+```
+
+## Avoid lots of blank space
+
+```{python}
+threshold = 75
+low_debt_to_income = loans.query("debt_to_income < @threshold")
+# show percent of rows removed
+print("Removed {} rows ({:.1f}%)".format(
+  len(loans) - len(low_debt_to_income),
+  100 * (len(loans) - len(low_debt_to_income)) / len(loans)
+))
+(
+  px.scatter(low_debt_to_income, x="debt_to_income", y="interest_rate")
+  .update_traces(marker_opacity=0.1, marker_size=3)
+)
+```
+
+## 2D histograms
+
+```{python}
+px.density_heatmap(low_debt_to_income, x="debt_to_income", y="interest_rate")
+```
 
