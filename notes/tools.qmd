@@ -4,6 +4,8 @@ title: "Tool References"
 
 ## Cheatsheets
 
+- Novartis Graphics Principles [Cheatsheet](https://github.com/GraphicsPrinciples/CheatSheet/blob/master/NVSCheatSheet.pdf)
+
 Quick references for technology we're using
 
 - Plotly
