@@ -18,6 +18,7 @@ include-in-header:
       }
       .copilot::before {
         content: "GitHub Copilot says:";
+        font-size: .5em;
       }
       /* grey text, light background */
       .copilot {
@@ -532,7 +533,7 @@ Start work on Exercise 4.
 :::
 
 
-## Primary keys
+## Primary keys {.smaller}
 
 - **Primary key**: a column or set of columns that uniquely identifies each row in a table
 - When we say "each row is a ___", the BLANK is the primary key
