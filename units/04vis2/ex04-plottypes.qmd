@@ -71,7 +71,7 @@ Make a bar plot of the number of countries by continent. (Use `gapminder_latest`
 px.histogram(gapminder_latest, x = "continent")
 ```
 
-Discuss the interpretation of this plot with your partner. (Why is this a `histogram` and not a `bar` plot?)
+Discuss the interpretation of this plot with your partner. (Why is this a `px.histogram` and not a `px.bar`?)
 
 Try adjusting the plot to make the countries easier to read.
 
@@ -83,7 +83,7 @@ Pick one of the continuous variables and plot its relationship with `continent`.
 Note:
 
 - You may again want to use only 2007 data (`gapminder_latest`)
-- You may want to try using `log(variable)` instead of `variable`.
+- You may want to try using `log_x = True` or `log_y = True`.
 
 Make two different visualizations. Compare and contrast them.
 
