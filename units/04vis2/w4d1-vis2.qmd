@@ -2,9 +2,10 @@
 title: "4.1: Visualization Implementation"
 format:
   revealjs:
-    scrollable: true
     revealjs-plugins:
       - "fix-plotly-size"
+      - "pointer"
+      - "attribution"
 execute: 
   echo: true
 include-in-header: 
@@ -18,6 +19,7 @@ include-in-header:
       }
       .copilot::before {
         content: "GitHub Copilot says:";
+        font-size: .5em;
       }
       /* grey text, light background */
       .copilot {
@@ -105,7 +107,7 @@ else:
 :::
 :::
 
-::: aside
+::: attribution
 This example draws heavily on [Data Science in a Box](https://datasciencebox.org/) by Mine Çetinkaya-Rundel.
 :::
 
@@ -532,7 +534,7 @@ Start work on Exercise 4.
 :::
 
 
-## Primary keys
+## Primary keys {.smaller}
 
 - **Primary key**: a column or set of columns that uniquely identifies each row in a table
 - When we say "each row is a ___", the BLANK is the primary key
