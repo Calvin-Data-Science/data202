@@ -26,6 +26,22 @@ include-in-header:
         padding: 0.5em;
         border-radius: 0.5em;
       }
+      .exercise {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        margin: 0.25em 0;
+      }
+      .exercise::before {
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        content: "\f303";
+        font-size: .5em;
+        position: absolute;
+        margin-left: -1.25em;
+      }
+      
     </style>
 ---
 
@@ -45,7 +61,7 @@ else:
 ```
 
 
-## Q&A
+## Q&A {{< fa person-circle-question >}}
 
 - Bar vs histogram
 - Color schemes
@@ -382,15 +398,13 @@ px.histogram(loans, y="loan_purpose")
 
 [Documentation on `categoryorder`](https://plotly.com/python/reference/layout/xaxis/#layout-xaxis-categoryorder)
 
-<!-- TODO: more from w03-viz-numerical -->
-
 ## Segmented bar plots
 
 ```{python}
 px.histogram(loans, x="homeownership", color="grade")
 ```
 
-## oops, order those categories
+## oops, order those categories!
   
 ```{python}
 fig = (
@@ -401,13 +415,27 @@ fig
 ```
 
 
-## no?
+## Why didn't that work?
+
+The figure has 7 *traces*, stored in `fig.data`.
 
 ```{python}
 print(len(fig.data))
+```
+
+The *names* of the traces are the categories.
+
+```{python}
 print([d.name for d in fig.data])
+```
+
+They are sorted in order of *first appearance*.
+
+```{python}
 print(list(loans['grade'].unique()))
 ```
+
+Which isn't what we want.
 
 ## Fix the *data* order
 
@@ -424,12 +452,12 @@ px.histogram(
 ::: {.columns}
 ::: {.column width="50%"}
 ```{python}
-px.colors.sequential.swatches()
+px.colors.qualitative.swatches()
 ```
 :::
 ::: {.column width="50%"}
 ```{python}
-px.colors.qualitative.swatches()
+px.colors.sequential.swatches()
 ```
 :::
 :::
@@ -445,7 +473,7 @@ px.colors.qualitative.swatches()
 px.histogram(
   loans.sort_values(by="grade"),
   x="homeownership", color="grade",
-  color_discrete_sequence=px.colors.qualitative.G10
+  color_discrete_sequence=px.colors.qualitative.Plotly
 )
 ```
 :::
@@ -510,17 +538,14 @@ Start work on Exercise 4.
 - When we say "each row is a ___", the BLANK is the primary key
 
 ::: exercise
-{{< fa pencil >}}
 What's the primary key for the `gapminder_latest` from Exercise 4?
 :::
 
 ::: exercise
-{{< fa pencil >}}
 What's the primary key for `gapminder`?
 :::
 
 ::: exercise
-{{< fa pencil >}}
 Does `loans` have a primary key?
 :::
 
@@ -541,16 +566,16 @@ Easy fixes: transparency, smaller points
 )
 ```
 
-## Avoid lots of blank space
+## Avoid lots of blank space {.smaller}
 
 ```{python}
 threshold = 75
 low_debt_to_income = loans.query("debt_to_income < @threshold")
-# show percent of rows removed
-print("Removed {} rows ({:.1f}%)".format(
-  len(loans) - len(low_debt_to_income),
-  100 * (len(loans) - len(low_debt_to_income)) / len(loans)
-))
+num_rows_removed = len(loans) - len(low_debt_to_income)
+print("Removed {} rows ({:.1%})".format(num_rows_removed, num_rows_removed / len(loans)))
+```
+
+```{python}
 (
   px.scatter(low_debt_to_income, x="debt_to_income", y="interest_rate")
   .update_traces(marker_opacity=0.1, marker_size=3)
@@ -561,5 +586,44 @@ print("Removed {} rows ({:.1f}%)".format(
 
 ```{python}
 px.density_heatmap(low_debt_to_income, x="debt_to_income", y="interest_rate")
+```
+
+## Density Contours
+
+```{python}
+px.density_contour(low_debt_to_income, x="debt_to_income", y="interest_rate")
+```
+
+## Other options: Trendlines
+
+```{python}
+(
+  px.scatter(low_debt_to_income, x="debt_to_income", y="interest_rate", trendline="lowess", trendline_color_override="red")
+  .update_traces(marker_opacity=0.1, marker_size=3)
+)
+```
+
+## Other options: binning along one axis {.smaller}
+
+Remember that `grade` is already a binning of `interest_rate`.
+
+```{python}
+px.box(low_debt_to_income, x="debt_to_income", y="grade",
+  category_orders={"grade": ["A", "B", "C", "D", "E", "F", "G"]})
+```
+
+```{python}
+px.violin(low_debt_to_income, x="debt_to_income", y="grade",
+  category_orders={"grade": ["A", "B", "C", "D", "E", "F", "G"]})
+```
+
+
+```{python}
+(
+  px.violin(low_debt_to_income, x="debt_to_income", y="grade",
+    category_orders={"grade": ["A", "B", "C", "D", "E", "F", "G"]}
+  )
+  .update_traces(side = 'positive', width=5)
+)
 ```
 
