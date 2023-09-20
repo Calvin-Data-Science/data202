@@ -1,6 +1,11 @@
 ---
 title: "DATA 202 Exercise 1 solution"
 author: "DATA 202 Staff"
+format:
+  html:
+    embed-resources: true
+    code-tools: true
+    code-fold: true
 ---
 
 # Load Packages
@@ -8,7 +13,10 @@ author: "DATA 202 Staff"
 ```{python}
 import pandas as pd
 import plotly.express as px
+```
 
+```{python}
+#| echo: false
 # DATA 202 hack for displaying plotly within RStudio:
 if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
   r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
@@ -36,8 +44,6 @@ There are *{num_rows}* rows in the data frame.
 Each row represents a day of data.
 """.format(num_rows=daily_rides.shape[0]))
 ```
-
-Replace this sentence with your short answer about rows and what each row represents.
 
 # Exercise 2
 
@@ -71,5 +77,5 @@ show_plot(
 
 # Exercise 4
 
-Replace this sentence with your short answer about interpreting the graph.
+People use bikes for commuting to work as well as recreation, but the number of rides is much higher on weekdays than weekends, so perhaps most users are commuters. (or perhaps tourists)
 

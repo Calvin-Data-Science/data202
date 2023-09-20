@@ -22,6 +22,87 @@ See you Monday!\
 Prof. Arnold
 
 
+# During first week
+
+Hi DATA 202 students! A few notes and reminders:
+
+1. Remember to complete the first week's reading on Perusall.
+  - Spread it out over several sessions; don't try to do it all at once.
+  - It will be helpful to have **watched the video** (by Rosling) in Reading 1 by class tomorrow.
+2. Remember to complete the after-class quiz and make a post on this week's discussion forum.
+3. If it's easy for you, please bring a laptop to class tomorrow. (A tablet might work fine.)
+  - We'll start class by working on the Python review exercise ("quiz"), first individually then in clusters. So it'll be helpful to have tried some of that before class, but it's ok if you don't get to it.
+  - We'll then do some work with RStudio, Quarto, pandas, and Plotly, just to get your feet wet.
+
+We're looking forward to seeing you in class tomorrow!
+Profs Arnold and Santos
+
+# Week 3
+
+Hi DATA 202 friends! A few **quick notes**, then some longer-term stuff you can read later.
+
+- The [office hours poll](https://www.when2meet.com/?21094632-piz3F) **closes today**, so please fill it out ASAP. Tuesday at 2pm is looking good, so I'll try to be in my office at that time this afternoon.
+- Even if you're not a CS major, you might enjoy **today's CS social**: 3-3:50pm, Commons Annex Boardroom (upstairs), we'll be making *pixel art* with so many sticky notes that they'd overflow an 8-bit number (maybe even 16-bit!).
+- Reading 3 should be done soon, but isn't officially due until Friday. Reading 4 will be posted tomorrow.
+  - Perusall assignments *are* graded based on engagement. There was a "Release Grades" button that I hadn't clicked but did now, so you can check things in the Gradebook on Perusall.
+  - If you read everything actively and aren't getting credit for it, email me.
+  - The Moodle gradebook isn't syncing to Perusall properly for everyone. You have to fix this for each assignment by clicking the reading assignment link in Moodle ([explanation](https://support.perusall.com/hc/en-us/articles/360034998153-Why-aren-t-my-grades-syncing-back-to-the-LMS-)). The gradebook is out of whack in other ways too; fixing it is on my list for this week.
+
+### Bigger picture
+
+- **Quiz 1** is Friday.
+  - We aim for under 20 minutes, but we'll allot the last 30 minutes of class.
+  - Some weeks will be on paper, others on Moodle; this week will be Moodle
+  - You can review the first Python practice quiz.
+  - There's another practice quiz up, in this week's Moodle.
+  - Topics
+    - Anything from CS 104/6/8 (since it's a prerequisite)
+    - Anything you've seen more than once so far (e.g., exercises, slides, reading, practice quizzes, ...)
+  - Paper notes allowed, and anything in the Notes section of the course website.
+    - If there's something you'd want to refer to slides for, ask me in advance and I'll probably put it in the Notes.
+  - Memorization of syntax not required, but concepts behind the syntax are required
+- We're starting with the Midterm project this week. First task is to find a good plot to work with. We'll use **Discussion 2** to kick this off.
+  - It was supposed to be due today, but I forgot to unhide this last week, and to point it out in class, so we'll obviously have to be flexible about the due dates.
+  - This doesn't have to be the plot you eventually choose to work with; this is mostly to help each other find plot ideas.
+- For the last exercise we had you submit HTML files instead of `qmd`. Quick notes:
+  - Make sure to Render
+  - Use Export, not save-as
+  - Open the file from your computer before submitting to make sure it works.
+- I've been collecting some [notes on our tools](https://calvin-data-science.github.io/data202/notes/tools.html). You may refer to these notes during electronic quizzes if needed. You may be particularly interested in the [plotly notes](https://calvin-data-science.github.io/data202/notes/plotly.html)
+
+
+Looking beyond this week for the midterm project, other steps will be:
+
+1. Pick a plot (first round this week, can revisit at any point later)
+2. Analyze an existing plot, sketch the data frame. This should be posted soon.
+3. Find and load the data; write a brief critique of the data.
+4. Make an initial plot and a todo list of things to improve; sketch ideas for alternative ways to plot the same data
+5. Present the original, replication, and alternative plots to the class and in a Quarto report (week 8)
+
+## Week 4
+
+This week we'll round out our discussion of visualizations by looking at various different plot types and a little bit about how Plotly works inside. We'll also sneak in a preview of data wrangling, since often you need to wrangle data into a form needed for your plots. (Next week we'll dive deep into data wrangling with pandas.)
+
+- My regular office hours are Tuesdays 2-3pm, Wednesdays 3-4pm, NH 298 (posted on Moodle for reference) Or just stop by whenever my door is open, or message me to make an appointment. If you want to do lunch or coffee, we can find a time for that too!
+- **Exercise 3** has been updated:
+  - Updated the intro to specify that your `qmd` file should actually have a few options set.
+  - Gave some additional things to aim for on Exercise 5, and an example of what it might look like.
+  - Added the usual Reflections section in the report (there's still the usual check-in "quiz" from Friday class; not many people filled that out)
+  - Clarified the difference between Exercises and Parts (sorry, that was confusing).
+  - Due on Wednesday.
+- The [**Midterm Project** page](https://calvin-data-science.github.io/data202/midterm-proj.html) is updated with descriptions of the **next milestone**. Specifically, you'll be uploading a plot you're considering replicating to a [Plot Gallery](https://moodle.calvin.edu/mod/data/view.php?id=1705052) on Moodle. 
+  - Since you already did the hardest part (finding a plot you're interested in) in Discussion 2, this milestone should be done by Friday.
+  - This doesn't have to be your final choice of plot. The course staff can work with you to refine your choice.
+  - I've uploaded an example.
+- **Exercise 2** was graded too harshly, but we're fixing that.
+- **Reading 4**, on visualization, should be done by Friday. (We'll probably take some time on Wednesday's class to address things that came up during the reading, so ideally you'd have most of it done by Tuesday so we can prep that.)
+
+We'll get Quiz 1 graded once a few people who weren't in class get to take it. The autograder tends to be too harsh; I usually go back and tweak it to give more credit.
+
+Finally, now that we're trying more open-ended things, our mistakes are getting more interesting. To celebrate them, I've made a "Mistakes Showcase" at the top of Moodle. Thanks to Lillian for our first post there!
+
+See you Monday!
+
 
 # Final Presentation Notes
 

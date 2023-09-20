@@ -1,0 +1,289 @@
+---
+title: "loading data scraps"
+---
+
+## Getting data into R
+
+### Data in R packages
+
+Many R packages include data sets. To use those, you just need to load the package.
+For example to use the NHANES data set, type
+
+```{r}
+library(NHANES)
+```
+
+Sometimes you also need to explicitly load the data set.  (This is pretty uncommon
+these days.)  To do that type:
+
+```{r}
+data(NHANES)
+```
+
+You could also do this is if you accidentally deleted NHANES or modified in some way and
+want to get back to the original version from the package.
+
+You can see all the data sets in a package by typing something like 
+
+```{r, eval = FALSE}
+data(package = "mosaicData")
+```
+
+in the **Console**.
+
+But you don't want to be limited to data sets that are in R packages. 
+So read on to find out how to get other data into R.
+
+### Reading CSV data from a URL
+
+You can load online data files in .csv format into R using the function
+`read.csv()`. The input to `read.csv()` is the full URL where the file
+is located, in quotation marks. (Single or double quotes -- it doesn't
+matter which you choose, as they are equivalent in R.)
+
+For example, we will consider a dataset with counts of the numbers of
+birds of different species seen at different locations in Hawai'i. It is
+stored at <https://sldr.netlify.app/data/hawaii_birds.csv>, and can be
+read into R using the command below.
+
+```{r, eval=FALSE}
+hi_birds <- read.csv('https://sldr.netlify.app/data/hawaii_birds.csv')
+```
+
+If the URL gets long, you could arrange your code like this instead:
+
+```{r, eval=FALSE}
+url <- 'https://sldr.netlify.app/data/hawaii_birds.csv'
+hi_birds <- read.csv(url)
+```
+
+#### When you read in data, store it to a named object
+
+Note that we didn't just run the `read.csv()` function -- we assigned
+the results a **name** so that instead of printing the data table to the
+screen, R stores the dataset for later use.
+
+```{r, eval=FALSE}
+hi_birds <- read.csv('https://sldr.netlify.app/data/hawaii_birds.csv')
+```
+
+Here, we assigned the name **hi_birds** to the dataset using an
+"assignment arrow" `<-` (the "arrow" points from the object toward the
+name).
+
+### Reading data from Google Sheets
+
+There's also a simple way to read in data from a Google Sheet.
+
+First, go to the Google Sheet online to prepare it by "publishing it
+online".
+
+Choose **File > Share > Publish to web**
+
+![](images/google-publish-to-web.png){width="500px" fig-align="center"}
+
+In the pop-up window, 
+choose to publish your "Entire Document" as a .csv file:
+
+![](images/google-publish-to-web-popup.png){width="500px" fig-align="center"}
+
+Finally, copy the resulting link.
+
+![](images/google-publish-to-web-link.png){width="500px" fig-align="center"}
+
+You can use `read.csv()` with this link as input to read your data into
+R.
+
+### Reading data from a local file
+
+You can also upload your own data file to the server, and then read it
+in to R using read.csv. The basic process is:
+
+- Use spreadsheet software to create the data table
+- Save the file as a csv file.
+- Upload the csv file to the RStudio server
+- Use the `read.csv()` function to read the file into R
+
+::: {.callout-note}
+R can also read many other kinds of data files, including tab delimited, Excel, SAS, SPSS, etc., so you don't have to convert them to CSV first. The process is similar for most
+files types, you just need to use a different function.  `read_excel()` from the 
+`readxl` package, reads Excel files, for example.  We've focused on CSV here because
+it is a very common format and because most other tools can export to CSV.  So if you
+learn that one method, you can handle a lot of situations.
+
+But it is usually better to read files directly from their original format if that
+is possible.
+:::
+
+<!-- ## A few (very) basic R functions -->
+
+<!-- After reading the data in, you can use R functions to have a look at it, -->
+<!-- for example: -->
+
+<!-- ```{r, eval=FALSE} -->
+<!-- head(hi_birds) -->
+<!-- glimpse(hi_birds) -->
+<!-- nrow(hi_birds) -->
+<!-- ``` -->
+
+<!-- Try each of the lines of code above in R. What do the functions -->
+<!-- `head()`, `glimpse()`, and `nrow()` **do**? Try to figure it out based -->
+<!-- on the output they produce. -->
+
+<!-- If you get stuck, consult R's built-in help files. Remember, you can -->
+<!-- access the help for a function by running the code `?functionName` -- -->
+<!-- for example, if you want help on `head()`, run: -->
+
+<!-- ```{r, echo=TRUE, eval=FALSE} -->
+<!-- ?head -->
+<!-- ``` -->
+
+#### Uploading a data file to RStudio 
+
+::: {.callout-note}
+You can skip this step if you are working in a local version of RStudio
+rather than on the server.
+:::
+
+If you are using RStudio, any files you create on your personal machine need to
+be uploaded to the server before you can use them there.  The server can't
+directly access your computer.
+
+
+Go to the *Files* tab in RStudio (lower right). Click *Upload* and
+browse to select and upload the file you created. Now the file will
+be in your workspace on the server and you can use 
+`read.csv()` to load the file.  In fact, if you click on the file name
+in the *Files* tab, you will have the option of importing the data set (to the console).
+You can copy and paste that code into your qmd file to load the data there.
+
+![](images/rstudio-import-csv.png){width="300px" fig-align="center"}
+
+Remember to put the file name in quotes, and use `<-` to assign a name to
+the dataset! Note that if you made folders in your *Files* tab and
+stored the csv file inside one of them, you will have to include the
+relative path from your qmd file to your data file, *e.g.*,
+"myfolder/myfilename.csv".)
+
+### Remember: Quarto files files stand alone!
+
+We already covered this once, but we're covering it again because it's
+one of the most common mistakes in qmd files!
+
+If you run R code in the console or the RStudio GUI (for example,
+reading in a data set by pasting code into the console or using the
+*Import Dataset* button in the *Environment* tab), **you won't be able
+to use the results in your markdown file.** Any and all commands you
+need, including reading in data, need to be included in the qmd file.
+
+The reverse is also true. If you run just one R code chunk in a Quarto
+file using the "run" buttons mentioned above, or by copy-pasting into
+the console, you are effectively running that code in the console. If R
+gives an error saying it cannot find a certain variable or dataset, the
+most likely fix is to run the *preceding* code chunks before the one
+you're stuck on.
+
+::: {.callout-note}
+This is a *good* thing. Otherwise, if you sent someone a copy of your 
+Quarto file, they might not be able to render it because their environment
+would be different fron yours. Also, if you rendered your file today and
+again next week, you might get different results if the results depended
+on your RStudio environment.
+:::
+
+
+
+### Organizing your data
+
+Your data table should have 
+
+* one row per **observation** (or "**case**")
+
+    A case is one of the people, animals, places, or things about which data have been
+collected.
+
+* one column for each **variable** observed. 
+
+Choose short but informative names for your variables (and the values they can
+take on), and avoid using any special symbols or spaces in the names.
+
+::: {#exr-create-a-table}
+
+#### Create your own data table
+
+Use any spreadsheet software (Excel, Google Sheets, etc.)
+to create a simple data file. For this exercise, you will
+use the data **provided below in paragraph form**, which represents a
+random sample of 25 records from the dataset `HELPrct` from the `mosaicData`
+package; use the command
+
+```{r, eval=FALSE}
+?HELPrct
+```
+
+if you want more info about the data.
+
+The data you need to translate into spreadsheet form is as follows:
+
+> Researchers collected survey data from people participating in
+substance-abuse treatment programs. Among many other things, they
+recorded whether each person was homeless or housed, and also the main
+substance to which they were addicted (alcohol, cocaine, or heroin, in
+this study). Of the 25 people in our subsample, 14 were homeless, and of
+these 6 used alcohol, 3 cocaine, and 5 heroin. Among the 11 housed
+people, 1 used alcohol, 7 cocaine, and 3 heroin.
+
+Enter these data points into your spreadsheet using the "tips" given
+previously for data-table formatting. When you are happy with your
+table, use the instructions above to load it into your RMarkdown file.
+
+Name your data set `HELP25` and put this into your file to display a few lines
+of the data.
+
+```{r}
+#| eval: false
+HELP25 |> dplyr::glimpse()
+```
+
+
+:::: {.callout-note}
+Your spreadsheet should have 26 rows, a header row and 25 data rows.
+We want the raw data, not a summary table for this exercise.
+::::
+
+:::
+
+<!-- 1.  Make sure the file title, your name, and the date are correct at the -->
+<!--     top of the file -->
+<!-- 2.  Add a sentence in the text part of the qmd file to explain what -->
+<!--     you're doing in the R code chunk ("The R code below reads in a -->
+<!--     dataset...") -->
+<!-- 3.  Display the first few rows of the data or a "glimpse" of the data -- -->
+<!--     you may want to use R functions `head()` or `glimpse()`. -->
+<!-- 4.  In a paragraph in the text part of the qmd file, explain how you -->
+<!--     structured your dataset. What is one **case** in this dataset? What -->
+<!--     are the **variables** in the dataset, and is each one *categorical* -->
+<!--     or *quantitative*? -->
+<!-- 5.  Make sure your file has appropriate section headers (example: in the -->
+<!--     text part of the qmd file, **## My Header** will make a 2nd-level -->
+<!--     section header. Don't forget to leave a **space before the \#** and -->
+<!--     a **blank line before and after the section header**.) -->
+<!-- 6.  Knit your file. Download the knitted file (either PDF or html is ok) -->
+<!--     to your computer. Then, upload it to Moodle to submit it. If you -->
+<!--     prefer you can turn in a paper copy in class before the due date. -->
+
+## A note about printing
+
+When you render a qmd file, it will probably automatically open in
+RStudio's built-in PDF pre-viewer.
+
+**If you print from there, it may not look as good as you would like.**
+
+But when you render, a PDF of the output is also saved in your *Files*
+tab. If you go to the *Files* tab and double click the PDF, it should
+open in your computer's normal PDF viewer and you can print it from
+there...and it should look fine.
+
+And, of course, you can download it from the server to your local computer
+and then process it however you usually handle PDFs.
+

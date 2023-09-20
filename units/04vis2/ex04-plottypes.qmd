@@ -1,0 +1,130 @@
+---
+title: "Exercise 4: Plot Types"
+execute: 
+  echo: false
+engine: jupyter
+---
+
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# DATA 202 hack for displaying plotly within RStudio:
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+# End hack
+```
+
+::: {.callout-warning}
+This exercise is not yet finalized; it may still be changed before Friday.
+:::
+
+## Setup
+
+Start with the usual setup code, given in the [course notes](../../notes/quarto.qmd#class-standards).
+
+::: {.callout-important}
+Please shutdown your RStudio session when you're not using it.
+:::
+
+## Data
+
+```{python}
+#| echo: true
+gapminder = px.data.gapminder()
+gapminder_latest = gapminder.query("year == 2007")
+just_usa = gapminder.query("country == 'United States'")
+
+countries = [
+  "China", "India", "United States",
+  "Indonesia", "Brazil", "Pakistan",
+  "Bangladesh", "Nigeria", "Japan"]
+
+gapminder_9_countries = gapminder.query("country in @countries")
+```
+
+
+## Univariate analysis - Continuous
+
+Pick one of the continuous variables. Make two different types of plots to show its distribution.  (Use `gapminder_latest`, which has one row per country.)
+
+```{python}
+px.histogram(gapminder_latest, x = "lifeExp")
+```
+
+```{python}
+px.violin(gapminder_latest, x = "lifeExp")
+```
+
+```{python}
+px.box(gapminder_latest, x = "lifeExp")
+```
+
+## Univariate Analysis - Categorical
+
+Make a bar plot of the number of countries by continent. (Use `gapminder_latest`, which has one row per country.)
+
+```{python}
+px.histogram(gapminder_latest, x = "continent")
+```
+
+Discuss the interpretation of this plot with your partner. (Why is this a `histogram` and not a `bar` plot?)
+
+Try adjusting the plot to make the countries easier to read.
+
+
+## Bivariate: Relationship between numerical and categorical
+
+Pick one of the continuous variables and plot its relationship with `continent`.
+
+Note:
+
+- You may again want to use only 2007 data (`gapminder_latest`)
+- You may want to try using `log(variable)` instead of `variable`.
+
+Make two different visualizations. Compare and contrast them.
+
+```{python}
+px.box(gapminder_latest, x = "lifeExp", y = "continent")
+```
+
+```{python}
+px.violin(gapminder_latest, x = "lifeExp", y = "continent")
+```
+
+## Bivariate with a discrete variable
+
+Try plotting how the *distribution* of one of the continuous variables changes by `year`.
+Try making two different distribution plots.
+At least one of them should be a ridge plot.
+What do you notice about what has happened to the *shape* of the different variables over the years?
+
+::: {.callout-tip}
+You might need to set `orientation = "h"` to tell plotly which variable is the discrete one (since both have a numeric storage type).
+:::
+
+
+```{python}
+px.box(gapminder, x = "year", y = "lifeExp")
+```
+
+```{python}
+px.box(gapminder, y = "year", x = "lifeExp", orientation = "h")
+```
+
+```{python}
+(
+    px.violin(gapminder, y = "year", x = "lifeExp", orientation = "h")
+    .update_traces(side = "positive", width=15)
+)
+```
+
+```{python}
+(
+    px.violin(gapminder, y = "year", x = "gdpPercap", orientation = "h")
+    .update_traces(side = "positive", width=15)
+)
+```

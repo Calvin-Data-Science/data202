@@ -4,7 +4,48 @@ title: "Midterm Project"
 
 **Replicate and critique a visual**.
 
-For this project you will pick some existing data science work (a blog post, report, research paper, etc.) and replicate a visual from it.
+For this project you will pick some existing data science work (a newspapar article, blog post, report, research paper, etc.) and replicate a visual from it using the data wrangling and plotting tools we're studying.
+
+You will then critique the original visualization and propose alternative designs.
+
+The project will be done in teams of between 1 and 3. You will submit a single report and make a joint presentation.
+
+### Milestones
+
+#### Week 3: Identify possible plots
+
+This was done as part of Discussion 2.
+
+#### Week 4: Plot selection and initial analysis
+
+Upload a screenshot of one or more potential plots to the Plot Gallery. Your post should include:
+
+- **Screenshot**: A screenshot of the plot (image)
+- **Claim or Purpose**: What the author is trying to say with this plot
+- **Source**: URL, or some other similarly clear description of how to get to the original plot
+- **Each row is**: A short phrase of what each row of the plot dataframe represents (e.g., "The data has one row per day and rider type".
+- **Data dictionary**: A table of (possible) variable names and what they (probably) represent
+- **Data Sources**: Potential sources for the data, in the form of URLs or similar. Try downloading and opening the data if you can; report on any anticipated difficulties.
+
+You don't have to fill in everything for the initial post; you can come back and fill it in later.
+
+#### Week 5: Data
+
+Find and load the data; write a brief critique of the data.
+
+Your report should be complete through the "Data" section.
+
+#### Week 6: Initial plot
+
+Make an initial plot and a todo list of things to improve; sketch ideas for alternative ways to plot the same data
+
+Your report should be complete through the "Wrangling" section and have some initial work in the "Replication" and "Alternatives" sections.
+
+#### Week 8: Presentation
+
+Present the original, replication, and alternative plots to the class and in a Quarto report.
+
+## Purpose
 
 The project will explore the intersection between three things:
 
@@ -46,15 +87,33 @@ If you are really stuck, I can simply assign something to do, but I’m hoping t
 #### Your data
 
 - Should come from a reputable source.
-  - If you use an aggregation site like OurWorldInData, try to track down where *they* got the data.
-- Should require at least a little bit of wrangling (beware of sites where you can download *exactly* the data for a specific plot)
+  - If you use an aggregation site like [OurWorldInData](https://ourworldindata.org/), try to track down where *they* got the data.
+- Should require at least a little bit of wrangling
+  - Beware of sites where you can download *exactly* the data for a specific plot)
+  - "Download data for this chart" links are red flags that you may be getting already-wrangled data.
+
+See [Some questions to ask if you're working with data that you didn't collect yourself](http://bit.ly/quaesita_notyours).
 
 There should be something interesting about the process of getting to the data frame that you plot. For example, you can focus on wrangling and manipulating the data, or you can focus on analyzing and critiquing the data collection process.
 
 
 ### Report
 
-**Start with [this template Rmd file](project/datavis.Rmd)**. It includes a suggested outline for your report, which you can also view in this [rendered version](project/datavis.html).
+This template includes a suggested outline for your report. You may choose to organize your report differently if you have a good reason.
+
+::: {.callout-note collapse="true" title="Report Template"}
+
+```{python}
+#| echo: false
+#| output: asis
+print("`````python")
+print(open('midterm-proj-template.qmd').read())
+print(("`````"))
+
+```
+
+:::
+
 
 Your report should be:
 
@@ -71,22 +130,13 @@ At least one of your visuals (either the original or alternative design) should 
 
 ### Report Notes
 
-- Clean up messy outputs. e.g., use `message = FALSE` in the chunk header or `show_col_types = FALSE` for `read_csv` (the main culprit).
+- Clean up any messy outputs from code (debugging, etc.)
 - Write succinctly. Bulleted lists are fine when they're clear.
 - Use ordinary text formatting (not headings, blockquotes, etc.) for ordinary prose. Reserve headings and block quotes for headings and quotes.
 - Format your code cleanly. If lazy, select the code and click "Reformat Code" on the Code menu. (Make sure you save first.)
-- Read through the report before submitting. Check that code doesn't run into the margin, figures show correctly, you don't have placeholder text, the headings make sense, etc.
+- Read through the report before submitting. Check that you don't have placeholder text, the headings make sense, etc.
 
-Example chunk with some helpful flags:
-
-<!-- https://bookdown.org/yihui/rmarkdown-cookbook/verbatim-code-chunks.html -->
-`````
-```{r chunk-name, message = FALSE, fig.height=10, fig.width=10, comment = ""}`r ''`
-
-```
-`````
-
-**Academic Integrity**: Any code that you take from elsewhere **must** be *very clearly documented*. If you find a plot and it has R code already, I advise against looking at it, and possibly even finding a different plot. Code using a different toolkit (e.g., Python) is probably okay.
+**Academic Integrity**: If you take any code from elsewhere, you **must** state very clearly where it came from and how you changed it. This includes ChatGPT and other AI tools. If you find a plot and it has Plotly code already, I advise against looking at it, and possibly even finding a different plot. Code using a different toolkit (e.g., R) is probably okay.
 
 ### Presentation
 
@@ -105,63 +155,28 @@ Use a presentation tool like Google Slides or PowerPoint.
 
 Use voice comments to narrate. Each team member should make at least one comment.
 
-### Midterm Project Milestones
 
-Milestones are due along with the corresponding week's homework.
-
-- **Week 6**: Initial proposal.
-  - Submit an HTML file (knitted from an `Rmd`) including the following information:
-    - A screenshot of the visualization you propose to reproduce
-    - A citation to an article that uses that visualization to make a claim (e.g., a complete URL)
-    - A succinct statement of that claim
-    - A potential source for the data
-    - An initial description of the structure of that data (what rows and columns it has)
-  - Regarding data:
-    - If you are having trouble getting data, the course staff can be of help--but consider alternatives where you can get the data.
-    - The data should require *some* wrangling. "Download data for this chart" links are red flags that you may be getting already-wrangled data.
-- **Week 8**: Rough-draft replication.
-  - Fill in the "Overview" and "Data" sections in `datavis.Rmd` (see the template link above)
-  - The code in "Wrangling" doesn't need to be complete yet.
-  - See submission instructions below.
-  - Email the instructional staff, or ask on Ed, for what help you'll need!
-- **Week 9**: Refinements
-  - Have a complete replication of the original visualization
-  - Have concrete ideas about alternative designs
-  - Report should be complete through part 1 of Alternative Designs
-- **Week 10**: *either* Final write-up *or* Presentation due
-- **Week 11**: all parts due
-  
 ### Submission instructions
 
 - If your dataset is *less than 10 MB*: submit a **`.zip` file** with your entire project folder.
 - Otherwise: submit just the HTML (and make sure the instructions are *very clear* about how to get the data)
-  - Keep "Code Download" on so we can see your `Rmd`.
+  - Keep `code-tools: true` in the header so we can see your source code.
   
-
-<!-- * **Week 2**: Propose 2 or 3 potential options that interest you, and write why you find them interesting. The course staff will help you determine what's feasible. -->
-<!-- * **Week 3**: Pick a specific visualization to recreate and identify concrete steps towards obtaining the data. -->
-<!-- * **Week 4**: Create a rough-draft visualization, including brief notes on how the data were obtained and story was originally told using that data. We will workshop some visualizations in class. -->
-<!-- * **Week 5**: Provide feedback to other students. -->
-<!-- * **Week 6**: Final visual, plus your critique of the original article and some follow-up questions. -->
-
-### Helpful Resources
-
-* See the [Course Notes](notes/), especially for visualization tweaks.
-* [Some questions to ask if you're working with data that you didn't collect yourself](http://bit.ly/quaesita_notyours).
-
-
 ### Shared Projects
 
-RStudio has a feature called Shared Projects that many teams will find helpful. But there's a bug involving uploading files to shared projects: only one person ends up able to read the file.
+RStudio has a feature called Shared Projects that many teams will find helpful.
 
-To fix it, the person who **can** read the file should run the following code chunk. After the code chunk runs successfully, you should remove it from your report.
+::: {.callout-tip collapse="true" title="Permissions issues"}
+There used to be a bug involving uploading files to shared projects: only one person ends up able to read the file. That may be fixed now, but if you run into it, here's a workaround:
+
+The person who **can** read the file should run the following code on the R console (you may need to type `exit` to get out of Python).
 
 ```r
 ds202calvin::fix_perm()
 ```
+:::
 
-Note: be careful doing this for `Rmd` files: *make sure everyone has the Rmd file closed first*.
-
+<!--
 ## Grading Guide
 
 
@@ -177,3 +192,4 @@ Overall
 - Report
   - legibility (5)
   - reproducibility (5)
+-->

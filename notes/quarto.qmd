@@ -2,7 +2,64 @@
 title: "Quarto Documents"
 ---
 
-::: {.callout-note title="Putting computed results in the document"}
+## Class Standards
+
+Your `qmd` files should generally start like this:
+
+````yaml
+---
+title: "A title"
+author: "Your name"
+format:
+  html:
+    embed-resources: true
+    code-tools: true
+    code-fold: true
+---
+
+```{{python}}
+#| echo: true
+import pandas as pd
+import plotly.express as px
+```
+
+```{{python}}
+#| echo: false
+# Hack to make plotly work in RStudio
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+```
+````
+
+::: {.callout-note title="YAML Explanation" collapse="true"}
+The `embed-resources` option makes the HTML file self-contained, so you can share it with others. The `code-tools` option adds a button to the top of the document that lets you run all the code chunks at once. The `code-fold` option lets you collapse code chunks in the document. (You may omit this option if you prefer to see all the code.)
+:::
+
+::: {.callout-note title="Plotly Explanation" collapse="true"}
+Plotly works fine in Quarto *rendered* documents, but to have plots show up in the RStudio *editor* when you run a chunk, you'll need to include that hack and surround your plot with `show_plot()`.
+
+You are not expected to understand this hack; just copy and paste it into your document.
+
+Once [this bug](https://github.com/rstudio/rstudio/issues/8762) in RStudio is fixed we can remove this hack.
+:::
+
+
+## Chunk Options
+
+```{{python}}
+#| echo: false
+#| include: false
+# This code won't get shown because echo is false.
+x = 2
+# but it still runs.
+print("This output won't show because include is false")
+```
+
+
+## Computations in Text
 
 `print` out the Markdown you want to include in the document, and use the `asis` output option. Turn off `echo` so that the code isn't included in the document.
 
@@ -17,10 +74,14 @@ num_rows = daily_rides.shape[0]
 #| echo: false
 #| output: asis
 print("""
-There are *{num_rows}* rows in the data frame.
+There are {num_rows} rows in the data frame.
 
 Each row represents a day of data.
 """.format(num_rows=num_rows))
 ```
 
+::: {.callout-tip title="Some Python string tips"}
+Triple-quoted strings (`"""`) can span multiple lines. They can also have single quotes in them.
+
+The `format` method on strings fills in `{}` blanks with the values of the named arguments. (You can also use f-strings (`f"There are {num_rows} rows in the data frame."`) if you know what those are.)
 :::
