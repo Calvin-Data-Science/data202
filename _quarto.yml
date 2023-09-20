@@ -26,8 +26,6 @@ format:
     toc: true
     toc_depth: 2
     toc_float: true
-  revealjs: 
-    scrollable: true
 
 execute:
   freeze: auto
