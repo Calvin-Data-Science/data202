@@ -32,6 +32,8 @@ Please shutdown your RStudio session when you're not using it.
 
 ## Data
 
+You can use this data. It's the same as for a previous exercise, but we've also added `gapminder_latest`, which contains the data for just 2007 (so it's just one row per country).
+
 ```{python}
 #| echo: true
 gapminder = px.data.gapminder()
@@ -47,36 +49,73 @@ gapminder_9_countries = gapminder.query("country in @countries")
 ```
 
 
-## Univariate analysis - Continuous
+## Part 1: Univariate analysis - Continuous
 
 Pick one of the continuous variables. Make two different types of plots to show its distribution.  (Use `gapminder_latest`, which has one row per country.)
 
+::: {.callout-tip collapse="true" title="Examples"}
+
+Here are a few examples of different types of plots you could make.
+
 ```{python}
-px.histogram(gapminder_latest, x = "lifeExp")
+px.histogram(gapminder_latest, x = "lifeExp", labels={"lifeExp": "Life Expectancy at Birth"}, title="Distribution of Life Expectancy by Country in 2007")
 ```
 
 ```{python}
-px.violin(gapminder_latest, x = "lifeExp")
+px.violin(gapminder_latest, x = "lifeExp", labels={"lifeExp": "Life Expectancy at Birth"}, title="Distribution of Life Expectancy by Country in 2007")
 ```
 
 ```{python}
-px.box(gapminder_latest, x = "lifeExp")
+px.box(gapminder_latest, x = "lifeExp", labels={"lifeExp": "Life Expectancy at Birth"}, title="Distribution of Life Expectancy by Country in 2007")
 ```
 
-## Univariate Analysis - Categorical
+:::
 
-Make a bar plot of the number of countries by continent. (Use `gapminder_latest`, which has one row per country.)
+
+## Part 2: Univariate Analysis - Categorical
+
+Use `px.histogram` to make a bar plot of the number of countries by continent. (Use `gapminder_latest`, which has one row per country.)
 
 ```{python}
-px.histogram(gapminder_latest, x = "continent")
+px.histogram(gapminder_latest, x = "continent", labels={"continent": "Continent"}, title="Number of Countries by Continent")
 ```
 
 Discuss the interpretation of this plot with your partner. (Why is this a `px.histogram` and not a `px.bar`?)
 
-Try adjusting the plot to make the countries easier to read.
+### Part 2A: Adjustments
+
+Try making the following adjustments to your plot:
+
+- [ ] Order the bars by number of countries
+- [ ] Flip the plot so that the bars are horizontal
+- [ ] Make all the bars grey
+
+### Part 2B: Data Wrangling
+
+The `px.histogram` function did some data wrangling for you: it counted the number of countries in each continent. Try doing this yourself by using `gapminder_latest.groupby("continent").size()`.
+
+```{python}
+#| echo: true
+country_count_by_continent = gapminder_latest.groupby("continent", as_index=False).size()
+country_count_by_continent
+```
+
+::: {.callout-note}
+In the slides we showed an alternative approach using `.value_counts`. Grouping is more flexible, though, and we'll be using it extensively next week.
+:::
+
+```{python}
+(
+  px.bar(country_count_by_continent,
+    y = "continent", x = "size", 
+    labels={"size": "Number of Countries"}, title="Number of Countries by Continent"
+  )
+  .update_yaxes(categoryorder="total ascending")
+)
+```
 
 
-## Bivariate: Relationship between numerical and categorical
+## Part 3: Bivariate: Relationship between numerical and categorical
 
 Pick one of the continuous variables and plot its relationship with `continent`.
 
@@ -87,32 +126,55 @@ Note:
 
 Make two different visualizations. Compare and contrast them.
 
+::: {.callout-tip collapse="true" title="Examples"}
+
 ```{python}
-px.box(gapminder_latest, x = "lifeExp", y = "continent")
+(
+  px.box(gapminder_latest, x = "gdpPercap", y = "continent")
+  .update_yaxes(categoryorder="category descending")
+)
 ```
 
 ```{python}
-px.violin(gapminder_latest, x = "lifeExp", y = "continent")
+(
+  px.violin(gapminder_latest, x = "lifeExp", y = "continent")
+)
 ```
 
-## Bivariate with a discrete variable
+:::
 
-Try plotting how the *distribution* of one of the continuous variables changes by `year`.
+::: {.callout-note collapse="true" title="Boxplot ordering note"}
+If there isn't already a better ordering, boxplots should generally be ordered by median. But Plotly does not natively support this. You'd have to do it yourself. It might look something like (beware, ugly code ahead):
+
+```{python}
+#| echo: true
+median_order = (
+  gapminder_latest.groupby("continent").median()
+  .sort_values("lifeExp").index
+)
+px.box(
+  gapminder_latest,
+  x="lifeExp", y="continent",
+  category_orders={"continent": median_order}
+)
+```
+:::
+
+## Part 4: Bivariate with a discrete variable
+
+Plott how the *distribution* of one of the continuous variables changes by `year`.
 Try making two different distribution plots.
-At least one of them should be a ridge plot.
+
 What do you notice about what has happened to the *shape* of the different variables over the years?
 
 ::: {.callout-tip}
 You might need to set `orientation = "h"` to tell plotly which variable is the discrete one (since both have a numeric storage type).
 :::
 
+::: {.callout-tip collapse="true" title="Examples"}
 
 ```{python}
 px.box(gapminder, x = "year", y = "lifeExp")
-```
-
-```{python}
-px.box(gapminder, y = "year", x = "lifeExp", orientation = "h")
 ```
 
 ```{python}
@@ -122,9 +184,29 @@ px.box(gapminder, y = "year", x = "lifeExp", orientation = "h")
 )
 ```
 
+(This used `update_traces` to make the violins wider, and to make them all point in the same direction.)
+
 ```{python}
 (
     px.violin(gapminder, y = "year", x = "gdpPercap", orientation = "h")
     .update_traces(side = "positive", width=15)
 )
 ```
+
+```{python}
+import numpy as np
+gapminder['log_gdp'] = np.log(gapminder['gdpPercap'])
+(
+    px.violin(gapminder, x = "year", y = "log_gdp")
+)
+```
+
+:::
+
+::: {.callout-note}
+Log scales for violin plot seem to be broken in Plotly. Boxplots seem to work though.
+:::
+
+## Submitting
+
+Submit your rendered `html` as usual.
