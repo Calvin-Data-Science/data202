@@ -1,0 +1,107 @@
+---
+title: "4.1: Visualization Implementation 2: EDA"
+format:
+  revealjs:
+    scrollable: true
+    revealjs-plugins:
+      - "fix-plotly-size"
+execute: 
+  echo: true
+include-in-header: 
+  text: |
+    <style>
+      .midi table {
+        font-size: .8em;
+      }
+      .smaller table {
+        font-size: .5em;
+      }
+    </style>
+---
+
+```{python}
+#| echo: false
+import pandas as pd
+import plotly.express as px
+
+# DATA 202 hack for displaying plotly within RStudio:
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+# End hack
+```
+
+
+
+## Loading data
+
+```{python}
+sfhousing_url = 'https://media.githubusercontent.com/media/DS-100/textbook/master/content/datasets/sfhousing.csv'
+import pathlib
+
+cache_filename = pathlib.Path('data/sfhousing.feather')
+if not cache_filename.exists():
+    # create directory if it doesn't exist
+    cache_filename.parent.mkdir(parents=True, exist_ok=True)
+    print("Downloading...")
+    sfh_df_full = pd.read_csv(cache_filename, on_bad_lines='warn')
+    sfh_df_full['date'] = pd.to_datetime(sfh_df_full['date'], format='%Y-%m-%d')
+    sfh_df = sfh_df_full[['city','zip','street', 'price', 'br', 'lsqft', 'bsqft', 'date']]
+    sfh_df.to_feather('data/sfhousing.feather')
+else:
+    print("Using cached version")
+sfh_df = pd.read_feather(cache_filename)
+```
+
+```{python}
+sfh_df.head()
+sfh_df.info()
+```
+
+## Transforming for EDA
+
+```{python}
+px.histogram(sfh_df, x="price", nbins=50)
+```
+
+::: {.fragment}
+
+```{python}
+# manually compute log
+sfh_df['log_price'] = np.log(sfh_df['price'])
+px.histogram(sfh_df, x="log_price", nbins=50)
+```
+
+:::
+
+```{python}
+def subset(df):
+    return df.loc[(df['price'] < 4_000_000) &
+                  (df['bsqft'] < 12_000) & 
+                  (df['date'].dt.year == 2004)]
+
+
+sfh = sfh_df.pipe(subset).copy()
+sfh.info()
+```
+
+```{python}
+px.scatter(sfh, x="bsqft", y="lsqft")
+```
+
+```{python}
+px.scatter(sfh, x="bsqft", y="lsqft", log_x=True, log_y=True)
+```
+
+```{python}
+(
+  px.scatter(sfh, x="bsqft", y="lsqft", log_x=True, log_y=True, trendline="ols", trendline_options=dict(log_x=True, log_y=True))
+  .update_traces(marker_size=3, marker_opacity=0.2, line_color="red")
+)
+```
+
+```{python}
+px.density_contour(sfh, x="bsqft", y="lsqft", log_x=True, log_y=True)
+```
