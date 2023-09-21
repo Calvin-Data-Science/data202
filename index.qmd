@@ -1,5 +1,8 @@
 ---
 title: "Syllabus"
+format:
+  html: default
+  pdf: default
 filters:
   - nutshell
 ---
