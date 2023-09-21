@@ -42,3 +42,5 @@ Log:
 
 ## Week 4
 
+- Monday: We read the intro to "Our World Belongs to God"
+- Wednesday: We read a bit from [How sounds can turn us on to the wonders of the universe | MIT Technology Review](https://www.technologyreview.com/2023/06/19/1074049/universe-sonification/) and reflected on accessible technology.
