@@ -35,12 +35,13 @@ include-in-header:
         margin: 0.25em 0;
       }
       .exercise::before {
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
+        display: inline-block;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        font: var(--fa-font-solid);
         content: "\f303";
         font-size: .5em;
         position: absolute;
-        margin-left: -1.25em;
       }
       
     </style>
