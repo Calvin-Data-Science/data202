@@ -29,6 +29,12 @@ Upload a screenshot of one or more potential plots to the Plot Gallery. Your pos
 
 You don't have to fill in everything for the initial post; you can come back and fill it in later.
 
+::: {.callout-important}
+Your plot should have at least 3 variables.
+
+If you really want to make a plot that has fewer than 3 variables, you should be able to explain why it's still interesting and worth doing.
+:::
+
 #### Week 5: Data
 
 Find and load the data; write a brief critique of the data.
