@@ -300,17 +300,19 @@ Stacking bars is useful only if order matters.
 ```
 
 
-## Alternative plot types
+## Alternative plot types: Box
 
 ```{python}
 px.box(loans, x="loan_amount", y="homeownership")
 ```
 
+## Alternative plot types: Violin
+
 ```{python}
 px.violin(loans, x="loan_amount", y="homeownership")
 ```
 
-*Ridgeline* plot
+## Alternative plot types: *Ridgeline*
 
 ```{python}
 (
@@ -619,13 +621,18 @@ px.violin(low_debt_to_income, x="debt_to_income", y="grade",
   category_orders={"grade": ["A", "B", "C", "D", "E", "F", "G"]})
 ```
 
+## Tweaking the ridgeline plot
 
 ```{python}
 (
   px.violin(low_debt_to_income, x="debt_to_income", y="grade",
-    category_orders={"grade": ["A", "B", "C", "D", "E", "F", "G"]}
+    category_orders={"grade": ["A", "B", "C", "D", "E", "F", "G"]},
+    labels={"debt_to_income": "Debt-to-income ratio", "grade": "Loan grade"},
+    template="plotly_white"
   )
-  .update_traces(side = 'positive', width=5)
+  .update_traces(side = 'positive', width=5, points=False)
+  .update_yaxes(showgrid=True)
+  .update_xaxes(showgrid=False, zeroline=False)
 )
 ```
 
