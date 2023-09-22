@@ -53,6 +53,8 @@ Pick one of the continuous variables. Make two different types of plots to show 
 
 Here are a few examples of different types of plots you could make.
 
+*Note*: your plots might show different ticks than the examples below, since the ticks that plotly draws depends on the amount of vertical space that it has. Generally the defaults are fine; if you really want to tweak them, see the [plotly course notes](../../notes/plotly.qmd#ticks).
+
 ```{python}
 px.histogram(gapminder_latest, x = "lifeExp", labels={"lifeExp": "Life Expectancy at Birth"}, title="Distribution of Life Expectancy by Country in 2007")
 ```
@@ -150,7 +152,7 @@ Make two different visualizations. Compare and contrast them.
 ```{python}
 (
   px.box(gapminder_latest, x = "gdpPercap", y = "continent")
-  .update_yaxes(categoryorder="category descending")
+  .update_yaxes(categoryorder="median descending")
 )
 ```
 

@@ -37,6 +37,7 @@ show_plot( # <8>
 
 Ticks are the little marks on the axes that show where the values are. You can customize them using `update_xaxes` and `update_yaxes`. Useful attributes:
 
+- `nticks`: set the number of ticks. Example: `nticks=4`
 - `tickformat`: format the tick labels. Examples:
   - `tickformat=",.2f"`: commas, 2 decimal places
   - `tickformat=",.0%"`: percentage format with no decimal places
