@@ -177,6 +177,20 @@ px.box(
   category_orders={"continent": median_order}
 )
 ```
+
+**Correction**: plotly actually *does* support `categoryorder="median ascending"` or `categoryorder="median descending"`.
+
+```{python}
+#| echo: true
+(
+  px.box(
+    gapminder_latest,
+    x="lifeExp", y="continent",
+  )
+  .update_yaxes(categoryorder="median descending")
+)
+```
+
 :::
 
 Checklist:
@@ -216,9 +230,11 @@ px.box(gapminder, x = "year", y = "lifeExp")
 (This used `update_traces` to make the violins wider, and to make them all point in the same direction.)
 
 ```{python}
+# ensure that each year is individually labeled on the y axis
 (
     px.violin(gapminder, y = "year", x = "gdpPercap", orientation = "h")
     .update_traces(side = "positive", width=15)
+    .update_yaxes(tickvals = gapminder['year'].unique())
 )
 ```
 
