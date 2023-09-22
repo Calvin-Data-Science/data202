@@ -36,9 +36,13 @@ show_plot( # <8>
 
 ## Category ordering
 
-[Documentation on `categoryorder`](https://plotly.com/python/reference/layout/xaxis/#layout-xaxis-categoryorder)
+Plotly's default is to put categories in the order they first appear in the data. Sometimes this is exactly what you want; you can just sort the data in exactly the order you want the categories to appear (using `sort_values`, for example).
 
-The default is to put categories in the order they appear in the data. You can override this with the `categoryorder` attribute.
+But sometimes you want to override this. Plotly provides two ways to control the order of categories on an axis: the `category_orders` argument to some `px.*` functions, and the `categoryorder` attribute of the axis.
+
+If you know the order you want to use (or you're mapping the categorical to `color` or something that doesn't have a corresponding axis), you can use `category_orders`.
+
+If you just want to sort alphabetically or by total, you can use the [`categoryorder`](https://plotly.com/python/reference/layout/xaxis/#layout-xaxis-categoryorder) attribute.
 
 Useful ones:
 
