@@ -1,5 +1,6 @@
 ---
-title: "4.1: Visualization Implementation"
+title: "Slides 4: Visualization Implementation"
+icon: "file-slides"
 format:
   revealjs:
     scrollable: true
