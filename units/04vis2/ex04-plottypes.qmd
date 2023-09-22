@@ -18,10 +18,6 @@ else:
 # End hack
 ```
 
-::: {.callout-warning}
-This exercise is not yet finalized; it may still be changed before Friday.
-:::
-
 ## Setup
 
 Start with the usual setup code, given in the [course notes](../../notes/quarto.qmd#class-standards).
@@ -71,6 +67,12 @@ px.box(gapminder_latest, x = "lifeExp", labels={"lifeExp": "Life Expectancy at B
 
 :::
 
+Checklist:
+
+- [ ] Do you have two plots?
+- [ ] Are they both showing *distributions* of a continuous variable?
+- [ ] Are they different plot types?
+- [ ] Are they labeled in a way that humans can easily understand?
 
 ## Part 2: Univariate Analysis - Categorical
 
@@ -90,6 +92,12 @@ Try making the following adjustments to your plot:
 - [ ] Flip the plot so that the bars are horizontal
 - [ ] Make all the bars grey
 
+::: {.callout-note}
+Plotly gives two ways to order categories: one is to use `category_orders` in the `px.histogram` call, and the other is to use `update_xaxes` (or `update_yaxes`) to set `categoryorder`.
+
+See the [plotly course notes](../../notes/plotly.qmd) for more details.
+:::
+
 ### Part 2B: Data Wrangling
 
 The `px.histogram` function did some data wrangling for you: it counted the number of countries in each continent. Try doing this yourself by using `gapminder_latest.groupby("continent").size()`.
@@ -104,6 +112,8 @@ country_count_by_continent
 In the slides we showed an alternative approach using `.value_counts`. Grouping is more flexible, though, and we'll be using it extensively next week.
 :::
 
+Now make the plot again, using `px.bar` instead of `px.histogram`.
+
 ```{python}
 (
   px.bar(country_count_by_continent,
@@ -114,6 +124,15 @@ In the slides we showed an alternative approach using `.value_counts`. Grouping 
 )
 ```
 
+::: {.callout-note}
+You can use `update_xaxes` or `update_yaxes` to set `categoryorder`, or you can sort the data using `.sort_values` before passing it to `px.bar`.
+:::
+
+Checklist:
+
+- [ ] The plot uses the `country_count_by_continent` data
+- [ ] The bars are ordered by number of countries
+- [ ] The bars are horizontal
 
 ## Part 3: Bivariate: Relationship between numerical and categorical
 
@@ -122,7 +141,7 @@ Pick one of the continuous variables and plot its relationship with `continent`.
 Note:
 
 - You may again want to use only 2007 data (`gapminder_latest`)
-- You may want to try using `log_x = True` or `log_y = True`.
+- You may want to try using `log_x = True` or `log_y = True`, although note that these don't work for some plot types in the current version of Plotly.
 
 Make two different visualizations. Compare and contrast them.
 
@@ -149,8 +168,8 @@ If there isn't already a better ordering, boxplots should generally be ordered b
 ```{python}
 #| echo: true
 median_order = (
-  gapminder_latest.groupby("continent").median()
-  .sort_values("lifeExp").index
+  gapminder_latest.groupby("continent", as_index=False)['lifeExp'].median()
+  .sort_values("lifeExp")['continent']
 )
 px.box(
   gapminder_latest,
@@ -160,12 +179,22 @@ px.box(
 ```
 :::
 
+Checklist:
+
+- [ ] There are two plots, each showing the relationship between a continuous and a categorical variable.
+- [ ] A sentence or two is written comparing or contrasting the two plots.
+
 ## Part 4: Bivariate with a discrete variable
 
 Plott how the *distribution* of one of the continuous variables changes by `year`.
 Try making two different distribution plots.
 
-What do you notice about what has happened to the *shape* of the different variables over the years?
+What do you notice about what has happened to the *shape* of the distribution of different variables over the years?
+
+Checklist: 
+
+- [ ] There are two plots, each showing the distribution of a continuous variable by year.
+- [ ] A sentence or two is written comparing or contrasting the *distribution*s of the variables.
 
 ::: {.callout-tip}
 You might need to set `orientation = "h"` to tell plotly which variable is the discrete one (since both have a numeric storage type).
@@ -209,4 +238,13 @@ Log scales for violin plot seem to be broken in Plotly. Boxplots seem to work th
 
 ## Submitting
 
-Submit your rendered `html` as usual.
+Final checklist:
+
+- [ ] I've checked off all the checklists above.
+- [ ] Headings show up correctly (e.g., make sure you have a space between the `#` and the heading text) in the "Rendered" HTML.
+- [ ] Plots show up correctly.
+- [ ] There's not extraneous code.
+- [ ] The HTML document opens on my own computer.
+- [ ] All my code is visible in my HTML document.
+
+Check your work against all the checklists above. Submit your rendered `html` as usual.
