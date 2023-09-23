@@ -177,8 +177,22 @@ median_order = (
 )
 median_order
 ```
-  
+
+Normally we're not using pandas indexing in this class, but in this case the code would come out cleaner if we did:
+
 ```{python}
+#| echo: true
+median_order = (
+  gapminder_latest.groupby("continent").median()
+  .sort_values("lifeExp").index.tolist()
+)
+median_order
+```
+
+Either way, we can use `category_orders` to set the order:
+
+```{python}
+#| echo: true
 px.box(
   gapminder_latest,
   x="lifeExp", y="continent",
