@@ -3,6 +3,7 @@ title: "Slides 5.1: Tabular Data with *pandas*"
 icon: "file-slides"
 format:
   revealjs:
+    smaller: true
     scrollable: true
     revealjs-plugins:
       - "fix-plotly-size"
@@ -92,6 +93,8 @@ colleges.info()
 ```
 
 ---
+
+## {.smaller}
 
 ```{python}
 colleges
@@ -243,8 +246,7 @@ Total number of undergrads in each state:
 students_by_state = (
   colleges
   .groupby("state", as_index=False)
-  ['undergrads']
-  .sum()
+  .agg(total_undergrads=('undergrads', 'sum'))
 )
 students_by_state
 ```
