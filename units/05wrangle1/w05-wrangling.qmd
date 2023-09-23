@@ -301,7 +301,6 @@ This is the code you'll typically write.
 students_by_state = (
   colleges
   .groupby("state", as_index=False)
-  ['undergrads']
   .agg(total_undergrads=('undergrads', 'sum'))
 )
 students_by_state
