@@ -1,0 +1,315 @@
+---
+title: "Tabular Data with *pandas*"
+format: revealjs
+include-in-header: 
+  text: |
+    <style>
+      .mchoice li { list-style-type: upper-alpha; }
+    </style>
+---
+
+```{python}
+import pandas as pd
+pd.set_option("display.max_colwidth", 25)
+```
+
+
+# Tabular Data with *pandas*
+
+## Objectives
+
+- Describe the organization of tabular data into rows and columns
+- Subset rows of data using boolean expressions
+- Use the split-apply-combine pattern to compute summary statistics
+
+## Why?
+
+- Data doesn't come neatly wrapped.
+- Wrangling decisions have big impacts on analysis and conclusions.
+
+## pandas
+
+<img src="https://pandas.pydata.org/static/img/pandas.svg" alt="pandas logo" width="50%">
+
+"**pandas** is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool,
+built on top of the Python programming language." <https://pandas.pydata.org/>
+
+```{python}
+import pandas as pd
+pd.options.plotting.backend = "plotly"
+```
+
+
+---
+
+## Tabular data (e.g.: [College Scorecard](data/scorecard_data.csv))
+
+
+```{python}
+colleges = pd.read_csv("data/scorecard_data.csv")
+colleges.info()
+```
+
+---
+
+```{python}
+colleges
+```
+
+---
+
+## Selecting a *row*
+
+`iloc` = locate by *integer* *index*
+
+```{python}
+colleges.iloc[0]
+```
+
+---
+
+## Selecting a *column*
+
+```{python}
+colleges["undergrads"]
+```
+
+
+```{python}
+type(colleges["undergrads"])
+```
+
+---
+
+## Calculating on columns
+
+```{python}
+colleges["undergrads"].mean()
+colleges["undergrads"].max()
+colleges["undergrads"].describe()
+```
+
+---
+
+## `value_counts`: how often does each value occur?
+
+```{python}
+colleges["state"].value_counts(sort=False)
+```
+
+---
+
+## Querying
+
+```{python}
+is_small = colleges["undergrads"] < 10000
+is_small
+```
+
+---
+
+## Making new columns
+
+```{python}
+colleges["online_only"] = colleges["online_only"] == 1.0
+colleges["is_small"] = colleges["undergrads"] < 10000
+colleges.head()
+```
+
+---
+
+## Exercise: data type
+
+What data type is `is_small`?
+
+```{python eval=F}
+is_small = colleges["undergrads"] < 10000
+type(is_small)
+```
+
+::: mchoice
+- `bool`
+- `int`
+- `DataFrame`
+- `Series`
+:::
+
+---
+
+## Filtering
+
+```{python}
+colleges[
+  colleges["undergrads"] < 10000
+]
+```
+
+---
+
+## Filtering, using a column instead
+
+```{python}
+colleges[
+  colleges['is_small']
+]
+```
+
+---
+
+## How would you get the colleges in Michigan?
+
+```{python}
+colleges.info()
+```
+
+---
+
+```{python}
+colleges[
+  colleges["state"] == "MI"
+]
+```
+
+---
+
+## String operations
+
+```{python}
+#| code-line-numbers: "3-4"
+colleges[
+  colleges["name"]
+  .str
+  .startswith("Calvin")
+]
+```
+
+---
+
+# Aggregation
+
+- *Split* the data into groups
+- *Apply* some operation to each group
+- *Combine* the results
+
+---
+
+## Goal
+
+Total number of undergrads in each state:
+
+```{python}
+#| echo: false
+students_by_state = (
+  colleges
+  .groupby("state")
+  ['undergrads']
+  .sum()
+)
+students_by_state
+```
+
+---
+
+## Approach
+
+- *Split* the data into groups
+- *Apply* some operation to each group
+- *Combine* the results
+
+We'll build up the code step-by-step.
+
+---
+
+## *Split*, apply, combine
+
+```{python}
+for state, group in colleges.groupby("state"):
+  print(state)
+  print(group)
+  break # stop early, so we can see just the first group
+
+```
+
+---
+
+## *Split*, apply, combine
+
+```{python}
+for state, group in colleges.groupby("state"):
+  print(state, "has", len(group))
+
+```
+
+---
+
+## Split, *apply*, combine
+
+```{python}
+for state, group in colleges.groupby("state"):
+  print(state, "totals", group["undergrads"].sum())
+```
+
+---
+
+## Split, apply, *combine*
+
+This is the code you'll typically write.
+
+```{python}
+students_by_state = (
+  colleges
+  .groupby("state")
+  ['undergrads']
+  .sum()
+)
+students_by_state
+```
+
+---
+
+## Size of a group
+
+An alternative to `value_counts`.
+
+```{python}
+(
+  colleges
+  .groupby("state")
+  .size()
+)
+```
+
+---
+
+## Exercise: are online-only colleges bigger?
+
+Make a table of the average (`mean`) number of `undergrads` broken down by `online_only`.
+
+. . .
+
+
+```{python}
+(
+  colleges
+  .groupby("online_only")
+  ["undergrads"]
+  .mean()
+)
+
+```
+
+---
+
+## Plots integrated
+
+
+```{python}
+colleges['undergrads'].hist()
+```
+
+---
+
+```{python students-by-state}
+students_by_state.plot.barh()
+```
+
