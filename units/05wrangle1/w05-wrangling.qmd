@@ -1,20 +1,61 @@
 ---
-title: "Tabular Data with *pandas*"
-format: revealjs
+title: "Slides 5.1: Tabular Data with *pandas*"
+icon: "file-slides"
+format:
+  revealjs:
+    scrollable: true
+    revealjs-plugins:
+      - "fix-plotly-size"
+execute: 
+  echo: true
 include-in-header: 
   text: |
     <style>
       .mchoice li { list-style-type: upper-alpha; }
+      .midi table {
+        font-size: .8em;
+      }
+      .smaller table {
+        font-size: .5em;
+      }
+      .copilot::before {
+        content: "GitHub Copilot says:";
+        font-size: .5em;
+      }
+      /* grey text, light background */
+      .copilot {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+      }
+      .exercise {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        margin: 0.25em 0;
+      }
+      .exercise::before {
+        display: inline-block;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        font: var(--fa-font-solid);
+        content: "\f303";
+        font-size: .5em;
+        position: absolute;
+      }
     </style>
 ---
 
 ```{python}
+#| echo: false
 import pandas as pd
 pd.set_option("display.max_colwidth", 25)
 ```
 
 
-# Tabular Data with *pandas*
+# Introduction
 
 ## Objectives
 
@@ -42,7 +83,7 @@ pd.options.plotting.backend = "plotly"
 
 ---
 
-## Tabular data (e.g.: [College Scorecard](data/scorecard_data.csv))
+## Tabular data (e.g.: [College Scorecard](data/scorecard_data.csv)) {.smaller}
 
 
 ```{python}
@@ -85,16 +126,14 @@ type(colleges["undergrads"])
 
 ```{python}
 colleges["undergrads"].mean()
-colleges["undergrads"].max()
-colleges["undergrads"].describe()
 ```
 
----
-
-## `value_counts`: how often does each value occur?
+```{python}
+colleges["undergrads"].max()
+```
 
 ```{python}
-colleges["state"].value_counts(sort=False)
+colleges["undergrads"].describe()
 ```
 
 ---
@@ -108,7 +147,7 @@ is_small
 
 ---
 
-## Making new columns
+## Making new columns {.smaller}
 
 ```{python}
 colleges["online_only"] = colleges["online_only"] == 1.0
@@ -122,7 +161,8 @@ colleges.head()
 
 What data type is `is_small`?
 
-```{python eval=F}
+```{python}
+#| output: false
 is_small = colleges["undergrads"] < 10000
 type(is_small)
 ```
@@ -136,7 +176,7 @@ type(is_small)
 
 ---
 
-## Filtering
+## Filtering {.smaller}
 
 ```{python}
 colleges[
@@ -146,7 +186,7 @@ colleges[
 
 ---
 
-## Filtering, using a column instead
+## Filtering, using a column instead {.smaller}
 
 ```{python}
 colleges[
@@ -163,6 +203,8 @@ colleges.info()
 ```
 
 ---
+
+## {.smaller}
 
 ```{python}
 colleges[
@@ -183,7 +225,6 @@ colleges[
 ]
 ```
 
----
 
 # Aggregation
 
@@ -201,7 +242,7 @@ Total number of undergrads in each state:
 #| echo: false
 students_by_state = (
   colleges
-  .groupby("state")
+  .groupby("state", as_index=False)
   ['undergrads']
   .sum()
 )
@@ -256,27 +297,91 @@ for state, group in colleges.groupby("state"):
 This is the code you'll typically write.
 
 ```{python}
+#| code-line-numbers: "3,5"
 students_by_state = (
   colleges
-  .groupby("state")
+  .groupby("state", as_index=False)
   ['undergrads']
-  .sum()
+  .agg(total_undergrads=('undergrads', 'sum'))
 )
 students_by_state
+```
+
+# Style notes
+
+We'll use a consistent `pandas` style in this class.
+
+- access columns with `df['col']`, not `df.col`
+- no index
+- `groupby` with `as_index=False`
+- explicit aggregation
+- `.size` of groups, not `value_counts`
+
+Know the rules in order to know when to break them.
+
+## Class style: no index
+
+- pandas has `index`ing, an unusual concept
+- it's sometimes useful, but often confusing, so we'll avoid it.
+- [Ibis](https://ibis-project.org/), next-gen dataframe library by Wes McKinney (pandas creator), doesn't have indexing.
+- so we'll use `as_index=False` in all our `groupby` calls.
+- so all our aggregation results will be `DataFrames`, not `Series`.
+
+## Class style: explicit aggregation
+
+Lazy method:
+
+```{python}
+colleges.groupby("state").undergrads.mean()
+```
+
+Explicit method:
+
+```{python}
+colleges.groupby("state").agg(
+  mean_undergrads=('undergrads', 'mean'),
+  max_undergrads=('undergrads', 'max')
+)
 ```
 
 ---
 
 ## Size of a group
 
-An alternative to `value_counts`.
+Preferred to `value_counts`:
+
+- works with multiple columns
+- returns a `DataFrame`, not a `Series`
+
+::: {.columns}
+:::: {.column width="50%"}
 
 ```{python}
 (
   colleges
-  .groupby("state")
+  .groupby("state", as_index=False)
   .size()
 )
+```
+
+:::
+::: {.column width="50%"}
+
+```{python}
+(
+  colleges
+  .groupby(["state", "online_only"], as_index=False)
+  .size()
+)
+```
+
+:::
+:::
+
+Compare with `value_counts`:
+
+```{python}
+colleges["state"].value_counts()
 ```
 
 ---
@@ -291,9 +396,8 @@ Make a table of the average (`mean`) number of `undergrads` broken down by `onli
 ```{python}
 (
   colleges
-  .groupby("online_only")
-  ["undergrads"]
-  .mean()
+  .groupby("online_only", as_index=False)
+  .agg(mean_undergrads=('undergrads', 'mean'))
 )
 
 ```
