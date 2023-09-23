@@ -152,7 +152,7 @@ Make two different visualizations. Compare and contrast them.
 ```{python}
 (
   px.box(gapminder_latest, x = "gdpPercap", y = "continent")
-  .update_yaxes(categoryorder="median descending")
+  .update_yaxes(categoryorder="category descending")
 )
 ```
 
@@ -170,9 +170,15 @@ If there isn't already a better ordering, boxplots should generally be ordered b
 ```{python}
 #| echo: true
 median_order = (
-  gapminder_latest.groupby("continent", as_index=False)['lifeExp'].median()
-  .sort_values("lifeExp")['continent']
+  gapminder_latest.groupby("continent", as_index=False)
+  .agg(median_lifeExp=("lifeExp", "median"))
+  .sort_values("median_lifeExp")
+  ['continent'].tolist()
 )
+median_order
+```
+  
+```{python}
 px.box(
   gapminder_latest,
   x="lifeExp", y="continent",
@@ -180,14 +186,14 @@ px.box(
 )
 ```
 
-**Correction**: plotly actually *does* support `categoryorder="median ascending"` or `categoryorder="median descending"`.
+plotly actually *does* support `categoryorder="median ascending"` or `categoryorder="median descending"`, but there's a bug with how it interacts with boxplots. Notice that the following plot is *not* ordered by median:
 
 ```{python}
 #| echo: true
 (
   px.box(
     gapminder_latest,
-    x="lifeExp", y="continent",
+    x="gdpPercap", y="continent",
   )
   .update_yaxes(categoryorder="median descending")
 )
