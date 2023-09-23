@@ -413,6 +413,6 @@ colleges['undergrads'].hist()
 ---
 
 ```{python students-by-state}
-students_by_state.plot.barh()
+students_by_state.plot.bar(x='total_undergrads', y='state')
 ```
 
