@@ -3,7 +3,6 @@ title: "Slides 5.1: Tabular Data with *pandas*"
 icon: "file-slides"
 format:
   revealjs:
-    smaller: true
     scrollable: true
     revealjs-plugins:
       - "fix-plotly-size"
@@ -13,7 +12,7 @@ include-in-header:
   text: |
     <style>
       .mchoice li { list-style-type: upper-alpha; }
-      .midi table {
+      .midi table, table.dataframe, .cell-output table {
         font-size: .8em;
       }
       .smaller table {
@@ -104,7 +103,7 @@ Source: Department of Education [College Scorecard](https://collegescorecard.ed.
 Simplified dataset for this exercise: <https://calvin-data-science.github.io/data202/data/college_scorecard.csv>
 
 ```{python}
-colleges = pd.read_csv("../../static/data/college_scorecard.csv")
+colleges = pd.read_csv("https://calvin-data-science.github.io/data202/data/college_scorecard.csv")
 colleges.info()
 ```
 
@@ -229,7 +228,7 @@ colleges.query("is_small")
 
 ---
 
-## How would you get the colleges in Michigan?
+## Exercise: How many colleges are there in Michigan?
 
 ```{python}
 colleges.info()
@@ -238,6 +237,12 @@ colleges.info()
 ---
 
 ## {.smaller}
+
+```{python}
+colleges.query("state == 'MI'")
+```
+
+*alternative style*:
 
 ```{python}
 colleges[
@@ -329,7 +334,7 @@ for state, group in colleges.groupby("state"):
 This is the code you'll typically write.
 
 ```{python}
-#| code-line-numbers: "3,5"
+#| code-line-numbers: "3,4"
 students_by_state = (
   colleges
   .groupby("state", as_index=False)
