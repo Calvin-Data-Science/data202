@@ -75,6 +75,6 @@ Preferred to `value_counts`:
 
 Compare with `value_counts`:
 
-```{python}
+```python
 colleges["state"].value_counts()
 ```
