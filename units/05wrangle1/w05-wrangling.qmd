@@ -345,7 +345,6 @@ for state, group in colleges.groupby("state"):
 This is the code you'll typically write.
 
 ```{python}
-#| code-line-numbers: "3,4"
 students_by_state = (
   colleges
   .groupby("state", as_index=False) # <1> 
@@ -353,8 +352,8 @@ students_by_state = (
 )
 students_by_state
 ```
-1. Group by state (*split*)
-2. `agg`regate: compute a `total_undergrads` column (*combine*) by (1) extracting the `undergrads` column, and (2) summing it (apply)
+1. Group by state
+2. `agg`regate: compute a `total_undergrads` column by (a) extracting the `undergrads` column, and (b) `sum`ming it
 
 # Style notes
 
@@ -371,10 +370,11 @@ Know the rules in order to know when to break them.
 ## Class style: no index
 
 - pandas has `index`ing, an unusual concept
+  - not used in SQL, tidyverse, spreadsheets, etc.
+  - even [Ibis](https://ibis-project.org/), next-gen dataframe library by Wes McKinney (pandas creator), doesn't use it.
 - it's sometimes useful, but often confusing, so we'll avoid it.
-- [Ibis](https://ibis-project.org/), next-gen dataframe library by Wes McKinney (pandas creator), doesn't have indexing.
 - so we'll use `as_index=False` in all our `groupby` calls.
-- so all our aggregation results will be `DataFrames`, not `Series`.
+  - so all our aggregation results will be `DataFrames`, not `Series`.
 
 ## Class style: explicit aggregation
 
