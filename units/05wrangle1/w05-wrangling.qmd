@@ -255,6 +255,15 @@ colleges[
 ## String operations
 
 ```{python}
+#| code-line-numbers: "2"
+colleges.query(
+  "name.str.startswith('Calvin')"
+)
+```
+
+*alternative style*:
+
+```{python}
 #| code-line-numbers: "3-4"
 colleges[
   colleges["name"]
@@ -262,6 +271,7 @@ colleges[
   .startswith("Calvin")
 ]
 ```
+
 
 
 # Aggregation
@@ -282,6 +292,7 @@ students_by_state = (
   colleges
   .groupby("state", as_index=False)
   .agg(total_undergrads=('undergrads', 'sum'))
+  .sort_values("total_undergrads", ascending=False)
 )
 students_by_state
 ```
@@ -294,7 +305,7 @@ students_by_state
 - *Apply* some operation to each group
 - *Combine* the results
 
-We'll build up the code step-by-step.
+We'll build up the code step-by-step. (The earlier steps will include code that we won't usually write.)
 
 ---
 
@@ -337,11 +348,13 @@ This is the code you'll typically write.
 #| code-line-numbers: "3,4"
 students_by_state = (
   colleges
-  .groupby("state", as_index=False)
-  .agg(total_undergrads=('undergrads', 'sum'))
+  .groupby("state", as_index=False) # <1> 
+  .agg(total_undergrads=('undergrads', 'sum')) # <2>
 )
 students_by_state
 ```
+1. Group by state (*split*)
+2. `agg`regate: compute a `total_undergrads` column (*combine*) by (1) extracting the `undergrads` column, and (2) summing it (apply)
 
 # Style notes
 
