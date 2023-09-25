@@ -81,14 +81,30 @@ import pandas as pd
 pd.options.plotting.backend = "plotly"
 ```
 
+## but not just pandas
+
+- Like visualization, there's a "grammar" of data wrangling.
+- Operations:
+  - filter or query: subset of rows
+  - select: subset of columns
+  - derive new columns
+  - aggregate: summarize groups of rows
+  - pivot: reshape data
+- We'll use pandas, but the ideas apply to other tools.
+  - R: tidyverse
+  - SQL: `SELECT`, `WHERE`, `GROUP BY`
+  - even Excel / Google Sheets
 
 ---
 
-## Tabular data (e.g.: [College Scorecard](data/scorecard_data.csv)) {.smaller}
+## Tabular data Example
 
+Source: Department of Education [College Scorecard](https://collegescorecard.ed.gov/data/)
+
+Simplified dataset for this exercise: <https://calvin-data-science.github.io/data202/data/college_scorecard.csv>
 
 ```{python}
-colleges = pd.read_csv("data/scorecard_data.csv")
+colleges = pd.read_csv("../../static/data/college_scorecard.csv")
 colleges.info()
 ```
 
@@ -195,6 +211,20 @@ colleges[
 colleges[
   colleges['is_small']
 ]
+```
+
+---
+
+## `query` method
+
+```{python}
+colleges.query("undergrads < 10000")
+```
+
+or 
+
+```{python}
+colleges.query("is_small")
 ```
 
 ---
