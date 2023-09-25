@@ -364,6 +364,7 @@ We'll use a consistent `pandas` style in this class.
 - `groupby` with `as_index=False`
 - explicit aggregation
 - `.size` of groups, not `value_counts`
+  - **Caution**: the `size` on a `groupby` has a different meaning from `size` on a `DataFrame`.
 
 Know the rules in order to know when to break them.
 
