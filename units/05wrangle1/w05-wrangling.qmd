@@ -364,7 +364,7 @@ We'll use a consistent `pandas` style in this class.
 - `groupby` with `as_index=False`
 - explicit aggregation
 - `.size` of groups, not `value_counts`
-  - **Caution**: the `size` on a `groupby` has a different meaning from `size` on a `DataFrame`.
+  - **Caution**: the `size` attribute on a `groupby` has a different meaning from `size` on a `DataFrame`.
 
 Know the rules in order to know when to break them.
 
@@ -382,13 +382,13 @@ Know the rules in order to know when to break them.
 Lazy method:
 
 ```{python}
-colleges.groupby("state").undergrads.mean()
+colleges.groupby("state", as_index=False)['undergrads'].mean()
 ```
 
 Explicit method:
 
 ```{python}
-colleges.groupby("state").agg(
+colleges.groupby("state", as_index=False).agg(
   mean_undergrads=('undergrads', 'mean'),
   max_undergrads=('undergrads', 'max')
 )
