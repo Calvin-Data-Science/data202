@@ -29,13 +29,13 @@ Know the rules in order to know when to break them.
 Lazy method:
 
 ```python
-colleges.groupby("state").undergrads.mean()
+colleges.groupby("state", as_index=False).undergrads.mean()
 ```
 
 Explicit method:
 
 ```python
-colleges.groupby("state").agg(
+colleges.groupby("state", as_index=False).agg(
   mean_undergrads=('undergrads', 'mean'),
   max_undergrads=('undergrads', 'max')
 )
