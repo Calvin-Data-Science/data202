@@ -1,6 +1,9 @@
 window.FixPlotlySize = {
   id: 'FixPlotlySize',
   init: function(Reveal) {
+    if (!window.require || document.querySelectorAll('.js-plotly-plot').length === 0) {
+      return;
+    }
     require(['plotly'], function(Plotly) {
       // Trigger once on initial load
       document.querySelectorAll('.js-plotly-plot').forEach(plotlyDiv => {
