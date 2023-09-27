@@ -1,6 +1,166 @@
 ---
 title: "pandas"
+execute: 
+  output: false
 ---
+
+# Quick Reference for Grammar of Data
+
+```{python}
+#| echo: false
+import pandas as pd
+colleges = pd.read_csv("../static/data/college_scorecard.csv")
+```
+
+
+## select columns
+
+::: columns
+::: {.column width="50%"}
+```{python}
+colleges[['name', 'undergrads']]
+```
+
+Documentation on [indexing](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html)
+:::
+::: {.column width="50%"}
+Getting a single column as a `Series`:
+
+```{python}
+colleges['name']
+```
+:::
+:::
+
+Remember: column names are strings (not `colleges[name]`)!
+
+## select rows (`query`)
+
+```{python}
+colleges.query("state == 'AK'")
+```
+
+Documentation: [pandas.DataFrame.query](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html)
+
+## top and bottom
+
+::: {.columns}
+::: {.column width="50%"}
+```{python}
+colleges.head(n=2)
+```
+:::
+::: {.column width="50%"}
+```{python}
+colleges.tail(n=3)
+```
+:::
+:::
+
+## arrange rows (`sort_values`)
+
+```{python}
+colleges.sort_values("undergrads").head()
+```
+
+```{python}
+colleges.sort_values("undergrads", ascending=False).head()
+```
+
+Documentation: [pandas.DataFrame.sort_values](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.sort_values.html)
+
+## counting
+
+```{python}
+colleges.groupby("state", as_index=False).size()
+```
+
+## grouping / summarizing (general)
+
+```{python}
+students_by_state = (
+  colleges
+  .groupby("state", as_index=False) # <1> 
+  .agg(total_undergrads=('undergrads', 'sum')) # <2>
+)
+students_by_state
+```
+1. Group by state
+2. `agg`regate: compute a `total_undergrads` column by (a) extracting the `undergrads` column, and (b) `sum`ming it
+
+
+## random sampling
+
+::: columns
+::: {.column width="50%"}
+
+Shuffle rows:
+
+```{python}
+colleges.sample(frac=1.0).head()
+```
+:::
+::: {.column width="50%"}
+Select random rows:
+
+```{python}
+colleges.sample(n=5)
+```
+:::
+:::
+
+## Deriving new columns
+
+```{python}
+colleges['named_university'] = colleges['name'].str.contains('University')
+colleges.groupby('named_university', as_index=False).agg(
+  mean_undergrads=('undergrads', 'mean'),
+  max_undergrads=('undergrads', 'max')
+)
+```
+
+## "Broadcast" operations
+
+Apply an operation to an entire column at a time.
+
+```{python}
+colleges['undergrads'] / 1000
+```
+
+```{python}
+pd.isna(colleges['undergrads'])
+```
+
+## Pairs of columns
+
+When broadcasting with a pair of columns, the operation is applied element-wise.
+
+```{python}
+colleges['city'].str.cat(colleges['state'], sep=', ')
+```
+
+## Deriving new columns, advanced
+
+```{python}
+def classify_name(school_name):
+    school_name = school_name.lower()
+    if 'university' in school_name:
+        return 'university'
+    elif 'college' in school_name:
+        return 'college'
+    else:
+        return 'other'
+colleges['name_type'] = colleges['name'].apply(classify_name)
+colleges.groupby('name_type', as_index=False).agg(
+  mean_undergrads=('undergrads', 'mean'),
+  max_undergrads=('undergrads', 'max')
+)
+```
+
+Note: this is slower because it runs unoptimized Python code for each row. First, make it correct, then make it fast (e.g., [`np.select`](https://numpy.org/doc/stable/reference/generated/numpy.select.html)).
+
+
+
 
 
 # Style notes
