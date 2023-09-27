@@ -15,22 +15,17 @@ colleges = pd.read_csv("../static/data/college_scorecard.csv")
 
 ## select columns
 
-::: columns
-::: {.column width="50%"}
 ```{python}
 colleges[['name', 'undergrads']]
 ```
 
 Documentation on [indexing](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html)
-:::
-::: {.column width="50%"}
+
 Getting a single column as a `Series`:
 
 ```{python}
 colleges['name']
 ```
-:::
-:::
 
 Remember: column names are strings (not `colleges[name]`)!
 
@@ -44,18 +39,13 @@ Documentation: [pandas.DataFrame.query](https://pandas.pydata.org/pandas-docs/st
 
 ## top and bottom
 
-::: {.columns}
-::: {.column width="50%"}
 ```{python}
 colleges.head(n=2)
 ```
-:::
-::: {.column width="50%"}
+
 ```{python}
 colleges.tail(n=3)
 ```
-:::
-:::
 
 ## arrange rows (`sort_values`)
 
@@ -88,26 +78,31 @@ students_by_state
 1. Group by state
 2. `agg`regate: compute a `total_undergrads` column by (a) extracting the `undergrads` column, and (b) `sum`ming it
 
+Documentation on [grouping](https://pandas.pydata.org/docs/user_guide/groupby.html).
+
+## grouping by multiple columns
+
+```{python}
+(
+  colleges
+  .groupby(["state", "online_only"], as_index=False)
+  .agg(total_undergrads=('undergrads', 'sum'))
+)
+```
 
 ## random sampling
-
-::: columns
-::: {.column width="50%"}
 
 Shuffle rows:
 
 ```{python}
 colleges.sample(frac=1.0).head()
 ```
-:::
-::: {.column width="50%"}
+
 Select random rows:
 
 ```{python}
 colleges.sample(n=5)
 ```
-:::
-:::
 
 ## Deriving new columns
 
@@ -118,6 +113,45 @@ colleges.groupby('named_university', as_index=False).agg(
   max_undergrads=('undergrads', 'max')
 )
 ```
+
+Note: you can also *chain* these operations using `assign`, which *returns a new `DataFrame`* instead of modifying the original.
+
+```{python}
+(
+  colleges
+  .assign(named_university = colleges['name'].str.contains('University'))
+  .groupby('named_university', as_index=False).agg(
+    mean_undergrads=('undergrads', 'mean'),
+    max_undergrads=('undergrads', 'max')
+  )
+)
+```
+
+## `SettingWithCopyWarning`
+
+Deriving columns on a subset of rows can cause a warning. For example:
+
+```{python}
+#| output: true
+mi_colleges = colleges.query("state == 'MI'")
+mi_colleges['named_college'] = mi_colleges['name'].str.contains('College')
+```
+
+This is pandas trying to keep you from making certain types of mistakes that can be subtle; see the [documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy). To avoid it, use `assign`:
+
+```{python}
+mi_colleges = colleges.query("state == 'MI'")
+mi_colleges = mi_colleges.assign(
+  named_college = mi_colleges['name'].str.contains('College'))
+```
+
+or `.copy`:
+
+```{python}
+mi_colleges = colleges.query("state == 'MI'").copy()
+mi_colleges['named_college'] = mi_colleges['name'].str.contains('College')
+```
+
 
 ## "Broadcast" operations
 
@@ -141,7 +175,10 @@ colleges['city'].str.cat(colleges['state'], sep=', ')
 
 ## Deriving new columns, advanced
 
+If you need an operation that isn't built into pandas, you can `apply` your own function. First let's define a function:
+
 ```{python}
+#| output: true
 def classify_name(school_name):
     school_name = school_name.lower()
     if 'university' in school_name:
@@ -150,7 +187,18 @@ def classify_name(school_name):
         return 'college'
     else:
         return 'other'
+
+# example:
+classify_name('University of California, Berkeley')
+```
+
+Then we `apply` that to each row:
+
+```{python}
 colleges['name_type'] = colleges['name'].apply(classify_name)
+```
+
+```{python}
 colleges.groupby('name_type', as_index=False).agg(
   mean_undergrads=('undergrads', 'mean'),
   max_undergrads=('undergrads', 'max')
@@ -158,9 +206,6 @@ colleges.groupby('name_type', as_index=False).agg(
 ```
 
 Note: this is slower because it runs unoptimized Python code for each row. First, make it correct, then make it fast (e.g., [`np.select`](https://numpy.org/doc/stable/reference/generated/numpy.select.html)).
-
-
-
 
 
 # Style notes
