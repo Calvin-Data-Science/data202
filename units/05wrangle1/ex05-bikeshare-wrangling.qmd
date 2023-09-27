@@ -1,0 +1,60 @@
+---
+title: "Exercise 5: Bikeshare Wrangling"
+draft: true
+execute: 
+  echo: false
+---
+
+(work in progress)
+
+```{python}
+import requests, zipfile, io, pathlib
+import pandas as pd
+import numpy as np
+import glob
+
+for year in [2011, 2012]:
+    feather_filename = f'data/bikeshare_{year}.feather'
+    if pathlib.Path(feather_filename).exists():
+        continue
+
+    filenames = sorted(glob.glob(f"data/{year}*tripdata.csv"))
+    if not filenames:
+        print("Downloading", year, "data")
+        url = f"https://s3.amazonaws.com/capitalbikeshare-data/{year}-capitalbikeshare-tripdata.zip"
+        r = requests.get(url)
+        z = zipfile.ZipFile(io.BytesIO(r.content))
+        z.extractall("data")
+        filenames = sorted(glob.glob(f"data/{year}*tripdata.csv"))
+
+    df = pd.concat([
+        pd.read_csv(filename,
+        usecols=["Duration", "Start date", "Member type"], parse_dates=["Start date"])
+        for filename in filenames], ignore_index=True)
+    df.rename(columns={"Start date": "start_time", "Duration": "duration", "Member type": "rider_type"}, inplace=True)
+    df.to_feather(feather_filename)
+```
+
+```{python}
+df_2011 = pd.read_feather("data/bikeshare_2011.feather")
+df_2011.info()
+```
+
+Ride types
+
+```{python}
+df_2011.groupby("rider_type", as_index=False).size()
+```
+
+```{python}
+df_2011['year'] = df_2011.start_time.dt.year
+df_2011['month'] = df_2011.start_time.dt.month
+df_2011['day'] = df_2011.start_time.dt.day
+df_2011['weekday_name'] = df_2011.start_time.dt.day_name()
+df_2011.head()
+```
+
+```{python}
+daily_rides_by_type = df_2011.groupby(["year", "month", "day", "rider_type"], as_index=False).size()
+daily_rides_by_type.head()
+```
