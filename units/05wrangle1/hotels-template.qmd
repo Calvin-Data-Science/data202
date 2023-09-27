@@ -1,0 +1,41 @@
+---
+title: "A title"
+author: "Your name"
+format:
+  html:
+    embed-resources: true
+    code-tools: true
+    code-fold: true
+---
+
+```{python}
+#| echo: true
+import numpy as np
+import pandas as pd
+import plotly.express as px
+pd.options.plotting.backend = "plotly"
+```
+
+```{python}
+#| echo: false
+# Hack to make plotly work in RStudio
+if 'r' in globals() and r['.Platform$GUI'] == "RStudio" and r['suppressMessages(requireNamespace("htmltools"))']:
+  r[".GlobalEnv$to_html <- function(x) { print(htmltools::HTML(x)) }"] and None
+  def show_plot(p): r.to_html(p._repr_html_())
+else:
+  def show_plot(p): return p
+```
+
+```{python}
+hotels_url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv"
+import pathlib, requests
+
+cache_filename = pathlib.Path('data/hotels.csv')
+if not cache_filename.exists():
+    cache_filename.parent.mkdir(parents=True, exist_ok=True)
+    cache_filename.write_bytes(requests.get(hotels_url).content)
+```
+```{python}
+hotels = pd.read_csv(cache_filename)
+hotels.head()
+```
