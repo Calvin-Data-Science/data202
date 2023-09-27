@@ -121,10 +121,17 @@ colleges.sort_values("undergrads", ascending=False).head()
 
 Documentation: [pandas.DataFrame.sort_values](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.sort_values.html)
 
-## grouping / summarizing
+## counting
+
+```{python}
+colleges.groupby("state", as_index=False).size()
+```
+
+## grouping / summarizing (general)
 
 ```{python}
 colleges.groupby("state", as_index=False).agg(
+  count=('undergrads', 'count'),
   mean_undergrads=('undergrads', 'mean'),
   max_undergrads=('undergrads', 'max')
 )
@@ -161,6 +168,26 @@ colleges.groupby('named_university', as_index=False).agg(
 )
 ```
 
+## "Broadcast" operations
+
+Apply an operation to an entire column at a time.
+
+```{python}
+colleges['undergrads'] / 1000
+```
+
+```{python}
+pd.isna(colleges['undergrads'])
+```
+
+## Pairs of columns
+
+When broadcasting with a pair of columns, the operation is applied element-wise.
+
+```{python}
+colleges['city'].str.cat(colleges['state'], sep=', ')
+```
+
 ## Deriving new columns, advanced
 
 ```{python}
@@ -190,6 +217,7 @@ Note: this is slower because it runs unoptimized Python code for each row. First
 - Observations: Each row represents a hotel booking
 - Goal for original data collection: Development of prediction models to classify a hotel booking's likelihood to be cancelled ([Antonia et al., 2019](https://www.sciencedirect.com/science/article/pii/S2352340918315191#bib5))
 
+## Data download {.smaller}
 
 ```{python}
 hotels_url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv"
@@ -212,7 +240,7 @@ Source: [TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/master
 
 :::
 
-## First looks
+## What are some of the variables and their data types?
 
 ```{python}
 hotels.info()
