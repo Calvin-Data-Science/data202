@@ -268,6 +268,18 @@ print(("`````"))
 
 ```
 
+## Suggested questions
+
+Try each of these yourself, before looking at a possible solution in the following slides.
+
+- What are some of the variables and their data types?
+- How many different hotels are there? Which hotel has more bookings?
+- Which hotel has longer stays?
+- Which market segment is most common?
+- How much in advance (`lead_time`) are bookings made?
+- Which market segments book most in advance?
+- How long are typical stays for each market segment?
+
 ## What are some of the variables and their data types?
 
 ```{python}
@@ -278,19 +290,95 @@ hotels.info()
 hotels.describe()
 ```
 
-## How many different hotels are there?
+## How many different hotels are there? Which hotel has more bookings?
 
-## Which hotel has more bookings?
+Approach: group by hotel, compute size of each group.
+
+```{python}
+hotels.groupby('hotel', as_index=False).size()
+```
+
+```{python}
+# alternative approach
+hotels.groupby('hotel', as_index=False).agg(size=('hotel', 'count'))
+```
 
 ## Which hotel has longer stays?
 
-Add `stays_in_week_nights` and `stays_in_weekend_nights` to get total length of stay.
+Approach:
+
+- Add `stays_in_week_nights` and `stays_in_weekend_nights` to get total length of stay.
+- Group by hotel, compute mean, median, and max.
+
+```{python}
+hotels['total_stay'] = hotels['stays_in_week_nights'] + hotels['stays_in_weekend_nights']
+hotels.groupby('hotel').agg(
+  mean_stay=('total_stay', 'mean'),
+  median_stay=('total_stay', 'median'),
+  max_stay=('total_stay', 'max')
+)
+```
+
+
+```{python}
+#| include: false
+px.box(hotels, x='total_stay', y='hotel', points=False)
+```
+
 
 ## Which market segment is most common?
 
-## How much in advance are bookings made?
+Approach: group by market segment, compute size of each group, sort by size.
+
+```{python}
+(
+  hotels.groupby('market_segment', as_index=False)
+  .size()
+  .sort_values('size', ascending=False)
+)
+```
+
+## How much in advance (`lead_time`) are bookings made?
+
+Approach: compute mean and max of `lead_time`.
+
+```{python}
+# quick way
+hotels['lead_time'].describe()
+```
+
+```{python}
+# more explicit way
+print("Lead time: mean={:.1f} days, max={:.1f} days".format(
+  hotels['lead_time'].mean(),
+  hotels['lead_time'].max())
+)
+```
 
 ## Which market segments book most in advance?
 
-## How long are typical stays for each hotel?
+Approach: group by market segment, compute mean and max of `lead_time`.
 
+```{python}
+hotels.groupby('market_segment', as_index=False).agg(
+  mean_lead_time=('lead_time', 'mean'),
+  max_lead_time=('lead_time', 'max')
+)
+```
+
+## How long are typical stays for each market segment?
+
+Approach: compute total stay length, group by market segment, compute mean and max, sort by mean.
+
+```{python}
+(
+  hotels
+  .assign(total_stay=hotels['stays_in_week_nights'] + hotels['stays_in_weekend_nights'])
+  .groupby('market_segment', as_index=False)
+  .agg(
+    mean_stay=('total_stay', 'mean'),
+    max_stay=('total_stay', 'max')
+  )
+  .sort_values('mean_stay', ascending=False)
+)
+```
