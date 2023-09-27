@@ -240,6 +240,17 @@ Source: [TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/master
 
 :::
 
+## Template code
+
+```{python}
+#| echo: false
+#| output: asis
+print("`````python")
+print(open('hotels-template.qmd').read())
+print(("`````"))
+
+```
+
 ## What are some of the variables and their data types?
 
 ```{python}
