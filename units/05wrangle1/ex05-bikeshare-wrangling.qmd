@@ -119,6 +119,12 @@ Report some basic size and content information about the `rides` data frame. For
 print("The rides data frame has", rides.shape[0], "rows and", rides.shape[1], "columns.")
 ```
 
+Checklist:
+
+- [ ] You reported the number of rows and columns in the data frame (ideally using [a computation](../../notes/quarto.qmd#computations-in-text)).
+- [ ] You reported the data types (both storage and logical) of the columns.
+- [ ] You wrote a sentence conveying the information that the first row of the data tells us.
+
 ### Part 1B: `duration` column
 
 Note that the data dictionary does not specify the units of the `duration` column. It turns out that this is in seconds. **Confirm this by computing summary statistics of the `duration` column.** If you wish to make a plot, use `rides.sample(n=1000)` to get a random sample of 1000 rows, since the full dataset pushes the limits of what Plotly can plot efficiently.
@@ -135,6 +141,15 @@ Use your domain knowledge about bike riding and cities to check whether the summ
 px.histogram(rides.sample(n=1000), x="duration")
 ```
 
+Finally, for practice, make a `duration_minutes` column that expresses the duration in minutes instead of seconds. Remember that there are 60 seconds in a minute.
+
+Checklist:
+
+- [ ] You computed summary statistics of the `duration` column.
+- [ ] You wrote a sentence or two explaining how one or two of those summary statistics make sense in the context of bike riding and cities.
+- [ ] You wrote code to create a `duration_minutes` column.
+
+
 ### Part 1C: `start_time` column
 
 What are the earliest and latest start times in the dataset? Look at the first and last rows in the dataframe, and check your observations using `min` and `max` methods on the column.
@@ -143,6 +158,11 @@ What are the earliest and latest start times in the dataset? Look at the first a
 #| include: false
 rides['start_time'].min()
 ```
+
+Checklist:
+
+- [ ] You reported the first and last start times in the dataset.
+- [ ] You checked your observations using `min` and `max` methods on the column.
 
 ### Part 1D: `rider_type` column
 
@@ -153,6 +173,11 @@ rides.groupby("rider_type", as_index=False).size()
 ```
 
 What does this table tell you that the data dictionary did not tell you?
+
+Checklist:
+
+- [ ] Your report includes a table showing the number of rides by rider type.
+- [ ] You wrote a short sentence containing the new piece of information that the table tells you.
 
 ## Part 2: Counting Rides By Day
 
@@ -220,18 +245,29 @@ daily_rides['date'] = pd.to_datetime(daily_rides['date'])
 
 :::
 
-### Validating the result
+Checklist:
+
+- [ ] You created a `daily_rides` data frame that contains the number of rides per day.
+- [ ] You converted the `date` column to a `datetime` object using the provided code.
+
+### Part 2C: Validating the result
 
 How many rows does `daily_rides` have? How many rows *should* it have, given your knowledge of how calendars work? If the number of rows is different, what might be the cause?
 
-### Recreating a plot from Exercise 1
+Checklist:
+
+- [ ] You reported the number of rows in the `daily_rides` data frame.
+- [ ] You reported the number of rows that you expected.
+- [ ] You wrote a sentence about what you (didn't) observe.
+
+### Part 2D: Recreating a plot from Exercise 1
 
 Recreate the "total number of rides by day" plot we made in Exercise 1:
 
 ```{python}
 #| echo: false
 px.scatter(
-    daily_rides,#.assign(date=lambda df: pd.to_datetime(df.date)),
+    daily_rides,
     x="date", y="total_rides",
     trendline="lowess",
     labels={"date": "Date", "total_rides": "Number of Rides"},
@@ -243,6 +279,12 @@ px.scatter(
 When I first tried adding a trendline like we did, I hit a Plotly / pandas bug about `date` (not `datetime`) columns. If you also get a `TypeError`, see above for code for how to use `pd.to_datetime` to convert the column to a `datetime` column.
 
 :::
+
+Checklist:
+
+- [ ] You made a plot of total rides by date
+
+(anything beyond that is nice to have, but not required)
 
 
 ## Part 3: Breaking down by rider type
