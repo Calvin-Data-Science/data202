@@ -5,18 +5,45 @@ execute:
   echo: false
 ---
 
-(work in progress)
+In this exercise, we'll continue our study of the bike sharing data, but we’re
+starting to take off the training wheels: rather than using
+pre-wrangled data, you’ll be doing some of the data wrangling yourself!
+
+In this exercise you'll:
+
+- *refine* your skills in creating reproducible documents (Quarto) and graphics (Plotly)
+- *practice* grouping and aggregation functions in pandas
+- *see* some ways to work with dates
+
+## Getting Started
+
+Create a folder for this exercise and create a new Quarto file in that folder named `ex05-bikeshare-wrangling.qmd`. Start with the usual setup code, given in the [course notes](../../notes/quarto.qmd#class-standards).
 
 ```{python}
+import numpy as np
+import pandas as pd
+import plotly.express as px
+pd.options.plotting.backend = "plotly"
+```
+
+## Load Data
+
+We downloaded the data from the [Capital BikeShare program](https://www.capitalbikeshare.com/system-data). Note the license agreement there. We removed some columns of the data that we aren't using to reduce the size of the dataset you have to download.
+
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Low-level wrangling code"
 import requests, zipfile, io, pathlib
 import pandas as pd
 import numpy as np
 import glob
 
 for year in [2011, 2012]:
-    feather_filename = f'data/bikeshare_{year}.feather'
-    if pathlib.Path(feather_filename).exists():
-        continue
+    parquet_filename = f'data/bikeshare_{year}.parquet'
+    #if pathlib.Path(parquet_filename).exists():
+        #continue
 
     filenames = sorted(glob.glob(f"data/{year}*tripdata.csv"))
     if not filenames:
@@ -32,29 +59,266 @@ for year in [2011, 2012]:
         usecols=["Duration", "Start date", "Member type"], parse_dates=["Start date"])
         for filename in filenames], ignore_index=True)
     df.rename(columns={"Start date": "start_time", "Duration": "duration", "Member type": "rider_type"}, inplace=True)
-    df.to_feather(feather_filename)
+    df.to_parquet(parquet_filename, index=False)
 ```
 
+
+We'll distribute the data for this exercise in a format called [Parquet](https://parquet.apache.org/), an efficient emerging standard for dataframe interchange. You can [read Parquet files with pandas](https://pandas.pydata.org/docs/user_guide/io.html#parquet).
+
+The data files are broken up by year. Here we read in the data for 2011, which is the first of the two years included in the dataset for previous exercises. **Download the data file [here](https://TODO)** and upload it to a `data` folder in your exercise folder.
+
 ```{python}
-df_2011 = pd.read_feather("data/bikeshare_2011.feather")
-df_2011.info()
+#| echo: true
+rides_2011 = pd.read_parquet("data/bikeshare_2011.parquet")
+
+rides = rides_2011
+rides.info()
 ```
 
-Ride types
+::: {.callout-note collapse="true" title="2012 data"}
 
-```{python}
-df_2011.groupby("rider_type", as_index=False).size()
+Once you've finished with this exercise, you can use the following instructions to load the 2012 data also.
+
+1. Download the data file [here](https://TODO)
+2. Upload it to the `data` folder.
+3. Use the following code to load it and concatenate it with the 2011 data (replacing the `rides = rides_2011` line above):
+
+```{{python}}
+rides_2012 = pd.read_parquet("data/bikeshare_2012.parquet")
+rides = pd.concat([rides_2011, rides_2012], ignore_index=True)
 ```
 
-```{python}
-df_2011['year'] = df_2011.start_time.dt.year
-df_2011['month'] = df_2011.start_time.dt.month
-df_2011['day'] = df_2011.start_time.dt.day
-df_2011['weekday_name'] = df_2011.start_time.dt.day_name()
-df_2011.head()
-```
+:::
+
+Each row is a *ride*. For each ride we're given the start time of the trip, its duration, and rider type.
+
+::: {.column-margin}
+According to the website:
+
+Member Type – Indicates whether user was a "registered" member (Annual Member, 30-Day Member or Day Key Member) or a "casual" rider (Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass)
+:::
+
+
+## Part 1: Inspecting the data
+
+### Part 1A: Basic information
+
+Report some basic size and content information about the `rides` data frame. For example, how many rows and columns does it have? What are the data types of the columns? What fact does the first row of the data tell us? You may wish to refer to the data dictionary given on the [Capital BikeShare program](https://www.capitalbikeshare.com/system-data) website.
 
 ```{python}
-daily_rides_by_type = df_2011.groupby(["year", "month", "day", "rider_type"], as_index=False).size()
+#| include: false
+print("The rides data frame has", rides.shape[0], "rows and", rides.shape[1], "columns.")
+```
+
+### Part 1B: `duration` column
+
+Note that the data dictionary does not specify the units of the `duration` column. It turns out that this is in seconds. **Confirm this by computing summary statistics of the `duration` column.** If you wish to make a plot, use `rides.sample(n=1000)` to get a random sample of 1000 rows, since the full dataset pushes the limits of what Plotly can plot efficiently.
+
+```{python}
+#| include: false
+rides['duration'].describe()
+```
+
+Use your domain knowledge about bike riding and cities to check whether the summary statistics make sense. For example, what is the longest ride you would expect to see? What is the shortest ride you would expect to see? What is the typical ride length?
+
+```{python}
+#| include: false
+px.histogram(rides.sample(n=1000), x="duration")
+```
+
+### Part 1C: `start_time` column
+
+What are the earliest and latest start times in the dataset? Look at the first and last rows in the dataframe, and check your observations using `min` and `max` methods on the column.
+
+```{python}
+#| include: false
+rides['start_time'].min()
+```
+
+### Part 1D: `rider_type` column
+
+Make a table that shows how many rides were taken by registered riders and how many were taken by non-registered riders. Example result:
+
+```{python}
+rides.groupby("rider_type", as_index=False).size()
+```
+
+What does this table tell you that the data dictionary did not tell you?
+
+## Part 2: Counting Rides By Day
+
+Our goal is to create a dataframe like the one used in [Exercise 1](../01intro/ex01-warmup.qmd) that includes the number of rides in each day. We'll do this in two steps:
+
+
+### Part 2A: Date Wrangling
+
+Make new columns for the year, month, and day of the ride.
+
+To extract the year, month, and day from the `start_time` column, you can use the [`dt` accessor](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors) (short for "datetime"). Here's what one of them looks like, you try making the others:
+
+```{python}
+#| echo: true
+rides['date'] = rides['start_time'].dt.date
+rides['year'] = rides['start_time'].dt.year
+```
+
+The first few rows should look like:
+
+```{python}
+rides['month'] = rides['start_time'].dt.month
+rides['day'] = rides['start_time'].dt.day
+rides.head(3)
+```
+
+### Part 2B: Counting
+
+Count the number of rides for each date. Call the result `daily_rides`.
+
+The first few rows of result should look like:
+
+```{python}
+#daily_rides = rides.groupby(["year", "month", "day"], as_index=False).size()
+daily_rides = (
+    rides
+    .groupby('date', as_index=False)
+    .size()
+    .rename(columns={'size': 'total_rides'})
+)
+daily_rides.head()
+```
+
+::: {.callout-tip}
+
+To get the column to be named `total_rides` instead of `size`, you can either use an explicit aggregation, or rename the result using `.rename(columns={'size': 'total_rides'})`. Remember that by default, `DataFrame` methods return a *new* `DataFrame`, so you can just include the `rename` in the method chain.
+
+:::
+
+::: {.callout-note title="Data Types"}
+
+The resulting `date` column is a `datetime.date` object, which is a Python object that represents a date (but not a time). pandas and Plotly don't handle this type of object well, so let's convert it to a `datetime` object. You can convert a column to a `datetime` object using `pd.to_datetime`:
+
+```{python}
+daily_rides['date'] = pd.to_datetime(daily_rides['date'])
+```
+
+:::
+
+### Validating the result
+
+How many rows does `daily_rides` have? How many rows *should* it have, given your knowledge of how calendars work? If the number of rows is different, what might be the cause?
+
+### Recreating a plot from Exercise 1
+
+Recreate the "total number of rides by day" plot we made in Exercise 1:
+
+```{python}
+#| echo: false
+px.scatter(
+    daily_rides,#.assign(date=lambda df: pd.to_datetime(df.date)),
+    x="date", y="total_rides",
+    trendline="lowess",
+    labels={"date": "Date", "total_rides": "Number of Rides"},
+)
+```
+
+::: {.callout-note}
+
+When I first tried adding a trendline like we did, I hit a Plotly / pandas bug about `date` (not `datetime`) columns. See above for code for how to use `pd.to_datetime` to convert the column to a `datetime` column.
+
+:::
+
+
+## Part 3: Breaking down my rider type
+
+Repeat Part 2, but now create a `daily_rides_by_type` data frame where you break down the counts by rider type, like we did in [Exercise 2](../01intro/ex02-bikeshare.qmd).
+
+```{python}
+daily_rides_by_type = rides.groupby(["date", "rider_type"], as_index=False).size()
 daily_rides_by_type.head()
+```
+
+Hint: you can group by multiple columns by passing a list of column names to `groupby`.
+
+**Make sure you validate the shape of this data frame also**; there *is* a difference between the number of rows you expect and the number of rows you get. Fix the issue by using a `query` to remove a small number of rows.
+
+```{python}
+#| include: false
+len(daily_rides_by_type) - 2 * len(daily_rides)
+```
+
+```{python}
+daily_rides_by_type = (
+    rides
+    .query('rider_type != "Unknown"')
+    .groupby(["date", "rider_type"], as_index=False)
+    .size()
+    .rename(columns={'size': 'rides'})
+)
+daily_rides_by_type['date'] = pd.to_datetime(daily_rides_by_type['date'])
+```
+
+Use the `daily_rides_by_type` data frame to recreate the plot from Exercise 2:
+
+```{python}
+(
+  px.scatter(
+    daily_rides_by_type,
+    x="date", y="rides", color="rider_type",
+    trendline="lowess",
+    title="Number of Rides by Date, by Type of Rider",
+    labels={"date": "Date", "rides": "Number of Rides", "rider_type": "Type of Rider"}
+    )
+    .update_traces(marker_size=3, marker_opacity=.5)
+)
+```
+
+## Part 4: Breaking down by day of week
+
+Recreate the "How does ridership vary over a typical week?" plot using this dataset.
+
+::: {.callout-note title="Day of Week column"}
+
+You'll need to add a column for the day of the week. Use the [`strftime` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.dt.strftime.html) to get the name of the day of the week. We also need to convert the resulting column to a `Categorical` column so that Plotly will plot the days in the correct order and pandas will order the rows correctly when we group by day of week.
+
+```{python}
+# Extract day of week
+daily_rides_by_type['day_of_week'] = daily_rides_by_type['date'].dt.strftime("%a")
+# Convert to an ordered Categorical
+daily_rides_by_type['day_of_week'] = pd.Categorical(
+    daily_rides_by_type['day_of_week'],
+    categories=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    ordered=True
+)
+```
+
+We're not going to study Categorical columns very much, but they're useful when dealing with qualitative data, especially when it's ordered. You can read more about them [here](https://pandas.pydata.org/docs/user_guide/categorical.html).
+
+:::
+
+::: {.callout-note title="Other notes"}
+
+- Omit the "Unknown" rider type.
+- If you're only using the 2011 rides, the specific values will be a bit different than what you saw in hw02 because that also included 2012.
+  You can add the 2012 data too if you like; see the notes at the beginning of the exercise.
+:::
+
+For reference, here's what I got when I used this dataset:
+
+```{python}
+#| echo: false
+(
+  px.box(
+    daily_rides_by_type,
+    x="day_of_week", y="rides", color="rider_type",
+    labels={"day_of_week": "Day of Week", "rides": "Number of Rides", "rider_type": "Type of Rider"},
+    title="Distribution of rides by day of week"
+  )
+)
+```
+
+Show the same summary as the plot above, but in tabular form.
+
+
+```{python}
+daily_rides_by_type.groupby(["day_of_week", "rider_type"], as_index=False).agg(median_rides=("rides", "median"))
 ```
