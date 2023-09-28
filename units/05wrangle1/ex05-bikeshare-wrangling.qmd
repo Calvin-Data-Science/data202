@@ -42,8 +42,8 @@ import glob
 
 for year in [2011, 2012]:
     parquet_filename = f'data/bikeshare_{year}.parquet'
-    #if pathlib.Path(parquet_filename).exists():
-        #continue
+    if pathlib.Path(parquet_filename).exists():
+        continue
 
     filenames = sorted(glob.glob(f"data/{year}*tripdata.csv"))
     if not filenames:
@@ -62,10 +62,19 @@ for year in [2011, 2012]:
     df.to_parquet(parquet_filename, index=False)
 ```
 
+```{python}
+# copy all of the parquet files into the ../../static/data/bikeshare folder
+import shutil
+all_parquet_files = glob.glob("data/*.parquet")
+for filename in all_parquet_files:
+    shutil.copy(filename, "../../static/data/bikeshare")
+```
+
 
 We'll distribute the data for this exercise in a format called [Parquet](https://parquet.apache.org/), an efficient emerging standard for dataframe interchange. You can [read Parquet files with pandas](https://pandas.pydata.org/docs/user_guide/io.html#parquet).
 
-The data files are broken up by year. Here we read in the data for 2011, which is the first of the two years included in the dataset for previous exercises. **Download the data file [here](https://TODO)** and upload it to a `data` folder in your exercise folder.
+The data files are broken up by year. Here we read in the data for 2011, which is the first of the two years included in the dataset for previous exercises. **Download the data file [here](https://calvin-data-science.github.io/data202/data/bikeshare/bikeshare_2011.parquet)** and upload it to a `data` folder in your exercise folder.
+
 
 ```{python}
 #| echo: true
@@ -79,7 +88,7 @@ rides.info()
 
 Once you've finished with this exercise, you can use the following instructions to load the 2012 data also.
 
-1. Download the data file [here](https://TODO)
+1. Download the data file [here](https://calvin-data-science.github.io/data202/data/bikeshare/bikeshare_2012.parquet)
 2. Upload it to the `data` folder.
 3. Use the following code to load it and concatenate it with the 2011 data (replacing the `rides = rides_2011` line above):
 
@@ -152,23 +161,31 @@ Our goal is to create a dataframe like the one used in [Exercise 1](../01intro/e
 
 ### Part 2A: Date Wrangling
 
-Make new columns for the year, month, and day of the ride.
-
-To extract the year, month, and day from the `start_time` column, you can use the [`dt` accessor](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors) (short for "datetime"). Here's what one of them looks like, you try making the others:
+The `start_time` column gives the timestamp (date and time) of when the ride started. We want to count the number of rides per day, so we need to extract the date from the timestamp. We can use the [`dt` accessor](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors) to access the date part of the timestamp:
 
 ```{python}
 #| echo: true
 rides['date'] = rides['start_time'].dt.date
+```
+
+::: {.callout-note collapse="true" title="other dt accessors"}
+
+The original dataframe also had columns for year, month, and day broken out. We won't need these (you can derive them all from `year`), but if you want them, you can use the [`dt` accessor](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors) (short for "datetime"). For example: 
+
+
+```python
 rides['year'] = rides['start_time'].dt.year
 ```
 
-The first few rows should look like:
+:::
+
+Check that the first few rows look like:
 
 ```{python}
-rides['month'] = rides['start_time'].dt.month
-rides['day'] = rides['start_time'].dt.day
 rides.head(3)
 ```
+
+(All of the code for this part has been provided for you above; you just need to include it in your document.)
 
 ### Part 2B: Counting
 
@@ -177,7 +194,6 @@ Count the number of rides for each date. Call the result `daily_rides`.
 The first few rows of result should look like:
 
 ```{python}
-#daily_rides = rides.groupby(["year", "month", "day"], as_index=False).size()
 daily_rides = (
     rides
     .groupby('date', as_index=False)
@@ -198,6 +214,7 @@ To get the column to be named `total_rides` instead of `size`, you can either us
 The resulting `date` column is a `datetime.date` object, which is a Python object that represents a date (but not a time). pandas and Plotly don't handle this type of object well, so let's convert it to a `datetime` object. You can convert a column to a `datetime` object using `pd.to_datetime`:
 
 ```{python}
+#| echo: true
 daily_rides['date'] = pd.to_datetime(daily_rides['date'])
 ```
 
@@ -223,17 +240,22 @@ px.scatter(
 
 ::: {.callout-note}
 
-When I first tried adding a trendline like we did, I hit a Plotly / pandas bug about `date` (not `datetime`) columns. See above for code for how to use `pd.to_datetime` to convert the column to a `datetime` column.
+When I first tried adding a trendline like we did, I hit a Plotly / pandas bug about `date` (not `datetime`) columns. If you also get a `TypeError`, see above for code for how to use `pd.to_datetime` to convert the column to a `datetime` column.
 
 :::
 
 
-## Part 3: Breaking down my rider type
+## Part 3: Breaking down by rider type
 
-Repeat Part 2, but now create a `daily_rides_by_type` data frame where you break down the counts by rider type, like we did in [Exercise 2](../01intro/ex02-bikeshare.qmd).
+Repeat Part 2, but now create a `daily_rides_by_type` data frame where you break down the counts by rider type, like we did in [Exercise 2](../01intro/ex02-bikeshare.qmd). For example:
 
 ```{python}
-daily_rides_by_type = rides.groupby(["date", "rider_type"], as_index=False).size()
+daily_rides_by_type = (
+    rides
+    .groupby(["date", "rider_type"], as_index=False)
+    .size()
+    .rename(columns={'size': 'rides'})
+)
 daily_rides_by_type.head()
 ```
 
@@ -278,9 +300,10 @@ Recreate the "How does ridership vary over a typical week?" plot using this data
 
 ::: {.callout-note title="Day of Week column"}
 
-You'll need to add a column for the day of the week. Use the [`strftime` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.dt.strftime.html) to get the name of the day of the week. We also need to convert the resulting column to a `Categorical` column so that Plotly will plot the days in the correct order and pandas will order the rows correctly when we group by day of week.
+You'll need to add a column for the day of the week. Use the [`strftime` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.dt.strftime.html) to get the name of the day of the week. We also need to convert the resulting column to a `Categorical` column so that Plotly will plot the days in the correct order and pandas will order the rows correctly when we group by day of week. Here's how I did it (admittedly with some help from GitHub Copilot!):
 
 ```{python}
+#| echo: true
 # Extract day of week
 daily_rides_by_type['day_of_week'] = daily_rides_by_type['date'].dt.strftime("%a")
 # Convert to an ordered Categorical
@@ -297,8 +320,8 @@ We're not going to study Categorical columns very much, but they're useful when 
 
 ::: {.callout-note title="Other notes"}
 
-- Omit the "Unknown" rider type.
-- If you're only using the 2011 rides, the specific values will be a bit different than what you saw in hw02 because that also included 2012.
+- Omit the "Unknown" rider type (if you haven't already)
+- If you're only using the 2011 rides, the specific values will be a bit different than what you saw in Exercise 2 because that also included 2012.
   You can add the 2012 data too if you like; see the notes at the beginning of the exercise.
 :::
 
@@ -320,5 +343,17 @@ Show the same summary as the plot above, but in tabular form.
 
 
 ```{python}
-daily_rides_by_type.groupby(["day_of_week", "rider_type"], as_index=False).agg(median_rides=("rides", "median"))
+median_table = daily_rides_by_type.groupby(["day_of_week", "rider_type"], as_index=False).agg(median_rides=("rides", "median"))
+median_table
 ```
+
+
+```{python}
+#| include: false
+# pivot the rider_type column to get a table with one row per day of week
+median_table.pivot(index="day_of_week", columns="rider_type", values="median_rides")
+```
+
+## Submitting your work
+
+When you're finished, Render your `qmd` and submit the HTML as usual.
