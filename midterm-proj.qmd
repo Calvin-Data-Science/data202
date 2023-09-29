@@ -24,7 +24,7 @@ You can pick one of these approaches:
 - **Issue-centered**: Pick an issue that's important to you. Find a news article or opinion piece about that issue, ideally one that you *disagree* with, and try to replicate a visual that they’d use to support their claims.
 :::
 
-#### Week 4: Plot selection and initial analysis
+### Week 4: Plot selection and initial analysis
 
 Upload a screenshot of one or more potential plots to the Plot Gallery. Your post should include:
 
@@ -57,7 +57,7 @@ The plot you choose to replicate:
 If you are really stuck, I can simply assign something to do, but I’m hoping to avoid that.
 :::
 
-#### Week 5: Data
+### Week 5: Data
 
 Find and load the data; write a brief critique of the data.
 
@@ -84,13 +84,13 @@ If the wrangling is especially straightforward, you can add depth by:
 :::
 
 
-#### Week 6: Initial plot
+### Week 6: Initial plot
 
 Make an initial plot and a todo list of things to improve; sketch ideas for alternative ways to plot the same data
 
 Your report should be complete through the "Wrangling" section and have some initial work in the "Replication" and "Alternatives" sections.
 
-#### Week 8: Presentation and Report
+### Week 8: Presentation and Report
 
 Present the original, replication, and alternative plots to the class and in a Quarto report.
 
