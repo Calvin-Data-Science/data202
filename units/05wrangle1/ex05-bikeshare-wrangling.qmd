@@ -30,11 +30,12 @@ pd.options.plotting.backend = "plotly"
 
 We downloaded the data from the [Capital BikeShare program](https://www.capitalbikeshare.com/system-data). Note the license agreement there. We removed some columns of the data that we aren't using to reduce the size of the dataset you have to download.
 
+::: {.callout collapse="true" title="Low-level wrangling code"}
+
+If you're really curious, here's the code I used to make the parquet files. For this exercise, though, just used the provided data files.
 
 ```{python}
 #| echo: true
-#| code-fold: true
-#| code-summary: "Low-level wrangling code"
 import requests, zipfile, io, pathlib
 import pandas as pd
 import numpy as np
@@ -70,6 +71,7 @@ for filename in all_parquet_files:
     shutil.copy(filename, "../../static/data/bikeshare")
 ```
 
+:::
 
 We'll distribute the data for this exercise in a format called [Parquet](https://parquet.apache.org/), an efficient emerging standard for dataframe interchange. You can [read Parquet files with pandas](https://pandas.pydata.org/docs/user_guide/io.html#parquet).
 
