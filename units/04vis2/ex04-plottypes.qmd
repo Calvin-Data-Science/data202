@@ -261,6 +261,7 @@ px.box(gapminder, x = "year", y = "lifeExp")
 ```
 
 ```{python}
+#| include: false
 import numpy as np
 gapminder['log_gdp'] = np.log(gapminder['gdpPercap'])
 (
