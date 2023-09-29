@@ -30,7 +30,7 @@ pd.options.plotting.backend = "plotly"
 
 We downloaded the data from the [Capital BikeShare program](https://www.capitalbikeshare.com/system-data). Note the license agreement there. We removed some columns of the data that we aren't using to reduce the size of the dataset you have to download.
 
-::: {.callout collapse="true" title="Low-level wrangling code"}
+::: {.callout-note collapse="true" title="Low-level wrangling code"}
 
 If you're really curious, here's the code I used to make the parquet files. For this exercise, though, just used the provided data files.
 
@@ -284,7 +284,7 @@ When I first tried adding a trendline like we did, I hit a Plotly / pandas bug a
 
 Checklist:
 
-- [ ] You made a plot of total rides by date
+- [ ] You made a plot of total rides by date.
 
 (anything beyond that is nice to have, but not required)
 
@@ -338,9 +338,16 @@ Use the `daily_rides_by_type` data frame to recreate the plot from Exercise 2:
 )
 ```
 
+Checklist:
+
+- [ ] You created a `daily_rides_by_type` data frame that contains the number of rides per day, broken down by rider type.
+- [ ] You checked the number of rows in the data frame and reported any discrepancies.
+- [ ] You included a `query` to remove the rows that were causing the discrepancy.
+- [ ] You made a plot of total rides by date, broken down by rider type.
+
 ## Part 4: Breaking down by day of week
 
-Recreate the "How does ridership vary over a typical week?" plot using this dataset.
+We'll recreate the "How does ridership vary over a typical week?" plot from the previous exercise using this dataset.
 
 ::: {.callout-note title="Day of Week column"}
 
@@ -369,7 +376,9 @@ We're not going to study Categorical columns very much, but they're useful when 
   You can add the 2012 data too if you like; see the notes at the beginning of the exercise.
 :::
 
-For reference, here's what I got when I used this dataset:
+### Part 4A: Plot
+
+Make a box plot of the distribution of rides by day of week, broken down by rider type. Example:
 
 ```{python}
 #| echo: false
@@ -383,11 +392,21 @@ For reference, here's what I got when I used this dataset:
 )
 ```
 
-Show the same summary as the plot above, but in tabular form.
+Checklist:
 
+- [ ] You created a `day_of_week` column using the provided code.
+- [ ] You made a box plot of the distribution of rides by day of week, broken down by rider type.
+
+### Part 4B: Table
+
+Make a table showing the median number of rides by day of week, broken down by rider type. Example:
 
 ```{python}
-median_table = daily_rides_by_type.groupby(["day_of_week", "rider_type"], as_index=False).agg(median_rides=("rides", "median"))
+median_table = (
+    daily_rides_by_type
+    .groupby(["day_of_week", "rider_type"], as_index=False)
+    .agg(median_rides=("rides", "median"))
+)
 median_table
 ```
 
@@ -398,6 +417,22 @@ median_table
 median_table.pivot(index="day_of_week", columns="rider_type", values="median_rides")
 ```
 
+Checklist:
+
+- [ ] You created a table showing the median number of rides by day of week, broken down by rider type.
+
+
 ## Submitting your work
+
+Final checklist:
+
+- [ ] You've checked off all the checklists above.
+- [ ] Headings show up correctly (e.g., make sure you have a space between the `#` and the heading text) in the "Rendered" HTML.
+- [ ] Plots show up correctly.
+- [ ] There's not extraneous code.
+- [ ] Code is reasonably well formatted.
+    - If you have a long line of wrangling code, surround it in parentheses (`(` and `)`) and put each method on its own line.
+- [ ] The HTML document shows correctly on your own computer.
+- [ ] All my code is visible in the HTML document.
 
 When you're finished, Render your `qmd` and submit the HTML as usual.
