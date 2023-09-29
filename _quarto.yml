@@ -17,7 +17,23 @@ website:
       - text: "RStudio"
         href: "https://r.cs.calvin.edu/"
   sidebar:
-    contents: auto
+    contents:
+      - "meetings.qmd"
+      - section: "Projects"
+        icon: "kanban"
+        contents:
+          - midterm-proj.qmd
+          - final-proj.qmd
+      - section: "Notes"
+        icon: "pencil"
+        contents: "notes/*"
+      - section: "Units"
+        icon: "book-half"
+        contents:
+          - auto: "units/01intro"
+          - auto: "units/03vis1"
+          - auto: "units/04vis2"
+          - auto: "units/05wrangle1"
   page-navigation: true
 
 format:
