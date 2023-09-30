@@ -68,17 +68,18 @@ p = await async_playwright().start()
 browser = await p.chromium.launch(headless=False)
 page = await browser.new_page()
 ```
-
 ```{python}
 seed_page = "https://learningds.org/preface.html"
 await page.goto(seed_page)
-await page.wait_for_load_state("networkidle")
 while True:
+    await page.wait_for_load_state("networkidle")
     title = await page.title()
     print(title)
-    # run the js to replace SVGs with PNGs
+    # run the js to replace SVGs with PNGs and expand details elements
     await page.evaluate(replace_images_js)
     await page.evaluate(expand_details_js)
+    # without a delay, sometimes the details elements don't actually show
+    await page.wait_for_timeout(500)
     await page.pdf(path=f'../../learningds/{title}.pdf', format="Letter")
 
     # Find the "next" button (id="next-link") and get its href
@@ -91,10 +92,8 @@ while True:
     #if next_link_href.startswith(".."):
     #    break
 
-    # otherwise, click it and wait for the page to load
+    # otherwise, click the link to go to the next page
     await next_link.click()
-    await page.wait_for_load_state("networkidle")
-
 
 ```
 
@@ -102,5 +101,4 @@ while True:
 # done!
 await browser.close()
 await p.stop()
-
 ```
