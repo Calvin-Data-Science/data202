@@ -217,10 +217,12 @@ Also, learning how to ask for help is an important part of the college experienc
 
 ## License
 
-<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" alt="Creative Commons License" style="border-width:0"/></a><br />This online work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 Internationale</a>. Visit [here](https://github.com/rstudio-education/datascience-box/blob/master/LICENSE.md) for more information about the license.
+<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" alt="Creative Commons License" style="border-width:0"> Creative Commons Attribution-ShareAlike 4.0 International</a>.
 
 ## Acknowledgments
 
 A substantial amount of content for the first few weeks of this course is based on material from the "[Data Science in a Box](https://datasciencebox.org/)" (abbreviated "dsbox" in the materials here) project led by Dr. Mine Çetinkaya-Rundel.
 
 Keith Vander Linden made major revisions to the material in the first half of this course.
+
+Some content co-written with GitHub Copilot.
