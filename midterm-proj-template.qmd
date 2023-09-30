@@ -51,7 +51,7 @@ What overall type of visualization was chosen? Why might the author have chosen 
 🚧
 What variables are being shown?
 🚧
-What retinal variables and/or aesthetics were chosen to represent those data variables?
+What visual cues (aka retinal variables or aesthetics) were chosen to represent those data variables?
 🚧
     For at least one of these variables, describe what makes that choice appropriate or inappropriate.
 🚧

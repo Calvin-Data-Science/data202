@@ -21,7 +21,7 @@ This was done as part of Discussion 2.
 You can pick one of these approaches:
 
 - **Organization-centered**: Pick an organization that you're interested in (company, NGO, government agency, sports team, hospital, school, scientific community, etc.) and find some graphic that is helpful for them as they make decisions.
-- **Issue-centered**: Pick an issue that's important to you. Find a news article or opinion piece about that issue, ideally one that you *disagree* with, and try to replicate a visual that they’d use to support their claims.
+- **Issue-centered**: Pick an issue that's important to you. Find a news article or opinion piece about that issue and try to replicate a visual that they’d use to support their claims. The strongest such projects will pick a claim that you *disagree* with.
 :::
 
 ### Week 4: Plot selection and initial analysis
@@ -84,9 +84,9 @@ If the wrangling is especially straightforward, you can add depth by:
 :::
 
 
-### Week 6: Initial plot
+### Week 6: Initial plot and ideas
 
-Make an initial plot and a todo list of things to improve; sketch ideas for alternative ways to plot the same data
+Make an initial plot and a todo list of things to improve; sketch ideas for alternative ways to plot the same data.
 
 Your report should be complete through the "Wrangling" section and have some initial work in the "Replication" and "Alternatives" sections.
 
