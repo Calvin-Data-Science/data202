@@ -114,7 +114,7 @@ Your report should include the following sections:
 
 This template includes a suggested outline for your report. You may choose to organize your report differently if you have a good reason.
 
-::: {.callout-note collapse="true" title="Report Template"}
+::: {.callout-note collapse="true" title="Click to show the Report Template"}
 
 ```{python}
 #| echo: false
