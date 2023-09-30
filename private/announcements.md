@@ -79,7 +79,7 @@ Looking beyond this week for the midterm project, other steps will be:
 4. Make an initial plot and a todo list of things to improve; sketch ideas for alternative ways to plot the same data
 5. Present the original, replication, and alternative plots to the class and in a Quarto report (week 8)
 
-## Week 4
+# Week 4
 
 This week we'll round out our discussion of visualizations by looking at various different plot types and a little bit about how Plotly works inside. We'll also sneak in a preview of data wrangling, since often you need to wrangle data into a form needed for your plots. (Next week we'll dive deep into data wrangling with pandas.)
 
@@ -103,6 +103,27 @@ Finally, now that we're trying more open-ended things, our mistakes are getting 
 
 See you Monday!
 
+
+# Week 6: Multiple Tables and Tidy Data
+
+This week we level up our data wrangling skills by working with *relational* data and reshaping data into a *tidy* format. We'll also think more about how data structure relates to visualization structure.
+
+Lots of **upcoming events**:
+
+- **Tuesday 10/3 2-5 pm**: [Computer Science/Engineering Career Fair](https://calvin.edu/offices-services/career-center/events/engineering-computing-fair.html) at Prince Conference Center. Bring resumes, talk with employers, find an internship.
+- **Wednesday 10/4 7-9pm**: Third annual Data Science student and faculty gathering at Professor Pruim's house. More info (including rides) and RSVP [here](https://docs.google.com/forms/d/e/1FAIpQLSf6MK71XAKXtVcJMvTSTrxth0lypWMaZhTROLaRlBzJRs1Q6Q/viewform?usp=sf_link).
+- **Tuesday 10/10 4pm and 5pm**: Career-focused info session on new and updated Calvin programs in Business Analytics, Data Science, and Information Systems, by Prof. Pat Bailey. This will be in the Business School building. Contact patrick.bailey@calvin.edu for more info.
+
+Logistics:
+
+- **Reading 6** is up. Sorry for the delay, I finally figured out and solved what was causing the missing figures and (sometimes code) in previous readings. (Solution involed controlling Chrome from Python, ask me if you're curious.)
+- Check your **Perusall gradebook** to make sure you've gotten credit for readings. If you're not seeing the grade you expect on Perusall, tell me what assignment and what you did to engage with it, and I'll check on why Perusall isn't giving credit.
+- I'm going to try holding my **office hours in SB337** (the social lab) this week (Tues 2-3, Wed 3-4). Go to the SB elevator and turn left.
+- The next **project milestone** (set for end of this week) is to make an initial plot. I've cleaned up the [project description page](https://calvin-data-science.github.io/data202/midterm-proj.html) a lot in the past few days, so I recommend reading through it again starting at the top. Note the [**report template**](https://calvin-data-science.github.io/data202/midterm-proj.html#report-template); it's optional but there to help you.
+- How's **Exercise 5** going? Ask questions on Perusall (for an experiment, I've tried [uploading it](https://app.perusall.com/courses/23-fa-data-202-a-predictive-analytics/data-202-wrangling-and-analytics-fall-2023-exercise-5-bikeshare-wrangling) to the Perusall library). We might give some more class time to working on it.
+- Prof Santos will be grading Quiz 2 soon.
+
+See you on Monday!
 
 # Final Presentation Notes
 
@@ -164,12 +185,6 @@ Logistics:
 - Discussion 12, on recommendation systems, is due Tuesday. The readings there could be fodder for family discussions. (Sorry I didn't remind you about this before Thanksgiving.)
 - If you didn't get to Prep 12 last week, this would be a good time: we're reading about [SQL](https://mdsr-book.github.io/mdsr2e/ch-sql.html), [Geospatial](https://mdsr-book.github.io/mdsr2e/ch-spatial.html), and [Text](https://mdsr-book.github.io/mdsr2e/ch-text.html). This could also be a good time to skim any of the other chapters that we haven't covered. In particular, check out [chapter 14](https://mdsr-book.github.io/mdsr2e/ch-vizIII.html) for some tools that may be useful for your project.
 
-Finally: as much as we may want Covid to be over, it isn't. Especially in Michigan.
-Here's [some plots](https://covidactnow.org/us/michigan-mi/county/kent_county/?s=26051513),
-although note that there are some [artifacts with moving averages around holidays](https://www.nytimes.com/interactive/2021/11/22/us/covid-data-holiday-averages.html).
-So: this is the time to **wear masks like it matters** and maybe even keep some distance,
-even if you're vaccinated, until this surge abates.
-
 
 # Week 9: Modeling and Ethics
 
@@ -189,30 +204,3 @@ This week we start modeling, which is what some people consider the coolest and 
 - I just posted the templates for Project Milestone 2. If you've been working on it somewhere else, please move your work into the appropriate place in the template. It's mainly there to help you follow the suggested [report outline](https://cs.calvin.edu/courses/data/202/21fa/projects.html#Report_Outline) and to have everyone's stuff in one place.
 - Target date for Milestone 2 is this Friday, but again it's okay if that has to slip by a few days.
 - Plan to drop by the STEM Division Summer Research Poster Fair on Friday, October 22 from 12:30-3:30 pm in the Science Complex. The discussion post this week will be about plots you see there. See the Forum for details and pointers about how to do this respectfully. I'll try to make our exercise on Friday shorter so that you can swing by at the end of class in case your schedule is otherwise jammed.
-
-
-# Week 6: Tidy Data
-
-So far we've been working with data that's all in a nice "tidy" structure. It should be little surprise that data doesn't always come structured that way. This week we'll learn to mold the structure of data to fit what we need to do with it.
-
-Weekly assignments:
-
-- **Homework 4** is posted, due on Friday.
-- Rather than a **Discussion** this week, you'll be giving me your proposals for the replication project. Details coming soon.
-- **Quiz 6** will also be posted soon.
-- Don't forget **Preparation 6**. Sorry about posting it late; if you need extra time to complete the prep quiz that's fine.
-
-Heads-up: our first test will be a week from Friday, during class time, in the lab.
-
-
-# Week 5: Multiple Tables
-
-Next week we level up our data wrangling skills by working with *relational* data. We'll also think more about how data structure relates to visualization structure.
-
-***DATA SCIENCE FIREPIT!*** There's an informal social at Professor Pruim’s home on Wednesday (Sept 29), 7-9pm. This will be an informal, come-when-you-can evening in which you can meet data science students, faculty, and enthusiasts. Find the details and a signup sheet [here](https://docs.google.com/spreadsheets/d/1xZg0D-uASE87nhDogpx6J1YicFwTooevHYVL0sYAHVA/edit?usp=sharing).
-
-Also, see Moodle for the usual weekly assignments:
-
-- **Homework 3** is posted, due on Friday.
-- **Discussion 4** is posted (see Moodle); it's asking you to make specific replies to other students in *last week's* forum. So it's due on Reply day (Thursday).
-- Don't forget **Preparation 5** (due by class time Monday).
