@@ -34,6 +34,7 @@ website:
           - auto: "units/03vis1"
           - auto: "units/04vis2"
           - auto: "units/05wrangle1"
+          - auto: "units/06wrangle2"
   page-navigation: true
 
 format:
