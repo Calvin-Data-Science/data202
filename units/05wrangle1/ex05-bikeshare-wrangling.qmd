@@ -349,6 +349,7 @@ Use the `daily_rides_by_type` data frame to recreate the plot from Exercise 2:
 pandas does not give a warning if the length of a column isn't correct. I think this is a design bug, since you can silently get wrong outputs. For example:
 
 ```{python}
+#| echo: true
 daily_rides_by_type['date_broken'] = pd.to_datetime(daily_rides['date'])
 daily_rides_by_type.tail()
 ```
@@ -356,12 +357,14 @@ daily_rides_by_type.tail()
 For a smaller example:
 
 ```{python}
+#| echo: true
 pd.DataFrame({"x": [1, 2, 3]}).assign(y=pd.Series([1,2]))
 ```
 
 The root cause here is a copy-paste bug: you're now working with `daily_rides_by_type`, but you copied code that used `daily_rides` and forgot to change both. Here's an alternative style that avoids this problem:
 
 ```{python}
+#| echo: true
 #| eval: false
 def fixed_date(df):
     return pd.to_datetime(df['date'])
@@ -378,6 +381,7 @@ Notice that the function takes the current dataframe as an argument, so you can 
 You'll often see this written in a more compact way using `lambda` functions:
 
 ```{python}
+#| echo: true
 #| eval: false
 (
     daily_rides
