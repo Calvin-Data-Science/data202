@@ -123,7 +123,10 @@ openxlsx::write.xlsx(
 ```{r}
 library(nycflights13)
 library(arrow)
-write_parquet(nycflights13::flights, get_out_filename("nycflights13", "flights.parquet"))
+write_parquet(nycflights13::flights, get_out_filename(kind="nycflights13", filename = "flights.parquet"))
+write_parquet(nycflights13::weather, get_out_filename(kind="nycflights13", filename = "weather.parquet"))
+write_parquet(nycflights13::planes, get_out_filename(kind="nycflights13", filename = "planes.parquet"))
+write_parquet(nycflights13::airports, get_out_filename(kind="nycflights13", filename = "airports.parquet"))
 ```
 
 ## Notable Women
