@@ -72,11 +72,13 @@ students_by_state = (
   colleges
   .groupby("state", as_index=False) # <1> 
   .agg(total_undergrads=('undergrads', 'sum')) # <2>
+  .sort_values("total_undergrads", ascending=False) # <3>
 )
 students_by_state
 ```
 1. Group by state
 2. `agg`regate: compute a `total_undergrads` column by (a) extracting the `undergrads` column, and (b) `sum`ming it
+3. Sort the result by `total_undergrads`
 
 Documentation on [grouping](https://pandas.pydata.org/docs/user_guide/groupby.html).
 
@@ -207,6 +209,93 @@ colleges.groupby('name_type', as_index=False).agg(
 
 Note: this is slower because it runs unoptimized Python code for each row. First, make it correct, then make it fast (e.g., [`np.select`](https://numpy.org/doc/stable/reference/generated/numpy.select.html)).
 
+## Joining (`merge`)
+
+If you think you want to:
+
+```
+for each row in table A:
+  look up value in table B
+```
+
+then you want a join.
+
+Example: looking up state names.
+
+```{python}
+#| output: true
+states = pd.read_csv("../static/data/states.csv")
+states.head()
+```
+
+```{python}
+#| output: true
+students_by_state_with_names = (
+  students_by_state
+  .merge(
+    states,
+    left_on='state', right_on='postal_code',
+    how='left', indicator=True
+  )
+)
+
+students_by_state_with_names.head()
+```
+
+```{python}
+#| output: true
+students_by_state_with_names.tail()
+```
+
+### Join types
+
+- **Left join**: use keys from left table
+- **Right join**: use keys from right table
+- **Outer join**: use union of both sets of keys
+- **Inner join**: use *intersection* of both sets of keys
+
+See [documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html)
+
+## Web Scraping
+
+You can use [`pd.read_html`](https://pandas.pydata.org/docs/user_guide/io.html#io-read-html) to read tables from web pages. This is actually how I made the `states.csv` file that we just read.
+
+```{python}
+states_tables_raw = pd.read_html("https://en.wikipedia.org/wiki/List_of_states_and_territories_of_the_United_States", match="postal abbr")
+print("Found", len(states_tables_raw), "tables")
+states_tables_raw[-1]
+```
+
+Expect the result to be messy. Cleaning it up often requires doing things that are beyond the scope of this class, but here's one example:
+
+```{python}
+#| output: true
+def clean_states_table(df):
+  return (
+    df
+    .iloc[:, :2] # we only care about the first two columns
+    .set_axis(['name', 'postal_code'], axis=1) # assign column names
+    .dropna() # drop rows with missing values
+    .assign(name = lambda df: df['name'].str.replace(r'\[.*\]', ''))
+  )
+cleaned_territories = clean_states_table(states_tables_raw[-1])
+cleaned_territories
+```
+
+This is a good case for using `concat`:
+
+```{python}
+#| output: true
+state_names = pd.concat([
+  clean_states_table(table) for table in states_tables_raw
+], ignore_index=True)
+state_names
+```
+
+```{python}
+#| echo: false
+state_names.to_csv("../static/data/states.csv", index=False)
+```
 
 # Style notes
 
