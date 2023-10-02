@@ -129,7 +129,18 @@ Checklist:
 
 ### Part 1B: `duration` column
 
-Note that the data dictionary does not specify the units of the `duration` column. It turns out that this is in seconds. **Confirm this by computing summary statistics of the `duration` column.** If you wish to make a plot, use `rides.sample(n=1000)` to get a random sample of 1000 rows, since the full dataset pushes the limits of what Plotly can plot efficiently.
+Note that the data dictionary does not specify the units of the `duration` column. It turns out that this is in seconds. **Confirm this by computing summary statistics of the `duration` column.** 
+
+::: {.callout-warning title="Do you really want to plot this?" collapse="true"}
+
+If you wish to make a plot, use `rides.sample(n=1000)` instead of `rides` to get a random sample of 1000 rows, since the full dataset pushes the limits of what Plotly can plot efficiently.
+
+```{python}
+#| eval: false
+px.histogram(rides.sample(n=1000), x="duration")
+```
+
+:::
 
 ```{python}
 #| include: false
@@ -137,11 +148,6 @@ rides['duration'].describe()
 ```
 
 Use your domain knowledge about bike riding and cities to check whether the summary statistics make sense. For example, what is the longest ride you would expect to see? What is the shortest ride you would expect to see? What is the typical ride length?
-
-```{python}
-#| include: false
-px.histogram(rides.sample(n=1000), x="duration")
-```
 
 Finally, for practice, make a `duration_minutes` column that expresses the duration in minutes instead of seconds. Remember that there are 60 seconds in a minute.
 
@@ -337,6 +343,50 @@ Use the `daily_rides_by_type` data frame to recreate the plot from Exercise 2:
     .update_traces(marker_size=3, marker_opacity=.5)
 )
 ```
+
+::: {.callout-warning collapse="true" title="Copy-paste bugs (are your trendlines broken?)"}
+
+pandas does not give a warning if the length of a column isn't correct. I think this is a design bug, since you can silently get wrong outputs. For example:
+
+```{python}
+daily_rides_by_type['date_broken'] = pd.to_datetime(daily_rides['date'])
+daily_rides_by_type.tail()
+```
+
+For a smaller example:
+
+```{python}
+pd.DataFrame({"x": [1, 2, 3]}).assign(y=pd.Series([1,2]))
+```
+
+The root cause here is a copy-paste bug: you're now working with `daily_rides_by_type`, but you copied code that used `daily_rides` and forgot to change both. Here's an alternative style that avoids this problem:
+
+```{python}
+#| eval: false
+def fixed_date(df):
+    return pd.to_datetime(df['date'])
+
+(
+    daily_rides
+    .assign(date=fixed_date)
+    .all_the_rest_of_the_chain()
+)
+```
+
+Notice that the function takes the current dataframe as an argument, so you can use it in a method chain.
+
+You'll often see this written in a more compact way using `lambda` functions:
+
+```{python}
+#| eval: false
+(
+    daily_rides
+    .assign(date=lambda df: pd.to_datetime(df['date'])
+    .all_the_rest_of_the_chain()
+)
+```
+
+:::
 
 Checklist:
 
