@@ -294,3 +294,32 @@ pd.merge(professions_multi, dates, on='name', how='left')
 ```
 
 :::
+
+## Concatenating
+
+Here was the "first try" from earlier:
+
+```{python}
+pd.concat([
+    professions,
+    dates
+], axis=1)
+```
+
+That was *incorrect*; we should have used a key.
+
+## Concatenate *when tables have same structure*
+
+Common example: one table per year.
+
+All tables have the same structure (verify this!), so concatenating *rows* is ok.
+
+
+```{python}
+#| eval: false
+dataframes = [
+    pd.read_csv(f"../../static/data/airbnb/airbnb_{year}.csv")
+    for year in range(2015, 2021)
+]
+pd.concat(dataframes)
+```
