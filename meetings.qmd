@@ -7,7 +7,11 @@ format: revealjs
 
 ## Monday
 
+- [Slides: Wrangling Intro](units/05wrangle1/w05-wrangling.html)
+
 ## Wednesday
+
+- [Wrangling exercises](units/05wrangle1/w05d2-wrangle-hotels.html)
 
 ## Friday
 
@@ -22,4 +26,6 @@ format: revealjs
 
 - Q&A
 - Reading 6 updated (actually includes ch7)
+- Midterm project reminders
+- [Slides: joining tables](/units/06wrangle2/w6-join.html)
 - Last 20 minutes: working on Exercise 5
