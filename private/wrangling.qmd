@@ -118,3 +118,93 @@ openxlsx::write.xlsx(
 #write_csv(openintro::loans_full_schema, get_out_filename("openintro_loans.csv"))
 ```
 
+## flights
+
+```{r}
+library(nycflights13)
+library(arrow)
+write_parquet(nycflights13::flights, get_out_filename("nycflights13", "flights.parquet"))
+```
+
+## Notable Women
+
+```{r}
+notability <- tibble::tribble(
+                 ~name,                                                                                              ~known_for,
+        "Ada Lovelace",                                                                              "first computer algorithm",
+         "Marie Curie", "theory of radioactivity,  discovery of elements polonium and radium, first woman to win a Nobel Prize",
+        "Janaki Ammal",                                                               "hybrid species, biodiversity protection",
+     "Chien-Shiung Wu",         "confim and refine theory of radioactive beta decy, Wu experiment overturning theory of parity",
+   "Katherine Johnson",                  "calculations of orbital mechanics critical to sending the first Americans into space",
+          "Vera Rubin",                                                                              "existence of dark matter",
+         "Gladys West",      "mathematical modeling of the shape of the Earth which served as the foundation of GPS technology",
+  "Flossie Wong-Staal",          "first scientist to clone HIV and create a map of its genes which led to a test for the virus",
+     "Jennifer Doudna",             "one of the primary developers of CRISPR, a ground-breaking technology for editing genomes"
+  ) %>% arrange(name)
+
+notability_multi <- tibble::tribble(
+                 ~name,                                                                                         ~known_for,
+        "Ada Lovelace",                                                                         "first computer algorithm",
+         "Marie Curie",                                                                          "theory of radioactivity",
+         "Marie Curie",                                                        "discovery of elements polonium and radium",
+         "Marie Curie",                                                                 "first woman to win a Nobel Prize",
+        "Janaki Ammal",                                                                                   "hybrid species",
+        "Janaki Ammal",                                                                          "biodiversity protection",
+     "Chien-Shiung Wu",                                                "confim and refine theory of radioactive beta decy",
+     "Chien-Shiung Wu",                                                       "Wu experiment overturning theory of parity",
+   "Katherine Johnson",             "calculations of orbital mechanics critical to sending the first Americans into space",
+          "Vera Rubin",                                                                         "existence of dark matter",
+         "Gladys West", "mathematical modeling of the shape of the Earth which served as the foundation of GPS technology",
+  "Flossie Wong-Staal",     "first scientist to clone HIV and create a map of its genes which led to a test for the virus",
+     "Jennifer Doudna",        "one of the primary developers of CRISPR, a ground-breaking technology for editing genomes"
+  )
+
+professions <- tibble::tribble(
+                 ~name,                          ~profession,
+        "Ada Lovelace",                      "Mathematician",
+         "Marie Curie",              "Physicist and Chemist",
+        "Janaki Ammal",                           "Botanist",
+     "Chien-Shiung Wu",                          "Physicist",
+   "Katherine Johnson",                      "Mathematician",
+   "Rosalind Franklin",                            "Chemist",
+          "Vera Rubin",                         "Astronomer",
+         "Gladys West",                      "Mathematician",
+  "Flossie Wong-Staal", "Virologist and Molecular Biologist",
+     "Jennifer Doudna",                         "Biochemist"
+  )
+
+professions_multi <- tibble::tribble(
+                 ~name,                          ~profession,
+        "Ada Lovelace",                      "Mathematician",
+         "Marie Curie",              "Physicist",
+         "Marie Curie",              "Chemist",
+        "Janaki Ammal",                           "Botanist",
+     "Chien-Shiung Wu",                          "Physicist",
+   "Katherine Johnson",                      "Mathematician",
+   "Rosalind Franklin",                            "Chemist",
+          "Vera Rubin",                         "Astronomer",
+         "Gladys West",                      "Mathematician",
+  "Flossie Wong-Staal", "Virologist",
+  "Flossie Wong-Staal", "Molecular Biologist",
+     "Jennifer Doudna",                         "Biochemist"
+  )
+
+dates <- tibble::tribble(
+                          ~name, ~birth_year, ~death_year,
+                 "Janaki Ammal",       1897L,       1984L,
+              "Chien-Shiung Wu",       1912L,       1997L,
+            "Katherine Johnson",       1918L,       2020L,
+            "Rosalind Franklin",       1920L,       1958L,
+                   "Vera Rubin",       1928L,       2016L,
+                  "Gladys West",       1930L,          NA,
+           "Flossie Wong-Staal",       1947L,          2020L,
+              "Jennifer Doudna",       1964L,          NA
+           )
+
+write_csv(notability, get_out_filename(kind="notable", filename="notability.csv"))
+write_csv(notability_multi, get_out_filename(kind="notable", filename="notability_multi.csv"))
+write_csv(professions, get_out_filename(kind="notable", filename="professions.csv"))
+write_csv(professions_multi, get_out_filename(kind="notable", filename="professions_multi.csv"))
+write_csv(dates, get_out_filename(kind="notable", filename="dates.csv"))
+```
+

@@ -15,3 +15,11 @@ format: revealjs
 - Quiz 2
 - Exercise 5
 - Please check in with me about your project
+
+# Week 6
+
+## Monday
+
+- Q&A
+- Reading 6 updated (actually includes ch7)
+- Last 20 minutes: working on Exercise 5

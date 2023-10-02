@@ -1,0 +1,296 @@
+---
+title: "Joining Data"
+icon: "file-slides"
+format:
+  revealjs:
+    scrollable: true
+execute: 
+  echo: true
+include-in-header: 
+  text: |
+    <style>
+      .mchoice li { list-style-type: upper-alpha; }
+      .midi table, table.dataframe, .cell-output table, .midi table.dataframe {
+        font-size: .8em;
+      }
+      .smaller table {
+        font-size: .5em;
+      }
+      .copilot::before {
+        content: "GitHub Copilot says:";
+        font-size: .5em;
+      }
+      /* grey text, light background */
+      .copilot {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+      }
+      .exercise {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        margin: 0.25em 0;
+      }
+      .exercise::before {
+        display: inline-block;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        font: var(--fa-font-solid);
+        content: "\f303";
+        font-size: .5em;
+        position: absolute;
+      }
+    </style>
+---
+
+
+```{python}
+import pandas as pd
+import numpy as np
+```
+
+```{python}
+#| echo: false
+notability = pd.read_csv("../../static/data/notable/notability.csv")
+notability_multi = pd.read_csv("../../static/data/notable/notability_multi.csv")
+professions = pd.read_csv("../../static/data/notable/professions.csv")
+professions_multi = pd.read_csv("../../static/data/notable/professions_multi.csv")
+dates = pd.read_csv("../../static/data/notable/dates.csv")
+dates['birth_year'] = dates['birth_year'].astype("Int64")
+dates['death_year'] = dates['death_year'].astype("Int64")
+```
+
+
+## Data: Women in science 
+
+Information on 10 women in science who changed the world
+
+::: smaller
+
+```{python}
+professions[['name']]
+```
+
+:::
+
+::: aside
+Source: [Discover Magazine](https://www.discovermagazine.com/the-sciences/meet-10-women-in-science-who-changed-the-world)
+:::
+
+## Inputs {.smaller .midi}
+
+::: panel-tabset
+
+### Professions
+
+```{python}
+professions
+```
+
+### Dates
+
+```{python}
+dates
+```
+
+### Notability
+
+```{python}
+notability
+```
+
+:::
+
+## Desired Output {.smaller .midi}
+
+
+```{python}
+#| echo: false
+(
+    professions
+    .merge(dates, on='name', how='left')
+    .merge(notability, on='name', how='left')
+)
+```
+
+
+## First try: paste them together {.smaller .midi}
+
+```{python}
+#| echo: false
+pd.concat([professions, dates.drop(columns='name'), notability.drop(columns='name')], axis=1)
+```
+
+## What was wrong?
+
+. . .
+
+How do we know which row in `dates` corresponds to which row in `professions`?
+
+. . .
+
+We need a **key**: some column(s) that uniquely identify each row
+
+**What could we use as a *key* for this data?**
+
+## Joining using a key {.smaller .midi}
+
+::: panel-tabset
+
+### Left data
+
+```{python}
+professions
+```
+
+### Right data
+
+```{python}
+dates
+```
+
+### Joined
+
+```{python}
+pd.merge(professions, dates, on='name', how='left')
+```
+
+:::
+
+## When I first tried joining this data... {.smaller}
+
+::: panel-tabset
+
+### Left data
+
+```{python}
+professions
+```
+
+### Right data
+
+```{python}
+dates
+```
+
+### Joined
+
+```{python}
+pd.merge(professions, dates, on='name')
+```
+
+Something missing?
+:::
+
+
+## Kinds of joins
+
+- **Left join**: use keys from left table
+- **Right join**: use keys from right table
+- **Outer join**: use union of both sets of keys
+- **Inner join**: use *intersection* of both sets of keys
+
+See [documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html)
+
+## Different join types on this data {.smaller}
+
+::: panel-tabset
+
+### Left join
+
+```{python}
+pd.merge(professions, dates, on='name', how='left')
+```
+
+### Right join
+
+```{python}
+pd.merge(professions, dates, on='name', how='right')
+```
+
+### Outer join
+
+```{python}
+pd.merge(professions, dates, on='name', how='outer')
+```
+
+### Inner join
+
+```{python}
+pd.merge(professions, dates, on='name', how='inner')
+```
+
+:::
+
+## Think
+
+Two of these results were identical. Which ones? Why?
+
+. . . 
+
+Draw a Venn diagram of the keys of these two tables.
+
+. . .
+
+Which join types can end up not including some data?
+
+## Including notability {.smaller}
+
+::: panel-tabset
+
+### Professions
+
+```{python}
+professions
+```
+
+### join dates
+
+```{python}
+#| code-line-numbers: "3"
+(
+    professions
+    .merge(dates, on='name', how='left')
+)
+```
+
+### join notability
+
+```{python}
+#| code-line-numbers: "4"
+(
+    professions
+    .merge(dates, on='name', how='left')
+    .merge(notability, on='name', how='left')
+)
+```
+
+:::
+
+
+## What if there are multiple matches? {.smaller}
+
+::: panel-tabset
+
+### Left data
+
+```{python}
+professions_multi
+```
+
+### Right data
+
+```{python}
+dates
+```
+
+### Joined
+
+```{python}
+pd.merge(professions_multi, dates, on='name', how='left')
+```
+
+:::
