@@ -4,6 +4,10 @@ execute:
   echo: false
 ---
 
+This exercise has an in-class portion (ungraded) and an in-lab/homework portion.
+
+The in-lab portion has not yet been put in this document.
+
 ## In-Class Exercises: gapminder
 
 
