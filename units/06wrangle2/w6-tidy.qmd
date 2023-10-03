@@ -46,6 +46,34 @@ include-in-header:
     </style>
 ---
 
+## Q&A
+
+> Is joining like [`xlookup`](https://support.microsoft.com/en-au/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929) or `vlookup` in Excel?
+
+Yes (though joining is more powerful)
+
+- `xlookup(*lookup_value*, *lookup_array*, *return_array*)` searches for `lookup_value` in `lookup_array` and returns the corresponding value from `return_array`.
+- *lookup_value* is the *key*
+- Exercise for experienced Excel users: think about what kind of join would this be.
+
+::: notes
+`xlookup` is a left join, basically, assuming that the lookup array is unique.
+:::
+
+## Q&A
+
+> Where do "left" and "right" come from?
+
+```python
+pd.merge(a, b, how='left')`
+#        ^  ^
+#     left  right
+```
+
+same as
+
+`pd.merge(b, a, how='right')`
+
 ## Data: Sales
 
 
