@@ -1,0 +1,233 @@
+---
+title: "Tidying Data"
+icon: "file-slides"
+format:
+  revealjs:
+    scrollable: true
+execute: 
+  echo: true
+include-in-header: 
+  text: |
+    <style>
+      .mchoice li { list-style-type: upper-alpha; }
+      .midi table, table.dataframe, .cell-output table, .midi table.dataframe {
+        font-size: .8em;
+      }
+      .smaller table {
+        font-size: .5em;
+      }
+      .copilot::before {
+        content: "GitHub Copilot says:";
+        font-size: .5em;
+      }
+      /* grey text, light background */
+      .copilot {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+      }
+      .exercise {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        margin: 0.25em 0;
+      }
+      .exercise::before {
+        display: inline-block;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        font: var(--fa-font-solid);
+        content: "\f303";
+        font-size: .5em;
+        position: absolute;
+      }
+    </style>
+---
+
+## Data: Sales
+
+
+```{python}
+import pandas as pd
+```
+
+
+```{python}
+customers = pd.DataFrame({
+    'customer_id': [1, 2],
+    'item_1': ['bread', 'milk'],
+    'item_2': ['milk', 'toilet paper'],
+    'item_3': ['banana', None]
+})
+
+prices = pd.DataFrame({
+    'item': ['avocado', 'banana', 'bread', 'milk', 'toilet paper'],
+    'price': [0.5, 0.15, 1, 0.8, 3]
+})
+
+```
+
+## Data: Sales
+
+::: {.columns.midi}
+::: {.column width="50%"}
+
+We have...
+
+```{python}
+#| echo: false
+customers
+```
+
+:::
+
+::: {.column width="50%"}
+
+We want...
+
+```{python}
+#| echo: false
+customers.melt(
+    id_vars=['customer_id'],
+    var_name='item_num',
+    value_name='item_name'
+)
+```
+
+:::
+:::
+
+
+## Not this...
+
+![](img/pivot.gif)
+
+## but this!
+
+![](img/tidyr-longer-wider.gif)
+
+::: aside
+Source: https://github.com/gadenbuie/tidyexplain
+:::
+
+---
+
+## Wider vs. longer
+
+::: {.columns}
+::: {.column width="50%"}
+
+**wider**: more columns
+
+```{python}
+#| echo: false
+customers
+```
+
+:::
+
+
+::: {.column width="50%"}
+
+longer: more rows
+
+```{python}
+#| echo: false
+customers.melt(
+    id_vars=['customer_id'],
+    var_name='item_num',
+    value_name='item_name'
+)
+```
+
+:::
+:::
+
+## Wide to Long: `melt`
+
+```{python .fragment}
+customers
+```
+
+## Wide to Long: `melt`
+
+```{python}
+customers.melt()
+```
+
+## Wide to Long: `melt`
+
+- `id_vars`: primary key (columns that uniquely identify each row)
+ - **not** transformed (but duplicated as needed)
+
+```{python}
+customers.melt(
+    id_vars=['customer_id'],
+)
+```
+
+## Wide to Long: `melt`
+
+- `id_vars`: primary key
+- `var_name`: name of the column where *names* of columns are stored
+
+```{python}
+customers.melt(
+    id_vars=['customer_id'],
+    var_name='item_num'
+)
+```
+
+## Wide to Long: `melt`
+
+- `id_vars`: primary key
+- `var_name`: name for *names* column
+- `value_name`: name for *values* column
+
+```{python}
+purchases = customers.melt(
+    id_vars=['customer_id'],
+    var_name='item_num',
+    value_name='item'
+)
+purchases
+```
+
+
+## Why pivot?
+
+Most likely, because the next step of your analysis needs it
+
+. . .
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{python}
+prices
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{python}
+purchases.merge(prices)
+```
+
+:::
+:::
+
+## Long to Wide
+
+Sometimes helpful for analysis. Mostly helpful for reports.
+
+```{python}
+purchases.pivot(
+    index='customer_id',
+    columns='item_num',
+    values='item'
+)
+```
