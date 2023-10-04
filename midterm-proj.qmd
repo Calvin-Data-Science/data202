@@ -176,6 +176,8 @@ Use voice comments to narrate. Each team member should make at least one comment
 
 RStudio (Posit Workbench) has a feature called Shared Projects that many teams will find helpful.
 
+To use it, one person should create a *new* project in the `~/rprojects` folder. Then, they should go to the projects menu in the top-right corner and choose "Share Project". Type the username of another team member (the part of their email before the `@calvin.edu`) in the textbox and click Add.
+
 ::: {.callout-warning title="rprojects folder"}
 For shared projects to work, you *must* create your project within the `~/rprojects` folder, i.e., the folder named `rprojects` within your home (`~`) folder.
 :::
