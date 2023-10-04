@@ -29,3 +29,10 @@ format: revealjs
 - Midterm project reminders
 - [Slides: joining tables](/units/06wrangle2/w6-join.html)
 - Last 20 minutes: working on Exercise 5
+
+## Wednesday
+
+- Q&A
+- [Slides: tidying](/units/06wrangle2/w6-tidy.html)
+- Start [Exercise 6](/units/06wrangle2/ex06-pivot-join.html)
+- Work on project

@@ -74,6 +74,35 @@ same as
 
 `pd.merge(b, a, how='right')`
 
+# Tidy data
+
+## Tidy data
+
+> Happy families are all alike; every unhappy family is unhappy in its own way. 
+>
+> Leo Tolstoy
+
+. . .
+
+::: {.columns}
+::: {.column width="50%"}
+
+**Characteristics of tidy data:**
+
+- Each variable forms a column.
+- Each observation forms a row.
+- Each type of observational unit forms a table.
+
+:::
+::: {.column width="50%"}
+
+**Characteristics of untidy data:**
+
+- Varies.
+
+:::
+:::
+
 ## Data: Sales
 
 
@@ -99,7 +128,7 @@ prices = pd.DataFrame({
 
 ## Data: Sales
 
-::: {.columns.midi}
+::: {.columns}
 ::: {.column width="50%"}
 
 We have...

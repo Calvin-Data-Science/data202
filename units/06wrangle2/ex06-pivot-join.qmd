@@ -21,9 +21,9 @@ Download the data from <https://www.gapminder.org/data/> in either CSV or Excel 
 Step by step instructions, so we all get the same data:
 
 - Go to <https://www.gapminder.org/data/>
-- Under "Choose individual indicators" select "GDP per capita (price and inflation adjusted, in PPP$2017)"
+- Under "Choose individual indicators", search for "GDP". Click the one marked "Income", it should say "GDP per capita (price and inflation adjusted, in PPP$2017)" when you click on it.
 - At the top of the table, click Download As: CSV or XLSX. I got a file named `lex.xlsx`
-- Click the header ("GDP per capita") and select "Life Expectancy, at birth". Download that as well. I got a file named `gdp_pcap.xlsx`
+- Click the header ("GDP per capita") and select instead "Life Expectancy, at birth". Download that as well. I got a file named `gdp_pcap.xlsx`
 
 ```{python}
 #| echo: true
