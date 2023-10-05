@@ -182,16 +182,6 @@ To use it, one person should create a *new* project in the `~/rprojects` folder.
 For shared projects to work, you *must* create your project within the `~/rprojects` folder, i.e., the folder named `rprojects` within your home (`~`) folder.
 :::
 
-::: {.callout-tip collapse="true" title="Permissions issues"}
-There used to be a bug involving uploading files to shared projects: only one person ends up able to read the file. That may be fixed now, but if you run into it, here's a workaround:
-
-The person who **can** read the file should run the following code on the R console (you may need to type `exit` to get out of Python).
-
-```r
-ds202calvin::fix_perm()
-```
-:::
-
 ## Purpose
 
 The project will explore the intersection between three things:
