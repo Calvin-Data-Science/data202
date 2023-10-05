@@ -10,6 +10,22 @@ You will then critique the original visualization and propose alternative design
 
 The project will be done in teams of between 1 and 3. You will submit a single report and make a joint presentation.
 
+::: {.callout-note title="Depth Somewhere"}
+This document details various requirements for the project. Not all requirements will make sense for every project, though. 
+
+The overall goal is that your project has depth *somewhere*. For example, you may choose to go deeper in:
+
+- understanding where the data came from
+- wrangling the data
+- analyzing the visualization and designing alternatives
+- thinking deeply about who the audience of the visualization is and making well-motivated design choices
+- making a high-quality plot
+
+Going deeper in one area may mean that you don't go as deep in another area. For example, if the data wrangling is very difficult, we will have lower expectations for other parts of the project.
+
+If you're unsure whether a specific requirement applies to your project, ask.
+:::
+
 ## Milestones
 
 ### Week 3: Identify possible plots
@@ -50,6 +66,7 @@ The plot you choose to replicate:
   - Shouldn't just be *about* something (e.g., "number of wins by each athlete")
   - Most interesting claims are about *relationships* (e.g,. "the highest paid athletes don't necessarily win more")
   - A claim finishes the sentence: "The article uses this graphic to back up the claim that BLANK".
+  - **If the article doesn't make a claim, make one up.** Imagine that you've gotten in an argument with someone and you show them this plot to back up your claim; what claim were you trying to make?
 - Should involve **at least 3 variables**.
   - Ideally they have to come from several separate data sources that you have to bring together.
 - Should have some room for improvement, i.e., you'd be interested in trying a different way of presenting the data.
