@@ -57,7 +57,7 @@ Log:
 - Monday: We read Section 4 from the [Belhar Confession](https://www.crcna.org/welcome/beliefs/contemporary-testimony/confession-belhar).
 - Wednesday: We briefly discussed reidentification, using the figure from [this article](https://queue.acm.org/detail.cfm?id=2838930), and prayed for those whose privacy is threatened by data collection and aggregation.
   - For more on reidentification: watch the video on that page, read this [overview](https://georgetownlawtechreview.org/re-identification-of-anonymized-data/GLTR-04-2017/), or read [Sweeny's original paper](https://dataprivacylab.org/projects/identifiability/paper1.pdf)
-
+- Friday: Psalm 19 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=162#psalm_reading)
 
 ## Misc
 
