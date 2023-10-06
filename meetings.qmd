@@ -50,7 +50,6 @@ format: revealjs
 
 ## Wednesday
 
-- Quiz 3?
 
 ## Friday: Fall Break
 
@@ -62,4 +61,5 @@ format: revealjs
 
 ## Friday
 
+- Quiz 3
 - Project mini-presentations
