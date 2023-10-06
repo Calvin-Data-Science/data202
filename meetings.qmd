@@ -36,3 +36,30 @@ format: revealjs
 - [Slides: tidying](/units/06wrangle2/w6-tidy.html)
 - Start [Exercise 6](/units/06wrangle2/ex06-pivot-join.html)
 - Work on project
+
+## Friday
+
+- Q&A
+- When should quiz be?
+- Exercise 6
+- Work on project
+
+# Week 7
+
+## Monday
+
+## Wednesday
+
+- Quiz 3?
+
+## Friday: Fall Break
+
+# Week 8
+
+## Monday: Fall Break
+
+## Wednesday: Advising
+
+## Friday
+
+- Project mini-presentations
