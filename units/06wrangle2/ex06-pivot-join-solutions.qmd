@@ -1,0 +1,227 @@
+---
+title: "Exercise 6: Pivoting and Joining - Added Notes"
+execute: 
+  echo: false
+---
+
+Many visualizations involve joining data from multiple sources and/or reshaping data from "wide" to "long" format. This exercise will give you practice with both of these tasks.
+
+## Getting Started
+
+Create a folder and a Quarto file, as usual. You can use `ex06-pivot-join.qmd`. The usual setup code can be found in thou [course notes](../../notes/quarto.qmd#class-standards).
+
+```{python}
+import pandas as pd
+import plotly.express as px
+```
+
+Download the data from <https://www.gapminder.org/data/> in either CSV or Excel format. Upload to RStudio and use either `pd.read_csv` or `pd.read_excel` to load it.
+
+Step by step instructions, so we all get the same data:
+
+- Go to <https://www.gapminder.org/data/>
+- Under "Choose individual indicators", search for "GDP". Click the one marked "Income", it should say "GDP per capita (price and inflation adjusted, in PPP$2017)" when you click on it.
+- At the top of the table, click Download As: CSV or XLSX. I got a file named `lex.xlsx`
+- Click the header ("GDP per capita") and select instead "Life Expectancy, at birth". Download that as well. I got a file named `gdp_pcap.xlsx`
+
+```{python}
+#| echo: true
+gapminder_gdp = pd.read_excel("data/gdp_pcap.xlsx")
+gapminder_gdp.head()
+```
+
+```{python}
+#| echo: true
+gapminder_life = pd.read_excel("data/lex.xlsx")
+gapminder_life.head()
+```
+
+## Wide to Long
+
+Notice that the data is in "wide" format, with each year as a column. To join and plot this data, we'll need it in "long" format, with each year as a row:
+
+```{python}
+gdp_long = pd.melt(
+    gapminder_gdp, id_vars=["country"], var_name="year", value_name="gdp_pcap")
+gdp_long.head()
+```
+
+We'll use `pd.melt` to get it in this format. We'll need to tell it which columns form the primary key, specified by the `id_vars` argument. The other columns will be "melted" into a single column, specified by the `var_name` argument. The values for those columns will be put in a column specified by the `value_name` argument.
+
+```{python}
+#| eval: false
+#| echo: true
+pd.melt(
+    gapminder_gdp,
+    id_vars=[...],
+    var_name="XXX", value_name="YYY"
+)
+```
+
+Fill in the blanks above with the appropriate column names. Then **assign the result to a variable**; I used `gdp_long`.
+
+Now repeat that for the life expectancy data:
+
+```{python}
+life_long = pd.melt(
+    gapminder_life, id_vars=["country"], var_name="year", value_name="life")
+life_long.head()
+```
+
+## Data Types
+
+Check the data types of the `gdp_long` table. There are two that are not what you'd expect.
+
+```{python}
+#| echo: true
+gdp_long.info()
+```
+
+`year` is easy to fix:
+
+```{python}
+#| echo: true
+gdp_long['year'] = gdp_long['year'].astype(int)
+life_long['year'] = life_long['year'].astype(int)
+```
+
+A more tricky issue is that `gdp_pcap` uses `k` to mean "thousands". For example:
+
+```{python}
+#| echo: true
+gdp_long.tail()
+```
+
+We need to convert those `k` values to numbers. Here's an approach:
+
+```{python}
+#| echo: true
+def parse_number_with_units(num):
+    if not isinstance(num, str):
+        return num
+    if num.endswith("k"):
+        return float(num[:-1]) * 1000
+    return float(num)
+gdp_long['gdp_pcap'] = gdp_long['gdp_pcap'].map(parse_number_with_units)
+gdp_long.tail()
+```
+
+## Joining
+
+Now, join the datasets together. Think about what the primary key of this data is. Call the result `gapminder`:
+
+```{python}
+gapminder = pd.merge(gdp_long, life_long, on=["country", "year"])
+gapminder.head()
+```
+
+Validate your join by checking the number of rows in the result.
+
+```{python}
+n_unique_countries = len(gapminder_gdp['country'].unique())
+n_years = gapminder_gdp.shape[1] - 1
+print(f"{n_unique_countries} countries, {n_years} years")
+print(f"{n_unique_countries * n_years=} expected rows")
+print(f"{len(gapminder)} rows in result")
+```
+
+## Adding regions
+
+The region data is available [here](https://www.gapminder.org/fw/four-regions/). `read_excel` can pull the data in directly for you. I'll save you some time by giving you that code:
+
+```{python}
+#| echo: true
+region_data = pd.read_excel("https://docs.google.com/spreadsheets/d/1qHalit8sXC0R8oVXibc2wa2gY7bkwGzOybEMTWp-08o/export?format=xlsx", sheet_name="list-of-countries-etc")
+region_data.head()
+```
+
+It has a lot of columns; we only want `four_regions`. Rename it to `region`. You might also want to rename the `name` column so it has the same name as the corresponding column in the `gapminder` dataframe. Then select the columns we want. Then join it with the `gapminder` data.
+
+To rename, use `data_frame.rename(columns={"old_name": "new_name"})`. To select columns, use `df[["col1", "col2"]]`. Remember that both of these return a new dataframe, so you can chain the operations together, then assign the final result to a variable (I used `gapminder_with_regions`).
+
+```{python}
+gapminder_with_regions = (
+    region_data.rename(columns={"four_regions": "region", "name": "country"})
+    [["country", "region"]]
+    .merge(gapminder, on="country", how="outer", indicator=True)
+)
+```
+
+### Debugging Your Join
+
+When you first do a join, it might be a good idea to set `indicator=True` and use an `outer` join. This shows us a few interesting things:
+
+```{python}
+#| echo: true
+gapminder_with_regions.head()
+```
+
+A value of `both` for `_merge` indicates that the row comes from a key that was in both tables. But there are also rows that come from only one table or the other. For example:
+
+```{python}
+#| echo: true
+gapminder_with_regions.query('_merge != "both"').head()
+```
+
+I had put the `gapminder_with_regions` dataframe on the left side of the join, and `gapminder` on the right. Think about what the table above is telling us. 
+
+Let's look at that in aggregate.
+
+```{python}
+#| echo: true
+(
+    gapminder_with_regions
+    .groupby(['country', '_merge'], as_index=False)
+    .size()
+    .query('_merge != "both" and size > 0')
+)
+```
+
+So: there are some countries that are in one dataset but not the other, and vice versa.
+
+But notice that some countries are just written differently, e.g.,"United States" vs "USA". We can use `replace` to fix that:
+
+```{python}
+#| echo: true
+county_translations = {
+    "USA": "United States",
+    "UK": "United Kingdom",
+    "UAE": "United Arab Emirates",
+}
+gapminder['country'] = gapminder['country'].replace(county_translations)
+```
+
+::: {.callout-note}
+Think: Can you do this with a `merge` instead?
+:::
+
+
+```{python}
+#| include: false
+#| eval: false
+gapminder_with_regions['gdp_rank'] = (
+    gapminder_with_regions
+    .groupby('year', as_index=False)
+    ['gdp_pcap']
+    .rank(ascending=False)
+)
+gapminder_with_regions.query('year == 2007 and gdp_rank < 20').sort_values('gdp_rank')
+```
+
+## Plotting
+
+Now you can make the plot. By now you should be able to do this without further guidance.
+
+```{python}
+gapminder_with_regions.info()
+```
+
+```{python}
+px.scatter(
+    gapminder_with_regions, x="gdp_pcap", y="life", animation_frame="year", color="region",
+    log_x=True, range_x=[100,100000], range_y=[25,90],
+    hover_name="country",
+    labels={"gdpPercap": "GDP per capita", "lifeExp": "Life expectancy (at birth)", "region": "region", "year": "Year"},
+    title="Life expectancy vs. GDP per capita, 1952-2007",
+)
+```
