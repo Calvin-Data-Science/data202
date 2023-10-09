@@ -470,7 +470,7 @@ Checklist:
 
 ### Optional: pivot!
 
-Once you learn about pivoting, try this one: pivot the `rider_type` column to get a table with one row per day of week, like this.
+Once you learn about pivoting, try this one: pivot the `rider_type` column to get a table with one row per day of week, like this:
 
 ```{python}
 #| echo: false
