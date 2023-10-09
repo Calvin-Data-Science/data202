@@ -48,6 +48,9 @@ format: revealjs
 
 ## Monday
 
+- Exercise 6 Debugging
+- Work on project
+
 ## Wednesday
 
 
