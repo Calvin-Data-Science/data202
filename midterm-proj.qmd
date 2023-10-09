@@ -187,8 +187,11 @@ Use voice comments to narrate. Each team member should make at least one comment
 
 - If your dataset is *less than 10 MB*: submit a **`.zip` file** with your entire project folder.
 - Otherwise: submit just the HTML (and make sure the instructions are *very clear* about how to get the data)
-  - Keep `code-tools: true` in the header so we can see your source code.
-  
+  - Use the header from the template, which includes these important settings:
+    - Keep `code-tools: true` in the header so we can see your source code.
+    - Make sure you keep `embed-resources: true` so we can see any images.  
+
+
 ### Shared Projects
 
 RStudio (Posit Workbench) has a feature called Shared Projects that many teams will find helpful.
