@@ -464,15 +464,22 @@ median_table
 ```
 
 
-```{python}
-#| include: false
-# pivot the rider_type column to get a table with one row per day of week
-median_table.pivot(index="day_of_week", columns="rider_type", values="median_rides")
-```
-
 Checklist:
 
 - [ ] You created a table showing the median number of rides by day of week, broken down by rider type.
+
+### Optional: pivot!
+
+Once you learn about pivoting, try this one: pivot the `rider_type` column to get a table with one row per day of week, like this.
+
+```{python}
+#| echo: false
+median_table.pivot(
+    index="day_of_week", 
+    columns="rider_type",
+    values="median_rides"
+)
+```
 
 
 ## Submitting your work
