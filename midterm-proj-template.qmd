@@ -1,6 +1,8 @@
 ---
 title: "A title"
-author: "Your name"
+author:
+    - "Your name"
+    - "Partner name"
 format:
   html:
     embed-resources: true
@@ -149,3 +151,15 @@ How do you feel about this whole experience?
 
 🚧
 Include the full names of any students outside your team who helped you and a brief description of how they helped.
+
+### License
+
+Sharing: Would you be okay with sharing your project, and if so, how?
+
+Ideally we'd make a public gallery with all projects, screenshots, and code, but you could choose to:
+
+- Go anonymous (choices: "anon" or "names")
+- Don't share code? (choices: "code" or "screenshots" or "just title")
+- Restrict to just future students (choices: "public" or "students").
+
+so, e.g., you might say "anon, code, students" or "names, screenshots, public".
