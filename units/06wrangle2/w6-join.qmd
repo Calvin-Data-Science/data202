@@ -225,17 +225,11 @@ pd.merge(professions, dates, on='name', how='inner')
 
 :::
 
-## Think
-
-Two of these results were identical. Which ones? Why?
-
-. . . 
-
 Draw a Venn diagram of the keys of these two tables.
 
-. . .
+## Think
 
-Which join types can end up not including some data?
+Which join types can end up **not including some data**?
 
 ## Including notability {.smaller}
 

@@ -201,7 +201,8 @@ dates <- tibble::tribble(
                    "Vera Rubin",       1928L,       2016L,
                   "Gladys West",       1930L,          NA,
            "Flossie Wong-Staal",       1947L,          2020L,
-              "Jennifer Doudna",       1964L,          NA
+              "Jennifer Doudna",       1964L,          NA,
+               "Barbara Liskov",       1939L,          NA
            )
 
 write_csv(notability, get_out_filename(kind="notable", filename="notability.csv"))
