@@ -59,6 +59,10 @@ Log:
   - For more on reidentification: watch the video on that page, read this [overview](https://georgetownlawtechreview.org/re-identification-of-anonymized-data/GLTR-04-2017/), or read [Sweeny's original paper](https://dataprivacylab.org/projects/identifiability/paper1.pdf)
 - Friday: Psalm 19 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=162#psalm_reading)
 
+## Week 7
+
+- Monday: We prayed in lament for the conflict in Israel, the pain of indigenous people in our country's past, and the hottest summer on record
+
 ## Misc
 
 Things GitHub Copilot has suggested:
