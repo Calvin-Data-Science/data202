@@ -4,6 +4,8 @@ icon: "file-slides"
 format:
   revealjs:
     scrollable: true
+    revealjs-plugins:
+      - "fix-plotly-size"
 execute: 
   echo: true
 include-in-header: 
@@ -185,7 +187,6 @@ px.line(
     y="percentage",
     color="faculty_type",
     height=300,
-    width=1200
 )
 ```
 
@@ -197,7 +198,6 @@ px.line(
     y="percentage",
     color="faculty_type",
     height=300,
-    width=1200
 )
 ```
 
