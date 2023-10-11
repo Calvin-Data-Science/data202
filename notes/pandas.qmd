@@ -172,8 +172,16 @@ pd.isna(colleges['undergrads'])
 When broadcasting with a pair of columns, the operation is applied element-wise.
 
 ```{python}
+colleges['city'] + ', ' + colleges['state']
+```
+
+::: {.callout-note}
+For more advanced string concatenation, you may want to use `str.cat`:
+`
+```{python}
 colleges['city'].str.cat(colleges['state'], sep=', ')
 ```
+:::
 
 ## Deriving new columns, advanced
 
@@ -255,6 +263,50 @@ students_by_state_with_names.tail()
 - **Inner join**: use *intersection* of both sets of keys
 
 See [documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html)
+
+## Debugging joins
+
+Always check your joins!
+
+- Check the number of rows in the result
+- Use `indicator=True` to see which rows came from which table
+- Use [`validate`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html) to check that the join is correct. Options:
+  - 'one_to_one' or '1:1': check if merge keys are unique in both left and right datasets.
+  - 'one_to_many' or '1:m': check if merge keys are unique in left dataset.
+  - 'many_to_one' or 'm:1': check if merge keys are unique in right dataset.
+  - 'many_to_many' or 'm:m': allowed, but does not result in checks.
+
+**Debugging tool**: Do an `outer` join, then `groupby` your primary key and the `_merge` indicator:
+
+```{python}
+#| output: true
+students_by_state_with_names = (
+  students_by_state
+  .merge(
+    states,
+    left_on='state', right_on='postal_code',
+    how='outer', indicator=True
+  )
+)
+
+(
+  students_by_state_with_names
+  .groupby(['state', '_merge'], as_index=False)
+  .size()
+  .query("_merge != 'both' and size > 0")
+)
+```
+
+Things that might be wrong:
+
+- You mis-specified the primary key (e.g., it actually should be two columns)
+- The keys don't match (e.g., one has "US" and the other has "United States")
+
+Tools to fix key mismatches:
+
+- `replace` to fix a small number of key mismatches
+- when you have a large number of mismatches, `merge` with a *translation table*, then `fillna` from the translation table.
+- To make a translation table, you might use fuzzy matching, using tools like [thefuzz](https://github.com/seatgeek/thefuzz) (but be careful)
 
 ## Web Scraping
 
