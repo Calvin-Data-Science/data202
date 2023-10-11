@@ -1,7 +1,7 @@
 window.FixPlotlySize = {
   id: 'FixPlotlySize',
   init: function(Reveal) {
-    if (!window.require || document.querySelectorAll('.js-plotly-plot').length === 0) {
+    if (!window.require || document.querySelectorAll('.plotly-graph-div').length === 0) {
       return;
     }
     require(['plotly'], function(Plotly) {
