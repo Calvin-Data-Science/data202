@@ -101,3 +101,59 @@ pio.templates.default = "plotly_white"
 ```
 
 (You can also set a template on any individual `px.*` function by passing `template="plotly_white"` as an argument.)
+
+
+## Examples of working around limitations of Plotly Express
+
+Sometimes you need to make a plot that's not quite supported by Plotly Express. Here are some examples of how to do that.
+
+### Multiple traces on the same plot
+
+When the layouts are compatible (i.e., same axes and such), you can just add the traces together.
+
+```{python}
+import plotly.express as px
+
+gapminder = px.data.gapminder()
+gapminder['neg_pop'] = -gapminder['pop']
+
+fig1 = px.area(
+  gapminder.query("country == 'United States' or country == 'Canada'"),
+  x='year',
+  y='pop',
+  color="country",
+  color_discrete_sequence=['#636EFA', '#EF553B'])
+
+fig2 = px.area(
+  (
+    gapminder
+    .query("country == 'China' or country == 'India'")
+  ),
+  x='year',
+  y='neg_pop', color="country",
+  color_discrete_sequence=['#00CC96', '#AB63FA'])
+fig1.add_traces(fig2.data)
+fig1
+```
+
+
+### Stacking Groups
+
+Bars and areas can stack in "groups". Plotly Express doesn't seem to give an interface for this, but you can go in and change the traces after the fact.
+
+
+```{python}
+gapminder_4_countries = gapminder.query("country == 'United States' or country == 'Canada' or country == 'China' or country == 'India'")
+fig = px.area(
+  gapminder_4_countries,
+  x='year',
+  y='pop',
+  color='country',
+)
+for trace in fig.data:
+  if trace.name in ['China', 'India']:
+    trace.stackgroup = 2
+    trace.y = -trace.y
+  print(trace.name, trace.stackgroup)
+fig
+```
