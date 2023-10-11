@@ -164,7 +164,7 @@ px.bar(
 ```{python}
 px.line(
     staff_long,
-    x="percentage", y="year", color="faculty_type",
+    y="percentage", x="year", color="faculty_type",
 )
 ```
 
@@ -186,6 +186,7 @@ px.line(
     x="year",
     y="percentage",
     color="faculty_type",
+    markers=True,
     height=300,
 )
 ```
@@ -197,6 +198,7 @@ px.line(
     x="year",
     y="percentage",
     color="faculty_type",
+    markers=True,
     height=300,
 )
 ```
@@ -207,17 +209,23 @@ px.line(
 staff_long.info()
 ```
 
+```{python}
+staff_long['year'].unique()
+```
+
+Year was a string because it was a *column name* of the CSV.
 
 ```{python}
 staff_long['year'] = staff_long['year'].astype(int)
 ```
 
-## Better
+## Improved line plot
 
 ```{python}
 px.line(
     staff_long,
     x="year", y="percentage", color="faculty_type",
+    markers=True,
     labels={"year": "Year", "percentage": "Percentage of hires", "faculty_type": "Faculty type"}
 )
 ```
