@@ -48,7 +48,7 @@ include-in-header:
 
 # Logisics
 
-- Reading: Section 3 of Wilke has a lot of useful stuff
+- Reading: [Part 2 of Wilke](https://clauswilke.com/dataviz/proportional-ink.html) (ch 17-26) has a lot of useful stuff; also read "[29 Telling a story and making a point](https://clauswilke.com/dataviz/telling-a-story.html)"
 
 # Example Plot Redesign
 
@@ -73,7 +73,7 @@ and 2011
 
 ![](img/staff-employment.png)
 
-## Data
+## Data {.smaller}
 
 Each row in this dataset represents a faculty type, and the columns are the 
 years for which we have data. The values are percentage of hires of that type 
@@ -88,12 +88,15 @@ staff
 
 What are the variables in this plot?
 
+![](img/staff-employment.png)
+
 . . .
 
 If the long data will have a row for each year/faculty type combination, 
 and there are 5 faculty types and 11 years of data, how many rows will the data have?
 
-## Write the reshaping code
+## Write the reshaping code {.smaller}
+
 
 ```{python}
 #| echo: false
@@ -101,9 +104,7 @@ staff
 ```
 
 
----
-
-## Reshaping staff data
+. . .
 
 ```python
 staff.melt(
@@ -129,27 +130,24 @@ staff_long
 
 ---
 
+## {.smaller}
+
 ```{python}
 px.histogram(
     staff_long,
-    x="percentage",
-    y="year",
-    color="faculty_type",
+    x="percentage", y="year", color="faculty_type",
 )
 ```
 
 Why does that say "sum of percentage"?
 
----
-
+## {.smaller}
 
 ```{python}
 #| code-line-numbers: "1"
 px.bar(
     staff_long,
-    x="percentage",
-    y="year",
-    color="faculty_type",
+    x="percentage", y="year", color="faculty_type",
 )
 ```
 
@@ -164,9 +162,7 @@ px.bar(
 ```{python}
 px.line(
     staff_long,
-    x="year",
-    y="percentage",
-    color="faculty_type",
+    x="percentage", y="year", color="faculty_type",
 )
 ```
 
@@ -214,4 +210,14 @@ staff_long.info()
 
 ```{python}
 staff_long['year'] = staff_long['year'].astype(int)
+```
+
+## Better
+
+```{python}
+px.line(
+    staff_long,
+    x="year", y="percentage", color="faculty_type",
+    labels={"year": "Year", "percentage": "Percentage of hires", "faculty_type": "Faculty type"}
+)
 ```
