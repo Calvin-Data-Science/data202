@@ -53,6 +53,8 @@ format: revealjs
 
 ## Wednesday
 
+- Some [slides](units/06wrangle2/w7-tidyvis.html) on tidying and visualizing
+- Work on project
 
 ## Friday: Fall Break
 
