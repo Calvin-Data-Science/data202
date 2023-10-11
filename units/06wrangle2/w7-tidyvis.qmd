@@ -1,0 +1,217 @@
+---
+title: "Slides 7: Data Tidying and Visualizing"
+icon: "file-slides"
+format:
+  revealjs:
+    scrollable: true
+execute: 
+  echo: true
+include-in-header: 
+  text: |
+    <style>
+      .mchoice li { list-style-type: upper-alpha; }
+      .midi table, table.dataframe, .cell-output table, .midi table.dataframe {
+        font-size: .8em;
+      }
+      .smaller table {
+        font-size: .5em;
+      }
+      .copilot::before {
+        content: "GitHub Copilot says:";
+        font-size: .5em;
+      }
+      /* grey text, light background */
+      .copilot {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+      }
+      .exercise {
+        color: #555;
+        background-color: #eee;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        margin: 0.25em 0;
+      }
+      .exercise::before {
+        display: inline-block;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        font: var(--fa-font-solid);
+        content: "\f303";
+        font-size: .5em;
+        position: absolute;
+      }
+    </style>
+---
+
+# Logisics
+
+- Reading: Section 3 of Wilke has a lot of useful stuff
+
+# Example Plot Redesign
+
+```{python}
+import pandas as pd
+import plotly.express as px
+import plotly.io as pio
+pio.templates.default = "plotly_white"
+
+```
+
+
+
+## Instructional staff employment trends
+
+- American Association of University Professors (AAUP)
+- nonprofit association of academic professionals
+- [2013 report](https://www.aaup.org/sites/default/files/files/AAUP_Report_InstrStaff-75-11_apr2013.pdf):
+  trends in instructional staff employees between 1975 
+and 2011
+-  contains an image very similar to this:
+
+![](img/staff-employment.png)
+
+## Data
+
+Each row in this dataset represents a faculty type, and the columns are the 
+years for which we have data. The values are percentage of hires of that type 
+of faculty for each year.
+
+```{python}
+staff = pd.read_csv("data/instructional-staff.csv")
+staff
+```
+
+## Recreate the visualization
+
+What are the variables in this plot?
+
+. . .
+
+If the long data will have a row for each year/faculty type combination, 
+and there are 5 faculty types and 11 years of data, how many rows will the data have?
+
+## Write the reshaping code
+
+```{python}
+#| echo: false
+staff
+```
+
+
+---
+
+## Reshaping staff data
+
+```python
+staff.melt(
+    id_vars=[...],
+    var_name="...",
+    value_name="..."
+)
+```
+
+---
+
+## Reshaping staff data
+
+```{python}
+staff_long = staff.melt(
+    id_vars=["faculty_type"],
+    var_name="year",
+    value_name="percentage"
+)
+staff_long
+```
+
+
+---
+
+```{python}
+px.histogram(
+    staff_long,
+    x="percentage",
+    y="year",
+    color="faculty_type",
+)
+```
+
+Why does that say "sum of percentage"?
+
+---
+
+
+```{python}
+#| code-line-numbers: "1"
+px.bar(
+    staff_long,
+    x="percentage",
+    y="year",
+    color="faculty_type",
+)
+```
+
+- Which trends are easiest to see? (Can you see a trend in any combination of faculty types?)
+- What would you improve?
+
+---
+
+## Try a different plot type
+
+
+```{python}
+px.line(
+    staff_long,
+    x="year",
+    y="percentage",
+    color="faculty_type",
+)
+```
+
+---
+
+Hm, what's going on here?
+
+```{python}
+#| echo: false
+staff_long_fixed = staff_long.assign(
+    year=staff_long.year.astype(int)
+)
+```
+
+```{python}
+#| echo: false
+px.line(
+    staff_long,
+    x="year",
+    y="percentage",
+    color="faculty_type",
+    height=300,
+    width=1200
+)
+```
+
+```{python}
+#| echo: false
+px.line(
+    staff_long_fixed,
+    x="year",
+    y="percentage",
+    color="faculty_type",
+    height=300,
+    width=1200
+)
+```
+
+## Numeric!
+
+```{python}
+staff_long.info()
+```
+
+
+```{python}
+staff_long['year'] = staff_long['year'].astype(int)
+```
