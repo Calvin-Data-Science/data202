@@ -10,8 +10,8 @@ For example, sometimes a dataset will use a large positive or negative value. Yo
 
 Two approaches to handling this:
 
-1. Tell `read_csv` what specific values indicate missing values in your dataset. For example, `read_csv('data.csv', na_values=['-9999'])` will treat `-9999` as a missing value.
-2. Use `replace` to replace the missing values with `np.nan` after reading in the data. For example, `df_with_missingness_marked = df.replace(-9999, np.nan)` will replace `-9999` with `np.nan` in the DataFrame `df`. (Note that this applies to the entire DataFrame, not just a single column. Usually it's cleaner to handle each column separately. For example, `df['column_name'] = df['column_name'].replace(-9999, np.nan)` will replace `-9999` with `np.nan` in the column `column_name` of the DataFrame `df`.)
+1. Tell [`read_csv`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) what specific values indicate missing values in your dataset. For example, `read_csv('data.csv', na_values=['-9999'])` will treat `-9999` as a missing value.
+2. Use [`replace`](https://pandas.pydata.org/docs/reference/api/pandas.Series.replace.html#pandas.Series.replace) to replace the missing values with `np.nan` after reading in the data. For example, `df_with_missingness_marked = df.replace(-9999, np.nan)` will replace `-9999` with `np.nan` in the DataFrame `df`. (Note that this applies to the entire DataFrame, not just a single column. Usually it's cleaner to handle each column separately. For example, `df['column_name'] = df['column_name'].replace(-9999, np.nan)` will replace `-9999` with `np.nan` in the column `column_name` of the DataFrame `df`.)
 
 # Do I have any missing values?
 
