@@ -140,7 +140,7 @@ We will be using **Python** and the following tools:
 
 Unless otherwise arranged, grades will be weighted as follows:
 
--   Tests (7, including during final exam time): 35%
+-   Quizzes (7, including during final exam time): 35%
 -   Projects: 30%
     -   Midterm project: 10%
     -   Final project: 20%
@@ -148,7 +148,7 @@ Unless otherwise arranged, grades will be weighted as follows:
 -   Discussion forums: 10%
 -   Participation: 5%
 
-Your lowest test score will get thrown out.
+Your lowest quiz score will get thrown out.
 
 Late work will be accepted without penalty if you make prior arrangements or present documentation of a hardship. No late work will be accepted after Reading Recess.
 
