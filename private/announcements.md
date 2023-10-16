@@ -125,23 +125,29 @@ Logistics:
 
 See you on Monday!
 
-# Final Presentation Notes
 
-Good work to those who presented today! Here are a few things that came up for several presentations, so I thought I'd share them with the whole class:
 
-- What does each row of the data represent?
-- If you're doing predictive modeling, be very clear about what your *task* is:
-  "I'm trying to predict the XXX of each YYY based on measures of ZZZ".
-- Make your plots and tables *human-friendly*:
-  - Label plots with meaningful names (vs, say, "model1")
-  - Show only the important stuff (vs, say, every single column of your data including ones you're not using)
-  - `knitr::kable` your tables
-  - Consider using `comment = ""` as a chunk option. e.g., my `setup` chunk often contains `knitr::opts_chunk$set(echo = TRUE, comment = "")`
-  - Show stuff in inline code. *For an example of how to do this for model accuracy, search for `model1_accuracy_estimate` in [Exercise 10](https://cs.calvin.edu/courses/data/202/21fa/ex/ex10/ex10-validation-inst.html).
-- Do your data wrangling *once*, especially *before* splitting into train and test, so that the only difference between the datasets is which rows are included in which one.
-- The projector in the classroom is 4x3, so "wide" presentations will run off the edge of the screen.
 
-Meeting in the classroom worked well today, so let's do that again tomorrow. Even those who presented today are also welcome tomorrow; there's enough room.
+# Week 8
+
+
+# Week 9: Modeling intro, vis replication project
+
+This week we start modeling, which is what some people consider the coolest and most useful part of data science. Some people even go so far as to call it “AI”.
+
+- I just posted the templates for Project Milestone 2. If you've been working on it somewhere else, please move your work into the appropriate place in the template. It's mainly there to help you follow the suggested [report outline](https://cs.calvin.edu/courses/data/202/21fa/projects.html#Report_Outline) and to have everyone's stuff in one place.
+- Target date for Milestone 2 is this Friday, but again it's okay if that has to slip by a few days.
+- Plan to drop by the STEM Division Summer Research Poster Fair on Friday, October 22 from 12:30-3:30 pm in the Science Complex. The discussion post this week will be about plots you see there. See the Forum for details and pointers about how to do this respectfully. I'll try to make our exercise on Friday shorter so that you can swing by at the end of class in case your schedule is otherwise jammed.
+
+# Week 9: Modeling and Ethics
+
+- Read MDSR chapter 8, [Ethics](https://mdsr-book.github.io/mdsr2e/ch-ethics.html).
+  - Note: The discussion there is secular and left-leaning.
+  - As you read, try to identify at least one point of *resonance* with a Reformed Christian perspective, and at least one point of *tension*.
+- Finish working through the Google "[attacking discrimination](http://research.google.com/bigpicture/attacking-discrimination-in-ml/)" example that we started in class.
+  - Note that this whole scenario requires knowing something that is not knowable: the distinction between light and dark grey people.
+  - Explain each of the objectives in your own words. For each one, identify *who* would prefer that objective. For example, a big bank might prefer the "max profit" objective because they're legally required to make decisions to maximize value to their shareholders. Who might prefer "group unaware"? "Demographic parity"? "Equal opportunity"?
+  - Which of the objectives do you think is most "right"?
 
 
 # Unit 13
@@ -185,22 +191,20 @@ Logistics:
 - Discussion 12, on recommendation systems, is due Tuesday. The readings there could be fodder for family discussions. (Sorry I didn't remind you about this before Thanksgiving.)
 - If you didn't get to Prep 12 last week, this would be a good time: we're reading about [SQL](https://mdsr-book.github.io/mdsr2e/ch-sql.html), [Geospatial](https://mdsr-book.github.io/mdsr2e/ch-spatial.html), and [Text](https://mdsr-book.github.io/mdsr2e/ch-text.html). This could also be a good time to skim any of the other chapters that we haven't covered. In particular, check out [chapter 14](https://mdsr-book.github.io/mdsr2e/ch-vizIII.html) for some tools that may be useful for your project.
 
+# Final Presentation Notes
 
-# Week 9: Modeling and Ethics
+Good work to those who presented today! Here are a few things that came up for several presentations, so I thought I'd share them with the whole class:
 
-- Read MDSR chapter 8, [Ethics](https://mdsr-book.github.io/mdsr2e/ch-ethics.html).
-  - Note: The discussion there is secular and left-leaning.
-  - As you read, try to identify at least one point of *resonance* with a Reformed Christian perspective, and at least one point of *tension*.
-- Finish working through the Google "[attacking discrimination](http://research.google.com/bigpicture/attacking-discrimination-in-ml/)" example that we started in class.
-  - Note that this whole scenario requires knowing something that is not knowable: the distinction between light and dark grey people.
-  - Explain each of the objectives in your own words. For each one, identify *who* would prefer that objective. For example, a big bank might prefer the "max profit" objective because they're legally required to make decisions to maximize value to their shareholders. Who might prefer "group unaware"? "Demographic parity"? "Equal opportunity"?
-  - Which of the objectives do you think is most "right"?
+- What does each row of the data represent?
+- If you're doing predictive modeling, be very clear about what your *task* is:
+  "I'm trying to predict the XXX of each YYY based on measures of ZZZ".
+- Make your plots and tables *human-friendly*:
+  - Label plots with meaningful names (vs, say, "model1")
+  - Show only the important stuff (vs, say, every single column of your data including ones you're not using)
+  - `knitr::kable` your tables
+  - Consider using `comment = ""` as a chunk option. e.g., my `setup` chunk often contains `knitr::opts_chunk$set(echo = TRUE, comment = "")`
+  - Show stuff in inline code. *For an example of how to do this for model accuracy, search for `model1_accuracy_estimate` in [Exercise 10](https://cs.calvin.edu/courses/data/202/21fa/ex/ex10/ex10-validation-inst.html).
+- Do your data wrangling *once*, especially *before* splitting into train and test, so that the only difference between the datasets is which rows are included in which one.
+- The projector in the classroom is 4x3, so "wide" presentations will run off the edge of the screen.
 
-# Week 7: Modeling intro, vis replication project
-
-This week we start modeling, which is what some people consider the coolest and most useful part of data science. Some people even go so far as to call it “AI”.
-
-- *Reminder*: the coding (online) part of Midterm 1 closes on Wednesday night.
-- I just posted the templates for Project Milestone 2. If you've been working on it somewhere else, please move your work into the appropriate place in the template. It's mainly there to help you follow the suggested [report outline](https://cs.calvin.edu/courses/data/202/21fa/projects.html#Report_Outline) and to have everyone's stuff in one place.
-- Target date for Milestone 2 is this Friday, but again it's okay if that has to slip by a few days.
-- Plan to drop by the STEM Division Summer Research Poster Fair on Friday, October 22 from 12:30-3:30 pm in the Science Complex. The discussion post this week will be about plots you see there. See the Forum for details and pointers about how to do this respectfully. I'll try to make our exercise on Friday shorter so that you can swing by at the end of class in case your schedule is otherwise jammed.
+Meeting in the classroom worked well today, so let's do that again tomorrow. Even those who presented today are also welcome tomorrow; there's enough room.
