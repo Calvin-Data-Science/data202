@@ -202,6 +202,54 @@ To use it, one person should create a *new* project in the `~/rprojects` folder.
 For shared projects to work, you *must* create your project within the `~/rprojects` folder, i.e., the folder named `rprojects` within your home (`~`) folder.
 :::
 
+## Checklist
+
+The following is the minimal requirements for the project. The project should also go into depth in some area.
+
+- Overview
+  - [ ] Includes a screenshot of the original plot
+  - [ ] Includes a description of the claim made by the original plot (or the claim you're making if the original doesn't make a claim)
+  - [ ] Includes a link to the original plot
+- Design
+  - [ ] Names the type of the original plot (scatter, bar, etc.)
+  - [ ] Identifies the variables used in the original plot
+  - [ ] Identifies the visual cue that each variable is mapped to.
+  - [ ] Discusses the effectiveness of the original plot
+- Data
+  - [ ] Identifies the source of the data used for the replication (including a link if possible)
+  - [ ] Indicates how many rows and columns are in the data (e.g., "the data has 100 rows and 5 columns")
+  - [ ] Describes what a single row represents (e.g., "one row per day per rider type")
+  - [ ] Describes the variables in the data (e.g., "the data has columns for date, rider type, and number of rides")
+- Wrangling
+  - [ ] Describes the overall process of wrangling the data (e.g., "I had to combine data from sources X and Y, then filter out rows that aren't Z, then calculate the average number of rides per day")
+  - [ ] Includes code blocks that show the wrangling process
+  - [ ] Gives an example of the data after wrangling (e.g., the `.head()` and the `.info()`)
+- Replication
+  - [ ] Includes the replication of the original plot
+  - [ ] Replication has the same general type of plot as the original (can be different in unimportant details like specific colors used, extra annonatiotns, etc.)
+  - [ ] Replication has the same general variables as the original, mapped to the same general visual cues
+  - [ ] Describes any difficulties encountered in the replication process
+  - [ ] Describes any relevant differences between the original and replication
+- Alternatives
+  - [ ] Includes textual descriptions of two alternative ways to plot the same data that are different in a substantive way (e.g., not just a different color scheme) from each other and from the original plot.
+  - [ ] Includes high-fidelity sketches of the alternatives. (ideally implemented in code, but PowerPoint or similar is also fine)
+- Summary
+  - [ ] Includes a reflection on the claim of the original plot and how well the original plot supports that claim.
+  - [ ] Includes a comparison between the original design and at least of the alternative designs that specifies which design is better for what purpose.
+- Appendix
+  - [ ] Report includes a description of where the depth in the project is, i.e., in what areas you went beyond the bare minimal requirements. See "Depth Somewhere" above.
+  - [ ] Report includes what terms you'd be willing to have your report shared under (see the "License" section of the template.)
+  - [ ] Report includes a list of sources used (e.g., specific links to StackOverflow, ChatGPT shared-conversation links, etc.), and the full names of any students outside your team.
+- Meta
+  - [ ] Report is titled appropriately
+  - [ ] Authors are listed correctly
+  - [ ] Report is concise
+  - [ ] Report is self-contained
+  - [ ] Report was produced using a reproducible workflow (typically Quarto)
+  - [ ] Report is understandable without reading the code
+  - [ ] No placeholder text remains.
+  - [ ] Report is formatted cleanly (check headings, code outputs, etc.); check that the file shows up correctly on your local computer before submitting.
+
 ## Purpose
 
 The project will explore the intersection between three things:
