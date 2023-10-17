@@ -130,6 +130,28 @@ See you on Monday!
 
 # Week 8
 
+Happy Advising break everyone! Some logistics notes:
+
+- Friday in lab
+  - Review all of the material from the first half of the course to prepare for Quiz 3 (on Moodle)
+  - Have your projects ready to show off to your peers (we'll do an informal *project showcase*). It doesn't have to be perfect; peers can help tweak it up.
+- Project logistics
+  - I added a Checklist to the project description. This should help you ensure that you're meeting the minimum project requirements. Projects should go beyond those minimums, of course; that's the fun part!
+    - Your report should have an Appendix that describes where you went into depth beyond those minimum requirements.
+    - There's also a section to discuss what your level of comfort is for sharing your project with future students or beyond.
+  - Don't forget the Presentation (VoiceThread) part. Next week, you'll look at a few other students' projects and give some constructive comments; the presentation is mostly to help do that.
+    - If you're a team, one person "submit"s the VoiceThread assignment; the other team members go in and add comments. 
+    - No need for any fancy styles for the presentation, stick to the defaults and the outline given.
+
+For the Data section of the project, you might find it helpful to review the first few chapters of the textbook (Reading 1). For the plot analysis and critique, you might want to review the Graphics Principles Cheatsheet. I also suggest skimming through the following:
+
+- The section of Wilke corresponding to the type of plot you're working with; see the [Directory in Chapter 5](https://clauswilke.com/dataviz/directory-of-visualizations.html). The detailed sections start at [Chapter 6](https://clauswilke.com/dataviz/visualizing-amounts.html).
+- Find an interesting section in Wilke's Part II (e.g., [color pitfalls](https://clauswilke.com/dataviz/color-pitfalls.html))
+- Chapter 29 [Telling a story and making a point](https://clauswilke.com/dataviz/telling-a-story.html) would have been an assigned reading for this week if we'd had one.
+
+I'm not holding normal office hours this week because of advising, but if you need help, send me a Teams message. Yuqian (Eason) may also be able to help.
+
+PS - The gradebook is now in better shape, but there are still some issues. One common one is that Perusall grades might not be syncing. If any of your Perusall grades are missing, **click the link on Moodle to the corresponding assignment**; that supposedly fixes the sync problem.
 
 # Week 9: Modeling intro, vis replication project
 
