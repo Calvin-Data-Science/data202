@@ -1,9 +1,22 @@
 ---
 title: "Class Meetings"
-format: revealjs
+subtitle: "DATA 202 Fall 2023"
+format:
+  revealjs:
+    title-slide-attributes:
+        data-state: "hide-menubar"
+    center: true
+    menu: false
+    section-divs: true
+    simplemenu:
+        barhtml:
+            header: "<div class='menubar'><ul class='menu'></ul><div>"
+        scale: 0.67
+revealjs-plugins:
+    - simplemenu
 ---
 
-# Week 5
+# Week 5 {data-stack-name="Week 5"}
 
 ## Monday
 
@@ -20,7 +33,7 @@ format: revealjs
 - Exercise 5
 - Please check in with me about your project
 
-# Week 6
+# Week 6 {data-stack-name="Week 6"}
 
 ## Monday
 
@@ -44,7 +57,7 @@ format: revealjs
 - Exercise 6
 - Work on project
 
-# Week 7
+# Week 7 {data-stack-name="Week 7"}
 
 ## Monday
 
@@ -58,7 +71,7 @@ format: revealjs
 
 ## Friday: Fall Break
 
-# Week 8
+# Week 8 {data-stack-name="Week 8"}
 
 ## Monday: Fall Break
 
@@ -67,4 +80,4 @@ format: revealjs
 ## Friday
 
 - Quiz 3
-- Project mini-presentations
+- Project showcase
