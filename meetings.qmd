@@ -81,3 +81,6 @@ revealjs-plugins:
 
 - Quiz 3
 - Project showcase
+    - Show your project to others in your row
+    - Give and receive suggestions
+    - Revise your project accordingly
