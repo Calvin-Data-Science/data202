@@ -232,7 +232,7 @@ The following is the minimal requirements for the project. The project should al
   - [ ] Describes any relevant differences between the original and replication
 - Alternatives
   - [ ] Includes textual descriptions of two alternative ways to plot the same data that are different in a substantive way (e.g., not just a different color scheme) from each other and from the original plot.
-  - [ ] Includes high-fidelity sketches of the alternatives. (ideally implemented in code, but PowerPoint or similar is also fine)
+  - [ ] Includes images of both alternatives. Ideally they're implemented in code using actual data, but in case that's too challenging, a detailed and clear sketch on paper or PowerPoint or some online tool is also fine. The sketch should show all the necessary elements and should be understandable without additional explanation.
 - Summary
   - [ ] Includes a reflection on the claim of the original plot and how well the original plot supports that claim.
   - [ ] Includes a comparison between the original design and at least of the alternative designs that specifies which design is better for what purpose.
@@ -241,11 +241,11 @@ The following is the minimal requirements for the project. The project should al
   - [ ] Report includes what terms you'd be willing to have your report shared under (see the "License" section of the template.)
   - [ ] Report includes a list of sources used (e.g., specific links to StackOverflow, ChatGPT shared-conversation links, etc.), and the full names of any students outside your team.
 - Meta
+  - [ ] Report was produced using a reproducible workflow (typically Quarto)
   - [ ] Report is titled appropriately
   - [ ] Authors are listed correctly
   - [ ] Report is concise
   - [ ] Report is self-contained
-  - [ ] Report was produced using a reproducible workflow (typically Quarto)
   - [ ] Report is understandable without reading the code
   - [ ] No placeholder text remains.
   - [ ] Report is formatted cleanly (check headings, code outputs, etc.); check that the file shows up correctly on your local computer before submitting.
