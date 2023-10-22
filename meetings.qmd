@@ -84,3 +84,16 @@ revealjs-plugins:
     - Show your project to others in your row
     - Give and receive suggestions
     - Revise your project accordingly
+
+# Week 9 {data-stack-name="Week 9"}
+
+## Monday: Intro to ML
+
+- [Slides](units/09supervised-intro/w09-supervised.html)
+- Activity: [Teachable Machine](https://teachablemachine.withgoogle.com/)
+
+## Wednesday: ML
+
+## Friday lab
+
+- Exercise 9

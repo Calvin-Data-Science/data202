@@ -6,6 +6,7 @@ project:
     - "!private"
     - "!*-soln.qmd"
     - "!*-template.qmd"
+    - "!*-wip.qmd"
   post-render: "rsync -r static/ _site"
 
 website:
@@ -35,6 +36,7 @@ website:
           - auto: "units/04vis2"
           - auto: "units/05wrangle1"
           - auto: "units/06wrangle2"
+          - auto: "units/09supervised-intro"
   page-navigation: true
 
 format:
