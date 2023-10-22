@@ -1,0 +1,44 @@
+/*-- scss:defaults --*/
+
+/*-- scss:rules --*/
+
+.mchoice li { list-style-type: upper-alpha; }
+
+.midi table, table.dataframe, .cell-output table, .midi table.dataframe {
+  font-size: .8em;
+}
+
+.smaller table {
+  font-size: .5em;
+}
+
+.copilot::before {
+  content: "GitHub Copilot says:";
+  font-size: .5em;
+}
+
+/* grey text, light background */
+.copilot {
+  color: #555;
+  background-color: #eee;
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+
+.exercise {
+  color: #555;
+  background-color: #eee;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  margin: 0.25em 0;
+}
+
+.exercise::before {
+  display: inline-block;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  font: var(--fa-font-solid);
+  content: "\f303";
+  font-size: .5em;
+  position: absolute;
+}

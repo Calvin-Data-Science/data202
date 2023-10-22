@@ -1,0 +1,334 @@
+---
+title: "Introduction to Supervised Learning"
+icon: "file-slides"
+format:
+  revealjs:
+    theme: [default, slides.scss]
+    scrollable: true
+    revealjs-plugins:
+      - "fix-plotly-size"
+execute: 
+  echo: true
+---
+
+
+## Different Kinds of Analytics
+
+- *Past*:
+  - **Descriptive Analytics**: what happened?
+  - **Diagnostic Analytics**: why did it happen?
+- *Future*:
+  - **Predictive Analytics**: what might happen in the future?
+  - **Prescriptive Analytics**: what should we do next?
+
+We'll focus on predictive analytics here.
+
+---
+
+## Predictive Analytics for Forecasting Trends
+
+- How much demand will we have next month?
+- How will prices change as we approach the holidays?
+- Are failure rates about to go up?
+- etc.
+
+---
+
+## Predictive Analytics for Labeling Things
+
+- Which customers will churn?
+- Which of these transactions might be fraudulent?
+- Which other products will this customer buy (cross-selling recommendations)
+- What are our customers saying about our products?
+
+---
+
+## Predictive models can help explore data
+
+- What are our main market segments, defined by behavior?
+
+## Predictive Analytics
+
+Mostly *supervised learning* (*regression* and *classification*), some *forecasting*.
+
+* A powerful tool to turn data into action.
+* It works because God made the universe predictable (and successful prediction rewarding)
+* **Need for wisdom**: It can be used for great good and great harm
+
+---
+
+## Power of Predictive Modeling
+
+* **Medicine**: wearable monitor for seizures or falls, detect malaria from blood smears, find effective drug regimens from medical records
+* **Drug Discovery**: predict the efficacy of a synthesis plan for a drug
+* **Precision Agriculture**: predict effect of micro-climate on plant growth
+* **Urban Planning**: forecast resource needs, extreme weather risks, ...
+* **Government**: classify feedback from constituents
+* **Retail**: predict items in a grocery order
+* **Recommendation systems**: Amazon, Netflix, YouTube, ...
+* **User interfaces**: gesture typing, autocomplete / autocorrect
+
+and so much more...
+
+---
+
+## The universe is surprisingly predictable
+
+* God created the world with actionable structure
+  * We gradually learn how to perceive that structure and act within it.
+  * The better our perceptions align with how the universe is structured, the better our actions
+  * We can discover that structure by learning to be less surprised by what we see ( = predicting our perceptions)
+* Perceptions are thus both accurate and fallable.
+
+---
+
+## Predictive modeling technology: Need for wisdom
+
+* Potential for great good
+* But also great harm:
+  * Lack of **fairness** in facial recognition, sentencing, lending, job applicant scoring, ...
+  * Lack of **transparency** in how "Big Data" systems make conclusions
+  * Lack of **privacy** as data is increasingly collected and aggregated
+  * Amplification of extreme positions in social media, YouTube, etc.
+  * Oversimplification of human experience
+  * Hidden human labor
+  * Illusion of objectivity
+  * ...!
+
+
+
+## Reminders from Statistics
+
+- We might wish we had all possible data...
+- We must acknowledge our *uncertainty*.
+  - Our measurements are partial.
+  - Our inferences sometimes fail (and we may not know it!)
+- But God made a world with *structure* that we can learn about even with imperfect tools.
+
+# Activity
+
+## Teachable Machine {.smaller}
+
+Pick a partner (or two). Decide who's *trainer* and who's *tester*.
+
+**Trainer** (needs a laptop):
+
+* Go to <https://teachablemachine.withgoogle.com/train/image>
+* Train a simple classifier using your webcam. Ideas:
+  - which hand are you holding up? happy or sad face? looking left or right? two colors?
+* Don't worry about making it super accurate.
+
+**Tester**:
+
+* Try out your partner's classifier (without touching the computer or the same objects).
+  * Try to find some situations where it works
+  * Try to write a succinct description of what situations cause it to behave unexpectedly.
+
+We'll share descriptions.
+
+# sklearn API
+
+## Scikit-Learn
+
+::: copilot
+- A Python library for machine learning
+- Provides a consistent API for many different kinds of models
+- Provides many tools for data preparation, model evaluation, etc.
+:::
+
+## Model API: `fit`, `predict`, `score`
+
+```{mermaid}
+%%| echo: false
+flowchart LR
+    A1[("Training Data (X and y)")] --> B{{fit}}
+    A2[Model Object] --> B
+    B --> FM[Fitted Model]
+    FM --> C{{Predict}}
+    B2[(New data X)] --> C
+    C --> D[("predicted y's")]
+    FM --> E{{Score}}
+```
+
+## Example: penguins
+
+::: {.columns}
+::: {.column width="30%"}
+![](images/penguins.png)
+:::
+::: {.column width="70%"}
+
+```{python}
+#| echo: true
+import pandas as pd
+penguins = pd.read_csv("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv")
+penguins.info()
+```
+
+
+```{python}
+penguins_simple = penguins[['bill_depth_mm', 'bill_length_mm', 'species']].dropna().copy()
+```
+:::
+:::
+
+::: aside
+Source: [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/)
+
+Artwork by @allison_horst
+:::
+
+---
+
+```{python}
+#| echo: false
+import plotly.express as px
+px.scatter(
+    penguins,
+    x='bill_depth_mm', y='bill_length_mm', color='species',
+    title="Bill length vs depth",
+    labels={
+        "bill_depth_mm": "Bill Depth (mm)",
+        "bill_length_mm": "Bill Length (mm)",
+        "species": "Species"
+    },
+)
+```
+
+## Which species is each penguin?
+
+```{python}
+#| code-line-numbers: "2|3-5|7-9"
+#| echo: true
+from sklearn.neighbors import KNeighborsClassifier
+model = KNeighborsClassifier(n_neighbors=1)
+model.fit(
+    X=penguins_simple[['bill_depth_mm', 'bill_length_mm']],
+    y=penguins_simple['species'])
+
+penguins_simple['predicted_species'] = model.predict(
+    X=penguins_simple[['bill_depth_mm', 'bill_length_mm']])
+penguins_simple.head()
+```
+
+## How can we tell if those predictions are good?
+
+```{python}
+penguins_simple.groupby(['species', 'predicted_species'], as_index=False).size()
+```
+
+```{python}
+#| echo: true
+from sklearn.metrics import accuracy_score
+accuracy_score(
+    y_true=penguins_simple['species'],
+    y_pred=penguins_simple['predicted_species'])
+```
+
+## Well, of course...
+
+Why should we be unsurprised that this works?
+
+## Train-test split!
+
+```{mermaid}
+%%| echo: false
+
+flowchart LR
+    A1[("All training data")] --> B{{Split}}
+    B --> A2[("Training data")]
+    B --> A3[("Test data")]
+    A2 --> C{{Fit}}
+    A3 --> C
+    C --> D[("Fitted model")]
+```
+
+```{python}
+#| echo: false
+penguins_simple = penguins[['bill_depth_mm', 'bill_length_mm', 'species']].dropna().copy()
+```
+
+```{python}
+import numpy as np
+np.random.seed(0)
+penguins_simple["use_for_training"] = np.random.rand(len(penguins_simple)) < 0.5
+penguins_train = penguins_simple[penguins_simple["use_for_training"]].copy()
+penguins_test = penguins_simple[~penguins_simple["use_for_training"]].copy()
+print(f"{len(penguins_train)} training penguins, {len(penguins_test)} test penguins")
+```
+
+## Train *on the training set*
+
+```{python}
+#| code-line-numbers: "3-4"
+model = KNeighborsClassifier(n_neighbors=1)
+model.fit(
+    X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
+    y=penguins_train['species'])
+```
+
+## How does it do?
+
+```{python}
+penguins_train['predicted_species'] = model.predict(
+    X=penguins_train[['bill_depth_mm', 'bill_length_mm']])
+penguins_train.groupby(['species', 'predicted_species'], as_index=False).size()
+```
+
+```{python}
+penguins_test['predicted_species'] = model.predict(
+    X=penguins_test[['bill_depth_mm', 'bill_length_mm']])
+penguins_test.groupby(['species', 'predicted_species'], as_index=False).size()
+```
+
+```{python}
+accuracy_score(
+    y_true=penguins_test['species'],
+    y_pred=penguins_test['predicted_species'])
+```
+
+## Other kinds of models
+
+- Nearest Neighbors (`KNeighborsClassifier`)
+- Decision Trees (`DecisionTreeClassifier`) and Random Forests (`RandomForestClassifier`)
+- Linear Models (`LogisticRegression`, yes it's a classifier)
+- Neural Networks (`MLPClassifier`)
+- Boosting methods (`HistGradientBoostingClassifier`)
+
+## Many models, same API
+
+Decision tree:
+
+```{python}
+#| code-line-numbers: "3-4"
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+model = DecisionTreeClassifier(max_depth=2)
+model.fit(
+    X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
+    y=penguins_train['species'])
+```
+
+## What does that tree do?
+
+::: columns
+::: {.column width="50%"}
+```{python}
+#| label: "decision-tree-algorithm"
+plot_tree(model, feature_names=['bill_depth_mm', 'bill_length_mm'], impurity=False);
+```
+:::
+
+::: {.column width="50%"}
+```{python}
+#| label: "decision-tree-data-space"
+from sklearn.inspection import DecisionBoundaryDisplay
+DecisionBoundaryDisplay.from_estimator(
+    model,
+    X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
+    xlabel='bill_depth_mm',
+    ylabel='bill_length_mm',
+)
+```
+
+:::
+:::
