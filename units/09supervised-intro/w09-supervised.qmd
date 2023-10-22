@@ -313,14 +313,16 @@ model.fit(
 ::: columns
 ::: {.column width="50%"}
 ```{python}
-#| label: "decision-tree-algorithm"
+#| label: "fig-decision-tree-algorithm"
+#| fig-cap: "Decision tree algorithm"
 plot_tree(model, feature_names=['bill_depth_mm', 'bill_length_mm'], impurity=False);
 ```
 :::
 
 ::: {.column width="50%"}
 ```{python}
-#| label: "decision-tree-data-space"
+#| label: "fig-decision-tree-data-space"
+#| fig-cap: "Decision tree, in data space"
 from sklearn.inspection import DecisionBoundaryDisplay
 DecisionBoundaryDisplay.from_estimator(
     model,
