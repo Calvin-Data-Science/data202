@@ -219,10 +219,12 @@ penguins_simple = penguins[['bill_depth_mm', 'bill_length_mm', 'species']].dropn
 import numpy as np
 np.random.seed(0)
 penguins_simple["use_for_training"] = np.random.rand(len(penguins_simple)) < 0.5
-penguins_train = penguins_simple[penguins_simple["use_for_training"]].copy()
-penguins_test = penguins_simple[~penguins_simple["use_for_training"]].copy()
+penguins_train = penguins_simple.query("use_for_training").copy()
+penguins_test = penguins_simple.query("not use_for_training").copy()    
 print(f"{len(penguins_train)} training penguins, {len(penguins_test)} test penguins")
 ```
+
+*Note*: Later we'll learn about the `train_test_split` function, which does this for us.
 
 ## Train *on the training set*
 
