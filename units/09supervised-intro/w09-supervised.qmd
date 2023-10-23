@@ -11,45 +11,13 @@ execute:
   echo: true
 ---
 
+## Think of examples
 
-## Different Kinds of Analytics
+How is data used to make decisions that affect you or your neighbors?
 
-- *Past*:
-  - **Descriptive Analytics**: what happened?
-  - **Diagnostic Analytics**: why did it happen?
-- *Future*:
-  - **Predictive Analytics**: what might happen in the future?
-  - **Prescriptive Analytics**: what should we do next?
-
-We'll focus on predictive analytics here.
-
----
-
-## Predictive Analytics for Forecasting Trends
-
-- How much demand will we have next month?
-- How will prices change as we approach the holidays?
-- Are failure rates about to go up?
-- etc.
-
----
-
-## Predictive Analytics for Labeling Things
-
-- Which customers will churn?
-- Which of these transactions might be fraudulent?
-- Which other products will this customer buy (cross-selling recommendations)
-- What are our customers saying about our products?
-
----
-
-## Predictive models can help explore data
-
-- What are our main market segments, defined by behavior?
+*Use whatever resources you like.*
 
 ## Predictive Analytics
-
-Mostly *supervised learning* (*regression* and *classification*), some *forecasting*.
 
 * A powerful tool to turn data into action.
 * It works because God made the universe predictable (and successful prediction rewarding)
@@ -57,7 +25,7 @@ Mostly *supervised learning* (*regression* and *classification*), some *forecast
 
 ---
 
-## Power of Predictive Modeling
+## Power of Predictive Modeling {.smaller}
 
 * **Medicine**: wearable monitor for seizures or falls, detect malaria from blood smears, find effective drug regimens from medical records
 * **Drug Discovery**: predict the efficacy of a synthesis plan for a drug
@@ -82,7 +50,7 @@ and so much more...
 
 ---
 
-## Predictive modeling technology: Need for wisdom
+## Predictive modeling technology: Need for wisdom {.smaller}
 
 * Potential for great good
 * But also great harm:
@@ -136,7 +104,7 @@ We'll share descriptions.
 - Provides many tools for data preparation, model evaluation, etc.
 :::
 
-## Model API: `fit`, `predict`, `score`
+## Model API: `fit`, `predict`
 
 ```{mermaid}
 %%| echo: false
@@ -147,7 +115,6 @@ flowchart LR
     FM --> C{{Predict}}
     B2[(New data X)] --> C
     C --> D[("predicted y's")]
-    FM --> E{{Score}}
 ```
 
 ## Example: penguins
@@ -211,7 +178,7 @@ penguins_simple['predicted_species'] = model.predict(
 penguins_simple.head()
 ```
 
-## How can we tell if those predictions are good?
+## Are those predictions are good?
 
 ```{python}
 penguins_simple.groupby(['species', 'predicted_species'], as_index=False).size()
@@ -239,7 +206,7 @@ flowchart LR
     B --> A2[("Training data")]
     B --> A3[("Test data")]
     A2 --> C{{Fit}}
-    A3 --> C
+    A3 -->|NEVER!| C
     C --> D[("Fitted model")]
 ```
 
@@ -264,7 +231,7 @@ print(f"{len(penguins_train)} training penguins, {len(penguins_test)} test pengu
 model = KNeighborsClassifier(n_neighbors=1)
 model.fit(
     X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
-    y=penguins_train['species'])
+    y=penguins_train['species']);
 ```
 
 ## How does it do?
