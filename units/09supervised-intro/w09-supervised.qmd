@@ -284,7 +284,8 @@ model.fit(
 ```{python}
 #| label: "fig-decision-tree-algorithm"
 #| fig-cap: "Decision tree algorithm"
-plot_tree(model, feature_names=['bill_depth_mm', 'bill_length_mm'], impurity=False);
+#| echo: false
+plot_tree(model, feature_names=['bill_depth_mm', 'bill_length_mm'], impurity=False, class_names=model.classes_);
 ```
 :::
 
@@ -292,6 +293,7 @@ plot_tree(model, feature_names=['bill_depth_mm', 'bill_length_mm'], impurity=Fal
 ```{python}
 #| label: "fig-decision-tree-data-space"
 #| fig-cap: "Decision tree, in data space"
+#| echo: false
 from sklearn.inspection import DecisionBoundaryDisplay
 DecisionBoundaryDisplay.from_estimator(
     model,
