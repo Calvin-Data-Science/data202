@@ -92,7 +92,19 @@ revealjs-plugins:
 - [Slides](units/09supervised-intro/w09-supervised.html)
 - Activity: [Teachable Machine](https://teachablemachine.withgoogle.com/)
 
+Referenced in class:
+
+- [The Shape of Actions](https://mitpress.mit.edu/9780262526524/the-shape-of-actions/)
+- [‘Good Grief, Apple’—John Piper’s Watch Mistakes His Preaching for a Hard Fall, Prompts Call to Emergency Services](https://churchleaders.com/news/441896-john-piper-watch-mistakes-preaching-for-hard-fall.html)
+- God's covenants of predictable universe:
+    - [Genesis 8:22](https://www.biblegateway.com/passage/?search=Genesis+8%3A22&version=NIV)
+    - [Jeremiah 33:25](https://www.biblegateway.com/passage/?search=Jeremiah+33%3A25&version=NIV)
+    - ...
+
 ## Wednesday: ML
+
+- Classification vs regression
+
 
 ## Friday lab
 
