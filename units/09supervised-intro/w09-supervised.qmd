@@ -11,6 +11,8 @@ execute:
   echo: true
 ---
 
+
+
 ## Think of examples
 
 How is data used to make decisions that affect you or your neighbors?
@@ -19,9 +21,12 @@ How is data used to make decisions that affect you or your neighbors?
 
 ## Predictive Analytics
 
-* A powerful tool to turn data into action.
-* It works because God made the universe predictable (and successful prediction rewarding)
-* **Need for wisdom**: It can be used for great good and great harm
+- A powerful tool to turn data into action.
+- It works because God made the universe predictable (and successful prediction rewarding), and *promised* order:
+   - covenant with Noah that the seasons would continue (Gen 8:22)
+   - guarantee in Psalms that the sun would rise (Ps 104:19)
+    - promise to Jeremiah that the sun, moon, and stars would continue (Jer 31:35-36)
+- **Need for wisdom**: It can be used for great good and great harm
 
 ---
 
@@ -52,9 +57,8 @@ and so much more...
 
 ## Predictive modeling technology: Need for wisdom {.smaller}
 
-* Potential for great good
-* But also great harm:
-  * Lack of **fairness** in facial recognition, sentencing, lending, job applicant scoring, ...
+* Potential for great good, but also great harm:
+  * Lack of **fairness** in facial recognition, criminal risk, lending, job applicant scoring, ...
   * Lack of **transparency** in how "Big Data" systems make conclusions
   * Lack of **privacy** as data is increasingly collected and aggregated
   * Amplification of extreme positions in social media, YouTube, etc.
@@ -63,6 +67,7 @@ and so much more...
   * Illusion of objectivity
   * ...!
 
+See, for example, [Weapons of Math Destruction](https://en.wikipedia.org/wiki/Weapons_of_Math_Destruction)
 
 
 ## Reminders from Statistics
@@ -94,9 +99,9 @@ Pick a partner (or two). Decide who's *trainer* and who's *tester*.
 
 We'll share descriptions.
 
-# sklearn API
+# Supervised Learning and the scikit-learn API
 
-## Scikit-Learn
+## Scikit-Learn (sklearn)
 
 ::: copilot
 - A Python library for machine learning
@@ -305,3 +310,42 @@ DecisionBoundaryDisplay.from_estimator(
 
 :::
 :::
+
+## Linear Model (Logistic Regression)
+
+```{python}
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+model.fit(
+    X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
+    y=penguins_train['species'])
+```
+
+
+
+```{python}
+model.coef_
+```
+
+
+```{python}
+model.score(
+    X=penguins_test[['bill_depth_mm', 'bill_length_mm']],
+    y=penguins_test['species'])
+```
+
+## Neural Network
+
+```{python}
+from sklearn.neural_network import MLPClassifier
+model = MLPClassifier(hidden_layer_sizes=(10, 10))
+model.fit(
+    X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
+    y=penguins_train['species'])
+```
+
+```{python}
+model.score(
+    X=penguins_test[['bill_depth_mm', 'bill_length_mm']],
+    y=penguins_test['species'])
+```
