@@ -104,7 +104,7 @@ Pick a partner (or two). Decide who's *trainer* and who's *tester*.
 
 We'll share descriptions.
 
-# Supervised Learning and the scikit-learn API
+# Supervised Learning and the scikit-learn API {data-stack-name="Supervised"}
 
 ## Scikit-Learn (sklearn)
 
@@ -354,3 +354,28 @@ model.score(
     X=penguins_test[['bill_depth_mm', 'bill_length_mm']],
     y=penguins_test['species'])
 ```
+
+# Terminology {data-stack-name="Terminology"}
+
+## Types of Learning from Data {.smaller}
+
+- **Supervised Learning**: Filling in a label for each item based on features
+  - *Classification*: Labels are discrete (e.g. penguin species, spam/not spam, which word was swiped, ...)
+  - *Regression*: Labels are continuous (e.g. sale price, seconds of video watched, ...)
+    - **Forecasting**: predict how a sequence will continue (future observations)
+- **Unsupervised Learning**: Finding relationships between items, doesn't need labels
+  - *Clustering*: Grouping similar items (e.g. customer segments, ...)
+  - *Dimensionality Reduction*: Finding a lower-dimensional representation of data (e.g. word embeddings, ...)
+
+We'll focus on supervised learning and clustering in this course. Others:
+
+- **Reinforcement Learning**: Learning to take actions to maximize a reward (e.g. game playing, robotics, ...)
+- **Unsupervised learning**: identify *relationships* between items
+- **Statistical inference**: fill in summary statistics (we wanted a population but only got a sample)
+- **Causal inference**: fill in counterfactuals (what if?)
+
+
+## Regression Example
+
+![](images/edmunds-estimate.png)
+
