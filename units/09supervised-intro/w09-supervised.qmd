@@ -7,11 +7,16 @@ format:
     scrollable: true
     revealjs-plugins:
       - "fix-plotly-size"
+      - "simplemenu"
+    simplemenu:
+        barhtml:
+            header: "<div class='menubar'><ul class='menu'></ul><div>"
+        scale: 0.67
 execute: 
   echo: true
 ---
 
-
+# Day 1: Introduction {data-stack-name="Intro"}
 
 ## Think of examples
 
@@ -78,7 +83,7 @@ See, for example, [Weapons of Math Destruction](https://en.wikipedia.org/wiki/We
   - Our inferences sometimes fail (and we may not know it!)
 - But God made a world with *structure* that we can learn about even with imperfect tools.
 
-# Activity
+# Activity {data-stack-name="Teachable Machine"}
 
 ## Teachable Machine {.smaller}
 
