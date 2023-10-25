@@ -173,8 +173,7 @@ px.scatter(
 #| code-line-numbers: "2|3-5|7-9"
 #| echo: true
 from sklearn.neighbors import KNeighborsClassifier
-model = KNeighborsClassifier(n_neighbors=1)
-model.fit(
+model = KNeighborsClassifier(n_neighbors=1).fit(
     X=penguins_simple[['bill_depth_mm', 'bill_length_mm']],
     y=penguins_simple['species'])
 
@@ -235,10 +234,9 @@ print(f"{len(penguins_train)} training penguins, {len(penguins_test)} test pengu
 
 ```{python}
 #| code-line-numbers: "3-4"
-model = KNeighborsClassifier(n_neighbors=1)
-model.fit(
+model = KNeighborsClassifier(n_neighbors=1).fit(
     X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
-    y=penguins_train['species']);
+    y=penguins_train['species'])
 ```
 
 ## How does it do?
@@ -274,12 +272,14 @@ accuracy_score(
 Decision tree:
 
 ```{python}
-#| code-line-numbers: "3-4"
+#| code-line-numbers: "1-2"
 from sklearn.tree import DecisionTreeClassifier, plot_tree
-model = DecisionTreeClassifier(max_depth=2)
-model.fit(
-    X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
-    y=penguins_train['species'])
+model = DecisionTreeClassifier(max_depth=10).fit(
+        X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
+        y=penguins_train['species'])
+model.score(
+    X=penguins_test[['bill_depth_mm', 'bill_length_mm']],
+    y=penguins_test['species'])
 ```
 
 ## What does that tree do?
@@ -315,8 +315,7 @@ DecisionBoundaryDisplay.from_estimator(
 
 ```{python}
 from sklearn.linear_model import LogisticRegression
-model = LogisticRegression()
-model.fit(
+model = LogisticRegression().fit(
     X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
     y=penguins_train['species'])
 ```
@@ -338,8 +337,7 @@ model.score(
 
 ```{python}
 from sklearn.neural_network import MLPClassifier
-model = MLPClassifier(hidden_layer_sizes=(10, 10))
-model.fit(
+model = MLPClassifier(hidden_layer_sizes=(10, 10)).fit(
     X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
     y=penguins_train['species'])
 ```
@@ -522,8 +520,7 @@ Concrete example: let's try a linear model
 ```{python}
 from sklearn.linear_model import LinearRegression
 feature_columns = [col for col in concrete_train.columns if col != 'strength']
-model = LinearRegression()
-model.fit(
+model = LinearRegression().fit(
     X=concrete_train[feature_columns],
     y=concrete_train['strength'])
 
