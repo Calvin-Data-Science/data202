@@ -112,7 +112,7 @@ Referenced in class:
 - [Puppies Or Food? 12 Pics That Will Make You Question Reality | Bored Panda](https://www.boredpanda.com/dog-food-comparison-bagel-muffin-lookalike-teenybiscuit-karen-zack/)
 - ["Why Should I Trust You?": Explaining the Predictions of Any Classifier | Abstract](https://arxiv.org/abs/1602.04938)
   - See screenshots [here](https://hackernoon.com/dogs-wolves-data-science-and-why-machines-must-learn-like-humans-do-41c43bc7f982)
-
+- [Big data: the end of the scientific method? | Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences](https://royalsocietypublishing.org/doi/10.1098/rsta.2018.0145)
 
 ## 9.3 (Fri) lab
 
