@@ -3,6 +3,7 @@ title: "Class Meetings"
 subtitle: "DATA 202 Fall 2023"
 format:
   revealjs:
+    scrollable: true
     title-slide-attributes:
         data-state: "hide-menubar"
     center: true
