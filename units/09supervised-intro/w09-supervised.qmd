@@ -7,11 +7,6 @@ format:
     scrollable: true
     revealjs-plugins:
       - "fix-plotly-size"
-      - "simplemenu"
-    simplemenu:
-        barhtml:
-            header: "<div class='menubar'><ul class='menu'></ul><div>"
-        scale: 0.67
 execute: 
   echo: true
 ---
