@@ -59,12 +59,12 @@ revealjs-plugins:
 
 # Week 7 {data-stack-name="Week 7"}
 
-## Monday
+## 7.1 (Mon): class
 
 - Exercise 6 Debugging
 - Work on project
 
-## Wednesday
+## 7.2 (Wed): class
 
 - Some [slides](units/06wrangle2/w7-tidyvis.html) on tidying and visualizing
 - Work on project
@@ -77,7 +77,7 @@ revealjs-plugins:
 
 ## Wednesday: Advising
 
-## Friday
+## 8.3 (Fri): lab
 
 - Quiz 3
 - Project showcase
@@ -87,7 +87,7 @@ revealjs-plugins:
 
 # Week 9 {data-stack-name="Week 9"}
 
-## Monday: Intro to ML
+## 9.1 (Mon): Intro to ML
 
 - [Slides](units/09supervised-intro/w09-supervised.html)
 - Activity: [Teachable Machine](https://teachablemachine.withgoogle.com/)
@@ -101,7 +101,7 @@ Referenced in class:
     - [Jeremiah 33:25](https://www.biblegateway.com/passage/?search=Jeremiah+33%3A25&version=NIV)
     - ...
 
-## Wednesday: ML
+## 9.2 (Wed): ML
 
 - Classification vs regression
 - Workflow
@@ -114,6 +114,6 @@ Referenced in class:
   - See screenshots [here](https://hackernoon.com/dogs-wolves-data-science-and-why-machines-must-learn-like-humans-do-41c43bc7f982)
 
 
-## Friday lab
+## 9.3 (Fri) lab
 
 - Exercise 9
