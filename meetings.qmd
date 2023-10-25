@@ -104,6 +104,14 @@ Referenced in class:
 ## Wednesday: ML
 
 - Classification vs regression
+- Workflow
+
+Referenced in class:
+
+- [Ken Arnold (Calvin U) - Sentiment Bias in Predictive Text Recommendations Results in Biased Writing](https://kenarnold.org/pubs/sentiment-bias/) and an independent and better replication: [Co-Writing with Opinionated Language Models Affects Users' Views | Abstract](https://arxiv.org/abs/2302.00560)
+- [Puppies Or Food? 12 Pics That Will Make You Question Reality | Bored Panda](https://www.boredpanda.com/dog-food-comparison-bagel-muffin-lookalike-teenybiscuit-karen-zack/)
+- ["Why Should I Trust You?": Explaining the Predictions of Any Classifier | Abstract](https://arxiv.org/abs/1602.04938)
+  - See screenshots [here](https://hackernoon.com/dogs-wolves-data-science-and-why-machines-must-learn-like-humans-do-41c43bc7f982)
 
 
 ## Friday lab
