@@ -500,8 +500,8 @@ Sometimes the features are already in a useful form, but sometimes we can get mo
 
 Examples:
 
-- ratios of ingredients
-- log of age
+- ratios of ingredients (e.g., coarse aggregate / fine aggregate)
+- log of `age` (influence of a day decreases as age increases)
 - polynomial features (e.g. $x^2$)
 - product of two features (*interactions*)
 - date features (e.g., day of week, month)
@@ -522,7 +522,8 @@ Some models may require special preparation of the data:
 - Scaling
 - Feature engineering
 
-Concrete example: let's try a linear model
+## Step 5: a linear model for concrete
+
 
 ```{python}
 from sklearn.linear_model import LinearRegression
@@ -549,11 +550,11 @@ def evaluate(y_true, y_pred):
         'R^2': r2_score(y_true, y_pred),
     })
 
-evaluate(concrete_test['strength'], concrete_test['predicted_strength'])
+evaluate(concrete_test['strength'], concrete_test['predicted_strength']).to_frame('test')
 ```
 
-- MAE: Mean Absolute Error ("predictions are usually off by xxx MPa")
-- MAPE: Mean Absolute Percent Error ("predictions are usually off by yy%")
+- MAE: *Mean Absolute Error* ("predictions are usually off by xxx MPa")
+- MAPE: *Mean Absolute Percent Error* ("predictions are usually off by yy%")
 - Traditional R^2 (fraction of variance explained)
 
 ## Step 6: Tune the model {.smaller}
@@ -563,26 +564,28 @@ evaluate(concrete_test['strength'], concrete_test['predicted_strength'])
 - Analyze model errors (more EDA)
 - Repeat steps 4-6 until model is good enough
 
-Concrete example: analyze model errors
+## EDA on model errors for Concrete
 
 ```{python}
 concrete_test['error'] = concrete_test['strength'] - concrete_test['predicted_strength']
 px.histogram(concrete_test, x='error', nbins=30)
 ```
 
-Are there any patterns to the errors?
+Does the model do better or worse for certain ranges?
 
 ```{python}
 px.scatter(
     concrete_test,
-    x='predicted_strength', y='error',
+    x='strength', y='error',
     trendline='ols',
     labels={
-        'predicted_strength': 'Predicted Strength (MPa)',
+        'strength': 'Strength (MPa)',
         'error': 'Error (MPa)',
     },
 )
 ```
+
+Any relationships with other features?
 
 ```{python}
 px.scatter(
@@ -591,6 +594,7 @@ px.scatter(
 )
 ```
 
+We're not seeing any clear overall patterns.
 Which mixtures are we worst at predicting? (ask a domain expert about these)
 
 ```{python}
