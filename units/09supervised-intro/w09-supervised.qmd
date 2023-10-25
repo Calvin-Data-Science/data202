@@ -540,7 +540,6 @@ concrete_test['predicted_strength'] = model.predict(
 ## Metrics: Were those predictions good? {.smaller}
 
 ```{python}
-# code to evaluate error using mae, mape, r2
 from sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error, mean_squared_error, r2_score
 
 def evaluate(y_true, y_pred):
@@ -550,12 +549,17 @@ def evaluate(y_true, y_pred):
         'R^2': r2_score(y_true, y_pred),
     })
 
-evaluate(concrete_test['strength'], concrete_test['predicted_strength']).to_frame('test')
+def evaluate_df(df):
+    return evaluate(df['strength'], df['predicted_strength'])
+
+evaluate_df(concrete_test).to_frame('test')
 ```
 
 - MAE: *Mean Absolute Error* ("predictions are usually off by xxx MPa")
 - MAPE: *Mean Absolute Percent Error* ("predictions are usually off by yy%")
 - Traditional R^2 (fraction of variance explained)
+
+*Note*: Above, we defined a *function* to evaluate these errors on any model. That way we can evaluate many models in the same way.
 
 ## Step 6: Tune the model {.smaller}
 
@@ -583,6 +587,16 @@ px.scatter(
         'error': 'Error (MPa)',
     },
 )
+```
+
+```{python}
+concrete_test['strength_bin'] = pd.cut(concrete_test['strength'], bins=5)
+concrete_test.groupby('strength_bin', as_index=False).apply(evaluate_df)
+```
+
+```{python}
+concrete_test['age_bin'] = pd.cut(concrete_test['age'], bins=3)
+concrete_test.groupby('age_bin', as_index=False).apply(evaluate_df)
 ```
 
 Any relationships with other features?
