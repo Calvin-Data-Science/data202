@@ -372,7 +372,7 @@ model.score(
 We'll focus on supervised learning and clustering in this course. Others:
 
 - **Reinforcement Learning**: Learning to take actions to maximize a reward (e.g. game playing, robotics, ...)
-- **Unsupervised learning**: identify *relationships* between items
+- **Self-supervised learning**: turning an unsupervised problem into a supervised one (e.g. predicting the next word in a sentence)
 - **Statistical inference**: fill in summary statistics (we wanted a population but only got a sample)
 - **Causal inference**: fill in counterfactuals (what if?)
 
@@ -402,6 +402,8 @@ concrete_all = concrete_all.rename(columns={
 })
 concrete_all.info()
 ```
+
+## Concrete Mixture Strength data
 
 ```{python}
 concrete_all.head()
@@ -560,7 +562,7 @@ evaluate(concrete_test['strength'], concrete_test['predicted_strength'])
 Concrete example: analyze model errors
 
 ```{python}
-concrete_test['error'] = concrete_test['predicted_strength'] - concrete_test['strength']
+concrete_test['error'] = concrete_test['strength'] - concrete_test['predicted_strength']
 px.histogram(concrete_test, x='error', nbins=30)
 ```
 
@@ -585,7 +587,7 @@ px.scatter(
 )
 ```
 
-Which mixtures are we worst at predicting?
+Which mixtures are we worst at predicting? (ask a domain expert about these)
 
 ```{python}
 concrete_test.sort_values(by='error').head(5)
