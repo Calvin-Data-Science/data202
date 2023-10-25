@@ -375,22 +375,29 @@ We'll focus on supervised learning and clustering in this course. Others:
 - **Causal inference**: fill in counterfactuals (what if?)
 
 
-## Regression Example
+## Regression Example 1
 
 ![](images/edmunds-estimate.png)
 
 
-## Regression: Concrete Mixture Strength {.smaller}
+## Concrete Mixture Strength {.smaller}
 
+From *Applied Predictive Modeling* (M. Kuhn and Johnson 2013), chapter 10.
 
 ```{python}
 from sklearn.datasets import fetch_openml
 concrete = fetch_openml(data_id=4353)
 concrete_all = concrete['data'].copy()
+```
 
-# clean up column names:
-# remove everything after the first parenthesis,
-# replace spaces with underscores
+```{python}
+#| echo: false
+print("Original column names:")
+print(list(concrete_all.columns))
+```
+
+```{python}
+# clean up column names: remove everything after the first parenthesis, replace spaces with underscores
 concrete_all.columns = [
     col.split('(', 1)[0].strip().replace(' ', '_').lower()
     for col in concrete_all.columns]
