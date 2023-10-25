@@ -355,7 +355,7 @@ model.score(
     y=penguins_test['species'])
 ```
 
-# Terminology {data-stack-name="Terminology"}
+# Wednesday Slides {data-stack-name="Wednesday"}
 
 ## Types of Learning from Data {.smaller}
 
@@ -379,3 +379,243 @@ We'll focus on supervised learning and clustering in this course. Others:
 
 ![](images/edmunds-estimate.png)
 
+
+## Regression: Concrete Mixture Strength {.smaller}
+
+
+```{python}
+from sklearn.datasets import fetch_openml
+concrete = fetch_openml(data_id=4353)
+concrete_all = concrete['data'].copy()
+
+# clean up column names:
+# remove everything after the first parenthesis,
+# replace spaces with underscores
+concrete_all.columns = [
+    col.split('(', 1)[0].strip().replace(' ', '_').lower()
+    for col in concrete_all.columns]
+concrete_all = concrete_all.rename(columns={
+    'concrete_compressive_strength': 'strength',
+    'blast_furnace_slag': 'slag',
+})
+concrete_all.info()
+```
+
+```{python}
+concrete_all.head()
+```
+
+
+
+## Modeling Workflow
+
+![](images/modeling-process.png)
+
+::: aside
+Source: [Tidy Modeling with R ch1](https://www.tmwr.org/software-modeling.html)
+:::
+
+## Step 1: Define the problem {.smaller}
+
+- What are you trying to predict?
+    - terms: *target*, *response*, *label*
+- What data do you have?
+    - terms: *features*, *predictors*, *covariates*
+- What metrics will indicate success? (Measure success in multiple ways!)
+    - terms: *loss*, *error*, *score*, *metric*
+    - penguins example: accuracy (perhaps broken down by species)
+
+Concrete example:
+
+- **Task**: predict concrete strength (MPa) from mixture ingredients
+- **Target**: concrete strength
+- **Features**: mixture ingredients (cement, slag, ash, water, ...)
+- **Metric**: how close are the predictions to the actual strength?
+
+## Step 2: Explore the data {.smaller}
+
+- What is the structure of the data?
+- What are the distributions of the features and target?
+- Anything unexpected? (e.g. missing values, outliers, ...): make lots of plots!
+
+Concrete example:
+
+```{python}
+import plotly.express as px
+px.histogram(concrete_all, x='strength', nbins=30)
+```
+
+```{python}
+px.histogram(concrete_all, x='age', nbins=30)
+```
+
+
+```{python}
+# Do we have duplicates of any mixtures that differ only in age and strength?
+other_columns = [col for col in concrete_all.columns if col not in ['age', 'strength']]
+concrete_all.groupby(other_columns, as_index=False).size().sort_values(by='size', ascending=False).head(10)
+```
+
+*We'll need to address this later.*
+
+Are they all the same total weight?
+    
+```{python}
+concrete_all[other_columns].sum(axis=1).describe()
+```
+
+## Step 3: Split the data
+
+So we can evaluate the model.
+
+<img src="https://imgs.xkcd.com/comics/electoral_precedent_2x.png" width="100%" style="display: block; margin: auto; max-height: inherit;">
+
+::: aside
+<https://xkcd.com/1122/>
+:::
+
+## Splitting concrete data
+
+```{python}
+from sklearn.model_selection import train_test_split
+
+concrete_train, concrete_test = train_test_split(concrete_all, random_state=0, test_size=0.2)
+print(f"{len(concrete_train)} training mixtures, {len(concrete_test)} test mixtures")
+```
+
+*Careful*: we just duplicated some mixtures in both sets (measurements at different ages).
+
+## Step 4: Feature Engineering {.smaller}
+
+Sometimes the features are already in a useful form, but sometimes we can get more useful features by transforming or combining the existing features.
+
+Examples:
+
+- ratios of ingredients
+- log of age
+- polynomial features (e.g. $x^2$)
+- product of two features (*interactions*)
+- date features (e.g., day of week, month)
+- replace rare categories with "other"
+
+We'll skip this for concrete for now.
+
+## Step 5: Train (fit) and evaluate some models {.smaller}
+
+- Pick a model (or several) that's appropriate for the task and data
+- Fit the model to the training data
+- Evaluate the model on the test data
+
+Some models may require special preparation of the data:
+
+- Missing values
+- Categorical variables
+- Scaling
+- Feature engineering
+
+Concrete example: let's try a linear model
+
+```{python}
+from sklearn.linear_model import LinearRegression
+feature_columns = [col for col in concrete_train.columns if col != 'strength']
+model = LinearRegression()
+model.fit(
+    X=concrete_train[feature_columns],
+    y=concrete_train['strength'])
+
+concrete_test['predicted_strength'] = model.predict(
+    X=concrete_test[feature_columns])
+```
+
+
+## Metrics: Were those predictions good? {.smaller}
+
+```{python}
+# code to evaluate error using mae, mape, r2
+from sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error, mean_squared_error, r2_score
+
+def evaluate(y_true, y_pred):
+    return {
+        'MAE': mean_absolute_error(y_true, y_pred),
+        'MAPE': mean_absolute_percentage_error(y_true, y_pred),
+        'R^2': r2_score(y_true, y_pred),
+    }
+
+pd.Series(
+    evaluate(concrete_test['strength'], concrete_test['predicted_strength']))
+```
+
+- MAE: Mean Absolute Error ("predictions are usually off by xxx MPa")
+- MAPE: Mean Absolute Percent Error ("predictions are usually off by yy%")
+- Traditional R^2 (fraction of variance explained)
+
+## Step 6: Tune the model {.smaller}
+
+- Try different models and hyperparameters
+- Try different feature engineering
+- Analyze model errors (more EDA)
+- Repeat steps 4-6 until model is good enough
+
+Concrete example: analyze model errors
+
+```{python}
+concrete_test['error'] = concrete_test['predicted_strength'] - concrete_test['strength']
+px.histogram(concrete_test, x='error', nbins=30)
+```
+
+Are there any patterns to the errors?
+
+```{python}
+px.scatter(
+    concrete_test,
+    x='predicted_strength', y='error',
+    trendline='ols',
+    labels={
+        'predicted_strength': 'Predicted Strength (MPa)',
+        'error': 'Error (MPa)',
+    },
+)
+```
+
+```{python}
+px.scatter(
+    concrete_test,
+    x='water', y='error', trendline='ols',
+)
+```
+
+Which mixtures are we worst at predicting?
+
+```{python}
+concrete_test.sort_values(by='error').head(5)
+```
+
+```{python}
+concrete_test.sort_values(by='error').tail(5)
+```
+
+## Concrete: try a different model
+
+e.g., random forest
+
+```{python}
+from sklearn.ensemble import RandomForestRegressor
+model = RandomForestRegressor(n_estimators=100, random_state=0)
+model.fit(
+    X=concrete_train[feature_columns],
+    y=concrete_train['strength'])
+
+concrete_test['predicted_strength'] = model.predict(
+    X=concrete_test[feature_columns])
+
+pd.Series(
+    evaluate(concrete_test['strength'], concrete_test['predicted_strength']))
+```
+
+## Step 7: Deploy the model {.smaller}
+
+Often called "inference" (as opposed to "training")
+
+- Use the model to make predictions on new data as it arrives
+- Monitor the model's performance over time
+- Retrain the model periodically
