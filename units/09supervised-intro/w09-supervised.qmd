@@ -170,7 +170,7 @@ px.scatter(
 ## Which species is each penguin?
 
 ```{python}
-#| code-line-numbers: "2|3-5|7-9"
+#| code-line-numbers: "2|3-5|6-7"
 #| echo: true
 from sklearn.neighbors import KNeighborsClassifier
 model = KNeighborsClassifier(n_neighbors=1).fit(
@@ -233,7 +233,7 @@ print(f"{len(penguins_train)} training penguins, {len(penguins_test)} test pengu
 ## Train *on the training set*
 
 ```{python}
-#| code-line-numbers: "3-4"
+#| code-line-numbers: "2-3"
 model = KNeighborsClassifier(n_neighbors=1).fit(
     X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
     y=penguins_train['species'])
@@ -274,7 +274,7 @@ Decision tree:
 ```{python}
 #| code-line-numbers: "1-2"
 from sklearn.tree import DecisionTreeClassifier, plot_tree
-model = DecisionTreeClassifier(max_depth=10).fit(
+model = DecisionTreeClassifier(max_depth=3).fit(
         X=penguins_train[['bill_depth_mm', 'bill_length_mm']],
         y=penguins_train['species'])
 model.score(
