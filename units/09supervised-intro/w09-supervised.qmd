@@ -357,6 +357,13 @@ model.score(
 
 # Wednesday Slides {data-stack-name="Wednesday"}
 
+## Recall
+
+1. What does `fit` do?
+2. What does `predict` do?
+3. Why did we get an `accuracy_score` of 1.0? What did we do wrong?
+4. What should you *never* do with the test set?
+
 ## Types of Learning from Data {.smaller}
 
 - **Supervised Learning**: Filling in a label for each item based on features
@@ -535,14 +542,13 @@ concrete_test['predicted_strength'] = model.predict(
 from sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error, mean_squared_error, r2_score
 
 def evaluate(y_true, y_pred):
-    return {
+    return pd.Series({
         'MAE': mean_absolute_error(y_true, y_pred),
         'MAPE': mean_absolute_percentage_error(y_true, y_pred),
         'R^2': r2_score(y_true, y_pred),
-    }
+    })
 
-pd.Series(
-    evaluate(concrete_test['strength'], concrete_test['predicted_strength']))
+evaluate(concrete_test['strength'], concrete_test['predicted_strength'])
 ```
 
 - MAE: Mean Absolute Error ("predictions are usually off by xxx MPa")
@@ -601,6 +607,12 @@ e.g., random forest
 ```{python}
 from sklearn.ensemble import RandomForestRegressor
 model = RandomForestRegressor(n_estimators=100, random_state=0)
+```
+
+Your turn: how well does a Random Forest model do on the test set?
+
+```{python}
+#| include: false
 model.fit(
     X=concrete_train[feature_columns],
     y=concrete_train['strength'])
@@ -608,8 +620,7 @@ model.fit(
 concrete_test['predicted_strength'] = model.predict(
     X=concrete_test[feature_columns])
 
-pd.Series(
-    evaluate(concrete_test['strength'], concrete_test['predicted_strength']))
+evaluate(concrete_test['strength'], concrete_test['predicted_strength'])
 ```
 
 ## Step 7: Deploy the model {.smaller}
