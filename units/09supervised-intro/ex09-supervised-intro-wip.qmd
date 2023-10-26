@@ -1,6 +1,15 @@
 ---
-title: "Untitled"
+title: "Exercise 9: Practice with Supervised Learning"
+execute: 
+  echo: false
 ---
+
+In this exercise, we'll practice setting up a supervised learning problem. Completing this exercise will help you be able to:
+
+- Set up a supervised learning task: identifying the target variable and features
+- Split data into training and test sets
+- Train a model and evaluate its performance
+
 
 ```{python}
 import pandas as pd
@@ -8,7 +17,6 @@ import pandas as pd
 
 
 ```{python}
-#data = pd.read_csv('https://jse.amstat.org/v19n3/decock/AmesHousing.txt', delimiter='\t')
 data = pd.read_csv("../../static/data/ames/ames_home_sales.csv")
 ```
 
