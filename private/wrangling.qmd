@@ -216,8 +216,7 @@ write_csv(dates, get_out_filename(kind="notable", filename="dates.csv"))
 ## ames
 
 ```{r}
-ames_home_sales <- read_builtin("ames", package = "modeldata") %>% 
-  mutate(Sale_Price = Sale_Price / 1000)
+ames_home_sales <- read_builtin("ames", package = "modeldata")
 write_csv(ames_home_sales, get_out_filename(kind="ames", filename = "ames_home_sales.csv"))
 ```
 
