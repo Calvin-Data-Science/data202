@@ -119,4 +119,5 @@ Referenced in class:
 
 ## 9.3 (Fri) lab
 
-- Exercise 9
+- [Exercise 9](units/09supervised-intro/ex09-supervised-intro.html)
+- Visit the [Summer Research Poster Fair](https://calvin.edu/events/poster-fair/) this afternoon 12:30-3:30pm in Science Building
