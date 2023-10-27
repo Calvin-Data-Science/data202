@@ -79,7 +79,11 @@ We'll use this data to try to predict *sale price* in thousands of dollars from 
 
 ## Exercise 3: Describe the supervised learning task
 
-In English: What's the target variable? What are the features? What metrics will we use to evaluate the model? How will we evaluate the model on unseen data?
+### Task description
+
+Write a brief description of the task we'll be performing **in English**: What's the target variable? What are the features? What metrics will we use to evaluate the model? How will we make sure that we can evaluate the model on data that it wasn't trained on?
+
+*We haven't yet specified the metrics to use; come back to this part after you read the rest of this section.*
 
 Now in code:
 Use the data dictionary to find the column names for these columns. Then make a list of the feature columns and a string for the target column.
@@ -93,6 +97,8 @@ target_column = ...
 feature_columns = ['Gr_Liv_Area', 'Year_Built']
 target_column = 'sale_price'
 ```
+
+### Train-Test Split
 
 Remember that our goal is to be able to *predict* what homes will sell for *before* they're sold.
 
