@@ -94,6 +94,17 @@ feature_columns = ['Gr_Liv_Area', 'Year_Built']
 target_column = 'sale_price'
 ```
 
+Remember that our goal is to be able to *predict* what homes will sell for *before* they're sold.
+
+But our dataset has only homes that were already sold. How can we possibly figure out how well we'd predict a sale price *before* it's sold?
+
+Our strategy, which we'll discuss more in future weeks, will be to *hold out* a "testing set" of homes.
+We won't let our model see the actual sale price for these homes.
+
+The homes where we do show the model the sale price we'll call the "training" homes.
+
+We'll make this split randomly but consistently: we'll first *seed* the random number generator so it always gives the same sequence of numbers.
+
 Use the `train_test_split` function to split the data into training and test sets. Use a `random_state` of 42 and a `test_size` of 0.2. Check the number of homes in the training and test sets to make sure they are correct.
 
 ```{python}
@@ -227,4 +238,10 @@ px.box(ames_test_by_model, x='resid', y='model')
 
 
 Write a brief description of which model worked better for this task.
+
+## Exercise 9: Tweak hyperparameters
+
+Try changing the `max_depth` of the decision tree. What happens to the model's performance on the training set? What happens to the model's performance on the test set?
+
+Try adding a feature for number of bedrooms. What happens to the model's performance on the training set? What happens to the model's performance on the test set?
 
