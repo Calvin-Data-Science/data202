@@ -145,3 +145,26 @@ If you were designing a seizure alert system, would you want sensitivity and spe
 # Validation
 
 .large[**Key point**: you *must* evaluate predictions on *unseen* data]
+
+
+## Failure to generalize
+
+Predictive models almost always do better on the data they're trained on than anything else.
+
+.question[
+Why?
+]
+
+- model uses a pattern that only held by chance
+- model uses a pattern that only holds for some data
+- model uses a pattern that's real but got a fuzzy picture of it
+
+---
+
+.question[
+How can we accurately assess our models?
+]
+
+. . .
+
+General strategy: *hold out data*.
