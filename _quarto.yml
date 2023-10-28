@@ -38,6 +38,7 @@ website:
           - auto: "units/05wrangle1"
           - auto: "units/06wrangle2"
           - auto: "units/09supervised-intro"
+          - auto: "units/10trees"
   page-navigation: true
 
 format:
