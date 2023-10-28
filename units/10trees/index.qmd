@@ -1,7 +1,15 @@
 ---
-title: "10: Trees"
+title: "10: Trees and Metrics"
 ---
 
+# Objectives
+
+- Identify the basic steps in training and validating a model
+- Use a decision tree to make predictions
+- Explain the difference between classification and regression
+- Compute and interpret metrics for classification and regression tasks
+- Identify the importance of validating on unseen data
+- Explain the difference between training, validation, and test sets
 
 # Reading
 
