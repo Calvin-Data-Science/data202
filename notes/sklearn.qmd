@@ -1,0 +1,15 @@
+---
+title: "scikit-learn"
+---
+
+**Name**: scikit-learn, abbreviated *sklearn* (but not "scikit"); "sci" for "science", "kit" for "toolkit"
+
+## References
+
+- [Getting Started](https://scikit-learn.org/stable/getting_started.html)
+- [User guide](https://scikit-learn.org/stable/user_guide.html)
+- [Glossary](https://scikit-learn.org/stable/glossary.html)
+
+## Examples of using sklearn
+
+- [Examples from scikit-learn 1.3.2 documentation](https://scikit-learn.org/stable/auto_examples/index.html)
