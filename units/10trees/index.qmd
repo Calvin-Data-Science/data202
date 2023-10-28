@@ -5,9 +5,10 @@ title: "10: Trees"
 
 # Reading
 
-- Two interactive articles written by Amazon's Machine Learning team:
+- Interactive articles written by Amazon's Machine Learning team:
     - [Train, Test, and Validation Sets](https://mlu-explain.github.io/train-test-validation/)
-    - [Decision Trees](https://mlu-explain.github.io/decision-tree/)
+    - [Precision & Recall](https://mlu-explain.github.io/precision-recall/)
+    - [Decision Trees](https://mlu-explain.github.io/decision-tree/) but *stop before "Where to Partition"*
 - Skim the [Getting Started](https://scikit-learn.org/stable/getting_started.html) page of the scikit-learn documentation.
 - Read the **Intro**, **Classification**, and **Regression** sections of the sklearn User Guide page on [Decision Trees](https://scikit-learn.org/stable/modules/tree.html). Also skim the **Tips on practical use**
 
