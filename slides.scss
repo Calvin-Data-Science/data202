@@ -1,5 +1,13 @@
 /*-- scss:defaults --*/
 
+
+$calvin-maroon: #8C2131;
+$calvin-gold: #F3CD00;
+$calvin-brightred: #C2002F;
+$calvin-renewblue: #71B1C8;
+$calvin-truegreen: #A2D683;
+
+
 /*-- scss:rules --*/
 
 .mchoice li { list-style-type: upper-alpha; }
@@ -41,4 +49,15 @@
   content: "\f303";
   font-size: .5em;
   position: absolute;
+}
+
+
+.question {
+  border-left: 5px solid lighten($calvin-renewblue, 25%);
+  padding: 5px;
+  margin: 10px;
+  background-color: $calvin-gold;
+}
+.question p {
+  margin: 5px;
 }
