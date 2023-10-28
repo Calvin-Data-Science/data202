@@ -5,6 +5,9 @@
 		}
 	],
 	"settings": {
-		"git.postCommitCommand": "sync"
+		"git.postCommitCommand": "sync",
+		"files.watcherExclude": {
+			"**/*_files/**": true
+		}
 	}
 }
