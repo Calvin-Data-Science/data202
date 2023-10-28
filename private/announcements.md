@@ -128,7 +128,7 @@ See you on Monday!
 
 
 
-# Week 8
+# Week 8 (Advising Week Logistics)
 
 Happy Advising break everyone! Some logistics notes:
 
@@ -152,6 +152,38 @@ For the Data section of the project, you might find it helpful to review the fir
 I'm not holding normal office hours this week because of advising, but if you need help, send me a Teams message. Yuqian (Eason) may also be able to help.
 
 PS - The gradebook is now in better shape, but there are still some issues. One common one is that Perusall grades might not be syncing. If any of your Perusall grades are missing, **click the link on Moodle to the corresponding assignment**; that supposedly fixes the sync problem.
+
+# Project Peer Feedback
+
+Hey data scientists,
+
+Congratulations on finishing your first data science projects! This is the week where we give each other constructive feedback. Here's how to do that:
+
+1.  In the Project Presentations activity, click Student Gallery. (It'll say "no threads" for a few seconds until it loads)
+2.  In the top-right corner, select "Sort threads", then "Last name".
+3.  Click the presentation that comes *just after *your own. Add one or more comments. Be **supportive and substantive**(don't just say "good job"). You might phrase your suggestions in the form of questions or "what if" ideas. Refer to the [Checklist](https://calvin-data-science.github.io/data202/midterm-proj.html#checklist) if needed, though of course the [presentation](https://calvin-data-science.github.io/data202/midterm-proj.html#presentation) won't include everything that the report does.
+4.  Look for any comments made on your own presentation. If that gives you an idea of something you could improve, you have until this Friday to make the improvements and resubmit. (You don't need to update the presentation, unless the comment pointed out something you forgot to include in the presentation.)
+
+If you want feedback on your report too, you can email your HTML document to the person/team who would give you feedback on your presentation (see step 3).
+
+If you didn't yet submit a complete project, *your submission is late*; reports and presentations were due on Friday. The "extension" is giving you a chance to revise a complete project, not to finish an incomplete project. Get it in ASAP.
+
+PS -- The Science Division poster fair is this Friday, 12:30-3:30 all around the Science Building. In past years I've invited DATA 202 students to find and analyze plots from these posters; we might do that again this year. If so, details are forthcoming.
+
+# Week 10: Trees
+
+This week we continue our discussion of supervised learning. We'll first go deeper into how we can set up the task by discussing how we can evaluate a classifier, then we'll study a bit more about how tree-based models work. (Next week we'll look at a bunch more models, including linear models and methods that combine many models.)
+
+Logistics:
+
+- Reading 10 is finally posted. See Perusall for instructions (you don't have to do everything listed in the assignment!).
+- Exercise 9 is due Wednesday; bring any questions to class Monday.
+- the discussion forum on the poster fair was optional... but only one person has posted so far! If you went, share your reflections--even if you forgot to take pictures.
+- Quiz 4 is this Friday, and is cumulative. I strongly suggest you review your prior quizzes and exercises.
+- Thanks for your revisions on the replication projects! We'll hopefully start getting feedback to you soon.
+
+We'll be starting final projects soon; start thinking about what you might want to do! (The instructions on the website need updating, but they should give the general idea.)
+
 
 # Week 9: Modeling intro, vis replication project
 
