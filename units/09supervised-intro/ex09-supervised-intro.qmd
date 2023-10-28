@@ -42,6 +42,10 @@ Download the dataset from [this link](https://calvin-data-science.github.io/data
 data = pd.read_csv("../../static/data/ames/ames_home_sales.csv")
 ```
 
+::: {.callout-note}
+If you try to view this data in the RStudio data viewer, you won't see all of the columns at first because it only shows 50 at a time. At the top of the data viewer, you can click the right and left arrows to show a different set of columns.
+:::
+
 ## Exercise 1: Scale the data
 
 First, write a brief description of the shape of the dataframe.
@@ -177,7 +181,7 @@ ames_train['linreg_prediction'] = lr.predict(ames_train[feature_columns])
 evaluate(ames_train[target_column], ames_train['linreg_prediction'])
 ```
 
-Your turn: evaluate the model on the test set.
+Your turn: evaluate the model on the test set. (Remember what we *never* to with test sets?)
 
 ```{python}
 ames_test['linreg_prediction'] = lr.predict(ames_test[feature_columns])
