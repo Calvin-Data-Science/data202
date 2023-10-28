@@ -43,7 +43,7 @@ execute:
 
 ---
 
-## Today's examples
+## Ames Housing Example
 
 **Regression**: housing prices in Ames, Iowa. Details:
 
@@ -52,18 +52,18 @@ execute:
 
 ---
 
-## What makes a good prediction? *Regression*
+## What makes a good prediction? *Regression* {.smaller}
 
 We predicted the home would sell for $250k. It sold for $200k. Is that good?
 
---
+. . .
 
 * **residual**: actual minus predicted<br>
   If home sold for $200k but we predicted $250k, residual is \_\_
 * **absolute error**
 * **squared error**
 
---
+. . .
 
 Across the entire dataset:
 
@@ -103,57 +103,93 @@ Suppose: every minute, the armband decides whether a seizure is occurring
 
 <br>
 
+::: question
 The child was perfectly fine but our armband flagged a seizure. Is that good?
+:::
 
 . . .
 
 <br>
 
+::: question
 The child was having a seizure but our armband didn't flag it. Is that good?
+:::
 
 ---
 
-## What makes a good prediction? *Classification* {.smaller}
+## Confusion Matrices for Classifiers {.smaller}
+
+::: {.columns}
+:::: {.column width="50%"}
+Seizure prediction example:
 
 |                      | Seizure predicted              | No seizure predicted           |
 |----------------------|-------------------------------|-------------------------------|
-| Seizure happened    | True positive                 | False negative (Type 1 error) |
-| No seizure happened | False positive (Type 2 error) | True negative                 |
+| **Seizure happened**    | True positive                 | False negative (Type 1 error) |
+| **No seizure happened** | False positive (Type 2 error) | True negative                 |
+
+:::
+:::: {.column width="50%"}
+
+In general:
+
+|                    | Predicted positive | Predicted negative |
+|--------------------|--------------------|--------------------|
+| **Actually positive**  | True positive (TP) | False negative (FN) |
+| **Actually negative**  | False positive (FP)| True negative (TN) |
+:::
+:::
 
 . . .
 
 - **Accuracy** (% correct) = (TP + TN) / (# predictions made)
-- **False negative** ("miss") **rate** = FN / (# actual seizures)
-- **False positive** ("false alarm") **rate** = FP / (# true non-seizures)
+
+- **False negative** ("miss") **rate** = FN / (# actual positives)
+- **False positive** ("false alarm") **rate** = FP / (# true negatives)
 
 . . .
 
-- **Sensitivity** ("true positive rate") = TP / (# true seizures)
+- **Sensitivity** ("true positive rate") = TP / (# true positives)
+  - aka "recall"
   - Sensitivity = 1 − False negative rate
-- **Specificity** ("true negative rate") = TN / (# true non-seizures)
+- **Specificity** ("true negative rate") = TN / (# true negatives)
   - Specificity = 1 − False positive rate
 - [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
 
+## Precision and Recall
+
+|                    | Predicted positive | Predicted negative |
+|--------------------|--------------------|--------------------|
+| **Actually positive**  | True positive (TP) | False negative (FN) |
+| **Actually negative**  | False positive (FP)| True negative (TN) |
+
+
+
+- **Precision** = TP / (# *predicted* positives)
+- **Recall** = TP / (# *actual* positives)
+  - aka True Positive Rate
+  - aka "sensitivity"
+
 ---
 
-.question[
+::: question
 If you were designing a seizure alert system, would you want sensitivity and specificity to be high or low? What are the trade-offs associated with each decision? 
-]
-
----
+:::
 
 # Validation
 
-.large[**Key point**: you *must* evaluate predictions on *unseen* data]
+**Key point**: you *must* evaluate predictions on *unseen* data
 
 
 ## Failure to generalize
 
 Predictive models almost always do better on the data they're trained on than anything else.
 
-.question[
+::: question
 Why?
-]
+:::
+
+. . .
 
 - model uses a pattern that only held by chance
 - model uses a pattern that only holds for some data
@@ -161,9 +197,9 @@ Why?
 
 ---
 
-.question[
+::: question
 How can we accurately assess our models?
-]
+:::
 
 . . .
 
