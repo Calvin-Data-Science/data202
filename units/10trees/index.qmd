@@ -1,3 +1,20 @@
 ---
 title: "10: Trees"
 ---
+
+
+# Reading
+
+- Two interactive articles written by Amazon's Machine Learning team:
+    - [Train, Test, and Validation Sets](https://mlu-explain.github.io/train-test-validation/)
+    - [Decision Trees](https://mlu-explain.github.io/decision-tree/)
+- Skim the [Getting Started](https://scikit-learn.org/stable/getting_started.html) page of the scikit-learn documentation.
+- Read the **Intro**, **Classification**, and **Regression** sections of the sklearn User Guide page on [Decision Trees](https://scikit-learn.org/stable/modules/tree.html). Also skim the **Tips on practical use**
+
+Additional perspectival readings are on the Perusall assignment. Don't try to read all of them, just pick one or two.
+
+Here's the [direct link to the NYTimes article](https://www.nytimes.com/2023/10/28/business/media/ai-muddies-israel-hamas-war-in-unexpected-way.html?unlocked_article_code=1.6Ew.lbql.j_QrAKlAbRBo&smid=url-share)
+
+## Optional Activities
+
+- Try the [Intro to ML](https://www.kaggle.com/learn/intro-to-machine-learning) lesson on Kaggle. You might even go on to try the [Intermediate ML](https://www.kaggle.com/learn/intermediate-machine-learning) lesson.
