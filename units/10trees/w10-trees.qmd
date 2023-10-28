@@ -1,0 +1,252 @@
+---
+title: "Trees"
+icon: "file-slides"
+format:
+  revealjs:
+    theme: [default, slides.scss]
+    scrollable: true
+    revealjs-plugins:
+      - "fix-plotly-size"
+execute: 
+  echo: true
+---
+
+Imports ...
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.io as pio
+pio.templates.default = "plotly_white"
+```
+
+## Example: Blood test for autism?
+
+We'll use an example from a [2017 PLOS Computational Biology paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385)
+
+
+The data has units on the second row, so we'll skip that.
+
+```{python}
+autism = pd.read_csv("data/autism.csv", skiprows=[1])
+```
+
+
+---
+
+```{python}
+#| output: asis
+#| echo: false
+print(f"""
+We have 3 kinds of data about {autism.shape[0]} children:
+""")
+```
+
+1. The outcome (`Group`): ASD (diagnosed with ASD), SIB (sibling not diagnosed with ASD), and NEU (age-matched neurotypical children, for control)
+
+```{python}
+autism.groupby("Group", as_index=False).size()
+```
+
+---
+
+1. The outcome (`Group`): ASD, SIB, NEU
+2. Concentrations of various metabolites in a blood sample:
+
+```{python}
+#| echo: fenced
+#| output: asis
+print('\n'.join(f'- {column_name}' for column_name in autism.columns[1:-1]))
+```
+
+---
+
+1. The outcome (`Group`): ASD, SIB, NEU
+2. Concentrations of various metabolites in a blood sample
+3. For the ASD children only, a measure of life skills ("Vineland ABC")
+
+```{python}
+autism.groupby("Group", as_index=False).agg(mean_vineland=("Vineland ABC", "mean"))
+```
+
+---
+
+## Exploratory Data Analysis (EDA)
+
+What do these metabolites look like?
+
+```r
+library(ggridges)
+autism %>%
+  select(-`Vineland ABC`) %>% 
+  pivot_longer(-Group, names_to = "Measure") %>% 
+  ggplot(aes(x = value, y = Measure)) +
+  geom_density_ridges() + 
+  facet_wrap(vars(Group), scales = "free_x")
+```
+
+```{python}
+#| output-location: slide
+autism_long = (
+    autism
+    .melt(id_vars="Group", var_name="Measure", value_name="value")
+    .query("Group != 'SIB' and Measure != 'Vineland ABC'")
+)
+px.box(
+    autism_long,
+    x="value",
+    y="Measure",
+    facet_col="Group"
+)
+```
+
+---
+
+## EDA
+
+Better question: **Can these metabolites help us distinguish autism?**
+
+---
+
+```{python}
+#| output-location: slide
+(
+    px.violin(
+        autism_long,
+        x="value",
+        y="Group",
+        facet_col="Measure", facet_col_wrap=5
+    )
+    .update_traces(side="positive", width=3, points=False)
+    .update_xaxes(matches=None)
+    .for_each_annotation(lambda a: a.update(text=a.text.split("=", 1)[-1], font_size=10))
+)
+```
+
+---
+
+## Can we predict ASD vs non-ASD from metabolites?
+
+- Let's start by (1) ignoring the behavior scores (that's an *outcome*) and comparing
+just ASD and NEU.
+- We need to drop SIB.
+
+```{python}
+feature_columns = list(autism.columns[1:-1])
+target_column = "Group"
+
+positive_outcome = "ASD"
+negative_outcome = "NEU"
+```
+
+
+```{python}
+data = (
+    autism
+    .query("Group != 'SIB'")
+    [feature_columns + [target_column]]
+)
+print(data.shape)
+```
+
+## Train-test split
+
+```{python}
+from sklearn.model_selection import train_test_split
+train, test = train_test_split(data, test_size=0.25, random_state=123)
+print(train.shape, test.shape)
+```
+
+## First Model: guessing most common
+
+What if we always guessed the most common outcome?
+
+```{python}
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import accuracy_score
+most_common = DummyClassifier(strategy="most_frequent").fit(
+    X=train[feature_columns],
+    y=train[target_column]
+)
+test["pred_most_common"] = most_common.predict(test[feature_columns])
+accuracy_score(test[target_column], test["pred_most_common"])
+```
+
+## Confusion Matrix for most common
+
+```{python}
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+ConfusionMatrixDisplay.from_estimator(
+    estimator=most_common,
+    X=test[feature_columns],
+    y=test[target_column],
+    labels=[negative_outcome, positive_outcome]
+)
+```
+
+## Uniform Random Guess
+
+Or what if we guess uniformly at random?
+
+```{python}
+uniform = DummyClassifier(strategy="uniform", random_state=0).fit(
+    X=train[feature_columns],
+    y=train[target_column]
+)
+test["pred_uniform"] = uniform.predict(test[feature_columns])
+accuracy_score(test[target_column], test["pred_uniform"])
+```
+
+## Confusion Matrix
+
+```{python}
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+ConfusionMatrixDisplay.from_estimator(
+    estimator=uniform,
+    X=test[feature_columns],
+    y=test[target_column],
+    labels=[negative_outcome, positive_outcome]
+)
+```
+
+Exercise: compute the following for this classifier:
+
+- Accuracy
+- False positive rate
+- False negative rate
+- Sensitivity
+- Specificity
+- Precision
+- Recall
+
+## Computing these automatically
+
+Now we can compute them (see [docs on classification metrics](https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics))
+
+```{python}
+from sklearn.metrics import classification_report
+print(classification_report(
+    y_true=test[target_column],
+    y_pred=test["pred_uniform"],
+))
+```
+
+Let's compute these quantities straight from the confusion matrix.
+
+```{python}
+from sklearn.metrics import confusion_matrix
+(tn, fp), (fn, tp) = confusion_matrix(
+    y_true=test[target_column],
+    y_pred=test["pred_uniform"],
+    labels=[negative_outcome, positive_outcome]
+)
+print(f"Accuracy: {(tp + tn) / (tp + tn + fp + fn):.2f}")
+print(f"False positive rate: {fp / (fp + tn):.2f}")
+print(f"False negative rate: {fn / (fn + tp):.2f}")
+print(f"Sensitivity: {tp / (tp + fn):.2f}")
+print(f"Specificity: {tn / (tn + fp):.2f}")
+print(f"Precision: {tp / (tp + fp):.2f}")
+print(f"Recall: {tp / (tp + fn):.2f}")
+```

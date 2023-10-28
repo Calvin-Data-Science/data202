@@ -1,0 +1,147 @@
+---
+title: "Regression and Classification Metrics"
+icon: "file-slides"
+format:
+  revealjs:
+    theme: [default, slides.scss]
+    scrollable: true
+    revealjs-plugins:
+      - "fix-plotly-size"
+execute: 
+  echo: true
+---
+
+## Objectives
+
+* Compare and contrast regression tasks and classification tasks, and give examples of each
+* Identify two different ways of measuring accuracy for regression and for classification
+* Identify several reasons why a model may predict better on some subsets of data than others
+
+---
+
+## Types of Tasks
+
+
+* **regression**: predict a *number* ("continuous")
+  * number should be "close" in some sense to the correct number
+* **classification**: predict a *category*
+  * which one of these two groups? three groups? 500,000 groups?
+  * could ask: "how likely is it to be in group *i*"
+
+---
+
+## Are these tasks *regression* or *classification*?
+
+1. Is this a picture of the inside or outside of the restaurant?
+1. How much will it rain in GR next year?
+1. Is this person having a seizure?
+1. How much will this home sell for?
+1. How much time will this person spend watching this video?
+1. How big a fruit will this plant produce?
+1. Which word did this person mean to type?
+1. Will this person "Like" this post?
+
+---
+
+## Today's examples
+
+**Regression**: housing prices in Ames, Iowa. Details:
+
+* [Paper](http://jse.amstat.org/v19n3/decock.pdf)
+* [Data Dictionary](http://jse.amstat.org/v19n3/decock/DataDocumentation.txt)
+
+---
+
+## What makes a good prediction? *Regression*
+
+We predicted the home would sell for $250k. It sold for $200k. Is that good?
+
+--
+
+* **residual**: actual minus predicted<br>
+  If home sold for $200k but we predicted $250k, residual is \_\_
+* **absolute error**
+* **squared error**
+
+--
+
+Across the entire dataset:
+
+* **average error**: do we tend to predict too high? too low? "*bias*"
+* **mean** or **max** absolute error
+* **mean squared error** (MSE)
+* normalized squared error: MSE / Variance
+  - "R2" = 1 - normalized squared error
+
+---
+
+## Most commonly used regression metrics
+
+- MAE: Mean Absolute Error ("predictions are usually off by $xxx")
+- MAPE: Mean Absolute Percent Error ("predictions are usually off by yy%")
+
+And some math-y ones:
+
+- Traditional R^2 (fraction of variance explained)
+- RMSE: Root Mean Squared Error: sorta like the standard deviation
+
+
+---
+
+## Seizure classification
+
+First FDA-approved AI-powered medical device: Empatica [Embrace2](https://www.empatica.com/embrace2/),
+company founded by MIT data scientist Rosalind Picard
+
+![](https://www.empatica.com/assets/images/embrace/features_em2_mb_a-lg-xhdpi.png)
+
+---
+
+## What makes a good prediction? *Classification*
+
+Suppose: every minute, the armband decides whether a seizure is occurring
+
+<br>
+
+The child was perfectly fine but our armband flagged a seizure. Is that good?
+
+. . .
+
+<br>
+
+The child was having a seizure but our armband didn't flag it. Is that good?
+
+---
+
+## What makes a good prediction? *Classification* {.smaller}
+
+|                      | Seizure predicted              | No seizure predicted           |
+|----------------------|-------------------------------|-------------------------------|
+| Seizure happened    | True positive                 | False negative (Type 1 error) |
+| No seizure happened | False positive (Type 2 error) | True negative                 |
+
+. . .
+
+- **Accuracy** (% correct) = (TP + TN) / (# predictions made)
+- **False negative** ("miss") **rate** = FN / (# actual seizures)
+- **False positive** ("false alarm") **rate** = FP / (# true non-seizures)
+
+. . .
+
+- **Sensitivity** ("true positive rate") = TP / (# true seizures)
+  - Sensitivity = 1 − False negative rate
+- **Specificity** ("true negative rate") = TN / (# true non-seizures)
+  - Specificity = 1 − False positive rate
+- [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
+
+---
+
+.question[
+If you were designing a seizure alert system, would you want sensitivity and specificity to be high or low? What are the trade-offs associated with each decision? 
+]
+
+---
+
+# Validation
+
+.large[**Key point**: you *must* evaluate predictions on *unseen* data]
