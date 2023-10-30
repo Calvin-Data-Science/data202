@@ -71,6 +71,10 @@ Log:
 - Wednesday: We showed some of the ways that predictive models can nudge human actions and opinions and prayed for protection.
 - Friday - Psalm 90 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=165#psalm_reading)
 
+## Week 10
+
+- Monday: We prayed for insight as things get more difficult to see, like in data wrangling modeling.
+
 ## Misc
 
 Things GitHub Copilot has suggested:
