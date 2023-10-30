@@ -254,6 +254,8 @@ train["pred_tree"] = tree.predict(train[feature_columns])
 print("Training accuracy: ", accuracy_score(train[target_column], train["pred_tree"]))
 ```
 
+. . .
+
 ```{python}
 test["pred_tree"] = tree.predict(test[feature_columns])
 print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
@@ -288,6 +290,11 @@ train["pred_tree"] = tree.predict(train[feature_columns])
 print("Training accuracy: ", accuracy_score(train[target_column], train["pred_tree"]))
 ```
 
+
+```{python}
+plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome]);
+```
+
 . . .
 
 ```{python}
@@ -295,10 +302,6 @@ test["pred_tree"] = tree.predict(test[feature_columns])
 print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
 ```
 
-
-```{python}
-plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome]);
-```
 
 ## Even Deeper
 
@@ -311,14 +314,16 @@ train["pred_tree"] = tree.predict(train[feature_columns])
 print("Training accuracy: ", accuracy_score(train[target_column], train["pred_tree"]))
 ```
 
+
+```{python}
+plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome]);
+```
+
+What do you think the test accuracy will be?
+
 . . .
 
 ```{python}
 test["pred_tree"] = tree.predict(test[feature_columns])
 print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
-```
-
-
-```{python}
-plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome]);
 ```
