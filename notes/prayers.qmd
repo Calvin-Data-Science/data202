@@ -73,7 +73,7 @@ Log:
 
 ## Week 10
 
-- Monday: We prayed for insight as things get more difficult to see, like in data wrangling modeling.
+- Monday: We prayed for insight as things get more difficult to see, like in data wrangling modeling. 
 
 ## Misc
 
@@ -81,3 +81,4 @@ Things GitHub Copilot has suggested:
 
 - We read [The Parable of the Polygons](https://ncase.me/polygons/) and prayed for the courage to act.
 - [Deep Nostalgia](https://www.myheritage.com/deep-nostalgia).
+- For praying for insight into the data, GitHub Copilot suggested that read [Psalm 119:18](https://www.biblegateway.com/passage/?search=Psalm+119%3A18&version=NIV&interface=print) and [1 Corinthians 13:12](https://www.biblegateway.com/passage/?search=1+Corinthians+13%3A12&version=NIV&interface=print).

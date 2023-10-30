@@ -129,6 +129,10 @@ Referenced in class:
 
 - Slides: [Metrics](units/10trees/w10d1-metrics.html), [Trees](units/10trees/w10-trees.html).
 
+References:
+
+- [Spurious Correlations](https://www.tylervigen.com/spurious-correlations)
+
 ## 10.2 (Wed): Trees
 
 ## 10.3 (Fri): lab
