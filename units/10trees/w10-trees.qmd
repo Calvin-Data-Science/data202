@@ -16,18 +16,20 @@ Imports ...
 ```{python}
 import pandas as pd
 import numpy as np
+from sklearn.metrics import accuracy_score
 import plotly.express as px
-import plotly.graph_objects as go
 import plotly.io as pio
 pio.templates.default = "plotly_white"
 ```
 
 ## Example: Blood test for autism?
 
-We'll use an example from a [2017 PLOS Computational Biology paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385)
+We'll use an example from a [2017 PLOS Computational Biology paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005385). Download the [data](https://doi.org/10.1371/journal.pcbi.1005385.s001).
 
+- Typically autism is diagnosed by behavioral symptoms
+- If we could diagnose autism from a blood test, we could diagnose it earlier
 
-The data has units on the second row, so we'll skip that.
+The data has units on the second row, so we'll skip that row.
 
 ```{python}
 autism = pd.read_csv("data/autism.csv", skiprows=[1])
@@ -51,6 +53,8 @@ autism.groupby("Group", as_index=False).size()
 ```
 
 ---
+
+## {.smaller}
 
 1. The outcome (`Group`): ASD, SIB, NEU
 2. Concentrations of various metabolites in a blood sample:
@@ -100,6 +104,12 @@ px.box(
 - This plot helps us compare different metabolites *within* each group.
 - Better question for predictive task: **Which of these metabolites help us *distinguish* autism?**
 
+Approach: 
+
+- easier to compare *within* a plot than *across* a facet, so switch y variable to Group.
+- absolute values don't matter much, so let each metabolite have its own x scale.
+- plotly boxplots don't show up well when small, so switch to a ridgeline plot
+
 ---
 
 ```{python}
@@ -148,7 +158,8 @@ print(data.shape)
 ```{python}
 from sklearn.model_selection import train_test_split
 train, test = train_test_split(data, test_size=0.25, random_state=123)
-print(train.shape, test.shape)
+print("Training set shape: {}".format(train.shape))
+print("Test set shape: {}".format(test.shape))
 ```
 
 ## First Model: guessing most common
@@ -157,7 +168,6 @@ What if we always guessed the most common outcome?
 
 ```{python}
 from sklearn.dummy import DummyClassifier
-from sklearn.metrics import accuracy_score
 most_common = DummyClassifier(strategy="most_frequent").fit(
     X=train[feature_columns],
     y=train[target_column]
@@ -191,9 +201,10 @@ test["pred_uniform"] = uniform.predict(test[feature_columns])
 accuracy_score(test[target_column], test["pred_uniform"])
 ```
 
-## Confusion Matrix
+## Confusion Matrix for Guessing Uniformly {.smaller}
 
 ```{python}
+#| echo: false
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 ConfusionMatrixDisplay.from_estimator(
     estimator=uniform,
@@ -234,13 +245,14 @@ from sklearn.metrics import confusion_matrix
     y_pred=test["pred_uniform"],
     labels=[negative_outcome, positive_outcome]
 )
-print(f"Accuracy: {(tp + tn) / (tp + tn + fp + fn):.2f}")
-print(f"False positive rate: {fp / (fp + tn):.2f}")
-print(f"False negative rate: {fn / (fn + tp):.2f}")
-print(f"Sensitivity: {tp / (tp + fn):.2f}")
+num_positives = tp + fn
+num_negatives = tn + fp
+print(f"Accuracy: {(tp + tn) / (num_positives + num_negatives):.2f}")
+print(f"False positive rate: {fp / num_negatives:.2f}")
+print(f"False negative rate: {fn / num_positives:.2f}")
+print(f"Sensitivity / recall: {tp / num_positives:.2f}")
 print(f"Specificity: {tn / (tn + fp):.2f}")
 print(f"Precision: {tp / (tp + fp):.2f}")
-print(f"Recall: {tp / (tp + fn):.2f}")
 ```
 
 ## Decision Tree
