@@ -250,3 +250,64 @@ print(f"Specificity: {tn / (tn + fp):.2f}")
 print(f"Precision: {tp / (tp + fp):.2f}")
 print(f"Recall: {tp / (tp + fn):.2f}")
 ```
+
+## Decision Tree
+
+```{python}
+from sklearn.tree import DecisionTreeClassifier
+tree = DecisionTreeClassifier(max_depth=1).fit(
+    X=train[feature_columns],
+    y=train[target_column]
+)
+test["pred_tree"] = tree.predict(test[feature_columns])
+accuracy_score(test[target_column], test["pred_tree"])
+```
+
+## Confusion Matrix
+
+```{python}
+ConfusionMatrixDisplay.from_estimator(
+    estimator=tree,
+    X=test[feature_columns],
+    y=test[target_column],
+    labels=[negative_outcome, positive_outcome]
+)
+```
+
+## What does the tree look like?
+
+```{python}
+from sklearn.tree import plot_tree
+plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome])
+```
+
+## Go Deeper
+
+```{python}
+tree = DecisionTreeClassifier(max_depth=2).fit(
+    X=train[feature_columns],
+    y=train[target_column]
+)
+test["pred_tree"] = tree.predict(test[feature_columns])
+accuracy_score(test[target_column], test["pred_tree"])
+```
+
+
+```{python}
+plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome])
+```
+
+## Even Deeper
+
+```{python}
+tree = DecisionTreeClassifier(max_depth=30).fit(
+    X=train[feature_columns],
+    y=train[target_column]
+)
+test["pred_tree"] = tree.predict(test[feature_columns])
+accuracy_score(test[target_column], test["pred_tree"])
+```
+
+```{python}
+plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome])
+```
