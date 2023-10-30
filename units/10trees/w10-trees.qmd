@@ -97,7 +97,8 @@ px.box(
 
 ## EDA
 
-Better question: **Can these metabolites help us distinguish autism?**
+- This plot helps us compare different metabolites *within* each group.
+- Better question for predictive task: **Which of these metabolites help us *distinguish* autism?**
 
 ---
 
@@ -282,6 +283,7 @@ plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, po
 ## Go Deeper
 
 ```{python}
+#| code-line-numbers: "1"
 tree = DecisionTreeClassifier(max_depth=2).fit(
     X=train[feature_columns],
     y=train[target_column]
@@ -306,6 +308,7 @@ print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
 ## Even Deeper
 
 ```{python}
+#| code-line-numbers: "1"
 tree = DecisionTreeClassifier(max_depth=30).fit(
     X=train[feature_columns],
     y=train[target_column]
