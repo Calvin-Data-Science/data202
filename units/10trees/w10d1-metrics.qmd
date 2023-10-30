@@ -146,18 +146,13 @@ In general:
 - **Accuracy** (% correct) = (TP + TN) / (# predictions made)
 
 - **False negative** ("miss") **rate** = FN / (# actual positives)
+  - aka "Type 1 error"
+  - 1 - False negative rate = "recall" or "sensitivity"
 - **False positive** ("false alarm") **rate** = FP / (# true negatives)
+  - 1 - False positive rate = "specificity"
+- [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix)
 
-. . .
-
-- **Sensitivity** ("true positive rate") = TP / (# true positives)
-  - aka "recall"
-  - Sensitivity = 1 − False negative rate
-- **Specificity** ("true negative rate") = TN / (# true negatives)
-  - Specificity = 1 − False positive rate
-- [Wikipedia article](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
-
-## Precision and Recall
+## Precision and Recall {.smaller}
 
 |                    | Predicted positive | Predicted negative |
 |--------------------|--------------------|--------------------|
@@ -167,9 +162,11 @@ In general:
 
 
 - **Precision** = TP / (# *predicted* positives)
+  - can we trust the model when it says "seizure"?
 - **Recall** = TP / (# *actual* positives)
   - aka True Positive Rate
   - aka "sensitivity"
+  - can we trust the model to catch all seizures?
 
 ---
 
