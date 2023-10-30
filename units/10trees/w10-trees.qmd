@@ -77,15 +77,6 @@ autism.groupby("Group", as_index=False).agg(mean_vineland=("Vineland ABC", "mean
 
 What do these metabolites look like?
 
-```r
-library(ggridges)
-autism %>%
-  select(-`Vineland ABC`) %>% 
-  pivot_longer(-Group, names_to = "Measure") %>% 
-  ggplot(aes(x = value, y = Measure)) +
-  geom_density_ridges() + 
-  facet_wrap(vars(Group), scales = "free_x")
-```
 
 ```{python}
 #| output-location: slide
@@ -182,7 +173,7 @@ ConfusionMatrixDisplay.from_estimator(
     estimator=most_common,
     X=test[feature_columns],
     y=test[target_column],
-    labels=[negative_outcome, positive_outcome]
+    labels=[positive_outcome, negative_outcome]
 )
 ```
 
@@ -207,7 +198,7 @@ ConfusionMatrixDisplay.from_estimator(
     estimator=uniform,
     X=test[feature_columns],
     y=test[target_column],
-    labels=[negative_outcome, positive_outcome]
+    labels=[positive_outcome, negative_outcome]
 )
 ```
 
@@ -259,8 +250,13 @@ tree = DecisionTreeClassifier(max_depth=1).fit(
     X=train[feature_columns],
     y=train[target_column]
 )
+train["pred_tree"] = tree.predict(train[feature_columns])
+print("Training accuracy: ", accuracy_score(train[target_column], train["pred_tree"]))
+```
+
+```{python}
 test["pred_tree"] = tree.predict(test[feature_columns])
-accuracy_score(test[target_column], test["pred_tree"])
+print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
 ```
 
 ## Confusion Matrix
@@ -270,7 +266,7 @@ ConfusionMatrixDisplay.from_estimator(
     estimator=tree,
     X=test[feature_columns],
     y=test[target_column],
-    labels=[negative_outcome, positive_outcome]
+    labels=[positive_outcome, negative_outcome]
 )
 ```
 
@@ -278,7 +274,7 @@ ConfusionMatrixDisplay.from_estimator(
 
 ```{python}
 from sklearn.tree import plot_tree
-plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome])
+plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome]);
 ```
 
 ## Go Deeper
@@ -288,13 +284,20 @@ tree = DecisionTreeClassifier(max_depth=2).fit(
     X=train[feature_columns],
     y=train[target_column]
 )
+train["pred_tree"] = tree.predict(train[feature_columns])
+print("Training accuracy: ", accuracy_score(train[target_column], train["pred_tree"]))
+```
+
+. . .
+
+```{python}
 test["pred_tree"] = tree.predict(test[feature_columns])
-accuracy_score(test[target_column], test["pred_tree"])
+print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
 ```
 
 
 ```{python}
-plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome])
+plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome]);
 ```
 
 ## Even Deeper
@@ -304,10 +307,18 @@ tree = DecisionTreeClassifier(max_depth=30).fit(
     X=train[feature_columns],
     y=train[target_column]
 )
-test["pred_tree"] = tree.predict(test[feature_columns])
-accuracy_score(test[target_column], test["pred_tree"])
+train["pred_tree"] = tree.predict(train[feature_columns])
+print("Training accuracy: ", accuracy_score(train[target_column], train["pred_tree"]))
 ```
 
+. . .
+
 ```{python}
-plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome])
+test["pred_tree"] = tree.predict(test[feature_columns])
+print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
+```
+
+
+```{python}
+plot_tree(tree, feature_names=feature_columns, class_names=[negative_outcome, positive_outcome]);
 ```
