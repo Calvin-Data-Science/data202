@@ -122,3 +122,16 @@ Referenced in class:
 - [Exercise 9](units/09supervised-intro/ex09-supervised-intro.html)
     - Suggestion: skip the EDA section at first, come back to it after training a model.
 - Visit the [Summer Research Poster Fair](https://calvin.edu/events/poster-fair/) this afternoon 12:30-3:30pm in Science Building
+
+# Week 10 {data-stack-name="Week 10"}
+
+## 10.1 (Mon): Metrics and Trees
+
+- Slides: [Metrics](units/10trees/w10d1-metrics.html), [Trees](units/10trees/w10-trees.html).
+
+## 10.2 (Wed): Trees
+
+## 10.3 (Fri): lab
+
+- Exercise 10
+- Quiz 4
