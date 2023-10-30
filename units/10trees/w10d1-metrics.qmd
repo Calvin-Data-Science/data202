@@ -67,7 +67,7 @@ We predicted the home would sell for $250k. It sold for $200k. Is that good?
 
 Across the entire dataset:
 
-- **average error**: do we tend to predict too high? too low? "*bias*"
+- **average error**: do we tend to predict too high? too low?
 - **MAE**: Mean Absolute Error ("predictions are usually off by $xxx")
 - **MAPE**: Mean Absolute Percent Error ("predictions are usually off by yy%")
 
@@ -75,9 +75,16 @@ Across the entire dataset:
 
 - **max** absolute error
 - mean **squared** error (MSE)
+  - emphasizes large errors
+  - de-emphasizes small errors
+  - often easier to work with mathematically
+  - units are squared
 - normalized squared error: MSE / Variance
   - "R2" = 1 - normalized squared error
-- RMSE: Root Mean Squared Error: sorta like the standard deviation
+- RMSE: Root Mean Squared Error
+  - square root of MSE
+  - units are the same as the original data
+  - intuition: like a standard deviation
 
 
 ---
@@ -93,7 +100,7 @@ company founded by MIT data scientist Rosalind Picard
 
 ## What makes a good prediction? *Classification*
 
-Suppose: every minute, the armband decides whether a seizure is occurring
+Suppose: every second, the armband decides whether a seizure is occurring
 
 <br>
 
