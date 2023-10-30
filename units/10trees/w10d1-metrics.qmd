@@ -58,31 +58,25 @@ We predicted the home would sell for $250k. It sold for $200k. Is that good?
 
 . . .
 
-* **residual**: actual minus predicted<br>
+- **residual** (error): actual minus predicted<br>
   If home sold for $200k but we predicted $250k, residual is \_\_
-* **absolute error**
-* **squared error**
+- **absolute error**: $50k
+- **percent error**: 25%
 
 . . .
 
 Across the entire dataset:
 
-* **average error**: do we tend to predict too high? too low? "*bias*"
-* **mean** or **max** absolute error
-* **mean squared error** (MSE)
-* normalized squared error: MSE / Variance
+- **average error**: do we tend to predict too high? too low? "*bias*"
+- **MAE**: Mean Absolute Error ("predictions are usually off by $xxx")
+- **MAPE**: Mean Absolute Percent Error ("predictions are usually off by yy%")
+
+## Other kinds of errors
+
+- **max** absolute error
+- mean **squared** error (MSE)
+- normalized squared error: MSE / Variance
   - "R2" = 1 - normalized squared error
-
----
-
-## Most commonly used regression metrics
-
-- MAE: Mean Absolute Error ("predictions are usually off by $xxx")
-- MAPE: Mean Absolute Percent Error ("predictions are usually off by yy%")
-
-And some math-y ones:
-
-- Traditional R^2 (fraction of variance explained)
 - RMSE: Root Mean Squared Error: sorta like the standard deviation
 
 
@@ -173,7 +167,7 @@ In general:
 ---
 
 ::: question
-If you were designing a seizure alert system, would you want sensitivity and specificity to be high or low? What are the trade-offs associated with each decision? 
+If you were designing a seizure alert system, would you want precision and recall to be high or low? What are the trade-offs associated with each decision? 
 :::
 
 # Validation
