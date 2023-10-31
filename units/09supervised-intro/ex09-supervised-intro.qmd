@@ -240,7 +240,7 @@ Make an actual-vs-predicted scatter plot for each model. Use `facet_col` to put 
 )
 ```
 
-Make a box plot of the residuals for each model. Use `facet_col` to put the two plots side-by-side.
+Make a box plot of the residuals for each model.
 
 ```{python}
 px.box(ames_test_by_model, x='resid', y='model')
