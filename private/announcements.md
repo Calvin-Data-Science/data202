@@ -189,9 +189,7 @@ We'll be starting final projects soon; start thinking about what you might want 
 
 This week we start modeling, which is what some people consider the coolest and most useful part of data science. Some people even go so far as to call it “AI”.
 
-- I just posted the templates for Project Milestone 2. If you've been working on it somewhere else, please move your work into the appropriate place in the template. It's mainly there to help you follow the suggested [report outline](https://cs.calvin.edu/courses/data/202/21fa/projects.html#Report_Outline) and to have everyone's stuff in one place.
-- Target date for Milestone 2 is this Friday, but again it's okay if that has to slip by a few days.
-- Plan to drop by the STEM Division Summer Research Poster Fair on Friday, October 22 from 12:30-3:30 pm in the Science Complex. The discussion post this week will be about plots you see there. See the Forum for details and pointers about how to do this respectfully. I'll try to make our exercise on Friday shorter so that you can swing by at the end of class in case your schedule is otherwise jammed.
+- Plan to drop by the STEM Division Summer Research Poster Fair on Friday, October XXXXXXXXX from 12:30-3:30 pm in the Science Complex. The discussion post this week will be about plots you see there. See the Forum for details and pointers about how to do this respectfully. I'll try to make our exercise on Friday shorter so that you can swing by at the end of class in case your schedule is otherwise jammed.
 
 # Week 9: Modeling and Ethics
 
