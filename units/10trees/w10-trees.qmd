@@ -343,6 +343,16 @@ test["pred_tree"] = tree.predict(test[feature_columns])
 print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
 ```
 
+## What decisions can be made at each node
+
+- Continuous variables: if above a threshold, go right, else left
+- Categorical variables: if is one of a set of categories, go right, else left
+- At *leaf* nodes:
+  - regression tree: compute the *mean* value of items there, predict that.
+  - classification tree: compute the *proportion* of each category for items there
+    - predict the most common category
+    - or: predict that unseen items will follow the same proportions
+
 # Activity
 
 ## Training Data
