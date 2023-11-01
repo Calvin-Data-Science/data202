@@ -342,3 +342,56 @@ What do you think the test accuracy will be?
 test["pred_tree"] = tree.predict(test[feature_columns])
 print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
 ```
+
+# Activity
+
+## Training Data
+
+```{python}
+#| echo: false
+# TODO: regression tree instead.
+example_columns = ["% oxidized", "fCystine", "fGSH"]
+example_target = target_column
+
+example_data = (
+    autism
+    .query("Group != 'SIB'")
+    [example_columns + [example_target]]
+)
+
+example_train, example_test = train_test_split(example_data, test_size=0.25, random_state=123)
+
+student_data_subsets = [
+    example_train.sample(n=5, random_state=x)
+    for x in range(10)
+]
+
+for i, student_data in enumerate(student_data_subsets):
+    display(f"Dataset {i}")
+    display(student_data.style.hide(axis='index'))
+
+test_subset = example_test.sample(n=5, random_state=0)
+display("Test set")
+display(test_subset[example_columns].style.hide(axis='index'))
+```
+
+## Instructions
+
+1. Pick a random number between 0 and 9 (inclusive). This is your dataset number.
+2. On paper, construct a decision tree to predict `Group` from the features in your dataset.
+    - This doesn't have to be the *best possible* tree; just try to come up with *some* reasonable tree.
+3. Write down what your tree predicts for each item in the test set.
+
+Don't peek beyond this slide until you're done!
+
+## Evaluation
+
+Here's the test set with labels:
+
+```{python}
+#| echo: false
+test_subset.style.hide(axis='index')
+```
+
+Compute your accuracy.
+
