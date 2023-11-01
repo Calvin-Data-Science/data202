@@ -343,7 +343,7 @@ test["pred_tree"] = tree.predict(test[feature_columns])
 print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
 ```
 
-## What decisions can be made at each node
+## What decisions can be made at each node {.smaller}
 
 - Continuous variables: if above a threshold, go right, else left
 - Categorical variables: if is one of a set of categories, go right, else left
@@ -359,38 +359,87 @@ print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
 
 ```{python}
 #| echo: false
-# TODO: regression tree instead.
-example_columns = ["% oxidized", "fCystine", "fGSH"]
-example_target = target_column
+ames = pd.read_csv("../../static/data/ames/ames_home_sales.csv")
+ames['sale_price'] = ames.eval("Sale_Price / 1000")
+ames = ames.query('Gr_Liv_Area < 4000 and Sale_Condition == "Normal"').copy()
 
-example_data = (
-    autism
-    .query("Group != 'SIB'")
-    [example_columns + [example_target]]
+ames["sale_price_above_median"] = np.where((ames["sale_price"] > ames["sale_price"].median()), "Yes", "No")
+
+continuous_cols = ["Gr_Liv_Area", "Year_Built"]
+categorical_cols = ["Bldg_Type", "Garage_Type"]
+target_cols = ["sale_price_above_median", "sale_price"]
+all_cols = continuous_cols + categorical_cols + target_cols
+
+col_renames = {
+    "Gr_Liv_Area": "A",
+    "Year_Built": "B",
+    "Bldg_Type": "C",
+    "Garage_Type": "D",
+    "sale_price_above_median": "E",
+    "sale_price": "F"
+}
+```
+
+```{python}
+#| echo: false
+# Replace garage types other than "Attchd" and "Detchd" with "Other
+ames["Garage_Type"] = np.where(
+    ames["Garage_Type"].isin(["Attchd", "Detchd"]),
+    ames["Garage_Type"],
+    "Other"
 )
+ames["Garage_Type"].value_counts()
+```
 
-example_train, example_test = train_test_split(example_data, test_size=0.25, random_state=123)
+```{python}
+#| echo: false
+import numpy as np
+example_train, example_test = train_test_split(ames, test_size=0.25, random_state=123)
 
-student_data_subsets = [
-    example_train.sample(n=5, random_state=x)
-    for x in range(10)
-]
+student_data_subsets = []
+for i in range(10):
+    rs = np.random.RandomState(i)
+    # Stratify on sale_price_above_median
+    rows_subset = train_test_split(
+        example_train,
+        train_size=6,
+        random_state=rs,
+        stratify=example_train["sale_price_above_median"]
+    )[0]
 
-for i, student_data in enumerate(student_data_subsets):
+    # Pick a random subset of each type of column
+    continuous_cols_subset = rs.choice(continuous_cols, size=1, replace=False).tolist()
+    categorical_cols_subset = rs.choice(categorical_cols, size=1, replace=False).tolist()
+    this_student_subset = (
+        rows_subset[continuous_cols_subset + categorical_cols_subset + target_cols]
+    )
+    student_data_subsets.append(this_student_subset)
+
+    # highlight the last two columns (E and F)
+    #style = pd.Series({col: "background: lightblue" for col in ["E", "F"]})
     display(f"Dataset {i}")
-    display(student_data.style.hide(axis='index'))
+    display(
+        this_student_subset
+        .rename(columns=col_renames)
+        .style
+        #.apply(lambda x: style)
+        .format("{:.1f}", subset=["F"])
+        .hide(axis='index')
+    )
 
-test_subset = example_test.sample(n=5, random_state=0)
+
+test_subset = example_test.sample(n=6, random_state=0)
 display("Test set")
-display(test_subset[example_columns].style.hide(axis='index'))
+display(test_subset[all_cols].rename(columns=col_renames).style.hide(axis='index'))
 ```
 
 ## Instructions
 
 1. Pick a random number between 0 and 9 (inclusive). This is your dataset number.
-2. On paper, construct a decision tree to predict `Group` from the features in your dataset.
+2. On paper, construct a decision tree to predict `E` from the features in your dataset.
     - This doesn't have to be the *best possible* tree; just try to come up with *some* reasonable tree.
-3. Write down what your tree predicts for each item in the test set.
+3. Make a second tree to predict `F` from the features in your dataset.
+3. Write down what your tree predicts for both `E` and `F` for each item in the test set.
 
 Don't peek beyond this slide until you're done!
 
@@ -400,7 +449,7 @@ Here's the test set with labels:
 
 ```{python}
 #| echo: false
-test_subset.style.hide(axis='index')
+test_subset[all_cols].style.hide(axis='index')
 ```
 
 Compute your accuracy.
