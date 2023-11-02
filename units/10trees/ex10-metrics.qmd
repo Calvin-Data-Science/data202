@@ -1,0 +1,48 @@
+---
+title: "Exercise 10: Thresholds and Metrics"
+---
+
+The goal of this exercise is to practice with metrics of classifier performance.
+
+## Getting started
+
+We'll start today with an interactive activity.
+
+> [Attacking discrimination with smarter machine learning](http://research.google.com/bigpicture/attacking-discrimination-in-ml/)
+
+We'll focus today on the one-group example; we'll return to the part about blue vs orange groups later.
+
+### Explore
+
+Spend about 10 minutes playing with the "Threshold Decision" demonstration. Discuss the following questions with your partner:
+
+1. What are the "scores"? What real-life concept does this capture? (Do you know your score?)
+
+2. Why might a bank want to use "score" to decide whether to grant a loan? (Why don't banks grant all loan applications? Why do they ever grant loans?)
+
+3. What sort of predictions are being made here? What constitutes a "correct" prediction?
+
+4. Slowly sweep the threshold from 0 to 100. On scrap paper, sketch how Correct, True Positive Rate, and Positive Rate change as the threshold changes.
+
+### Implement
+
+Now let's implement those metrics ourselves to check our understanding.
+
+
+```{python}
+#| echo: true
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.io as pio
+pio.templates.default = "plotly_white"
+```
+
+```{python}
+people = pd.read_csv("data/people.csv")
+# make a dotplot of score, colored by repay.
+px.histogram(df, x="score", color="repay", nbins=100)
+```
+
+```{python}
+```
