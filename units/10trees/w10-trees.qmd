@@ -353,6 +353,28 @@ print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
     - predict the most common category
     - or: predict that unseen items will follow the same proportions
 
+## Example of a Regression Tree
+
+We'll try predicting the "Vineland ABC" score from the metabolites (for just the ASD children).
+
+We'll skip the usual train-test split because we're just showing what the tree looks like.
+
+```{python}
+from sklearn.tree import DecisionTreeRegressor
+just_asd = autism.query("Group == 'ASD'").dropna().copy()
+regression_tree = DecisionTreeRegressor(max_depth=2).fit(
+    X=just_asd[feature_columns],
+    y=just_asd["Vineland ABC"]
+)
+```
+
+
+## What a regression tree looks like
+
+```{python}
+plot_tree(regression_tree, feature_names=feature_columns);
+```
+
 # Activity
 
 ## Training Data
@@ -388,7 +410,7 @@ ames["Garage_Type"] = np.where(
     ames["Garage_Type"],
     "Other"
 )
-ames["Garage_Type"].value_counts()
+#ames["Garage_Type"] = 
 ```
 
 ```{python}
@@ -430,7 +452,7 @@ for i in range(10):
 
 test_subset = example_test.sample(n=6, random_state=0)
 display("Test set")
-display(test_subset[all_cols].rename(columns=col_renames).style.hide(axis='index'))
+display(test_subset[continuous_cols + categorical_cols].rename(columns=col_renames).style.hide(axis='index'))
 ```
 
 ## Instructions
@@ -439,7 +461,8 @@ display(test_subset[all_cols].rename(columns=col_renames).style.hide(axis='index
 2. On paper, construct a decision tree to predict `E` from the features in your dataset.
     - This doesn't have to be the *best possible* tree; just try to come up with *some* reasonable tree.
 3. Make a second tree to predict `F` from the features in your dataset.
-3. Write down what your tree predicts for both `E` and `F` for each item in the test set.
+4. Compute the accuracy and MAE of your tree on your training set.
+5. Write down what your tree predicts for both `E` and `F` for each item in the test set.
 
 Don't peek beyond this slide until you're done!
 
@@ -452,5 +475,5 @@ Here's the test set with labels:
 test_subset[all_cols].style.hide(axis='index')
 ```
 
-Compute your accuracy.
+Compute your accuracy and MAE.
 
