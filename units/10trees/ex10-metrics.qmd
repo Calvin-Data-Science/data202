@@ -1,5 +1,7 @@
 ---
 title: "Exercise 10: Thresholds and Metrics"
+execute: 
+  echo: false
 ---
 
 The goal of this exercise is to practice with metrics of classifier performance.
@@ -114,8 +116,7 @@ crosstab = pd.crosstab(people['granted'], people['repay'])
 
 In your document, replace `a`, `b`, `c`, and `d` with names like `false_positive` and `true_negative` (or `fp` and `tn`).
 
-2. Compute the Positive Rate, the True Positive Rate, and Correctness. Check all of your results against the webapp; the numbers should be close although they may differ slightly because the data was not constructed identically.
-
+2. Compute and show the Positive Rate, the True Positive Rate, and Correctness. Check all of your results against the webapp; the numbers should be close although they may differ slightly because the data was not constructed identically.
 
 ```{python}
 positive_rate = people['granted'].mean()
@@ -126,9 +127,12 @@ print(f"True Positive Rate: {true_positive_rate:.3f}")
 print(f"Correctness: {correctness:.3f}")
 ```
 
-3. Compute the precision and recall of this classifier.
+3. Compute and show the precision and recall of this classifier.
 
 ## Part 4: Trade-offs
 
-Adjust the `threshold` to maximize the Correct rate. What is the True Positive Rate then? What trade-off do we have to make if we want to maximize True Positive Rate instead?
+Adjust the `threshold` to maximize the Correct rate. What is the True Positive Rate then? 
 
+What trade-off do we have to make if we want to maximize True Positive Rate instead?
+
+Give specific examples of thresholds that achieve these objectives.
