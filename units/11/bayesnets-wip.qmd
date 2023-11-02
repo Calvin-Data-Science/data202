@@ -1,0 +1,81 @@
+---
+title: "Bayesian Networks: a short introduction"
+icon: "file-slides"
+format:
+  revealjs:
+    theme: [default, slides.scss]
+    scrollable: true
+execute: 
+  echo: true
+---
+
+## Outline
+
+## Probabilistic Predictions {.smaller}
+
+* What if we don't want just a prediction, but also to know **how certain** our model is about that prediction?
+  -   For example, "given our model, we are 70% certain that it could be one disease, 20% it could be another, and 10% another".
+  
+* Let's use statistics! Starting with categorical variables...
+  -   Say we have variables $A, B, C$.
+  -   $A$ can assume values $a^0$ and $a^1$, $B$ can assume $b^0$ and $b^1$, and so on.
+  -   Question: we want to know probabilities on $D$ having values $d^0$ or $d^1$ given we know values about $A, B$ and $C$.
+      - For example, $P(d^0 | a^0, b^1, c^1)$ and $P(d^1 | a^0, b^1, c^1)$. Note that these would sum to $1$.
+  -   What is our target and what are our features?
+  
+## Bayesian statistics {.smaller}
+
+* At some point we would probably need a joint probability distribution: $P(A, B, C, D)$
+  -   Then, we calculate $P(D | A, B, C) = \frac{P(A, B, C, D)}{P(A, B, C)}$
+  
+* We get $P(A, B, C)$ from **marginalization**:
+
+$$
+P(A,B,C) = \sum_{D}P(A,B,C,D)=P(A,B,C,d^0)+P(A,B,C,d^1)
+$$
+
+* However, how to get $P(A, B, C, D)$?
+  -   4 variables with 2 values each: $2^4$ = 16 cells
+  -   One way: just consult an expert and come up with the numbers
+  -   But... can we estimate these probabilities from data? How much samples would we need?
+  
+
+## Probabilistic Graphical Models {.smaller}
+
+* Maybe we can use a graphical representation that helps us simplify that probability?
+* Several options: Markov Hidden Models, Bayesian networks...
+
+* Bayesian networks take advantage on the *conditional independence* of the variables...
+
+![](images/pgms.png)
+
+## Statistical independence {.smaller}
+
+* Variables $A$ and $B$ are independent ($A⊥B$) if:
+  -   $P(A,B)=P(A)P(B)$
+  -   Which also means: $P(A | B) = P(A)$ and $P(B | A) = P(B)$
+  
+* Now, variables can be conditionally independent. $A$ and $B$ are said to be independent *given that** I already know some value of a third variable $C$ ($A⊥B|C$):
+  -   $P(A,B|C)=P(A|C)P(B|C)$
+  -   Which also means: $P(A | B, C) = P(A | C)$ and $P(B | A, C) = P(B | C)$
+  -   And: $P(A,B,C)=P(A,B|C)P(C)=P(A|C)P(B|C)P(C)$
+
+## An example {.smaller}
+
+![](images/graph1.png)
+
+* Difficulty $D$ is clearly independent of Intelligence $I$.
+* If I already know Intelligence $I$, knowing the Grade $G$ **wouldn't add anything** to knowing SAT $S$. It is "independent".
+* But, if I don't know Intelligence $I$, knowing the Grade $G$ would really help knowing something about SAT. So, it is "dependent".
+* So, $S⊥G|I$, in other words, $S$ is independent of $G$ on the condition of knowing $I$.
+
+## Bayesian Networks
+
+* Represent the relationship between variables in terms of conditional independencies
+  -   Sometimes conveys the idea of how one variable causally influences another, but not always (causality is a complex and disputed notion)
+
+## Calculations
+
+https://demo.bayesfusion.com/bayesbox.html
+
+
