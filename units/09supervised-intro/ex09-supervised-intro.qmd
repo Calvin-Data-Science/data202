@@ -46,7 +46,7 @@ data = pd.read_csv("../../static/data/ames/ames_home_sales.csv")
 If you try to view this data in the RStudio data viewer, you won't see all of the columns at first because it only shows 50 at a time. At the top of the data viewer, you can click the right and left arrows to show a different set of columns.
 :::
 
-## Exercise 1: Scale the data
+## Part 1: Scale the data
 
 First, write a brief description of the shape of the dataframe.
 
@@ -55,7 +55,7 @@ Then, perform the following data wrangling steps:
 - Scale the `Sale_Price` column by dividing by 1000. This will make the numbers easier to read. (The units will be thousands of dollars.)
 - Rename the `Sale_Price` column to `sale_price`.
 
-## Exercise 2: Filter the data
+## Part 2: Filter the data
 
 The author of the original suggested that we work with a subset of the data where the homes are:
 
@@ -81,7 +81,7 @@ print(f"Check that you obtain {len(ames)} homes.")
 
 We'll use this data to try to predict *sale price* in thousands of dollars from two features: *above ground living area* and *year built*.
 
-## Exercise 3: Describe the supervised learning task
+## Part 3: Describe the supervised learning task
 
 ### Task description
 
@@ -139,7 +139,7 @@ def evaluate(y_true, y_pred):
 
 To keep this short, let's make only the most essential EDA plots.
 
-## Exercise 4: Distribution of the target variable
+## Part 4: Distribution of the target variable
 
 Make a histogram of the target variable. Use 50 bins. Are there any extremely large or small values compared with the rest of the data?
 
@@ -149,7 +149,7 @@ px.histogram(ames_train, x='sale_price', nbins=50)
 ```
 
 
-## Exercise 5: Target vs features
+## Part 5: Target vs features
 
 Make the following two plots, then write a sentence about what they tell you about the relationships of each feature to the target variable.
 
@@ -167,7 +167,7 @@ px.scatter(ames_train, x='Year_Built', y='sale_price', labels={'Year_Built': 'Ye
 
 # Fit models
 
-## Exercise 6: Linear Regression
+## Part 6: Linear Regression
 
 Here is code to train and evaluate a linear regression model on the training set.
 
@@ -190,7 +190,7 @@ evaluate(ames_test[target_column], ames_test['linreg_prediction'])
 
 Write a description of the model's performance on the test set in plain English. Include both the MAE and MAPE metrics. (Look at the [manual page for mean_absolute_percentage_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_percentage_error.html) to see how to interpret the MAPE metric.)
 
-## Exercise 7: Decision Tree
+## Part 7: Decision Tree
 
 Do the same, but use a `DecisionTreeRegressor(max_depth=3)` instead of a linear regression model. (You can copy and paste the code from above, but be careful to change all the variable names.)
 
@@ -229,7 +229,7 @@ ames_test_by_model['resid'] = ames_test_by_model['sale_price'] - ames_test_by_mo
 ames_test_by_model.head()
 ```
 
-## Exercise 8: Compare the models
+## Part 8: Compare the models
 
 Make an actual-vs-predicted scatter plot for each model. Use `facet_col` to put the two plots side-by-side.
 
@@ -249,7 +249,7 @@ px.box(ames_test_by_model, x='resid', y='model')
 
 Write a brief description of which model worked better for this task.
 
-## Exercise 9: Tweak hyperparameters
+## Part 9: Tweak hyperparameters
 
 Try changing the `max_depth` of the decision tree. What happens to the model's performance on the training set? What happens to the model's performance on the test set?
 
