@@ -220,3 +220,39 @@ ames_home_sales <- read_builtin("ames", package = "modeldata")
 write_csv(ames_home_sales, get_out_filename(kind="ames", filename = "ames_home_sales.csv"))
 ```
 
+
+## Attacking Discrimination replication
+
+```{r}
+set.seed(0)
+make_group_rand <- function(n, mean, sd, ...) {
+  tibble(score = rnorm(n, mean = mean, sd = sd), ...)
+}
+
+# "Deterministic normal": for n points, we expect n * pnorm(x, mu, sd) of them to be below x.
+make_group <- function(n, mean, sd, ...) {
+  tibble(score = 0:100) %>% 
+    mutate(n = floor(n * pnorm(score, mean, sd))) %>% 
+    mutate(delta = c(diff(n), 0)) %>% 
+    uncount(delta) %>% 
+    select(score) %>% 
+    mutate(...)
+}
+
+people <- bind_rows(
+  make_group(150, 60, 10, repay = TRUE),
+  make_group(150, 40, 10, repay = FALSE)
+)
+write_csv(people, get_out_filename(kind="discrim", filename = "people_onegroup.csv"))
+
+
+people_twoGroups <- bind_rows(
+  make_group(150, 70, 7, repay=TRUE, group="blue"),
+  make_group(150, 30, 7, repay=FALSE, group="blue"),
+  make_group(150, 60, 10, repay=TRUE, group="orange"),
+  make_group(150, 40, 10, repay=FALSE, group="orange")
+)
+write_csv(people_twoGroups, get_out_filename(kind="discrim", filename = "people_two_groups.csv"))
+
+```
+
