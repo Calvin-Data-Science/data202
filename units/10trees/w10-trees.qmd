@@ -415,6 +415,7 @@ ames["Garage_Type"] = np.where(
 
 ```{python}
 #| echo: false
+from IPython.display import Markdown, display
 import numpy as np
 example_train, example_test = train_test_split(ames, test_size=0.25, random_state=123)
 
@@ -439,7 +440,7 @@ for i in range(10):
 
     # highlight the last two columns (E and F)
     #style = pd.Series({col: "background: lightblue" for col in ["E", "F"]})
-    display(f"Dataset {i}")
+    display(Markdown(f"**Dataset {i}**"))
     display(
         this_student_subset
         .rename(columns=col_renames)
@@ -451,11 +452,11 @@ for i in range(10):
 
 
 test_subset = example_test.sample(n=6, random_state=0)
-display("Test set")
+display(Markdown("**Test set**"))
 display(test_subset[continuous_cols + categorical_cols].rename(columns=col_renames).style.hide(axis='index'))
 ```
 
-## Instructions
+## Instructions {.smaller}
 
 Columns A through D are features. Columns E and F are outcomes (targets).
 
