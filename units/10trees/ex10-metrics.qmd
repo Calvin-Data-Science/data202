@@ -30,7 +30,7 @@ Spend about 10 minutes playing with the "Threshold Decision" demonstration. Disc
 
 Now let's implement those metrics ourselves to check our understanding.
 
-We've made a dataset that approximately mimics the dataset from the article. Download [people_onegroup.csv](data/discrim/people_onegroup.csv) and put it in your `data` folder.
+We've made a dataset that approximately mimics the dataset from the article. Download [people_onegroup.csv](/data/discrim/people_onegroup.csv) and put it in your `data` folder.
 
 ```{python}
 #| echo: true
