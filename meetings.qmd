@@ -140,6 +140,6 @@ References:
 
 ## 10.3 (Fri): lab
 
-- [Exercise 10](units/10trees/ex10-metrics.html)
-- Finish make-your-own-tree activity
 - Quiz 4
+- Finish make-your-own-tree activity
+- [Exercise 10](units/10trees/ex10-metrics.html)
