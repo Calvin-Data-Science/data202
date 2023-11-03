@@ -457,6 +457,8 @@ display(test_subset[continuous_cols + categorical_cols].rename(columns=col_renam
 
 ## Instructions
 
+Columns A through D are features. Columns E and F are outcomes (targets).
+
 1. Pick a random number between 0 and 9 (inclusive). This is your dataset number.
 2. On paper, construct a decision tree to predict `E` from the features in your dataset.
     - This doesn't have to be the *best possible* tree; just try to come up with *some* reasonable tree.
