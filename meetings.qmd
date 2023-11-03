@@ -135,7 +135,11 @@ References:
 
 ## 10.2 (Wed): Trees
 
+- Slides: [Trees](units/10trees/w10-trees.html).
+- Make-your-own-tree activity
+
 ## 10.3 (Fri): lab
 
-- Exercise 10
+- [Exercise 10](units/10trees/ex10-metrics.html)
+- Finish make-your-own-tree activity
 - Quiz 4
