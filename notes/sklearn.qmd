@@ -13,3 +13,10 @@ title: "scikit-learn"
 ## Examples of using sklearn
 
 - [Examples from scikit-learn 1.3.2 documentation](https://scikit-learn.org/stable/auto_examples/index.html)
+
+
+## How Trees Work
+
+- [Decision Trees](https://scikit-learn.org/stable/modules/tree.html)
+- [Understanding Tree Structure](https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html#sphx-glr-auto-examples-tree-plot-unveil-tree-structure-py)
+
