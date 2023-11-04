@@ -1,0 +1,36 @@
+---
+title: "11: Model Zoo"
+---
+
+# Objectives
+
+- Identify examples of linear, tree, neighbors, and ensemble models
+- Choose an appropriate model for a given dataset and task
+- Apply preprocessing steps to prepare data for modeling
+
+# Reading
+
+- More interactive articles written by Amazon's Machine Learning team:
+    - [Linear Regression](https://cs.calvin.edu/courses/info/602/resources/linreg-explainer/){#yui_3_17_2_1_1699124001253_5597} (originally by Amazon Web Services, some [edits by Prof Arnold](https://github.com/kcarnold/aws-mlu-explain))
+    - [Random Forest](https://mlu-explain.github.io/random-forest/)
+- Browse the sklearn documentation:
+    - [Linear Models](https://scikit-learn.org/stable/modules/linear_model.html): there's much more here than we need; focus on the `LinearRegression` and `LogisticRegression` classes and the Polynomial Features transformer.
+    - Ensembles. This section is in an odd order; I'd suggest skimming in this order:
+        - [Bagging](https://scikit-learn.org/stable/modules/ensemble.html#bagging-meta-estimator)
+        - [Random Forests](https://scikit-learn.org/stable/modules/ensemble.html#random-forests-and-other-randomized-tree-ensembles)
+        - [Gradient Boosting](https://scikit-learn.org/stable/modules/ensemble.html#gradient-boosted-trees)
+
+Additional perspectival readings are on the Perusall assignment. Don't try to read all of them, just pick one or two.
+
+In case Perusall isn't working, here's the direct links:
+
+- [What the executive order means for openness in AI](https://www.aisnakeoil.com/p/what-the-executive-order-means-for)
+- [AI Causes Real Harm. Let's Focus on That over the End-of-Humanity Hype - Scientific American](https://www.scientificamerican.com/article/we-need-to-focus-on-ais-real-harms-not-imaginary-existential-risks/)
+- Podcast: [Biden's executive order aims to limit the harms of AI - Marketplace](https://www.marketplace.org/shows/marketplace-tech/bidens-executive-order-aims-to-limit-the-harms-of-ai/)
+- *The COMPASS article*: [Machine Bias — ProPublica](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing)
+
+## Optional Activities
+
+If you didn't last week...
+
+- Try the [Intro to ML](https://www.kaggle.com/learn/intro-to-machine-learning) lesson on Kaggle. You might even go on to try the [Intermediate ML](https://www.kaggle.com/learn/intermediate-machine-learning) lesson.
