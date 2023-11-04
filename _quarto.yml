@@ -39,6 +39,7 @@ website:
           - auto: "units/06wrangle2"
           - auto: "units/09supervised-intro"
           - auto: "units/10trees"
+          - auto: "units/11model-zoo"
   page-navigation: true
 
 format:
