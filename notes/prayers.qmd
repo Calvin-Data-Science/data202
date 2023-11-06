@@ -77,6 +77,10 @@ Log:
 - Wednesday: We reflected briefly on the White House Executive Order on AI and prayed for our elected leaders.
 - Friday: Psalm 34 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=166#psalm_reading)
 
+## Week 11
+
+- Monday: We prayed against greed and the love of money, with the help of [Hebrews 13](https://www.biblegateway.com/passage/?search=Hebrews+13%3A5-8&version=NIV&interface=print).
+
 ## Misc
 
 Things GitHub Copilot has suggested:
