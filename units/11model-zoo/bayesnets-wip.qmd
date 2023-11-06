@@ -18,8 +18,8 @@ execute:
   -   Say we have variables $A, B, C$.
   -   $A$ can assume values $a^0$ and $a^1$, $B$ can assume $b^0$ and $b^1$, and so on.
   -   Question: we want to know probabilities on $D$ having values $d^0$ or $d^1$ given we know values about $A, B$ and $C$.
-      - For example, $P(d^0 | a^0, b^1, c^1)$ and $P(d^1 | a^0, b^1, c^1)$. Note that these would sum to $1$.
-  -   What is our target and what are our features?
+      - For example, $P(d^0 | a^0, b^1, c^1)$ and $P(d^1 | a^0, b^1, c^1)$. (Note that these would sum to $1$).
+  -   $D$ is our target, $A,B,C$ are our features!
   
 ## Bayesian statistics {.smaller}
 
@@ -32,7 +32,7 @@ $$
 P(A,B,C) = \sum_{D}P(A,B,C,D)=P(A,B,C,d^0)+P(A,B,C,d^1)
 $$
 
-* However, how to get $P(A, B, C, D)$?
+* However, how to obtain $P(A, B, C, D)$?
   -   4 variables with 2 values each: $2^4$ = 16 cells
   -   One way: just consult an expert and come up with the numbers
   -   But... can we estimate these probabilities from data? How much samples would we need?
@@ -94,7 +94,7 @@ $$
 * Why is this good? Each distribution can (in principle) be elaborated or trained separately!
   -   However, we also need to be sure about the conditional independencies
 
-## Calculations {.smaller}
+## Inferences {.smaller}
 
 :::: {.columns}
 
