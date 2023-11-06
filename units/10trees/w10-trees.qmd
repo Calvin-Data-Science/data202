@@ -18,6 +18,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import accuracy_score
 import plotly.express as px
+import matplotlib.pyplot as plt
 import plotly.io as pio
 pio.templates.default = "plotly_white"
 ```
@@ -377,7 +378,7 @@ plot_tree(regression_tree, feature_names=feature_columns);
 
 # Activity
 
-## Training Data
+## Training Data (Classification Tree)
 
 ```{python}
 #| echo: false
@@ -436,8 +437,38 @@ for i in range(10):
     this_student_subset = (
         rows_subset[continuous_cols_subset + categorical_cols_subset + target_cols]
     )
-    student_data_subsets.append(this_student_subset)
+    student_data_subsets.append((this_student_subset, continuous_cols_subset, categorical_cols_subset))
+```
 
+```{python}
+#| echo: false
+
+for i, (this_student_subset, continuous_cols_subset, categorical_cols_subset) in enumerate(student_data_subsets):
+    this_student_subset = this_student_subset.drop(columns=["sale_price"])
+    # highlight the last two columns (E and F)
+    #style = pd.Series({col: "background: lightblue" for col in ["E", "F"]})
+    display(Markdown(f"**Dataset {i}**"))
+    display(
+        this_student_subset
+        .rename(columns=col_renames)
+        .style
+        #.apply(lambda x: style)
+        .hide(axis='index')
+    )
+
+
+test_subset = example_test.sample(n=6, random_state=0)
+display(Markdown("**Test set**"))
+display(test_subset[continuous_cols + categorical_cols].rename(columns=col_renames).style.hide(axis='index'))
+```
+
+## Training Data (Regression Tree)
+
+```{python}
+#| echo: false
+
+for i, (this_student_subset, continuous_cols_subset, categorical_cols_subset) in enumerate(student_data_subsets):
+    this_student_subset = this_student_subset.drop(columns=["sale_price_above_median"])
     # highlight the last two columns (E and F)
     #style = pd.Series({col: "background: lightblue" for col in ["E", "F"]})
     display(Markdown(f"**Dataset {i}**"))
@@ -451,7 +482,6 @@ for i in range(10):
     )
 
 
-test_subset = example_test.sample(n=6, random_state=0)
 display(Markdown("**Test set**"))
 display(test_subset[continuous_cols + categorical_cols].rename(columns=col_renames).style.hide(axis='index'))
 ```
@@ -479,4 +509,64 @@ test_subset[all_cols].style.hide(axis='index')
 ```
 
 Compute your accuracy and MAE.
+
+## Reference Results
+
+Here's what classification trees look like for each dataset:
+
+```{python}
+#| echo: false
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.compose import ColumnTransformer, make_column_transformer
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.pipeline import make_pipeline
+
+test_set_predictions = []
+
+for i, (this_student_subset, continuous_cols_subset, categorical_cols_subset) in enumerate(student_data_subsets):
+    this_student_subset = this_student_subset.drop(columns=["sale_price"])
+
+    # one-hot encode the categorical variables
+    tree = make_pipeline(
+        make_column_transformer(
+            (OneHotEncoder(sparse=False, handle_unknown="ignore"), categorical_cols_subset),
+            remainder="passthrough"
+        ),
+        DecisionTreeClassifier()
+    ).fit(
+        X=this_student_subset.drop(columns=["sale_price_above_median"]),
+        y=this_student_subset["sale_price_above_median"]
+    )
+
+
+    # highlight the last two columns (E and F)
+    #style = pd.Series({col: "background: lightblue" for col in ["E", "F"]})
+    display(Markdown(f"**Dataset {i}**"))
+    display(
+        this_student_subset
+        .rename(columns=col_renames)
+        .style
+        #.apply(lambda x: style)
+        .hide(axis='index')
+    )
+    plot_tree(tree[-1])
+    plt.show()
+
+    test_set_predictions.append(tree.predict(test_subset))
+
+test_predictions_df = pd.DataFrame(
+    test_set_predictions,
+    index=[f"Tree {i+1}" for i in range(len(test_set_predictions))]
+).T.reset_index(drop=True)
+mean_prediction = (test_predictions_df == "Yes").mean(axis=1)
+display(Markdown("**Test set**"))
+display(pd.concat(
+    [
+        test_subset[continuous_cols + categorical_cols].reset_index(drop=True),
+        mean_prediction.to_frame("yes_votes"),
+        test_subset[["sale_price_above_median"]].reset_index(drop=True),
+        test_predictions_df
+    ], axis=1)
+    .style.hide(axis='index'))
+```
 
