@@ -9,8 +9,6 @@ execute:
   echo: true
 ---
 
-## Outline
-
 ## Probabilistic Predictions {.smaller}
 
 * What if we don't want just a prediction, but also to know **how certain** our model is about that prediction?
@@ -69,13 +67,105 @@ $$
 * But, if I don't know Intelligence $I$, knowing the Grade $G$ would really help knowing something about SAT. So, it is "dependent".
 * So, $S⊥G|I$, in other words, $S$ is independent of $G$ on the condition of knowing $I$.
 
-## Bayesian Networks
+## Bayesian Networks {.smaller}
 
+:::: {.columns}
+
+::: {.column width="40%"}
 * Represent the relationship between variables in terms of conditional independencies
-  -   Sometimes conveys the idea of how one variable causally influences another, but not always (causality is a complex and disputed notion)
+  -   "Kind of" conveys the idea of how one variable causally influences another, but not always (causality is a complex and disputed notion)
+* This is done with a **directed acyclic graph** (DAG) representation
+  -   Every node has attributed to it a probability distribution conditioned on its parent nodes
+  
+:::
 
-## Calculations
+::: {.column width="60%"}
+![](images/bn1.png)
+:::
 
-https://demo.bayesfusion.com/bayesbox.html
+::::
 
+* What is most interesting about that is the possibility to decompose the joint probability distribution. For example:
 
+$$
+P(D,I,G,S,L) = P(D)P(I)P(G|I,D)P(S|I)P(L|G)
+$$
+
+* Why is this good? Each distribution can (in principle) be elaborated or trained separately!
+  -   However, we also need to be sure about the conditional independencies
+
+## Calculations {.smaller}
+
+:::: {.columns}
+
+::: {.column width="40%"}
+* What's the probability of a recommendation letter given that a student's SAT is $s^0$?
+  -   This means obtaining $P(L|s^0)$ through the **variable elimination algorithm**
+  
+:::
+
+::: {.column width="60%"}
+![](images/bn1.png)
+:::
+
+::::
+
+$$
+P(L|s^0) = \frac{P(L,s^0)}{P(s^0)} = \sum_{D,I,G}\frac{P(D,I,G,L,s^0)}{P(s^0)}
+$$
+Applying the BN decomposition:
+
+$$
+P(L|s^0)= \frac{1}{P(s^0)}\sum_{D,I,G}P(D)P(I)P(G|I,D)P(s^0|I)P(L|G)
+$$
+
+Calculating $P(s^0)$:
+
+$$
+P(s^0) = \sum_{I}P(s^0,I) = \sum_{I}P(s^0|I)P(I) = P(s^0|i^0)P(i^0) + P(s^0|i^1)P(i^1) = 0.95\times0.7 + 0.2\times0.3
+$$
+
+Now, back to $P(L|s^0)$, let's eliminate variable $D$:
+
+$$
+P(L|s^0)=\frac{1}{P(s^0)}\sum_{I,G}P(I)P(s^0|I)P(L|G)\sum_{D}P(D)P(G|I,D)
+$$
+
+This gives us a table $\tau_1(G,I)=\sum_{D}P(D)P(G|I,D)$
+
+Now, we eliminate $I$:
+
+$$
+P(L|s^0) = \frac{1}{P(s^0)}\sum_{G}P(L|G)\sum_{I}P(s^0|I)P(I)\tau_1(G,I)
+$$
+
+which gives us a table $\tau_2(G)=\sum_{I}P(s^0|I)P(I)\tau_1(G,I)$
+
+Finally, we eliminate $G$:
+
+$$
+P(L|s^0) = \frac{1}{P(s^0)}\sum_{G}P(L|G)\tau_2(G)
+$$
+
+We thus get two numbers, $P(L=l^0|s^0)$ and $P(L=L=l^1|s^0)$, which would indicate the probability of each outcome.
+
+## BNs in Python {.smaller}
+
+* A nice example is implemented with the [sorobn library](https://github.com/MaxHalford/sorobn)
+
+![](images/alarm.jpg)
+
+## Learning Bayesian Networks {.smaller}
+
+* How to use data to fit a Bayesian network? Two tasks:
+  -   Learning the network structure
+  -   Learning the conditional distribution parameters
+
+* Sometimes we mix a specialist knowledge with data, using a Bayesian learning approach
+
+* For example, what is the most probable graph $G$ given we have dataset $D$? Bayes' theorem:
+
+$$
+P(G|D)=\frac{P(D|G)P(G)}{P(D)} \propto P(D|G)P(G)
+$$
+* $P(D|G$ can be calculated by exploring different network structures (likelihood of the data given a structure), and $P(G)$ is called the *a priori* and is a specialist knowledge (for example, certain structures may be attributed a greater probability given what we expect).

@@ -331,9 +331,6 @@
 </div>
 
 </section>
-<section id="outline" class="slide level2">
-<h2>Outline</h2>
-</section>
 <section id="probabilistic-predictions" class="slide level2 smaller">
 <h2>Probabilistic Predictions</h2>
 <ul>
@@ -409,12 +406,98 @@ P(A,B,C) = \sum_{D}P(A,B,C,D)=P(A,B,C,d^0)+P(A,B,C,d^1)
 <li>So, <span class="math inline">\(S⊥G|I\)</span>, in other words, <span class="math inline">\(S\)</span> is independent of <span class="math inline">\(G\)</span> on the condition of knowing <span class="math inline">\(I\)</span>.</li>
 </ul>
 </section>
-<section id="bayesian-networks" class="slide level2">
+<section id="bayesian-networks" class="slide level2 smaller">
 <h2>Bayesian Networks</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>Represent the relationship between variables in terms of conditional independencies
+<ul>
+<li>“Kind of” conveys the idea of how one variable causally influences another, but not always (causality is a complex and disputed notion)</li>
+</ul></li>
+<li>This is done with a <strong>directed acyclic graph</strong> (DAG) representation
+<ul>
+<li>Every node has attributed to it a probability distribution conditioned on its parent nodes</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:60%;">
+<p><img data-src="images/bn1.png"></p>
+</div>
+</div>
+<ul>
+<li>What is most interesting about that is the possibility to decompose the joint probability distribution. For example:</li>
+</ul>
+<p><span class="math display">\[
+P(D,I,G,S,L) = P(D)P(I)P(G|I,D)P(S|I)P(L|G)
+\]</span></p>
+<ul>
+<li>Why is this good? Each distribution can (in principle) be elaborated or trained separately!
+<ul>
+<li>However, we also need to be sure about the conditional independencies</li>
+</ul></li>
+</ul>
 </section>
-<section id="calculations" class="slide level2">
+<section id="calculations" class="slide level2 smaller">
 <h2>Calculations</h2>
-<p>https://demo.bayesfusion.com/bayesbox.html</p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>What’s the probability of a recommendation letter given that a student’s SAT is <span class="math inline">\(s^0\)</span>?
+<ul>
+<li>This means obtaining <span class="math inline">\(P(L|s^0)\)</span> through the <strong>variable elimination algorithm</strong></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:60%;">
+<p><img data-src="images/bn1.png"></p>
+</div>
+</div>
+<p><span class="math display">\[
+P(L|s^0) = \frac{P(L,s^0)}{P(s^0)} = \sum_{D,I,G}\frac{P(D,I,G,L,s^0)}{P(s^0)}
+\]</span> Applying the BN decomposition:</p>
+<p><span class="math display">\[
+P(L|s^0)= \frac{1}{P(s^0)}\sum_{D,I,G}P(D)P(I)P(G|I,D)P(s^0|I)P(L|G)
+\]</span></p>
+<p>Calculating <span class="math inline">\(P(s^0)\)</span>:</p>
+<p><span class="math display">\[
+P(s^0) = \sum_{I}P(s^0,I) = \sum_{I}P(s^0|I)P(I) = P(s^0|i^0)P(i^0) + P(s^0|i^1)P(i^1) = 0.95\times0.7 + 0.2\times0.3
+\]</span></p>
+<p>Now, back to <span class="math inline">\(P(L|s^0)\)</span>, let’s eliminate variable <span class="math inline">\(D\)</span>:</p>
+<p><span class="math display">\[
+P(L|s^0)=\frac{1}{P(s^0)}\sum_{I,G}P(I)P(s^0|I)P(L|G)\sum_{D}P(D)P(G|I,D)
+\]</span></p>
+<p>This gives us a table <span class="math inline">\(\tau_1(G,I)=\sum_{D}P(D)P(G|I,D)\)</span></p>
+<p>Now, we eliminate <span class="math inline">\(I\)</span>:</p>
+<p><span class="math display">\[
+P(L|s^0) = \frac{1}{P(s^0)}\sum_{G}P(L|G)\sum_{I}P(s^0|I)P(I)\tau_1(G,I)
+\]</span></p>
+<p>which gives us a table <span class="math inline">\(\tau_2(G)=\sum_{I}P(s^0|I)P(I)\tau_1(G,I)\)</span></p>
+<p>Finally, we eliminate <span class="math inline">\(G\)</span>:</p>
+<p><span class="math display">\[
+P(L|s^0) = \frac{1}{P(s^0)}\sum_{G}P(L|G)\tau_2(G)
+\]</span></p>
+<p>We thus get two numbers, <span class="math inline">\(P(L=l^0|s^0)\)</span> and <span class="math inline">\(P(L=L=l^1|s^0)\)</span>, which would indicate the probability of each outcome.</p>
+</section>
+<section id="bns-in-python" class="slide level2 smaller">
+<h2>BNs in Python</h2>
+<ul>
+<li>A nice example is implemented with the <a href="https://github.com/MaxHalford/sorobn">sorobn library</a></li>
+</ul>
+
+<img data-src="images/alarm.jpg" class="r-stretch"></section>
+<section id="learning-bayesian-networks" class="slide level2 smaller">
+<h2>Learning Bayesian Networks</h2>
+<ul>
+<li><p>How to use data to fit a Bayesian network? Two tasks:</p>
+<ul>
+<li>Learning the network structure</li>
+<li>Learning the conditional distribution parameters</li>
+</ul></li>
+<li><p>Sometimes we mix a specialist knowledge with data, using a Bayesian learning approach</p></li>
+<li><p>For example, what is the most probable graph <span class="math inline">\(G\)</span> given we have dataset <span class="math inline">\(D\)</span>? Bayes’ theorem:</p></li>
+</ul>
+<p><span class="math display">\[
+P(G|D)=\frac{P(D|G)P(G)}{P(D)} \propto P(D|G)P(G)
+\]</span> * <span class="math inline">\(P(D|G\)</span> can be calculated by exploring different network structures (likelihood of the data given a structure), and <span class="math inline">\(P(G)\)</span> is called the <em>a priori</em> and is a specialist knowledge (for example, certain structures may be attributed a greater probability given what we expect).</p>
 <div class="footer footer-default">
 
 </div>
