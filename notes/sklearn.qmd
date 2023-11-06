@@ -20,3 +20,8 @@ title: "scikit-learn"
 - [Decision Trees](https://scikit-learn.org/stable/modules/tree.html)
 - [Understanding Tree Structure](https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html#sphx-glr-auto-examples-tree-plot-unveil-tree-structure-py)
 
+## Preprocessing
+
+Unfortunately, even though decision trees do support categorical data in theory, the sklearn implementation does not. You have to one-hot-encode categorical data.
+
+This [sklearn example page](https://scikit-learn.org/stable/auto_examples/ensemble/plot_gradient_boosting_categorical.html#sphx-glr-auto-examples-ensemble-plot-gradient-boosting-categorical-py) shows several ways of doing this.
