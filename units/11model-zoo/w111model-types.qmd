@@ -21,7 +21,7 @@ What type of model for what type of data?
 - Compare and contrast linear and tree models
 
 
-## Setting Up
+## Setting Up {.smaller}
 
 ```{python}
 import pandas as pd
@@ -59,7 +59,7 @@ def evaluate(y_true, y_pred):
     })
 ```
 
-## Increasing Depth -> Overfitting
+## Increasing Depth -> Overfitting {.smaller}
 
 ```{python}
 feature_columns = ['Latitude', 'Longitude']
@@ -83,7 +83,7 @@ error_df = pd.DataFrame(error_data)
 px.line(error_df, x='max_depth', y='MAE', color='dataset', range_y=[0, 50])
 ```
 
-## Random Forests Reduce Overfitting
+## Random Forests Reduce Overfitting {.smaller}
 
 ```{python}
 from sklearn.ensemble import RandomForestRegressor
@@ -131,4 +131,194 @@ predictions = [tree.predict(ames_train[feature_columns].values) for tree in mode
 predictions = pd.DataFrame(predictions).T
 predictions.columns = [f"Tree {i}" for i in range(len(predictions.columns))]
 predictions.head()
+```
+
+## To make a prediction
+
+- Each tree makes a prediction
+- The predictions are averaged
+
+```{python}
+predictions.mean(axis=1).head()
+```
+
+
+## Value of Diversity
+
+::: {.scripture}
+I looked and there before me
+was a great multitude that no one could count,
+from every nation, tribe, people and language,
+standing before the throne.
+
+[Revelation 7:9, as quoted in Calvin's "From Every Nation"]{.ref}
+::: 
+
+- Random Forests work because they combine diverse perspectives (from different training data, different choices)
+- Reflects value of diversity in God's Kingdom (see also Rev 5:9, 1 Cor 12, etc.)
+
+# Linear Models
+
+## Fit a Linear Model
+
+```{python}
+from sklearn.linear_model import LinearRegression
+
+feature_columns = ['Gr_Liv_Area'] # we'll add more later
+linreg = LinearRegression().fit(
+    X=ames_train[feature_columns],
+    y=ames_train['sale_price'])
+print(f"Intercept: {linreg.intercept_:.2f}")
+print(f"Coef: {linreg.coef_[0]:.2f}")
+```
+
+```{python}
+#| output: asis
+#| echo: false
+print("Prediction equation:")
+print(rf"$$\text{{Sale Price}} = {linreg.intercept_:.2f} + {linreg.coef_[0]:.2f} \times \text{{Gr Liv Area}}$$")
+```
+
+## Aside: you may have seen this in stats class
+
+- Stats often asks: "What is the relationship between living area and sale price?"
+- Machine learning asks: "How can I predict sale price?"
+
+## What computations can a linear model do?
+
+- Trees: only simple conditional logic
+    - if `Gr_Liv_Area <= 2000` then go right else go left
+    - predict the average of the training data at the leaf
+- Linear models
+    - *add up* terms
+    - each term: *multiply* some feature by a constant ("coefficient")
+
+## Example
+
+First test set house:
+
+```{python}
+test_liv_area = ames_test['Gr_Liv_Area'].iloc[0]
+test_liv_area
+```
+
+So we predict:
+
+```{python}
+linreg.intercept_ + linreg.coef_[0] * test_liv_area
+```
+
+Actual was:
+
+```{python}
+ames_test['sale_price'].iloc[0]
+```
+
+## Do remodeled homes sell for more? {.smaller}
+
+`Year Remod/Add`: Remodel date *(same as construction date if no remodeling or additions)*
+(from dataset documentation)
+
+```{python}
+ames_train['remodeled'] = ames_train['Year_Remod_Add'] != ames_train['Year_Built']
+```
+
+```{python}
+px.scatter(ames_train, x="Gr_Liv_Area", y="sale_price", color="remodeled", trendline="ols")
+```
+
+
+## Conditional Logic: Simple Conditions
+
+How could a *linear model* treat remodeled homes differently from non-remodeled?
+
+```
+if remodeled:
+  Sale_Price = intercept_remodeled + coef_sqft * Gr_Liv_Area
+else:
+  Sale_Price = intercept_other + coef_sqft * Gr_Liv_Area
+```
+
+--
+
+### Solution: "**dummy encoding**"
+
+```
+Sale_Price = 
+   intercept_other 
+   + coef_sqft      * Gr_Liv_Area
+   + coef_remodeled * (1 if remodeled)
+```
+
+```{python}
+feature_columns = ['Gr_Liv_Area', 'remodeled']
+linreg = LinearRegression().fit(
+    X=ames_train[feature_columns],
+    y=ames_train['sale_price'])
+print(f"Intercept: {linreg.intercept_:.2f}")
+print(f"coef_sqft: {linreg.coef_[0]:.2f}")
+print(f"coef_remodeled: {linreg.coef_[1]:.2f}")
+```
+
+
+## More than two categories
+
+```
+Bldg Type (Nominal): Type of dwelling
+       1Fam	Single-family Detached	
+       2FmCon	Two-family Conversion; originally built as one-family dwelling
+       Duplx	Duplex
+       TwnhsE	Townhouse End Unit
+       TwnhsI	Townhouse Inside Unit
+```
+
+```{python}
+px.scatter(ames_train, x="Gr_Liv_Area", y="sale_price", color="Bldg_Type", trendline="ols")
+```
+
+---
+
+## One-Hot Encoder
+
+- **Input**: a column with N categories
+- **Output**: N columns, one per category, with 1 if that category is present, 0 otherwise
+
+```{python}
+#| code-line-numbers: "3"
+from sklearn.preprocessing import OneHotEncoder
+one_hot = OneHotEncoder(sparse_output=False)
+one_hot.fit(ames_train[['Bldg_Type']])
+one_hot.categories_
+```
+
+```{python}
+#| code-line-numbers: "2"
+pd.DataFrame(
+    one_hot.transform(ames_train[['Bldg_Type']]),
+    columns=one_hot.categories_).head()
+```
+
+## Preprocessing multiple columns
+
+```{python}
+from sklearn.compose import make_column_transformer
+transformer = make_column_transformer(
+    ('passthrough', ['Gr_Liv_Area']),
+    (OneHotEncoder(sparse_output=False), ['Bldg_Type']),
+    remainder='drop')
+transformer.set_output(transform='pandas')
+transformer.fit_transform(ames_train)
+```
+
+## Putting it all together
+
+```{python}
+from sklearn.pipeline import make_pipeline
+model = make_pipeline(
+    make_column_transformer(
+        ('passthrough', ['Gr_Liv_Area']),
+        (OneHotEncoder(sparse_output=False), ['Bldg_Type']),
+        remainder='drop'),
+    LinearRegression())
+model.fit(ames_train, ames_train['sale_price'])
 ```
