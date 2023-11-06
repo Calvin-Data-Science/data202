@@ -121,6 +121,13 @@ len(model.estimators_)
 plot_tree(model.estimators_[0], feature_names=feature_columns, filled=True, impurity=False);
 ```
 
+Show all 5 trees:
+
+```{python}
+for tree in model.estimators_:
+    display(plot_tree(tree, feature_names=feature_columns, filled=True, impurity=False))
+```
+
 ## Each tree makes different predictions {.smaller}
 
 - It was trained on a different subset of the data
