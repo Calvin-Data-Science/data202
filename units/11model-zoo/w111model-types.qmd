@@ -118,10 +118,10 @@ len(model.estimators_)
 
 
 ```{python}
-plot_tree(model.estimators_[0], feature_names=feature_columns, filled=True, impurity=False)
+plot_tree(model.estimators_[0], feature_names=feature_columns, filled=True, impurity=False);
 ```
 
-## Each tree makes different predictions
+## Each tree makes different predictions {.smaller}
 
 - It was trained on a different subset of the data
 - It was trained on a different subset of the features at each split
@@ -146,10 +146,12 @@ predictions.mean(axis=1).head()
 ## Value of Diversity
 
 ::: {.scripture}
+```
 I looked and there before me
 was a great multitude that no one could count,
 from every nation, tribe, people and language,
 standing before the throne.
+```
 
 [Revelation 7:9, as quoted in Calvin's "From Every Nation"]{.ref}
 ::: 
@@ -239,9 +241,18 @@ else:
   Sale_Price = intercept_other + coef_sqft * Gr_Liv_Area
 ```
 
---
+. . .
 
-### Solution: "**dummy encoding**"
+### Solution: indicator variables
+
+```
+Sale_Price = 
+   intercept_other 
+   + coef_sqft      * Gr_Liv_Area
+   + coef_remodeled * (1 if remodeled)
+```
+
+## Indicator Variables
 
 ```
 Sale_Price = 
@@ -321,4 +332,25 @@ model = make_pipeline(
         remainder='drop'),
     LinearRegression())
 model.fit(ames_train, ames_train['sale_price'])
+```
+
+## What does the model look like?
+
+```{python}
+#| output: asis
+#| echo: false
+print("Prediction equation:")
+print(rf"$$\text{{Sale Price}} = {model.steps[1][1].intercept_:.2f} + {model.steps[1][1].coef_[0]:.2f} \times \text{{Gr Liv Area}} + {model.steps[1][1].coef_[1]:.2f} \times \text{{Bldg Type 1Fam}} + {model.steps[1][1].coef_[2]:.2f} \times \text{{Bldg Type 2FmCon}} + {model.steps[1][1].coef_[3]:.2f} \times \text{{Bldg Type Duplx}} + {model.steps[1][1].coef_[4]:.2f} \times \text{{Bldg Type TwnhsE}}$$")
+```
+
+## What predictions does it make?
+
+```{python}
+train_predictions = model.predict(ames_train)
+evaluate(ames_train['sale_price'], train_predictions)
+```
+
+```{python}
+test_predictions = model.predict(ames_test)
+evaluate(ames_test['sale_price'], test_predictions)
 ```
