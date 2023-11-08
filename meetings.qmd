@@ -155,3 +155,11 @@ Referenced in class:
 - APGAR score: [APGAR score | Wikipedia](https://en.wikipedia.org/wiki/APGAR_score)
 - book: [Reset by David Murray](https://store.thegospelcoalition.org/tgc/products/1643/reset)
 - [Psalm 127](https://www.biblegateway.com/passage/?search=psalm+127%3A2&version=NIV&interface=print)
+
+## 11.2 (Wed): Bayesian Networks
+
+- [Slides](units/11model-zoo/bayesnets.html)
+- [Homo Deus](https://www.amazon.com/s?k=9781910701874) by [Yuval Noah Harari](https://en.wikipedia.org/wiki/Yuval_Noah_Harari) - "dataism"
+- practicing the *present* presence of God, rather than representations that we can control but that are limited by interfaces
+    - [The Paradox of Control - by L. M. Sacasas](https://theconvivialsociety.substack.com/p/the-paradox-of-control#details)
+    - [The Uncontrollability of the World](https://www.wiley.com/en-us/The+Uncontrollability+of+the+World-p-9781509543168)
