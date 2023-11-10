@@ -40,7 +40,9 @@ Now we are ready to import our libraries:
 ```{python}
 #| eval: false
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, export_text
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
 from sklearn.metrics import accuracy_score
 import pandas as pd
@@ -83,7 +85,7 @@ features = [i for i in breast.columns if i != target]
 
 ### Part 1a: One-hot encoding of categorical variables
 
-Our dataset consists ofcategorical variables, and we haven't seen exactly how to use them as features with the sklearn library.
+Our dataset consists of categorical variables, and we haven't seen exactly how to use them as features with the sklearn library.
 
 We will have to one-hot encode all of these features using a function available in the pandas library.
 
@@ -102,7 +104,7 @@ With our features having been one-hot encoded, we are ready for train-test split
 
 Now, fit any model we have seen previously using the train data. Remember not to consider the target column as a feature.
 
-*Indicate which model you are using*. Suggestions are linear regression, decision trees or random forests.
+*Indicate which model you are using*. Suggestions are decision trees, random forests, or logistic regression.
 
 ### Part 1c: Accuracy metrics
 
@@ -112,13 +114,16 @@ Now, let's evaluate the accuracy of our model on our test dataset.
 * Now, use the function `accuracy_score`, from sklearn, to check our predictions against the true values of our target variable (in our case, `'class'`). How much was it?
 
 ## Part 2: The Bayesian network model
-We will now check how better a Bayesian network model will perform.
+
+We will now check how well a Bayesian network model will perform.
 
 However, **it is very important to know** that the reason for using a Bayesian network is not just increasing performance, but also:
+
 1. Being able to know probabilities on the outcomes (predictions), and
 2. Calculate these probabilities even in the case of some features having missing data.
 
 ### Part 2a: Learning the structure
+
 First, we will have to learn the Bayesian network structure. For that, run:
 
 ```{python}
@@ -160,7 +165,7 @@ There are lots of operations we can perform with a Bayesian network, and some of
 Just for testing, try making a query on the probabilities of `class` just by using knowledge of one of the variables. For example, you may want to know the probability of `class` given that `age` is `30-39`:
 
 ```{python}
-bn.query('class', event={'age':'30-39'})
+bn.query('class', event={'age': '30-39'})
 ```
 
 Try changing some of the features, or even changing the target variable (instead of `class`, try checking probabilities on `deg-malig`, or `breast`, given information on other variables), and see which probabilities are returned. *Put some examples, show them here*.
@@ -172,7 +177,7 @@ Now, let's make queries using all our feature variables. However, keep note that
 In any case, what we can do is convert our data rows to dictionaries and passing them to our queries. See:
 
 ```{python}
-predictions=[]
+predictions = []
 for i in breast.to_dict('records'): # converting our database entries to dictionaries
   del i[target] # dropping the target variable from the dict (only features then are remaining)
   probs = n.query(target, event=i)  # getting probabilities on the target variable given our features
@@ -180,6 +185,7 @@ for i in breast.to_dict('records'): # converting our database entries to diction
 ```
 
 ### Part 3c: Accuracy metrics
+
 Now we are ready to compare our predictions with the true values of the target variable. Calculate the accuracy by using:
 
 ```{python}
