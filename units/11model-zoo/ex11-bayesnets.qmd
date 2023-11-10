@@ -29,10 +29,10 @@ Note that our target variable is "Class", thus what we are trying to predict is 
 ### Installing sorobn and importing libraries
 Since we will be training a Bayesian network model, we will have to use a Python library for that (believe: you wouldn't want to implement all the algorithms in just one exercise).
 
-We'll be using the sorobn library, which can be installed by typing in terminal:
+We'll be using the [`sorobn`](https://github.com/MaxHalford/sorobn) library, which can be installed by typing in terminal:
 
 ```{bash}
-pip install sorobn
+pip install sorobn graphviz
 ```
 
 Now we are ready to import our libraries:
@@ -48,22 +48,26 @@ import sorobn as hh
 ```
 
 ### Loading and wrangling data
+
 * Dwnload the data from the website
 * Get the file `breast-cancer.data`, and put it in the `data` folder
 * Load it in python using `pd.read_csv()`.
 
 Since this file does not contain the column names, we are specifying them "by hand" when loading:
+
 ```{python}
 #| eval: false
-breast = pd.read_csv("breast-cancer.data",names=['class', 'age', 'menopause', 'tumor-size', 'inv-nodes', 'node-caps', 'deg-malig', 'breast', 'breast-quad', 'irradiat'])
+column_names = ['class', 'age', 'menopause', 'tumor-size', 'inv-nodes', 'node-caps', 'deg-malig', 'breast', 'breast-quad', 'irradiat']
+breast = pd.read_csv("data/breast-cancer.data", names=column_names)
 ```
 
 As you can observe in the data description, two variables of our dataset have missing data: `node-caps` and `breast-quad`. Since we are still not seeing how to deal with those situations (which can give different problems in different models), we'll drop these variables for now. (Maybe you want to include them later to see what happens).
 
 For that, you can run:
+
 ```{python}
 #| eval: false
-breast = breast.drop(['node-caps','breast-quad'],axis=1)
+breast = breast.drop(['node-caps','breast-quad'], axis=1)
 ```
 
 ## Part 1: Supervised learning with previous models
