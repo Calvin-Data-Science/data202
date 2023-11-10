@@ -37,11 +37,22 @@ There are two sections of this class, thus two sessions of final project present
 You can find examples of data science work on sites like Kaggle, TowardsDataScience, Reddit, YouTube, and GitHub. Also check out the TidyTuesday project and r-bloggers.
 
 Your project should include some modeling, so it should involve more than making visualizations.
-Predictive modeling is closest to the emphasis of this class, but other kinds of modeling are often ok.
+Predictive modeling is closest to the emphasis of this class, but other kinds of modeling (such as clustering) are often ok.
 
 Your data should be rich enough to support the kind of modeling you want to do, but not too complex to work with.
 For example, avoid any dataset larger than 500 MB since it probably won't fit.
 Also, avoid image and sound data for similar reasons. (Although if you really want to work with images, there are ways to do this.)
+
+Some types of projects that have worked well in the past:
+
+- **Participating in a Kaggle competition**. It should be a competition that is still open. You don't need to win, but you should be able to do better than the baseline. You should also do some EDA and/or visualization beyond what's already been done by others.
+- **Reproducing a published analysis**. Find a published analysis that you can reproduce, and then extend it in some way. For example, you might find a published analysis that uses a dataset you can't access, and then find a similar dataset that you can access. Or you might find a published analysis that uses a dataset you can access, and then extend it in some way (e.g., by adding a new feature, or by using a different model).
+
+Some projects that could work great, but should be discussed with the instructor first:
+
+- **Redoing some class activities using a different toolkit**. For example, what if this class were to be taught in JavaScript using [ObservableHQ](https://observablehq.com/)? (Talk with Prof Arnold for detailed ideas.)
+- **Exploring interpretable models**. There are some new types of models coming out that are more interpretable, but we have not gotten to discuss them much in class. Perhaps you could explore one of these models and compare it to a more traditional model.
+- **Working with a large language model**. For example, could you give ChatGPT some example rows from your dataset, then ask it to write a decision tree for you, and evaluate the result? There are losts of 
 
 ---
 
