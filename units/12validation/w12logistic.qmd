@@ -71,7 +71,7 @@ print(f"Number of features: {len(feature_columns)}")
 model = make_pipeline(
     make_column_transformer(
         (OneHotEncoder(sparse=False, handle_unknown='ignore'), make_column_selector(dtype_include=object)),
-        (StandardScaler(), make_column_selector(dtype_include=np.number)),
+        ('passthrough', make_column_selector(dtype_include=np.number)),
     ),
     LinearRegression()
 ).fit(
@@ -84,6 +84,8 @@ evaluate(ames_train[target_column], model.predict(ames_train[feature_columns]))
 ```{python}
 evaluate(ames_test[target_column], model.predict(ames_test[feature_columns]))
 ```
+
+This model has a big problem---can you figure out what it is?
 
 # Linear Classifiers
 
