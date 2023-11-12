@@ -1,0 +1,25 @@
+---
+title: "12: Validation"
+---
+
+# Objectives
+
+
+# Reading
+
+- More interactive articles written by Amazon's Machine Learning team:
+    - [Logistic Regression](https://mlu-explain.github.io/logistic-regression/)
+    - [Cross Validation](https://mlu-explain.github.io/cross-validation/)
+- Browse the sklearn documentation:
+    - [Cross Validation in the User Guide](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation)
+    - [sklearn.model_selection.train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html)
+    - [sklearn.model_selection.cross_val_score](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html)
+
+Additional perspectival readings are on the Perusall assignment. Don't try to read all of them, just pick one or two.
+
+In case Perusall isn't working, here's the direct links:
+
+
+## Optional Activities
+
+- [Equality of Odds](https://mlu-explain.github.io/equality-of-odds/)

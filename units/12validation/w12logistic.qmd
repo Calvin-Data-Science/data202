@@ -1,0 +1,116 @@
+---
+title: "12.1 Logistic Classifiers"
+icon: "file-slides"
+format:
+  revealjs:
+    theme: [default, slides.scss]
+    scrollable: true
+    revealjs-plugins:
+      - "fix-plotly-size"
+execute: 
+  echo: true
+---
+
+```{python}
+import pandas as pd
+import numpy as np
+from sklearn.metrics import accuracy_score
+import plotly.express as px
+import matplotlib.pyplot as plt
+import plotly.io as pio
+pio.templates.default = "plotly_white"
+# set pandas to plotly
+pd.options.plotting.backend = "plotly"
+```
+
+## Objectives
+
+## Load up a familiar example: blood test for autism
+
+```{python}
+autism = pd.read_csv("data/autism.csv", skiprows=[1])
+```
+
+- Last time we fit a decision tree. But that assumed hard cut-offs for each feature. 
+- Linear models could say: each additional percentage oxidized (or whatever) leads to a 0.1% increase in risk of autism.
+
+*The real world isn't black and white; linear models can help model the gray areas.*
+
+## Set up as before:
+
+```{python}
+from sklearn.model_selection import train_test_split
+autism_train, autism_test = train_test_split(autism, random_state=42, test_size=0.25)
+
+feature_columns = list(autism.columns[1:-1])
+target_column = "Group"
+
+positive_outcome = "ASD"
+negative_outcome = "NEU"
+```
+
+## What it looks like
+
+```{python}
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.linear_model import LogisticRegression
+model = make_pipeline(
+    StandardScaler(),
+    LogisticRegression(C=4e-2, penalty='l1', solver='liblinear')
+).fit(
+    X=autism_train[feature_columns],
+    y=autism_train[target_column] == positive_outcome
+)
+pd.DataFrame({
+    'coeficients': model.named_steps["logisticregression"].coef_[0],
+    'feature': feature_columns}
+    ).sort_values("coeficients").query("coeficients != 0").plot.scatter(x='coeficients', y='feature')
+```
+
+## How this classifier makes predictions
+
+First, it predicts a *risk score* (negative = low risk, positive = high risk).
+
+```{python}
+print(f"y = {model.named_steps['logisticregression'].intercept_[0]:.2f} + ", end="")
+for coef, feature in zip(model.named_steps["logisticregression"].coef_[0], feature_columns):
+    if coef != 0:
+        print(f"{coef:.2f} * {feature} + ", end="")
+```
+
+Note: these are the coefficients of the *scaled* features.
+
+Then it uses the *logistic* function to turn risk score into probability:
+
+```{python}
+def logistic(x):
+    return 1 / (1 + np.exp(-x))
+# show the logistic function. draw a line at 0.5
+x = np.linspace(-10, 10, 100)
+(
+    px.line(x=x, y=logistic(x))
+    .add_hline(y=0.5)
+    .update_layout(xaxis_title="risk score", yaxis_title="probability")
+)
+```
+
+## Intuition: *Risk*
+
+- First, linear model predicts a *risk score* (negative = low risk, positive = high risk).
+  - Technically: *log-odds*: log(prob of *yes* / prob of *no*)
+- Then, *logistic* function turns risk score into probability
+
+Other examples:
+
+- Risk of a customer churning
+- Risk of a transaction being fraudulent
+- Chance of one team winning: difference in skill scores (Elo)
+
+## Intuition: *Logistic* function
+
+- **Monotonic**: higher risk score = higher probability
+- but non-linear: as risk score increases, probability increases more slowly
+    - twice the risk score does not mean twice the probability
+    - when probability is near 0.5, a small change in risk score can make a big change in probability (tipping between a yes or no decision, so it's important to get it right)
+    - near 1, a small change in risk score doesn't change probability much (already pretty sure of the answer)
