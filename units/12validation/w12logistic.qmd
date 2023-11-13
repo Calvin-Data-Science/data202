@@ -108,7 +108,7 @@ This model has a big problem---can you figure out what it is?
 pd.DataFrame({
     'coefficient': linreg.coef_,
     'feature': example_transformed_output.columns
-}).sort_values('coefficient')
+}).sort_values('coefficient').style.hide(axis='index')
 ```
 
 ## Fixed Model
@@ -159,7 +159,31 @@ evaluate(ames_test[target_column], pipeline.predict(ames_test[feature_columns]))
 pd.DataFrame({
     'coefficient': linreg.coef_,
     'feature': example_transformed_output.columns
-}).sort_values('coefficient')
+}).sort_values('coefficient').style.hide(axis='index')
+```
+
+## Aside: some EDA
+
+How does location affect price?
+
+```{python}
+px.scatter(ames_train, x="Longitude", y="Latitude", color="sale_price", opacity=0.5)
+```
+
+We see some expensive homes in the northwest.
+
+```{python}
+(
+    px.scatter(ames_train, x="Gr_Liv_Area", y="sale_price", trendline="ols")
+    .update_traces(marker_opacity=0.5)
+)
+```
+
+```{python}
+(
+    px.scatter(ames_train, x="Lot_Area", y="sale_price", trendline="ols")
+    .update_traces(marker_size=2)
+)
 ```
 
 ## Scaling
@@ -210,6 +234,16 @@ Notice: error didn't change.
 ```{python}
 evaluate(ames_test[target_column], pipeline.predict(ames_test[feature_columns]))
 ```
+
+## Coefficients
+
+```{python}
+pd.DataFrame({
+    'coefficient': linreg.coef_,
+    'feature': example_transformed_output.columns
+}).sort_values('coefficient').style.hide(axis='index')
+```
+
 
 ## Hyperparameters {.smaller}
 
