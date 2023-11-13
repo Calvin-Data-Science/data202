@@ -1,0 +1,13 @@
+---
+title: "13: LLMs"
+---
+
+# Objectives
+
+
+# Reading
+
+- [Chatbots May ‘Hallucinate’ More Often Than Many Realize - The New York Times](https://www.nytimes.com/2023/11/06/technology/chatbots-hallucination-rates.html)
+- [The Secret Ingredient of ChatGPT Is Human Advice - The New York Times](https://www.nytimes.com/2023/09/25/technology/chatgpt-rlhf-human-tutors.html?action=click&module=RelatedLinks&pgtype=Article)
+
+## Optional Activities
