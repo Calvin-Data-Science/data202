@@ -244,6 +244,7 @@ pd.DataFrame({
 }).sort_values('coefficient').style.hide(axis='index')
 ```
 
+Each coef means: how much the model's prediction changes when adding 1 standard deviation to that feature.
 
 ## Hyperparameters {.smaller}
 
@@ -302,13 +303,20 @@ pd.DataFrame({
 First, it predicts a *risk score* (negative = low risk, positive = high risk).
 
 ```{python}
-print(f"y = {model.named_steps['logisticregression'].intercept_[0]:.2f} + ", end="")
+print(f"y = {model.named_steps['logisticregression'].intercept_[0]:.2f}", end="")
 for coef, feature in zip(model.named_steps["logisticregression"].coef_[0], feature_columns):
     if coef != 0:
-        print(f"{coef:.2f} * {feature} + ", end="")
+        print(f"+ {coef:.2f} * {feature}", end="")
 ```
 
 Note: these are the coefficients of the *scaled* features.
+
+Example for the first row of the test set:
+
+```{python}
+example_risk_score = model.decision_function(autism_test[feature_columns].iloc[[0]])
+example_risk_score
+```
 
 Then it uses the *logistic* function to turn risk score into probability:
 
@@ -324,10 +332,21 @@ x = np.linspace(-10, 10, 100)
 )
 ```
 
+For the example above:
+
+```{python}
+logistic(example_risk_score)
+```
+
+```{python}
+model.predict_proba(autism_test[feature_columns].iloc[[0]])
+```
+
 ## Intuition: *Risk*
 
 - First, linear model predicts a *risk score* (negative = low risk, positive = high risk).
-  - Technically: *log-odds*: log(prob of *yes* / prob of *no*)
+  - Technically: *log* of the *odds*: log(prob of *yes* / prob of *no*)
+  - Odds of 1: equal chance of *yes* and *no*; odds of 2: twice as likely to be *yes* as *no*
 - Then, *logistic* function turns risk score into probability
 
 Other examples:
@@ -343,3 +362,25 @@ Other examples:
     - twice the risk score does not mean twice the probability
     - when probability is near 0.5, a small change in risk score can make a big change in probability (tipping between a yes or no decision, so it's important to get it right)
     - near 1, a small change in risk score doesn't change probability much (already pretty sure of the answer)
+
+## Hyperparameters: penalty
+
+- Notice that we had many possible features, but only a few coefficients are non-zero
+- We used a *penalty* to encourage the model to use fewer features
+- Without the penalty, we would have a coefficient for each feature
+
+```{python}
+#| code-line-numbers: "3"
+model = make_pipeline(
+    StandardScaler(),
+    LogisticRegression()
+).fit(
+    X=autism_train[feature_columns],
+    y=autism_train[target_column] == positive_outcome
+)
+pd.DataFrame({
+    'coeficients': model.named_steps["logisticregression"].coef_[0],
+    'feature': feature_columns}
+    ).sort_values("coeficients").query("coeficients != 0").plot.scatter(x='coeficients', y='feature')
+```
+
