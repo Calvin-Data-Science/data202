@@ -19,7 +19,9 @@ Additional perspectival readings are on the Perusall assignment. Don't try to re
 
 In case Perusall isn't working, here's the direct links:
 
+- [Moneyball: the Oakland A's and the transformation of baseball data - Marketplace](https://www.marketplace.org/shows/marketplace-tech/moneyball-the-oakland-as-and-the-transformation-of-baseball-data/)
 
 ## Optional Activities
 
 - [Equality of Odds](https://mlu-explain.github.io/equality-of-odds/)
+- a fun classifier example: [Blabrecs](https://mkremins.github.io/publications/Blabrecs_NeurIPS2023.pdf)
