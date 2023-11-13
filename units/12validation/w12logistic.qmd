@@ -35,9 +35,17 @@ pd.options.plotting.backend = "plotly"
 
 ## Example: Ames Housing again
 
+Data link: [ames_home_sales.csv](https://calvin-data-science.github.io/data202/data/ames/ames_home_sales.csv)
+
 ```{python}
+#| echo: false
 data = pd.read_csv("../../static/data/ames/ames_home_sales.csv")
 ```
+
+```python
+data = pd.read_csv("data/ames_home_sales.csv")
+```
+
 
 ```{python}
 data['sale_price'] = data.eval("Sale_Price / 1000")
