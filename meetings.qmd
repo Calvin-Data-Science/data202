@@ -163,3 +163,5 @@ Referenced in class:
 - practicing the *present* presence of God, rather than representations that we can control but that are limited by interfaces
     - [The Paradox of Control - by L. M. Sacasas](https://theconvivialsociety.substack.com/p/the-paradox-of-control#details)
     - [The Uncontrollability of the World](https://www.wiley.com/en-us/The+Uncontrollability+of+the+World-p-9781509543168)
+
+## 11.3 (Fri): Exercise on Bayesian Networks
