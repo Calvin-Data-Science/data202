@@ -164,16 +164,20 @@ pd.DataFrame({
 
 ## Scaling
 
-- The coefficients are the amount the model changes for a one-unit change in the feature
+- Each coefficient: how much the model's prediction changes when adding 1 to that feature.
 - But the features are on different scales
   - e.g. `Lot_Area` is in square feet: 1 square foot shouldn't make much difference.
   - but 1 degree of `Latitude` is a huge difference
-- So the coefficients are not comparable
-- **Scaling** the features makes the coefficients comparable
+  - So the coefficient for `Latitude` would have to be much larger to have the same effect
+- **Scaling** the features makes the coefficient value indicate its importance
+
+::: aside
+This silde written with a lot of help from GitHub Copilot
+:::
 
 ## Standard Scaler
 
-- **Standard Scaler** subtracts the mean and divides by the standard deviation
+- [`StandardScalar`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html) subtracts the mean and divides by the standard deviation
 - This makes the mean 0 and the standard deviation 1
 - So the coefficients reflect how much impact a one-standard-deviation change in the feature has on the model
 
