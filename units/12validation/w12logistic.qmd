@@ -30,10 +30,10 @@ pd.options.plotting.backend = "plotly"
 ## Objectives
 
 - explain how scaling features affects a linear regression coefficients
-- do preprocessing
+- preprocess data to prepare it for modeling
 - explain how to use a linear model to make classifications
 
-## Let's overfit a linear model
+## Example: Ames Housing again
 
 ```{python}
 data = pd.read_csv("../../static/data/ames/ames_home_sales.csv")
@@ -59,7 +59,7 @@ def evaluate(y_true, y_pred):
     })
 ```
 
-## Fit a linear model with all the features
+## Fit linreg with all numeric features {.smaller}
 
 ```{python}
 target_column = 'sale_price'
@@ -68,24 +68,38 @@ print(f"Number of features: {len(feature_columns)}")
 ```
 
 ```{python}
-model = make_pipeline(
-    make_column_transformer(
-        (OneHotEncoder(sparse=False, handle_unknown='ignore'), make_column_selector(dtype_include=object)),
-        ('passthrough', make_column_selector(dtype_include=np.number)),
-    ),
-    LinearRegression()
-).fit(
-    X=ames_train[feature_columns],
-    y=ames_train[target_column]
-)
-evaluate(ames_train[target_column], model.predict(ames_train[feature_columns]))
+transformer = make_column_transformer(
+    ('passthrough', make_column_selector(dtype_include=np.number)),
+).set_output(transform='pandas')
+transformer.fit_transform(ames_train[feature_columns])
 ```
 
 ```{python}
-evaluate(ames_test[target_column], model.predict(ames_test[feature_columns]))
+linreg = LinearRegression()
+pipeline = (
+    make_pipeline(transformer, linreg)
+    .fit(
+        X=ames_train[feature_columns],
+        y=ames_train[target_column]
+    )
+)
+evaluate(ames_train[target_column], pipeline.predict(ames_train[feature_columns]))
+```
+
+```{python}
+evaluate(ames_test[target_column], pipeline.predict(ames_test[feature_columns]))
 ```
 
 This model has a big problem---can you figure out what it is?
+
+## Hyperparameters
+
+- **Parameters** are the parts of the model that are learned from data
+  - coefficients in a linear regression, splits in a decision tree, ...
+- **Hyperparameters** are the parts of the model that are set before training
+  - depth of a decision tree, which variables are used, how they are transformed, ...
+  - *not* learned directly from data
+  - but modeler can choose them based on data
 
 # Linear Classifiers
 
