@@ -78,8 +78,10 @@ print(f"Number of features: {len(feature_columns)}")
 ```{python}
 transformer = make_column_transformer(
     ('passthrough', make_column_selector(dtype_include=np.number)),
+    verbose_feature_names_out=False
 ).set_output(transform='pandas')
-transformer.fit_transform(ames_train[feature_columns])
+example_transformed_output = transformer.fit_transform(ames_train[feature_columns])
+example_transformed_output.head()
 ```
 
 ```{python}
@@ -100,7 +102,112 @@ evaluate(ames_test[target_column], pipeline.predict(ames_test[feature_columns]))
 
 This model has a big problem---can you figure out what it is?
 
-## Hyperparameters
+## Coefficients
+
+```{python}
+pd.DataFrame({
+    'coefficient': linreg.coef_,
+    'feature': example_transformed_output.columns
+}).sort_values('coefficient')
+```
+
+## Fixed Model
+
+```{python}
+#| code-line-numbers: "2"
+data['sale_price'] = data.eval("Sale_Price / 1000")
+del data['Sale_Price']
+ames = data.query('Gr_Liv_Area < 4000 and Sale_Condition == "Normal"')
+```
+
+```{python}
+ames_train, ames_test = train_test_split(ames, random_state=42, test_size=0.2)
+print(f"Training set size: {len(ames_train)} homes")
+print(f"Test set size: {len(ames_test)} homes")
+```
+
+
+```{python}
+target_column = 'sale_price'
+feature_columns = [column for column in ames.columns if column != target_column]
+print(f"Number of features: {len(feature_columns)}")
+```
+
+
+```{python}
+example_transformed_output = transformer.fit_transform(ames_train[feature_columns])
+example_transformed_output.head()
+```
+
+```{python}
+pipeline = (
+    make_pipeline(transformer, linreg)
+    .fit(
+        X=ames_train[feature_columns],
+        y=ames_train[target_column]
+    )
+)
+evaluate(ames_train[target_column], pipeline.predict(ames_train[feature_columns]))
+```
+
+```{python}
+evaluate(ames_test[target_column], pipeline.predict(ames_test[feature_columns]))
+```
+
+
+```{python}
+pd.DataFrame({
+    'coefficient': linreg.coef_,
+    'feature': example_transformed_output.columns
+}).sort_values('coefficient')
+```
+
+## Scaling
+
+- The coefficients are the amount the model changes for a one-unit change in the feature
+- But the features are on different scales
+  - e.g. `Lot_Area` is in square feet: 1 square foot shouldn't make much difference.
+  - but 1 degree of `Latitude` is a huge difference
+- So the coefficients are not comparable
+- **Scaling** the features makes the coefficients comparable
+
+## Standard Scaler
+
+- **Standard Scaler** subtracts the mean and divides by the standard deviation
+- This makes the mean 0 and the standard deviation 1
+- So the coefficients reflect how much impact a one-standard-deviation change in the feature has on the model
+
+## Fit linreg with scaled features
+
+```{python}
+transformer = make_column_transformer(
+    (StandardScaler(), make_column_selector(dtype_include=np.number)),
+    verbose_feature_names_out=False
+).set_output(transform='pandas')
+example_transformed_output = transformer.fit_transform(ames_train[feature_columns])
+example_transformed_output.describe()
+```
+
+Notice that the mean is 0 and the standard deviation is 1.
+
+```{python}
+pipeline = (
+    make_pipeline(transformer, linreg)
+    .fit(
+        X=ames_train[feature_columns],
+        y=ames_train[target_column]
+    )
+)
+evaluate(ames_train[target_column], pipeline.predict(ames_train[feature_columns]))
+```
+
+Notice: error didn't change.
+
+```{python}
+evaluate(ames_test[target_column], pipeline.predict(ames_test[feature_columns]))
+```
+
+## Hyperparameters {.smaller}
 
 - **Parameters** are the parts of the model that are learned from data
   - coefficients in a linear regression, splits in a decision tree, ...
