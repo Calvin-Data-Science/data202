@@ -7,6 +7,7 @@ title: "12: Validation"
 
 # Reading
 
+- [A debugging manifesto](https://jvns.ca/blog/2022/12/08/a-debugging-manifesto/)
 - More interactive articles written by Amazon's Machine Learning team:
     - [Logistic Regression](https://mlu-explain.github.io/logistic-regression/)
     - [Cross Validation](https://mlu-explain.github.io/cross-validation/)
@@ -20,6 +21,7 @@ Additional perspectival readings are on the Perusall assignment. Don't try to re
 In case Perusall isn't working, here's the direct links:
 
 - [Moneyball: the Oakland A's and the transformation of baseball data - Marketplace](https://www.marketplace.org/shows/marketplace-tech/moneyball-the-oakland-as-and-the-transformation-of-baseball-data/)
+- [The copyright fight over authors and OpenAI’s ChatGPT - Vox](https://www.vox.com/future-perfect/2023/10/25/23930683/openai-chatgpt-george-rr-martin-john-grisham-ai-safety-artificial-intelligence-copyright-law-chatbot) or [Authors sue OpenAI for using copyrighted material](https://www.npr.org/2023/11/10/1197954613/openai-chatgpt-author-lawsuit-preston-martin-franzen-picoult)
 
 ## Optional Activities
 
