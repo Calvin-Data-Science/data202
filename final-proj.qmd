@@ -22,15 +22,15 @@ There are two sections of this class, thus two sessions of final project present
 
 ### Milestones
 
-* Nov 11: **Initial proposal**. This should include:
+* Milestone 1: **Initial proposal**. This should include:
   * A tentative *topic* (kind of data you want to work with, question you'd like to ask). Include a brief description of what drives your interest in it.
   * An *example* or two of some data science work you've found on the topic already. See below for some guidance on this. Include the URLs of resources you found, and some brief commentary about each one (does it seem good?)
   * A proposal of *what you'd like to do*. A first step will usually be to do an analysis similar to one of the examples you found, and you may not have much idea beyond that at this time. But if you do have some ideas for what you might want to do differently, this is a good place to include them. Note that your overall task should include some modeling (predictive or otherwise).
   * Tentative *Teams*: If you have already found people who may be interested in working with you, note that here.
-* Nov 18: **Dataset, exploratory visualization, and summary of prior work**
+* Milestone 2: **Dataset, exploratory visualization, and summary of prior work**
   - You should have the EDA section of your report complete, and a good start on everything before that.
-* Dec 2: **Initial modeling and visualization**
-* Dec 12: **Final report**
+* Milestone 3: **Initial modeling and visualization**
+* Milestone 4: **Final report**
 
 ### Choosing a project and examples
 
