@@ -165,3 +165,15 @@ Referenced in class:
     - [The Uncontrollability of the World](https://www.wiley.com/en-us/The+Uncontrollability+of+the+World-p-9781509543168)
 
 ## 11.3 (Fri): Exercise on Bayesian Networks
+
+- [Exercise 11](units/11model-zoo/ex11-bayesnets.html)
+
+# Week 12 {data-stack-name="Week 12"}
+
+## 12.1 (Mon): Linear Regression and Classification
+
+- [Slides](units/12validation/w12logistic.html)
+
+Things referenced:
+
+- [Philemon](https://www.biblegateway.com/passage/?search=Philemon%201&version=NIV&interface=print) - reframing our relationships
