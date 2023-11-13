@@ -82,6 +82,13 @@ Log:
 - Monday: We prayed against greed and the love of money, with the help of [Hebrews 13](https://www.biblegateway.com/passage/?search=Hebrews+13%3A5-8&version=NIV&interface=print).
 - Friday: Psalm 107 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=167#psalm_reading)
 
+## Week 12
+
+- Monday: We reflected on [Authors sue OpenAI for using copyrighted material](https://www.npr.org/2023/11/10/1197954613/openai-chatgpt-author-lawsuit-preston-martin-franzen-picoult) and three aspects of public faith in action regarding Labor and Attribution:
+	- Credit and compensate human workers
+	- Beware of algorithmic intermediaries
+	- Favor interacting with humans over machines, even when it's more expensive or inconvenient?
+
 ## Misc
 
 Things GitHub Copilot has suggested:
