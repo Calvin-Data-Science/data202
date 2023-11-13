@@ -40,6 +40,7 @@ website:
           - auto: "units/09supervised-intro"
           - auto: "units/10trees"
           - auto: "units/11model-zoo"
+          - auto: "units/12validation"
   page-navigation: true
 
 format:
