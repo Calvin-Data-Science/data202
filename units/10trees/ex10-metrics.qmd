@@ -96,14 +96,17 @@ people.to_csv("data/people_onegroup.csv", index=False)
 ```{python}
 #| echo: true
 people = pd.read_csv("data/people_onegroup.csv")
-people.head()
+people
 ```
 
 ```{python}
 people.info()
 ```
 
+The article includes dotplots of the people. We can approximate that using a histogram.
+
 ```{python}
+#| echo: true
 px.histogram(people, x="score", color="repay", nbins=100)
 ```
 
