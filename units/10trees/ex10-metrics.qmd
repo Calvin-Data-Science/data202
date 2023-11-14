@@ -161,17 +161,32 @@ people.head()
 
 ## Part 3: Metrics
 
-We'll start by making a confusion matrix for the classifier. You'll find the following helpful:
+We'll start by making a confusion matrix for the classifier. You'll find the following helpful (again, I'm showing the result for a threshold of 64):
 
 ```{python}
 #| echo: true
 crosstab = pd.crosstab(people['granted'], people['repay'])
+crosstab
+```
+
+Now pull out which is which:
+
+```{python}
+#| echo: true
 (a, b), (c, d) = crosstab.values
+print(f"a: {a}, b: {b}, c: {c}, d: {d}")
 ```
 
 In your document, replace `a`, `b`, `c`, and `d` with names like `false_positive` and `true_negative` (or `fp` and `tn`).
 
-2. Compute and show the Positive Rate, the True Positive Rate, and Correctness. Check all of your results against the webapp; the numbers should be close although they may differ slightly because the data was not constructed identically.
+```{python}
+#| include: false
+# check which number is which from the table
+(tn, fn), (fp, tp) = crosstab.values
+print(f"tn: {tn}, fn: {fn}, fp: {fp}, tp: {tp}")
+```
+
+2. Compute and show the Positive Rate, the True Positive Rate, and Correctness. Check all of your results against the webapp; the numbers should be close although they may differ slightly because the data was not constructed identically (and because the webapp doesn't show the full precision of the threshold or the metrics).
 
 ```{python}
 positive_rate = people['granted'].mean()
@@ -180,9 +195,23 @@ correctness = (people['granted'] == people['repay']).mean()
 print(f"Positive Rate: {positive_rate:.3f}")
 print(f"True Positive Rate: {true_positive_rate:.3f}")
 print(f"Correctness: {correctness:.3f}")
+
+# Alternative computations:
+assert positive_rate == (tp + fp) / (tp + fp + tn + fn)
+assert true_positive_rate == tp / (tp + fn)
+assert correctness == (tp + tn) / (tp + fp + tn + fn)
 ```
 
-3. Compute and show the precision and recall of this classifier.
+3. Compute and show the precision and recall of this classifier at the threshold you've selected.
+
+```{python}
+# Precision = true positive / predicted positive
+predicted_positive = tp + fp
+precision = tp / predicted_positive
+# Recall = true positive / actual positive
+actual_positive = tp + fn
+recall = tp / actual_positive
+```
 
 ## Part 4: Trade-offs
 
