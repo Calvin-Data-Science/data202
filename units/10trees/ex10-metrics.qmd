@@ -42,6 +42,58 @@ pio.templates.default = "plotly_white"
 ```
 
 ```{python}
+#| include: false
+# On the page, run the following code in the console to generate the data.
+# the first part is just the beginning of the main() function in bundle.js
+js_code = """
+  // Set values of true positives vs. false positives.
+  var tprValue = 300;
+  var fprValue = -700;
+
+  // Parameters for main model comparison.
+  var s0 = 10; // standard deviations of defaulters/payers.
+  var s1 = 10;
+  var d0 = 8;  // differences from means of defaulters/payers
+  var d1 = 12;
+  var m0 = 55; // means of overall distributions
+  var m1 = 45;
+
+  // Create items to classify: two groups with different
+  // distributions of positive/negative examples.
+  comparisonExample0 = new GroupModel(makeNormalItems(0, 1, 100, m0 + d0, s0)
+      .concat(makeNormalItems(0, 0, 100, m0 - d0, s0)), tprValue, fprValue);
+  comparisonExample1 = new GroupModel(makeNormalItems(1, 1, 100, m1 + d1, s1)
+      .concat(makeNormalItems(1, 0, 100, m1 - d1, s1)), tprValue, fprValue);
+
+  // Make a model to represent initial example of classification.
+  var singleModel = new GroupModel(makeNormalItems(0, 1, 100, 60, 10)
+      .concat(makeNormalItems(0, 0, 100, 40, 10)), tprValue, fprValue);
+
+  // Make models to represent different distributions.
+  var distributionExample0 = new GroupModel(makeNormalItems(0, 1, 150, 70, 7)
+      .concat(makeNormalItems(0, 0, 150, 30, 7)), tprValue, fprValue);
+  var distributionExample1 = new GroupModel(makeNormalItems(0, 1, 150, 60, 10)
+      .concat(makeNormalItems(0, 0, 150, 40, 10)), tprValue, fprValue);
+
+
+  // Need to classify to get colors to look right on histogram.
+  distributionExample0.classify(0);
+  distributionExample1.classify(0);
+
+// Here's my addition
+copy(JSON.stringify(singleModel.items.map(x => ({score: x.score, repay: x.value === 1}))))
+"""
+
+# that puts the following on the clipboard:
+import json
+data = json.loads("""[{"score":37,"repay":true},{"score":39,"repay":true},{"score":41,"repay":true},{"score":43,"repay":true},{"score":44,"repay":true},{"score":44,"repay":true},{"score":45,"repay":true},{"score":46,"repay":true},{"score":47,"repay":true},{"score":47,"repay":true},{"score":48,"repay":true},{"score":48,"repay":true},{"score":49,"repay":true},{"score":49,"repay":true},{"score":50,"repay":true},{"score":50,"repay":true},{"score":50,"repay":true},{"score":51,"repay":true},{"score":51,"repay":true},{"score":52,"repay":true},{"score":52,"repay":true},{"score":52,"repay":true},{"score":53,"repay":true},{"score":53,"repay":true},{"score":53,"repay":true},{"score":54,"repay":true},{"score":54,"repay":true},{"score":54,"repay":true},{"score":54,"repay":true},{"score":55,"repay":true},{"score":55,"repay":true},{"score":55,"repay":true},{"score":56,"repay":true},{"score":56,"repay":true},{"score":56,"repay":true},{"score":56,"repay":true},{"score":57,"repay":true},{"score":57,"repay":true},{"score":57,"repay":true},{"score":57,"repay":true},{"score":58,"repay":true},{"score":58,"repay":true},{"score":58,"repay":true},{"score":58,"repay":true},{"score":59,"repay":true},{"score":59,"repay":true},{"score":59,"repay":true},{"score":59,"repay":true},{"score":60,"repay":true},{"score":60,"repay":true},{"score":60,"repay":true},{"score":61,"repay":true},{"score":61,"repay":true},{"score":61,"repay":true},{"score":61,"repay":true},{"score":62,"repay":true},{"score":62,"repay":true},{"score":62,"repay":true},{"score":62,"repay":true},{"score":63,"repay":true},{"score":63,"repay":true},{"score":63,"repay":true},{"score":63,"repay":true},{"score":64,"repay":true},{"score":64,"repay":true},{"score":64,"repay":true},{"score":64,"repay":true},{"score":65,"repay":true},{"score":65,"repay":true},{"score":65,"repay":true},{"score":66,"repay":true},{"score":66,"repay":true},{"score":66,"repay":true},{"score":66,"repay":true},{"score":67,"repay":true},{"score":67,"repay":true},{"score":67,"repay":true},{"score":68,"repay":true},{"score":68,"repay":true},{"score":68,"repay":true},{"score":69,"repay":true},{"score":69,"repay":true},{"score":70,"repay":true},{"score":70,"repay":true},{"score":70,"repay":true},{"score":71,"repay":true},{"score":71,"repay":true},{"score":72,"repay":true},{"score":72,"repay":true},{"score":73,"repay":true},{"score":73,"repay":true},{"score":74,"repay":true},{"score":75,"repay":true},{"score":76,"repay":true},{"score":76,"repay":true},{"score":77,"repay":true},{"score":79,"repay":true},{"score":81,"repay":true},{"score":83,"repay":true},{"score":17,"repay":false},{"score":19,"repay":false},{"score":21,"repay":false},{"score":23,"repay":false},{"score":24,"repay":false},{"score":24,"repay":false},{"score":25,"repay":false},{"score":26,"repay":false},{"score":27,"repay":false},{"score":27,"repay":false},{"score":28,"repay":false},{"score":28,"repay":false},{"score":29,"repay":false},{"score":29,"repay":false},{"score":30,"repay":false},{"score":30,"repay":false},{"score":30,"repay":false},{"score":31,"repay":false},{"score":31,"repay":false},{"score":32,"repay":false},{"score":32,"repay":false},{"score":32,"repay":false},{"score":33,"repay":false},{"score":33,"repay":false},{"score":33,"repay":false},{"score":34,"repay":false},{"score":34,"repay":false},{"score":34,"repay":false},{"score":34,"repay":false},{"score":35,"repay":false},{"score":35,"repay":false},{"score":35,"repay":false},{"score":36,"repay":false},{"score":36,"repay":false},{"score":36,"repay":false},{"score":36,"repay":false},{"score":37,"repay":false},{"score":37,"repay":false},{"score":37,"repay":false},{"score":37,"repay":false},{"score":38,"repay":false},{"score":38,"repay":false},{"score":38,"repay":false},{"score":38,"repay":false},{"score":39,"repay":false},{"score":39,"repay":false},{"score":39,"repay":false},{"score":39,"repay":false},{"score":40,"repay":false},{"score":40,"repay":false},{"score":40,"repay":false},{"score":41,"repay":false},{"score":41,"repay":false},{"score":41,"repay":false},{"score":41,"repay":false},{"score":42,"repay":false},{"score":42,"repay":false},{"score":42,"repay":false},{"score":42,"repay":false},{"score":43,"repay":false},{"score":43,"repay":false},{"score":43,"repay":false},{"score":43,"repay":false},{"score":44,"repay":false},{"score":44,"repay":false},{"score":44,"repay":false},{"score":44,"repay":false},{"score":45,"repay":false},{"score":45,"repay":false},{"score":45,"repay":false},{"score":46,"repay":false},{"score":46,"repay":false},{"score":46,"repay":false},{"score":46,"repay":false},{"score":47,"repay":false},{"score":47,"repay":false},{"score":47,"repay":false},{"score":48,"repay":false},{"score":48,"repay":false},{"score":48,"repay":false},{"score":49,"repay":false},{"score":49,"repay":false},{"score":50,"repay":false},{"score":50,"repay":false},{"score":50,"repay":false},{"score":51,"repay":false},{"score":51,"repay":false},{"score":52,"repay":false},{"score":52,"repay":false},{"score":53,"repay":false},{"score":53,"repay":false},{"score":54,"repay":false},{"score":55,"repay":false},{"score":56,"repay":false},{"score":56,"repay":false},{"score":58,"repay":false},{"score":59,"repay":false},{"score":61,"repay":false},{"score":63,"repay":false}]""")
+
+# then we convert to a dataframe
+people = pd.DataFrame(data)
+people.to_csv("data/people_onegroup.csv", index=False)
+```
+
+```{python}
 #| echo: true
 people = pd.read_csv("data/people_onegroup.csv")
 people.head()
