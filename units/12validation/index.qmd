@@ -8,6 +8,7 @@ title: "12: Validation"
 # Reading
 
 - [A debugging manifesto](https://jvns.ca/blog/2022/12/08/a-debugging-manifesto/)
+    - She runs a great blog. See [Making Hard Things Easy](https://jvns.ca/blog/2023/10/06/new-talk--making-hard-things-easy/) for another example.
 - More interactive articles written by Amazon's Machine Learning team:
     - [Logistic Regression](https://mlu-explain.github.io/logistic-regression/)
     - [Cross Validation](https://mlu-explain.github.io/cross-validation/)
