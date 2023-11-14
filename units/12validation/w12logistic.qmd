@@ -363,7 +363,7 @@ Other examples:
     - when probability is near 0.5, a small change in risk score can make a big change in probability (tipping between a yes or no decision, so it's important to get it right)
     - near 1, a small change in risk score doesn't change probability much (already pretty sure of the answer)
 
-## Hyperparameters: penalty
+## Hyperparameters: regularization
 
 - Notice that we had many possible features, but only a few coefficients are non-zero
 - We used a *penalty* to encourage the model to use fewer features
@@ -373,7 +373,7 @@ Other examples:
 #| code-line-numbers: "3"
 model = make_pipeline(
     StandardScaler(),
-    LogisticRegression()
+    LogisticRegression(penalty=None)
 ).fit(
     X=autism_train[feature_columns],
     y=autism_train[target_column] == positive_outcome
@@ -381,6 +381,41 @@ model = make_pipeline(
 pd.DataFrame({
     'coeficients': model.named_steps["logisticregression"].coef_[0],
     'feature': feature_columns}
-    ).sort_values("coeficients").query("coeficients != 0").plot.scatter(x='coeficients', y='feature')
+    ).sort_values("coeficients").plot.scatter(x='coeficients', y='feature')
 ```
 
+::: aside
+Perhaps `penalty=None` should have been the default; see [Scikit-learn’s Defaults are Wrong – r y x, r](https://ryxcommar.com/2019/08/30/scikit-learns-defaults-are-wrong/). Also, I don't know why `penalty=None` gives a qualitatively different set of coefs from `C=1e-16` or another tiny penalty.
+:::
+
+## Types of Regularization
+
+- **L1**: penalty is sum of absolute values of coefficients
+  - encourages some coefficients to be exactly 0: only include features that are worth it.
+- **L2**: penalty is sum of squares of coefficients
+  - discourages large coefficients (no one feature can "drive" the decision)
+- **Elastic Net**: combination of L1 and L2
+
+Apply to both linear regression and linear classification ("logistic regression").
+
+A nice visual description of the difference between L1 and L2: [Some things you (maybe) didn’t know about Linear Regression – r y x, r](https://ryxcommar.com/2019/09/06/some-things-you-maybe-didnt-know-about-linear-regression/#lassovsridge)
+
+
+## But how do we pick good values for the hyperparameters?
+
+- Penalties will make the model work *worse* on the training set, but (hopefully) better on *unseen* data.
+- So we'll use a validation set to tune the hyperparameters.
+- ...but how will we know how well our *tuned* model will work on actually unseen data?
+
+# Cross-Validation
+
+## What problem cross-validation solves?
+
+::: copilot
+- We want to use a validation set to tune hyperparameters
+- But we also want to use a validation set to evaluate the model
+- If we use the same validation set for both, we'll overfit to the validation set
+- So we need to use *different* validation sets for tuning and evaluation
+- But we don't have that many data points
+- So we need to use *some* of the data for both tuning and evaluation
+:::
