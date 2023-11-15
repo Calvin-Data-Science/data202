@@ -192,7 +192,7 @@ We see some expensive homes in the northwest.
 - But the features are on different scales
   - e.g. `Lot_Area` is in square feet: 1 square foot shouldn't make much difference.
   - but 1 degree of `Latitude` is a huge difference
-  - So the coefficient for `Latitude` would have to be much larger to have the same effect
+  - So the coefficient for `Lot_Area` would have to be much larger to have the same effect
 - **Scaling** the features makes the coefficient value indicate its importance
 
 ::: aside
@@ -384,9 +384,7 @@ pd.DataFrame({
     ).sort_values("coeficients").plot.scatter(x='coeficients', y='feature')
 ```
 
-::: aside
-Perhaps `penalty=None` should have been the default; see [Scikit-learn’s Defaults are Wrong – r y x, r](https://ryxcommar.com/2019/08/30/scikit-learns-defaults-are-wrong/). Also, I don't know why `penalty=None` gives a qualitatively different set of coefs from `C=1e-16` or another tiny penalty.
-:::
+*Aside*: Perhaps `penalty=None` should have been the default; see [Scikit-learn’s Defaults are Wrong – r y x, r](https://ryxcommar.com/2019/08/30/scikit-learns-defaults-are-wrong/). Also, I don't know why `penalty=None` gives a qualitatively different set of coefs from `C=1e-16` or another tiny penalty.
 
 ## Types of Regularization
 
@@ -419,3 +417,26 @@ A nice visual description of the difference between L1 and L2: [Some things you 
 - But we don't have that many data points
 - So we need to use *some* of the data for both tuning and evaluation
 :::
+
+## Leave-One-Out CV
+
+Train on all but one data point, then evaluate on the one left out. Repeat for each data point.
+
+```{python}
+from sklearn.model_selection import LeaveOneOut, cross_val_score
+scores = cross_val_score(
+    model, 
+    X=autism_train[feature_columns],
+    y=autism_train[target_column] == positive_outcome,
+    cv=LeaveOneOut())
+scores
+```
+
+
+```{python}
+scores.mean()
+```
+
+## K-Fold CV
+
+Training a different model for each left-out datapoint can take a long time. So: **divide the data into *k* groups**, and leave one *group* out.
