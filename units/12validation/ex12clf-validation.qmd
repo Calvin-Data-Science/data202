@@ -1,7 +1,7 @@
 ---
 title: "Exercise 12: Logistic Regression, Regularization, and Cross-Validation"
 execute: 
-  echo: false
+  echo: true
 ---
 
 In this exercise, we'll practice *classification* using a logistic regression model. Since this model is prone to overfit, we'll learn how to tame its excesses with *regularization*, and estimate how well it will generalize to new data using *cross-validation*.
@@ -33,6 +33,8 @@ from sklearn.model_selection import train_test_split, LeaveOneOut, cross_val_sco
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.metrics import accuracy_score
+
+import plotly.express as px
 ```
 
 
@@ -204,12 +206,55 @@ coefs_df.head(10)
 
 ```{python}
 coefs_df['is_noise'] = coefs_df['name'].str.contains('noise')
-print("Total noise coefficients: {:.2f}".format(
+print("Total weight on noise coefficients: {:.2f}".format(
     coefs_df.query('is_noise')['coef'].abs().sum())
 )
 ```
 
 Your turn: what do you notice about the model's accuracy scores now? What do you notice about the coefficients?
+
+Your turn: Try adjusting the value of `C` in the model. Answer:
+
+- How does the training accuracy change as `C` changes? 
+- What value of `C` gives the best training accuracy?
+- How does the test accuracy change as `C` changes?
+- What value of `C` gives the best test accuracy?
+- How does the amount of weight that the model puts on the noise features change as `C` changes?
+- Does a high value of `C` seem to correspond to regularizing a *lot* or a *little*?
+
+This plot might help you answer some of those questions:
+
+```{python}
+# Make a plot of train and test accuracy vs C
+C_values_to_try = [1e-4, 1e-3, 1e-2, 1e-1, 1, 10, 100]
+train_accuracies = []
+test_accuracies = []
+for C in C_values_to_try:
+    model = make_pipeline(
+        preprocessor,
+        LogisticRegression(C=C, penalty='l1', solver='liblinear')
+    ).fit(
+        X=titanic_train[feature_columns],
+        y=titanic_train[target_column]
+    )
+    train_accuracies.append(model.score(
+        X=titanic_train[feature_columns],
+        y=titanic_train[target_column]
+    ))
+    test_accuracies.append(model.score(
+        X=titanic_test[feature_columns],
+        y=titanic_test[target_column]
+    ))
+accuracies_df = pd.DataFrame(dict(
+    C=C_values_to_try,
+    train_accuracy=train_accuracies,
+    test_accuracy=test_accuracies
+)).melt(id_vars='C', var_name='dataset', value_name='accuracy')
+```
+
+```{python}
+px.line(accuracies_df, x='C', y='accuracy', color='dataset', log_x=True)
+```
 
 ## Cross-Validation
 
@@ -244,7 +289,6 @@ estimated_scores_df = pd.DataFrame(
 ```
 
 ```{python}
-import plotly.express as px
 px.box(estimated_scores_df, x="C", y="score", title="Cross-validation scores", log_x=True)
 ```
 
