@@ -4,10 +4,23 @@ title: "13: LLMs"
 
 # Objectives
 
+- Explain what problem a language model is designed to solve.
+- Explain how instruction tuning and human feedback alter how language models work.
+- Use an API to generate text from a language model.
 
 # Reading
 
+Intro to what problem a language model is trying to solve:
+
+- [Text + Image Generation playlist](https://www.youtube.com/playlist?list=PLWfDJ5nla8UoG2mvvHs_OS0asAKC5HJeu) (just the first two)
+- [GPT from Scratch - NYTimes](https://www.nytimes.com/interactive/2023/04/26/upshot/gpt-from-scratch.html?unlocked_article_code=1._Ew.wXn4.DhL8CQFiGeiq&smid=url-share) ([original link](https://www.nytimes.com/interactive/2023/04/26/upshot/gpt-from-scratch.html))
+
+And one of these:
+
 - [Chatbots May ‘Hallucinate’ More Often Than Many Realize - The New York Times](https://www.nytimes.com/2023/11/06/technology/chatbots-hallucination-rates.html)
 - [The Secret Ingredient of ChatGPT Is Human Advice - The New York Times](https://www.nytimes.com/2023/09/25/technology/chatgpt-rlhf-human-tutors.html?action=click&module=RelatedLinks&pgtype=Article)
+- [Mental Models for Advanced ChatGPT Prompting with Riley Goodside | The TWIML AI Podcast](https://twimlai.com/podcast/twimlai/mental-models-for-advanced-chatgpt-prompting/)
 
 ## Optional Activities
+
+Get an OpenAI account. Try out the [Chat API](https://platform.openai.com/playground?mode=chat) on the Playground.
