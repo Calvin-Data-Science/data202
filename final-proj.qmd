@@ -70,7 +70,6 @@ Some projects that could work great, but should be discussed with the instructor
   * **Do** include things you tried that led to an important observation later on.
 * If you use any code from the Internet, you should acknowledge its source and provide a link.
 * You should submit all of the code needed to replicate your results, but **your report should be understandable without looking at the code**.
-* Here is a [template](project/final_proj.Rmd) ([rendered](project/final_proj.html)) that gives one possible outline. You may adapt the outline as needed for your project.
 * You'll submit both slides and a report. See the Midterm project for submission instructions.
 
 Your report should include the following general elements (though treat this specific outline as a suggestion only; certain reports will need to deviate from this structure in small or large part):
@@ -127,6 +126,24 @@ Your report should include the following general elements (though treat this spe
 * **Future Directions**: What new questions came up following your exploration of this data? Identify at least one question that would require new data or a new analysis approach, and specify what steps would be required.
 
 You might additionally walk through what the model predicts, and how it does it, for one or two specific examples, ideally ones that aren't even part of your dataset.
+
+### Report Template
+
+This template includes a suggested outline for your report. You may choose to organize your report differently..
+
+::: {.callout-note collapse="true" title="Click to show the Report Template"}
+
+```{python}
+#| echo: false
+#| output: asis
+print("`````python")
+print(open('final-proj-template.qmd').read())
+print(("`````"))
+
+```
+
+:::
+
 
 (Project descriptions originally thanks to [Ofra Amir](https://scholar.harvard.edu/oamir/home))
 
