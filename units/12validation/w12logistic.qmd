@@ -205,6 +205,25 @@ This silde written with a lot of help from GitHub Copilot
 - This makes the mean 0 and the standard deviation 1
 - So the coefficients reflect how much impact a one-standard-deviation change in the feature has on the model
 
+::: {.columns}
+::: {.column width="50%"}
+
+Before scaling:
+```{python}
+px.histogram(ames_train, x="Lot_Area")
+```
+:::
+
+::: {.column width="50%"}
+
+After scaling:
+```{python}
+px.histogram(StandardScaler().fit_transform(ames_train[["Lot_Area"]]))
+```
+:::
+:::
+
+
 ## Fit linreg with scaled features
 
 ```{python}
