@@ -14,9 +14,17 @@ Completing this exercise will help you be able to:
 
 Along the way, we'll also see a technique for handling missing data, and get more practice with how to build pipelines in scikit-learn.
 
+Code will be provided for this exercise. You should retype the code on your own and try to understand what each part does. There will also be some conceptual questions for you to answer.
+
 ## Getting Started
 
-We'll use the classic Titanic dataset, augmented with some irrelevant (noise) features. The goal is to predict whether a passenger survived or not.[^This exercise is based in part on [this example from the sklearn docs](https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html).]
+We'll use a dataset of who survived the Titanic shipwreck. To help make the point of this exercise more clear, we'll also augment the dataset with some irrelevant (noise) features. We'll keep the original goal, though: to predict whether a passenger survived or not.[^source]
+
+::: {.column-margin}
+This task is a classic in machine learning, but I've never seen anyone mention how fake this prediction task is! There is no real-world scenario where you get to see whether some passengers survived and some didn't, and then you have to predict whether other passengers survived or not. When you're doing projects, *please* think about whether the task you're trying to solve is (a) a task that anyone would actually care about and (b) a task that's doable using data that you'd actually have access to.
+:::
+
+[^source]: This exercise is based in part on [this example from the sklearn docs](https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html).
 
 Here are the imports you'll need.
 
@@ -37,15 +45,19 @@ from sklearn.metrics import accuracy_score
 import plotly.express as px
 ```
 
+We'll load the data from a site called [OpenML](https://www.openml.org/). OpenML is a repository of datasets that are useful for machine learning. Specifically we'll load the [Titanic dataset](https://www.openml.org/d/40945). This dataset contains information about passengers on the Titanic, including whether they survived or not. The [Kaggle page for this dataset](https://www.kaggle.com/c/titanic/data) has more information about the features.
 
 ```{python}
 #| echo: fenced
 titanic_all = fetch_openml(
-    "titanic", version=1, as_frame=True, parser="pandas"
+    data_id=40945, as_frame=True, parser="pandas"
 )
-titanic = titanic_all.frame.copy()
+titanic = titanic_all.frame
+```
 
-# Add some noise features
+Now we'll add some noise features. Just copy-paste this code; don't worry about how it works.
+    
+```{python}
 rng = np.random.RandomState(0)
 n_samples = titanic.shape[0]
 n_features = 500
@@ -58,7 +70,18 @@ titanic = pd.concat([titanic, noise_features], axis=1)
 titanic.info()
 ```
 
-TODO describe the features.
+We'll use two numeric features (in addition to the noise features):
+
+- `age`: the age of the passenger
+- `fare`: the fare paid by the passenger
+
+And three categorical features:
+
+- `embarked`: the port where the passenger embarked (`C` = Cherbourg, `Q` = Queenstown, `S` = Southampton)
+- `sex`
+- `pclass`: the passenger class (`1` = first class, `2` = second class, `3` = third class)
+
+Note that `pclass` is encoded as a number, but it's really a categorical feature. We'll treat it as categorical.
 
 ```{python}
 #| echo: fenced
@@ -69,7 +92,7 @@ categorical_features = ["embarked", "sex", "pclass"]
 feature_columns = numeric_features + categorical_features
 ```
 
-Hold out a test set. We'll use a large test set so that our estimates of generalization error are more accurate.
+Let's hold out a test set. We'll use a large test set so that our estimates of generalization error have less variance.
 
 ```{python}
 #| echo: fenced
@@ -90,6 +113,11 @@ numeric_transformer = make_pipeline(
 )
 ```
 
+**Pause to think**:
+
+- What is `strategy="median"` doing? What alternative strategies could we use for imputing missing values? Do you think the median would be a good guess for the missing values?
+- Why do we need to impute missing values *after* scaling the features? What would happen if we did it the other way around?
+
 The categorical features need to be one-hot-encoded.
 
 ```{python}
@@ -99,6 +127,8 @@ categorical_transformer = make_pipeline(
     OneHotEncoder(handle_unknown="ignore", sparse_output=False)
 )
 ```
+
+**Pause to think**: How many columns will the categorical transformer produce? What will each column represent? Write a brief explanation.
 
 We can combine the numeric and categorical transformers into a single transformer that will apply each one to the appropriate columns.
 
@@ -110,7 +140,7 @@ preprocessor = make_column_transformer(
 ).set_output(transform='pandas')
 ```
 
-Let's show an example of what this preprocessor will do to our data:
+Let's show an example of what this preprocessor will do to our data. Check your results from above.
 
 ```{python}
 example_preprocessed_data = preprocessor.fit_transform(titanic_train[feature_columns])
@@ -130,21 +160,22 @@ model = make_pipeline(
 )
 ```
 
-Your turn: fit and evaluate this model (using `model.fit(...)`). What is the accuracy on the training set? What is the accuracy on the test set?
+**Your turn**: fit and evaluate this model (using `model.fit(...)`). What is the accuracy on the training set? What is the accuracy on the test set?
 
 ```{python}
+#| echo: false
 model.fit(X=titanic_train[feature_columns], y=titanic_train[target_column])
 titanic_train['prediction'] = model.predict(titanic_train[feature_columns])
 titanic_test['prediction'] = model.predict(titanic_test[feature_columns])
 ```
 
 ```{python}
+#| echo: false
 accuracy_train = (titanic_train['prediction'] == titanic_train[target_column]).mean()
 accuracy_test = (titanic_test['prediction'] == titanic_test[target_column]).mean()
 print(f"Accuracy on training set: {accuracy_train:.3f}")
 print(f"Accuracy on test set: {accuracy_test:.3f}")
 ```
-
 
 What do you notice about the accuracy of the model on the training set vs the test set?
 
@@ -211,9 +242,9 @@ print("Total weight on noise coefficients: {:.2f}".format(
 )
 ```
 
-Your turn: what do you notice about the model's accuracy scores now? What do you notice about the coefficients?
+**Your turn**: what do you notice about the model's accuracy scores now? What do you notice about the coefficients?
 
-Your turn: Try adjusting the value of `C` in the model. Answer:
+**Your turn**: Try adjusting the value of `C` in the model. Answer:
 
 - How does the training accuracy change as `C` changes? 
 - What value of `C` gives the best training accuracy?
@@ -263,6 +294,8 @@ We've seen that regularization can help prevent overfitting. But how do we know 
 Instead, we can use *cross-validation* to estimate how well the model will generalize to new data. The idea is to hold out one of the data points, train the model on the rest, and then see how well it predicts the held-out data point. We can repeat this process for each data point, and then average the scores to get an estimate of how well the model will generalize.
 
 Buuut... that requires training the model as many times as there are data points. That's a lot of training! (I tried it and got tired of waiting.) So, instead of holding out one data point at a time, we can hold out a bunch of points at a time. These groups of points are called *folds*. We then test the model on each fold, using the other folds as the training set. We can then average the scores on each fold to get an estimate of how well the model will generalize.
+
+**Your turn**: If we have 100 data points and we use 10-fold cross-validation, how many data points will be in each fold? How many times will we train a model? How big will the training set be each time? How big will the test set be each time?
 
 ```{python}
 #| echo: fenced
