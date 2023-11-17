@@ -177,3 +177,14 @@ Referenced in class:
 Things referenced:
 
 - [Philemon](https://www.biblegateway.com/passage/?search=Philemon%201&version=NIV&interface=print) - reframing our relationships
+
+## 12.2 (Wed): Classification and Cross-Validation
+
+- [Slides](units/12validation/w12logistic.html)
+
+## 12.3 (Fri): Exercise 12
+
+- [Exercise](units/12validation/ex12clf-validation.html)
+- No quiz today (sorry, didn't get to prep it)
+- Opportunity to discuss projects in class
+
