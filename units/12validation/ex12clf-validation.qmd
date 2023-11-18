@@ -372,3 +372,44 @@ print("Accuracy on test set:", search.score(
 
 Your turn: How did that test set accuracy compare with the accuracy estimated by cross validation?
 
+## Gradient Boosting
+
+Just to leave you one last good example: gradient boosting classifiers are often a good choice for many problems. Let's try one on this dataset.
+
+```{python}
+from sklearn.ensemble import HistGradientBoostingClassifier
+```
+
+Since gradient boosting models can handle missing data and don't require scaling, let's use an even simpler pipeline.
+
+```{python}
+model = make_pipeline(
+    make_column_transformer(
+        ('passthrough', numeric_features),
+        (OneHotEncoder(handle_unknown="ignore", sparse_output=False), categorical_features)
+    ),
+    HistGradientBoostingClassifier()
+).fit(
+    X=titanic_train[feature_columns],
+    y=titanic_train[target_column]
+)
+```
+
+```{python}
+print("Accuracy on training set:", model.score(
+    X=titanic_train[feature_columns],
+    y=titanic_train[target_column]
+))
+```
+
+
+```{python}
+print("Accuracy on test set:", model.score(
+    X=titanic_test[feature_columns],
+    y=titanic_test[target_column]
+))
+```
+
+How did it do that? Read about [gradient boosted trees](https://scikit-learn.org/stable/modules/ensemble.html#gradient-boosted-trees) in the sklearn docs!
+
+Note that gradient boosting can also be used for regression tasks (`HistGradientBoostingRegressor`).
