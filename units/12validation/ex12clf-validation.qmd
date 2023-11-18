@@ -36,8 +36,8 @@ import numpy as np
 from sklearn.compose import make_column_transformer
 from sklearn.datasets import fetch_openml, load_breast_cancer
 from sklearn.impute import SimpleImputer, KNNImputer
-from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
-from sklearn.model_selection import train_test_split, LeaveOneOut, cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split, LeaveOneOut, cross_val_score, GridSearchCV
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.metrics import accuracy_score
@@ -297,48 +297,74 @@ Buuut... that requires training the model as many times as there are data points
 
 **Your turn**: If we have 100 data points and we use 10-fold cross-validation, how many data points will be in each fold? How many times will we train a model? How big will the training set be each time? How big will the test set be each time?
 
+To use cross-validation to find a good value of `C`, we can use scikit-learn's `GridSearchCV` class. This class will try each value of `C` in `C_values_to_try`, and use cross-validation to estimate how well the model will generalize.
+
 ```{python}
 #| echo: fenced
 C_values_to_try = [1e-4, 1e-3, 1e-2, 1e-1, 1, 10, 100]
+
 model = make_pipeline(
     preprocessor,
-    LogisticRegressionCV(Cs=C_values_to_try, penalty='l1', solver='liblinear', cv=5)
+    LogisticRegression(C=C, penalty='l1', solver='liblinear')
+)
+search = GridSearchCV(
+    model,
+    param_grid=dict(
+        logisticregression__C=C_values_to_try
+    ),
+    cv=5,
+    verbose=4
 ).fit(
     X=titanic_train[feature_columns],
     y=titanic_train[target_column]
 )
 ```
 
-The `LogisticRegressionCV` class will try each value of `C` in `C_values_to_try`, and use cross-validation to estimate how well the model will generalize. Let's see what the cross validation process estimated for each value of `C`.
+Let's see what the cross validation process estimated for each value of `C`.
 
 ```{python}
-# ignore the ['1']; it's an implementation detail that matters if we have multiple classes.
-estimated_scores = model.named_steps['logisticregressioncv'].scores_['1']
-# estimated_scores is (n_folds, n_C_values)
-estimated_scores_df = pd.DataFrame(
-    estimated_scores,
-    columns=C_values_to_try
-).melt(var_name="C", value_name="score")
+cv_results = pd.DataFrame(search.cv_results_)
+cv_results
+```
+
+Let's reshape that data frame to make it easier to plot.
+
+```{python}
+cv_results_melted = cv_results.melt(
+    id_vars='param_logisticregression__C',
+    value_vars=['split{}_test_score'.format(i) for i in range(5)],
+    var_name='fold',
+    value_name='score'
+).rename(columns=dict(
+    param_logisticregression__C='C'
+))
+cv_results_melted
 ```
 
 ```{python}
-px.box(estimated_scores_df, x="C", y="score", title="Cross-validation scores", log_x=True)
+px.box(
+    cv_results_melted,
+    x="C", y="score", log_x=True,
+    title="Cross-validation scores", labels=dict(
+        C="Regularization strength (C)",
+        score="Accuracy"
+))
 ```
 
-The cross-validation process estimated that the best value of `C` is:
+It will then choose the value of `C` that gives the best cross-validation score, and train a model using that value of `C` on the entire training set. The grid-search process estimated that the best value of `C` is:
 
 ```{python}
-model.named_steps['logisticregressioncv'].C_
+search.best_params_
 ```
 
-It will then choose the value of `C` that gives the best cross-validation score, and train a model using that value of `C` on the entire training set. We can use that model to make predictions on the test set.
+We can use that model to make predictions on the test set.
 
 ```{python}
-print("Accuracy on training set:", model.score(
+print("Accuracy on training set:", search.score(
     X=titanic_train[feature_columns],
     y=titanic_train[target_column]
 ))
-print("Accuracy on test set:", model.score(
+print("Accuracy on test set:", search.score(
     X=titanic_test[feature_columns],
     y=titanic_test[target_column]
 ))
