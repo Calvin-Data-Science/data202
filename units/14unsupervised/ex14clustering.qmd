@@ -86,6 +86,11 @@ is reproducible (although with 10 random restarts it's unlikely to make a differ
 We'll ask for 3 clusters for now. Again, we'll come back and revisit this later.
 
 ```{python}
+# Note: if (AND ONLY IF) this fails with 
+#   AttributeError: 'NoneType' object has no attribute 'split'
+# then upgrade threadpoolctl:
+#   https://github.com/scikit-learn/scikit-learn/issues/24238
+# (the RStudio server is not affected.)
 kmeans = (
     KMeans(n_clusters=3, random_state=123, n_init=10)
     .fit(data_for_clustering.values)
