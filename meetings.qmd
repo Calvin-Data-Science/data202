@@ -188,3 +188,7 @@ Things referenced:
 - No quiz today (sorry, didn't get to prep it)
 - Opportunity to discuss projects in class
 
+# Week 13 {data-stack-name="Week 13"}
+
+- Topics Poll
+- Large Language Models: [Slides](units/13llm/w13llm.html), [activity](units/13llm/explore-lm.html)
