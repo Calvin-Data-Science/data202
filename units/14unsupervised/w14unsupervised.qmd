@@ -1,0 +1,86 @@
+---
+title: "14.1 Unsupervised Learning"
+icon: "file-slides"
+format:
+  revealjs:
+    theme: [default, slides.scss]
+    scrollable: true
+    revealjs-plugins:
+      - "fix-plotly-size"
+execute: 
+  echo: true
+---
+
+
+## Unsupervised Learning
+
+* So far we have been doing *supervised* learning, where have a *target* we're trying to predict.
+  * "How much will these homes sell for?"
+  * "How long will this person spend watching this video?"
+* **Unsupervised** learning works when we don't have an exact target to predict, or we want to explore relationships in the data.
+  * "What general types of homes are on the market right now?"
+  * "What are some different segments of our customer base?"
+  * "[Are there distinct types of Covid-19 symptoms?](https://covid.joinzoe.com/us-post/covid-clusters)"
+* **Clustering** is one very common type of unsupervised learning.
+
+---
+
+## Clustering
+
+Goal: put observations into groups
+
+* Those in the *same* group should be *similar to each other*
+* Those in *different* groups should be *different*.
+
+Crucial questions:
+
+* How many groups?
+* How do we define "similar" / "different"?
+
+---
+
+![](img/kmeans_1.jpg)
+
+.floating-source[Artwork by [@allison_horst](https://github.com/allisonhorst/stats-illustrations)]
+---
+
+![](img/kmeans_2.jpg)
+
+---
+![](img/kmeans_3.jpg)
+
+---
+![](img/kmeans_4.jpg)
+
+---
+![](img/kmeans_5.jpg)
+
+---
+![](img/kmeans_6.jpg)
+
+---
+![](img/kmeans_7.jpg)
+
+---
+![](img/kmeans_8.jpg)
+
+---
+![](img/kmeans_9.jpg)
+
+---
+![](img/kmeans_10.jpg)
+---
+
+![](img/kmeans_11.jpg)
+
+---
+![](img/kmeans_12.jpg)
+
+---
+
+## *Many* types of clustering algorithms
+
+![](img/sphx_glr_plot_cluster_comparison_001.png)
+
+[Source: [sklearn documentation](https://scikit-learn.org/stable/modules/clustering.html)]{.floating-source}
+

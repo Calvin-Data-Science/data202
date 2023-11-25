@@ -190,5 +190,13 @@ Things referenced:
 
 # Week 13 {data-stack-name="Week 13"}
 
+## 13.1 (Mon): LLMs
+
 - Topics Poll
 - Large Language Models: [Slides](units/13llm/w13llm.html), [activity](units/13llm/explore-lm.html)
+
+# Week 14 {data-stack-name="Week 14"}
+
+## 14.1 (Mon): Unsupervised Learning
+
+- [Slides](units/14unsupervised/w14unsupervised.html)
