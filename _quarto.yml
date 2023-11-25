@@ -42,6 +42,7 @@ website:
           - auto: "units/11model-zoo"
           - auto: "units/12validation"
           - auto: "units/13llm"
+          - auto: "units/14unsupervised"
   page-navigation: true
 
 format:
