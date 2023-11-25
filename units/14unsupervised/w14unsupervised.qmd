@@ -42,38 +42,49 @@ Crucial questions:
 ![](img/kmeans_1.jpg)
 
 .floating-source[Artwork by [@allison_horst](https://github.com/allisonhorst/stats-illustrations)]
+
 ---
 
 ![](img/kmeans_2.jpg)
 
 ---
+
 ![](img/kmeans_3.jpg)
 
 ---
+
 ![](img/kmeans_4.jpg)
 
 ---
+
 ![](img/kmeans_5.jpg)
 
 ---
+
 ![](img/kmeans_6.jpg)
 
 ---
+
 ![](img/kmeans_7.jpg)
 
 ---
+
 ![](img/kmeans_8.jpg)
 
 ---
+
 ![](img/kmeans_9.jpg)
 
 ---
+
 ![](img/kmeans_10.jpg)
+
 ---
 
 ![](img/kmeans_11.jpg)
 
 ---
+
 ![](img/kmeans_12.jpg)
 
 ---
