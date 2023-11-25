@@ -1,0 +1,22 @@
+---
+title: "14: Unsupervised Learning, etc."
+---
+
+# Objectives
+
+
+# Reading
+
+- Skim the [Wikipedia article on cluster analysis](https://en.wikipedia.org/wiki/Cluster_analysis)
+    - What is a "clustering"?
+    - What is the difference between "hard clustering" and "soft clustering"?
+    - Evaluation: What is the difference between "internal" and "external" evaluation?
+    - Applications: what are some applications of clustering in two diferent fields of interest to you?
+- k-means clustering
+    - [Wikipedia article](https://en.wikipedia.org/wiki/K-means_clustering)
+    - [Scikit-learn documentation](http://scikit-learn.org/stable/modules/clustering.html#k-means)
+    - [Scikit-learn example](http://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_iris.html)
+    - Can you explain what's wrong in each subplot of the "[Unexpected KMeans clusters](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_assumptions.html)" figure?
+
+## Optional Activities
+
