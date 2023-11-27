@@ -97,3 +97,62 @@ kmeans = (
 )
 ```
 
+Finally, let's add the cluster assignment back to the original data so we can visualize.
+
+```{python}
+# make them categorical so they show up in the legend
+cluster_labels = pd.Series(kmeans.labels_).astype("category")
+ames_train['cluster'] = cluster_labels
+```
+
+## Visualize
+
+Let's visualize the clusters. We'll use a scatterplot of the data, with the points colored by cluster.
+
+```{python}
+# Plot 1
+px.scatter(
+    ames_train,
+    x="Longitude",
+    y="Latitude",
+    color="cluster",
+    opacity=0.5,
+)
+```
+
+
+```{python}
+# Plot 2
+px.scatter(
+    ames_train,
+    x="Gr_Liv_Area",
+    y="Year_Built",
+    color="cluster",
+    opacity=0.5,
+)
+```
+
+## Exploring Parameter Settings
+
+Your turn:
+
+::: {.exercises}
+
+1. What differences do you notice between the clustering as shown in Plot 1 and the (same) clustering as shown in Plot 2?
+1. Try increasing `n_clusters`. What changes about both plots?
+2. Use only `Year_Built` for clustering (removing latitude and longitude). What can you say about the age of homes in different parts of town?
+2. Try clustering using `Latitude, Longitude, Gr_Liv_Area`. What changes about both plots?
+  Why are they different?
+2. Try scaling `Gr_Liv_Area` to have a maximum of 1---by dividing its values by the maximum. (You can use a `MinMaxScaler` for this if you want.) What changes about both plots? Why?
+2. Try adding scaling for `Latitude` (but not `Longitude`). What changes and why?
+2. Now add scaling for for `Longitude`. What changes and why?
+2. Try changing the maximum to `10` for `Gr_Liv_Area`. Then try `0.1`. What changes and why?
+2. Try adding `Year_Built`.
+
+:::
+
+## Relating to sale price
+
+Do the patterns captured by these clusters also happen to relate to sale price?
+
+Make a plot of sale price by cluster. What do you notice?
