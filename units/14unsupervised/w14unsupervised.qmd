@@ -95,3 +95,14 @@ Artwork by [@allison_horst](https://github.com/allisonhorst/stats-illustrations)
 
 [Source: [sklearn documentation](https://scikit-learn.org/stable/modules/clustering.html)]{.floating-source}
 
+## Some differences between clustering algorithms
+
+- Do we need to specify number of clusters?
+- Do clusters have to have specific shapes?
+- Does every observation have to be in a cluster (or can there be "outliers")?
+- Does every point have to be in *exactly one* cluster (or can there be "fuzzy" clusters)? ("hard" vs "soft" clustering)
+- How fast is it? (does it scale to large datasets?)
+
+## Impact of distance metric
+
+- What if two items are close in one dimension, but far in another?
