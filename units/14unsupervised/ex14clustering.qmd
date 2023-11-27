@@ -1,5 +1,5 @@
 ---
-title: "Exercise 13: Clustering"
+title: "Exercise 14: Clustering"
 execute: 
   echo: true
 ---
@@ -100,9 +100,9 @@ kmeans = (
 Finally, let's add the cluster assignment back to the original data so we can visualize.
 
 ```{python}
-# make them categorical so they show up in the legend
-cluster_labels = pd.Series(kmeans.labels_).astype("category")
-ames_train['cluster'] = cluster_labels
+def stringify_cluster_labels(labels):
+    return [f"Cluster {x}" for x in labels]
+ames_train['cluster'] = stringify_cluster_labels(kmeans.labels_)
 ```
 
 ## Visualize
