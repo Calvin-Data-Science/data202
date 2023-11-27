@@ -41,7 +41,7 @@ Crucial questions:
 
 ![](img/kmeans_1.jpg)
 
-.floating-source[Artwork by [@allison_horst](https://github.com/allisonhorst/stats-illustrations)]
+Artwork by [@allison_horst](https://github.com/allisonhorst/stats-illustrations)
 
 ---
 
