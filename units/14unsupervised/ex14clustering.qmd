@@ -89,6 +89,8 @@ We'll ask for 3 clusters for now. Again, we'll come back and revisit this later.
 # Note: if (AND ONLY IF) this fails with 
 #   AttributeError: 'NoneType' object has no attribute 'split'
 # then upgrade threadpoolctl:
+#   pip install -U threadpoolctl
+# see also:
 #   https://github.com/scikit-learn/scikit-learn/issues/24238
 # (the RStudio server is not affected.)
 kmeans = (
