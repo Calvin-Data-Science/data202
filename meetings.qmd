@@ -210,6 +210,7 @@ Things referenced:
 ## 14.3 (Fri): Databases and SQL
 
 - Quiz
+- SQL Exercise: [SQL Murder Mystery](https://mystery.knightlab.com/)
 
 ## 15.1 (Mon): Explaining Predictions
 
