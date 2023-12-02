@@ -1,0 +1,113 @@
+---
+title: "15.1 Interpreting and Explaining"
+icon: "file-slides"
+format:
+  revealjs:
+    theme: [default, slides.scss]
+    scrollable: true
+    revealjs-plugins:
+      - "fix-plotly-size"
+execute: 
+  echo: true
+---
+
+## High-Stakes Applications
+
+- healthcare
+    - Why does it say I'm at high risk for heart disease?
+    - Why did my insurance company deny my claim?
+- criminal justice
+    - Why was this defendant denied bail?
+    - Why target this neighborhood for increased policing?
+- finance
+    - Why was my loan application denied?
+    - Why was my credit limit reduced?
+- hiring
+    - Why was my job application rejected?
+    - Why was I not promoted?
+
+## Outline
+
+- Interpreting black-box models
+  - Feature importance (permutaton)
+  - Global explanations (partial dependence)
+  - Local explanations (SHAP, LIME)
+- Interpretable models
+  - Decision rule lists
+  - Additive risk score models
+
+# Interpreting Black-Box Models
+
+**Black-box model**: a model that is difficult to interpret (e.g., random forest, gradient boosting model, deep neural network)
+
+## Why interpret?
+
+- Debugging
+- Feature Engineering
+- Collaborating with domain experts
+- Helping users understand when to trust a model
+
+## Feature Importance
+
+- We gave the model many features, but which ones did it use?
+- Simple approach: remove each feature and see how much the model's performance decreases
+  - but we'd have to retrain the model many times
+  - if two features are correlated, removing one might not affect the model's performance
+- Faster approach: **permutation feature importance**: scramble the values of each feature; how much does the model's performance decrease?
+- But doesn't fix the problem of correlated features
+
+Read more:
+- [Interpretable Machine Learning book chapter](https://christophm.github.io/interpretable-ml-book/feature-importance.html)
+- [sklearn User Guide: Permutation feature importance](https://scikit-learn.org/stable/modules/permutation_importance.html)
+
+
+## Partial Dependence Plots
+
+- How does the model's prediction change (in general) as we vary a feature?
+- Individual conditional expectation (ICE) plot: compute the prediction for each row in the test set as we vary a feature
+- Partial dependence plot: plot the *average* test-set prediction when we set a feature to a particular value; repeat for different values
+
+![](https://scikit-learn.org/stable/_images/sphx_glr_plot_partial_dependence_004.png)
+
+![](https://christophm.github.io/interpretable-ml-book/images/pdp-bike-1.jpeg)
+
+Read more:
+
+- [Interpretable Machine Learning book chapter](https://christophm.github.io/interpretable-ml-book/pdp.html)
+- [sklearn User Guide: Partial dependence plots](https://scikit-learn.org/stable/modules/partial_dependence.html)
+
+
+## Local Explanations
+
+- For a particular prediction, which features were most important?
+- Might be different from the global feature importance
+- **SHAP**: Shapley values from game theory
+  - How much would the prediction change if we removed each feature?
+
+![](https://christophm.github.io/interpretable-ml-book/images/shapley-bike-plot-1.jpeg)
+
+![](https://storage.googleapis.com/kaggle-media/learn/images/JVD2U7k.png)
+
+Read more:
+
+- [Interpretable Machine Learning book chapter](https://christophm.github.io/interpretable-ml-book/shapley.html)
+- Kaggle course: [SHAP Values](https://www.kaggle.com/dansbecker/shap-values)
+- [SHAP: A Unified Approach to Interpreting Model Predictions](https://arxiv.org/abs/1705.07874)
+
+# Interpretable Models
+
+Instead of making a black-box model interpretable, we can use an interpretable model from the start.
+
+## Decision Rule Lists
+
+- A list of rules that can be used to make a prediction
+- Example: CORELS
+
+
+
+# Going Further
+
+- [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/)
+- [Interpretable Machine Learning: Fundamental Principles and 10 Grand Challenges](https://arxiv.org/pdf/2103.11251.pdf)
+- [Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead | Nature Machine Intelligence](https://www.nature.com/articles/s42256-019-0048-x)
+
