@@ -11,6 +11,8 @@ The goal of this exercise is to practice with clustering. Objectives:
 - Contrast supervised learning with unsupervised learning
 - Predict the effect of changes in distance metrics on clustering results
 
+This exercise is not graded.
+
 ## Getting started
 
 We'll be working with the Ames home sale data again.
