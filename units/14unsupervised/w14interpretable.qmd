@@ -94,16 +94,18 @@ Read more:
 - For a particular prediction, which features were most important?
 - Might be different from the global feature importance
 - **SHAP**: Shapley values from game theory
-  - How much would the prediction change if we removed each feature?
+  - intuition: How much would the prediction change if we removed each feature?)
 
 ![](https://christophm.github.io/interpretable-ml-book/images/shapley-bike-plot-1.jpeg)
+
+Predicting "Man of the Match" award in a soccer game:
 
 ![](https://storage.googleapis.com/kaggle-media/learn/images/JVD2U7k.png)
 
 Read more:
 
-- [Interpretable Machine Learning book chapter](https://christophm.github.io/interpretable-ml-book/shapley.html)
-- Kaggle course: [SHAP Values](https://www.kaggle.com/dansbecker/shap-values)
+- [Interpretable Machine Learning book chapter](https://christophm.github.io/interpretable-ml-book/shapley.html) (source for the bikeshare example)
+- Kaggle course (source for the soccer example): [SHAP Values](https://www.kaggle.com/dansbecker/shap-values)
 - [SHAP: A Unified Approach to Interpreting Model Predictions](https://arxiv.org/abs/1705.07874)
 
 ## Local Explanations (LIME)
@@ -124,6 +126,18 @@ Read more:
 
 Instead of making a black-box model interpretable, we can use an interpretable model from the start.
 
+## Simple Models
+
+- Linear regression, logistic regression (with a small number of features and few interactions)
+  - *Lasso* Regularization can help select a small number of features
+- Shallow decision trees
+- Naive Bayes
+- k-Nearest Neighbors
+
+Read more:
+
+- [Interpretable Machine Learning book chapter](https://christophm.github.io/interpretable-ml-book/simple.html)
+
 ## Decision Rule Lists
 
 - A list of rules that can be used to make a prediction
@@ -142,7 +156,7 @@ Fast Interpretable Greedy Tree Sums (FIGS): [website](https://csinva.io/imodels/
 
 ![](img/explain-figs.png)
 
-GroupFasterRisk
+[Fast and Interpretable Mortality Risk Scores for Critical Care Patients](https://arxiv.org/abs/2311.13015)
 
 ![](img/explain-groupfasterrisk.png)
 
