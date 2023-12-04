@@ -11,24 +11,24 @@ execute:
   echo: true
 ---
 
-## High-Stakes Applications
+## High-Stakes Applications {.smaller}
 
 - healthcare
     - Why does it say I'm at high risk for heart disease?
     - Why did my insurance company deny my claim?
-- criminal justice
+- criminal justice (e.g., [ProPublica COMPAS](https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm)))
     - Why was this defendant denied bail?
     - Why target this neighborhood for increased policing?
 - finance
     - Why was my loan application denied?
-    - Why was my credit limit reduced?
+    - Why was my transaction flagged as fraudulent?
 - hiring
     - Why was my job application rejected?
     - Why was I not promoted?
 
 ## Outline
 
-- Interpreting black-box models
+- Explaining black-box models
   - Feature importance (permutaton)
   - Global explanations (partial dependence)
   - Local explanations (SHAP, LIME)
@@ -36,18 +36,25 @@ execute:
   - Decision rule lists
   - Additive risk score models
 
-# Interpreting Black-Box Models
+
+# Interpretability vs Explainability
+
+- **Interpretability**: can we understand *how* the model works?
+- **Explainability**: can we explain *why* the model made a particular prediction?
+
+
+# Explaining Black-Box Models
 
 **Black-box model**: a model that is difficult to interpret (e.g., random forest, gradient boosting model, deep neural network)
 
-## Why interpret?
+## Why explain?
 
 - Debugging
 - Feature Engineering
 - Collaborating with domain experts
 - Helping users understand when to trust a model
 
-## Feature Importance
+## Feature Importance {.smaller}
 
 - We gave the model many features, but which ones did it use?
 - Simple approach: remove each feature and see how much the model's performance decreases
@@ -57,6 +64,7 @@ execute:
 - But doesn't fix the problem of correlated features
 
 Read more:
+
 - [Interpretable Machine Learning book chapter](https://christophm.github.io/interpretable-ml-book/feature-importance.html)
 - [sklearn User Guide: Permutation feature importance](https://scikit-learn.org/stable/modules/permutation_importance.html)
 
@@ -94,6 +102,15 @@ Read more:
 - Kaggle course: [SHAP Values](https://www.kaggle.com/dansbecker/shap-values)
 - [SHAP: A Unified Approach to Interpreting Model Predictions](https://arxiv.org/abs/1705.07874)
 
+## Local Explanations (LIME)
+
+- Local Interpretable Model-Agnostic Explanations
+- Train a simple model to approximate the black-box model's predictions
+
+![](https://christophm.github.io/interpretable-ml-book/images/lime-tabular-example-explain-plot-1-1.jpeg)
+
+Read more: [Interpretable Machine Learning book chapter](https://christophm.github.io/interpretable-ml-book/lime.html)
+
 # Interpretable Models
 
 Instead of making a black-box model interpretable, we can use an interpretable model from the start.
@@ -119,7 +136,6 @@ Fast Interpretable Greedy Tree Sums (FIGS): [website](https://csinva.io/imodels/
 GroupFasterRisk
 
 ![](img/explain-groupfasterrisk.png)
-
 
 # Going Further
 
