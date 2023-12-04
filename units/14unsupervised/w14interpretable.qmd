@@ -94,7 +94,7 @@ Read more:
 - For a particular prediction, which features were most important?
 - Might be different from the global feature importance
 - **SHAP**: Shapley values from game theory
-  - intuition: How much would the prediction change if we removed each feature?)
+  - intuition: How much would the prediction change if we removed each feature?
 
 ![](https://christophm.github.io/interpretable-ml-book/images/shapley-bike-plot-1.jpeg)
 
@@ -165,4 +165,4 @@ Fast Interpretable Greedy Tree Sums (FIGS): [website](https://csinva.io/imodels/
 - [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/)
 - [Interpretable Machine Learning: Fundamental Principles and 10 Grand Challenges](https://arxiv.org/pdf/2103.11251.pdf)
 - [Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead | Nature Machine Intelligence](https://www.nature.com/articles/s42256-019-0048-x)
-
+[Dissecting scientific explanation in AI (sXAI): A case for medicine and healthcare - ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/S0004370221000497)
