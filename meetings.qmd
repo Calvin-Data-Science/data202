@@ -214,4 +214,6 @@ Things referenced:
 
 ## 15.1 (Mon): Explaining Predictions
 
+- [Slides](units/14unsupervised/w14interpretable.qmd)
+
 ## 15.2 (Wed): Missing Data, Ethics and Social Impacts, Wrap-Up
