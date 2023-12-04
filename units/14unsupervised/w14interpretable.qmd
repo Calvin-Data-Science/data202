@@ -54,7 +54,9 @@ execute:
 - Collaborating with domain experts
 - Helping users understand when to trust a model
 
+![](img/husky-vs-wolf.png)
 
+Image from: ["Why Should I Trust You?": Explaining the Predictions of Any Classifier | Abstract](https://arxiv.org/abs/1602.04938)
 
 ## Feature Importance {.smaller}
 
