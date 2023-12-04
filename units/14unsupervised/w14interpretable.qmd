@@ -150,11 +150,17 @@ Read more:
 - [Learning Certifiably Optimal Rule Lists for Categorical Data, Angelino et al.](https://www.jmlr.org/papers/volume18/17-716/17-716.pdf) (source of above figure)
 - [Interpretable Machine Learning book chapter](https://christophm.github.io/interpretable-ml-book/rules.html)
 
-## Additive Risk Score Models
+## Additive Risk Score Models: FIGS
 
-Fast Interpretable Greedy Tree Sums (FIGS): [website](https://csinva.io/imodels/figs.html), [paper](https://arxiv.org/abs/2202.00858)
+Fast Interpretable Greedy Tree Sums (FIGS): [website](https://csinva.io/imodels/figs.html), [paper](https://arxiv.org/abs/2202.00858). Train a *collection* of decision trees, where the prediction is the *sum* of the predictions from each tree.
 
 ![](img/explain-figs.png)
+
+## Additive Risk Score Models: Risk Scorecards
+
+[ustunb/risk-slim: simple customizable risk scores in python](https://github.com/ustunb/risk-slim)
+
+![](https://raw.githubusercontent.com/ustunb/risk-slim/master/docs/images/risk_score_seizure.png)
 
 [Fast and Interpretable Mortality Risk Scores for Critical Care Patients](https://arxiv.org/abs/2311.13015)
 
