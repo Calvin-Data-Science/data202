@@ -1,8 +1,11 @@
 ---
 title: "Wrap-Up"
+icon: "file-slides"
 format:
   revealjs:
+    theme: [default, slides.scss]
     scrollable: true
+    smaller: true
 ---
 
 ## Today
