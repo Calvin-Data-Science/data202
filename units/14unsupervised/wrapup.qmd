@@ -6,6 +6,8 @@ format:
     theme: [default, slides.scss]
     scrollable: true
     smaller: true
+execute: 
+  echo: true
 ---
 
 ## Today
@@ -14,7 +16,6 @@ format:
   - It's helpful *data* for me, my department, and the university.
   - Each comment matters. Each rating matters.
   - Be honest, be balanced.
-  - Come get me in the hall when everyone is done.
 - Virtuous Data Science: wrap-up
 
 ---
@@ -27,6 +28,141 @@ format:
 - All work should be in before Finals (or make specific arrangements with me)
 - Moodle grades aren't yet accurate, but hopefully soon!
 
+# Communication
+
+## Key points
+
+- Consider the *audience* to get the level of detail right.
+  - Never assume your audience can rapidly process complex visuals. ([Claus Wilke](https://clauswilke.com/dataviz/telling-a-story.html#make-a-figure-for-the-generals))
+- Consider the *purpose* to choose report vs dashboard vs presentation
+- Anchor *claims* in *data*.
+- Tell stories (e.g., "but-therefore")
+
+---
+
+### Make a point
+
+::: {.columns}
+:::: {.column width=50%}
+**Report A**
+
+MAIN POINT
+
+* Supporting chart 1
+* Supporting table 2
+* Supporting model 3
+
+Discussion about how each supports main point
+:::
+::: {.column width=50%}
+
+**Report B**
+
+* Chart 1
+* Table 2
+* Model 3
+* Chart 4
+* Table 5
+* Chart 6
+* Model 7
+* Chart 12
+* Table 25
+
+:::
+:::
+
+### Tell a Story
+
+* Chart 1
+* Therefore, chart 2
+* BUT, chart 3
+
+[but-therefore](https://www.youtube.com/watch?v=vGUNqq3jVLg)
+
+See also: "[Telling a story and making a point](https://clauswilke.com/dataviz/telling-a-story.html)"
+
+---
+
+### Anchor conclusions in data
+
+::: {.columns}
+:::: {.column width=50%}
+* The units are probably seconds<br><br>
+* The fit looks good<br><br>
+* This was surprising
+
+:::
+::: {.column width=50%}
+* because the median, 600, would be 10 minutes
+* because the mean error of $15 is less than 0.1% of the price
+* because I expected that people would leave higher ratings on products they enjoyed more
+:::
+:::
+
+---
+
+### Use appropriate language
+
+::: {.columns}
+::: {.column width=50%}
+**Plain language** for the overview, conclusion, and visuals.
+
+* Labels in visuals: use real names, not `code_names`. (For all variables, not just x and y.)
+* Don't assume the reader knows the structure of the data.
+:::
+::: {.column width=50%}
+
+**Technical language** when describing methods (data acquisition, wrangling, modeling, etc.).
+
+* What data representation choices did you make? *why*?
+* What modeling choices? Why? etc.
+:::
+:::
+
+# Brief Notes
+
+## Missing Data
+
+- **Missingness** is often *informative*.
+  - e.g., "I don't *want* to answer that question."
+  - e.g., "Only people who have a certain condition are asked this question."
+  - So you might want to add a column: `df['f1_missing'] = df['f1'].isna()`
+- **Never** blindly drop rows with missing data
+  - At least count how many you're dropping.
+
+
+## Time Series
+
+- "Forecasting" could be a whole course (e.g., "[Forecasting Principles and Practice](https://otexts.com/fpp3/)")
+- Some approaches
+  - Naive: Predict that the last sample continues
+  - Trend: Predict that a (linear) trend continues
+  - Seasonal: Predict the same value as this time last year
+  - fancier methods: Moving average, exponential smoothing, ARIMA, ...
+
+See [Time-related feature engineering from scikit-learn documentation](https://scikit-learn.org/stable/auto_examples/applications/plot_cyclical_feature_engineering.html)
+
+## Lagged (Shifted) Features
+
+A simple approach to time series prediction is to shift the target variable by one time step and use it as a feature.
+
+```{python}
+from sklearn.datasets import fetch_openml
+
+bike_sharing = fetch_openml(
+    "Bike_Sharing_Demand", version=2, as_frame=True, parser="pandas"
+)
+df = bike_sharing.frame
+df.head()
+```
+
+```{python}
+target_var = "count"
+df['prev_count'] = df[target_var].shift(1)
+df[['prev_count', target_var]].head()
+```
+
+
 # Wrap-Up of Virtuous Data Science
 
 
@@ -35,16 +171,6 @@ format:
 - Describe how Reformed concepts of justice and shalom apply to data collection, analysis, sharing, and use.
 - Give examples of specific concerns around privacy, bias, accountability, and transparency
 - Describe steps and dispositions that individual data scientists can take to act justly in their profession
-
-## Perspectives Debrief
-
-<!-- NOTE TODO FIXME: We didn't do this 23FA -->
-
-1. What *case studies* do you want to remember?
-2. What *principle* seemed most important?
-3. If we're only considering those 12 principles, **what's missing**?
-
-Discuss these with neighbors.
 
 ## A bullet-point summary of biblical *justice*
 
