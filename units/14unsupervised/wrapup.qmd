@@ -15,7 +15,9 @@ execute:
 - Please fill out *Course evaluations*
   - It's helpful *data* for me, my department, and the university.
   - Each comment matters. Each rating matters.
-  - Be honest, be balanced.
+  - Be honest, be balanced. Include both things to *keep* and things to *change*.
+- Communication Tips
+- Missing Data, Time Series
 - Virtuous Data Science: wrap-up
 
 ---
@@ -71,7 +73,7 @@ Discussion about how each supports main point
 :::
 :::
 
-### Tell a Story
+## Tell a Story
 
 * Chart 1
 * Therefore, chart 2
@@ -83,7 +85,7 @@ See also: "[Telling a story and making a point](https://clauswilke.com/dataviz/t
 
 ---
 
-### Anchor conclusions in data
+## Anchor conclusions in data
 
 ::: {.columns}
 :::: {.column width=50%}
@@ -101,7 +103,7 @@ See also: "[Telling a story and making a point](https://clauswilke.com/dataviz/t
 
 ---
 
-### Use appropriate language
+## Use appropriate language
 
 ::: {.columns}
 ::: {.column width=50%}
