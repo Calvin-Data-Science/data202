@@ -90,6 +90,13 @@ Log:
 	- Favor interacting with humans over machines, even when it's more expensive or inconvenient?
 - Friday: Psalm 78 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=168#psalm_reading)
 
+## Final Few Weeks
+
+Schedule was erratic, with Thanksgiving break and guest lectures. But:
+
+- We read Psalm 100 from the [Lectionary](https://lectionary.library.vanderbilt.edu/texts.php?id=170#psalm_reading)
+- On the final class meeting, we prayed for us as data scientists to have insight into impacts of our work, discernment about it, and courage to do what is right.
+
 ## Misc
 
 Things GitHub Copilot has suggested:
