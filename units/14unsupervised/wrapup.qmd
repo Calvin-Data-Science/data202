@@ -164,9 +164,56 @@ df['prev_count'] = df[target_var].shift(1)
 df[['prev_count', target_var]].head()
 ```
 
+## Time-Series Validation
+
+- **Don't** randomly split your data into train/test sets.
+- **Do** split your data into train/test sets *by time*.
+  - e.g., train on the first year, test on the second year
+- More general approach: [time series cross-validation](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html)
+
+![](https://scikit-learn.org/stable/_images/sphx_glr_plot_cv_indices_013.png)
+
 
 # Wrap-Up of Virtuous Data Science
 
+::: {.question}
+What virtues have we practiced in this course? What virtues should data scientists have?
+:::
+
+## Virtues
+
+::: {.columns}
+:::: {.column width=50%}
+- Cardinal Virtues
+  - Prudence
+  - Justice
+  - Temperance
+  - Courage
+- Theological Virtues
+  - Faith
+  - Hope
+  - Love
+:::
+::: {.column width=50%}
+Vices
+
+- Pride
+- Greed
+- Lust
+- Envy
+- Gluttony
+- Wrath
+- Sloth
+:::
+:::
+
+## Ethics
+
+Not just moral dilemmas; we make ethical choices constantly.
+
+- Normative / deontological: "is this right?"
+- Situational: "is this promiting what is good?"
+- Virtuous: "How does a good person act? How do I become a good person?"
 
 ## Objectives
 
@@ -210,7 +257,9 @@ Thus:
 
 ---
 
-### Equity: Everyone must be treated equally and with dignity.
+### Equity
+
+> Everyone must be treated equally and with dignity.
 
 . . .
 
@@ -289,7 +338,7 @@ Data science, and data scientists, *are not saviors*.
 ::: scripture
 ```
 In your relationships with one another, have the
-  same mindset as Christ Jesus:
+    same mindset as Christ Jesus:
 Who, being in very nature God,
     did not consider equality with God something
       to be used to his own advantage;
