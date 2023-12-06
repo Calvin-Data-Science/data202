@@ -279,6 +279,8 @@ Thus:
   peoples' future actions and situations
 * These predictions might be terribly inaccurate. *Should we be trying at all*?
 
+Read more: [When is automated decision making legitimate?](https://fairmlbook.org/legitimacy.html)
+
 ::: aside
 Salganik et al, [**Measuring the predictability of life outcomes with a scientific mass collaboration**](https://www.pnas.org/content/117/15/8398.short). PNAS, April 2020
 :::

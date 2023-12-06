@@ -221,3 +221,4 @@ Things referenced:
 - [Slides](units/14unsupervised/wrapup.html)
 - Referenced in class:
     - An example of good storytelling [Harry Collins - Wikipedia](https://en.wikipedia.org/wiki/Harry_Collins)
+    - [Sandel: The Tyranny of Merit](https://us.macmillan.com/books/9780374289980/thetyrannyofmerit)
