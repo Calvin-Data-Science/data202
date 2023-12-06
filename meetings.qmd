@@ -217,3 +217,7 @@ Things referenced:
 - [Slides](units/14unsupervised/w14interpretable.qmd)
 
 ## 15.2 (Wed): Missing Data, Ethics and Social Impacts, Wrap-Up
+
+- [Slides](units/14unsupervised/wrapup.html)
+- Referenced in class:
+    - An example of good storytelling [Harry Collins - Wikipedia](https://en.wikipedia.org/wiki/Harry_Collins)
