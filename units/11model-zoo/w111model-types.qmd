@@ -196,7 +196,8 @@ print(rf"$$\text{{Sale Price}} = {linreg.intercept_:.2f} + {linreg.coef_[0]:.2f}
 ## What computations can a linear model do?
 
 - Trees: only simple conditional logic
-    - if `Gr_Liv_Area <= 2000` then go right else go left
+    - example: if `Gr_Liv_Area <= 2000` then go right else go left
+        - (may be `<=` or `>`, depending on implementation)
     - predict the average of the training data at the leaf
 - Linear models
     - *add up* terms

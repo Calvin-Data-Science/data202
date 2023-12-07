@@ -346,7 +346,7 @@ print("Test accuracy: ", accuracy_score(test[target_column], test["pred_tree"]))
 
 ## What decisions can be made at each node {.smaller}
 
-- Continuous variables: if above a threshold, go right, else left
+- Continuous variables: compare one feature against a threshold value; if comparison is true go right, else go left
 - Categorical variables: if is one of a set of categories, go right, else left
 - At *leaf* nodes:
   - regression tree: compute the *mean* value of items there, predict that.
