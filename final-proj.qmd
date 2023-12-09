@@ -20,6 +20,31 @@ An important component of this project is a *comparative critique* of some relat
 
 There are two sections of this class, thus two sessions of final project presentations. Refer to the [Calvin exam schedule](https://calvin.edu/offices-services/center-for-student-success/registration/exam-schedule/) for the official dates; for 2023, it's Saturday Dec. 9 at 1:30 p.m. and Monday Dec. 11 at 1:30 p.m.. Your team must choose which to present at. You are welcome to attend both sessions to see everyone's work.
 
+#### Presentation Logistics
+
+Presentations are the "movie trailer" for your report---they should be short, engaging, and give the audience a sense of what you did and why it matters.
+
+Length: Max of 10 minutes per team (ideally under 5 minutes). **Practice at least once** beforehand so your presentation is efficient.
+
+Make sure you include:
+
+-   What **problem** you're trying to solve (and why it matters)
+-   What the **data** looks like (granularity, an example row)
+-   What your **model** looks like (features, target, maybe an example prediction that it makes)
+-   **Results** (headlines only)
+-   **Conclusion** (have you solved the problem?) and any **limitations**
+
+**Don't** include:
+
+-   Every detail (save that for the report)
+-   Code screenshots (unless it's particularly clever); explain what you're doing in English
+
+Scrolling through a rendered report is **only okay** **if you have practiced** so you can highlight what's important and not get lost in the details.
+
+
+Each student should give at least one constructive suggestion or insightful question for other presentations. 
+
+
 ### Milestones
 
 * Milestone 1: **Initial proposal**. This should include:
