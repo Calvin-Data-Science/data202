@@ -145,7 +145,7 @@ Unless otherwise arranged, grades will be weighted as follows:
     -   Midterm project: 10%
     -   Final project: 20%
 -   Exercises (labs and homework): 20%
--   Discussion forums: 10%
+-   Readings and discussion forums (Perusall): 10%
 -   Participation: 5%
 
 Your lowest quiz score will get thrown out.
