@@ -38,6 +38,8 @@ Make sure you include:
 
 -   Every detail (save that for the report)
 -   Code screenshots (unless it's particularly clever); explain what you're doing in English
+-   Data screenshots (export a table instead)
+-   Console output screenshots (make a table instead, or better, a chart)
 
 Scrolling through a rendered report is **only okay** **if you have practiced** so you can highlight what's important and not get lost in the details.
 
