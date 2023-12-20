@@ -19,7 +19,7 @@ data(wa_churn)
 ```
 
 ```{r}
-metrics <- metric_set(accuracy, sensitivity, specificity)
+metrics <- metric_set(accuracy, sensitivity, specificity, precision, recall)
 preds <- wa_churn %>% 
   rename(actual_churn = churn) %>% 
   mutate(predicted_churn = factor(if_else(
