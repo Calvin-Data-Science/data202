@@ -136,6 +136,17 @@ We will be using **Python** and the following tools:
     -   The course lab fee funds our contribution towards the shared resources that provide this service. If the fee is a hardship for you, please contact the instructor.
     -   You may also install [RStudio Desktop](https://posit.co/downloads/) on your own computer.
 
+To run code on your own computer, we recommend the following setup:
+
+1. Install [Anaconda](https://www.anaconda.com/download/success). This should already include the following needed packages:
+    -   pandas
+    -   plotly
+    -   scikit-learn
+    -   statsmodels
+2. Instadd [VS Code](https://code.visualstudio.com/)
+3. Install [Quarto](https://quarto.org/)
+
+
 ## Grading
 
 Unless otherwise arranged, grades will be weighted as follows:
