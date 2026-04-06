@@ -5,7 +5,7 @@ title: Home
 
 # DATA 202: Introduction to Machine Learning
 
-Welcome to the course site. Testing.
+Welcome to the course site. Testing. Testing...
 
 ## Quick Links
 
