@@ -1,2 +1,0 @@
-```{r setup, include=FALSE, code=xfun::read_utf8('../slide-setup.R')}
-```

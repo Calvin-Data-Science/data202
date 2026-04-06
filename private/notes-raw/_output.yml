@@ -1,9 +1,0 @@
-bookdown::gitbook:
-  css: style.css
-  split_by: chapter
-  config:
-    toc:
-      collapse: subsection
-      before: |
-        <li>TOC Header</li>
-  download: ["pdf", "epub"]
