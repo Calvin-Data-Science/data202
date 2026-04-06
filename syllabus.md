@@ -8,7 +8,7 @@ permalink: /syllabus/
 
 ## Course Information
 
-- Course: DATA 202 - Machine Learning
+- Course: DATA202 - Introduction to Machine Learning
 - Term: Spring 2026
 - Meeting times: TBA
 - Location: TBA
