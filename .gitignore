@@ -1,19 +1,4 @@
-.ipynb_checkpoints
-student_data
-.Rproj.user
-.Rhistory
-names_by_state
-namesbystate.zip
-private/src/data/capital_bikeshare
+_site/
+.jekyll-cache/
+.jekyll-metadata
 .DS_Store
-fa20
-rosm.cache
-/.luarc.json
-/.quarto/
-_site
-*_files
-# VS Code adds these...
-.vdoc.py
-
-sfhousing.*
-201*-capitalbikeshare-tripdata.csv
