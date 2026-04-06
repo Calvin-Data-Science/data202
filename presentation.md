@@ -3,11 +3,11 @@ marp: true
 theme: default
 paginate: true
 size: 16:9
-title: DATA 202 - Machine Learning
+title: DATA202 - Introduction to Machine Learning
 ---
 
-# DATA 202
-## Machine Learning
+# DATA202
+## Introduction to Machine Learning
 
 Spring 2026  
 Calvin University
