@@ -12,9 +12,10 @@ Minimal GitHub Pages site for DATA202 - Introduction to Machine Learning.
 
 1. Push this repository to GitHub.
 2. In repository settings, go to **Pages**.
-3. Set **Build and deployment** source to **GitHub Actions**.
-4. Ensure your deployment branches match `.github/workflows/deploy-pages.yml`.
-5. Push changes to `main` or `26fall`; the workflow will build and deploy automatically.
+3. Set **Build and deployment** source to **Deploy from a branch**.
+4. Set the branch to `gh-pages` and folder to `/ (root)`.
+5. Merge your content from `main` into `gh-pages`, then push `gh-pages`.
+6. GitHub Pages will publish directly from the `gh-pages` branch.
 
 ## Preview Locally (Without Deploying)
 
