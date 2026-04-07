@@ -1,21 +1,14 @@
 ---
-layout: default
+layout: home
 title: Home
 ---
 
-Welcome to DATA202 - Introduction to Machine Learning!
+**Welcome to DATA202 - Introduction to Machine Learning!**
 
-In this course, you’ll learn how to make sense of tabular data: how to organize it, visualize it, model it, and interpret it. You’ll use tools from math, statistics, and computing to explore patterns, build predictions, and critically reflect on your results. Along the way, you’ll learn not just how to work with data, but how to ask good questions, design thoughtful analyses, and consider issues like interpretability, fairness, and responsible use.
-
-## Quick Links
-
-- [Syllabus]({{ '/syllabus/' | relative_url }})
-- [Schedule]({{ '/schedule/' | relative_url }})
-- [Assignments]({{ '/assignments/' | relative_url }})
-- [Resources]({{ '/resources/' | relative_url }})
+*Catalog Description*: FA. A conceptual and practical introduction to machine learning. Students will develop workflows for acquiring, cleaning, transforming, and joining tabular data, and apply both supervised and unsupervised learning methods to real-world problems. Emphasis is placed on selecting appropriate models, validating and interpreting results, and engaging critically with issues of fairness, bias, and interpretability in machine learning systems. Prerequisite: CS 104, CS 106, or CS 108. Lab fee.
 
 ## Instructor
 
-- Name: Instructor Name
-- Email: instructor@calvin.edu
-- Office hours: By appointment
+**Fernando Pasquini Santos**
+- Email: fernando.santos *at* calvin.edu
+- Office hours: Mon and Wed from 11:00 to 12:00, at NH293 --- or just stop by whenever my door is open, or message me and we’ll find a time. If you want to do lunch or coffee, we can find a time for that too!

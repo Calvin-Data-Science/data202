@@ -15,6 +15,7 @@
         <nav class="site-nav" aria-label="Primary">
           <a href="{{ '/' | relative_url }}">Home</a>
           <a href="{{ '/syllabus/' | relative_url }}">Syllabus</a>
+          <a href="{{ '/schedule/' | relative_url }}">Schedule</a>
           <a href="{{ '/weeks/' | relative_url }}">Weeks</a>
           <span class="nav-disabled">Project</span>
           <a href="{{ '/resources/' | relative_url }}">Resources</a>
@@ -23,6 +24,18 @@
     </header>
 
     <main class="container content">
+      <div class="week-nav">
+        <a href="{{ '/weeks/' | relative_url }}">&larr; All Weeks</a>
+        {% if page.week_number > 1 %}
+          &nbsp;&nbsp;
+          <a href="{{ '/weeks/' | relative_url }}{{ page.week_number | minus: 1 | prepend: '0' | slice: -2, 2 }}/">&larr; Week {{ page.week_number | minus: 1 }}</a>
+        {% endif %}
+        {% if page.week_number < 14 %}
+          &nbsp;&nbsp;
+          <a href="{{ '/weeks/' | relative_url }}{{ page.week_number | plus: 1 | prepend: '0' | slice: -2, 2 }}/">Week {{ page.week_number | plus: 1 }} &rarr;</a>
+        {% endif %}
+      </div>
+
       {{ content }}
     </main>
   </body>

@@ -76,6 +76,17 @@ body {
   text-decoration: none;
 }
 
+.nav-disabled {
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: var(--nav-pill);
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-style: italic;
+  cursor: default;
+}
+
 .content {
   padding: 1.1rem 0 2rem;
 }
@@ -111,6 +122,123 @@ td {
   padding: 0.45rem 0.55rem;
 }
 
+/* ── Disabled week rows ── */
+.week-disabled {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Current week panel ── */
+.week-overview-table {
+  width: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.week-overview-table td {
+  border: none;
+  padding: 0.8rem 1.2rem;
+  vertical-align: middle;
+}
+
+.week-overview-cell-link {
+  border-right: 1px solid var(--border) !important;
+  white-space: nowrap;
+}
+
+.week-overview-cell-link a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.week-overview-cell-link a:hover {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.current-week-label {
+  font-size: 0.72rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--header-accent);
+}
+
+.week-overview-cell-deadlines {
+  font-size: 0.9rem;
+  min-width: 260px;
+}
+
+.deadlines-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.deadline-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.deadline-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.deadline-type {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: var(--border);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.deadline-type.quiz {
+  background: #d6eef4;
+  color: #0b5e73;
+}
+
+.deadline-type.forum {
+  background: #e8e4f4;
+  color: #4a3a80;
+}
+
+.deadline-break {
+  margin: 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Week page nav ── */
+.week-nav {
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
+  color: var(--muted);
+}
+
+.week-nav a {
+  color: var(--link);
+}
+
 @media (max-width: 640px) {
   .site-title {
     font-size: 1.2rem;
@@ -118,5 +246,17 @@ td {
 
   .site-subtitle {
     margin-bottom: 0.5rem;
+  }
+
+  .week-overview-table,
+  .week-overview-table tr,
+  .week-overview-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .week-overview-cell-link {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border) !important;
   }
 }

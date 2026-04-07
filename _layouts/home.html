@@ -1,0 +1,37 @@
+---
+layout: default
+---
+{% assign semester_start = 1788134400 %}
+{% assign now_ts = site.time | date: "%s" | times: 1 %}
+{% assign seconds_elapsed = now_ts | minus: semester_start %}
+{% if seconds_elapsed < 0 %}{% assign current_week = 1 %}{% else %}{% assign current_week = seconds_elapsed | divided_by: 604800 | plus: 1 %}{% if current_week > 14 %}{% assign current_week = 14 %}{% endif %}{% endif %}
+{% assign week_offset = current_week | minus: 1 | times: 7 | times: 86400 %}
+{% assign week_start = semester_start | plus: week_offset %}
+{% assign friday = week_start | plus: 345600 %}
+{% assign next_monday = week_start | plus: 604800 %}
+{% assign week_mod = current_week | modulo: 2 %}
+{% assign w = current_week | prepend: '0' | slice: -2, 2 %}
+
+<div style="display:flex; border:1px solid #d2dae0; border-radius:8px; overflow:hidden; width:fit-content; margin:0.5rem 0 1.5rem; font-family:inherit;">
+  <div style="display:flex; flex-direction:column; gap:0.5rem; padding:0.85rem 1.3rem; border-right:1px solid #d2dae0; white-space:nowrap;">
+    <a href="{{ '/weeks/' | relative_url }}{{ w }}/" style="display:flex; flex-direction:column; gap:0.15rem; text-decoration:underline; text-underline-offset:0.12em; color:#0b5e73; font-size:1.15rem; font-weight:700;">
+      <span style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:#c96f2d; font-weight:400; text-decoration:none;">Current Week</span>
+      Week {{ current_week }} &rarr;
+    </a>
+    <div style="display:flex; gap:0.75rem; font-size:0.95rem; font-weight:600;">
+      <a href="{{ '/weeks/' | relative_url }}{{ w }}/slides.html">Slides</a>
+      <a href="{{ '/weeks/' | relative_url }}{{ w }}/#demo">Demo</a>
+      <a href="{{ '/weeks/' | relative_url }}{{ w }}/#lab-assignment">Lab</a>
+    </div>
+  </div>
+  <div style="padding:0.85rem 1.3rem; font-size:0.9rem; min-width:260px;">
+    <div class="deadlines-title" style="font-weight:700; color:#1f2a33;">Upcoming deadlines</div>
+    {% if current_week == 8 %}<p class="deadline-break">Fall Break — no class this week.</p>{% else %}<ul class="deadline-list">
+      <li><span class="deadline-type">Reading: </span> Mon {{ next_monday | date: "%b %-d" }}, midnight</li>
+      <li><span class="deadline-type">Lab: </span> Mon {{ next_monday | date: "%b %-d" }}, midnight</li>
+      {% if week_mod == 1 %}<li><span class="deadline-type quiz">Quiz: </span> Fri {{ friday | date: "%b %-d" }}, in class</li>{% else %}<li><span class="deadline-type forum">Perspectives Forum: </span> Fri {{ friday | date: "%b %-d" }}, midnight</li>{% endif %}
+    </ul>{% endif %}
+  </div>
+</div>
+
+{{ content }}
