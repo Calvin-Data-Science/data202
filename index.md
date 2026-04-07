@@ -11,4 +11,4 @@ title: Home
 
 **Fernando Pasquini Santos**
 - Email: fernando.santos *at* calvin.edu
-- Office hours: Mon and Wed from 11:00 to 12:00, at NH293 --- or just stop by whenever my door is open, or message me and we’ll find a time. If you want to do lunch or coffee, we can find a time for that too!
+- Office hours: Wed from 11:00 to 12:00, at NH293 --- or just stop by whenever my door is open, or message me and we’ll find a time. If you want to do lunch or coffee, we can find a time for that too!
