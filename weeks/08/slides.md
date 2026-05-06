@@ -65,5 +65,5 @@ Today: peer feedback on project proposals
 
 ## This Week
 
-- **Lab 8:** end-to-end mini-project
+- **Practice 8:** end-to-end mini-project
 - **Reading:** TBD — review/synthesis reading

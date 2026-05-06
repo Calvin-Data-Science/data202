@@ -82,5 +82,5 @@ embedding = umap.UMAP().fit_transform(X)
 ## This Week
 
 - **Demo:** PCA and t-SNE on image/text data
-- **Lab 10:** dimensionality reduction pipeline
+- **Practice 10:** dimensionality reduction pipeline
 - **Reading:** TBD — Chapter 9

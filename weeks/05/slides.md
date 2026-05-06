@@ -77,5 +77,5 @@ Which matters more depends on the **cost of each error type**.
 ## This Week
 
 - **Demo:** logistic regression + confusion matrix
-- **Lab 5:** classification on a real-world dataset
+- **Practice 5:** classification on a real-world dataset
 - **Reading:** TBD — Chapter 5

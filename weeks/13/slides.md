@@ -86,5 +86,5 @@ shap.summary_plot(shap_values, X_test)
 ## This Week
 
 - **Demo:** SHAP on a gradient-boosted model
-- **Lab 13:** explain and critique a model's decisions
+- **Practice 13:** explain and critique a model's decisions
 - **Reading:** TBD — Molnar, *Interpretable Machine Learning*

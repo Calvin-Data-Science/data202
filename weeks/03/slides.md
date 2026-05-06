@@ -70,5 +70,5 @@ Common sources:
 ## This Week
 
 - **Demo:** feature transformation pipeline with scikit-learn
-- **Lab 3:** feature engineering on a tabular dataset
+- **Practice 3:** feature engineering on a tabular dataset
 - **Reading:** TBD — Chapter 3

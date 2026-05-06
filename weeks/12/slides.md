@@ -79,5 +79,5 @@ Technical fairness is not the same as justice.
 ## This Week
 
 - **Demo:** measuring group disparities with a real dataset
-- **Lab 12:** fairness audit of a classifier
+- **Practice 12:** fairness audit of a classifier
 - **Reading:** TBD — Barocas et al. or similar

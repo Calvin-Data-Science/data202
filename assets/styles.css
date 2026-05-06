@@ -91,6 +91,69 @@ body {
   padding: 1.1rem 0 2rem;
 }
 
+.math-display {
+  text-align: center;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+/* ── TOC sidebar ── */
+.toc-sidebar {
+  display: none;
+  position: fixed;
+  top: 5rem;
+  left: calc(50% + 465px);
+  width: 200px;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+}
+
+.toc-sidebar.has-toc {
+  display: block;
+}
+
+@media (max-width: 1180px) {
+  .toc-sidebar { display: none !important; }
+}
+
+.toc-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+}
+
+.toc-nav {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--border);
+}
+
+.toc-link {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.18rem 0.5rem 0.18rem 0.75rem;
+  border-left: 2px solid transparent;
+  margin-left: -2px;
+}
+
+.toc-link:hover {
+  color: var(--link);
+  border-left-color: var(--link);
+  text-decoration: none;
+}
+
+.toc-h3 {
+  padding-left: 1.4rem;
+  font-size: 0.78rem;
+}
+
+
 h1,
 h2,
 h3 {
@@ -120,6 +183,16 @@ td {
   border: 1px solid var(--border);
   text-align: left;
   padding: 0.45rem 0.55rem;
+}
+
+/* ── SLO table week headers ── */
+.slo-table .slo-week td {
+  background: var(--nav-pill);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--border);
 }
 
 /* ── Disabled week rows ── */
@@ -220,6 +293,11 @@ td {
 .deadline-type.forum {
   background: #e8e4f4;
   color: #4a3a80;
+}
+
+.deadline-type.milestone {
+  background: #fce8d5;
+  color: #7a3a0a;
 }
 
 .deadline-break {

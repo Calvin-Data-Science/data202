@@ -83,5 +83,5 @@ df.fillna(df.mean())       # fill with column mean
 ## This Week
 
 - **Demo:** pandas data cleaning walkthrough
-- **Lab 2:** explore a real-world messy dataset
+- **Practice 2:** explore a real-world messy dataset
 - **Reading:** TBD — Chapter 2

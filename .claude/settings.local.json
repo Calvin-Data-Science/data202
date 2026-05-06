@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scripts/md_to_h5p.py weeks/01/reading.md)",
+      "Bash(python -c ':*)"
+    ]
+  }
+}

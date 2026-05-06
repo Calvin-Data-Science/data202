@@ -83,5 +83,5 @@ Use validation performance to choose:
 ## This Week
 
 - **Demo:** cross-validation and learning curves
-- **Lab 6:** model selection and hyperparameter tuning
+- **Practice 6:** model selection and hyperparameter tuning
 - **Reading:** TBD — Chapter 6

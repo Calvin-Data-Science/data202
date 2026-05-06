@@ -50,7 +50,7 @@ paginate: true
 
 - Hands-on with real data (Python, pandas, scikit-learn)
 - Critical lens: who builds these systems, for whom, and at what cost?
-- Weekly: reading → discussion → demo → lab
+- Weekly: reading → discussion → demo → practice
 
 ---
 
@@ -64,5 +64,5 @@ paginate: true
 ## This Week
 
 - **Demo:** environment setup, first pandas notebook
-- **Lab 1:** data exploration warm-up
+- **Practice 1:** data exploration warm-up
 - **Reading:** TBD — Chapter 1

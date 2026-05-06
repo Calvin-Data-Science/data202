@@ -80,5 +80,5 @@ from sklearn.cluster import DBSCAN
 ## This Week
 
 - **Demo:** k-means and hierarchical clustering
-- **Lab 9:** clustering a real-world dataset
+- **Practice 9:** clustering a real-world dataset
 - **Reading:** TBD — Chapter 8

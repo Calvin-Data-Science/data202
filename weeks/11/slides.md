@@ -83,5 +83,5 @@ Each layer learns increasingly abstract representations.
 ## This Week
 
 - **Demo:** simple MLP with Keras/PyTorch
-- **Lab 11:** image or text classification
+- **Practice 11:** image or text classification
 - **Reading:** TBD — Chapter 10

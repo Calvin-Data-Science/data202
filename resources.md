@@ -48,10 +48,10 @@ All course work is done in **Jupyter notebooks** (`.ipynb` files) — documents 
 ## Version Control
 
 ### GitHub
-Lab assignments are distributed and submitted through **GitHub Classroom**.
+Practice assignments are distributed and submitted through **GitHub Classroom**.
 
 - [Sign up for GitHub](https://github.com/signup) — use your `.edu` email to get the [Student Developer Pack](https://education.github.com/pack) for free
-- Each lab will give you a GitHub Classroom link that creates a personal repo for your work
+- Each practice will give you a GitHub Classroom link that creates a personal repo for your work
 - Push your completed notebook to your repo to submit
 
 **Getting started with Git & GitHub:**
@@ -61,7 +61,7 @@ Lab assignments are distributed and submitted through **GitHub Classroom**.
 
 ```bash
 git add .
-git commit -m "completed lab"
+git commit -m "completed practice"
 git push
 ```
 

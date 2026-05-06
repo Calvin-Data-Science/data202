@@ -33,6 +33,6 @@ By the end of this week, students will be able to:
 
 [Open in Google Colab](#) *(link TBD)*
 
-## Lab Assignment {#lab-assignment}
+## Practice {#practice}
 
-[Week 2 Lab — GitHub Classroom](#) *(link TBD)*
+[Week 2 Practice — GitHub Classroom](#) *(link TBD)*

@@ -83,5 +83,5 @@ Tree models produce feature importances: how much each feature reduces impurity 
 ## This Week
 
 - **Demo:** random forest + feature importances
-- **Lab 7:** ensemble methods on a classification task
+- **Practice 7:** ensemble methods on a classification task
 - **Reading:** TBD — Chapter 7

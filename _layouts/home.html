@@ -9,7 +9,7 @@ layout: default
 {% assign week_start = semester_start | plus: week_offset %}
 {% assign friday = week_start | plus: 345600 %}
 {% assign next_monday = week_start | plus: 604800 %}
-{% assign week_mod = current_week | modulo: 2 %}
+{% assign next_wednesday = next_monday | plus: 172800 %}
 {% assign w = current_week | prepend: '0' | slice: -2, 2 %}
 
 <div style="display:flex; border:1px solid #d2dae0; border-radius:8px; overflow:hidden; width:fit-content; margin:0.5rem 0 1.5rem; font-family:inherit;">
@@ -21,16 +21,32 @@ layout: default
     <div style="display:flex; gap:0.75rem; font-size:0.95rem; font-weight:600;">
       <a href="{{ '/weeks/' | relative_url }}{{ w }}/slides.html">Slides</a>
       <a href="{{ '/weeks/' | relative_url }}{{ w }}/#demo">Demo</a>
-      <a href="{{ '/weeks/' | relative_url }}{{ w }}/#lab-assignment">Lab</a>
+      <a href="{{ '/weeks/' | relative_url }}{{ w }}/#practice">Practice</a>
     </div>
   </div>
   <div style="padding:0.85rem 1.3rem; font-size:0.9rem; min-width:260px;">
     <div class="deadlines-title" style="font-weight:700; color:#1f2a33;">Upcoming deadlines</div>
-    {% if current_week == 8 %}<p class="deadline-break">Fall Break — no class this week.</p>{% else %}<ul class="deadline-list">
-      <li><span class="deadline-type">Reading: </span> Mon {{ next_monday | date: "%b %-d" }}, midnight</li>
-      <li><span class="deadline-type">Lab: </span> Mon {{ next_monday | date: "%b %-d" }}, midnight</li>
-      {% if week_mod == 1 %}<li><span class="deadline-type quiz">Quiz: </span> Fri {{ friday | date: "%b %-d" }}, in class</li>{% else %}<li><span class="deadline-type forum">Perspectives Forum: </span> Fri {{ friday | date: "%b %-d" }}, midnight</li>{% endif %}
-    </ul>{% endif %}
+    {% if current_week == 8 %}<p class="deadline-break">Fall Break &mdash; class meets Friday only.</p>{% endif %}
+    <ul class="deadline-list">
+      {% unless current_week == 8 %}
+      <li><span class="deadline-type">Reading</span> Mon {{ next_monday | date: "%b %-d" }}, midnight</li>
+      <li><span class="deadline-type">Practice</span> Mon {{ next_monday | date: "%b %-d" }}, midnight</li>
+      {% endunless %}
+      {% if current_week == 2 or current_week == 4 or current_week == 6 or current_week == 9 or current_week == 11 or current_week == 14 %}
+      <li><span class="deadline-type quiz">Quiz</span> Fri {{ friday | date: "%b %-d" }}, in class</li>
+      {% elsif current_week == 3 or current_week == 5 or current_week == 8 or current_week == 10 or current_week == 12 %}
+      <li><span class="deadline-type forum">Forum</span> Wed {{ next_wednesday | date: "%b %-d" }}, midnight</li>
+      {% endif %}
+      {% if current_week >= 6 and current_week <= 8 %}
+      <li><span class="deadline-type milestone">Milestone 1</span> Sat Oct 24, midnight</li>
+      {% elsif current_week == 9 or current_week == 10 %}
+      <li><span class="deadline-type milestone">Milestone 2</span> Sat Nov 7, midnight</li>
+      {% elsif current_week == 11 or current_week == 12 %}
+      <li><span class="deadline-type milestone">Milestone 3</span> Sat Nov 21, midnight</li>
+      {% elsif current_week == 13 or current_week == 14 %}
+      <li><span class="deadline-type milestone">Milestone 4</span> Sat Dec 5, midnight</li>
+      {% endif %}
+    </ul>
   </div>
 </div>
 

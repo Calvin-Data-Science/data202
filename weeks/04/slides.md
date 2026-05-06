@@ -71,5 +71,5 @@ $$\text{RSS} = \sum_{i=1}^n (y_i - \hat{y}_i)^2$$
 ## This Week
 
 - **Demo:** linear and ridge regression with scikit-learn
-- **Lab 4:** regression on a housing/salary dataset
+- **Practice 4:** regression on a housing/salary dataset
 - **Reading:** TBD — Chapter 4
