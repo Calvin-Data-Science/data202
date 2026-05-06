@@ -13,11 +13,7 @@ The notebook should read at the level of a polished blog post: more rigorous tha
 
 ## Specifications
 
-Each spec will have three possible outcomes: **A** (Achieved), **P** (Partially Achieved), or **N** (No Evidence Yet). These are converted to a completion percentage using:
-
-<div class="math-display">$$\text{Score} = \frac{\text{number of A's} + 0.5 \times \text{number of P's}}{10} \times 100\%$$</div>
-
-For example, 7 A's, 2 P's, and 1 N gives (7 + 1) / 10 = **80%**.
+Each spec will have three possible outcomes: **A** (Achieved), **P** (Partially Achieved), or **N** (No Evidence Yet). See the [Assessment & Grading](/syllabus/#assessment) section to check how they will count to your final grade.
 
 The specs are:
 

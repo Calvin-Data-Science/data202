@@ -70,7 +70,7 @@ There are **30 objectives** in total. Each code indicates when it is covered: th
 | Forum | Every other week (alternates with Quiz weeks) · 6 total | Written reflection posted to the Moodle course forum, based on the current chapter of *Counting* by Deborah Stone. (See instructions there). | Wednesday of the following week |
 | Final Project | 4 milestones + 2 in-class progress checks + Final Submission | Semester-long data analysis project completed individually or in pairs, submitted as a Jupyter Notebook. Structured around four milestones with two in-class progress checks. See the [Final Project](/finalproject/) page for full specifications. | Saturday of certain weeks (in the second half) |
 
-## Assessment & Grading
+## Assessment & Grading {#assessment}
 
 This course uses **Standards-Based Grading (SBG)**, also called Mastery Grading. Rather than accumulating points, you are assessed on your mastery of each of the 30 learning objectives listed above.
 
