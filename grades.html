@@ -1,0 +1,590 @@
+---
+layout: default
+title: My Grades
+permalink: /grades/
+---
+
+<style>
+  .grades-search { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin:1rem 0; }
+  .grades-search input { padding:.45rem .6rem; border:1px solid var(--border); border-radius:4px; font-family:inherit; font-size:1rem; min-width:240px; }
+  .grades-search button { padding:.45rem .9rem; background:var(--link); color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:1rem; font-family:inherit; }
+  .grades-search button:hover { opacity:.85; }
+  .g-status { margin:.5rem 0 1rem; font-size:.95rem; }
+  .g-status.ok  { color:#0b6a0b; }
+  .g-status.err { color:#b00020; font-weight:600; }
+
+  /* grade summary card */
+  .grade-card { border:1px solid var(--border); border-radius:8px; padding:1.1rem 1.4rem; margin:1.2rem 0 1.8rem; display:flex; flex-wrap:wrap; gap:1.5rem; align-items:flex-start; }
+  .grade-card-col { display:flex; flex-direction:column; gap:.3rem; }
+  .grade-card-label { font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); }
+  .grade-card-label a { color:inherit; text-decoration:none; }
+  .grade-card-label a:hover { text-decoration:underline; }
+  .grade-card-value { font-size:1.6rem; font-weight:700; color:var(--text); font-family:"Fraunces", Georgia, serif; }
+  .grade-card-sub { font-size:.82rem; color:var(--muted); }
+  .grade-card-divider { width:1px; background:var(--border); align-self:stretch; }
+  .grade-enables { font-size:.82rem; color:var(--muted); margin-top:.3rem; }
+  .grade-enables strong { color:var(--header-accent); font-size:1.05em; }
+
+  /* progress bar — achieved (green) + missed (red) + pending (track) */
+  .g-meter { display:flex; align-items:center; gap:.6rem; margin:.2rem 0; }
+  .g-meter-track { flex:1; max-width:220px; height:8px; background:var(--border); border-radius:999px; overflow:hidden; display:flex; }
+  .g-meter-A { height:100%; background:var(--link); flex-shrink:0; }
+  .g-meter-N { height:100%; background:#d8a8a8; flex-shrink:0; }
+  .g-meter-label { font-size:.82rem; color:var(--muted); white-space:nowrap; }
+  .g-pending { font-size:.8rem; color:var(--muted); font-style:italic; margin:.1rem 0 .3rem; }
+
+  /* mark cells */
+  .mk { text-align:center; font-weight:600; width:64px; }
+  .mk-A  { background:#d9f5d9; }
+  .mk-P  { background:#fff6cc; }
+  .mk-N  { background:#efefef; color:#555; }
+  .mk-C  { background:#d9f5d9; font-size:.8rem; }
+  .mk-I  { background:#fde8e8; color:#900; font-size:.8rem; }
+  .mk-ng { color:#aaa; font-style:italic; font-size:.85rem; }
+
+  /* mastery column — left border separates it as the conclusion of the three inputs */
+  .mk-mastery { border-left:3px solid #aaa !important; }
+  .mk-A.mk-mastery { border-left-color:#4caf50 !important; font-weight:800; }
+  .mk-P.mk-mastery { border-left-color:#d4a017 !important; font-weight:800; }
+  .mk-N.mk-mastery { border-left-color:#999 !important; }
+  th.mk-mastery { border-left:3px solid #aaa !important; background:var(--nav-pill); font-style:italic; }
+
+  /* week section */
+  .week-heading { margin:2rem 0 .3rem; display:flex; align-items:baseline; gap:.6rem; }
+  .week-heading h3 { margin:0; }
+  .week-topic { font-size:.88rem; color:var(--muted); font-style:italic; }
+  /* attendance session badges */
+  .att-session-list { display:flex; flex-wrap:wrap; gap:.3rem; margin:.6rem 0 1rem; }
+  .att-badge { font-size:.78rem; padding:.15rem .45rem; border-radius:4px; font-weight:600; white-space:nowrap; }
+  .att-P      { background:#d9f5d9; color:#1a5c1a; }
+  .att-N      { background:#fde8e8; color:#900; }
+  .att-future { background:var(--border); color:var(--muted); font-style:italic; font-weight:400; }
+</style>
+
+<h1>Grades</h1>
+<p>Enter your student ID to load your marks from the gradebook.</p>
+
+<div class="grades-search">
+  <input id="g-key" type="text" placeholder="Your student ID" autocomplete="off" />
+  <button id="g-btn">Search</button>
+</div>
+<div id="g-status" class="g-status"></div>
+<div id="g-results"></div>
+
+<script>
+(function(){
+
+const SHEET_ID       = "1U85DUAlALa5BZ9O61I_1EEJaPr9UZoHdq8vVdshoKo0";
+const MARKS_TAB      = "Marks";
+const ATTENDANCE_TAB = "Attendance";
+
+const WEEK_TOPICS = {
+  2:  "Dataframe Basics",
+  3:  "Exploring DataFrames — grouping and plotting",
+  4:  "Relational Tables — keys, joining and tidying",
+  5:  "Clustering & Dimensionality Reduction",
+  6:  "Classification Basics — k-NN",
+  7:  "Decision Trees and Hyperparameter Tuning",
+  9:  "Feature Engineering",
+  10: "Linear Regression",
+  11: "Other Models — logistic regression and ensembles",
+  12: "Other Techniques — imbalanced and time-series data",
+  14: "Fairness and Interpretability"
+};
+
+const SLO_DESCRIPTIONS = {
+  "02A": "I can manipulate the structure and contents of pandas DataFrames by accessing, adding, and deleting rows and columns.",
+  "02B": "I can sort, filter, and query DataFrames to find and highlight specific information.",
+  "02C": "I can choose appropriate visual encodings (axes, color, size, symbol, text) to represent variables in a visualization.",
+  "03A": "I can clean and transform text data using string operations in DataFrames.",
+  "03B": "I can group data to calculate aggregates such as counts, means, or sums.",
+  "03C": "I can produce and interpret histograms, scatter plots, line plots, and bar charts to explore a dataset visually.",
+  "04A": "I can describe the structure of relational data and identify key columns and relationships between tables.",
+  "04B": "I can join tables using different join types (inner, left, right, outer) and explain when each is appropriate.",
+  "04C": "I can reshape data between wide and long (tidy) formats.",
+  "05A": "I can apply k-means clustering to group data and interpret the resulting cluster assignments.",
+  "05B": "I can evaluate clustering quality using the elbow method and silhouette score to choose an appropriate k.",
+  "05C": "I can apply PCA to reduce dimensionality and interpret how much variance each component explains.",
+  "06A": "I can train and interpret k-NN classification models and explain how the choice of k affects overfitting and underfitting.",
+  "06B": "I can compute and interpret classification metrics — accuracy, precision, recall, and the confusion matrix.",
+  "06C": "I can split data into training and test sets to evaluate how well a model generalizes to unseen data.",
+  "07A": "I can train and interpret decision tree models and explain how tree depth affects overfitting and underfitting.",
+  "07B": "I can use cross-validation to evaluate model performance across multiple data splits.",
+  "07C": "I can tune model hyperparameters using grid search.",
+  "09A": "I can apply preprocessing steps — scaling and one-hot encoding — and explain why each is needed before modeling.",
+  "09B": "I can build a scikit-learn pipeline that chains preprocessing and modeling steps into a single reproducible workflow.",
+  "09C": "I can identify how missing data arise (MCAR, MAR, MNAR) and choose appropriate imputation strategies for each case.",
+  "10A": "I can train and interpret linear regression models.",
+  "10B": "I can apply Ridge and Lasso regularization to reduce overfitting and explain the effect of the regularization parameter.",
+  "10C": "I can compute and interpret regression performance metrics — MAE, RMSE, and R².",
+  "11A": "I can train and interpret logistic regression models for binary and multiclass classification.",
+  "11B": "I can train ensemble models (random forests, gradient boosting) and explain how they improve on a single decision tree.",
+  "12A": "I can identify class imbalance in a dataset and apply techniques such as resampling or adjusted decision thresholds to address it.",
+  "12B": "I can engineer features for time-series data (lag features, rolling statistics) and use time-aware train-test splits to avoid data leakage.",
+  "14A": "I can apply fairness metrics to compare model performance across demographic subgroups and articulate trade-offs between competing fairness criteria.",
+  "14B": "I can use interpretability techniques — feature importance, partial dependence plots, and LIME — to explain model predictions."
+};
+
+const PROJECT_SPECS = [
+  "Pose a clear, meaningful data question.",
+  "Identify and document a quality dataset.",
+  "Conduct exploratory data analysis.",
+  "Clean, transform, and engineer features.",
+  "Select, train, and evaluate a model.",
+  "Compare at least two modeling approaches.",
+  "Interpret findings and draw evidence-based conclusions.",
+  "Engage critically with ethical and societal implications.",
+  "Present a reproducible, well-documented notebook.",
+  "Meet project milestones on schedule."
+];
+
+const THRESHOLDS = [
+  { grade:"A",  slo:28,   proj:9.5,  att:93, forum:5 },
+  { grade:"A−", slo:27,   proj:9.0,  att:90, forum:5 },
+  { grade:"B+", slo:26.5, proj:8.5,  att:87, forum:4 },
+  { grade:"B",  slo:25,   proj:8.0,  att:83, forum:4 },
+  { grade:"B−", slo:24,   proj:7.5,  att:80, forum:4 },
+  { grade:"C+", slo:23.5, proj:7.0,  att:77, forum:3 },
+  { grade:"C",  slo:22,   proj:6.5,  att:73, forum:3 },
+  { grade:"C−", slo:21,   proj:6.0,  att:70, forum:3 },
+  { grade:"D+", slo:20.5, proj:5.5,  att:67, forum:2 },
+  { grade:"D",  slo:19,   proj:5.0,  att:63, forum:2 },
+  { grade:"D−", slo:18,   proj:4.5,  att:60, forum:1 },
+  { grade:"F",  slo:0,    proj:0,    att:0,  forum:0 }
+];
+
+// ── GViz JSONP loader ──────────────────────────────────────────────────────
+function gvizUrl(sheet){
+  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
+}
+function loadGViz(url){
+  return new Promise((resolve, reject) => {
+    const g = (window.google = window.google || {});
+    const v = (g.visualization = g.visualization || {});
+    const Q = (v.Query = v.Query || {});
+    let done = false;
+    const prev = Q.setResponse;
+    Q.setResponse = function(payload){
+      done = true; Q.setResponse = prev;
+      if (script.parentNode) script.parentNode.removeChild(script);
+      resolve(payload);
+    };
+    const script = document.createElement('script');
+    script.src = url; script.async = true;
+    script.onerror = () => { Q.setResponse = prev; reject(new Error('Network error (is the sheet public?)')); };
+    document.head.appendChild(script);
+    setTimeout(() => { if (!done){ Q.setResponse = prev; if (script.parentNode) script.parentNode.removeChild(script); reject(new Error('Timeout loading sheet.')); } }, 15000);
+  });
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+const cleanStr = s => String(s).replace(/\xa0/g,' ').replace(/[​-﻿]/g,'').trim();
+const clean = s => {
+  if (s == null) return '';
+  if (typeof s === 'object') return cleanStr(s.f ?? s.v ?? '');
+  return cleanStr(s);
+};
+const esc = s => (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+
+function extractHeaders(table){
+  const labels = (table.cols||[]).map(c => clean(c && (c.label||c.id||'')));
+  if (labels.some(Boolean)) return labels;
+  const rows = table.rows||[];
+  return rows.length ? rows[0].c.map(clean) : [];
+}
+function extractRows(table){
+  const hasLabels = (table.cols||[]).some(c => clean(c && c.label));
+  return (table.rows||[]).slice(hasLabels ? 0 : 1).filter(r => r && r.c).map(r => r.c.map(clean));
+}
+
+// ── Column parsers ─────────────────────────────────────────────────────────
+function parseSLOHeader(h){
+  const m = h.match(/^(\d{2}[A-Ca-c])-(Quiz|Practice|Reading)$/i);
+  if (!m) return null;
+  return { code: m[1].toUpperCase(), kind: cap(m[2]) };
+}
+function parseProjectHeader(h){
+  const m = h.match(/^PRO(\d{1,2})$/i);
+  return m ? parseInt(m[1]) : null;
+}
+function parseForumHeader(h){
+  const m = h.match(/^(?:FO|Forum)\s*0*(\d{1,2})$/i);
+  return m ? parseInt(m[1]) : null;
+}
+
+// ── Mastery computation ────────────────────────────────────────────────────
+const RANK = { 'A':2, 'P':1, 'N':0 };
+function computeMastery(reading, quiz, practice){
+  const r = (reading||'').toUpperCase();
+  const q = (quiz||'').toUpperCase();
+  const p = (practice||'').toUpperCase();
+  if (!r) return '';
+  if (!['A','P'].includes(r)) return 'N';
+  if (!q && !p) return '';
+  if (!q || !p) return q || p;
+  return RANK[q] <= RANK[p] ? q : p;
+}
+
+// ── Attendance parser ──────────────────────────────────────────────────────
+function parseAttendance(table, key){
+  const headers = extractHeaders(table);
+  const allRows = extractRows(table);
+  const match = allRows.find(r => (r[0]||'').trim().toLowerCase() === key.toLowerCase());
+  if (!match) return { notFound: true, sessions:[], present:0, absent:0, happened:0, future:0, total:0, pct:null };
+  const sessions = match.slice(1).map((v, i) => ({
+    label: headers[i+1] || ('Session ' + (i+1)),
+    value: (v||'').trim().toUpperCase()
+  }));
+  let present = 0, absent = 0;
+  sessions.forEach(s => {
+    if (s.value === 'P') present++;
+    else if (s.value === 'N') absent++;
+  });
+  const happened = present + absent;
+  const future   = sessions.length - happened;
+  const pct      = happened > 0 ? (present / happened * 100) : null;
+  return { sessions, present, absent, happened, future, total: sessions.length, pct };
+}
+
+// ── Attendance CSV parser (avoids GViz date-type-inference losing p/n values) ──
+function parseCSVLine(line){
+  const cells = [];
+  let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++){
+    const ch = line[i];
+    if (inQ){
+      if (ch === '"'){ if (line[i+1] === '"'){ cur += '"'; i++; } else inQ = false; }
+      else cur += ch;
+    } else {
+      if (ch === '"') inQ = true;
+      else if (ch === ',') { cells.push(cleanStr(cur)); cur = ''; }
+      else cur += ch;
+    }
+  }
+  cells.push(cleanStr(cur));
+  return cells;
+}
+function parseAttendanceCSV(csvText, key){
+  const lines = csvText.trim().split('\n');
+  if (lines.length < 2) return { notFound: true, sessions:[], present:0, absent:0, happened:0, future:0, total:0, pct:null };
+  const headers = parseCSVLine(lines[0]);
+  for (let li = 1; li < lines.length; li++){
+    const cells = parseCSVLine(lines[li]);
+    if ((cells[0]||'').trim().toLowerCase() === key.toLowerCase()){
+      const sessions = cells.slice(1).map((v, i) => ({
+        label: headers[i+1] || ('Session ' + (i+1)),
+        value: (v||'').trim().toUpperCase()
+      }));
+      let present = 0, absent = 0;
+      sessions.forEach(s => { if (s.value==='P') present++; else if (s.value==='N') absent++; });
+      const happened = present + absent;
+      const future   = sessions.length - happened;
+      const pct      = happened > 0 ? (present / happened * 100) : null;
+      return { sessions, present, absent, happened, future, total: sessions.length, pct };
+    }
+  }
+  return { notFound: true, sessions:[], present:0, absent:0, happened:0, future:0, total:0, pct:null };
+}
+
+// ── Rendering helpers ──────────────────────────────────────────────────────
+function markCell(val, isReading, isMastery){
+  const mc = isMastery ? ' mk-mastery' : '';
+  if (!val) return `<td class="mk mk-ng${mc}">—</td>`;
+  const v = val.toUpperCase();
+  if (isReading){
+    if (v === 'A' || v === 'P') return `<td class="mk mk-C${mc}">✓</td>`;
+    return `<td class="mk mk-I${mc}">✗</td>`;
+  }
+  if (v === 'A') return `<td class="mk mk-A${mc}">A</td>`;
+  if (v === 'P') return `<td class="mk mk-P${mc}">P</td>`;
+  if (v === 'N') return `<td class="mk mk-N${mc}">N</td>`;
+  return `<td class="mk mk-ng${mc}">${esc(val)}</td>`;
+}
+
+// Bar: achieved (A+P, green) + missed (N, red) + pending (track background)
+function meter(cntA, cntP, cntN, max, hasPending=true){
+  const pAch = max ? Math.min(100, (cntA + cntP) / max * 100) : 0;
+  const pN   = max ? Math.min(100, cntN / max * 100) : 0;
+  const sc   = cntA + cntP * 0.5;
+  const pnd  = max - cntA - cntP - cntN;
+  const pendStr = hasPending ? ` · ${pnd} pending` : '';
+  return `<div class="g-meter">
+    <div class="g-meter-track">
+      <div class="g-meter-A" style="width:${pAch.toFixed(1)}%"></div>
+      <div class="g-meter-N" style="width:${pN.toFixed(1)}%"></div>
+    </div>
+    <span class="g-meter-label">${sc.toFixed(1)} / ${max}</span>
+  </div>
+  <div class="g-pending">${sc.toFixed(1)} achieved · ${cntN} missed${pendStr}</div>`;
+}
+
+function attMeter(present, absent, future){
+  const tot  = present + absent + future;
+  const pctP = tot ? Math.min(100, present / tot * 100) : 0;
+  const pctN = tot ? Math.min(100, absent  / tot * 100) : 0;
+  const pct  = present + absent > 0 ? (present / (present + absent) * 100).toFixed(0) : null;
+  return `<div class="g-meter">
+    <div class="g-meter-track">
+      <div class="g-meter-A" style="width:${pctP.toFixed(1)}%"></div>
+      <div class="g-meter-N" style="width:${pctN.toFixed(1)}%"></div>
+    </div>
+    <span class="g-meter-label">${pct !== null ? pct+'%' : 'N/A'}</span>
+  </div>
+  <div class="g-pending">${present} present · ${absent} absent · ${future} upcoming</div>`;
+}
+
+function gradeForSLO(s)   { for (const t of THRESHOLDS){ if (s >= t.slo)   return t.grade; } return 'F'; }
+function gradeForProj(s)  { for (const t of THRESHOLDS){ if (s >= t.proj)  return t.grade; } return 'F'; }
+function gradeForAtt(p)   { for (const t of THRESHOLDS){ if (p >= t.att)   return t.grade; } return 'F'; }
+function gradeForForum(n) { for (const t of THRESHOLDS){ if (n >= t.forum) return t.grade; } return 'F'; }
+
+// ── Main render ────────────────────────────────────────────────────────────
+function render(key, headers, studentRow, attendance){
+  const sloData  = {};
+  const projData = {};
+
+  const forumItems = [];
+  headers.forEach((h, i) => {
+    const slo = parseSLOHeader(h);
+    if (slo){
+      if (!sloData[slo.code]) sloData[slo.code] = {
+        week: parseInt(slo.code.slice(0,2)),
+        description: SLO_DESCRIPTIONS[slo.code] || ''
+      };
+      sloData[slo.code][slo.kind.toLowerCase()] = studentRow[i];
+    }
+    const proNum = parseProjectHeader(h);
+    if (proNum) projData[proNum] = studentRow[i];
+    const foNum = parseForumHeader(h);
+    if (foNum !== null){
+      const raw     = studentRow[i] || '';
+      const v       = raw.trim().toUpperCase();
+      const pending = !v;
+      const done    = !pending && v !== 'N' && v !== '0';
+      forumItems.push({ label: h, done, pending, notDone: !pending && !done });
+    }
+  });
+
+  Object.values(sloData).forEach(d => {
+    d.mastery = computeMastery(d.reading, d.quiz, d.practice);
+  });
+
+  const codes30 = Object.keys(sloData).sort();
+  let sloA = 0, sloP = 0, sloN = 0;
+  codes30.forEach(code => {
+    const m = (sloData[code].mastery||'').toUpperCase();
+    if (m === 'A') sloA++; else if (m === 'P') sloP++; else if (m === 'N') sloN++;
+  });
+  const sloScore   = sloA + sloP * 0.5;
+  const sloPending = 30 - sloA - sloP - sloN;
+
+  let projA = 0, projP = 0, projN = 0;
+  for (let i = 1; i <= 10; i++){
+    const v = (projData[i]||'').toUpperCase();
+    if (v === 'A') projA++; else if (v === 'P') projP++; else if (v === 'N') projN++;
+  }
+  const projScore = projA + projP * 0.5;
+  const attPct    = attendance ? attendance.pct : null;
+
+  const forumDone    = forumItems.filter(f => f.done).length;
+  const forumNotDone = forumItems.filter(f => f.notDone).length;
+  const forumPending = forumItems.filter(f => f.pending).length;
+  const forumTotal   = forumItems.length;
+
+  // ── Grade summary card ───────────────────────────────────────────────────
+  // Optimistic enables: assume all pending items will be achieved
+  const sloEnables   = sloA + sloP + sloN > 0 ? gradeForSLO(sloScore + sloPending) : null;
+  const projEnables  = projA + projP + projN > 0 ? gradeForProj(projScore) : null;
+  const attOptPct    = attendance && attendance.happened + attendance.future > 0
+    ? (attendance.present + attendance.future) / (attendance.happened + attendance.future) * 100
+    : attPct;
+  const attEnables   = attendance && attOptPct !== null ? gradeForAtt(attOptPct) : null;
+  const forumEnables = forumTotal > 0 ? gradeForForum(forumDone + forumPending) : null;
+  const enablesLine  = g => g ? `<div class="grade-enables">enables up to <strong>${esc(g)}</strong></div>` : '';
+
+  const attCol = attendance ? `
+    <div class="grade-card-divider"></div>
+    <div class="grade-card-col">
+      <div class="grade-card-label"><a href="#sec-att">Attendance</a></div>
+      ${attendance.loadError || attendance.notFound
+        ? `<div class="grade-card-sub" style="font-style:italic">${attendance.loadError ? 'Could not load' : 'ID not found in tab'}</div>`
+        : `<div class="grade-card-value">${attendance.present}<span style="font-size:1rem;font-weight:400;color:var(--muted)"> / ${attendance.total} sessions</span></div>
+      ${attMeter(attendance.present, attendance.absent, attendance.future)}
+      ${enablesLine(attEnables)}`}
+    </div>` : '';
+
+  const forumCol = forumTotal > 0 ? `
+    <div class="grade-card-divider"></div>
+    <div class="grade-card-col">
+      <div class="grade-card-label"><a href="#sec-forum">Forum Activity</a></div>
+      <div class="grade-card-value">${forumDone}<span style="font-size:1rem;font-weight:400;color:var(--muted)"> / ${forumTotal}</span></div>
+      <div class="g-pending">${forumDone} done · ${forumNotDone} missed · ${forumPending} upcoming</div>
+      ${enablesLine(forumEnables)}
+    </div>` : '';
+
+  let html = `
+    <div class="grade-card">
+      <div class="grade-card-col">
+        <div class="grade-card-label"><a href="#sec-slo">Learning Objectives</a></div>
+        <div class="grade-card-value">${sloScore.toFixed(1)}<span style="font-size:1rem;font-weight:400;color:var(--muted)"> / 30</span></div>
+        ${meter(sloA, sloP, sloN, 30)}
+        ${enablesLine(sloEnables)}
+      </div>
+      ${forumCol}
+      <div class="grade-card-divider"></div>
+      <div class="grade-card-col">
+        <div class="grade-card-label"><a href="#sec-proj">Final Project</a></div>
+        <div class="grade-card-value">${projScore.toFixed(1)}<span style="font-size:1rem;font-weight:400;color:var(--muted)"> / 10</span></div>
+        ${meter(projA, projP, projN, 10, false)}
+        ${enablesLine(projEnables)}
+      </div>
+      ${attCol}
+    </div>
+  `;
+
+  // ── SLO tables by week ───────────────────────────────────────────────────
+  html += `<h2 id="sec-slo">Learning Objectives</h2>`;
+  const weekNums = [...new Set(Object.values(sloData).map(d => d.week))].sort((a,b) => a-b);
+
+  weekNums.forEach(wk => {
+    const entries = Object.entries(sloData).filter(([,d]) => d.week === wk).sort(([a],[b]) => a.localeCompare(b));
+    const topic   = WEEK_TOPICS[wk] || '';
+    let rows = '';
+    entries.forEach(([code, d]) => {
+      rows += `<tr>
+        <td style="font-family:monospace;white-space:nowrap">${esc(code)}</td>
+        <td>${esc(d.description)}</td>
+        ${markCell(d.reading, true, false)}
+        ${markCell(d.quiz, false, false)}
+        ${markCell(d.practice, false, false)}
+        ${markCell(d.mastery, false, true)}
+      </tr>`;
+    });
+    html += `
+      <div class="week-heading">
+        <h3>Week ${wk}</h3>
+        ${topic ? `<span class="week-topic">${esc(topic)}</span>` : ''}
+      </div>
+      <table>
+        <thead><tr>
+          <th style="width:56px">Code</th>
+          <th>Objective</th>
+          <th class="mk" title="Reading completed?">Read.</th>
+          <th class="mk">Quiz</th>
+          <th class="mk">Practice</th>
+          <th class="mk mk-mastery">Mastery</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+  });
+
+  // ── Forum activity detail ────────────────────────────────────────────────
+  if (forumTotal > 0){
+    html += `<h2 id="sec-forum">Forum Activity</h2>`;
+    const forumHappened = forumTotal - forumPending;
+    html += `<p>You completed <strong>${forumDone}</strong> of <strong>${forumHappened}</strong> forum activities so far.${forumPending > 0 ? ` <em>${forumPending} still ahead.</em>` : ''}</p>`;
+    html += `<div class="att-session-list">`;
+    forumItems.forEach(item => {
+      const cls  = item.done ? 'att-P' : item.pending ? 'att-future' : 'att-N';
+      const icon = item.done ? '✓' : item.pending ? '·' : '✗';
+      html += `<span class="att-badge ${cls}">${icon} ${esc(item.label)}</span>`;
+    });
+    html += `</div>`;
+  }
+
+  // ── Project specs ────────────────────────────────────────────────────────
+  html += `<h2 id="sec-proj">Final Project</h2>`;
+  let projRows = '';
+  for (let i = 1; i <= 10; i++){
+    const v = projData[i] || '';
+    projRows += `<tr>
+      <td style="font-family:monospace">PRO${String(i).padStart(2,'0')}</td>
+      <td>${esc(PROJECT_SPECS[i-1])}</td>
+      ${markCell(v, false, false)}
+    </tr>`;
+  }
+  html += `
+    <table>
+      <thead><tr><th style="width:56px">Spec</th><th>Description</th><th class="mk">Mark</th></tr></thead>
+      <tbody>${projRows}</tbody>
+    </table>
+  `;
+
+  // ── Attendance detail ────────────────────────────────────────────────────
+  if (attendance){
+    html += `<h2 id="sec-att">Attendance</h2>`;
+    if (attendance.loadError){
+      html += `<p class="g-status err">Could not read Attendance tab: ${esc(attendance.loadError)}</p>`;
+    } else if (attendance.notFound){
+      html += `<p class="g-status err">Your student ID was not found in the Attendance tab. Contact your instructor if this seems wrong.</p>`;
+    } else if (attendance.total > 0){
+      html += `<p>You attended <strong>${attendance.present}</strong> of <strong>${attendance.total}</strong> sessions${attendance.happened > 0 ? ` (${attendance.happened} held so far)` : ''}.${attendance.future > 0 ? ` <em>${attendance.future} still ahead.</em>` : ''}</p>`;
+      html += `<div class="att-session-list">`;
+      attendance.sessions.forEach(s => {
+        const cls  = s.value === 'P' ? 'att-P' : s.value === 'N' ? 'att-N' : 'att-future';
+        const icon = s.value === 'P' ? '✓' : s.value === 'N' ? '✗' : '·';
+        html += `<span class="att-badge ${cls}" title="${esc(s.value||'upcoming')}">${icon} ${esc(s.label)}</span>`;
+      });
+      html += `</div>`;
+    } else {
+      html += `<p>No attendance data recorded yet.</p>`;
+    }
+  }
+
+  return html;
+}
+
+// ── Entry point ────────────────────────────────────────────────────────────
+const statusEl  = document.getElementById('g-status');
+const resultsEl = document.getElementById('g-results');
+const keyInput  = document.getElementById('g-key');
+
+async function run(){
+  const key = keyInput.value.trim();
+  statusEl.className  = 'g-status';
+  statusEl.textContent = '';
+  resultsEl.innerHTML  = '';
+  if (!key){ statusEl.className='g-status err'; statusEl.textContent='Enter your student ID.'; return; }
+
+  try {
+    statusEl.textContent = 'Loading grades…';
+    const marksPayload = await loadGViz(gvizUrl(MARKS_TAB));
+    if (!marksPayload?.table) throw new Error('Could not read Marks sheet.');
+
+    const headers = extractHeaders(marksPayload.table);
+    const allRows = extractRows(marksPayload.table);
+    const match   = allRows.filter(r => (r[0]||'').trim().toLowerCase() === key.toLowerCase());
+    if (match.length === 0){ statusEl.className='g-status err'; statusEl.textContent=`No record found for "${key}".`; return; }
+    if (match.length > 1)  { statusEl.className='g-status err'; statusEl.textContent=`Multiple records for "${key}" — contact your instructor.`; return; }
+
+    statusEl.textContent = 'Loading attendance…';
+    let attendance = null;
+    try {
+      const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(ATTENDANCE_TAB)}`;
+      const resp = await fetch(csvUrl);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const csvText = await resp.text();
+      console.log('[CSV raw] first 300 chars:', csvText.slice(0,300));
+      attendance = parseAttendanceCSV(csvText, key);
+      console.log('[Grades] att (CSV):', attendance?.notFound ? 'ID not found' : `${attendance.total} sessions, ${attendance.present}P ${attendance.absent}N`);
+    } catch(attErr){
+      console.warn('[Grades] Attendance error:', attErr);
+    }
+
+    statusEl.className  = 'g-status ok';
+    statusEl.textContent = `Loaded. Showing grades for student ${key}.`;
+    resultsEl.innerHTML  = render(key, headers, match[0], attendance);
+
+  } catch(e){
+    statusEl.className  = 'g-status err';
+    statusEl.textContent = e.message;
+  }
+}
+
+document.getElementById('g-btn').addEventListener('click', run);
+keyInput.addEventListener('keydown', e => { if (e.key === 'Enter') run(); });
+
+})();
+</script>

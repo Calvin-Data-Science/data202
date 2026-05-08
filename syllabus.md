@@ -78,17 +78,14 @@ This course uses **Standards-Based Grading (SBG)**, also called Mastery Grading.
 
 Each learning objective is tied to three assignment types: a **Reading**, a **Quiz**, and a **Practice**. Readings are scored as Completed or Incomplete; quizzes and practices are scored as **A** (Achieved), **P** (Partially Achieved), or **N** (Not Yet).
 
-The reading must be completed. If it is not, the objective is N regardless of quiz or practice scores. Otherwise, mastery equals the lower of your quiz and practice scores:
+The reading must be completed first — if incomplete, mastery is **N** regardless of quiz or practice scores. Otherwise, mastery is the **lower** of your quiz and practice scores:
 
-| Reading    | Quiz | Practice | Mastery |
-|------------|------|----------|---------|
-| Completed  | A    | A        | **A**   |
-| Completed  | A    | P        | **P**   |
-| Completed  | P    | A        | **P**   |
-| Completed  | P    | P        | **P**   |
-| Completed  | N    | —        | **N**   |
-| Completed  | —    | N        | **N**   |
-| Incomplete | —    | —        | **N**   |
+|             | Practice: A | Practice: P | Practice: N |
+|-------------|:-----------:|:-----------:|:-----------:|
+| **Quiz: A** |    **A**    |    **P**    |    **N**    |
+| **Quiz: P** |    **P**    |    **P**    |    **N**    |
+| **Quiz: N** |    **N**    |    **N**    |    **N**    |
+{: style="width:auto"}
 
 ### Final grade
 

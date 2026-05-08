@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "Bash(python scripts/md_to_h5p.py weeks/01/reading.md)",
-      "Bash(python -c ':*)"
+      "Bash(python -c ':*)",
+      "Bash(python -c ' *)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 \"c:/Users/fs33/AppData/Local/Temp/write_grades.py\")",
+      "Bash(python3 \"c:/Users/fs33/AppData/Local/Temp/patch_grades.py\")",
+      "Bash(python3 \"c:/Users/fs33/AppData/Local/Temp/fix9.py\")",
+      "Bash(python3 \"c:/Users/fs33/AppData/Local/Temp/verify_grades.py\")",
+      "Bash(cd /tmp)",
+      "Bash(python \"c:/Users/fs33/AppData/Local/Temp/write_grades.py\")",
+      "Bash(python \"c:/Users/fs33/AppData/Local/Temp/verify_grades.py\")"
     ]
   }
 }
