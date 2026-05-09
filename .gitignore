@@ -6,3 +6,6 @@ _site/
 # Private grade data — never commit
 grades/grades.xlsx
 grades/grade-data/
+
+# Deployment script (contains server path)
+deploy.ps1

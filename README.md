@@ -76,3 +76,4 @@ The server redirect at `/courses/data/202/index.html` points to `/courses/data/2
 - `_site/` — Jekyll build output
 - `grades/grades.xlsx` — private gradebook with student data
 - `grades/grade-data/` — generated per-student JSON files
+- `deploy.ps1` — deployment script with server path
