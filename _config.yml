@@ -1,7 +1,11 @@
 title: DATA202 - Introduction to Machine Learning
 description: Course website for DATA202 - Introduction to Machine Learning at Calvin University
+baseurl: /courses/data/202/26fa
 markdown: kramdown
 theme: null
 
 exclude:
   - "weeks/**/slides.md"
+  - "grades/grades.xlsx"
+  - "grades/generate.py"
+  - "deploy.ps1"

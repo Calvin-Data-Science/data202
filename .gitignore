@@ -2,3 +2,9 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 .DS_Store
+
+# Private grade data — never commit
+grades/
+
+# Deployment script (contains server path and key reference)
+deploy.ps1

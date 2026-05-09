@@ -13,18 +13,17 @@ title: Weekly Materials
 .tag-quiz  { background:#dbeafe; color:#1e40af; }
 .tag-forum { background:#fef9c3; color:#854d0e; }
 .tag-ms    { background:#f3e8ff; color:#6b21a8; }
-.sessions { border-collapse:collapse; margin:.2rem 0 .55rem; }
+.sessions { border-collapse:collapse; margin:.2rem 0 .45rem; }
 .sessions td { padding:.14rem .55rem .14rem 0; vertical-align:baseline; font-size:.93rem; }
 .sessions .d   { color:var(--muted); font-size:.82rem; white-space:nowrap; width:82px; }
 .sessions .lnk { font-size:.82rem; white-space:nowrap; }
 .sessions .off { color:var(--muted); font-style:italic; }
-.prac { font-size:.88rem; }
-.prac-due { color:var(--muted); }
+.forum-qs { font-size:.88rem; margin-top:.15rem; }
 </style>
 
 # Weekly Materials
 
-Each class session has a demo notebook live-coded in class. Practice notebooks are started on Fridays and due the following Monday.
+Each class session has a demo notebook live-coded in class. Friday sessions are practice sessions — the practice notebook link is in the right column.
 
 <div class="wk">
 <div class="wk-head"><h2>Week 1 — Introduction</h2></div>
@@ -40,9 +39,8 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Sep 7</td><td class="off" colspan="2">Labor Day — no class</td></tr>
 <tr><td class="d">Wed Sep 9</td><td>Plotly basics</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Sep 11</td><td>Practice · Quiz 1</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Sep 11</td><td>Practice · Quiz 1</td><td class="lnk"><a href="#">Practice 1</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 1</a> <span class="prac-due">· due Mon Sep 14</span></div>
 </div>
 
 <div class="wk">
@@ -50,9 +48,9 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Sep 14</td><td>Grouping data</td><td class="lnk"><a href="#">Demo</a></td></tr>
 <tr><td class="d">Wed Sep 16</td><td>Visual exploration</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Sep 18</td><td>Practice · Forum 1</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Sep 18</td><td>Practice · Forum 1</td><td class="lnk"><a href="#">Practice 2</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 2</a> <span class="prac-due">· due Mon Sep 21</span></div>
+<div class="forum-qs"><a href="#">Forum 1 discussion questions</a></div>
 </div>
 
 <div class="wk">
@@ -60,9 +58,8 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Sep 21</td><td>Joining tables</td><td class="lnk"><a href="#">Demo</a></td></tr>
 <tr><td class="d">Wed Sep 23</td><td>Tidying tables</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Sep 25</td><td>Practice · Quiz 2</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Sep 25</td><td>Practice · Quiz 2</td><td class="lnk"><a href="#">Practice 3</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 3</a> <span class="prac-due">· due Mon Sep 28</span></div>
 </div>
 
 <div class="wk">
@@ -70,9 +67,9 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Sep 28</td><td>PCA</td><td class="lnk"><a href="#">Demo</a></td></tr>
 <tr><td class="d">Wed Sep 30</td><td>Clustering</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Oct 2</td><td>Practice · Forum 2</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Oct 2</td><td>Practice · Forum 2</td><td class="lnk"><a href="#">Practice 4</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 4</a> <span class="prac-due">· due Mon Oct 5</span></div>
+<div class="forum-qs"><a href="#">Forum 2 discussion questions</a></div>
 </div>
 
 <div class="wk">
@@ -80,9 +77,8 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Oct 5</td><td>Classification basics</td><td class="lnk"><a href="#">Demo</a></td></tr>
 <tr><td class="d">Wed Oct 7</td><td>Classifier validation</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Oct 9</td><td>Practice · Quiz 3</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Oct 9</td><td>Practice · Quiz 3</td><td class="lnk"><a href="#">Practice 5</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 5</a> <span class="prac-due">· due Mon Oct 12</span></div>
 </div>
 
 <div class="wk">
@@ -99,9 +95,9 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Oct 19</td><td class="off" colspan="2">Fall Break — no class</td></tr>
 <tr><td class="d">Wed Oct 21</td><td class="off" colspan="2">Fall Break — no class</td></tr>
-<tr><td class="d">Fri Oct 23</td><td>Practice · Forum 3</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Oct 23</td><td>Practice · Forum 3</td><td class="lnk"><a href="#">Practice 6</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 6</a> <span class="prac-due">· due Mon Oct 26</span></div>
+<div class="forum-qs"><a href="#">Forum 3 discussion questions</a></div>
 </div>
 
 <div class="wk">
@@ -109,9 +105,8 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Oct 26</td><td>Preprocessing</td><td class="lnk"><a href="#">Demo</a></td></tr>
 <tr><td class="d">Wed Oct 28</td><td>Missing data</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Oct 30</td><td>Practice · Quiz 4</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Oct 30</td><td>Practice · Quiz 4</td><td class="lnk"><a href="#">Practice 7</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 7</a> <span class="prac-due">· due Mon Nov 2</span></div>
 </div>
 
 <div class="wk">
@@ -119,9 +114,9 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 2</td><td>Linear Regression</td><td class="lnk"><a href="#">Demo</a></td></tr>
 <tr><td class="d">Wed Nov 4</td><td>Regression validation</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Nov 6</td><td>Practice · Forum 4</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Nov 6</td><td>Practice · Forum 4</td><td class="lnk"><a href="#">Practice 8</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 8</a> <span class="prac-due">· due Mon Nov 9</span></div>
+<div class="forum-qs"><a href="#">Forum 4 discussion questions</a></div>
 </div>
 
 <div class="wk">
@@ -129,9 +124,8 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 9</td><td>Logistic Regression</td><td class="lnk"><a href="#">Demo</a></td></tr>
 <tr><td class="d">Wed Nov 11</td><td>Ensembles</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Nov 13</td><td>Practice · Quiz 5</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Nov 13</td><td>Practice · Quiz 5</td><td class="lnk"><a href="#">Practice 9</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 9</a> <span class="prac-due">· due Mon Nov 16</span></div>
 </div>
 
 <div class="wk">
@@ -139,9 +133,9 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 16</td><td>Imbalanced data</td><td class="lnk"><a href="#">Demo</a></td></tr>
 <tr><td class="d">Wed Nov 18</td><td>Time-series data</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Nov 20</td><td>Practice · Forum 5</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Nov 20</td><td>Practice · Forum 5</td><td class="lnk"><a href="#">Practice 10</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 10</a> <span class="prac-due">· due Mon Nov 23</span></div>
+<div class="forum-qs"><a href="#">Forum 5 discussion questions</a></div>
 </div>
 
 <div class="wk">
@@ -158,9 +152,8 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 30</td><td>Fairness methods</td><td class="lnk"><a href="#">Demo</a></td></tr>
 <tr><td class="d">Wed Dec 2</td><td>Interpretability methods</td><td class="lnk"><a href="#">Demo</a></td></tr>
-<tr><td class="d">Fri Dec 4</td><td>Practice · Quiz 6</td><td class="lnk"><a href="#">Demo</a></td></tr>
+<tr><td class="d">Fri Dec 4</td><td>Practice · Quiz 6</td><td class="lnk"><a href="#">Practice 11</a></td></tr>
 </tbody></table>
-<div class="prac"><a href="#">Practice 11</a> <span class="prac-due">· due Mon Dec 7</span></div>
 </div>
 
 <div class="wk">
@@ -169,4 +162,5 @@ Each class session has a demo notebook live-coded in class. Practice notebooks a
 <tr><td class="d">Mon Dec 7</td><td>Project progress check</td><td></td></tr>
 <tr><td class="d">Wed Dec 9</td><td>Forum 6 · Wrap Up</td><td></td></tr>
 </tbody></table>
+<div class="forum-qs"><a href="#">Forum 6 discussion questions</a></div>
 </div>
