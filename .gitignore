@@ -4,7 +4,5 @@ _site/
 .DS_Store
 
 # Private grade data — never commit
-grades/
-
-# Deployment script (contains server path and key reference)
-deploy.ps1
+grades/grades.xlsx
+grades/grade-data/
