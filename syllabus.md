@@ -118,12 +118,13 @@ For the Forum assignments we read *Counting: How We Use Numbers to Decide What M
 
 ### Supplemental references
 
-These open-access books are free to read online. None are required, but each is excellent for going deeper on specific topics:
+Most of these are open-access books. None are required, but each is excellent for going deeper on specific topics:
 
-- **Learning Data Science** — Sam Lau, Joey Gonzalez, and Deb Nolan. The closest thing to a textbook for this course. Covers pandas, visualization, and modeling in Python.
-- **Fundamentals of Data Visualization** — Claus O. Wilke. A thorough, language-agnostic guide to making effective charts. Useful for the visualization weeks and for the final project.
-- **Interpretable Machine Learning** — Christoph Molnar. Covers feature importance, partial dependence plots, LIME, SHAP, and more — directly relevant to Weeks 7 and 14.
-- **Fairness and Machine Learning** — Solon Barocas, Moritz Hardt, and Arvind Narayanan. The authoritative text on fairness, bias, and accountability in ML. Directly relevant to Week 14.
+- **[Learning Data Science](https://learningds.org/)** — Sam Lau, Joey Gonzalez, and Deb Nolan. The closest thing to a textbook for this course. Covers pandas, visualization, and modeling in Python.
+- **[Fundamentals of Data Visualization](https://clauswilke.com/dataviz/)** — Claus O. Wilke. A thorough, language-agnostic guide to making effective charts. Useful for the visualization weeks and for the final project.
+- **[Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/)** — Christoph Molnar. Covers feature importance, partial dependence plots, LIME, SHAP, and more — directly relevant to Weeks 7 and 14.
+- **[Fairness and Machine Learning](https://fairmlbook.org/)** — Solon Barocas, Moritz Hardt, and Arvind Narayanan. The authoritative text on fairness, bias, and accountability in ML. Directly relevant to Week 14.
+- **Machine Learners: Archaeology of a Data Practice** — Adrian Mackenzie (MIT Press, 2017). A dense, critical examination of machine learning as a cultural and scientific practice, drawing on Science and Technology Studies (STS), social theory, and the humanities. Not light reading — but we will draw on some of its ideas in class discussions about how ML practices are embedded in broader cultural, social and institutional contexts.
 
 ## Policies
 

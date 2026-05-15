@@ -8,12 +8,9 @@ week_number: 10
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Formulate a regression problem and fit a linear model
-- Interpret coefficients, residuals, and R² in context
-- Apply regularization (Ridge, Lasso) and explain its effect on coefficients
-- Diagnose model fit with residual plots and identify violations of assumptions
+- **10A** I can train and interpret linear regression models.
+- **10B** I can apply Ridge and Lasso regularization to reduce overfitting and explain the effect of the regularization parameter.
+- **10C** I can compute and interpret regression performance metrics — MAE, RMSE, and R².
 
 ## Perspectival Reading
 
@@ -25,14 +22,7 @@ By the end of this week, students will be able to:
 2. What does it mean for a coefficient to be "significant"? Significant to whom, and for what purpose?
 3. How might the choice to use a linear model reflect or reinforce existing patterns in society?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
-
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 10 Practice — GitHub Classroom](#) *(link TBD)*
+- [Monday class](class_mon.ipynb)
+- [Wednesday class](class_wed.ipynb)

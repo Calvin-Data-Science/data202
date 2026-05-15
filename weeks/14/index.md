@@ -8,12 +8,8 @@ week_number: 14
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Distinguish intrinsic interpretability from post-hoc explainability
-- Apply SHAP values to explain individual predictions and global feature importance
-- Apply LIME to explain predictions from any black-box model
-- Critically evaluate the limitations of explanation methods and connect them to accountability
+- **14A** I can apply fairness metrics to compare model performance across demographic subgroups and articulate trade-offs between competing fairness criteria.
+- **14B** I can use interpretability techniques — feature importance, partial dependence plots, and LIME — to explain model predictions.
 
 ## Perspectival Reading
 
@@ -25,14 +21,7 @@ By the end of this week, students will be able to:
 2. Interpretability is often demanded for high-stakes decisions — but by whom, and for whom?
 3. Can an explanation be technically correct and still be ethically inadequate?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
-
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 14 Practice — GitHub Classroom](#) *(link TBD)*
+- [Monday class](class_mon.ipynb)
+- [Wednesday class](class_wed.ipynb)

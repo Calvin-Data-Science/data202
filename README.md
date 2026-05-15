@@ -40,15 +40,6 @@ The `/grades/` page lets each student view their own SBG marks by entering a per
 - Jekyll copies `grades/grade-data/*.json` into `_site/grades/grade-data/` (xlsx and generate.py are excluded via `_config.yml`).
 - Student link: `https://cs.calvin.edu/courses/data/202/26fa/grades/?key=POKEMONNAME`
 
-### Updating grades
-
-```powershell
-cd grades/
-python3 generate.py      # regenerates all JSON files from grades.xlsx
-cd ..
-.\deploy.ps1             # rebuilds Jekyll + deploys to Calvin server
-```
-
 ## Local preview
 
 ```powershell
@@ -66,7 +57,6 @@ deploy.ps1
   1. Runs grades/generate.py (if grades.xlsx exists)
   2. Runs bundle exec jekyll build
   3. Copies _site/ to Calvin server via scp
-  4. Fixes file permissions on the server via ssh
 ```
 
 The server redirect at `/courses/data/202/index.html` points to `/courses/data/202/26fa/`.

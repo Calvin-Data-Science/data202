@@ -1,0 +1,62 @@
+// Week 01 Retrieval Quiz — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// 7 questions covering all three pages of the Week 01 reading
+
+$CATEGORY: Week 01 / Retrieval 01
+
+// ── Page 1: What Is Machine Learning? ────────────────────────────────────────
+
+::W01-Q1 Tom Mitchell's definition::
+In Tom Mitchell's definition of machine learning, what does the letter E stand for?{
+=Experience #Correct. E is the experience the program learns from — in the spam example\, this is the labeled email dataset.
+~Error #Error is not one of the three components in Mitchell's definition. Re-read the quote in the reading.
+~Evaluation #Close\, but evaluation-related ideas are captured by P (performance measure)\, not E.
+~Environment #Environment is a key term in reinforcement learning\, but it is not what E stands for in Mitchell's definition.
+}
+
+::W01-Q2 Traditional vs. ML mindset::
+According to the reading, in traditional programming the flow is "Rules + Data → Output." What is the equivalent flow in machine learning?{
+=Data + Output → Rules #Correct. ML inverts the traditional flow\, inferring rules from examples rather than following programmer-supplied logic.
+~Rules + Data → Output #That describes traditional programming\, not machine learning.
+~Data + Rules → Output #This is still the traditional paradigm\, just reordered.
+~Output + Rules → Data #This does not describe either paradigm accurately.
+}
+
+// ── Page 2: Three Flavors and the Workflow ───────────────────────────────────
+
+::W01-Q3 ML paradigm matching::Match each machine learning paradigm to its defining characteristic.{
+=Supervised learning -> Every training example has a known correct answer called a label
+=Unsupervised learning -> The algorithm must find structure in data without any labels
+=Reinforcement learning -> An agent receives rewards or penalties to learn a policy
+}
+
+::W01-Q4 RL key term::
+In reinforcement learning, the strategy an agent develops to decide what action to take in any given situation is called a {
+=policy #Correct. A policy maps situations to actions\, and the agent learns the policy that maximises cumulative reward.
+~label #A label is used in supervised learning to mark the correct output for a training example.
+~feature #A feature is an input variable used to describe a data point\, not a decision strategy.
+~hyperparameter #A hyperparameter is a configuration setting for a model\, not an RL decision strategy.
+}.
+
+::W01-Q5 Workflow step — data::
+Which step of the machine learning workflow involves examining dataset size, checking for missing values, and identifying potential biases?{
+=Collect and explore the data #Correct. This is step 2\, where you investigate what your data actually looks like before touching a model.
+~Prepare features #Feature preparation (step 3) transforms the data; exploration happens before that.
+~Frame the problem #Framing (step 1) is about defining the task and success criteria\, not inspecting the dataset.
+~Evaluate and iterate #Evaluation (step 5) measures model performance on held-out data after training.
+}
+
+// ── Page 3: A Critical Lens ──────────────────────────────────────────────────
+
+::W01-Q6 ML and bias::
+TRUE or FALSE: Because machine learning models learn from data rather than from human-written rules, they are free from human bias.{
+FALSE #Correct. Every dataset reflects the world that produced it — including historical inequities. A model trained on biased data will reproduce and amplify that bias.
+}
+
+::W01-Q7 Real-world bias example::
+The reading describes a recidivism prediction tool used in US courts. What was the key finding about its predictions?{
+=It was twice as likely to falsely flag Black defendants as high-risk compared to white defendants. #Correct. This is one of the well-documented cases showing that optimising for aggregate accuracy can hide systematic failure for specific groups.
+~It was equally accurate across all demographic groups. #The reading states the opposite — accuracy was not equal across groups.
+~It was found to be biased against defendants with prior convictions, regardless of race. #The documented finding in the reading is specifically about racial disparity\, not prior-conviction bias.
+~It was decommissioned before being used in real cases. #The tool was in active use in courts — that is why the finding was significant.
+}

@@ -8,12 +8,9 @@ week_number: 4
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Explain the concept of a primary key and a foreign key
-- Perform inner, left, right, and outer joins with `pd.merge`
-- Identify and apply tidy data principles (one observation per row, one variable per column)
-- Reshape data between wide and long formats using `melt` and `pivot`
+- **04A** I can describe the structure of relational data and identify key columns and relationships between tables.
+- **04B** I can join tables using different join types (inner, left, right, outer) and explain when each is appropriate.
+- **04C** I can reshape data between wide and long (tidy) formats.
 
 ## Perspectival Reading
 
@@ -25,14 +22,7 @@ By the end of this week, students will be able to:
 2. When tables from different sources are joined, whose data definitions take precedence?
 3. Tidy data is a design choice — what does it mean to say data is "messy"?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
-
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 4 Practice — GitHub Classroom](#) *(link TBD)*
+- [Monday class](class_mon.ipynb)
+- [Wednesday class](class_wed.ipynb)

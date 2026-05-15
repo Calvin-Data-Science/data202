@@ -1,3 +1,14 @@
+{% assign semester_start = 1788134400 %}
+{% assign week_offset = page.week_number | minus: 1 | times: 7 | times: 86400 %}
+{% assign week_start = semester_start | plus: week_offset %}
+{% assign this_monday = week_start %}
+{% assign this_friday = week_start | plus: 345600 %}
+{% assign next_monday = week_start | plus: 604800 %}
+{% assign next_wednesday = next_monday | plus: 172800 %}
+{% assign wk = site.data.weeks | where: "week", page.week_number | first %}
+{% assign next_week_num = page.week_number | plus: 1 %}
+{% assign wk_next = site.data.weeks | where: "week", next_week_num | first %}
+{% assign next_friday = this_friday | plus: 604800 %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -30,11 +41,27 @@
           &nbsp;&nbsp;
           <a href="{{ '/weeks/' | relative_url }}{{ page.week_number | minus: 1 | prepend: '0' | slice: -2, 2 }}/">&larr; Week {{ page.week_number | minus: 1 }}</a>
         {% endif %}
-        {% if page.week_number < 14 %}
+        {% if page.week_number < 15 %}
           &nbsp;&nbsp;
           <a href="{{ '/weeks/' | relative_url }}{{ page.week_number | plus: 1 | prepend: '0' | slice: -2, 2 }}/">Week {{ page.week_number | plus: 1 }} &rarr;</a>
         {% endif %}
       </div>
+
+      {% if wk %}
+      <div class="week-deadlines">
+        <p class="deadlines-title">Deadlines</p>
+        {% if wk.note %}<p class="deadline-note">{{ wk.note }}</p>{% endif %}
+        <ul class="deadline-list">
+          {% if wk.moodle_reading %}<li><span class="deadline-type">Moodle Reading</span> Mon {{ next_monday | date: "%b %-d" }}, midnight</li>{% endif %}
+          {% if wk.practice %}<li><span class="deadline-type">Practice {{ wk.practice }}</span> Mon {{ next_monday | date: "%b %-d" }}, midnight</li>{% endif %}
+          {% if wk.book_chapter %}<li><span class="deadline-type book">Book Ch. {{ wk.book_chapter }}</span>{% if wk.book_chapter_title and wk.book_chapter_title != "TBD" %} — {{ wk.book_chapter_title }}{% endif %} — read for Forum {{ wk.forum }}, Fri {{ this_friday | date: "%b %-d" }}</li>{% endif %}
+          {% if wk_next.book_chapter %}<li><span class="deadline-type book">Book Ch. {{ wk_next.book_chapter }}</span>{% if wk_next.book_chapter_title and wk_next.book_chapter_title != "TBD" %} — {{ wk_next.book_chapter_title }}{% endif %} — read for Forum {{ wk_next.forum }}, Fri {{ next_friday | date: "%b %-d" }} <em>(next week)</em></li>{% endif %}
+          {% if wk.quiz %}<li><span class="deadline-type quiz">Quiz {{ wk.quiz }}</span> Fri {{ this_friday | date: "%b %-d" }}, in class</li>{% endif %}
+          {% if wk.forum %}<li><span class="deadline-type forum">Forum {{ wk.forum }}</span> Wed {{ next_wednesday | date: "%b %-d" }}, midnight</li>{% endif %}
+          {% if wk.milestone %}<li><span class="deadline-type milestone">Milestone {{ wk.milestone }}</span> {{ wk.milestone_date }}, midnight</li>{% endif %}
+        </ul>
+      </div>
+      {% endif %}
 
       {{ content }}
     </main>
@@ -43,6 +70,25 @@
       <p class="toc-label">On this page</p>
       <nav id="toc-nav"></nav>
     </aside>
+
+    <script>
+    (function () {
+      var thisWeek = {{ page.week_number }};
+      var semesterStart = new Date('2026-08-31').getTime();
+      var msPerWeek = 7 * 24 * 60 * 60 * 1000;
+      var currentWeek = Math.floor((Date.now() - semesterStart) / msPerWeek) + 1;
+      if (thisWeek + 1 > currentWeek) {
+        var navLinks = document.querySelectorAll('.week-nav a');
+        var last = navLinks[navLinks.length - 1];
+        if (last && last.textContent.indexOf('→') !== -1) {
+          last.removeAttribute('href');
+          last.style.opacity = '0.38';
+          last.style.pointerEvents = 'none';
+          last.style.cursor = 'default';
+        }
+      }
+    })();
+    </script>
 
     <script>
     (function () {

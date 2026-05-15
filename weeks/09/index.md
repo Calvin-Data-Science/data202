@@ -8,12 +8,9 @@ week_number: 9
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Apply scaling and normalization to numerical features
-- Encode categorical variables using one-hot and ordinal encoding
-- Handle missing data with imputation strategies
-- Build a scikit-learn `Pipeline` to chain preprocessing and modeling steps
+- **09A** I can apply preprocessing steps — scaling and one-hot encoding — and explain why each is needed before modeling.
+- **09B** I can build a scikit-learn pipeline that chains preprocessing and modeling steps into a single reproducible workflow.
+- **09C** I can identify how missing data arise (MCAR, MAR, MNAR) and choose appropriate imputation strategies for each case.
 
 ## Perspectival Reading
 
@@ -25,14 +22,7 @@ By the end of this week, students will be able to:
 2. Imputation fills in missing values with estimates. What assumptions does a chosen strategy make about why data is missing?
 3. When you encode a variable like gender or ethnicity, what are you doing to how the model treats those groups?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
-
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 9 Practice — GitHub Classroom](#) *(link TBD)*
+- [Monday class](class_mon.ipynb)
+- [Wednesday class](class_wed.ipynb)

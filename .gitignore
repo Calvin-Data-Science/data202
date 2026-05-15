@@ -3,6 +3,9 @@ _site/
 .jekyll-metadata
 .DS_Store
 
+# Textbooks — copyright, never commit or deploy
+textbooks/
+
 # Private grade data — never commit
 grades/grades.xlsx
 grades/grade-data/

@@ -1,0 +1,122 @@
+DATASETS PLAN — DATA 202
+========================
+For each week: class (Mon/Wed/Fri) and practice sessions.
+Status: [x] confirmed in notebook   [ ] planned/to add
+
+Datasets folder: /datasets/
+URL base: https://raw.githubusercontent.com/fpasquinisantos/data202/main/datasets/
+
+---
+
+WEEK 1 — Introduction / Python & Pandas Basics
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ] (Python review — no dataset needed)
+  Fri (class_fri):    [x] roman_emperors.csv
+  Practice:           [ ]
+
+---
+
+WEEK 2 — DataFrame Basics (structure, filtering, visual encodings)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [x] datasaurus.csv
+                      [x] product_sales.csv
+  Practice:           [x] amazon.csv  (Brazilian forest fires 1998–2017; 6454 rows × 5 cols)
+                          cols: year, state, month (PT→int), number, date
+                          URL:  https://cs.calvin.edu/courses/data/202/26fa/datasets/amazon.csv
+                          src:  https://www.kaggle.com/datasets/gustavomodelli/forest-fires-in-brazil
+
+---
+
+WEEK 3 — Exploring DataFrames (text cleaning, groupby, plots)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 4 — Relational Tables (joins, reshaping)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 5 — Clustering & Dimensionality Reduction (k-means, PCA)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 6 — Classification Basics (kNN, metrics, train/test split)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 7 — Decision Trees & Hyperparameter Tuning
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 8 — Fall Break (no class)
+
+---
+
+WEEK 9 — Feature Engineering (scaling, encoding, pipelines, imputation)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 10 — Linear Regression (Ridge/Lasso, MAE/RMSE/R²)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 11 — Other Models (logistic regression, random forest, gradient boosting)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 12 — Other Techniques (imbalanced data, time-series features)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 13 — Project (mid-project progress check)
+  Mon (class_mon):    [ ] (student project datasets — varies)
+
+---
+
+WEEK 14 — Interpretability & Fairness (feature importance, LIME, fairness metrics)
+  Mon (class_mon):    [ ]
+  Wed (class_wed):    [ ]
+  Practice:           [ ]
+
+---
+
+WEEK 15 — Final Project Work
+  Mon (class_mon):    [ ] (student project datasets — varies)
+
+---
+
+BUILT-IN / LIBRARY DATASETS (no file needed)
+  - gapminder         px.data.gapminder()  — used in readings/examples
+  - anscombe          referenced conceptually in Week 1 reading
+  - datasaurus dozen  referenced conceptually in Week 1 reading
+
+---
+
+NOTES / IDEAS
+  -

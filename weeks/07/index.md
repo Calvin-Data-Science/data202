@@ -8,12 +8,9 @@ week_number: 7
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Train and visualize a decision tree classifier or regressor
-- Explain how a tree splits data using Gini impurity or information gain
-- Identify overfitting in trees and control it with depth and leaf-size parameters
-- Use cross-validation and grid search to tune hyperparameters systematically
+- **07A** I can train and interpret decision tree models and explain how tree depth affects overfitting and underfitting.
+- **07B** I can use cross-validation to evaluate model performance across multiple data splits.
+- **07C** I can tune model hyperparameters using grid search.
 
 ## Perspectival Reading
 
@@ -25,14 +22,7 @@ By the end of this week, students will be able to:
 2. Hyperparameter tuning optimizes a metric. What gets optimized away in the process?
 3. Cross-validation gives an estimate of generalization. Generalization to what population?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
-
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 7 Practice — GitHub Classroom](#) *(link TBD)*
+- [Monday class](class_mon.ipynb)
+- [Wednesday class](class_wed.ipynb)

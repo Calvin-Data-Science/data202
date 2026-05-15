@@ -6,63 +6,77 @@ permalink: /resources/
 
 # Resources
 
-## Development Environment
+## Running Notebooks
 
-### Coder
-The course uses a cloud-based coding environment through **Coder**, so you don't need to install anything locally.
+All class materials and practices are `.ipynb` (Jupyter notebook) files. Download them from the course website and run them in one of two ways.
 
-- Log in at [Calvin's Coder instance](coder.cs.calvin.edu) and open a workspace
-- Your workspace includes Python, Jupyter, and all required libraries pre-installed
-- [What is Coder?](https://coder.com/docs/about) — remote development environments in a browser
-- **Tip:** your files persist within your workspace — always save your notebooks before closing
+### Option A — Coder (Recommended)
 
-### Google Colab
-Weekly demos are provided as notebooks on **Google Colab** — no setup required, runs in a browser.
+Calvin provides a cloud-based JupyterLab environment through **Coder** — nothing to install.
 
-- [Open Google Colab](https://colab.research.google.com/)
-- [Intro to Colab](https://colab.research.google.com/notebooks/intro.ipynb) — official getting-started notebook
-- Sign in with your Google account to save your own copies
+1. Log in at [coder.cs.calvin.edu](https://coder.cs.calvin.edu) with your Calvin credentials
+2. Open your workspace — Python, JupyterLab, and all required libraries are pre-installed
+3. Download the `.ipynb` file from the course website
+4. Upload it to your workspace (drag-and-drop into the JupyterLab file browser, or use the upload button)
+5. Double-click the file to open it, then run cells with **Shift + Enter**
 
-### Jupyter Notebooks
+**Tip:** files persist in your workspace between sessions — always save before closing.
 
-All course work is done in **Jupyter notebooks** (`.ipynb` files) — documents that mix executable code, output, and text in a single file.
+### Option B — Local Installation
 
-**Key concepts:**
-- A notebook is made up of **cells** — each cell is either *code* (Python) or *text* (Markdown)
-- Run a cell with **Shift + Enter**; the output appears directly below it
-- Cells share state within a session — variables defined in one cell are available in others
-- Order matters: run cells top-to-bottom; re-run if you change something earlier
+If you prefer to run notebooks on your own machine:
 
-**Common pitfalls:**
-- *Restarting the kernel* clears all variables — you'll need to re-run cells from the top
-- Output is saved in the file, but the kernel state is not — always re-run on a fresh open
-- Before submitting, use **Kernel → Restart & Run All** to confirm your notebook runs clean from top to bottom
+1. Install [Anaconda](https://www.anaconda.com/download) — includes Python, JupyterLab, and most scientific libraries
+2. Open a terminal (Anaconda Prompt on Windows) and install any missing libraries:
+   ```bash
+   pip install plotly otter-grader
+   ```
+3. Download the `.ipynb` file from the course website into a local folder
+4. Launch JupyterLab:
+   ```bash
+   jupyter lab
+   ```
+5. Navigate to the file in the JupyterLab file browser and open it
+
+### Jupyter Notebooks — Key Concepts
+
+- A notebook is made of **cells** — each is either *code* (Python) or *text* (Markdown)
+- Run a cell with **Shift + Enter**; output appears directly below
+- Cells share state within a session — variables defined in one cell are available in all others
+- Order matters: run cells top-to-bottom; re-run earlier cells if you change them
+- *Restarting the kernel* clears all variables — you'll need to re-run from the top
+- Before submitting, use **Kernel → Restart & Run All** to confirm your notebook runs clean
 
 **References:**
-- [Jupyter Notebook documentation](https://jupyter-notebook.readthedocs.io/en/stable/)
+- [JupyterLab documentation](https://jupyterlab.readthedocs.io/en/stable/)
 - [Jupyter keyboard shortcuts](https://towardsdatascience.com/jypyter-notebook-shortcuts-bf0101a98330)
 - [Markdown cheatsheet](https://www.markdownguide.org/cheat-sheet/) — for formatting text cells
 
 ---
 
-## Version Control
+## Autograding with Otter
 
-### GitHub
-Practice assignments are distributed and submitted through **GitHub Classroom**.
+This course uses **[otter-grader](https://otter-grader.readthedocs.io/)** for automatic feedback on in-class exercises and practices.
 
-- [Sign up for GitHub](https://github.com/signup) — use your `.edu` email to get the [Student Developer Pack](https://education.github.com/pack) for free
-- Each practice will give you a GitHub Classroom link that creates a personal repo for your work
-- Push your completed notebook to your repo to submit
+When you open a notebook, the first cell initializes the grader:
 
-**Getting started with Git & GitHub:**
-- [GitHub's own quickstart guide](https://docs.github.com/en/get-started/quickstart)
-- [Git cheat sheet (PDF)](https://education.github.com/git-cheat-sheet-education.pdf)
-- Key commands you'll use:
+```python
+import otter
+grader = otter.Notebook("notebook_name.ipynb")
+```
+
+After completing each task, run the check cell below it:
+
+```python
+grader.check("task_name")
+```
+
+A ✅ means your answer passes the tests. If it fails, read the message and try again. For **class exercises**, this is just for your own feedback — nothing is collected. For **practices**, the same tests are used when your notebook is graded.
+
+**Installation** (only needed for local setup — Coder already has it):
 
 ```bash
-git add .
-git commit -m "completed practice"
-git push
+pip install otter-grader
 ```
 
 ---
@@ -77,3 +91,21 @@ git push
 
 ### scikit-learn — Modeling & Machine Learning
 - [Website](https://scikit-learn.org/) · [Docs](https://scikit-learn.org/stable/documentation.html) · [Basic Tutorial](https://scikit-learn.org/stable/tutorial/basic/tutorial.html)
+
+---
+
+## Version Control
+
+All code is managed with **Git** and hosted on **GitHub**.
+
+- [Sign up for GitHub](https://github.com/signup) — use your `.edu` email to get the [Student Developer Pack](https://education.github.com/pack) for free
+- [Git cheat sheet (PDF)](https://education.github.com/git-cheat-sheet-education.pdf)
+- [GitHub quickstart guide](https://docs.github.com/en/get-started/quickstart)
+
+Key commands:
+
+```bash
+git add .
+git commit -m "description of changes"
+git push
+```

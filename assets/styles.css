@@ -306,6 +306,26 @@ td {
   font-style: italic;
 }
 
+.deadline-type.book {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.deadline-note {
+  margin: 0 0 0.45rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.week-deadlines {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.5rem;
+  width: fit-content;
+}
+
 /* ── Week page nav ── */
 .week-nav {
   font-size: 0.9rem;

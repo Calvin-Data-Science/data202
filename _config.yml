@@ -5,7 +5,9 @@ markdown: kramdown
 theme: null
 
 exclude:
-  - "weeks/**/slides.md"
+  - "textbooks/"
   - "grades/grades.xlsx"
   - "grades/generate.py"
   - "deploy.ps1"
+  - "weeks/**/dist/autograder/"
+  - "**/*.h5p"

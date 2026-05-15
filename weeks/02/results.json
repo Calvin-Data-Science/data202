@@ -1,0 +1,66 @@
+{
+    "tests": [
+        {
+            "name": "Public Tests",
+            "visibility": "visible",
+            "output": "task11 results: All test cases passed!\n\ntask12 results: All test cases passed!\n\ntask13 results: All test cases passed!\n\ntask21 results: All test cases passed!\n\ntask22 results: All test cases passed!\n\ntask23 results: All test cases passed!\n\ntask31 results: All test cases passed!\n\ntask32 results: All test cases passed!",
+            "status": "passed"
+        },
+        {
+            "name": "task11",
+            "score": 1.0,
+            "max_score": 1.0,
+            "visibility": "hidden",
+            "output": "task11 results: All test cases passed!"
+        },
+        {
+            "name": "task12",
+            "score": 1.0,
+            "max_score": 2.0,
+            "visibility": "hidden",
+            "output": "task12 results:\n    task12 - 1 result:\n        \u2705 Test case passed\n\n    task12 - 2 result:\n        \u274c Test case failed\n        Trying:\n            assert peak_state == 'Mato Grosso'\n        Expecting nothing\n        **********************************************************************\n        Line 1, in task12 1\n        Failed example:\n            assert peak_state == 'Mato Grosso'\n        Exception raised:\n            Traceback (most recent call last):\n              File \"C:\\Users\\fs33\\AppData\\Local\\anaconda3\\Lib\\doctest.py\", line 1368, in __run\n                exec(compile(example.source, filename, \"single\",\n              File \"<doctest task12 1[0]>\", line 1, in <module>\n                assert peak_state == 'Mato Grosso'\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n            AssertionError\n        Trying:\n            assert abs(total_fires - 749452.0) < 500\n        Expecting nothing\n        **********************************************************************\n        Line 2, in task12 1\n        Failed example:\n            assert abs(total_fires - 749452.0) < 500\n        Exception raised:\n            Traceback (most recent call last):\n              File \"C:\\Users\\fs33\\AppData\\Local\\anaconda3\\Lib\\doctest.py\", line 1368, in __run\n                exec(compile(example.source, filename, \"single\",\n              File \"<doctest task12 1[1]>\", line 1, in <module>\n                assert abs(total_fires - 749452.0) < 500\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n            AssertionError"
+        },
+        {
+            "name": "task13",
+            "score": 2.0,
+            "max_score": 2.0,
+            "visibility": "hidden",
+            "output": "task13 results: All test cases passed!"
+        },
+        {
+            "name": "task21",
+            "score": 1.0,
+            "max_score": 2.0,
+            "visibility": "hidden",
+            "output": "task21 results:\n    task21 - 1 result:\n        \u2705 Test case passed\n\n    task21 - 2 result:\n        \u274c Test case failed\n        Trying:\n            assert mato_grosso['state'].iloc[0] == 'Mato Grosso'\n        Expecting nothing\n        ok\n        Trying:\n            assert len(mato_grosso) == 239\n        Expecting nothing\n        **********************************************************************\n        Line 2, in task21 1\n        Failed example:\n            assert len(mato_grosso) == 239\n        Exception raised:\n            Traceback (most recent call last):\n              File \"C:\\Users\\fs33\\AppData\\Local\\anaconda3\\Lib\\doctest.py\", line 1368, in __run\n                exec(compile(example.source, filename, \"single\",\n              File \"<doctest task21 1[1]>\", line 1, in <module>\n                assert len(mato_grosso) == 239\n                       ^^^^^^^^^^^^^^^^^^^^^^^\n            AssertionError"
+        },
+        {
+            "name": "task22",
+            "score": 1.0,
+            "max_score": 2.0,
+            "visibility": "hidden",
+            "output": "task22 results:\n    task22 - 1 result:\n        \u2705 Test case passed\n\n    task22 - 2 result:\n        \u274c Test case failed\n        Trying:\n            assert top5['state'].iloc[0] == 'Mato Grosso'\n        Expecting nothing\n        **********************************************************************\n        Line 1, in task22 1\n        Failed example:\n            assert top5['state'].iloc[0] == 'Mato Grosso'\n        Exception raised:\n            Traceback (most recent call last):\n              File \"C:\\Users\\fs33\\AppData\\Local\\anaconda3\\Lib\\doctest.py\", line 1368, in __run\n                exec(compile(example.source, filename, \"single\",\n              File \"<doctest task22 1[0]>\", line 1, in <module>\n                assert top5['state'].iloc[0] == 'Mato Grosso'\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n            AssertionError"
+        },
+        {
+            "name": "task23",
+            "score": 2.0,
+            "max_score": 2.0,
+            "visibility": "hidden",
+            "output": "task23 results: All test cases passed!"
+        },
+        {
+            "name": "task31",
+            "score": 2.0,
+            "max_score": 2.0,
+            "visibility": "hidden",
+            "output": "task31 results: All test cases passed!"
+        },
+        {
+            "name": "task32",
+            "score": 3.0,
+            "max_score": 3.0,
+            "visibility": "hidden",
+            "output": "task32 results: All test cases passed!"
+        }
+    ]
+}

@@ -1,0 +1,102 @@
+# Per-week deadline configuration.
+# Omit a key (or set to false) if it doesn't apply that week.
+#
+#   moodle_reading      — H5P interactive reading on Moodle, due Monday of that week at midnight
+#   practice            — Practice notebook number; submitted via GitHub Classroom, due Monday of the following week
+#   quiz                — Quiz number; held in class on Friday
+#   forum               — Forum number; reflection post on Moodle, due Wednesday of the following week
+#   book_chapter        — Chapter number of "Counting" by Deborah Stone (read before writing the forum post)
+#   book_chapter_title  — Short chapter title; fill in when known
+#   milestone           — Project milestone number
+#   milestone_date      — Due date string for the milestone (e.g. "Sat Oct 24")
+#   note                — Extra reminder line shown in the deadlines box
+
+- week: 1
+  moodle_reading: true
+  note: "Remember to do all the course setup steps!"
+
+- week: 2
+  moodle_reading: true
+  practice: 1
+  quiz: 1
+  note: "No class Monday (Labor Day)."
+
+- week: 3
+  moodle_reading: true
+  practice: 2
+  forum: 1
+  book_chapter: 1
+  book_chapter_title: "There's No Such Thing as a Raw Number"
+
+- week: 4
+  moodle_reading: true
+  practice: 3
+  quiz: 2
+
+- week: 5
+  moodle_reading: true
+  practice: 4
+  forum: 2
+  book_chapter: 2
+  book_chapter_title: "How a Number Comes to Be"
+
+- week: 6
+  moodle_reading: true
+  practice: 5
+  quiz: 3
+
+- week: 7
+  moodle_reading: true
+  note: "No class Friday (Fall Break)."
+
+- week: 8
+  practice: 6
+  forum: 3
+  book_chapter: 3
+  book_chapter_title: "How We Know What a Number Means"
+  milestone: 1
+  milestone_date: "Sat Oct 24"
+  note: "Fall Break Mon–Wed — class meets Friday only."
+
+- week: 9
+  moodle_reading: true
+  practice: 7
+  quiz: 4
+
+- week: 10
+  moodle_reading: true
+  practice: 8
+  forum: 4
+  book_chapter: 4
+  book_chapter_title: "How Numbers Get Their Clout"
+  milestone: 2
+  milestone_date: "Sat Nov 7"
+
+- week: 11
+  moodle_reading: true
+  practice: 9
+  quiz: 5
+
+- week: 12
+  moodle_reading: true
+  practice: 10
+  forum: 5
+  book_chapter: 5
+  book_chapter_title: "How Counting Changes Hearts and Minds"
+  milestone: 3
+  milestone_date: "Sat Nov 21"
+
+- week: 13
+  note: "Thanksgiving week — class only on Monday."
+
+- week: 14
+  moodle_reading: true
+  practice: 11
+  quiz: 6
+  milestone: 4
+  milestone_date: "Sat Dec 5"
+
+- week: 15
+  forum: 6
+  book_chapter: 6
+  book_chapter_title: "The Ethics of Counting"

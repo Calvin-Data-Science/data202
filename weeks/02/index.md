@@ -8,12 +8,9 @@ week_number: 2
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Create and inspect a pandas DataFrame from various sources
-- Select, filter, and slice rows and columns using `.loc` and `.iloc`
-- Understand the difference between a Series and a DataFrame
-- Sort, rename, and perform basic operations on tabular data
+- **02A** I can manipulate the structure and contents of pandas DataFrames by accessing, adding, and deleting rows and columns.
+- **02B** I can sort, filter, and query DataFrames to find and highlight specific information.
+- **02C** I can choose appropriate visual encodings (axes, color, size, symbol, text) to represent variables in a visualization.
 
 ## Perspectival Reading
 
@@ -25,14 +22,8 @@ By the end of this week, students will be able to:
 2. Who decides what a "row" and a "column" represent, and what is at stake in that choice?
 3. Data types encode assumptions about the world. What happens when reality doesn't fit the available types?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
+- [Wednesday class](class_wed.ipynb)
+- [Practice 01](dist/student/practice01.ipynb)
 
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 2 Practice — GitHub Classroom](#) *(link TBD)*

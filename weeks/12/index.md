@@ -8,12 +8,8 @@ week_number: 12
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Identify class imbalance and explain why it distorts standard metrics
-- Apply resampling strategies (oversampling, undersampling, SMOTE) and class weighting
-- Describe the structure of time-series data and why standard train/test splits fail
-- Apply a time-respecting validation strategy for temporal data
+- **12A** I can identify class imbalance in a dataset and apply techniques such as resampling or adjusted decision thresholds to address it.
+- **12B** I can engineer features for time-series data (lag features, rolling statistics) and use time-aware train-test splits to avoid data leakage.
 
 ## Perspectival Reading
 
@@ -25,14 +21,7 @@ By the end of this week, students will be able to:
 2. Who typically occupies the minority class in socially consequential ML problems (fraud detection, medical diagnosis)?
 3. Time-series models are trained on the past to predict the future. What assumptions does that embed about how the world changes?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
-
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 12 Practice — GitHub Classroom](#) *(link TBD)*
+- [Monday class](class_mon.ipynb)
+- [Wednesday class](class_wed.ipynb)

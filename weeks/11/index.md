@@ -8,12 +8,8 @@ week_number: 11
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Fit and interpret a logistic regression model for binary classification
-- Explain how random forests reduce variance through bagging
-- Apply gradient boosting and describe how it differs from random forests
-- Choose between model families based on dataset size, interpretability needs, and performance
+- **11A** I can train and interpret logistic regression models for binary and multiclass classification.
+- **11B** I can train ensemble models (random forests, gradient boosting) and explain how they improve on a single decision tree.
 
 ## Perspectival Reading
 
@@ -25,14 +21,7 @@ By the end of this week, students will be able to:
 2. Logistic regression outputs a probability — what does it mean to treat that number as a fact about a person?
 3. The dominance of certain model families in competitions shapes what gets taught and used. What gets crowded out?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
-
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 11 Practice — GitHub Classroom](#) *(link TBD)*
+- [Monday class](class_mon.ipynb)
+- [Wednesday class](class_wed.ipynb)

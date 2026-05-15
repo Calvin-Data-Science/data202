@@ -1,0 +1,230 @@
+Name,Reign_Start,Reign_End,Dynasty,Region,Legitimacy,Cause_of_Death,Notes
+Augustus,27 BC,14,Julio-Claudian,Unified,Official,Natural/Illness,
+Tiberius,14,37,Julio-Claudian,Unified,Official,Natural/Illness,
+Caligula,37,41,Julio-Claudian,Unified,Official,Assassination,
+Claudius,41,54,Julio-Claudian,Unified,Official,Poisoning?,
+Nero,54,68,Julio-Claudian,Unified,Official,Suicide,
+Galba,68,69,,Unified,Official,Assassination,Year of the Four Emperors
+Otho,69,69,,Unified,Official,Suicide,Year of the Four Emperors
+Vitellius,69,69,,Unified,Official,Execution,Year of the Four Emperors
+Vespasian,69,79,Flavian,Unified,Official,Natural/Illness,
+Titus,79,81,Flavian,Unified,Official,Illness/Fever,
+Domitian,81,96,Flavian,Unified,Official,Assassination,
+Nerva,96,98,Nerva-Antonine,Unified,Official,Natural/Illness,
+Trajan,98,117,Nerva-Antonine,Unified,Official,Stroke/Illness,
+Hadrian,117,138,Nerva-Antonine,Unified,Official,Heart/Illness,
+Antoninus Pius,138,161,Nerva-Antonine,Unified,Official,Natural/Illness,
+Marcus Aurelius,161,180,Nerva-Antonine,Unified,Official,Illness (plague),Co-ruled 161–169 with Lucius Verus
+Lucius Verus,161,169,Nerva-Antonine,Unified,Official,Illness (plague),Co-emperor with Marcus Aurelius
+Commodus,180,192,Nerva-Antonine,Unified,Official,Assassination,
+Pertinax,193,193,,Unified,Official,Assassination,
+Didius Julianus,193,193,,Unified,Official,Execution,Purchased throne at auction
+Septimius Severus,193,211,Severan,Unified,Official,Illness,
+Pescennius Niger,193,194,Severan,East,Usurper,Killed in battle,Rival to Severus
+Clodius Albinus,193,197,Severan,West,Usurper/Co,Killed in battle,Proclaimed Augustus in the West
+Caracalla,198,217,Severan,Unified,Official,Assassination,Co-emperor 198–211; sole 211–217
+Geta,209,211,Severan,Unified,Co-Emperor,Assassination,Killed by Caracalla
+Macrinus,217,218,Severan,Unified,Official,Execution,
+Diadumenian,218,218,Severan,Unified,Usurper,Execution,Son of Macrinus; brief claim
+Elagabalus,218,222,Severan,Unified,Official,Assassination,
+Severus Alexander,222,235,Severan,Unified,Official,Assassination,
+Maximinus Thrax,235,238,,Unified,Official,Assassination,Army mutiny
+Gordian I,238,238,,Unified,Official,Suicide,Co-emperor with son
+Gordian II,238,238,,Unified,Official,Killed in battle,Co-emperor with father
+Pupienus,238,238,,Unified,Official,Assassination,Joint with Balbinus
+Balbinus,238,238,,Unified,Official,Assassination,Joint with Pupienus
+Gordian III,238,244,,Unified,Official,Killed (unclear),Possibly murdered in campaign
+Philip the Arab,244,249,,Unified,Official,Killed in battle,Against Decius
+Philip II,247,249,,Unified,Co-Emperor,Killed in battle,Son of Philip
+Decius,249,251,,Unified,Official,Killed in battle,Against Goths
+Herennius Etruscus,251,251,,Unified,Co-Emperor,Killed in battle,Son of Decius
+Hostilian,251,251,,Unified,Co-Emperor,Plague/Illness,
+Trebonianus Gallus,251,253,,Unified,Official,Assassination,
+Volusianus,251,253,,Unified,Co-Emperor,Assassination,Son of Gallus
+Aemilian,253,253,,Unified,Official,Assassination,
+Valerian,253,260,,Unified,Official,Died in captivity,Captured by Shapur I
+Gallienus,253,268,,Unified,Official,Assassination,Co with Valerian; later sole
+Saloninus,260,260,,Unified,Co-Emperor?,Execution,Son of Gallienus
+Claudius II Gothicus,268,270,,Unified,Official,Illness,
+Quintillus,270,270,,Unified,Official,Suicide/Unknown,Brother of Claudius II
+Aurelian,270,275,,Unified,Official,Assassination,
+Tacitus,275,276,,Unified,Official,Illness,
+Florianus,276,276,,Unified,Official,Assassination,
+Probus,276,282,,Unified,Official,Assassination,
+Carus,282,283,,Unified,Official,Illness/Lightning?,
+Carinus,283,285,,Unified,Official,Killed in battle,
+Numerian,283,284,,Unified,Official,Murder/Illness,Found dead in litter
+Pacatian,248,248,,Danube,Usurper,,Rebel against Philip
+Jotapian,248,248,,Syria,Usurper,,Rebel against Philip
+Silbannacus,c. 248,c. 248,,Unknown,Usurper,,Known from rare coin; doubtful
+Sponsian,c. 260,c. 260,,Dacia?,Usurper,,Highly disputed; coin-based claim
+Ingenuus,260,260,,Pannonia,Usurper,,Rebel against Gallienus
+Regalianus,260,260,,Pannonia,Usurper,,Brief usurper; coins exist
+Macrianus Major,260,261,,East,Usurper,,Father of usurpers; consul-like role
+Macrianus Minor,260,261,,East,Usurper,,Son of Macrianus; usurper
+Quietus,260,261,,East,Usurper,,Son of Macrianus; usurper
+Aureolus,268,268,,Italy,Usurper,,Rebel general under Gallienus
+Domitianus II,c. 271,c. 271,,Gaul,Usurper,,Dubious; rare coin
+Saturninus,280,280,,Syria,Usurper,,Usurper under Probus
+Proculus,280,280,,Gaul,Usurper,,Usurper under Probus
+Bonosus,280,280,,Britain/Gaul,Usurper,,Usurper under Probus
+Postumus,260,269,,Gaul/Britain,Breakaway Emperor,,Founder of Gallic Empire
+Laelianus,269,269,,Gaul/Britain,Breakaway Emperor,,Usurper against Postumus
+Marius,269,269,,Gaul/Britain,Breakaway Emperor,,Very brief reign
+Victorinus,269,271,,Gaul/Britain,Breakaway Emperor,,
+Tetricus I,271,274,,Gaul/Britain,Breakaway Emperor,,Surrendered to Aurelian
+Tetricus II,271,274,,Gaul/Britain,Breakaway Emperor,,Co-emperor/son
+Odaenathus,260,267,,Palmyra/East,Breakaway Emperor,,King of Palmyra; de facto Roman ruler of East
+Vaballathus,267,272,,Palmyra/East,Breakaway Emperor,,Styled Augustus in some inscriptions
+Zenobia,267,272,,Palmyra/East,Regent/Claimant,,Regent; claimed imperial titles for son
+Diocletian,284,305,Tetrarchy,Unified/East,Official,,Senior Augustus; Tetrarchy
+Maximian,286,305,Tetrarchy,West,Official,,Co-Augustus in West
+Constantius I (Chlorus),305,306,Tetrarchy,West,Official,,Augustus 305–306; Caesar earlier
+Galerius,305,311,Tetrarchy,East,Official,,Augustus 305–311
+Severus II,306,307,Tetrarchy,West,Official,Execution,Caesar→Augustus; executed
+Maxentius,306,312,Tetrarchy,Italy,Usurper,,Controlled Rome/Italy
+Maximinus Daza,310,313,Tetrarchy,East,Official/Usurper,,Rival in East; style disputed
+Licinius,308,324,Constantinian,East,Official,,Co-emperor with Constantine
+Constantine I (the Great),306,337,Constantinian,Unified,Official,,Sole emperor 324–337
+Valerius Valens,316,317,,East,Usurper,,Proclaimed by Licinius
+Martinian,324,324,,East,Usurper,,Appointed by Licinius
+Constantine II,337,340,Constantinian,West,Official,,Son of Constantine I
+Constans,337,350,Constantinian,Central/West,Official,,Son of Constantine I
+Constantius II,337,361,Constantinian,East→Unified,Official,,Son of Constantine I; sole after 353
+Vetranio,350,350,,Illyricum,Usurper,,"Proclaimed, then abdicated"
+Nepotianus,350,350,,Rome,Usurper,,Briefly in Rome
+Magnentius,350,353,,West,Usurper,,Defeated by Constantius II
+Decentius,351,353,,West,Usurper,,Brother of Magnentius
+Poemenius,353,353,,Trier,Usurper,,Local uprising
+Julian,361,363,,Unified,Official,Killed in battle,The Apostate; died in Persia
+Jovian,363,364,,Unified,Official,Illness,Died en route to Constantinople
+Valentinian I,364,375,Valentinianic,West,Official,,
+Valens,364,378,Valentinianic,East,Official,Killed in battle,Killed at Adrianople
+Gratian,367,383,Valentinianic,West,Official,,
+Valentinian II,375,392,Valentinianic,West,Official,,Died under murky circumstances
+Procopius,365,366,,East,Usurper,,Relative of Julian
+Magnus Maximus,383,388,,Britain/Gaul,Usurper,Execution,Executed by Theodosius
+Flavius Victor,384,388,,Gaul,Co-Emperor/Usurper,,Son of Magnus Maximus
+Eugenius,392,394,,West,Usurper,,Backed by Arbogast
+Theodosius I,379,395,Theodosian,Unified,Official,,Last to rule both East & West
+Honorius,395,423,Theodosian,West,Official,,
+Constantius III,421,421,,West,Official,,Very brief
+Joannes,423,425,,West,Usurper,,
+Valentinian III,425,455,Theodosian,West,Official,Assassination,
+Petronius Maximus,455,455,,West,Official,,
+Avitus,455,456,,West,Official,,
+Majorian,457,461,,West,Official,,
+Libius Severus,461,465,,West,Official,,
+Anthemius,467,472,,West,Official,,
+Olybrius,472,472,,West,Official,,
+Glycerius,473,474,,West,Official,,
+Julius Nepos,474,480,,West,Official,,Ruled Dalmatia after 476
+Romulus Augustulus,475,476,,West,Usurper/Official?,,Deposed by Odoacer
+Constantine III,407,411,,Britain/Gaul,Usurper,,Proclaimed by troops in Britain
+Constans (son of Constantine III),409,411,,Gaul/Spain,Usurper/Co,,Co-emperor/Usurper
+Gerontius,409,411,,Spain,Usurper,,Opposed Constantine III
+Maximus of Hispania,409,411,,Spain,Usurper,,Shadowy claimant
+Jovinus,411,413,,Gaul,Usurper,,Usurper at Mainz
+Sebastianus,412,413,,Gaul,Usurper,,Co-usurper with Jovinus
+Priscus Attalus (I),409,410,,Rome,Usurper,,Senate-backed under Alaric
+Priscus Attalus (II),414,415,,Rome,Usurper,,Second proclamation
+Heraclianus,412,412,,Africa,Usurper,,Defeated
+Carausius,286,293,,Britain,Breakaway Emperor,,Breakaway in Britain
+Allectus,293,296,,Britain,Breakaway Emperor,,Successor to Carausius
+Arcadius,395,408,Theodosian,East,Official,,
+Theodosius II,408,450,Theodosian,East,Official,,
+Marcian,450,457,,East,Official,,
+Leo I,457,474,,East,Official,,
+Leo II,474,474,,East,Official,,Child emperor
+Zeno,474,491,,East,Official,,Interrupted by Basiliscus 475–476
+Basiliscus,475,476,,East,Usurper,,
+Anastasius I,491,518,,East,Official,,
+Justin I,518,527,,East,Official,,
+Justinian I,527,565,,East,Official,,Reconquered West parts
+Justin II,565,578,,East,Official,,
+Tiberius II Constantine,578,582,,East,Official,,
+Maurice,582,602,,East,Official,,
+Phocas,602,610,,East,Official/Usurper,,Seized power
+Heraclius,610,641,,East,Official,,
+Constantine III (Heraclius Constantine),641,641,,East,Official,,
+Heraklonas,641,641,,East,Official,,Deposed
+Constans II,641,668,,East,Official,,Also Constantine the Bearded
+Constantine IV,668,685,,East,Official,,
+Justinian II (first reign),685,695,,East,Official,,
+Leontios,695,698,,East,Usurper,,
+Tiberios III (Apsimar),698,705,,East,Usurper,,
+Justinian II (restored),705,711,,East,Official,,Second reign
+Philippikos Bardanes,711,713,,East,Usurper/Official,,
+Anastasius II,713,715,,East,Official,,Deposed
+Theodosius III,715,717,,East,Official,,Brief
+Leo III the Isaurian,717,741,,East,Official,,Iconoclast
+Artabasdos,741,743,,East,Usurper,,Iconoclast turmoil
+Constantine V,741,775,,East,Official,,
+Leo IV the Khazar,775,780,,East,Official,,
+Constantine VI,780,797,,East,Official,,Deposed by Irene
+Irene,797,802,,East,Official,,Empress regnant
+Nikephoros I,802,811,,East,Official,,
+Staurakios,811,811,,East,Official,,Brief
+Michael I Rangabe,811,813,,East,Official,,
+Leo V the Armenian,813,820,,East,Official,,
+Michael II the Amorian,820,829,,East,Official,,
+Thomas the Slav,821,823,,East,Usurper,,Rival to Michael II
+Theophilos,829,842,,East,Official,,
+Michael III,842,867,,East,Official,,
+Basil I,867,886,Macedonian,East,Official,,Start of Macedonian dynasty
+Leo VI the Wise,886,912,Macedonian,East,Official,,
+Alexander,912,913,Macedonian,East,Official,,
+Constantine VII Porphyrogennetos,913,959,Macedonian,East,Official,,Long minority; regencies
+Romanos I Lekapenos,920,944,,East,Usurper/Co,,Co-emperor with Constantine VII
+Romanos II,959,963,Macedonian,East,Official,,
+Nikephoros II Phokas,963,969,,East,Official,,
+John I Tzimiskes,969,976,,East,Official,,
+Basil II,976,1025,Macedonian,East,Official,,
+Constantine VIII,1025,1028,Macedonian,East,Official,,
+Romanos III Argyros,1028,1034,,East,Official,,Co with Empress Zoe
+Michael IV the Paphlagonian,1034,1041,,East,Official,,Co with Zoe
+Michael V Kalaphates,1041,1042,,East,Official,,
+Zoe,1042,1050,,East,Official,,Ruled with Theodora/consorts at times
+Theodora,1055,1056,,East,Official,,Ruled solo; earlier co in 1042
+Constantine IX Monomachos,1042,1055,,East,Official,,
+Michael VI Bringas,1056,1057,,East,Official,,
+Isaac I Komnenos,1057,1059,,East,Official,,
+Constantine X Doukas,1059,1067,,East,Official,,
+Eudokia Makrembolitissa,1067,1067,,East,Regent/Empress,,Regent; married Romanos IV
+Romanos IV Diogenes,1068,1071,,East,Official,,Defeated at Manzikert
+Michael VII Doukas,1071,1078,,East,Official,,
+Nikephoros III Botaneiates,1078,1081,,East,Official,,
+Alexios I Komnenos,1081,1118,Komnenos,East,Official,,
+John II Komnenos,1118,1143,Komnenos,East,Official,,
+Manuel I Komnenos,1143,1180,Komnenos,East,Official,,
+Alexios II Komnenos,1180,1183,Komnenos,East,Official,,
+Andronikos I Komnenos,1183,1185,Komnenos,East,Official,,
+Isaac II Angelos,1185,1195,Angelos,East,Official,,Restored 1203–1204
+Alexios III Angelos,1195,1203,Angelos,East,Official,,
+Alexios IV Angelos,1203,1204,Angelos,East,Official,,Co with Isaac II restored
+Alexios V Doukas,1204,1204,,East,Usurper/Official,,Falls with 1204 conquest
+Baldwin I of Constantinople,1204,1205,Latin Empire,East,Latin Emperor,,Crusader state
+Henry of Flanders,1206,1216,Latin Empire,East,Latin Emperor,,
+Peter of Courtenay,1216,1217,Latin Empire,East,Latin Emperor,,Never crowned in city
+Robert of Courtenay,1221,1228,Latin Empire,East,Latin Emperor,,
+Baldwin II of Constantinople,1228,1261,Latin Empire,East,Latin Emperor,,Ends with recapture
+Theodore I Laskaris,1205,1221,Laskaris (Nicaea),Nicaea,Official,,Byzantine successor in exile
+John III Vatatzes,1222,1254,Laskaris (Nicaea),Nicaea,Official,,
+Theodore II Laskaris,1254,1258,Laskaris (Nicaea),Nicaea,Official,,
+John IV Laskaris,1258,1261,Laskaris (Nicaea),Nicaea,Official,,Child; deposed
+Michael VIII Palaiologos,1259,1282,Palaiologos,East,Official,,Recaptured Constantinople 1261
+Andronikos II Palaiologos,1282,1328,Palaiologos,East,Official,,
+Andronikos III Palaiologos,1328,1341,Palaiologos,East,Official,,
+John V Palaiologos,1341,1391,Palaiologos,East,Official,,Multiple depositions
+John VI Kantakouzenos,1347,1354,,East,Co-Emperor/Usurper,,Civil war; co-rule with John V
+Andronikos IV Palaiologos,1376,1379,Palaiologos,East,Usurper/Co,,Rebel son of John V
+John VII Palaiologos,1390,1390,Palaiologos,East,Usurper/Brief,,Also regent later
+Manuel II Palaiologos,1391,1425,Palaiologos,East,Official,,
+John VIII Palaiologos,1425,1448,Palaiologos,East,Official,,
+Constantine XI Palaiologos,1449,1453,Palaiologos,East,Official,,Last Byzantine emperor
+Bardas Skleros,976,979,,East,Usurper,,Rebel against Basil II
+Bardas Phokas,987,989,,East,Usurper,,Rebel against Basil II
+Andronikos Doukas,906,907,,East,Usurper,,Rebel against Leo VI
+Leo Tornikios,1047,1047,,East,Usurper,,Rebel against Constantine IX
+Nikephoros Bryennios (the Elder),1077,1078,,East,Usurper,,Rebel against Michael VII
+Nikephoros Basilakes,1078,1078,,East,Usurper,,Rebel against Nikephoros III

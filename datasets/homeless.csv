@@ -1,0 +1,101 @@
+id,name,city,shelter_status,years_homeless,family_size,monthly_support_usd,education_level,notes
+1,   peter,NEW-YORK,shelter,6,1,186,NONE,seeking healthcare access
+2, joseph ,boston,street,10,2,366,NONE,job loss during pandemic
+3,JOHN,chicago,unsheltered,10,4,422,NONE,mental health issues
+4,DAVID,CHICAGO.,STREET,14,3,3,NONE,seeking healthcare access
+5, joseph ,san-francisco,SHELTERED,2,5,37,higher,displaced by violence in 2020
+6,sofia,L.A.,"shelter , pending",9,5,552,NONE,chronic homelessness since 2015
+7,   peter,L.A.,unsheltered,11,4,594,secondary,speaks spanish ; works part-time
+8,lucAS,san-francisco,temporary shelter,8,2,25,primary,mental health issues
+9,sofia,boston,Shelter,13,1,74,primary,speaks spanish ; works part-time
+10,MIGUEL,SF,unsheltered,5,5,381,none,lost JOB; looking for work
+11,MIGUEL,CHICAGO.,unsheltered,9,5,195,higher,lost JOB; looking for work
+12,DAVID,chicago,unsheltered,1,5,582,secondary,seeking healthcare access
+13,JOHN,CHICAGO.,STREET,5,4,291,secondary,chronic homelessness since 2015
+14, joseph ,SF,unsheltered,7,4,204,PRIMARY,seeking healthcare access
+15,lucAS,NEW-YORK,Shelter,14,4,579,NONE,speaks spanish ; works part-time
+16,JOHN,CHICAGO.,"shelter , pending",10,4,286,PRIMARY,seeking healthcare access
+17, joseph ,los Angeles,unsheltered,12,1,273,higher,war refugee background
+18,   peter,New york,street,7,1,409, None,addiction history; no family
+19,  anna ,new-york,street,14,1,536,NONE,chronic homelessness since 2015
+20,DAVID,SF,Shelter,8,2,546,secondary,addiction history; no family
+21,lucAS,boston,unsheltered,9,5,84,none,with kids; schooling interrupted
+22,DAVID,SF,"shelter , pending",12,5,350,higher,mental health issues
+23,  anna ,SF,shelter,11,2,52, None,speaks spanish ; works part-time
+24,   peter,CHICAGO.,street,1,2,452,PRIMARY,addiction history; no family
+25,sofia,san-francisco,unsheltered,7,5,595,none,lost JOB; looking for work
+26,lucAS,New york,street,6,3,110,SECONDARY ,war refugee background
+27,JOHN,SF,SHELTERED,9,2,464,none,displaced by violence in 2020
+28,sofia,SF,unsheltered,6,2,370, None,with kids; schooling interrupted
+29,JOHN,New york,"shelter , pending",10,3,407,higher,chronic homelessness since 2015
+30,chloe.,New york,Shelter,11,2,59,higher,addiction history; no family
+31,MIGUEL,New york,"shelter , pending",10,4,345,none,with kids; schooling interrupted
+32,DAVID,New york,shelter,6,5,50,primary,mental health issues
+33, joseph ,san-francisco,street,11,5,484,secondary,seeking healthcare access
+34,JOHN,New york,Shelter,14,1,21,PRIMARY,displaced by violence in 2020
+35,MIGUEL,boston,temporary shelter,9,4,375,SECONDARY ,chronic homelessness since 2015
+36,DAVID,SF,temporary shelter,6,3,456,Higher ,war refugee background
+37,DAVID,NEW-YORK,unsheltered,14,3,234,primary,chronic homelessness since 2015
+38,lucAS,NEW-YORK,shelter,7,1,213,secondary,displaced by violence in 2020
+39,  anna ,los Angeles,SHELTERED,12,5,556,PRIMARY,seeking healthcare access
+40,sofia,chicago,shelter,11,4,425, None,chronic homelessness since 2015
+41,JOHN,SF,temporary shelter,9,2,595,NONE,with kids; schooling interrupted
+42,   peter,CHICAGO.,temporary shelter,7,3,524,SECONDARY ,addiction history; no family
+43,DAVID,san-francisco,shelter,4,1,259,SECONDARY ,lost JOB; looking for work
+44, maria,NEW-YORK,SHELTERED,13,1,171, None,mental health issues
+45,chloe.,los Angeles,SHELTERED,5,2,90,none,lost JOB; looking for work
+46,chloe.,New york,street,10,2,502,PRIMARY,displaced by violence in 2020
+47,  anna ,L.A.,SHELTERED,6,3,143,none,seeking healthcare access
+48,lucAS,chicago,unsheltered,14,2,598, None,speaks spanish ; works part-time
+49,JOHN,SF,STREET,10,1,399,NONE,with kids; schooling interrupted
+50,DAVID,CHICAGO.,SHELTERED,7,5,166,SECONDARY ,addiction history; no family
+51,  anna ,New york,"shelter , pending",6,1,214, None,speaks spanish ; works part-time
+52, maria,san-francisco,Shelter,9,2,522, None,addiction history; no family
+53,MIGUEL,san-francisco,unsheltered,1,4,244,SECONDARY ,mental health issues
+54,   peter,new-york,SHELTERED,0,4,428,none,displaced by violence in 2020
+55,   peter,L.A.,STREET,11,2,124,higher,chronic homelessness since 2015
+56, joseph ,NEW-YORK,"shelter , pending",5,2,93,NONE,displaced by violence in 2020
+57,MIGUEL,SF,"shelter , pending",1,1,305,SECONDARY ,job loss during pandemic
+58,  anna ,CHICAGO.,temporary shelter,9,5,114,Higher ,displaced by violence in 2020
+59,DAVID,san-francisco,Shelter,11,2,264,SECONDARY ,job loss during pandemic
+60,lucAS,new-york,temporary shelter,7,1,444,secondary,seeking healthcare access
+61,JOHN,san-francisco,shelter,8,3,328,Higher ,seeking healthcare access
+62,MIGUEL,new-york,"shelter , pending",1,2,372,Higher ,lost JOB; looking for work
+63, maria,san-francisco,Shelter,13,3,315,SECONDARY ,speaks spanish ; works part-time
+64,sofia,boston,unsheltered,0,2,92,none,displaced by violence in 2020
+65,lucAS,CHICAGO.,temporary shelter,7,2,279,primary,mental health issues
+66, maria,san-francisco,SHELTERED,7,1,467,primary,mental health issues
+67,   peter,SF,street,10,2,325,higher,mental health issues
+68, maria,los Angeles,unsheltered,8,5,379,secondary,displaced by violence in 2020
+69,DAVID,chicago,street,9,5,203,PRIMARY,with kids; schooling interrupted
+70,JOHN,chicago,street,7,2,567, None,chronic homelessness since 2015
+71,JOHN,chicago,shelter,0,3,292,PRIMARY,job loss during pandemic
+72,chloe.,New york,shelter,3,5,382,secondary,addiction history; no family
+73,chloe.,NEW-YORK,Shelter,4,2,193,none,war refugee background
+74,DAVID,NEW-YORK,Shelter,0,2,182,primary,seeking healthcare access
+75,lucAS,SF,temporary shelter,14,3,95,PRIMARY,addiction history; no family
+76,JOHN,SF,"shelter , pending",8,5,437,secondary,with kids; schooling interrupted
+77,JOHN,SF,SHELTERED,13,5,270,PRIMARY,addiction history; no family
+78,   peter,los Angeles,"shelter , pending",11,1,542,higher,displaced by violence in 2020
+79,  anna ,SF,Shelter,4,2,596,PRIMARY,war refugee background
+80,   peter,boston,street,6,4,337,NONE,addiction history; no family
+81,chloe.,san-francisco,Shelter,0,3,292,none,with kids; schooling interrupted
+82,JOHN,New york,"shelter , pending",2,3,101,PRIMARY,addiction history; no family
+83, maria,L.A.,street,13,4,454,none,chronic homelessness since 2015
+84,sofia,CHICAGO.,Shelter,4,3,182,higher,lost JOB; looking for work
+85,DAVID,NEW-YORK,temporary shelter,9,2,140,NONE,speaks spanish ; works part-time
+86,MIGUEL,new-york,"shelter , pending",7,2,449,Higher ,displaced by violence in 2020
+87,DAVID,boston,unsheltered,6,2,55,primary,lost JOB; looking for work
+88,  anna ,boston,shelter,1,3,94,NONE,displaced by violence in 2020
+89,lucAS,los Angeles,Shelter,0,2,387,none,speaks spanish ; works part-time
+90,DAVID,L.A.,temporary shelter,3,4,339,NONE,speaks spanish ; works part-time
+91,MIGUEL,los Angeles,Shelter,13,2,488, None,war refugee background
+92,  anna ,chicago,shelter,10,5,230,SECONDARY ,mental health issues
+93,DAVID,boston,SHELTERED,12,2,63,none,with kids; schooling interrupted
+94,   peter,CHICAGO.,"shelter , pending",2,1,259, None,speaks spanish ; works part-time
+95, maria,new-york,SHELTERED,11,3,453,none,addiction history; no family
+96, maria,chicago,Shelter,1,4,10,NONE,mental health issues
+97,   peter,new-york,shelter,4,3,304,NONE,seeking healthcare access
+98,sofia,CHICAGO.,Shelter,5,3,458,SECONDARY ,mental health issues
+99,JOHN,new-york,temporary shelter,10,2,337,NONE,displaced by violence in 2020
+100,  anna ,New york,street,3,3,207,secondary,war refugee background

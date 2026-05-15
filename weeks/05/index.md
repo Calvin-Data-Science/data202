@@ -8,12 +8,9 @@ week_number: 5
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Distinguish unsupervised from supervised learning
-- Apply k-means clustering and choose k using the elbow method and silhouette score
-- Apply PCA to reduce dimensions and interpret principal components
-- Use t-SNE or UMAP for 2D visualization of high-dimensional data
+- **05A** I can apply k-means clustering to group data and interpret the resulting cluster assignments.
+- **05B** I can evaluate clustering quality using the elbow method and silhouette score to choose an appropriate k.
+- **05C** I can apply PCA to reduce dimensionality and interpret how much variance each component explains.
 
 ## Perspectival Reading
 
@@ -25,14 +22,7 @@ By the end of this week, students will be able to:
 2. PCA finds directions of maximum variance. Whose variation is centered, and whose is treated as noise?
 3. Unsupervised methods have no ground truth. How should that affect our confidence in their outputs?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
-
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 5 Practice — GitHub Classroom](#) *(link TBD)*
+- [Monday class](class_mon.ipynb)
+- [Wednesday class](class_wed.ipynb)

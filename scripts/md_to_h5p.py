@@ -63,6 +63,7 @@ import io
 import json
 import re
 import sys
+import urllib.request
 import uuid
 import zipfile
 from pathlib import Path
@@ -147,6 +148,232 @@ def _inline(text: str) -> str:
     return text
 
 
+EXT_IMG   = re.compile(r'<img([^>]*?)\bsrc="(https?://[^"]+)"([^>]*?/?)>',                  re.DOTALL)
+LOCAL_IMG = re.compile(r'<img([^>]*?)\bsrc="(?!https?://)(?!data:)([^"]+)"([^>]*?/?)>', re.DOTALL)
+IMG_TAG   = re.compile(r'<img([^>]*)/?>', re.DOTALL)
+
+MIME_TYPES = {
+    "jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png",
+    "gif": "image/gif",  "webp": "image/webp", "bmp": "image/bmp",
+    "tif": "image/tiff", "tiff": "image/tiff",
+}
+
+
+def _pad_to_canvas_width(dest: Path, canvas_w_px: int) -> None:
+    """Center image on a wider white canvas, overwriting dest in place."""
+    try:
+        import io as _io
+        from PIL import Image as _PILImg
+        with _PILImg.open(dest) as img:
+            w, h = img.size
+            if w >= canvas_w_px:
+                return
+            canvas = _PILImg.new("RGB", (canvas_w_px, h), (255, 255, 255))
+            canvas.paste(img.convert("RGB"), ((canvas_w_px - w) // 2, 0))
+            buf = _io.BytesIO()
+            canvas.save(buf, format="PNG", optimize=True)
+        dest.write_bytes(buf.getvalue())
+    except Exception:
+        pass
+
+
+def _render_table_png(
+    headers: list[str], rows: list[list[str]], dest: Path, content_w_px: int | None = None
+) -> None:
+    """Render a data table as a styled PNG using matplotlib.
+
+    content_w_px: pixel width of the table content (default 780 = full Moodle column).
+    If narrower than 780, the saved image is padded to 780px so H5P scales it to the
+    right apparent size when it stretches all images to 100% container width.
+    """
+    import textwrap
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+
+    CANVAS_W_PX = 780   # H5P container display width (CSS px)
+    BASE_DPI    = 120   # reference DPI for display-size calculations
+    RENDER_DPI  = 288   # physical render DPI; browser scales image down → sharp text
+    if content_w_px is None:
+        content_w_px = CANVAS_W_PX
+    content_w_px = min(content_w_px, CANVAS_W_PX)
+
+    ncols = max(len(headers), *(len(r) for r in rows)) if rows else max(len(headers), 1)
+    nrows = len(rows)
+
+    # Figure size in inches is fixed by display size; RENDER_DPI controls sharpness only.
+    # Apparent CSS font size = FONTSIZE × (RENDER_DPI/72) × (780 / canvas_render_px)
+    #                        = FONTSIZE × (BASE_DPI/72) ≈ 8 × 1.67 = 13.3 px ✓
+    TARGET_W_IN = content_w_px / BASE_DPI
+    FONTSIZE    = 8     # pt
+    w_ratio     = content_w_px / CANVAS_W_PX
+    WRAP        = max(12, int(52 * w_ratio / ncols))   # chars per cell
+
+    def _wrap(text: str) -> str:
+        return "\n".join(textwrap.wrap(text, WRAP)) if text else ""
+
+    hdrs = [_wrap(h) for h in list(headers) + [""] * (ncols - len(headers))]
+    data = [[_wrap(c) for c in list(r) + [""] * (ncols - len(r))] for r in rows]
+
+    all_rows    = [hdrs] + data
+    row_lines   = [max((c.count("\n") + 1 for c in r), default=1) for r in all_rows]
+    total_lines = sum(row_lines)
+
+    LINE_H = 0.20       # inches per text line
+    fig_w  = TARGET_W_IN
+    fig_h  = max(0.4, total_lines * LINE_H + 0.10)
+
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+    ax.axis("off")
+
+    tbl = ax.table(
+        cellText=data,
+        colLabels=hdrs or None,
+        loc="center",
+        cellLoc="left",
+    )
+    tbl.auto_set_font_size(False)
+    tbl.set_fontsize(FONTSIZE)
+    tbl.auto_set_column_width(list(range(ncols)))
+
+    for i, n_lines in enumerate(row_lines):
+        h = n_lines / total_lines
+        for j in range(ncols):
+            tbl[i, j].set_height(h)
+
+    for j in range(ncols):
+        cell = tbl[0, j]
+        cell.set_facecolor("#0b5e73")
+        cell.set_text_props(color="white", fontweight="bold")
+        cell.set_edgecolor("#ffffff")
+
+    for i in range(1, nrows + 1):
+        for j in range(ncols):
+            cell = tbl[i, j]
+            cell.set_facecolor("#f0f7f9" if i % 2 == 1 else "#ffffff")
+            cell.set_edgecolor("#cccccc")
+
+    fig.savefig(str(dest), dpi=RENDER_DPI, bbox_inches="tight", pad_inches=0.05)
+    plt.close(fig)
+
+    # Pad to full canvas width if content is narrower. Canvas width scales with RENDER_DPI
+    # so the padded image and the content image have the same pixel density.
+    canvas_render_px = round(CANVAS_W_PX * RENDER_DPI / BASE_DPI)
+    if content_w_px < CANVAS_W_PX:
+        _pad_to_canvas_width(dest, canvas_render_px)
+
+
+def _tables_to_images(html: str, source_dir: Path, counter: list[int]) -> str:
+    """Convert HTML tables to PNG images; respects <!-- width: N --> hints before tables."""
+    TABLE_RE = re.compile(r"<table[^>]*>.*?</table>", re.DOTALL | re.IGNORECASE)
+    ROW_RE   = re.compile(r"<tr[^>]*>(.*?)</tr>",     re.DOTALL | re.IGNORECASE)
+    CELL_RE  = re.compile(r"<t[hd][^>]*>(.*?)</t[hd]>", re.DOTALL | re.IGNORECASE)
+    TAG_RE   = re.compile(r"<[^>]+>")
+    WIDTH_RE = re.compile(r"<!--\s*width:\s*(\d+)\s*-->\s*$")
+
+    def _text(s: str) -> str:
+        return TAG_RE.sub("", s).strip()
+
+    def _parse_table(table_html: str):
+        row_matches = list(ROW_RE.finditer(table_html))
+        if not row_matches:
+            return None, None
+        first = row_matches[0]
+        if re.search(r"<th", first.group(1), re.I):
+            headers   = [_text(c.group(1)) for c in CELL_RE.finditer(first.group(1))]
+            data_rows = [[_text(c.group(1)) for c in CELL_RE.finditer(r.group(1))]
+                         for r in row_matches[1:]]
+        else:
+            headers   = []
+            data_rows = [[_text(c.group(1)) for c in CELL_RE.finditer(r.group(1))]
+                         for r in row_matches]
+        return headers, data_rows
+
+    result = []
+    pos = 0
+    for m in TABLE_RE.finditer(html):
+        before = html[pos:m.start()]
+        # Detect <!-- width: N --> immediately before this table
+        content_w_px = None
+        wm = WIDTH_RE.search(before)
+        if wm:
+            content_w_px = int(wm.group(1))
+            before = before[:wm.start()]
+        result.append(before)
+
+        headers, data_rows = _parse_table(m.group(0))
+        if headers is None:
+            result.append(m.group(0))
+            pos = m.end()
+            continue
+
+        counter[0] += 1
+        img_name = f"table_{counter[0]:03d}.png"
+        img_path = source_dir / "images" / img_name
+
+        try:
+            _render_table_png(headers, data_rows, img_path, content_w_px=content_w_px)
+            alt = "Table: " + " | ".join(headers) if headers else "Table"
+            result.append(f'<img src="images/{img_name}" alt="{alt}">')
+        except Exception as exc:
+            print(f"WARNING: Could not render table as image: {exc}", file=sys.stderr)
+            parts = ["<hr>"]
+            if headers:
+                parts.append("<p><strong>" + " | ".join(headers) + "</strong></p>")
+                parts.append("<hr>")
+            for row in data_rows:
+                parts.append("<p>" + " | ".join(row) + "</p>")
+            parts.append("<hr>")
+            result.append("\n".join(parts))
+
+        pos = m.end()
+
+    result.append(html[pos:])
+    return "".join(result)
+
+
+def _fix_blockquotes(html: str) -> str:
+    """Convert blockquotes to <hr> + italic text with Unicode quote marks.
+    H5P strips both style= and blockquote default indent, so we need character-based fallback."""
+    def _convert(m: re.Match) -> str:
+        inner = m.group(1).strip()
+        inner = re.sub(r"</?p[^>]*>", "", inner).strip()
+        return f"<hr>\n<p><em>&#10077; {inner} &#10078;</em></p>\n<hr>"
+    return re.sub(r"<blockquote[^>]*>(.*?)</blockquote>", _convert, html, flags=re.DOTALL | re.IGNORECASE)
+
+
+
+def _split_html_at_images(html: str) -> list[dict]:
+    """Split HTML at <img> tags into alternating text/image chunks."""
+    parts: list[dict] = []
+    pos = 0
+    for m in IMG_TAG.finditer(html):
+        before = html[pos : m.start()].strip()
+        if before:
+            parts.append({"type": "text", "html": before})
+        attrs = m.group(1)
+        src_m = re.search(r'src="([^"]+)"', attrs)
+        alt_m = re.search(r'alt="([^"]*)"', attrs)
+        if src_m:
+            parts.append({"type": "image", "src": src_m.group(1), "alt": alt_m.group(1) if alt_m else ""})
+        pos = m.end()
+    tail = html[pos:].strip()
+    if tail:
+        parts.append({"type": "text", "html": tail})
+    return parts or [{"type": "text", "html": html}]
+
+
+def _postprocess_html(html: str, source_dir: Path = None, table_counter: list = None) -> str:
+    # Unwrap <p><img ...></p> so the image splits cleanly without orphaned tags
+    html = re.sub(r"<p>\s*(<img[^>]*?/?>\s*)</p>", r"\1", html, flags=re.DOTALL | re.IGNORECASE)
+    if source_dir is not None:
+        html = _tables_to_images(html, source_dir, table_counter if table_counter is not None else [0])
+    html = _fix_blockquotes(html)
+    return html
+
+
 # ---------------------------------------------------------------------------
 # Document segmenter — splits markdown into ordered text / question segments
 # ---------------------------------------------------------------------------
@@ -190,8 +417,16 @@ def extract_title(md_text: str) -> str:
     return h1.group(1).strip() if h1 else "Reading"
 
 
-H1_PATTERN = re.compile(r"^#\s+(.+)$", re.MULTILINE)
-HR_LINE    = re.compile(r"^[ \t]*-{3,}[ \t]*$", re.MULTILINE)
+H1_PATTERN  = re.compile(r"^#\s+(.+)$", re.MULTILINE)
+HR_LINE     = re.compile(r"^[ \t]*-{3,}[ \t]*$", re.MULTILINE)
+FENCED_CODE = re.compile(r"^[ \t]*```.*?^[ \t]*```", re.MULTILINE | re.DOTALL)
+
+
+def _mask_code_blocks(text: str) -> str:
+    """Replace fenced code block content with spaces/newlines, preserving character positions."""
+    def _blank(m: re.Match) -> str:
+        return ''.join('\n' if c == '\n' else ' ' for c in m.group(0))
+    return FENCED_CODE.sub(_blank, text)
 
 
 def split_into_chapters(md_text: str) -> list[dict]:
@@ -199,9 +434,12 @@ def split_into_chapters(md_text: str) -> list[dict]:
     Split the document at H1 headings. Each H1 becomes one page (chapter).
     Returns a list of {"title": str, "body": str}.
     If there are no H1 headings the whole document is treated as one chapter.
+    H1 detection ignores lines inside fenced code blocks.
     """
     md_text = strip_frontmatter(md_text)
-    matches = list(H1_PATTERN.finditer(md_text))
+    # Find H1 headings only in non-code regions
+    masked  = _mask_code_blocks(md_text)
+    matches = list(H1_PATTERN.finditer(masked))
 
     if not matches:
         return [{"title": "Content", "body": md_text.strip()}]
@@ -476,8 +714,9 @@ PARAM_BUILDERS = {
 
 LIBRARIES = {
     "interactive-book":  ("H5P.InteractiveBook", 1,  7),
-    "column":            ("H5P.Column",           1, 16),   # used as chapter wrapper
+    "column":            ("H5P.Column",           1, 16),
     "text":              ("H5P.AdvancedText",     1,  1),
+    "image":             ("H5P.Image",            1,  1),
     "multiple-choice":   ("H5P.MultiChoice",      1, 16),
     "true-false":        ("H5P.TrueFalse",        1,  8),
     "fill-in-the-blank": ("H5P.Blanks",           1, 14),
@@ -491,6 +730,7 @@ CONTENT_TYPES = {
     "drag-the-words":    "Drag the Words",
     "sort-paragraphs":   "Sort the Paragraphs",
     "text":              "Text",
+    "image":             "Image",
 }
 
 
@@ -529,7 +769,28 @@ def build_content_item(library_key: str, params: dict, title: str, use_separator
     }
 
 
-def build_chapter_items(segments: list[dict]) -> tuple[list[dict], set[str]]:
+
+def build_image_item(src: str, alt: str, use_separator: str = "auto") -> dict:
+    """Create an H5P.Image Column item. src is the original (pre-bundle) local path."""
+    ext  = src.rsplit(".", 1)[-1].lower() if "." in src else "png"
+    mime = MIME_TYPES.get(ext, "image/png")
+    return {
+        "content": {
+            "library": lib_string("image"),
+            "params": {
+                "file": {"path": src, "mime": mime, "copyright": {"license": "U"}},
+                "decorative": False,
+                "alt": alt,
+                "title": alt[:60] if alt else "Image",
+            },
+            "subContentId": new_id(),
+            "metadata": {"contentType": "Image", "license": "U", "title": alt[:60] if alt else "Image"},
+        },
+        "useSeparator": use_separator,
+    }
+
+
+def build_chapter_items(segments: list[dict], source_dir: Path = None, table_counter: list = None) -> tuple[list[dict], set[str]]:
     """
     Convert a flat segment list into H5P content items for one chapter/page.
     '---' separator segments become useSeparator='enabled' on the next item.
@@ -549,11 +810,20 @@ def build_chapter_items(segments: list[dict]) -> tuple[list[dict], set[str]]:
         pending_separator = False
 
         if seg["kind"] == "text":
-            html = md_to_html(seg["body"])
-            text_block_num += 1
-            items.append(
-                build_content_item("text", {"text": html}, f"Text {text_block_num}", use_sep)
-            )
+            html = _postprocess_html(md_to_html(seg["body"]), source_dir, table_counter)
+            sub_parts = _split_html_at_images(html)
+            first = True
+            for part in sub_parts:
+                cur_sep = use_sep if first else "auto"
+                first = False
+                if part["type"] == "image":
+                    items.append(build_image_item(part["src"], part["alt"], cur_sep))
+                    used_libs.add("image")
+                else:
+                    text_block_num += 1
+                    items.append(
+                        build_content_item("text", {"text": part["html"]}, f"Text {text_block_num}", cur_sep)
+                    )
 
         elif seg["kind"] == "question":
             qtype = seg["type"]
@@ -579,6 +849,7 @@ def build_chapter_items(segments: list[dict]) -> tuple[list[dict], set[str]]:
 
 def build_interactive_book_content(
     chapters: list[dict],
+    source_dir: Path = None,
 ) -> tuple[dict, set[str]]:
     """
     Build the H5P.InteractiveBook content.json from a list of chapter dicts.
@@ -587,13 +858,19 @@ def build_interactive_book_content(
     """
     book_chapters = []
     all_used_libs: set[str] = {"interactive-book", "column", "text"}
+    table_counter: list[int] = [0]
 
     for ch in chapters:
-        items, used_libs = build_chapter_items(ch["segments"])
+        items, used_libs = build_chapter_items(ch["segments"], source_dir, table_counter)
         all_used_libs |= used_libs
 
-        # Each chapter is an H5P.Column sub-content instance.
-        # H5P sub-content always requires library + subContentId (not id).
+        # Prepend the chapter title as a visible H1 — InteractiveBook shows the title
+        # only in the nav/TOC in some versions, not on the page itself.
+        title_item = build_content_item(
+            "text", {"text": f"<h1>{ch['title']}</h1>"}, "Chapter Title"
+        )
+        items = [title_item] + items
+
         book_chapters.append(
             {
                 "library": lib_string("column"),
@@ -670,7 +947,7 @@ def build_h5p_json(title: str, used_libs: set[str]) -> dict:
     # InteractiveBook is always first (it is the mainLibrary).
     # Then text, then question types actually used.
     dep_order = [
-        "interactive-book", "column", "text",
+        "interactive-book", "column", "text", "image",
         "multiple-choice", "fill-in-the-blank", "true-false",
         "drag-the-words",
     ]
@@ -691,10 +968,140 @@ def build_h5p_json(title: str, used_libs: set[str]) -> dict:
 # ---------------------------------------------------------------------------
 
 
-def write_h5p(h5p_meta: dict, content: dict, dest: Path) -> None:
+def _read_as_landscape(img_path: Path, hint: str) -> tuple[bytes, str]:
+    """Return (image_bytes, filename_hint).
+
+    Portrait images (height > width) are padded with a neutral background to a
+    2:1 landscape canvas so they display at a reasonable height when H5P.Image
+    renders them at full container width.  Landscape images are returned as-is.
+    """
+    try:
+        import io as _io
+        from PIL import Image as _PILImg
+
+        with _PILImg.open(img_path) as img:
+            w, h = img.size
+            if h <= w:                          # already landscape — pass through
+                return img_path.read_bytes(), hint
+
+            # Portrait: embed in a 2:1 landscape canvas
+            canvas_w = max(w * 2, 600)
+            canvas_h = h
+            canvas = _PILImg.new("RGB", (canvas_w, canvas_h), (250, 250, 250))
+            paste_x = (canvas_w - w) // 2
+            rgb = img.convert("RGB")
+            canvas.paste(rgb, (paste_x, 0))
+
+            buf = _io.BytesIO()
+            canvas.save(buf, format="PNG", optimize=True)
+            # Return with .png hint so _add_to_zip uses the correct extension
+            stem = hint.rsplit(".", 1)[0] if "." in hint else hint
+            return buf.getvalue(), stem + ".png"
+
+    except Exception:
+        return img_path.read_bytes(), hint
+
+
+def _bundle_images(content: dict, zf: zipfile.ZipFile, source_dir: Path) -> None:
+    """Bundle images into the ZIP (local files and external URLs) and update src= in-place."""
+    seen: dict[str, str | None] = {}  # original src → zip-local path
+    counter = [0]
+
+    H5P_IMG_EXTS = {"jpg", "jpeg", "png", "gif", "bmp", "tif", "tiff", "webp"}
+
+    def _add_to_zip(data: bytes, hint: str) -> str | None:
+        ext = hint.split("?")[0].rsplit(".", 1)[-1].lower()
+        if ext == "svg":
+            print(
+                f"WARNING: H5P does not allow SVG files. "
+                f"Convert {hint} to PNG (e.g. with matplotlib) and update the reference.",
+                file=sys.stderr,
+            )
+            return None
+        if ext not in H5P_IMG_EXTS:
+            ext = "png"
+        counter[0] += 1
+        local = f"images/img_{counter[0]:03d}.{ext}"
+        zf.writestr(f"content/{local}", data)
+        return local
+
+    def _resolve(src: str) -> str | None:
+        if src in seen:
+            return seen[src]
+        if src.startswith("http://") or src.startswith("https://"):
+            try:
+                req = urllib.request.Request(src, headers={"User-Agent": "Mozilla/5.0"})
+                data = urllib.request.urlopen(req, timeout=15).read()
+                local = _add_to_zip(data, src)
+                seen[src] = local
+                if local:
+                    print(f"  bundled (url):   {src[:72]}")
+            except Exception as exc:
+                print(f"WARNING: Could not fetch {src[:72]}: {exc}", file=sys.stderr)
+                seen[src] = None
+        else:
+            # Local path relative to the markdown file's directory
+            img_path = source_dir / src
+            if img_path.exists():
+                data, hint = _read_as_landscape(img_path, src)
+                local = _add_to_zip(data, hint)
+                seen[src] = local
+                if local:
+                    print(f"  bundled (local): {src}")
+            else:
+                print(f"WARNING: Local image not found: {img_path}", file=sys.stderr)
+                seen[src] = None
+        return seen[src]
+
+    def _rewrite(html: str) -> str:
+        def _sub(m: re.Match) -> str:
+            local = _resolve(m.group(2))
+            if local:
+                return f'<img{m.group(1)}src="{local}"{m.group(3)}>'
+            alt_m = re.search(r'alt="([^"]*)"', m.group(0))
+            alt = alt_m.group(1) if alt_m else "Image"
+            return f"<p><em>[Image: {alt}]</em></p>"
+        html = EXT_IMG.sub(_sub, html)
+        html = LOCAL_IMG.sub(_sub, html)
+        return html
+
+    def _walk(obj: Any) -> None:
+        if isinstance(obj, dict):
+            # H5P.Image item — resolve file.path
+            if obj.get("library", "").startswith("H5P.Image"):
+                file_info = obj.get("params", {}).get("file", {})
+                src = file_info.get("path", "")
+                if src:
+                    local = _resolve(src)
+                    if local:
+                        file_info["path"] = local
+                        ext = local.rsplit(".", 1)[-1].lower()
+                        file_info["mime"] = MIME_TYPES.get(ext, "image/png")
+                return  # don't recurse further into this item
+            for k in list(obj):
+                v = obj[k]
+                if k == "text" and isinstance(v, str) and "<img" in v:
+                    obj[k] = _rewrite(v)
+                else:
+                    _walk(v)
+        elif isinstance(obj, list):
+            for item in obj:
+                _walk(item)
+
+    _walk(content)
+    bundled = sum(1 for v in seen.values() if v)
+    failed  = sum(1 for v in seen.values() if v is None)
+    if bundled:
+        print(f"Images  : {bundled} bundled into package")
+    if failed:
+        print(f"WARNING : {failed} image(s) missing — shown as italic alt text", file=sys.stderr)
+
+
+def write_h5p(h5p_meta: dict, content: dict, dest: Path, source_dir: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        _bundle_images(content, zf, source_dir)
         zf.writestr("h5p.json", json.dumps(h5p_meta, indent=2, ensure_ascii=False))
         zf.writestr(
             "content/content.json",
@@ -787,9 +1194,9 @@ Example:
     if not chapters:
         sys.exit("ERROR: No content found.")
 
-    content, used_libs = build_interactive_book_content(chapters)
+    content, used_libs = build_interactive_book_content(chapters, source_dir=source.parent)
     h5p_meta = build_h5p_json(title, used_libs)
-    write_h5p(h5p_meta, content, dest)
+    write_h5p(h5p_meta, content, dest, source.parent)
 
     print(f"Output  : {dest}  ({dest.stat().st_size // 1024 + 1} KB)")
     print()

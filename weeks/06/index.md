@@ -8,12 +8,9 @@ week_number: 6
 
 ## Learning Objectives
 
-By the end of this week, students will be able to:
-
-- Frame a supervised classification problem and identify inputs and outputs
-- Explain how k-nearest neighbors (kNN) makes predictions
-- Evaluate a classifier using accuracy, confusion matrix, precision, and recall
-- Describe the effect of the choice of k on model complexity
+- **06A** I can train and interpret k-NN classification models and explain how the choice of k affects overfitting and underfitting.
+- **06B** I can compute and interpret classification metrics — accuracy, precision, recall, and the confusion matrix.
+- **06C** I can split data into training and test sets to evaluate how well a model generalizes to unseen data.
 
 ## Perspectival Reading
 
@@ -25,14 +22,7 @@ By the end of this week, students will be able to:
 2. Classification assigns people or things to categories. What is the cost of a wrong assignment, and who bears it?
 3. "Accuracy" treats all errors as equal. When is that assumption unjustified?
 
-## Slides
+## Materials
 
-[View slides](slides.html)
-
-## Notebook Demo
-
-[Open in Google Colab](#) *(link TBD)*
-
-## Practice {#practice}
-
-[Week 6 Practice — GitHub Classroom](#) *(link TBD)*
+- [Monday class](class_mon.ipynb)
+- [Wednesday class](class_wed.ipynb)
