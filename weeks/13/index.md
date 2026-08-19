@@ -8,6 +8,6 @@ week_number: 13
 
 ## Materials
 
-- [Monday class](class_mon.ipynb)
+- [Monday class](class_w13d1.ipynb)
 
 No class Wednesday/Friday (Thanksgiving week).

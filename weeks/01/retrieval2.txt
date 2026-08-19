@@ -1,0 +1,70 @@
+// Week 01 Retrieval Quiz 2 — The Syllabus — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// 9 questions, ~10 minutes. Covers grading structure, assignment types,
+// and course policies as described on the Syllabus page.
+
+$CATEGORY: Week 01 / Retrieval 02
+
+// ── Grading structure ─────────────────────────────────────────────────────
+
+::W01-R2-Q1 Grading system::
+What grading system does this course use?{
+=Standards-Based (Mastery) Grading #Correct. You are assessed on your mastery of each of the 30 learning objectives, not on accumulated points.
+~Points accumulated across all assignments #The syllabus explicitly says this course does NOT use point accumulation.
+~A single final exam #There is no final exam in this course — assessment is built from ongoing mastery of learning objectives.
+~Curved grading relative to classmates #Grades are based on your own mastery of objectives, not on how you compare to other students.
+}
+
+::W01-R2-Q2 Number of learning objectives::
+How many learning objectives (SLOs) are there in total for this course?{
+=30 #Correct. Each is coded by week number and a letter, e.g. 06B.
+~11 #11 is the number of Readings (and Practices) over the semester, not the number of learning objectives.
+~6 #6 is the number of Forum assignments, not the number of learning objectives.
+~15 #15 is the number of weeks in the semester, not the number of learning objectives.
+}
+
+::W01-R2-Q3 Assignment deadlines::Match each assignment type to when it is due.{
+=Reading -> Monday of the same week
+=Practice -> Monday of the following week
+=Forum -> Wednesday of the following week
+}
+
+::W01-R2-Q4 Reading and mastery::
+TRUE or FALSE: If the Reading for a learning objective is incomplete, your mastery for that objective is automatically "N" (Not Yet) — regardless of your Quiz or Practice scores.{
+TRUE #Correct. The Reading must be completed first; otherwise mastery is capped at N no matter how well you did on the quiz or practice.
+}
+
+::W01-R2-Q5 Mastery from quiz and practice::
+A student earns Quiz: A and Practice: P for a learning objective. According to the mastery table, their objective mastery is {
+=P #Correct. Mastery is the LOWER of your quiz and practice scores, so Quiz A plus Practice P gives P overall.
+~A #Mastery takes the lower of the two scores, not the higher — so A does not apply here.
+~N #N would only apply if one of the two scores were N.
+}.
+
+// ── Assignments and policies ────────────────────────────────────────────────
+
+::W01-R2-Q6 Retrieval quiz purpose::
+Completing the Retrieval Quiz at the start of class counts toward your {
+=attendance #Correct. Completion of the Retrieval Quiz counts as attendance for that class.
+~final project grade #The Retrieval Quiz is unrelated to the Final Project grading criterion.
+~Forum score #The Retrieval Quiz is a separate assignment type from the Forum.
+~learning objective mastery #Retrieval quizzes reinforce recent material but are not one of the three assignment types (Reading, Quiz, Practice) tied to mastery.
+}.
+
+::W01-R2-Q7 Quiz and Forum schedule::
+TRUE or FALSE: In-class Quizzes and Forum assignments alternate — they occur every other week, never in the same week.{
+TRUE #Correct. The syllabus lists Quiz and Forum as alternating every other week.
+}
+
+::W01-R2-Q8 LLM use policy::
+According to the syllabus, what is NOT permitted when using LLMs (ChatGPT, Copilot, etc.) in this course?{
+=Using an LLM as a ghostwriter — submitting its output as your own work without engaging with it yourself #Correct. This is explicitly called out as not permitted.
+~Using an LLM to help understand a concept #The syllabus explicitly says this is a genuinely useful, permitted use.
+~Using an LLM to recall Python syntax you have forgotten #The syllabus explicitly says this is a genuinely useful, permitted use.
+~Recording which prompt you used for LLM-generated code #Recording your prompt is required practice, not something forbidden.
+}
+
+::W01-R2-Q9 Final grade criteria::
+TRUE or FALSE: Even if you meet the Learning Objectives and Final Project criteria fully, falling short on Forum or Attendance alone can still lower your final letter grade by one step.{
+TRUE #Correct. All four criteria (Learning objectives, Final project, Forum, Attendance) must be met to earn a grade; falling short on Forum or Attendance alone drops the grade by one step.
+}

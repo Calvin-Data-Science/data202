@@ -1,0 +1,85 @@
+// Week 02 Retrieval Quiz 2 — DataFrame Basics (Week 1 Friday class) — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 2's Wednesday class, testing retrieval of
+// Week 1 Friday's class_w01d3 (DataFrame Basics — roman_emperors.csv).
+// Includes 2 carried-over review questions from Week 01 Retrieval 03
+// (the axis and in-place/new-object gotchas), since both resurface directly
+// in today's material (drop(axis=1), sort_values() returning a new frame).
+// 9 questions, ~10 minutes.
+
+$CATEGORY: Week 02 / Retrieval 02
+
+// ── New: DataFrame Basics (class_w01d3, roman_emperors.csv) ────────────────
+
+::W02-R2-Q1 Series vs DataFrame::
+Which of the following returns a Series, not a DataFrame?{
+=emperors["Name"] #Correct. A single column selected with one set of brackets returns a Series (one-dimensional).
+~emperors[["Name"]] #Double brackets around even one column name returns a one-column DataFrame, not a Series.
+~emperors[["Name", "Dynasty"]] #Multiple columns always return a DataFrame.
+~emperors[["Name", "Dynasty", "Cause_of_Death"]] #Multiple columns always return a DataFrame.
+}
+
+::W02-R2-Q2 iloc slicing::
+What does emperors.iloc[0:5, 0:3] select?{
+=Rows 0 through 4, and the first 3 columns #Correct. iloc slices are by integer position on both axes: rows first, columns second.
+~Rows 0 through 5, and columns 0 through 3 #iloc slicing follows the same rule as Python list slicing: the end of the range is exclusive, so 0:5 means rows 0-4 and 0:3 means columns 0-2.
+~Row 0 only, columns 5 and 3 #This describes emperors.iloc[0, [5, 3]], not a slice with a colon.
+~The first 5 rows and all columns #The second argument (0:3) restricts the columns to the first three; it does not select all columns.
+}
+
+::W02-R2-Q3 Boolean filtering::
+What does emperors[emperors["Cause_of_Death"] == "Assassination"] select?{
+=Every row where the Cause_of_Death column equals "Assassination" #Correct. The inner expression builds a True/False mask; the outer brackets keep only the True rows.
+~Every row except those with Cause_of_Death equal to "Assassination" #That would require the ~ (NOT) operator in front of the mask.
+~Only the first row where Cause_of_Death equals "Assassination" #Boolean filtering returns ALL matching rows, not just the first one.
+~A single True/False value #emperors["Cause_of_Death"] == "Assassination" is itself a full column of True/False values (a mask), not a single value.
+}
+
+::W02-R2-Q4 Combining conditions::
+Complete the filter so it keeps only emperors who are BOTH Julio-Claudian AND assassinated.
+
+emperors[(emperors["Dynasty"] == "Julio-Claudian") **[&]** (emperors["Cause_of_Death"] == "Assassination")]
+
+<!-- fill-in-the-blank uses GIFT embedded-answer syntax below -->
+{
+=& #Correct. & is pandas' element-wise AND for combining boolean masks. Each condition must stay wrapped in its own parentheses.
+~and #Python's built-in "and" does not work element-wise on a pandas Series and will raise an error here.
+~| #| is OR, not AND — this would keep emperors matching EITHER condition, not both.
+~&& #&& is not a valid Python or pandas operator.
+}
+
+::W02-R2-Q5 sort_values and mutation::
+TRUE or FALSE: emperors.sort_values("Legitimacy") modifies emperors in place — the original DataFrame is changed by this call alone.{
+FALSE #Correct. sort_values() returns a NEW, sorted DataFrame. Unless you reassign it (emperors = emperors.sort_values(...)) or pass inplace=True, the original emperors is unchanged.
+}
+
+::W02-R2-Q6 Dropping a column::
+Which line correctly drops the "Notes" column (not a row) from emp?{
+=emp.drop("Notes", axis=1) #Correct. axis=1 means "column direction."
+~emp.drop("Notes", axis=0) #axis=0 is the row direction — this would try to drop a row labeled "Notes," not the Notes column.
+~emp.drop("Notes") #Without specifying axis, drop() defaults to axis=0 (rows) and would look for a row labeled "Notes" instead of a column.
+~emp.remove("Notes") #DataFrames do not have a .remove() method; the correct method is .drop().
+}
+
+::W02-R2-Q7 Regex OR inside str.contains::
+In df["Cause_of_Death"].str.contains("Assassination|Execution", na=False), what does the | character do?{
+=Matches rows where the text contains EITHER "Assassination" OR "Execution" #Correct. Inside a regex pattern, | means OR — match either alternative.
+~Matches rows where the text contains BOTH "Assassination" AND "Execution" #That would require two separate conditions joined by pandas' & operator, not a single regex with |.
+~Splits the string into two separate columns #str.contains() returns a single True/False column; splitting into columns is not what | does here.
+~Is a typo and would raise an error #| is valid regex syntax for OR and works correctly inside str.contains().
+}
+
+// ── Review from Week 01 Retrieval 03 (carried over — both resurface today) ──
+
+::W02-R2-Q8 Review: in-place vs. new object::
+TRUE or FALSE: nums.sort() modifies the list in place, while sorted(nums) returns a new sorted list and leaves the original list unchanged.{
+TRUE #Correct. .sort() is a method that mutates the list itself; sorted() is a function that returns a new list without touching the original. This is the exact same in-place-vs-new-object distinction behind sort_values() in Q5 above.
+}
+
+::W02-R2-Q9 Review: axis direction::
+You have exam scores as a 2D array where each row is one student and each column is one assignment. Which axis argument to .mean() computes the average score PER STUDENT (collapsing across assignments)?{
+=axis=1 #Correct. axis=1 collapses across columns within each row, giving one value per row. This is the same axis convention behind emp.drop("Notes", axis=1) in Q6 above — axis=1 always means "the column direction."
+~axis=0 #axis=0 collapses down each column, giving one average per assignment instead — not per student.
+~axis=None #axis=None collapses the entire array into a single overall average, mixing all students and assignments together.
+~axis=2 #The array only has two axes (rows and columns) — axis=2 does not exist for this array and would raise an error.
+}

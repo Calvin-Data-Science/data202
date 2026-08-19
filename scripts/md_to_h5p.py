@@ -5,7 +5,7 @@ md_to_h5p.py — Convert a markdown reading file (text + questions) to a single
                any H5P-enabled LMS.
 
 Usage:
-    python scripts/md_to_h5p.py weeks/01/reading.md [--out weeks/01/reading.h5p]
+    python scripts/md_to_h5p.py weeks/02/reading.md [--out weeks/02/reading.h5p]
 
 Page structure
 --------------

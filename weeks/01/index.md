@@ -31,6 +31,6 @@ Complete these before or during the first week:
 
 ## Materials
 
-- [Monday slides](class_mon.html)
-- [Wednesday class](dist/student/class_wed.ipynb)
-- [Friday class](class_fri.ipynb)
+- [Monday slides](class_w01d1.html)
+- [Wednesday class](dist/student/class_w01d2.ipynb)
+- [Friday class](class_w01d3.ipynb)
