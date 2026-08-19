@@ -36,12 +36,7 @@ What does emperors[emperors["Cause_of_Death"] == "Assassination"] select?{
 }
 
 ::W02-R2-Q4 Combining conditions::
-Complete the filter so it keeps only emperors who are BOTH Julio-Claudian AND assassinated.
-
-emperors[(emperors["Dynasty"] == "Julio-Claudian") **[&]** (emperors["Cause_of_Death"] == "Assassination")]
-
-<!-- fill-in-the-blank uses GIFT embedded-answer syntax below -->
-{
+To keep only emperors who are BOTH Julio-Claudian AND assassinated, which operator correctly fills the gap in emperors[(emperors["Dynasty"] == "Julio-Claudian") ___ (emperors["Cause_of_Death"] == "Assassination")]?{
 =& #Correct. & is pandas' element-wise AND for combining boolean masks. Each condition must stay wrapped in its own parentheses.
 ~and #Python's built-in "and" does not work element-wise on a pandas Series and will raise an error here.
 ~| #| is OR, not AND — this would keep emperors matching EITHER condition, not both.
