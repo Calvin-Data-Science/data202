@@ -28,6 +28,12 @@ title: "Week 1: Introduction"
 
 ---
 
+## Icebreaker Data
+
+![w:500](images/qrcode.png)
+
+---
+
 ## Machine Learning?
 
 - We then use these meaningful patterns in order to act.
