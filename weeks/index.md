@@ -42,7 +42,7 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Sep 14</td><td><a href="{{ '/weeks/03/class_w03d1.ipynb' | relative_url }}">Grouping data</a></td></tr>
 <tr><td class="d">Wed Sep 16</td><td><a href="{{ '/weeks/03/class_w03d2.ipynb' | relative_url }}">Visual exploration</a></td></tr>
-<tr><td class="d">Fri Sep 18</td><td>Practice 2 · <a href="{{ '/weeks/03/forum/' | relative_url }}">Forum 1 instructions</a></td></tr>
+<tr><td class="d">Fri Sep 18</td><td>Practice 2 · <a href="{{ '/weeks/03/forum1/' | relative_url }}">Forum 1 instructions</a></td></tr>
 </tbody></table>
 </div>
 
@@ -60,7 +60,7 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Sep 28</td><td><a href="{{ '/weeks/05/class_w05d1.ipynb' | relative_url }}">PCA</a></td></tr>
 <tr><td class="d">Wed Sep 30</td><td><a href="{{ '/weeks/05/class_w05d2.ipynb' | relative_url }}">Clustering</a></td></tr>
-<tr><td class="d">Fri Oct 2</td><td>Practice 4 · <a href="{{ '/weeks/05/forum/' | relative_url }}">Forum 2 instructions</a></td></tr>
+<tr><td class="d">Fri Oct 2</td><td>Practice 4 · <a href="{{ '/weeks/05/forum2/' | relative_url }}">Forum 2 instructions</a></td></tr>
 </tbody></table>
 </div>
 
@@ -87,7 +87,7 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Oct 19</td><td class="off">Fall Break — no class</td></tr>
 <tr><td class="d">Wed Oct 21</td><td class="off">Fall Break — no class</td></tr>
-<tr><td class="d">Fri Oct 23</td><td>Practice 6 · <a href="{{ '/weeks/08/forum/' | relative_url }}">Forum 3 instructions</a></td></tr>
+<tr><td class="d">Fri Oct 23</td><td>Practice 6 · <a href="{{ '/weeks/08/forum3/' | relative_url }}">Forum 3 instructions</a></td></tr>
 </tbody></table>
 <div class="milestone-note">Milestone 1 due Sat Oct 24, midnight</div>
 </div>
@@ -106,7 +106,7 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 2</td><td><a href="{{ '/weeks/10/class_w10d1.ipynb' | relative_url }}">Linear Regression</a></td></tr>
 <tr><td class="d">Wed Nov 4</td><td><a href="{{ '/weeks/10/class_w10d2.ipynb' | relative_url }}">Regression validation</a></td></tr>
-<tr><td class="d">Fri Nov 6</td><td>Practice 8 · <a href="{{ '/weeks/10/forum/' | relative_url }}">Forum 4 instructions</a></td></tr>
+<tr><td class="d">Fri Nov 6</td><td>Practice 8 · <a href="{{ '/weeks/10/forum4/' | relative_url }}">Forum 4 instructions</a></td></tr>
 </tbody></table>
 <div class="milestone-note">Milestone 2 due Sat Nov 7, midnight</div>
 </div>
@@ -125,7 +125,7 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 16</td><td><a href="{{ '/weeks/12/class_w12d1.ipynb' | relative_url }}">Imbalanced data</a></td></tr>
 <tr><td class="d">Wed Nov 18</td><td><a href="{{ '/weeks/12/class_w12d2.ipynb' | relative_url }}">Time-series data</a></td></tr>
-<tr><td class="d">Fri Nov 20</td><td>Practice 10 · <a href="{{ '/weeks/12/forum/' | relative_url }}">Forum 5 instructions</a></td></tr>
+<tr><td class="d">Fri Nov 20</td><td>Practice 10 · <a href="{{ '/weeks/12/forum5/' | relative_url }}">Forum 5 instructions</a></td></tr>
 </tbody></table>
 <div class="milestone-note">Milestone 3 due Sat Nov 21, midnight</div>
 </div>
@@ -153,7 +153,7 @@ title: Weekly Materials
 <div class="wk-head"><h2><a href="{{ '/weeks/15/' | relative_url }}">Week 15 — Project</a></h2></div>
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Dec 7</td><td>Project progress check</td></tr>
-<tr><td class="d">Wed Dec 9</td><td>Book Club 6 &amp; Wrap Up · <a href="{{ '/weeks/15/forum/' | relative_url }}">Forum 6 instructions</a></td></tr>
+<tr><td class="d">Wed Dec 9</td><td>Book Club 6 &amp; Wrap Up · <a href="{{ '/weeks/15/forum6/' | relative_url }}">Forum 6 instructions</a></td></tr>
 </tbody></table>
 </div>
 

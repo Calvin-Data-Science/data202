@@ -67,8 +67,8 @@ There are **30 objectives** in total. Each code indicates when it is covered: th
 | Reading | Weekly · 11 total | Interactive H5P reading on Moodle with embedded comprehension questions. Covers the week's concepts and counts toward your mastery score on each learning objective. | Monday of the same week |
 | Practice | Weekly · 11 total | Jupyter Notebook assignment started during Friday's class and completed independently. Submitted via GitHub Classroom. Directly exercises the week's skills. | Monday of the following week |
 | Quiz | Every other week (alternates with Forum weeks) · 6 total | In-class quiz assessing mastery of recent learning objectives. Each new quiz will repeat questions from the previous quiz, so that you have another chance of showing mastery. Alternates with Forum weeks. | During class |
-| Forum | Every other week (alternates with Quiz weeks) · 6 total | Written reflection posted to the Moodle course forum, based on the current chapter of *Counting* by Deborah Stone. (See instructions there). | Wednesday of the following week |
-| Final Project | 4 milestones + 2 in-class progress checks + Final Submission | Semester-long data analysis project completed individually or in pairs, submitted as a Jupyter Notebook. Structured around four milestones with two in-class progress checks. See the [Final Project](/finalproject/) page for full specifications. | Saturday of certain weeks (in the second half) |
+| Forum | Every other week (alternates with Quiz weeks) · 6 total | In-class annotated worksheet based on the current chapter of *Counting* by Deborah Stone — completed individually, then compared with classmates, then photographed/scanned and uploaded to Moodle. See [Forum Instructions]({{ '/forum/' | relative_url }}) for the full process. | Wednesday of the following week |
+| Final Project | 4 milestones + 2 in-class progress checks + Final Submission | Semester-long data analysis project completed individually or in pairs, submitted as a Jupyter Notebook. Structured around four milestones with two in-class progress checks. See the [Final Project]({{ '/finalproject/' | relative_url }}) page for full specifications. | Saturday of certain weeks (in the second half) |
 
 ## Assessment & Grading {#assessment}
 
@@ -111,6 +111,8 @@ Your final letter grade depends on four criteria. In the first two columns, A co
 ### Weekly readings
 
 Weekly readings are delivered as **interactive H5P readings on Moodle** — each combines the text with embedded comprehension questions. There is no textbook to purchase; readings are made available one week in advance.
+
+Content is adapted from diverse sources — books, papers, and classes that I put together in previous years (referenced when adequate) —, and it is necessary to disclaim that I used some "AI copiloting" for formatting and getting ideas of examples and comprehension questions.
 
 ### Forum book
 
@@ -157,6 +159,8 @@ As the [Calvin Academic Integrity Policy](https://calvin.edu/policies/academic-i
 I really strive and pray that our community would be a place where we all grow in maturity, virtue and respect. I love to be very chill, light-hearted and joky in the way we teach and interact, but do not conclude from that that I'm not responsible or serious about education. If a serious integrity issue arises, I will involve the Office of Student Support, Accountability, and Restoration as appropriate.
 
 ### Use of LLMs
+
+We are following [Calvin's Policy on AI](https://calvincollege.sharepoint.com/sites/CalvinOnline/SitePages/Calvin-University-Policy-on-AI.aspx?CT=1787232184454&OR=OWA-NT-Mail&CID=63229cb9-5e0b-7ac5-8697-b3014e84a9fe&SI=NonSentItems&SLSync=F).
 
 LLMs (ChatGPT, Copilot, and similar tools) can be genuinely useful for understanding concepts, recalling syntax, and getting unstuck. What is not permitted is using them as a ghostwriter — passing a prompt, copying the output, and submitting it as your work.
 

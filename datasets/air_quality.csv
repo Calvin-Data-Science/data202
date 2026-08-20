@@ -1,0 +1,83 @@
+date,neighborhood,monitor_type,median_income_usd,pm25,notes
+2023-01,Riverside,low-cost sensor,32000,29.3,adjacent to I-95 corridor; industrial rail yard nearby
+2023-02,RIVERSIDE,low-cost sensor,32000,28.2,adjacent to I-95 corridor; industrial rail yard nearby
+2023-03,riverside,low-cost sensor,32000,24.9,adjacent to I-95 corridor; industrial rail yard nearby
+2023-04,Riverside.,low-cost sensor,32000,21.6,adjacent to I-95 corridor; industrial rail yard nearby
+2023-05,Riverside,low-cost sensor,32000,20.2,adjacent to I-95 corridor; industrial rail yard nearby
+2023-06,RIVERSIDE,low-cost sensor,32000,19.1,adjacent to I-95 corridor; industrial rail yard nearby
+2023-09,Riverside,low-cost sensor,32000,19.9,adjacent to I-95 corridor; industrial rail yard nearby
+2023-10,RIVERSIDE,low-cost sensor,32000,22.9,adjacent to I-95 corridor; industrial rail yard nearby
+2023-11,riverside,low-cost sensor,32000,25.4,adjacent to I-95 corridor; industrial rail yard nearby
+2023-12,Riverside.,low-cost sensor,32000,28.5,adjacent to I-95 corridor; industrial rail yard nearby
+2023-01,Oakview,low-cost sensor,38000,22.3,near old manufacturing site; mixed residential
+2023-02,OAKVIEW,low-cost sensor,38000,22.0,near old manufacturing site; mixed residential
+2023-03,oakview,low-cost sensor,38000,20.0,near old manufacturing site; mixed residential
+2023-04,"Oakview,",low-cost sensor,38000,18.2,near old manufacturing site; mixed residential
+2023-05,Oakview,low-cost sensor,38000,16.4,near old manufacturing site; mixed residential
+2023-06,OAKVIEW,low-cost sensor,38000,15.8,near old manufacturing site; mixed residential
+2023-07,oakview,low-cost sensor,38000,14.8,near old manufacturing site; mixed residential
+2023-08,"Oakview,",low-cost sensor,38000,14.9,near old manufacturing site; mixed residential
+2023-09,Oakview,low-cost sensor,38000,16.4,near old manufacturing site; mixed residential
+2023-10,OAKVIEW,low-cost sensor,38000,18.4,near old manufacturing site; mixed residential
+2023-11,oakview,low-cost sensor,38000,20.8,near old manufacturing site; mixed residential
+2023-12,"Oakview,",low-cost sensor,38000,21.8,near old manufacturing site; mixed residential
+2023-01,Fairview,reference,45000,18.3,"residential, some truck traffic on main street"
+2023-02,fairview,reference,45000,17.7,"residential, some truck traffic on main street"
+2023-03,FAIRVIEW,reference,45000,16.2,"residential, some truck traffic on main street"
+2023-04,Fairview.,reference,45000,14.8,"residential, some truck traffic on main street"
+2023-05,Fairview,reference,45000,12.9,"residential, some truck traffic on main street"
+2023-06,fairview,reference,45000,11.8,"residential, some truck traffic on main street"
+2023-07,FAIRVIEW,reference,45000,12.5,"residential, some truck traffic on main street"
+2023-08,Fairview.,reference,45000,12.7,"residential, some truck traffic on main street"
+2023-09,Fairview,reference,45000,13.5,"residential, some truck traffic on main street"
+2023-10,fairview,reference,45000,14.1,"residential, some truck traffic on main street"
+2023-11,FAIRVIEW,reference,45000,16.5,"residential, some truck traffic on main street"
+2023-12,Fairview.,reference,45000,17.9,"residential, some truck traffic on main street"
+2023-01,Maple Heights,reference,58000,16.0,"residential, tree-lined streets"
+2023-02,maple heights,reference,58000,14.5,"residential, tree-lined streets"
+2023-03,MAPLE HEIGHTS,reference,58000,13.1,"residential, tree-lined streets"
+2023-04,Maple-Heights,reference,58000,11.7,"residential, tree-lined streets"
+2023-05,Maple Heights,reference,58000,11.3,"residential, tree-lined streets"
+2023-06,maple heights,reference,58000,9.9,"residential, tree-lined streets"
+2023-07,MAPLE HEIGHTS,reference,58000,10.6,"residential, tree-lined streets"
+2023-08,Maple-Heights,reference,58000,10.0,"residential, tree-lined streets"
+2023-09,Maple Heights,reference,58000,11.2,"residential, tree-lined streets"
+2023-10,maple heights,reference,58000,11.9,"residential, tree-lined streets"
+2023-11,MAPLE HEIGHTS,reference,58000,13.8,"residential, tree-lined streets"
+2023-12,Maple-Heights,reference,58000,15.7,"residential, tree-lined streets"
+2023-01,Downtown,reference,68000,17.9,dense traffic corridor; year-round congestion
+2023-02,DOWNTOWN,reference,68000,16.7,dense traffic corridor; year-round congestion
+2023-03,downtown,reference,68000,15.9,dense traffic corridor; year-round congestion
+2023-04,Downtown.,reference,68000,14.7,dense traffic corridor; year-round congestion
+2023-05,Downtown,reference,68000,14.2,dense traffic corridor; year-round congestion
+2023-06,DOWNTOWN,reference,68000,14.0,dense traffic corridor; year-round congestion
+2023-07,downtown,reference,68000,14.0,dense traffic corridor; year-round congestion
+2023-08,Downtown.,reference,68000,14.2,dense traffic corridor; year-round congestion
+2023-09,Downtown,reference,68000,14.4,dense traffic corridor; year-round congestion
+2023-10,DOWNTOWN,reference,68000,14.9,dense traffic corridor; year-round congestion
+2023-11,downtown,reference,68000,16.5,dense traffic corridor; year-round congestion
+2023-12,Downtown.,reference,68000,17.0,dense traffic corridor; year-round congestion
+2023-01,Sunnyside,reference,72000,12.2,"residential, away from major roads"
+2023-02,SUNNYSIDE,reference,72000,12.6,"residential, away from major roads"
+2023-03,sunnyside,reference,72000,10.9,"residential, away from major roads"
+2023-04,"Sunnyside,",reference,72000,9.0,"residential, away from major roads"
+2023-05,Sunnyside,reference,72000,9.3,"residential, away from major roads"
+2023-06,SUNNYSIDE,reference,72000,8.8,"residential, away from major roads"
+2023-07,sunnyside,reference,72000,7.9,"residential, away from major roads"
+2023-08,"Sunnyside,",reference,72000,8.8,"residential, away from major roads"
+2023-09,Sunnyside,reference,72000,8.3,"residential, away from major roads"
+2023-10,SUNNYSIDE,reference,72000,10.3,"residential, away from major roads"
+2023-11,sunnyside,reference,72000,10.8,"residential, away from major roads"
+2023-12,"Sunnyside,",reference,72000,12.6,"residential, away from major roads"
+2023-01,Highland Park,reference,95000,9.5,"residential, elevated, low traffic"
+2023-02,HIGHLAND PARK,reference,95000,9.6,"residential, elevated, low traffic"
+2023-03,highland park,reference,95000,7.9,"residential, elevated, low traffic"
+2023-04,Highland-Park,reference,95000,7.4,"residential, elevated, low traffic"
+2023-05,Highland Park,reference,95000,7.1,"residential, elevated, low traffic"
+2023-06,HIGHLAND PARK,reference,95000,5.7,"residential, elevated, low traffic"
+2023-07,highland park,reference,95000,5.6,"residential, elevated, low traffic"
+2023-08,Highland-Park,reference,95000,6.2,"residential, elevated, low traffic"
+2023-09,Highland Park,reference,95000,6.2,"residential, elevated, low traffic"
+2023-10,HIGHLAND PARK,reference,95000,6.8,"residential, elevated, low traffic"
+2023-11,highland park,reference,95000,7.8,"residential, elevated, low traffic"
+2023-12,Highland-Park,reference,95000,9.0,"residential, elevated, low traffic"

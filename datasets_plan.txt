@@ -28,8 +28,10 @@ WEEK 2 — DataFrame Basics (structure, filtering, visual encodings)
 ---
 
 WEEK 3 — Exploring DataFrames (text cleaning, groupby, plots)
-  Mon (class_mon):    [ ]
-  Wed (class_wed):    [ ]
+  Mon (class_w03d1):  [x] homeless.csv  (fake, deliberately messy; 100 rows x 9 cols; text cleaning + groupby)
+  Wed (class_w03d2):  [x] homeless.csv  (same dataset, cleaned again — histogram/scatter/line/bar)
+  Reading (reading2): [x] air_quality.csv  (fake, environmental/EJ theme; 82 rows x 6 cols; lives in weeks/03/,
+                          due start of week 3 per moodle_reading flag on week:2 in _data/weeks.yml)
   Practice:           [ ]
 
 ---

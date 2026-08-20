@@ -12,4 +12,4 @@ Enjoy the break — come back rested for the second half of the course.
 
 ## Materials
 
-- [Forum 3 instructions]({{ '/weeks/08/forum/' | relative_url }})
+- [Forum 3 instructions]({{ '/weeks/08/forum3/' | relative_url }})

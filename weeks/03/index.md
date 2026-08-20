@@ -16,4 +16,4 @@ week_number: 3
 
 - [Monday class](class_w03d1.ipynb)
 - [Wednesday class](class_w03d2.ipynb)
-- [Forum 1 instructions]({{ '/weeks/03/forum/' | relative_url }})
+- [Forum 1 instructions]({{ '/weeks/03/forum1/' | relative_url }})

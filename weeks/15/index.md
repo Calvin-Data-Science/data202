@@ -8,4 +8,4 @@ week_number: 15
 
 ## Materials
 
-- [Forum 6 instructions]({{ '/weeks/15/forum/' | relative_url }})
+- [Forum 6 instructions]({{ '/weeks/15/forum6/' | relative_url }})
