@@ -30,7 +30,8 @@ title: "Week 1: Introduction"
 
 ## Icebreaker Data
 
-![w:500](images/qrcode.png)
+
+<img src="images/qrcode.png" width=500 data-preview-image>
 
 ---
 
