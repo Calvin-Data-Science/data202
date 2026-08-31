@@ -134,12 +134,11 @@ Most of these are open-access books. None are required, but each is excellent fo
 
 Attendance is required and directly affects your final grade — see the [grading table](#final-grade) above.
 
-If you let me know in advance that you won't be able to make it, that absence won't count against you.
+If you let me know in advance that you won't be able to make it, that absence won't count.
 
 Life is unpredictable, though, and sometimes you'll be absent with no chance to give me a heads-up first — that's why the grading table allows for a handful of misses (around 3 or 4) and still lets you earn an A. But these should be genuine exceptions, not a pattern. If you realize that your schedule makes regular attendance impossible, the right thing to do is to register for a different section or defer the course — not to enroll and miss class repeatedly.
 
 Why does this matter so much? This is a learning community, and that requires us to be present to each other. A lot happens in class that is not captured anywhere else: live demos, discussions, spontaneous clarifications. If you are not there, you miss it — and saying "I didn't know" is not an excuse when you were not there to hear it.
-
 
 
 ### Late work
