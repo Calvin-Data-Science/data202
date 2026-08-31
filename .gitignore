@@ -9,6 +9,7 @@ textbooks/
 # Private grade data — never commit
 grades/grades.xlsx
 grades/grade-data/
+grades/messages.txt
 
 # Deployment script (contains server path)
 deploy.ps1

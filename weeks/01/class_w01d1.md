@@ -178,7 +178,7 @@ Data is one way we record experience and make it shareable.
 
 ## Communication and publishing platforms
 
-- Jupyter Notebooks in JupyterLab (we'll be using those)
+- Jupyter Notebooks in VS Code (we'll be using those — see [Resources](../../resources/) for setup)
 - Other useful publishing platforms: [Streamlit](https://streamlit.io/) and [Shiny](https://shiny.posit.co/)
 
 ---

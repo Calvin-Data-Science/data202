@@ -8,35 +8,47 @@ permalink: /resources/
 
 ## Running Notebooks
 
-All class materials and practices are `.ipynb` (Jupyter notebook) files. Download them from the course website and run them in one of two ways.
+All class materials and practices are `.ipynb` (Jupyter notebook) files, opened and run in **VS Code** — either connected to Calvin's cloud workspace (Coder) or installed on your own machine. Download the file from the course website and run it in one of two ways.
+
+### Required VS Code extensions
+
+Whichever option you use, two extensions make `.ipynb` files work in VS Code:
+
+- **[Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)** (`ms-python.python`) — Python language support and environment/interpreter selection
+- **[Jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter)** (`ms-toolsai.jupyter`) — adds the notebook editor itself (cells, kernel picker, outputs)
+
+On a Coder workspace these are pre-installed. Installing VS Code locally, install both from the Extensions panel (`Ctrl+Shift+X`, search by name) before opening any `.ipynb` file.
+
+**Optional but useful:** the **[GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)** extension (plus **GitHub Copilot Chat**) works directly inside notebook cells in VS Code — inline suggestions appear as you type in a code cell, and you can select a cell (or just place your cursor in it) and open Copilot Chat (`Ctrl+Alt+I`) to ask about or modify just that cell, similar to Colab's cell-level AI assistant. Calvin students can get Copilot for free through the [GitHub Student Developer Pack](https://education.github.com/pack) (see [Version Control](#version-control) below) — remember the course's [LLM use policy](/syllabus/#use-of-llms) still applies to anything it suggests.
 
 ### Option A — Coder (Recommended)
 
-Calvin provides a cloud-based JupyterLab environment through **Coder** — nothing to install.
+Calvin provides a cloud-based development environment through **Coder** — nothing to install for the environment itself, only VS Code.
 
-1. Log in at [coder.cs.calvin.edu](https://coder.cs.calvin.edu) with your Calvin credentials
-2. Open your workspace — Python, JupyterLab, and all required libraries are pre-installed
+1. Log in at [coder.cs.calvin.edu](https://coder.cs.calvin.edu) with your Calvin credentials and start your workspace
+2. Open it one of two ways:
+   - **In the browser** — click the workspace's VS Code (browser) button; this opens a full VS Code interface with the Python/Jupyter extensions already installed, no local install needed at all
+   - **In VS Code Desktop** — install [VS Code](https://code.visualstudio.com/) locally, install the **Coder** extension (`coder.coder-remote`) from the Extensions panel, then use it to connect to your workspace; VS Code Desktop then runs against the remote workspace exactly as if the files were local
 3. Download the `.ipynb` file from the course website
-4. Upload it to your workspace (drag-and-drop into the JupyterLab file browser, or use the upload button)
-5. Double-click the file to open it, then run cells with **Shift + Enter**
+4. Open it in your workspace (drag-and-drop into the Explorer sidebar, or use the file upload button), then open the file
+5. In the top-right of the notebook, use **Select Kernel** to pick the Python environment (only needed once per workspace), then run cells with **Shift + Enter**
 
 **Tip:** files persist in your workspace between sessions — always save before closing.
 
 ### Option B — Local Installation
 
-If you prefer to run notebooks on your own machine:
+If you prefer to run notebooks entirely on your own machine:
 
-1. Install [Anaconda](https://www.anaconda.com/download) — includes Python, JupyterLab, and most scientific libraries
-2. Open a terminal (Anaconda Prompt on Windows) and install any missing libraries:
+1. Install Python — either [Anaconda](https://www.anaconda.com/download) (includes Python plus most scientific libraries) or a plain install from [python.org](https://www.python.org/downloads/)
+2. Install [VS Code](https://code.visualstudio.com/)
+3. In VS Code, install the **Python** and **Jupyter** extensions (see above)
+4. Open a terminal (VS Code's built-in terminal, `` Ctrl+` ``) and install any missing libraries:
    ```bash
-   pip install plotly otter-grader
+   pip install pandas plotly scikit-learn otter-grader
    ```
-3. Download the `.ipynb` file from the course website into a local folder
-4. Launch JupyterLab:
-   ```bash
-   jupyter lab
-   ```
-5. Navigate to the file in the JupyterLab file browser and open it
+5. Download the `.ipynb` file from the course website into a local folder
+6. In VS Code, use **File → Open Folder** on that folder (recommended, so relative paths to datasets/images resolve correctly), then open the `.ipynb` file from the Explorer sidebar
+7. Use **Select Kernel** in the top-right of the notebook to choose your Python interpreter, then run cells with **Shift + Enter**
 
 ### Jupyter Notebooks — Key Concepts
 
@@ -45,11 +57,11 @@ If you prefer to run notebooks on your own machine:
 - Cells share state within a session — variables defined in one cell are available in all others
 - Order matters: run cells top-to-bottom; re-run earlier cells if you change them
 - *Restarting the kernel* clears all variables — you'll need to re-run from the top
-- Before submitting, use **Kernel → Restart & Run All** to confirm your notebook runs clean
+- Before submitting, use the notebook toolbar's **Restart** button followed by **Run All** to confirm your notebook runs clean from scratch
 
 **References:**
-- [JupyterLab documentation](https://jupyterlab.readthedocs.io/en/stable/)
-- [Jupyter keyboard shortcuts](https://towardsdatascience.com/jypyter-notebook-shortcuts-bf0101a98330)
+- [VS Code Jupyter Notebooks documentation](https://code.visualstudio.com/docs/datascience/jupyter-notebooks)
+- [VS Code keyboard shortcuts](https://code.visualstudio.com/docs/getstarted/keybindings)
 - [Markdown cheatsheet](https://www.markdownguide.org/cheat-sheet/) — for formatting text cells
 
 ---
