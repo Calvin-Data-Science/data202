@@ -27,11 +27,16 @@ Calvin provides a cloud-based development environment through **Coder** — noth
 
 1. Log in at [coder.cs.calvin.edu](https://coder.cs.calvin.edu) with your Calvin credentials and start your workspace
 2. Open it one of two ways:
-   - **In the browser** — click the workspace's VS Code (browser) button; this opens a full VS Code interface with the Python/Jupyter extensions already installed, no local install needed at all
+   - **In the browser** — click the workspace's VS Code (browser) button; this opens a full VS Code interface, ready to use with no local install at all
    - **In VS Code Desktop** — install [VS Code](https://code.visualstudio.com/) locally, install the **Coder** extension (`coder.coder-remote`) from the Extensions panel, then use it to connect to your workspace; VS Code Desktop then runs against the remote workspace exactly as if the files were local
 3. Download the `.ipynb` file from the course website
-4. Open it in your workspace (drag-and-drop into the Explorer sidebar, or use the file upload button), then open the file
-5. In the top-right of the notebook, use **Select Kernel** to pick the Python environment (only needed once per workspace), then run cells with **Shift + Enter**
+4. Upload it into your workspace — in the browser VS Code, the Explorer sidebar (the file-tree panel on the left, usually already open; click the top icon in the left activity bar if not) is where files live. Either:
+   - **Drag the file** from your computer straight onto the Explorer panel, or
+   - Right-click empty space inside the Explorer panel and choose **Upload...**, then pick the file from your computer's file picker
+
+   If a notebook needs extra files too (a dataset or image, for a few notebooks that don't load data straight from a URL), upload those the same way, into the same folder as the notebook.
+5. Click the uploaded `.ipynb` file in the Explorer to open it
+6. In the top-right of the notebook, use **Select Kernel** to pick the Python environment (only needed once per workspace), then run cells with **Shift + Enter**
 
 **Tip:** files persist in your workspace between sessions — always save before closing.
 
@@ -40,15 +45,11 @@ Calvin provides a cloud-based development environment through **Coder** — noth
 If you prefer to run notebooks entirely on your own machine:
 
 1. Install Python — either [Anaconda](https://www.anaconda.com/download) (includes Python plus most scientific libraries) or a plain install from [python.org](https://www.python.org/downloads/)
-2. Install [VS Code](https://code.visualstudio.com/)
-3. In VS Code, install the **Python** and **Jupyter** extensions (see above)
-4. Open a terminal (VS Code's built-in terminal, `` Ctrl+` ``) and install any missing libraries:
-   ```bash
-   pip install pandas plotly scikit-learn otter-grader
-   ```
-5. Download the `.ipynb` file from the course website into a local folder
-6. In VS Code, use **File → Open Folder** on that folder (recommended, so relative paths to datasets/images resolve correctly), then open the `.ipynb` file from the Explorer sidebar
-7. Use **Select Kernel** in the top-right of the notebook to choose your Python interpreter, then run cells with **Shift + Enter**
+2. Install [VS Code](https://code.visualstudio.com/), then the **Python** and **Jupyter** extensions (see above)
+3. Install the course's required packages — see [Configuring Your Environment](#configuring-your-environment) below
+4. Download the `.ipynb` file from the course website into a local folder
+5. In VS Code, use **File → Open Folder** on that folder (recommended, so relative paths to datasets/images resolve correctly), then open the `.ipynb` file from the Explorer sidebar
+6. Use **Select Kernel** in the top-right of the notebook to choose your Python interpreter, then run cells with **Shift + Enter**
 
 ### Jupyter Notebooks — Key Concepts
 
@@ -66,9 +67,39 @@ If you prefer to run notebooks entirely on your own machine:
 
 ---
 
+## Configuring Your Environment
+
+**On Coder:** every package this course uses — `pandas`, `plotly`, `scikit-learn`, and `otter-grader` — is already installed in your workspace. Nothing to do here; skip to the next section.
+
+**On a local install:** open a terminal (VS Code's built-in terminal, `` Ctrl+` ``) and run:
+
+```bash
+pip install pandas plotly scikit-learn otter-grader
+```
+
+`pip` isn't always on your PATH, or (rarely, these days) might point at Python 2 instead of Python 3. `pip` and `pip3` almost always do the exact same thing — try them in this order until one works:
+
+```bash
+pip install pandas plotly scikit-learn otter-grader
+pip3 install pandas plotly scikit-learn otter-grader
+python -m pip install pandas plotly scikit-learn otter-grader
+```
+
+If neither `pip` nor `pip3` is recognized at all (`'pip' is not recognized...` / `command not found`), `python -m pip install ...` almost always works — it runs pip through whichever `python` you already use to run your code, rather than relying on `pip` being on your PATH separately. (If `python` itself isn't recognized either, try `python3 -m pip install ...` instead.)
+
+**Verify it worked** — run this in the same terminal:
+
+```bash
+python -c "import pandas, plotly, sklearn, otter; print('All good!')"
+```
+
+If that prints `All good!` with no errors, you're set for every notebook and practice this semester.
+
+---
+
 ## Autograding with Otter
 
-This course uses **[otter-grader](https://otter-grader.readthedocs.io/)** for automatic feedback on in-class exercises and practices.
+This course uses **[otter-grader](https://otter-grader.readthedocs.io/)** for automatic feedback on in-class exercises and practices. (Already installed on Coder; see [Configuring Your Environment](#configuring-your-environment) above for local setup.)
 
 When you open a notebook, the first cell initializes the grader:
 
@@ -84,12 +115,6 @@ grader.check("task_name")
 ```
 
 A ✅ means your answer passes the tests. If it fails, read the message and try again. For **class exercises**, this is just for your own feedback — nothing is collected. For **practices**, the same tests are used when your notebook is graded.
-
-**Installation** (only needed for local setup — Coder already has it):
-
-```bash
-pip install otter-grader
-```
 
 ---
 
