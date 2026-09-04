@@ -7,7 +7,7 @@ _site/
 textbooks/
 
 # Private grade data — never commit
-grades/grades.xlsx
+grades/*.xlsx
 grades/grade-data/
 grades/messages.txt
 
