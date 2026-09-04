@@ -11,4 +11,4 @@ title: Home
 
 **Fernando Pasquini Santos**
 - Email: fernando.santos *at* calvin.edu
-- Office hours: I'll be at Peet's every Wednesday from 11:00 to 12:00; just come by and ask whatever you need. Besides, my office is NH293; just stop by whenever my door is open. You can also message me to find a time --- including for coffee or lunch!
+- Office hours: I'll be at Peet's every Tuesday from 10:00 to 11:00; just come by and ask whatever you need. Besides, my office is NH293; just stop by whenever my door is open. You can also message me to find a time --- including for coffee or lunch!

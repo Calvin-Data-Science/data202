@@ -1,0 +1,93 @@
+// Week 03 Retrieval Quiz 1 — Visualization & DataFrame Basics — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 3, testing retrieval of Week 2's Wednesday class
+// (class_w02d2 — Visualization with Plotly Express: why visualize, variable
+// types, mapping variables to encodings, Simpson's Paradox, mapping vs.
+// styling) and Practice 01 (Amazon forest fires dataset — DataFrame shape,
+// idxmax/loc, compound filtering, sorting, and line plots).
+// 9 questions, ~10 minutes.
+
+$CATEGORY: Week 03 / Retrieval 01
+
+// ── Section 1: Why Visualize? (Datasaurus Dozen) ────────────────────────────
+
+::W03-R1-Q1 Datasaurus Dozen::
+The Datasaurus Dozen datasets all have nearly identical x/y means and standard deviations. What did plotting them reveal?{
+=The datasets look completely different from each other, despite sharing the same summary statistics #Correct. Summary statistics can hide wildly different underlying shapes — always plot your data before trusting a summary.
+~The datasets all look identical when plotted, confirming the summary statistics #This is the opposite of what happened — the shapes were dramatically different despite matching statistics.
+~Summary statistics are more reliable than plots for spotting differences #The example shows the opposite: the plots revealed differences the summary statistics could not.
+~The datasets had different means but the same shape #It is the other way around: same summary statistics (including means), different shapes.
+}
+
+// ── Section 2: Variable Types & Mapping ─────────────────────────────────────
+
+::W03-R1-Q2 Categorical ordered variables::
+In the product sales dataset, `Season` (Spring → Summer → Fall → Winter) is best classified as which variable type?{
+=Categorical, ordered #Correct. Season has a small set of labels with a natural sequence, unlike an unordered category such as product Category.
+~Categorical, unordered #Season has a natural order (the sequence of seasons), so it should be treated differently from an unordered category like Category.
+~Numerical, continuous #Season is a label, not a measured quantity — it isn't numerical at all.
+~Numerical, discrete #Season is a label, not a count or other discrete numeric value.
+}
+
+::W03-R1-Q3 Encoding a fourth variable::
+You already have Advertising Spend on x, Profit on y, and Category mapped to color. Which px.scatter argument would you add to encode a fourth, numerical variable as the area of each point?{
+=size #Correct. size maps a numerical variable to point area — larger values produce bigger points.
+~facet_col #facet_col splits the plot into separate small-multiple panels by a categorical variable; it doesn't encode a variable within one panel.
+~symbol #symbol changes point shape and works best for a categorical variable with few levels, not a numerical one.
+~title #title is styling text, not a mapping — it does not encode any variable at all.
+}
+
+// ── Section 3: Simpson's Paradox ────────────────────────────────────────────
+
+::W03-R1-Q4 Simpson's Paradox::
+TRUE or FALSE: If a scatter plot shows an overall upward trend across the whole dataset, that same trend is guaranteed to hold within every subgroup once you facet or color by category.{
+FALSE #Correct. This is Simpson's Paradox — a trend visible overall can reverse or disappear within subgroups; adding color or facet_col is often what reveals it.
+}
+
+// ── Section 4: Mapping vs. Styling ──────────────────────────────────────────
+
+::W03-R1-Q5 Mapping vs. styling::
+Which of the following is an example of styling rather than mapping?{
+=color_discrete_sequence\=px.colors.qualitative.Safe #Correct. This chooses which colors are used regardless of the data — a style choice made for readability/accessibility, not driven by a column.
+~color\="Category" #This maps a DataFrame column to the color channel — the visual changes if the data changes, which makes it a mapping.
+~size\="Units Sold" #This maps a numerical column to point size — a mapping, not a style.
+~facet_col\="Season" #This maps a column to which panel a point appears in — a mapping, not a style.
+}
+
+// ── Section 5: DataFrame Basics (Practice 01, fires dataset) ───────────────
+
+::W03-R1-Q6 DataFrame shape::
+What does fires.shape return?{
+=A tuple of (number of rows, number of columns) #Correct. shape is an attribute (no parentheses) that returns a tuple like (6454, 5).
+~A list of column names #That describes fires.columns, not fires.shape.
+~The total number of cells in the DataFrame #shape gives dimensions as a tuple, not a single cell count.
+~A Series of row counts per column #shape is a single tuple describing the whole DataFrame, not a per-column Series.
+}
+
+::W03-R1-Q7 Finding the row with the max value::
+You want the index LABEL of the row with the highest value in fires['number'], so you can then look up other columns for that same row with .loc[]. Which method gives you that index label?{
+=.idxmax() #Correct. idxmax() returns the index label of the maximum value, which you can then pass to .loc[].
+~.max() #.max() returns the maximum VALUE itself (e.g. 998), not the index label where it occurs.
+~.sort_values() #sort_values() reorders the whole Series/DataFrame; it doesn't directly give you a single index label.
+~.loc[] #.loc[] looks UP a value once you already have an index label — it doesn't find the label for you.
+}
+
+// ── Section 6: Filtering & Sorting ──────────────────────────────────────────
+
+::W03-R1-Q8 Compound filtering::
+Which line correctly filters fires to rows where the state is one of north_states AND the year is 2010 or later?{
+=fires[fires['state'].isin(north_states) & (fires['year'] >\= 2010)] #Correct. isin() checks list membership, & combines the two boolean masks, and each condition is wrapped in its own parentheses.
+~fires[fires['state'].isin(north_states) and fires['year'] >\= 2010] #Python's built-in "and" does not work element-wise on pandas boolean masks and will raise an error here.
+~fires[fires['state'] in north_states & fires['year'] >\= 2010] #Python's "in" does not work element-wise on a whole column; isin() is required, and this also has an operator precedence problem.
+~fires[fires['state'].isin(north_states)]['year'] >\= 2010 #This filters by state first and then produces a True/False Series comparing years — it does not return the filtered rows.
+}
+
+// ── Section 7: Visual Encodings (line plots) ────────────────────────────────
+
+::W03-R1-Q9 Comparing multiple states in one line plot::
+In px.line(north_recent, x='date', y='number', color='state', ...), what role does color='state' play?{
+=It maps the state column so each state gets its own line/color, letting you compare trends across states in one plot #Correct. This is a mapping — the visual (which color each line gets) is driven directly by the state column's values.
+~It applies a fixed color style to the entire line plot, regardless of which states are present #That would be styling (e.g. a single color_discrete_sequence), not what color\='state' does — here the color depends on the data.
+~It sorts the states alphabetically before plotting #color has no effect on row order; sort_values() would be needed for that.
+~It filters the plot to show only one state at a time #color does not filter rows — it still plots every state, just distinguished by color.
+}

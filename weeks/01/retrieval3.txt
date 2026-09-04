@@ -11,15 +11,15 @@ $CATEGORY: Week 01 / Retrieval 03
 ::W01-R3-Q1 List mutation::
 Start with nums = [1, 2, 3, 4]. Then run nums.append(5) followed by nums[2] = 10. What is nums now?{
 =[1, 2, 10, 4, 5] #Correct. append(5) adds to the end first, then index 2 (the third element) is replaced with 10.
-~[1, 2, 3, 4, 5] #This is nums before the nums[2] = 10 replacement — that step still needs to happen.
+~[1, 2, 3, 4, 5] #This is nums before the nums[2] \= 10 replacement — that step still needs to happen.
 ~[1, 2, 10, 4] #This is missing the 5 that append(5) added.
-~[10, 1, 2, 3, 4, 5] #nums[2] = 10 replaces the element at index 2 — it does not insert 10 at the front.
+~[10, 1, 2, 3, 4, 5] #nums[2] \= 10 replaces the element at index 2 — it does not insert 10 at the front.
 }
 
 ::W01-R3-Q2 List comprehension::
 Which list comprehension produces the even numbers from 0 to 9?{
-=[x for x in range(10) if x % 2 == 0] #Correct. The if condition keeps only values where x % 2 == 0.
-~[x for x in range(10) if x % 2 == 1] #This condition keeps the ODD numbers instead.
+=[x for x in range(10) if x % 2 \=\= 0] #Correct. The if condition keeps only values where x % 2 \=\= 0.
+~[x for x in range(10) if x % 2 \=\= 1] #This condition keeps the ODD numbers instead.
 ~[x**2 for x in range(10)] #This produces the squares of 0–9, not the even numbers.
 ~[x for x in range(10)] #This has no filter condition, so it produces all of 0–9, not just the even ones.
 }
@@ -42,9 +42,9 @@ FALSE #Correct. Tuples are ordered but IMMUTABLE — once created, their element
 // ── Section 3: Dictionaries ───────────────────────────────────────────────────
 
 ::W01-R3-Q5 Dictionary lookup::
-Given label_map = {'low': 0, 'medium': 1, 'high': 2} and raw = ['high', 'low'], what does [label_map[r] for r in raw] produce?{
+Given label_map = \{'low': 0, 'medium': 1, 'high': 2\} and raw = ['high', 'low'], what does [label_map[r] for r in raw] produce?{
 =[2, 0] #Correct. 'high' maps to 2 and 'low' maps to 0, in that order.
-~[0, 2] #This would be the result for raw = ['low', 'high'], not ['high', 'low'].
+~[0, 2] #This would be the result for raw \= ['low', 'high'], not ['high', 'low'].
 ~['high', 'low'] #This is raw itself — the comprehension looks up each value in label_map instead of returning it unchanged.
 ~a KeyError, because label_map has no numeric keys #label_map's keys are the strings 'low'/'medium'/'high', and both 'high' and 'low' are valid keys, so no error occurs.
 }
@@ -78,8 +78,8 @@ For mat = np.array([[1, 2, 3], [4, 5, 6]]), what is mat.shape?{
 
 ::W01-R3-Q9 Axis direction::
 You have exam scores as a 2D array where each row is one student and each column is one assignment. Which axis argument to .mean() computes the average score PER STUDENT (collapsing across assignments)?{
-=axis=1 #Correct. axis=1 collapses across columns within each row, giving one average per student (per row).
-~axis=0 #axis=0 collapses down each column, giving one average per assignment instead — not per student.
-~axis=None #axis=None collapses the entire array into a single overall average, mixing all students and assignments together.
-~axis=2 #mat only has two axes (rows and columns) — axis=2 does not exist for this array and would raise an error.
+=axis\=1 #Correct. axis\=1 collapses across columns within each row, giving one average per student (per row).
+~axis\=0 #axis\=0 collapses down each column, giving one average per assignment instead — not per student.
+~axis\=None #axis\=None collapses the entire array into a single overall average, mixing all students and assignments together.
+~axis\=2 #mat only has two axes (rows and columns) — axis\=2 does not exist for this array and would raise an error.
 }

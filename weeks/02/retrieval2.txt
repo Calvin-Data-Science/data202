@@ -30,9 +30,9 @@ What does emperors.iloc[0:5, 0:3] select?{
 ::W02-R2-Q3 Boolean filtering::
 What does emperors[emperors["Cause_of_Death"] == "Assassination"] select?{
 =Every row where the Cause_of_Death column equals "Assassination" #Correct. The inner expression builds a True/False mask; the outer brackets keep only the True rows.
-~Every row except those with Cause_of_Death equal to "Assassination" #That would require the ~ (NOT) operator in front of the mask.
+~Every row except those with Cause_of_Death equal to "Assassination" #That would require the \~ (NOT) operator in front of the mask.
 ~Only the first row where Cause_of_Death equals "Assassination" #Boolean filtering returns ALL matching rows, not just the first one.
-~A single True/False value #emperors["Cause_of_Death"] == "Assassination" is itself a full column of True/False values (a mask), not a single value.
+~A single True/False value #emperors["Cause_of_Death"] \=\= "Assassination" is itself a full column of True/False values (a mask), not a single value.
 }
 
 ::W02-R2-Q4 Combining conditions::
@@ -45,14 +45,14 @@ To keep only emperors who are BOTH Julio-Claudian AND assassinated, which operat
 
 ::W02-R2-Q5 sort_values and mutation::
 TRUE or FALSE: emperors.sort_values("Legitimacy") modifies emperors in place — the original DataFrame is changed by this call alone.{
-FALSE #Correct. sort_values() returns a NEW, sorted DataFrame. Unless you reassign it (emperors = emperors.sort_values(...)) or pass inplace=True, the original emperors is unchanged.
+FALSE #Correct. sort_values() returns a NEW, sorted DataFrame. Unless you reassign it (emperors \= emperors.sort_values(...)) or pass inplace\=True, the original emperors is unchanged.
 }
 
 ::W02-R2-Q6 Dropping a column::
 Which line correctly drops the "Notes" column (not a row) from emp?{
-=emp.drop("Notes", axis=1) #Correct. axis=1 means "column direction."
-~emp.drop("Notes", axis=0) #axis=0 is the row direction — this would try to drop a row labeled "Notes," not the Notes column.
-~emp.drop("Notes") #Without specifying axis, drop() defaults to axis=0 (rows) and would look for a row labeled "Notes" instead of a column.
+=emp.drop("Notes", axis\=1) #Correct. axis\=1 means "column direction."
+~emp.drop("Notes", axis\=0) #axis\=0 is the row direction — this would try to drop a row labeled "Notes," not the Notes column.
+~emp.drop("Notes") #Without specifying axis, drop() defaults to axis\=0 (rows) and would look for a row labeled "Notes" instead of a column.
 ~emp.remove("Notes") #DataFrames do not have a .remove() method; the correct method is .drop().
 }
 
@@ -73,8 +73,8 @@ TRUE #Correct. .sort() is a method that mutates the list itself; sorted() is a f
 
 ::W02-R2-Q9 Review: axis direction::
 You have exam scores as a 2D array where each row is one student and each column is one assignment. Which axis argument to .mean() computes the average score PER STUDENT (collapsing across assignments)?{
-=axis=1 #Correct. axis=1 collapses across columns within each row, giving one value per row. This is the same axis convention behind emp.drop("Notes", axis=1) in Q6 above — axis=1 always means "the column direction."
-~axis=0 #axis=0 collapses down each column, giving one average per assignment instead — not per student.
-~axis=None #axis=None collapses the entire array into a single overall average, mixing all students and assignments together.
-~axis=2 #The array only has two axes (rows and columns) — axis=2 does not exist for this array and would raise an error.
+=axis\=1 #Correct. axis\=1 collapses across columns within each row, giving one value per row. This is the same axis convention behind emp.drop("Notes", axis\=1) in Q6 above — axis\=1 always means "the column direction."
+~axis\=0 #axis\=0 collapses down each column, giving one average per assignment instead — not per student.
+~axis\=None #axis\=None collapses the entire array into a single overall average, mixing all students and assignments together.
+~axis\=2 #The array only has two axes (rows and columns) — axis\=2 does not exist for this array and would raise an error.
 }
