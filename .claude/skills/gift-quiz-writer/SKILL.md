@@ -161,6 +161,31 @@ text is inside `{ }`.)
 ```
 (`==` inside the answer block, both `=` escaped.)
 
+## Code formatting (wrap code in `<code>`/`<pre>` tags)
+
+Moodle's GIFT importer parses question/answer text as HTML by default
+("Moodle auto-format"), so HTML tags placed directly in the text survive
+import and render. Use this whenever a stem or answer option is actual
+code — a function call, an expression, a column/variable reference, or a
+full line the student is choosing between:
+
+- Wrap short inline code (an expression, a column name, an operator) in
+  `<code>...</code>`.
+- Wrap multi-line code in `<pre>...</pre>` — it preserves whitespace and
+  line breaks exactly, whereas GIFT/Moodle's auto-format can otherwise
+  collapse single newlines.
+- `<` and `>` are not GIFT-reserved characters, so the tags themselves need
+  no escaping — but text *inside* the tags still follows the normal GIFT
+  escaping rule above (e.g. `<code>axis\=1</code>`).
+- Apply it consistently within a question: if the stem shows code, wrap
+  it; if an MC option *is* a line of code, wrap the whole option, not just
+  part of it.
+
+Example:
+```gift
+~<code>emp.drop("Notes", axis\=0)</code> #<code>axis\=0</code> is the row direction — this would try to drop a row labeled "Notes," not the Notes column.
+```
+
 ## Writing good distractors and feedback
 
 This is what makes retrieval quizzes worth running — always include it:
@@ -187,7 +212,9 @@ This is what makes retrieval quizzes worth running — always include it:
    question ships without full feedback.
 4. Escape only `~ = # { } :` where literal, per the rule above; leave
    commas alone.
-5. Save as a `.txt` file at the location the user specified (or matching
+5. Wrap actual code (stems and MC options that are code) in `<code>`/`<pre>`
+   tags so Moodle renders it in monospace — see Code formatting above.
+6. Save as a `.txt` file at the location the user specified (or matching
    existing project convention).
-6. Tell the user it's ready for **Moodle → Question bank → Import → GIFT
+7. Tell the user it's ready for **Moodle → Question bank → Import → GIFT
    format**, and mention the question count and what it covers.

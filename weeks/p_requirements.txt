@@ -1,5 +1,5 @@
 otter-grader
-pandas
+pandas>=3.0
 plotly
 scikit-learn
 statsmodels

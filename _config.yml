@@ -11,3 +11,7 @@ exclude:
   - "deploy.ps1"
   - "weeks/**/dist/autograder/"
   - "**/*.h5p"
+  - "weeks/**/quiz*.md"
+  - "weeks/**/quiz*.pdf"
+  - "scripts/build_quiz.py"
+  - "scripts/quiz_content/"

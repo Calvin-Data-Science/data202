@@ -2,6 +2,7 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 .DS_Store
+__pycache__/
 
 # Textbooks — copyright, never commit or deploy
 textbooks/
