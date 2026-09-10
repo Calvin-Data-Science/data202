@@ -142,6 +142,27 @@ otherwise be parsed as GIFT syntax:
 - When code contains a literal backslash-producing sequence of its own,
   escape gets nested rarely enough that it's easier to just re-read the
   rendered line once you're done and sanity-check it.
+- **The #1 real-world cause of a broken import**: an answer option or
+  feedback string that itself contains a literal `=` — e.g. an option
+  written as `weeks = 2, days = 3`, or feedback showing a worked
+  calculation like `14 + 3 = 17`. Both sit *inside* the `{ }` block, so
+  every one of those `=` characters must be escaped (`weeks \= 2, days \=
+  3` / `14 + 3 \= 17`), even though they don't look like "GIFT syntax" to
+  a human reader. Leaving even one unescaped does **not** produce an
+  import error — Moodle's importer silently treats it as a new answer
+  delimiter and explodes that option into a pile of extra, garbled
+  alternatives, so the bug is easy to ship without noticing. This comes up
+  constantly whenever a question quizzes variable assignment, an
+  arithmetic result, or any "what does X equal" answer — i.e. most
+  questions in a programming or math-heavy course.
+  ```gift
+  // BAD — unescaped = inside the answer block; Moodle will split this
+  // into extra bogus alternatives on import:
+  =weeks = 2, days = 3 #Correct. 17 // 7 is 2, with 3 left over.
+
+  // GOOD:
+  =weeks \= 2, days \= 3 #Correct. 17 // 7 is 2, with 3 left over.
+  ```
 
 Examples from real code-based questions:
 ```gift
@@ -212,9 +233,17 @@ This is what makes retrieval quizzes worth running — always include it:
    question ships without full feedback.
 4. Escape only `~ = # { } :` where literal, per the rule above; leave
    commas alone.
-5. Wrap actual code (stems and MC options that are code) in `<code>`/`<pre>`
+5. **Verify before saving**: re-read every line between `{` and `}` in the
+   file, looking specifically for a literal, unescaped `=`, `~`, `#`, `{`,
+   `}`, or `:`. Check every option and every feedback string that shows a
+   value, a calculation, or an assignment (`x = 5`, `14 + 3 = 17`,
+   `weeks = 2`) — these are the ones most often left unescaped, and the
+   mistake produces no import error, just silently multiplied answer
+   alternatives (see the Escaping section above). This step is not
+   optional — do it even when the rest of the file looks fine.
+6. Wrap actual code (stems and MC options that are code) in `<code>`/`<pre>`
    tags so Moodle renders it in monospace — see Code formatting above.
-6. Save as a `.txt` file at the location the user specified (or matching
+7. Save as a `.txt` file at the location the user specified (or matching
    existing project convention).
-7. Tell the user it's ready for **Moodle → Question bank → Import → GIFT
+8. Tell the user it's ready for **Moodle → Question bank → Import → GIFT
    format**, and mention the question count and what it covers.
