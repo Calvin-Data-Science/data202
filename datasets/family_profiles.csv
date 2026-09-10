@@ -1,0 +1,6 @@
+Name,Role,Birth_Year,Primary_Clinic,Has_Wearable_Tracker
+Alice Johnson,Parent,1986,Downtown Family Clinic,Yes
+Carol Johnson,Parent,1988,Downtown Family Clinic,Yes
+David Johnson,Child,2011,Eastside Pediatrics,Yes
+Bobby Johnson,Child,2013,Eastside Pediatrics,Yes
+Eleanor Johnson,Grandparent,1958,Lakeside Senior Health,No

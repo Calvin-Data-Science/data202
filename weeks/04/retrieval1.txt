@@ -1,0 +1,73 @@
+// Week 04 Retrieval Quiz 1 — Reviewing Week 3 — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 4, reviewing Week 3's class_w03d1 (regex vs.
+// explicit lookup, custom lambda aggregations) and class_w03d2 (choosing a
+// plot type, color as a subgroup check, when charts deceive), each question
+// now grounded in Practice 02's Premier League player dataset (Nation_Code
+// lookup, cards_by_age, age_range_by_team, the Gls histogram, and the xG
+// vs. Gls scatter) instead of the original classroom examples. Originally
+// drafted as a Week 3 retrieval quiz, moved here since Week 3 already has
+// Forum 1 and Practice 02 filling that slot.
+// 6 questions, ~7 minutes.
+
+$CATEGORY: Week 04 / Retrieval 01
+
+// ── Section 1: Histograms vs. Bar Charts ─────────────────────────────────────
+
+::W04-R1-Q1 Histogram vs. bar chart, revisited with Practice 02::
+In Practice 02, px.histogram(players, x='Gls', ...) built a histogram of goals scored, while the example cell built px.bar(top5_nations, x='Nation_Code', y='total_goals', ...). What's the key difference between what the two charts' bars represent?{
+=The histogram's bars are ranges (bins) of the numeric Gls column; the bar chart's bars are categories (nations), each paired with one aggregated value #Correct. A histogram bins one numeric variable; a bar chart pairs a category with a number — exactly the distinction from Wednesday's class, now applied to a new dataset.
+~Both charts' bars represent the same thing — a count of players #The bar chart's bars represent total_goals (a sum) per nation, not a player count, and the histogram's bars represent binned counts of a different variable (Gls) entirely.
+~The histogram's bars are categories (players); the bar chart's bars are numeric ranges #This reverses the two — the histogram bins a numeric column, while the bar chart's bars are categories (nations).
+~There is no real difference — histogram and bar chart are two names for the same chart type #This is exactly the confusion Wednesday's class warned against; the two chart types answer different questions and plot different things.
+}
+
+// ── Section 2: Color as a Subgroup Check ─────────────────────────────────────
+
+::W04-R1-Q2 Color revealing subgroup patterns, revisited::
+Task 03C.2 built a scatter plot of xG vs. Gls colored by Primary_Pos. What does adding color='Primary_Pos' let you check that a plain, uncolored scatter of the same two variables couldn't?{
+=Whether the relationship between xG and Gls looks different for each position — e.g. whether forwards tend to outperform their xG differently than defenders do #Correct. Color splits the cloud of points by category, letting you compare the pattern within each subgroup instead of only the overall trend.
+~Whether xG and Gls are numeric or categorical variables #Variable type is fixed by the data itself; adding a color mapping doesn't change or reveal it.
+~The exact number of goals scored by every player #Color encodes a category, not a precise numeric readout — you'd still need to hover or check the data for exact values.
+~Whether any players are missing a position label #Color mapping doesn't surface missing data on its own.
+}
+
+// ── Section 3: When Charts Deceive ───────────────────────────────────────────
+
+::W04-R1-Q3 Classifying a deceptive chart, with real numbers::
+top5_nations shows England with 369 total goals and Brazil with 97 — a big gap already. Suppose someone charts this with a y-axis that starts at 300 instead of 0, making England's bar look enormous and every other country's bar nearly invisible by comparison. Which of the three ways charts can mislead does this represent?{
+=Misrepresentation — a truncated axis distorts the proportions between bars, exaggerating the visual gap beyond what the actual numbers show #Correct. Bar charts encode value through bar length starting at zero; cutting that off breaks the encoding and is the textbook example of misrepresentation.
+~False impression — the data is accurate, so a visual choice merely suggests a pattern that isn't there #Close, but the course specifically files a truncated axis under misrepresentation (distorted proportions), not the false-impression category.
+~Ambiguity — the chart doesn't specify what's being measured #Ambiguity is about missing labels, units, or context; this chart can carry full labels and still mislead through distorted proportions.
+~None of the three — starting a y-axis above zero is always fine for a bar chart #Bar charts specifically rely on bar length from zero to represent value; truncating the axis is exactly the kind of choice that misleads.
+}
+
+// ── Section 4: Sums Favor Big Groups, with Real Data ─────────────────────────
+
+::W04-R1-Q4 Totals vs. rates across group sizes::
+cards_by_age shows the < 25 age group's total_yellow (634, from 278 players) is higher than the > 30 group's (276, from just 103 players). Does that mean players under 25 get booked more often, on average, than players over 30?{
+=No — the < 25 group simply has far more players, so its total is larger even though its per-player rate (634/278 ≈ 2.3) is actually lower than > 30's (276/103 ≈ 2.7) #Correct. A bigger total can reflect a bigger group, not a higher rate — exactly the sums-favor-big-groups distortion from Monday's class.
+~Yes — a bigger total always means a higher rate per player #This is the exact misconception the notebook warns about; here the smaller group actually has the higher per-player rate.
+~Yes, because CrdY can only increase over a career, so a bigger total means more cards every year #This reasoning doesn't follow from anything in the data and doesn't address why group size matters.
+~No, because totals and averages are always mathematically identical #Totals and averages can point in different directions, as this exact comparison shows — 634 > 276, but 634/278 < 276/103.
+}
+
+// ── Section 5: Custom Aggregation with lambda, Reviewed ──────────────────────
+
+::W04-R1-Q5 Why age_range_by_team needed a lambda::
+Task 03B.3 asked for the range of Age per team (oldest minus youngest) using .agg(lambda x: x.max() - x.min()) instead of a built-in aggregation name like 'mean' or 'sum'. Why was a lambda needed here instead of just passing a string?{
+=pandas doesn't ship a built-in "range" statistic, so a custom function has to compute it directly from each group's values #Correct. .agg() accepts any function, including a lambda, for exactly this situation — a statistic no built-in name covers.
+~Lambdas are required any time you group by more than one column, and Team is the only column here, so this is actually unnecessary #This isn't about how many columns you group by; a lambda is needed because "range" isn't a built-in statistic, regardless of grouping structure.
+~.agg() cannot accept built-in function names at all, only lambdas #This contradicts every named-aggregation and list-of-functions example used all week, like .agg(['mean', 'sum']).
+~A lambda is needed because Age is a categorical column, not numeric #Age is a numeric column; max() and min() (and their difference) are ordinary numeric operations.
+}
+
+// ── Section 6: Lookup vs. Regex, Reviewed ─────────────────────────────────────
+
+::W04-R1-Q6 Why a dictionary, not a pattern, for nation names::
+Task 03A.3 used an explicit nation_map dictionary with .replace() to turn "ESP" into "Spain" — codes not in the dictionary, like "NOR", were simply left as their 3-letter code. Why couldn't a regex pattern have derived "Spain" from "ESP" the way regex cleaned other messy text this week?{
+=Regex can only rearrange or match text that's already in the string; it has no way to invent the word "Spain" from the three letters "ESP" without being told that mapping #Correct. This is the same abbreviation problem as "SF" -> "San Francisco" from Monday's class — regex works on patterns of existing characters, not on outside knowledge.
+~Regex only works on lowercase text, and "ESP" is uppercase #Case isn't the issue here — regex handles uppercase text fine, and the problem is deriving new information, not matching case.
+~"ESP" contains a digit, which regex cannot process #There's no digit in "ESP" at all; this isn't why a lookup was needed.
+~.replace() with a dictionary is actually a form of regex, so this is a regex solution too #Dictionary-based .replace() is a literal lookup of exact values, not a pattern-matching operation — that's precisely why it can do what regex can't here.
+}
