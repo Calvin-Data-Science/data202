@@ -10,7 +10,18 @@
       "Grep(*)",
       "WebFetch(*)",
       "WebSearch(*)",
-      "NotebookEdit(*)"
+      "NotebookEdit(*)",
+      "Bash(python3 -c \"import sys; print\\(sys.executable\\)\")",
+      "Bash(xelatex -interaction=nonstopmode boxtest4.tex)",
+      "Bash(/c/Users/fs33/AppData/Local/anaconda3/python scripts/build_forum.py 1)",
+      "Bash(/c/Users/fs33/AppData/Local/anaconda3/python scripts/build_quiz.py 1)",
+      "Bash(/c/Users/fs33/AppData/Local/anaconda3/python scripts/build_quiz.py 2)",
+      "Bash(python3 -c ' *)",
+      "Bash(grep -oE '</cell id=\\\\\\\\\"[a-zA-Z0-9-]+\\\\\\\\\">\"' \"weeks/03/class_w03d2.ipynb\")",
+      "Bash(sed -i -E 's/<\\\\/cell id=\\\\\\\\\"[a-zA-Z0-9-]+\\\\\\\\\">\"/\"/g' class_w03d2.ipynb)",
+      "Bash(grep -c '</cell id=\\\\\\\\\"' class_w03d2.ipynb)",
+      "Bash(python -c \"import json; json.load\\(open\\('weeks/03/class_w03d2.ipynb', encoding='utf-8'\\)\\); print\\('OK'\\)\")",
+      "Bash(python -c ' *)"
     ]
   }
 }

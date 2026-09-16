@@ -15,37 +15,37 @@ $CATEGORY: Week 03 / Retrieval 02
 // ── Section 1: Regex Limits — When a Lookup Beats a Pattern ─────────────────
 
 ::W03-R2-Q1 Why regex couldn't fix "SF"::
-Regex + .str.title() successfully turned "CHICAGO." into "Chicago", but neither trick could turn "SF" into "San Francisco" — an explicit city_map dictionary was needed instead. Why can't regex fix this one?{
+Regex + <code>.str.title()</code> successfully turned "CHICAGO." into "Chicago", but neither trick could turn "SF" into "San Francisco" — an explicit <code>city_map</code> dictionary was needed instead. Why can't regex fix this one?{
 =Regex can only transform text that's already present in the string; it has no way to know "SF" stands for "San Francisco" unless that mapping is supplied some other way #Correct. Regex finds and rearranges patterns in existing text — it can't invent new information like an abbreviation's full name.
-~Regex only works on lowercase text, and "SF" was already uppercase #Case is handled with .str.lower() or similar tricks used elsewhere in the notebook — case isn't why an abbreviation can't be expanded.
+~Regex only works on lowercase text, and "SF" was already uppercase #Case is handled with <code>.str.lower()</code> or similar tricks used elsewhere in the notebook — case isn't why an abbreviation can't be expanded.
 ~"SF" contains punctuation that regex cannot detect #"SF" is two plain letters with no punctuation; detecting characters isn't the problem here.
-~The .replace() dictionary method runs before any regex pattern, so it overrides regex results #Order of operations isn't the issue — the underlying problem is that no pattern can derive "San Francisco" from "SF" without being told the mapping.
+~The <code>.replace()</code> dictionary method runs before any regex pattern, so it overrides regex results #Order of operations isn't the issue — the underlying problem is that no pattern can derive "San Francisco" from "SF" without being told the mapping.
 }
 
 // ── Section 2: Grouping by Multiple Columns ──────────────────────────────────
 
 ::W03-R2-Q2 Grouping by two columns::
-What does homeless.groupby(["city", "education_level"])["years_homeless"].mean() return?{
-=The average years_homeless for every combination of city and education_level, indexed by both columns #Correct. Passing a list to groupby() subdivides the data by every combination of the listed columns before aggregating.
-~The average years_homeless for the whole dataset, ignoring both grouping columns #That describes homeless["years_homeless"].mean() with no groupby() call at all.
-~The average years_homeless for each city only, with education_level dropped #Both columns in the list are used to form groups — education_level isn't discarded, it further subdivides each city's rows.
-~A DataFrame listing every unique combination of city and education_level, with no aggregation #That describes drop_duplicates() on those two columns — .mean() here computes an actual aggregated value per group.
+What does <code>homeless.groupby(["city", "education_level"])["years_homeless"].mean()</code> return?{
+=The average <code>years_homeless</code> for every combination of <code>city</code> and <code>education_level</code>, indexed by both columns #Correct. Passing a list to <code>groupby()</code> subdivides the data by every combination of the listed columns before aggregating.
+~The average <code>years_homeless</code> for the whole dataset, ignoring both grouping columns #That describes <code>homeless["years_homeless"].mean()</code> with no <code>groupby()</code> call at all.
+~The average <code>years_homeless</code> for each <code>city</code> only, with <code>education_level</code> dropped #Both columns in the list are used to form groups — <code>education_level</code> isn't discarded, it further subdivides each city's rows.
+~A DataFrame listing every unique combination of <code>city</code> and <code>education_level</code>, with no aggregation #That describes <code>drop_duplicates()</code> on those two columns — <code>.mean()</code> here computes an actual aggregated value per group.
 }
 
 // ── Section 3: Aggregation Styles — a List of Functions ─────────────────────
 
 ::W03-R2-Q3 Passing a list of statistics to agg()::
-homeless.groupby("shelter_status")["monthly_support_usd"].agg(["mean", "median", "min", "max", "std"]) is used to explore a numeric column. What does passing a list of function names to .agg() do here?{
-=Computes all five statistics at once, one result column per statistic, for each shelter_status group #Correct. A list of function names runs every one of them on the grouped column and lays the results out side by side.
-~Applies only the last function in the list (std) and ignores the rest #All five run — the list isn't a fallback chain, it's a set of statistics computed together.
-~Computes the statistics on the whole dataset, ignoring the groupby #The groupby("shelter_status") still applies; each statistic is computed separately within each group.
-~Requires calling .agg() five separate times, once per statistic #Passing a list is exactly what avoids five separate calls — all five run from this one line.
+<code>homeless.groupby("shelter_status")["monthly_support_usd"].agg(["mean", "median", "min", "max", "std"])</code> is used to explore a numeric column. What does passing a list of function names to <code>.agg()</code> do here?{
+=Computes all five statistics at once, one result column per statistic, for each <code>shelter_status</code> group #Correct. A list of function names runs every one of them on the grouped column and lays the results out side by side.
+~Applies only the last function in the list (<code>std</code>) and ignores the rest #All five run — the list isn't a fallback chain, it's a set of statistics computed together.
+~Computes the statistics on the whole dataset, ignoring the groupby #The <code>groupby("shelter_status")</code> still applies; each statistic is computed separately within each group.
+~Requires calling <code>.agg()</code> five separate times, once per statistic #Passing a list is exactly what avoids five separate calls — all five run from this one line.
 }
 
 // ── Section 4: Aggregation Styles — Named Aggregation ────────────────────────
 
 ::W03-R2-Q4 Named aggregation vs. dict style::
-homeless.groupby("city").agg(avg_support=("monthly_support_usd", "mean"), n_people=("id", "count")) uses named aggregation. What's its main advantage over the dict-of-lists style, e.g. .agg(\{"monthly_support_usd": ["mean"], "id": ["count"]\})?{
+<code>homeless.groupby("city").agg(avg_support=("monthly_support_usd", "mean"), n_people=("id", "count"))</code> uses named aggregation. What's its main advantage over the dict-of-lists style, e.g. <code>.agg(\{"monthly_support_usd": ["mean"], "id": ["count"]\})</code>?{
 =It lets you assign custom, readable output column names directly, instead of ending up with a stacked column structure per statistic #Correct. Named aggregation produces one flat, clearly-named column per result, which is often easier to read than the dict style's output.
 ~It is the only way to compute more than one statistic per group #Both styles can compute multiple statistics per group — dict-of-lists just does it with a list of function names per column.
 ~It runs faster because it skips Python function calls entirely #Both styles ultimately call the same underlying aggregation functions — the difference is in output shape and naming, not speed.
@@ -55,29 +55,29 @@ homeless.groupby("city").agg(avg_support=("monthly_support_usd", "mean"), n_peop
 // ── Section 7: Practice 01 — Adding a Computed Column ────────────────────────
 
 ::W03-R2-Q7 Building the decade column::
-Task 02A.3 added fires['decade'] using (fires['year'] // 10 * 10).astype(str) + 's'. For a row with year = 2015, what value does this expression produce?{
-=2010, producing the string 2010s #Correct. Integer division (// 10) truncates 2015 to 201, and multiplying back by 10 rounds it down to the decade start, 2010 — then string concatenation appends the "s".
-~2015, producing the string 2015s #This treats // 10 * 10 as if it did nothing to the year, but integer division truncates the last digit before multiplying back, rounding down to the decade.
+Task 02A.3 added <code>fires['decade']</code> using <code>(fires['year'] // 10 * 10).astype(str) + 's'</code>. For a row with year = 2015, what value does this expression produce?{
+=2010, producing the string 2010s #Correct. Integer division (<code>// 10</code>) truncates 2015 to 201, and multiplying back by 10 rounds it down to the decade start, 2010 — then string concatenation appends the "s".
+~2015, producing the string 2015s #This treats <code>// 10 * 10</code> as if it did nothing to the year, but integer division truncates the last digit before multiplying back, rounding down to the decade.
 ~2020, producing the string 2020s #This rounds up instead of down — integer division truncates (rounds toward zero), it doesn't round to the nearest ten.
-~200, producing the string 200s #This applies the division but forgets the "* 10" step that scales it back up to a full year value.
+~200, producing the string 200s #This applies the division but forgets the <code>* 10</code> step that scales it back up to a full year value.
 }
 
 // ── Section 8: Practice 01 — Visual Encodings ────────────────────────────────
 
 ::W03-R2-Q8 Small multiples vs. mapping within one plot::
 In Part 3's visual encodings table, which Plotly Express argument creates a small-multiples layout — a separate panel per category — rather than encoding that category within a single shared plot?{
-=facet_col #Correct. facet_col splits the data into separate side-by-side panels, one per category, instead of overlaying everything in one plot.
-~color #color distinguishes categories within one shared panel by hue — it doesn't split the data into separate panels.
-~size #size maps a numerical variable to point area within a single plot; it isn't used for categories or panel-splitting at all.
-~y #y positions points along the vertical axis based on a numeric variable — it has nothing to do with splitting by category.
+=<code>facet_col</code> #Correct. <code>facet_col</code> splits the data into separate side-by-side panels, one per category, instead of overlaying everything in one plot.
+~<code>color</code> #<code>color</code> distinguishes categories within one shared panel by hue — it doesn't split the data into separate panels.
+~<code>size</code> #<code>size</code> maps a numerical variable to point area within a single plot; it isn't used for categories or panel-splitting at all.
+~<code>y</code> #<code>y</code> positions points along the vertical axis based on a numeric variable — it has nothing to do with splitting by category.
 }
 
 // ── Section 9: value_counts() as a Shortcut ──────────────────────────────────
 
 ::W03-R2-Q9 value_counts() as a groupby shortcut::
-homeless["education_level"].value_counts() is described as a shortcut. Which groupby()-based line does it replace?{
-=homeless.groupby("education_level")["education_level"].count() #Correct. value_counts() counts how many rows fall into each category of a single column — exactly what grouping by that column and counting does, in one step.
-~homeless.groupby("education_level")["years_homeless"].mean() #That computes an average of a different column per group; value_counts() only counts rows, it doesn't average anything.
-~homeless.groupby("education_level").agg(["mean", "max"]) #That runs multiple statistics across every numeric column per group; value_counts() just tallies category counts.
-~homeless["education_level"].sort_values() #sort_values() reorders the values themselves — it doesn't group or count anything.
+<code>homeless["education_level"].value_counts()</code> is described as a shortcut. Which <code>groupby()</code>-based line does it replace?{
+=<code>homeless.groupby("education_level")["education_level"].count()</code> #Correct. <code>value_counts()</code> counts how many rows fall into each category of a single column — exactly what grouping by that column and counting does, in one step.
+~<code>homeless.groupby("education_level")["years_homeless"].mean()</code> #That computes an average of a different column per group; <code>value_counts()</code> only counts rows, it doesn't average anything.
+~<code>homeless.groupby("education_level").agg(["mean", "max"])</code> #That runs multiple statistics across every numeric column per group; <code>value_counts()</code> just tallies category counts.
+~<code>homeless["education_level"].sort_values()</code> #<code>sort_values()</code> reorders the values themselves — it doesn't group or count anything.
 }

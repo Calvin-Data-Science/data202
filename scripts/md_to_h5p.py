@@ -889,7 +889,11 @@ def build_interactive_book_content(
         "behaviour": {
             "defaultTableOfContents": True,
             "progressAuto": True,
-            "displaySummary": False,
+            # Must stay True: this is what makes InteractiveBook emit a final
+            # scored/completed xAPI statement, which is what lets Moodle's H5P
+            # activity register an attempt at all -- without it, uploads never
+            # show a Submit/Revise-and-resubmit option, only a page-turner.
+            "displaySummary": True,
         },
         "l10n": {
             "read": "Read",

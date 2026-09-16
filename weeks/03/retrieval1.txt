@@ -22,72 +22,72 @@ The Datasaurus Dozen datasets all have nearly identical x/y means and standard d
 // ── Section 2: Variable Types & Mapping ─────────────────────────────────────
 
 ::W03-R1-Q2 Categorical ordered variables::
-In the product sales dataset, `Season` (Spring → Summer → Fall → Winter) is best classified as which variable type?{
-=Categorical, ordered #Correct. Season has a small set of labels with a natural sequence, unlike an unordered category such as product Category.
-~Categorical, unordered #Season has a natural order (the sequence of seasons), so it should be treated differently from an unordered category like Category.
-~Numerical, continuous #Season is a label, not a measured quantity — it isn't numerical at all.
-~Numerical, discrete #Season is a label, not a count or other discrete numeric value.
+In the product sales dataset, <code>Season</code> (Spring → Summer → Fall → Winter) is best classified as which variable type?{
+=Categorical, ordered #Correct. <code>Season</code> has a small set of labels with a natural sequence, unlike an unordered category such as product <code>Category</code>.
+~Categorical, unordered #<code>Season</code> has a natural order (the sequence of seasons), so it should be treated differently from an unordered category like <code>Category</code>.
+~Numerical, continuous #<code>Season</code> is a label, not a measured quantity — it isn't numerical at all.
+~Numerical, discrete #<code>Season</code> is a label, not a count or other discrete numeric value.
 }
 
 ::W03-R1-Q3 Encoding a fourth variable::
-You already have Advertising Spend on x, Profit on y, and Category mapped to color. Which px.scatter argument would you add to encode a fourth, numerical variable as the area of each point?{
-=size #Correct. size maps a numerical variable to point area — larger values produce bigger points.
-~facet_col #facet_col splits the plot into separate small-multiple panels by a categorical variable; it doesn't encode a variable within one panel.
-~symbol #symbol changes point shape and works best for a categorical variable with few levels, not a numerical one.
-~title #title is styling text, not a mapping — it does not encode any variable at all.
+You already have Advertising Spend on <code>x</code>, Profit on <code>y</code>, and Category mapped to <code>color</code>. Which <code>px.scatter</code> argument would you add to encode a fourth, numerical variable as the area of each point?{
+=<code>size</code> #Correct. <code>size</code> maps a numerical variable to point area — larger values produce bigger points.
+~<code>facet_col</code> #<code>facet_col</code> splits the plot into separate small-multiple panels by a categorical variable; it doesn't encode a variable within one panel.
+~<code>symbol</code> #<code>symbol</code> changes point shape and works best for a categorical variable with few levels, not a numerical one.
+~<code>title</code> #<code>title</code> is styling text, not a mapping — it does not encode any variable at all.
 }
 
 // ── Section 3: Simpson's Paradox ────────────────────────────────────────────
 
 ::W03-R1-Q4 Simpson's Paradox::
 TRUE or FALSE: If a scatter plot shows an overall upward trend across the whole dataset, that same trend is guaranteed to hold within every subgroup once you facet or color by category.{
-FALSE #Correct. This is Simpson's Paradox — a trend visible overall can reverse or disappear within subgroups; adding color or facet_col is often what reveals it.
+FALSE #Correct. This is Simpson's Paradox — a trend visible overall can reverse or disappear within subgroups; adding <code>color</code> or <code>facet_col</code> is often what reveals it.
 }
 
 // ── Section 4: Mapping vs. Styling ──────────────────────────────────────────
 
 ::W03-R1-Q5 Mapping vs. styling::
 Which of the following is an example of styling rather than mapping?{
-=color_discrete_sequence\=px.colors.qualitative.Safe #Correct. This chooses which colors are used regardless of the data — a style choice made for readability/accessibility, not driven by a column.
-~color\="Category" #This maps a DataFrame column to the color channel — the visual changes if the data changes, which makes it a mapping.
-~size\="Units Sold" #This maps a numerical column to point size — a mapping, not a style.
-~facet_col\="Season" #This maps a column to which panel a point appears in — a mapping, not a style.
+=<code>color_discrete_sequence\=px.colors.qualitative.Safe</code> #Correct. This chooses which colors are used regardless of the data — a style choice made for readability/accessibility, not driven by a column.
+~<code>color\="Category"</code> #This maps a DataFrame column to the <code>color</code> channel — the visual changes if the data changes, which makes it a mapping.
+~<code>size\="Units Sold"</code> #This maps a numerical column to point <code>size</code> — a mapping, not a style.
+~<code>facet_col\="Season"</code> #This maps a column to which panel a point appears in — a mapping, not a style.
 }
 
 // ── Section 5: DataFrame Basics (Practice 01, fires dataset) ───────────────
 
 ::W03-R1-Q6 DataFrame shape::
-What does fires.shape return?{
-=A tuple of (number of rows, number of columns) #Correct. shape is an attribute (no parentheses) that returns a tuple like (6454, 5).
-~A list of column names #That describes fires.columns, not fires.shape.
-~The total number of cells in the DataFrame #shape gives dimensions as a tuple, not a single cell count.
-~A Series of row counts per column #shape is a single tuple describing the whole DataFrame, not a per-column Series.
+What does <code>fires.shape</code> return?{
+=A tuple of (number of rows, number of columns) #Correct. <code>shape</code> is an attribute (no parentheses) that returns a tuple like <code>(6454, 5)</code>.
+~A list of column names #That describes <code>fires.columns</code>, not <code>fires.shape</code>.
+~The total number of cells in the DataFrame #<code>shape</code> gives dimensions as a tuple, not a single cell count.
+~A Series of row counts per column #<code>shape</code> is a single tuple describing the whole DataFrame, not a per-column Series.
 }
 
 ::W03-R1-Q7 Finding the row with the max value::
-You want the index LABEL of the row with the highest value in fires['number'], so you can then look up other columns for that same row with .loc[]. Which method gives you that index label?{
-=.idxmax() #Correct. idxmax() returns the index label of the maximum value, which you can then pass to .loc[].
-~.max() #.max() returns the maximum VALUE itself (e.g. 998), not the index label where it occurs.
-~.sort_values() #sort_values() reorders the whole Series/DataFrame; it doesn't directly give you a single index label.
-~.loc[] #.loc[] looks UP a value once you already have an index label — it doesn't find the label for you.
+You want the index LABEL of the row with the highest value in <code>fires['number']</code>, so you can then look up other columns for that same row with <code>.loc[]</code>. Which method gives you that index label?{
+=<code>.idxmax()</code> #Correct. <code>idxmax()</code> returns the index label of the maximum value, which you can then pass to <code>.loc[]</code>.
+~<code>.max()</code> #<code>.max()</code> returns the maximum VALUE itself (e.g. 998), not the index label where it occurs.
+~<code>.sort_values()</code> #<code>sort_values()</code> reorders the whole Series/DataFrame; it doesn't directly give you a single index label.
+~<code>.loc[]</code> #<code>.loc[]</code> looks UP a value once you already have an index label — it doesn't find the label for you.
 }
 
 // ── Section 6: Filtering & Sorting ──────────────────────────────────────────
 
 ::W03-R1-Q8 Compound filtering::
-Which line correctly filters fires to rows where the state is one of north_states AND the year is 2010 or later?{
-=fires[fires['state'].isin(north_states) & (fires['year'] >\= 2010)] #Correct. isin() checks list membership, & combines the two boolean masks, and each condition is wrapped in its own parentheses.
-~fires[fires['state'].isin(north_states) and fires['year'] >\= 2010] #Python's built-in "and" does not work element-wise on pandas boolean masks and will raise an error here.
-~fires[fires['state'] in north_states & fires['year'] >\= 2010] #Python's "in" does not work element-wise on a whole column; isin() is required, and this also has an operator precedence problem.
-~fires[fires['state'].isin(north_states)]['year'] >\= 2010 #This filters by state first and then produces a True/False Series comparing years — it does not return the filtered rows.
+Which line correctly filters fires to rows where the state is one of <code>north_states</code> AND the year is 2010 or later?{
+=<code>fires[fires['state'].isin(north_states) & (fires['year'] >\= 2010)]</code> #Correct. <code>isin()</code> checks list membership, <code>&</code> combines the two boolean masks, and each condition is wrapped in its own parentheses.
+~<code>fires[fires['state'].isin(north_states) and fires['year'] >\= 2010]</code> #Python's built-in <code>and</code> does not work element-wise on pandas boolean masks and will raise an error here.
+~<code>fires[fires['state'] in north_states & fires['year'] >\= 2010]</code> #Python's <code>in</code> does not work element-wise on a whole column; <code>isin()</code> is required, and this also has an operator precedence problem.
+~<code>fires[fires['state'].isin(north_states)]['year'] >\= 2010</code> #This filters by state first and then produces a True/False Series comparing years — it does not return the filtered rows.
 }
 
 // ── Section 7: Visual Encodings (line plots) ────────────────────────────────
 
 ::W03-R1-Q9 Comparing multiple states in one line plot::
-In px.line(north_recent, x='date', y='number', color='state', ...), what role does color='state' play?{
-=It maps the state column so each state gets its own line/color, letting you compare trends across states in one plot #Correct. This is a mapping — the visual (which color each line gets) is driven directly by the state column's values.
-~It applies a fixed color style to the entire line plot, regardless of which states are present #That would be styling (e.g. a single color_discrete_sequence), not what color\='state' does — here the color depends on the data.
-~It sorts the states alphabetically before plotting #color has no effect on row order; sort_values() would be needed for that.
-~It filters the plot to show only one state at a time #color does not filter rows — it still plots every state, just distinguished by color.
+In <code>px.line(north_recent, x='date', y='number', color='state', ...)</code>, what role does <code>color='state'</code> play?{
+=It maps the <code>state</code> column so each state gets its own line/color, letting you compare trends across states in one plot #Correct. This is a mapping — the visual (which color each line gets) is driven directly by the <code>state</code> column's values.
+~It applies a fixed color style to the entire line plot, regardless of which states are present #That would be styling (e.g. a single <code>color_discrete_sequence</code>), not what <code>color\='state'</code> does — here the color depends on the data.
+~It sorts the states alphabetically before plotting #<code>color</code> has no effect on row order; <code>sort_values()</code> would be needed for that.
+~It filters the plot to show only one state at a time #<code>color</code> does not filter rows — it still plots every state, just distinguished by <code>color</code>.
 }

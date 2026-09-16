@@ -135,13 +135,9 @@ def blank_line(width: str = "0.6\\linewidth") -> str:
 
 
 def sketch_box(height: str = "1.9in") -> str:
-    """A bordered blank rectangle for a hand-drawn sketch answer."""
-    return raw_latex(
-        r"""
-\noindent\fbox{\begin{minipage}[t][%s]{0.96\linewidth}\vspace{1pt}\end{minipage}}
-"""
-        % height
-    )
+    """Reserved blank vertical space for a hand-written/sketched answer --
+    deliberately unbordered, just white space of the given height."""
+    return raw_latex(r"\vspace{%s}" % height)
 
 
 def code_box(lines) -> str:

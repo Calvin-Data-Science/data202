@@ -21,7 +21,7 @@ Discuss and write a response to **each** question below on your worksheet — th
 
 1. Stone shows that categorizing always means ignoring some differences to treat things as alike. When you use `groupby()` on a column like `region` or `dynasty`, what real differences between rows are you choosing to ignore? Who would notice, and who wouldn't?
 2. Every feature column in a dataset is itself a category someone defined. Pick a column from a dataset you've worked with this semester and describe the judgment call embedded in it — the moment someone decided what counts as a "value" for that column.
-3. Stone asks "who decided?" about every category. In a machine learning pipeline, who typically makes that decision — the data collector, the analyst, the model? What happens when no one revisits the decision?
+3. To count someone is to make them *visible* in a certain way — to a researcher, an institution, an algorithm. Being counted can bring resources and recognition, but that same visibility can expose someone to a "gaze" they never agreed to and can't return. Psalm 139 describes being fully known by God ("you have searched me and known me... you discern my thoughts from afar") — a seeing with no distance and no power grab in it. Where do you think that a dataset's gaze fall short of that kind of knowing, and who bears the cost when it does?
 4. **Compare notes.** After discussing with a classmate, write down one point where their answer differed from yours, or one idea of theirs you hadn't considered — in their words, noting whose idea it was.
 
 ## Submission

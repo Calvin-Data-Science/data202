@@ -43,17 +43,34 @@ profiles
 | Bobby Johnson | Child | 2013 | Eastside Pediatrics | Yes |
 | Eleanor Johnson | Grandparent | 1958 | Lakeside Senior Health | No |
 
-`monitoring` has **150 rows** — one per person, per day. `profiles` has **5 rows** — one per person, full stop. Already, two things should catch your eye: there are five names in `profiles` but only four in `monitoring`, and one of those names — `"Bobby Johnson"` versus `"Bob Johnson"` — doesn't quite match its counterpart. Keep both of those in mind. This reading is built around exactly what happens when you try to bring these two tables together.
+`monitoring` has **150 rows** — one per person, per day. `profiles` has **5 rows** — one per person, full stop. That description already answers a question worth asking of *any* table before you do anything else with it: **what is one row about?** For `monitoring`, one row is about a person, on a day. For `profiles`, one row is about a person, full stop — nothing more granular than that. Keep that question in your back pocket; this whole reading is really one long argument that reshaping and joining are both just different ways of changing, or preserving, the answer to it.
+
+Two more things should catch your eye: there are five names in `profiles` but only four in `monitoring`, and one of those names — `"Bobby Johnson"` versus `"Bob Johnson"` — doesn't quite match its counterpart. Keep both of those in mind too. This reading is built around exactly what happens when you try to bring these two tables together.
 
 ---
 
 # Wide and Long: What Counts as One Row
 
+## The Question Behind Every Reshape
+
+A small, generic example first — two gardeners, three weeks, the same six numbers laid out two different ways:
+
+![A wide table with one row per plot and separate Week1/Week2/Week3 columns, next to a long table with one row per plot-per-week and a single Week column plus a single Harvest_lbs column. Arrows labeled "melt" and "pivot" connect the two, with the caption: one row = one plot's whole season (wide) vs. one row = one plot, in one week (long).](images/wide_long_diagram.png)
+
+Same six harvest numbers in both tables — nothing added, nothing thrown away. The only thing that changed between them is the answer to the question this whole section keeps coming back to: **what is one row about?**
+
+- **Wide** answers it one way: one row = *one plot's whole season*, three weeks laid out side by side in three separate columns.
+- **Long** answers it another way: one row = *one plot, in one week* — which week it was now lives inside the data itself, instead of being baked into a column name.
+
+Neither shape is "the" correct one — they're built to answer different questions. `melt()` turns a wide table long; `pivot_table()` turns a long table back to wide. This week's household tables are a new dataset, but they're not a new question — before each reshape below, predict how the answer to "what is one row about?" is going to change.
+
 ## The Shape monitoring Is In Right Now
 
-`monitoring` is in **wide** format: every fact about one person, on one day, sits in a single row, spread across columns — including three separate meal columns, `Food Morning`, `Food Afternoon`, and `Food Evening`. That's a natural way to *enter* data (one form, one row, one submission), but it's an awkward way to *analyze* meals as their own subject. If you wanted to ask "what did this family eat most often, across all meals?", you'd have to search three columns at once.
+`monitoring` is in **wide** format right now: one row is about *one person's whole day*. Every fact about that person, on that day, sits in a single row, spread across columns — including three separate meal columns, `Food Morning`, `Food Afternoon`, and `Food Evening`. That's a natural way to *enter* data (one form, one row, one submission), but it's an awkward way to *analyze* meals as their own subject. If you wanted to ask "what did this family eat most often, across all meals?", you'd have to search three columns at once — the wide shape is actively fighting that particular question.
 
-**Melting** reshapes a wide table into **long** format: instead of three meal columns, you get one column naming *which* meal it was, and one column holding *what* was eaten.
+## Melting: Wide to Long
+
+**Melting** reshapes a wide table into **long** format by changing what a row is about: instead of three meal columns, you get one column naming *which* meal it was, and one column holding *what* was eaten. Before running this, predict: if one row is about to become "one person, on one day, at one meal" instead of "one person's whole day," what should the new row count be — 150 person-days, times how many meal columns?
 
 ```python
 long = pd.melt(
@@ -80,9 +97,11 @@ long.shape
 | Alice Johnson | 2024-01-06 | Afternoon | fries, green tea, apple |
 | Alice Johnson | 2024-01-06 | Evening | red wine, steak, green beans |
 
-## Going Back the Other Way
+Check your prediction: one row of `long` is now about *one person, at one meal, on one day* — not a whole day's eating anymore. That's a smaller, more specific claim per row, and it's exactly what makes "what did this family eat most often?" answerable with a single `.value_counts()` instead of three columns' worth of manual reading.
 
-**Pivoting** is melting's mirror image: long format back to wide. If you handed someone the 450-row `long` table and they wanted one row per person-day again, `.pivot_table()` gets them there:
+## Pivoting: Long Back to Wide
+
+**Pivoting** asks the opposite question of melting: what if you want one row = *one person's whole day* again, the way `monitoring` started out? If you handed someone the 450-row `long` table and they wanted that back, `.pivot_table()` gets them there:
 
 ```python
 back_to_wide = long.pivot_table(
@@ -99,11 +118,11 @@ back_to_wide.shape
 (150, 10)
 ```
 
-Exactly the shape we started with. `index` lists the columns that identify a row; `columns` names the column whose *values* should become new column headers; `values` says which column supplies the contents; `aggfunc` tells pandas what to do if more than one row ever shared the same index (here, just take the first — there's never more than one match). Melting and pivoting are inverses of each other precisely because no information was thrown away in between — only rearranged.
+Exactly the shape we started with: `(150, 10)`, one row about one person's whole day again. `index` lists the columns that identify a row; `columns` names the column whose *values* should become new column headers; `values` says which column supplies the contents; `aggfunc` tells pandas what to do if more than one row ever shared the same index (here, just take the first — there's never more than one match). Melting and pivoting are exact inverses of each other precisely because no information was thrown away in between — only the row's meaning flipped back and forth.
 
 ## One More Reshape: Exploding a List Into Rows
 
-Each `Food` cell is really *several* foods jammed into one string (`"toast, banana, yogurt"`). `.explode()` takes a column of lists and gives each list item its own row:
+Melting changed what a row was about by unstacking *columns*. This last reshape changes it again, by unstacking something hiding *inside a single cell*. Each `Food` cell is really several foods jammed into one string (`"toast, banana, yogurt"`). `.explode()` takes a column of lists and gives each list item its own row:
 
 ```python
 long["Food_List"] = long["Food"].str.split(", ")
@@ -115,7 +134,7 @@ exploded.shape
 (1350, 10)
 ```
 
-450 meal-rows, each holding exactly 3 food items, becomes 1,350 single-food rows — the same columns-into-rows logic as melting, just applied to a list inside a cell instead of a set of columns. Now a question like "how often does this family eat bananas?" is a single filter:
+450 meal-rows, each holding exactly 3 food items, becomes 1,350 single-food rows. One row of `exploded` is now about *one person, eating one specific food, at one meal* — the same columns-into-rows logic as melting, just applied to a list inside a cell instead of a set of columns. Now a question like "how often does this family eat bananas?" is a single filter:
 
 ```python
 exploded[exploded["Food_List"] == "banana"]["Name"].value_counts()
@@ -201,13 +220,27 @@ Melting the three Food columns into a Meal/Food pair, and then pivoting the resu
 
 ## What Makes Two Tables "Related"
 
-`monitoring` and `profiles` aren't the same table split in half — they're about entirely different *grains*. One row in `monitoring` is a person on a day; one row in `profiles` is a person, period. They have wildly different row counts (150 versus 5) and almost no columns in common. What makes them **relational** — able to be connected at all — is that they share one column whose values are supposed to mean the same thing in both places: `Name`.
+`monitoring` and `profiles` answer "what is one row about?" in two genuinely different ways — they're about entirely different *grains*. One row in `monitoring` is a person on a day; one row in `profiles` is a person, period. They have wildly different row counts (150 versus 5) and almost no columns in common. What makes them **relational** — able to be connected at all — is that they share one column whose values are supposed to mean the same thing in both places: `Name`.
 
 That shared column is called a **key**. In a more industrial dataset you'd usually see a dedicated ID column instead of a name (a `Material_ID`, a `patient_id`, a `SKU`) precisely because names are fragile — but the underlying idea is identical: a key is a column (or set of columns) you can use to look up "which row in the other table is this row talking about?"
 
+## Primary Keys and Foreign Keys: Same Column, Two Roles
+
+`Name` isn't playing the same *role* in both tables, and that difference has a name of its own:
+
+- In `profiles`, `Name` is a **primary key** — it uniquely identifies each row. Five rows, five distinct names, no repeats. `Name` alone is enough to answer "which row is this?" with certainty.
+- In `monitoring`, `Name` is a **foreign key** — it is *not* unique (`"Alice Johnson"` appears 44 times), but every value it holds is supposed to point back to exactly one row over in `profiles`. It's not identifying *this* row; it's saying which profile *this* row belongs to.
+
+Same column name, same-looking values, two different jobs. That distinction is what tells you, before you've even called `pd.merge()`, what *shape* of relationship you're dealing with: **one-to-many**. One row of `profiles` (the primary-key side) can rightfully sit behind many rows of `monitoring` (the foreign-key side) — one person, many logged days. It would be a red flag the other way around: if `Name` repeated in a table where it was supposed to be a primary key, that would mean the table no longer has one row per person.
+
+This isn't just vocabulary — it's what makes the next section's `how=` decision a *reasoned* choice instead of a guess. Once you know which side holds the primary key and which holds the foreign key, you know what to expect and what to watch for:
+
+- The **primary-key table** (`profiles`) can never gain duplicate rows from a join — each of its 5 rows either finds its many matches or it doesn't. Its risk is *disappearing entirely* if nothing on the other side matches it (Eleanor's situation, coming up).
+- The **foreign-key table** (`monitoring`) is the one whose rows can silently vanish in bulk if its key values don't match anything — a single misspelled name doesn't cost you one row, it costs you every single day that person ever logged (Bob's situation, coming up).
+
 **Two important facts about keys, both visible right here:**
 
-1. **Tables don't need matching row counts to be related.** `profiles` has 5 rows, `monitoring` has 150 — that's completely normal for a *one-to-many* relationship: one profile, many monitoring days.
+1. **Tables don't need matching row counts to be related.** `profiles` has 5 rows, `monitoring` has 150 — that's exactly what a one-to-many relationship between a primary key and a foreign key looks like structurally.
 2. **A key only works if the values actually match, character for character.** Look again at the two tables: `monitoring` has `"Bob Johnson"`. `profiles` has `"Bobby Johnson"`. To a human reading both tables side by side, these are obviously the same ten-year-old. To pandas, matching on `Name`, they are two completely different strings — no more related than `"Bob Johnson"` and `"Eleanor Johnson"` are.
 
 This is the same string-matching logic from Week 3's cleaning work, showing up in a new and higher-stakes place. Cleaning a *category* column that's spelled inconsistently mostly costs you a slightly wrong count. Cleaning a **key** column that's spelled inconsistently costs you entire rows disappearing from a join without any error message at all — which is exactly what the next section will show you happening.
@@ -224,6 +257,19 @@ This is the same string-matching logic from Week 3's cleaning work, showing up i
 - [ ] Both tables need to have the exact same number of rows to be related.
 - [ ] Nothing formal — since both tables describe the same family, pandas connects them automatically.
 - [ ] The `Date` column, since both tables were collected in 2024.
+
+<!-- END QUESTION -->
+
+---
+
+<!-- QUESTION:multiple-choice -->
+
+**In `profiles`, `Name` uniquely identifies each of the 5 rows. In `monitoring`, the same `Name` column repeats up to 44 times for one person. What roles are these two copies of `Name` playing?**
+
+- [x] `Name` is a primary key in `profiles` (it uniquely identifies a row) and a foreign key in `monitoring` (it points back to the matching profile, without needing to be unique itself).
+- [ ] `Name` is a primary key in both tables, since it's the same column.
+- [ ] `Name` is a foreign key in both tables, since neither table was built first.
+- [ ] Only `profiles` has a key; `monitoring` has too many repeated names to have one.
 
 <!-- END QUESTION -->
 
@@ -263,7 +309,12 @@ A relational key does not require the connected tables to have the same number o
 | `"right"` | every row from the **right** table | left-side columns filled with `NaN` if unmatched |
 | `"outer"` | every row from **either** table | `NaN` fills in on whichever side lacks a match |
 
-None of these is simply "the correct one." `inner` is right when you only want complete, fully-matched records for an analysis. `left` or `right` is right when one table is your primary subject and you don't want to silently lose its rows just because a companion table doesn't have a match. `outer` is right when your first goal is diagnostic — surfacing *every* mismatch so you can go investigate it, which is exactly how we're about to use it.
+None of these is simply "the correct one" — and now that you know which side holds the primary key and which holds the foreign key, `how=` stops being a guess and becomes a question you can actually reason about: *whose completeness am I not willing to lose?*
+
+- Pick `"left"` with `monitoring` (the foreign-key table) on the left when every logged day matters, even for a person whose name fails to match — you'd rather see `NaN` clinic info than silently lose 36 real days of someone's data.
+- Pick `"right"` (or put `profiles` on the left) when the primary-key table's completeness is what matters — every registered family member should appear, even one who contributed no monitoring data at all.
+- Pick `"inner"` only once you've confirmed the keys actually line up, because an inner join can't tell "this person has no matching key" apart from "this person doesn't exist" — it treats both the same way: gone, silently.
+- Pick `"outer"` when your first goal is diagnostic — surfacing *every* mismatch on *both* sides so you can go investigate it, which is exactly how we're about to use it.
 
 ## Running All Four, on the Same Two Tables
 
@@ -287,8 +338,8 @@ outer (152, 14)
 Four different row counts, from the exact same two tables. Here's why each one lands where it does:
 
 - **inner = 114**: Alice, Carol, and David's rows all match cleanly (44 + 38 + 32 = 114). Bob's 36 rows have no match (`"Bob Johnson"` ≠ `"Bobby Johnson"`) and Eleanor has no monitoring rows at all — both are dropped.
-- **left = 150**: every monitoring row survives, matched or not. Bob's 36 rows are still here — just with `NaN` in `Role`, `Primary_Clinic`, and `Has_Wearable_Tracker`, because nothing on the profiles side matched.
-- **right = 116**: every profile row survives. The 114 matched rows, plus one row each for `"Bobby Johnson"` and `"Eleanor Johnson"` — both appear once, with every monitoring column (`Heart Rate (bpm)`, `Steps`, ...) set to `NaN`.
+- **left = 150**: every row of the **foreign-key table**, `monitoring`, survives, matched or not. Bob's 36 rows are still here — just with `NaN` in `Role`, `Primary_Clinic`, and `Has_Wearable_Tracker`, because nothing on the profiles side matched.
+- **right = 116**: every row of the **primary-key table**, `profiles`, survives. The 114 matched rows, plus one row each for `"Bobby Johnson"` and `"Eleanor Johnson"` — both appear once, with every monitoring column (`Heart Rate (bpm)`, `Steps`, ...) set to `NaN`.
 - **outer = 152**: everything from both sides — the 114 matched rows, Bob's 36 unmatched rows, and the 2 unmatched profile rows (Bobby, Eleanor). 114 + 36 + 2 = 152.
 
 ```python
@@ -339,6 +390,19 @@ Eastside Pediatrics's row count nearly doubles — 32 rows to 68 — and its ave
 <!-- QUESTION:fill-in-the-blank -->
 
 `pd.merge(monitoring, profiles, on="Name", how=...)` produces different row counts depending on the join type: `"inner"` keeps only matched rows, **[114]**. `"left"` keeps every monitoring row regardless of match, **[150]**. `"right"` keeps every profile row regardless of match, **[116]**. `"outer"` keeps everything from both sides, **[152]**.
+
+<!-- END QUESTION -->
+
+---
+
+<!-- QUESTION:multiple-choice -->
+
+**A clinic administrator wants a report guaranteed to include every family member who has a profile on file — even one, like Eleanor, who never logged a single monitoring day. Which `how=` guarantees that, in one call?**
+
+- [x] `"right"` (with `monitoring` on the left and `profiles` on the right) — it keeps every row of the primary-key table, `profiles`, no matter what.
+- [ ] `"inner"` — it only keeps rows that matched, which is exactly what would drop Eleanor.
+- [ ] `"left"` — that guarantees every monitoring row, not every profile row.
+- [ ] Any `how=` works, since all four joins use the same two tables.
 
 <!-- END QUESTION -->
 
