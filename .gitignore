@@ -11,6 +11,7 @@ textbooks/
 grades/*.xlsx
 grades/grade-data/
 grades/messages.txt
+grades/practices/
 
 # Deployment script (contains server path)
 deploy.ps1

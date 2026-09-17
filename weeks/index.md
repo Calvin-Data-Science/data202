@@ -42,7 +42,7 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Sep 14</td><td><a href="{{ '/weeks/03/class_w03d1.ipynb' | relative_url }}">Grouping data</a></td></tr>
 <tr><td class="d">Wed Sep 16</td><td><a href="{{ '/weeks/03/class_w03d2.ipynb' | relative_url }}">Visual exploration</a></td></tr>
-<tr><td class="d">Fri Sep 18</td><td>Practice 2 · <a href="{{ '/weeks/03/forum1/' | relative_url }}">Forum 1 instructions</a></td></tr>
+<tr><td class="d">Fri Sep 18</td><td><a href="{{ '/weeks/03/dist/student/practice02.ipynb' | relative_url }}">Practice 2</a> · <a href="{{ '/weeks/03/forum1/' | relative_url }}">Forum 1 instructions</a></td></tr>
 </tbody></table>
 </div>
 
