@@ -1,0 +1,38 @@
+file,02A.1,02A.2,02A.3,02B.1,02B.2,02B.3,total_points_earned,percent_correct,grading_status,02A,02B
+points-per-question,1,2,2,2,2,2,11,1,--,,
+Abraham Jeon.ipynb,1,2,2,0,2,1,8,0.7273,Completed,1,0.5
+Aida Muchui.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Aidan Schonewill.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Alder Lamer.ipynb,0,0,0,0,0,0,0,0,Completed,0,0
+Andrew Sherbrooke.ipynb,1,0,0,0,0,0,1,0.0909,Completed,0.2,0
+Ayin Hong.ipynb,1,2,2,0,2,1,8,0.7273,Completed,1,0.5
+Bryn Lamppa.ipynb,1,2,1,2,2,2,10,0.9091,Completed,0.8,1
+Caleb Mengesha.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+David Lafe.ipynb,1,1,2,2,2,2,10,0.9091,Completed,0.8,1
+Ebenezer Quansah.ipynb,0,0,0,0,0,0,0,0,Executing 'practices/01\Ebenezer Quansah.ipynb' in docker container failed! Exit code: 1,0,0
+Eirena Tatontos.ipynb,1,2,0,2,2,2,9,0.8182,Completed,0.6,1
+Elaina El-Khoury.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Emma Staub.ipynb,1,1,2,2,2,2,10,0.9091,Completed,0.8,1
+Gabby Odhiambo.ipynb,1,1,2,2,2,2,10,0.9091,Completed,0.8,1
+Hong Gi Kim.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Jonathan Vander Meer.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Joshua Rogan.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Kekeli Ayim Darke.ipynb,1,1,2,2,2,2,10,0.9091,Completed,0.8,1
+Kwesi Mireku.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Micaiah Daspit.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Naa Adjorkor Anang-La.ipynb,0,0,1,0,0,0,1,0.0909,Completed,0.2,0
+Naomi Birhanu.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Parker Vandermolen.ipynb,1,2,2,2,1,2,10,0.9091,Completed,1,0.833333333
+Regan Rua.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Ruhama Getahun.ipynb,1,2,1,2,2,2,10,0.9091,Completed,0.8,1
+Sarah Wadhawa Mall.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Sardar Mukhammadsobirov.ipynb,0,0,0,0,0,0,0,0,Completed,0,0
+Simon Lin.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Soyolsaikhan Beejin.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Steven Shang.ipynb,1,2,1,2,2,2,10,0.9091,Completed,0.8,1
+Téa Deters.ipynb,1,2,0,2,2,2,9,0.8182,Completed,0.6,1
+Vitus Kaleo-Bioh.ipynb,1,1,2,2,2,2,10,0.9091,Completed,0.8,1
+William Elsen.ipynb,0,0,1,0,0,0,1,0.0909,Completed,0.2,0
+Yolani Reyes.ipynb,1,2,2,2,2,2,11,1,Completed,1,1
+Zac Brooks.ipynb,1,2,2,2,1,2,10,0.9091,Completed,1,0.833333333
+Zachary Eggleton.ipynb,0,0,0,0,0,0,0,0,Completed,0,0

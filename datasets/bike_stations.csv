@@ -1,0 +1,13 @@
+Station_ID,Station,Nearby,Mon_rides,Tue_rides,Wed_rides,Thu_rides,Fri_rides,Sat_rides,Sun_rides
+S01,Union Station,"train station, cafe",79,86,88,90,80,28,22
+S02,City Hall,"office park, cafe",69,78,79,66,60,17,17
+S03,Tech Campus,"office park, university",63,69,62,55,59,22,15
+S04,Memorial Hospital,"hospital, pharmacy",91,94,93,95,76,31,21
+S05,Riverside Park,"park, playground",20,23,19,21,29,74,64
+S06,Lakefront Pier,"park, cafe, waterfront",28,15,16,18,36,73,62
+S07,Farmers Market,"market, cafe",20,18,15,24,26,71,67
+S08,Old Town Square,"cafe, museum, market",40,31,45,38,41,53,31
+S09,Main Library,"library, university",38,38,40,38,46,40,39
+S10,Stadium Gate,"stadium, pharmacy",21,23,22,28,41,91,82
+S11,Westside Mall,"mall, cafe",22,32,21,29,32,32,23
+S12,Elm Street,"school, playground",43,54,49,50,40,18,11

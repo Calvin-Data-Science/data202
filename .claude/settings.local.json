@@ -21,7 +21,12 @@
       "Bash(sed -i -E 's/<\\\\/cell id=\\\\\\\\\"[a-zA-Z0-9-]+\\\\\\\\\">\"/\"/g' class_w03d2.ipynb)",
       "Bash(grep -c '</cell id=\\\\\\\\\"' class_w03d2.ipynb)",
       "Bash(python -c \"import json; json.load\\(open\\('weeks/03/class_w03d2.ipynb', encoding='utf-8'\\)\\); print\\('OK'\\)\")",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Bash(python process_practice.py 01)",
+      "Bash(python3 -)",
+      "Bash(docker exec *)",
+      "Bash(docker start *)",
+      "Bash(otter assign *)"
     ]
   }
 }

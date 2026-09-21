@@ -6,8 +6,13 @@ theme: null
 
 exclude:
   - "textbooks/"
-  - "grades/grades.xlsx"
-  - "grades/generate.py"
+  # Everything under grades/ except grade-data/ (pseudonym-keyed, meant to be public)
+  # holds real student names — never deploy it.
+  - "grades/*.xlsx"
+  - "grades/*.csv"
+  - "grades/*.py"
+  - "grades/messages.txt"
+  - "grades/practices/"
   - "deploy.ps1"
   - "weeks/**/dist/autograder/"
   - "**/*.h5p"
