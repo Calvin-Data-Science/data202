@@ -1,0 +1,70 @@
+// Week 05 Retrieval Quiz 2 — k-means and Choosing k (+ Week 4 review) — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 5's Wednesday class, testing retrieval of Monday's
+// class_w05d1 (the k-means update step, different random starts and n_init, inertia
+// and the elbow, elbow vs. silhouette) plus 2 review questions on Week 4 as exercised
+// in Practice 03 (a key made of two columns; a spelling mismatch in a join key).
+// Every question is self-contained: small generic examples with all needed facts in the
+// stem, so nothing depends on remembering the class datasets.
+// Code in every question is wrapped in <code>/<pre> tags for Moodle.
+// 6 questions, ~7 minutes.
+
+$CATEGORY: Week 05 / Retrieval 02
+
+// ── Section 1: The k-means Recipe ────────────────────────────────────────────
+
+::W05-R2-Q1 The update step::
+In one round of k-means, the assign step gave a cluster these three points: (2, 4), (4, 6) and (6, 8). Where does the cluster's centroid move in the update step?{
+=To (4, 6) — the mean of its points #Correct. The update step moves each centroid to the average position of the points assigned to it, one column at a time — (2 + 4 + 6) / 3 and (4 + 6 + 8) / 3.
+~To (12, 18) — the sum of its points #That adds the points up without dividing by how many there are. A centroid is the mean position, not the total.
+~To the point closest to the old centroid #Snapping to an existing point isn't the update step. The new centroid is the mean, which doesn't have to be one of the data points.
+~Nowhere yet — centroids only move once every point has stopped changing clusters #It's the other way around. Centroids move in every round; the algorithm stops when a round changes nothing.
+}
+
+// ── Section 2: Different Starts ──────────────────────────────────────────────
+
+::W05-R2-Q2 Different random starts::
+You run k-means twice on the same data with the same k, but each run starts from different random centroids. The two runs end with different groups. What explains this?{
+=k-means can settle into different answers depending on where it starts — so scikit-learn's <code>KMeans</code> runs several starts (<code>n_init</code>) and keeps the best one #Correct. The starting centroids are one of the choices made before running. <code>KMeans</code> keeps the run with the tightest clusters (the lowest inertia).
+~The data must have changed between the runs, because k-means always gives the same answer #k-means only asks "which centroid is closest?" from wherever it starts. A different start can lead to a different, sometimes worse, final grouping on the very same data.
+~One of the runs has a bug — two runs with the same k should never disagree #Nothing is broken. Different results from different starts are normal for k-means, which is why several starts are tried.
+~A different start changes k, so the runs found different numbers of clusters #k stays fixed at the value you chose. Only where the centroids begin — and so where they end up — changes.
+}
+
+// ── Section 3: How Many Groups? ──────────────────────────────────────────────
+
+::W05-R2-Q3 Why not the lowest inertia::
+You fit k-means for k = 1 through 10. Inertia (the sum of squared distances from each point to its centroid) goes down every time k grows. Why don't you just pick the k with the lowest inertia?{
+=Inertia always goes down as k grows — with one cluster per point it would be 0 — so you look for the elbow, where more clusters stop helping much #Correct. More centroids can always sit closer to the points. The useful signal is where the drop flattens, not the minimum.
+~Lower inertia means worse clusters, so you should pick the highest #It's the reverse. Lower inertia means tighter clusters — the problem is that it keeps improving just by adding clusters.
+~Inertia can only be compared between k \= 2 and k \= 3 #Inertia can be computed and compared for any k. That's exactly what an elbow plot does.
+~Inertia measures how many points each cluster has, not how tight it is #Inertia measures tightness (squared distances to the centroids), not cluster sizes.
+}
+
+::W05-R2-Q4 When elbow and silhouette disagree::
+For the same data, the elbow of the inertia curve suggests k = 4, but the silhouette score (higher is better) is highest at k = 3. What's the best conclusion?{
+=Both are defensible — the metrics describe how separated the groups are in the columns you chose, and which k to use depends on what the groups are for #Correct. Metrics narrow the choice down; they don't know your purpose. Three coarse tiers or four finer groups can each be the right call.
+~Silhouette always wins, because it is the more precise metric #Neither metric is "the truth." Each measures a different property of the groups, and neither knows what the groups will be used for.
+~The elbow always wins, because it uses every point's distance #The elbow is a judgment call on a curve, not a rule that overrides other evidence.
+~The data has no real groups, because the two metrics disagree #Two metrics suggesting neighboring values of k is common and still points to real structure. It means the choice is close, not that nothing is there.
+}
+
+// ── Section 4: Review — A Key Can Be Two Columns (Week 4, Practice 03) ──────
+
+::W05-R2-Q5 Review: a key made of two columns (Week 4)::
+Review from Week 4: a long table has one row per country per year, with the columns <code>country</code>, <code>year</code> and <code>life_exp</code>. Which column(s) uniquely identify a row — the table's key?{
+=The pair <code>country</code> + <code>year</code> together #Correct. Each country appears once per year, so neither column alone is unique, but the combination is. A key can be more than one column — <code>df.duplicated(subset\=["country", "year"]).sum()</code> returning 0 confirms it.
+~<code>country</code> alone #Each country appears once for every year, so <code>country</code> repeats and can't identify a single row by itself.
+~<code>year</code> alone #Every country has a row for each year, so <code>year</code> repeats too.
+~<code>life_exp</code>, since each value is a measurement #A measured value isn't an identifier — two rows can share the same value, and it doesn't say <i>which</i> country and year a row is about.
+}
+
+// ── Section 5: Review — Spelling Mismatch in a Key (Week 4, Practice 03) ────
+
+::W05-R2-Q6 Review: a spelling mismatch in a join key (Week 4)::
+Review from Week 4: you want to attach each country's region from table <code>regions</code> to table <code>gdp</code>, joining on <code>country</code>. In <code>gdp</code>, one country is spelled "Korea, Rep."; in <code>regions</code>, the same country is spelled "South Korea". What does <code>pd.merge(gdp, regions, on="country", how="left")</code> do with that country's rows?{
+=It keeps them, but with <code>NaN</code> in the region columns — a merge only matches keys that are exactly equal, so rename one spelling to match the other (for example with <code>.replace()</code>) before joining #Correct. pandas compares the strings, not their meaning. A left join keeps the rows but can't fill them in; fixing the key is what brings the region back.
+~It matches them anyway, because pandas recognizes they are the same country #pandas only checks whether two values are identical strings. "Korea, Rep." and "South Korea" are simply different values to it.
+~It raises an error because the key values don't match #Mismatched keys never raise an error. The rows just fail to find a partner — which is why the mismatch is easy to miss.
+~It drops them, because they have no match in <code>regions</code> #That's what an inner join would do. A left join keeps every row of the left table, <code>gdp</code>, and fills the missing columns with <code>NaN</code>.
+}

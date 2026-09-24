@@ -1,0 +1,90 @@
+// Week 05 Retrieval Quiz 1 — Week 4 Review: Keys, Joins and Reshaping — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 5's Monday class, testing retrieval of Week 4's concepts:
+// primary vs. foreign keys, choosing how= for a merge, what NaN from a join means,
+// joining on a column that isn't a key — plus 2 review questions carried over from
+// Week 4's Retrieval 2 (row meaning after melt; id_vars vs. value_vars).
+// Every question is self-contained: small generic tables with all needed facts in the
+// stem, so nothing depends on remembering the class datasets.
+// Code in every question is wrapped in <code>/<pre> tags for Moodle.
+// 6 questions, ~7 minutes.
+
+$CATEGORY: Week 05 / Retrieval 01
+
+// ── Section 1: Keys and Relational Structure ────────────────────────────────
+
+::W05-R1-Q1 Primary key vs. foreign key::
+Table <code>students</code> has one row per student, and each <code>student_id</code> appears exactly once. Table <code>exams</code> has one row per exam taken, and the same <code>student_id</code> can appear on many rows. What roles does <code>student_id</code> play?{
+=A primary key in <code>students</code> (it identifies each row) and a foreign key in <code>exams</code> (each exam points back to one student's row) #Correct. A primary key is unique in its own table; a foreign key can repeat, because many rows can point to the same record — like many library sign-out cards pointing to one book's call number.
+~A primary key in both tables, since it's the same column #The same column can play different roles. In <code>exams</code> it repeats, so it can't identify a single row there.
+~A foreign key in <code>students</code> and a primary key in <code>exams</code>, because <code>exams</code> has more rows #Row count doesn't decide the role — uniqueness does. The repeating column (in <code>exams</code>) is the one pointing to another table.
+~Not a key in <code>exams</code>, because a key can never repeat #Only a primary key can't repeat. A foreign key usually does — that's how many exams can belong to one student.
+}
+
+// ── Section 2: The Four Join Types ───────────────────────────────────────────
+
+::W05-R1-Q2 Picking the join type::
+Table <code>students</code> has one row per student; table <code>exams</code> has one row per exam taken, linked by <code>student_id</code>. You want <b>every student</b> — including students who haven't taken any exam — with their exam results filled in where they exist. Which call gives exactly that?{
+=<code>pd.merge(students, exams, on\="student_id", how\="left")</code> #Correct. A left join keeps every row of the left table, <code>students</code>. A student with no exams stays, with <code>NaN</code> in the exam columns.
+~<code>pd.merge(students, exams, on\="student_id", how\="inner")</code> #An inner join keeps only students matched in both tables — students with no exams silently disappear.
+~<code>pd.merge(students, exams, on\="student_id", how\="right")</code> #A right join keeps every row of <code>exams</code> instead — students with no exams are dropped.
+~<code>pd.merge(students, exams, on\="student_id", how\="outer")</code> #An outer join also keeps exams whose <code>student_id</code> isn't in <code>students</code> at all — rows that aren't about any student on your list.
+}
+
+// ── Section 3: What NaN From a Join Means ────────────────────────────────────
+
+::W05-R1-Q3 What NaN from a join means::
+After a left join of <code>students</code> (on the left) and <code>exams</code>, a student who hasn't taken any exam has <code>NaN</code> in the <code>score</code> column. You then keep only the scores above 60:
+<pre>
+joined[joined["score"] > 60]
+</pre>
+What happens to that student, and why?{
+=They are dropped — not because they failed, but because there is no exam on record; <code>NaN > 60</code> is <code>False</code> #Correct. <code>NaN</code> from a join means "no record," not zero and not "failed." Filtering on it silently removes everyone without a record.
+~They are kept, because <code>NaN</code> counts as passing any comparison #Every comparison with <code>NaN</code> is <code>False</code>, so the row is dropped, not kept.
+~They are dropped because <code>NaN</code> means their score was 0 #<code>NaN</code> means there is no score on record. Reading it as 0 invents a result that doesn't exist.
+~The filter raises an error because the column contains <code>NaN</code> #pandas raises no error here, which is exactly the danger — the row just disappears.
+}
+
+// ── Section 4: Does This Join Make Sense? ────────────────────────────────────
+
+::W05-R1-Q4 Joining on a column that isn't a key::
+Two tables each have 10 rows and a <code>semester</code> column with only two values, "Fall" and "Spring" (5 rows each). This runs without any error and returns <b>50</b> rows:
+<pre>
+pd.merge(table_a, table_b, on="semester")
+</pre>
+What does the 50 tell you?{
+=<code>semester</code> is a category, not a key — every "Fall" row was paired with every "Fall" row on the other side (and the same for "Spring"), creating rows that mean nothing #Correct. 5 × 5 + 5 × 5 \= 50. A key names <i>which</i> thing; a category names a <i>kind</i> of thing, so matching on it glues unrelated rows together. Comparing <code>.shape</code> with the inputs is how you catch it.
+~The join worked well — more rows means more matched data #More rows than either input is the warning sign here, not a success — each row now pairs things that have nothing to do with each other.
+~pandas duplicated rows because of missing values in <code>semester</code> #Nothing was missing. The extra rows come from one category value being shared by many rows on both sides.
+~The default <code>how\="outer"</code> added every unmatched row from both tables #The default is <code>how\="inner"</code> — and nothing was unmatched. The rows multiplied because <code>semester</code> isn't unique on either side.
+}
+
+// ── Section 5: Review — Row Meaning After Melting (from Week 4 Retrieval 2) ─
+
+::W05-R1-Q5 Review: row meaning after melting (from Retrieval 2)::
+Review from Week 4's Retrieval 2: table <code>sales</code> has one row per store, with the columns <code>Jan_sales</code>, <code>Feb_sales</code> and <code>Mar_sales</code> — so one row means "one store's whole quarter." After <code>pd.melt()</code> unstacks those three columns into a <code>Month</code> / <code>Sales</code> pair, what does one row mean?{
+=One store, in one month #Correct. Melting turns column names into values of a new column, so each new row narrows down to a single store-month combination.
+~Still one store's whole quarter, just with fewer columns #Melting changes what a row means — it doesn't just trim columns while leaving the row's meaning the same.
+~One month, across every store #That describes a <code>groupby()</code> summary built from the long table, not what a single melted row means.
+~One store's total sales for the quarter #Melting doesn't add anything up — each monthly number just gets its own row.
+}
+
+// ── Section 6: Review — id_vars vs. value_vars (from Week 4 Retrieval 2) ────
+
+::W05-R1-Q6 Review: id_vars vs. value_vars (from Retrieval 2)::
+Review from Week 4's Retrieval 2: table <code>sales</code> has one row per store, with the columns <code>store</code>, <code>city</code>, <code>Jan_sales</code>, <code>Feb_sales</code> and <code>Mar_sales</code>. It is reshaped with:
+<pre>
+long = pd.melt(
+    sales,
+    id_vars=["store", "city"],
+    value_vars=["Jan_sales", "Feb_sales", "Mar_sales"],
+    var_name="Month",
+    value_name="Sales",
+)
+</pre>
+What role does <code>id_vars</code> play?{
+=They are the columns that get repeated, unchanged, on every new row — they still identify which store a row belongs to #Correct. <code>id_vars</code> stays fixed; it's what keeps each new row anchored to a specific store.
+~They are the columns being unstacked into the new <code>Month</code> / <code>Sales</code> pair #That's <code>value_vars</code>'s job — <code>id_vars</code> is left alone, not unstacked.
+~They become the values inside the new <code>Month</code> column #<code>id_vars</code> stays as its own columns; it's <code>value_vars</code>'s names that become <code>Month</code>'s values.
+~They are dropped from the output entirely #<code>id_vars</code> is kept on every row, not dropped — melting only unstacks <code>value_vars</code>.
+}

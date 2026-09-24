@@ -26,7 +26,16 @@
       "Bash(python3 -)",
       "Bash(docker exec *)",
       "Bash(docker start *)",
-      "Bash(otter assign *)"
+      "Bash(otter assign *)",
+      "Bash(curl -sL \"https://fpasquinisantos.github.io/data202/mod10-clustering/\")",
+      "Bash(curl -sL \"https://fpasquinisantos.github.io/data202/mod09-pca/\")",
+      "Bash(curl -sL \"https://fpasquinisantos.github.io/data202/mod10-clustering/\" -o /tmp/mod10.html)",
+      "Read(//c/Users/fs33/AppData/Local/Temp/claude/c--Users-fs33-OneDrive---Calvin-University-calvin-DATA-202-data202/6be6c245-a832-4f1a-995e-2a8bc19ba49f/scratchpad/**)",
+      "Bash(python build_w05.py)",
+      "Bash(find \"/c/Users/fs33/AppData/Local/Temp/claude/c--Users-fs33-OneDrive---Calvin-University-calvin-DATA-202-data202/6be6c245-a832-4f1a-995e-2a8bc19ba49f/scratchpad\" -maxdepth 1 -iname \"d*.ipynb\")",
+      "Bash(cp /c/Users/fs33/AppData/Local/Temp/claude/c--Users-fs33-OneDrive---Calvin-University-calvin-DATA-202-data202/6be6c245-a832-4f1a-995e-2a8bc19ba49f/scratchpad/d1.ipynb weeks/05/class_w05d1.ipynb)",
+      "Bash(cp /c/Users/fs33/AppData/Local/Temp/claude/c--Users-fs33-OneDrive---Calvin-University-calvin-DATA-202-data202/6be6c245-a832-4f1a-995e-2a8bc19ba49f/scratchpad/d2.ipynb weeks/05/class_w05d2.ipynb)",
+      "Bash(xxd)"
     ]
   }
 }

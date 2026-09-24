@@ -1,113 +1,159 @@
 """Content for Quiz 2 (Week 4): covers Week 3's SLOs (03A/03B/03C), plus
-three review questions retaking Quiz 1's SLOs (02A/02B/02C) on the same
+three review questions retaking Quiz 1's SLOs (02A/02B/02C) on this quiz's
 dataset -- per the syllabus's repeat-questions-between-quizzes policy.
 
 Note: this quiz deliberately does NOT cover Week 4 material -- students get
 a full week to study before it's tested (same lag for future quizzes).
 
-Dataset: homeless.csv (the `homeless` DataFrame from class_w03d1/class_w03d2,
-already cleaned the same way as in class).
+Dataset: a simulated esports `players` table. It is NOT the class's
+homeless.csv (or Quiz 1's product_sales.csv), so the quiz tests whether the
+Week 3 skills transfer to new data; there is no CSV behind it, only the
+sample rows below. The Q1 cleaning patterns deliberately mirror the ones
+practiced in class_w03d1 (anchored `^...$` replace; `\\s*,\\s*` spacing).
+The sample table at the top shows RAW (uncleaned) rows, because Q1 asks what
+cleaning code does to them; Q2-Q6 assume the data has been cleaned.
 """
 
-from build_quiz import QuizContent, QuizVersion, Question, blank_table, code_box, blank_line, sketch_box
+from build_quiz import (
+    QuizContent, QuizVersion, Question,
+    blank_table, code_box, blank_line, sketch_box, tex_escape, raw_latex,
+)
 
 TITLE = "DATA 202 --- Quiz 2"
 SUBTITLE = "Week 4 --- Covering Week 3: Cleaning, Grouping & Plots"
 
 DATASET_INTRO_MD = r"""
-## The Dataset: People Experiencing Homelessness
+## The Dataset: Esports Players
 
-`homeless` contains 100 simulated records of people experiencing
-homelessness, cleaned the same way as in Monday's class: standardized city
-names, shelter status, and education levels.
+`players` contains simulated records of competitive video game players, one
+row per player. The rows below are the **raw** data, exactly as loaded from
+the CSV. Question 1 works with this raw data; Questions 2--6 assume `players`
+has already been cleaned (standardized city names, ladder status, and skill
+levels).
 
-**Columns:** `id`, `years_homeless`, `family_size`, `monthly_support_usd`
-(numerical) \textperiodcentered\ `name`, `city`, `shelter_status`,
-`education_level` (categorical/text)
+**Columns:** `id`, `years_playing`, `sponsors`, `monthly_earnings_usd`
+(numerical) \textperiodcentered\ `handle`, `city`, `ladder_status`,
+`skill_level` (categorical/text)
 
-**First few rows (already cleaned):**
+**First few rows (raw --- before any cleaning):**
 """
 
 SAMPLE_COLUMNS = [
-    "id", "name", "city", "shelter_status", "years_homeless",
-    "family_size", "monthly_support_usd", "education_level",
+    "id", "handle", "city", "ladder_status", "years_playing",
+    "sponsors", "monthly_earnings_usd", "skill_level",
 ]
 
+# Raw rows (uncleaned: mixed case, inconsistent city names, stray spacing).
+# Picked so Q1's code visibly does something different to each ladder_status
+# variant.
 ROWS_A = [
-    dict(zip(SAMPLE_COLUMNS, [1, "Peter", "New York", "shelter", 6, 1, 186, "None"])),
-    dict(zip(SAMPLE_COLUMNS, [5, "Joseph", "San Francisco", "shelter", 2, 5, 37, "Higher"])),
-    dict(zip(SAMPLE_COLUMNS, [11, "Miguel", "Chicago", "unsheltered", 9, 5, 195, "Higher"])),
-    dict(zip(SAMPLE_COLUMNS, [17, "Joseph", "Los Angeles", "unsheltered", 12, 1, 273, "Higher"])),
-    dict(zip(SAMPLE_COLUMNS, [27, "John", "San Francisco", "shelter", 9, 2, 464, "None"])),
+    dict(zip(SAMPLE_COLUMNS, [3, "NOVA", "toronto", "unranked", 10, 4, 422, "ADVANCED"])),
+    dict(zip(SAMPLE_COLUMNS, [4, "blaze", "SEOUL.", "CASUAL", 14, 3, 37, "novice"])),
+    dict(zip(SAMPLE_COLUMNS, [6, "viper", "L.A.", "ranked , pending", 9, 5, 552, "ADVANCED"])),
+    dict(zip(SAMPLE_COLUMNS, [9, "pixel.", "berlin", "Ranked", 13, 1, 74, "expert"])),
+    dict(zip(SAMPLE_COLUMNS, [44, "ghost", "NEW-YORK", "RANK", 13, 1, 171, "amateur"])),
 ]
 
 ROWS_B = [
-    dict(zip(SAMPLE_COLUMNS, [2, "Joseph", "Boston", "street", 10, 2, 366, "None"])),
-    dict(zip(SAMPLE_COLUMNS, [8, "Lucas", "San Francisco", "shelter temporary", 8, 2, 25, "Primary"])),
-    dict(zip(SAMPLE_COLUMNS, [21, "Lucas", "Boston", "unsheltered", 9, 5, 84, "None"])),
-    dict(zip(SAMPLE_COLUMNS, [39, "Anna", "Los Angeles", "shelter", 12, 5, 556, "Primary"])),
-    dict(zip(SAMPLE_COLUMNS, [59, "David", "San Francisco", "shelter", 11, 2, 264, "Secondary"])),
+    dict(zip(SAMPLE_COLUMNS, [15, "kiRA", "NEW-YORK", "Ranked", 14, 4, 579, "ADVANCED"])),
+    dict(zip(SAMPLE_COLUMNS, [16, "ZEPHYR", "SEOUL.", "ranked , pending", 10, 4, 286, "AMATEUR"])),
+    dict(zip(SAMPLE_COLUMNS, [35, "echo", "berlin", "unranked", 9, 4, 375, "EXPERT"])),
+    dict(zip(SAMPLE_COLUMNS, [45, "mochi.", "los Angeles", "RANK", 5, 2, 90, "novice"])),
+    dict(zip(SAMPLE_COLUMNS, [49, "NEO", "toronto", "CASUAL", 10, 1, 399, "ADVANCED"])),
 ]
+
+# Wider than the even split: raw values like "ranked , pending" / "los
+# Angeles" don't fit in ~1.8cm. Order follows SAMPLE_COLUMNS: id, handle,
+# city, ladder_status, years_playing, sponsors, monthly_earnings_usd,
+# skill_level. Sums to 14.4cm + column padding.
+SAMPLE_COL_WIDTHS_CM = [0.6, 1.5, 2.1, 2.7, 1.6, 1.5, 2.0, 2.4]
 
 
 # ---------------------------------------------------------------------------
-# Question 1 (SLO 03A) -- cleaning messy text with regex
+# Question 1 (SLO 03A) -- reading regex cleaning code (predict what it does)
 # ---------------------------------------------------------------------------
 
 Q1_HEADING = "Question 1 (SLO 03A)"
 
-Q1_INTRO_A = (
-    r"""The raw (uncleaned) `shelter_status` column contains values like
-`"SHELTERED"` and `"sheltered"` --- the same status, just different
-capitalization. Complete the code below to standardize all of these into
-`"shelter"`."""
+Q1_INTRO = (
+    "The code below is run on the `ladder_status` column of the **raw** "
+    "data shown above."
 )
-Q1_CODE_A = [
-    r'homeless["shelter\_status"] = (',
-    r'\hspace*{1.5em}homeless["shelter\_status"]',
-    r'\hspace*{1.5em}.str.strip()',
-    r'\hspace*{1.5em}.str.' + blank_line("1.6cm") + "()",
-    r'\hspace*{1.5em}.str.replace(r"' + blank_line("3.2cm") + '", "shelter", regex=True)',
-    ")",
-]
-Q1_ANSWER_A = (
-    'homeless["shelter_status"] = (\n'
-    '    homeless["shelter_status"]\n'
+
+Q1_PROMPT = (
+    "What will this code do to the `ladder_status` column? Explain what "
+    "each step does, and say what the `ladder_status` values in the rows "
+    "above will look like afterward."
+)
+
+Q1_CODE_A = (
+    'players["ladder_status"] = (\n'
+    '    players["ladder_status"]\n'
     "    .str.strip()\n"
     "    .str.lower()\n"
-    '    .str.replace(r"^sheltered$", "shelter", regex=True)\n'
+    '    .str.replace(r"^rank$", "ranked", regex=True)\n'
     ")"
 )
-
-Q1_INTRO_B = (
-    r"""The raw (uncleaned) `shelter_status` column also has spacing
-variants like `"shelter , pending"`, `"shelter,pending"`, and
-`"shelter  ,  pending"` --- the same status, just spaced differently.
-Complete the code below (which already lowercases the text) to standardize
-all of these into `"shelter pending"`."""
-)
-Q1_CODE_B = [
-    r'homeless["shelter\_status"] = (',
-    r'\hspace*{1.5em}homeless["shelter\_status"]',
-    r'\hspace*{1.5em}.str.strip()',
-    r'\hspace*{1.5em}.str.lower()',
-    r'\hspace*{1.5em}.str.replace(r"' + blank_line("4.0cm") + '", "shelter pending", regex=True)',
-    ")",
+Q1_ANSWER_A = [
+    "`.str.strip()` removes leading/trailing whitespace.",
+    '`.str.lower()` lowercases everything (`"Ranked"` → `"ranked"`, '
+    '`"CASUAL"` → `"casual"`, `"RANK"` → `"rank"`).',
+    '`.str.replace(r"^rank$", "ranked", regex=True)` rewrites values that '
+    'are *exactly* `"rank"` to `"ranked"`. The `^` and `$` anchors matter: '
+    '`"ranked"` and `"unranked"` both contain `"rank"`, so without them '
+    'they would be mangled into `"rankeded"` and `"unrankeded"`.',
+    "The result is assigned back to the column.",
 ]
-Q1_ANSWER_B = (
-    'homeless["shelter_status"] = (\n'
-    '    homeless["shelter_status"]\n'
+Q1_AFTER_A = ["unranked", "casual", "ranked , pending", "ranked", "ranked"]
+
+Q1_CODE_B = (
+    'players["ladder_status"] = (\n'
+    '    players["ladder_status"]\n'
     "    .str.strip()\n"
     "    .str.lower()\n"
-    r'    .str.replace(r"shelter\s*,\s*pending", "shelter pending", regex=True)' "\n"
+    r'    .str.replace(r"ranked\s*,\s*pending", "ranked pending", regex=True)' "\n"
     ")"
 )
+Q1_ANSWER_B = [
+    "`.str.strip()` removes leading/trailing whitespace.",
+    '`.str.lower()` lowercases everything (`"Ranked"` → `"ranked"`, '
+    '`"CASUAL"` → `"casual"`, `"RANK"` → `"rank"`).',
+    r'`.str.replace(r"ranked\s*,\s*pending", "ranked pending", regex=True)` '
+    'matches `"ranked"`, then any spaces, a comma, any spaces, then '
+    '`"pending"`, and rewrites it as `"ranked pending"` (so '
+    '`"ranked , pending"` → `"ranked pending"`).',
+    'Nothing here turns `"rank"` into `"ranked"`, so `"RANK"` ends up as '
+    '`"rank"`; `"unranked"` is untouched.',
+]
+Q1_AFTER_B = ["ranked", "ranked pending", "unranked", "rank", "casual"]
 
 
-def _q1_question(intro, code_lines, answer_code):
-    body = code_box(code_lines)
-    answer_md = "Answer:\n```python\n" + answer_code + "\n```"
-    return Question(Q1_HEADING, intro, body, answer_md)
+def _plain_code_to_latex_lines(code):
+    """Turn a plain-text code block into code_box() lines: each 4 leading
+    spaces become a 1.5em indent, and the rest is tex_escape'd."""
+    lines = []
+    for line in code.split("\n"):
+        indent = len(line) - len(line.lstrip(" "))
+        prefix = r"\hspace*{%.1fem}" % (1.5 * indent / 4) if indent else ""
+        lines.append(prefix + tex_escape(line.lstrip(" ")))
+    return lines
+
+
+def _q1_question(raw_rows, code, answer_points, after_values):
+    body = (
+        code_box(_plain_code_to_latex_lines(code))
+        + raw_latex(r"\vspace{2pt}")
+        + Q1_PROMPT
+        + "\n\n"
+        + sketch_box("2.0in")
+    )
+
+    answer_lines = ["```python", code, "```", ""]
+    answer_lines += [f"- {pt}" for pt in answer_points]
+    answer_lines += ["", "| id | ladder_status (raw) | ladder_status (after) |", "|---|---|---|"]
+    for row, after in zip(raw_rows, after_values):
+        answer_lines.append(f'| {row["id"]} | `{row["ladder_status"]}` | `{after}` |')
+    return Question(Q1_HEADING, Q1_INTRO, body, "\n".join(answer_lines))
 
 
 # ---------------------------------------------------------------------------
@@ -117,50 +163,43 @@ def _q1_question(intro, code_lines, answer_code):
 Q2_HEADING = "Question 2 (SLO 03B)"
 
 Q2_INTRO_A = (
-    "Complete the code below to compute the average `monthly_support_usd` "
-    "for each `city`, sorted from highest to lowest.\n\n"
-    "Then answer: if you set `ascending=True` instead, what would change "
-    "about the output?"
+    "Complete the code below to compute the average `monthly_earnings_usd` "
+    "for each `city`, sorted from highest to lowest."
 )
 Q2_CODE_A = [
     "result = (",
-    r'\hspace*{1.5em}homeless.groupby("' + blank_line("2.2cm") + '")["monthly\\_support\\_usd"]',
+    r'\hspace*{1.5em}players.groupby("' + blank_line("2.2cm") + '")["monthly\\_earnings\\_usd"]',
     r"\hspace*{1.5em}." + blank_line("1.6cm") + "()",
     r"\hspace*{1.5em}.reset\_index()",
-    r'\hspace*{1.5em}.sort\_values("monthly\_support\_usd", ascending=' + blank_line("1.4cm") + ")",
+    r'\hspace*{1.5em}.sort\_values("monthly\_earnings\_usd", ascending=' + blank_line("1.4cm") + ")",
     ")",
 ]
 Q2_CODE_ANSWER_A = (
     'result = (\n'
-    '    homeless.groupby("city")["monthly_support_usd"]\n'
+    '    players.groupby("city")["monthly_earnings_usd"]\n'
     "    .mean()\n"
     "    .reset_index()\n"
-    '    .sort_values("monthly_support_usd", ascending=False)\n'
+    '    .sort_values("monthly_earnings_usd", ascending=False)\n'
     ")"
 )
-Q2_TEXT_ANSWER_A = (
-    "With `ascending=True`, cities would be sorted from LOWEST average to "
-    "HIGHEST instead of highest to lowest."
-)
-
 Q2_INTRO_B = (
-    "Complete the code below to compute, for each `education_level`, both "
-    "the number of people and the average `years_homeless`, using named "
+    "Complete the code below to compute, for each `skill_level`, both "
+    "the number of players and the average `years_playing`, using named "
     "aggregation.\n\n"
     'Then answer: if you used `"median"` instead of `"mean"` for '
     "`avg_years`, would the result be more or less sensitive to one "
-    "extremely high outlier in `years_homeless`?"
+    "extremely high outlier in `years_playing`?"
 )
 Q2_CODE_B = [
-    r'result = homeless.groupby("' + blank_line("3.0cm") + '").agg(',
-    r'\hspace*{1.5em}n\_people=("id", "count"),',
+    r'result = players.groupby("' + blank_line("3.0cm") + '").agg(',
+    r'\hspace*{1.5em}n\_players=("id", "count"),',
     r'\hspace*{1.5em}avg\_years=("' + blank_line("2.6cm") + '", "' + blank_line("1.3cm") + '"),',
     ")",
 ]
 Q2_CODE_ANSWER_B = (
-    'result = homeless.groupby("education_level").agg(\n'
-    '    n_people=("id", "count"),\n'
-    '    avg_years=("years_homeless", "mean"),\n'
+    'result = players.groupby("skill_level").agg(\n'
+    '    n_players=("id", "count"),\n'
+    '    avg_years=("years_playing", "mean"),\n'
     ")"
 )
 Q2_TEXT_ANSWER_B = (
@@ -169,9 +208,11 @@ Q2_TEXT_ANSWER_B = (
 )
 
 
-def _q2_question(intro, code_lines, code_answer, text_answer):
+def _q2_question(intro, code_lines, code_answer, text_answer=None):
     body = code_box(code_lines)
-    answer_md = "Answer:\n```python\n" + code_answer + "\n```\n\n" + text_answer
+    answer_md = "Answer:\n```python\n" + code_answer + "\n```"
+    if text_answer:
+        answer_md += "\n\n" + text_answer
     return Question(Q2_HEADING, intro, body, answer_md)
 
 
@@ -181,31 +222,31 @@ def _q2_question(intro, code_lines, code_answer, text_answer):
 
 Q3_HEADING = "Question 3 (SLO 03C)"
 Q3_INTRO = (
-    "For each question below about the `homeless` data, name the best plot "
+    "For each question below about the `players` data, name the best plot "
     "type (Histogram / Scatter / Line / Bar) and which column(s) you'd map "
     "to x (and y, if relevant)."
 )
 
 Q3_ROWS_A = [
-    ("What's the distribution of `monthly_support_usd` across all people?",
-     "Histogram -- x=monthly_support_usd"),
-    ("How do `years_homeless` and `monthly_support_usd` relate to each other?",
-     "Scatter -- x=years_homeless, y=monthly_support_usd"),
-    ("How does average `monthly_support_usd` change as `years_homeless` increases?",
-     "Line -- x=years_homeless, y=avg(monthly_support_usd)"),
-    ("How does average `monthly_support_usd` compare across `city` values?",
-     "Bar -- x=city, y=avg(monthly_support_usd)"),
+    ("What's the distribution of `monthly_earnings_usd` across all players?",
+     "Histogram -- x=monthly_earnings_usd"),
+    ("How do `years_playing` and `monthly_earnings_usd` relate to each other?",
+     "Scatter -- x=years_playing, y=monthly_earnings_usd"),
+    ("How does average `monthly_earnings_usd` change as `years_playing` increases?",
+     "Line -- x=years_playing, y=avg(monthly_earnings_usd)"),
+    ("How does average `monthly_earnings_usd` compare across `city` values?",
+     "Bar -- x=city, y=avg(monthly_earnings_usd)"),
 ]
 
 Q3_ROWS_B = [
-    ("What's the distribution of `years_homeless` across all people?",
-     "Histogram -- x=years_homeless"),
-    ("How do `family_size` and `monthly_support_usd` relate to each other?",
-     "Scatter -- x=family_size, y=monthly_support_usd"),
-    ("How does average `family_size` change as `years_homeless` increases?",
-     "Line -- x=years_homeless, y=avg(family_size)"),
-    ("How does average `years_homeless` compare across `shelter_status` values?",
-     "Bar -- x=shelter_status, y=avg(years_homeless)"),
+    ("What's the distribution of `years_playing` across all players?",
+     "Histogram -- x=years_playing"),
+    ("How do `sponsors` and `monthly_earnings_usd` relate to each other?",
+     "Scatter -- x=sponsors, y=monthly_earnings_usd"),
+    ("How does average `sponsors` change as `years_playing` increases?",
+     "Line -- x=years_playing, y=avg(sponsors)"),
+    ("How does average `years_playing` compare across `ladder_status` values?",
+     "Bar -- x=ladder_status, y=avg(years_playing)"),
 ]
 
 
@@ -235,19 +276,19 @@ Q4_INTRO = (
 )
 
 Q4_ITEMS_A = [
-    ('homeless["monthly_support_usd"]', "Access -- Column"),
-    ('homeless["high_support"] = homeless["monthly_support_usd"] > 400', "Add -- Column"),
-    ('homeless = pd.concat([homeless, pd.DataFrame([new_row])], ignore_index=True)', "Add -- Row"),
-    ('homeless = homeless[homeless["shelter_status"] != "street"]', "Delete -- Row(s)"),
-    ('homeless = homeless.drop(columns=["notes"])', "Delete -- Column"),
+    ('players["monthly_earnings_usd"]', "Access -- Column"),
+    ('players["high_earner"] = players["monthly_earnings_usd"] > 400', "Add -- Column"),
+    ('players = pd.concat([players, pd.DataFrame([new_row])], ignore_index=True)', "Add -- Row"),
+    ('players = players[players["ladder_status"] != "casual"]', "Delete -- Row(s)"),
+    ('players = players.drop(columns=["skill_level"])', "Delete -- Column"),
 ]
 
 Q4_ITEMS_B = [
-    ('homeless["years_homeless"]', "Access -- Column"),
-    ('homeless["long_term"] = homeless["years_homeless"] > 10', "Add -- Column"),
-    ('homeless = pd.concat([homeless, pd.DataFrame([new_row])], ignore_index=True)', "Add -- Row"),
-    ('homeless = homeless[homeless["city"] != "Boston"]', "Delete -- Row(s)"),
-    ('homeless = homeless.drop(columns=["family_size"])', "Delete -- Column"),
+    ('players["years_playing"]', "Access -- Column"),
+    ('players["veteran"] = players["years_playing"] > 10', "Add -- Column"),
+    ('players = pd.concat([players, pd.DataFrame([new_row])], ignore_index=True)', "Add -- Row"),
+    ('players = players[players["city"] != "Berlin"]', "Delete -- Row(s)"),
+    ('players = players.drop(columns=["sponsors"])', "Delete -- Column"),
 ]
 
 
@@ -271,35 +312,35 @@ def _q4_question(items):
 Q5_HEADING = "Question 5 (SLO 02B) --- Review from Quiz 1"
 
 Q5_INTRO_A = (
-    r"""Complete the code below to select all people with `shelter_status`
-equal to **"street"** and **more than 10 years homeless**, sorted by
-`years_homeless` from highest to lowest.
+    r"""Complete the code below to select all players with `ladder_status`
+equal to **"casual"** and **more than 10 years playing**, sorted by
+`years_playing` from highest to lowest.
 
 *Remember: the filter condition still goes inside the square brackets and
-must reference* `homeless` *again, e.g.* `homeless[homeless["Column"] ...]`."""
+must reference* `players` *again, e.g.* `players[players["Column"] ...]`."""
 )
 Q5_ANSWER_A = (
-    'result = homeless[(homeless["shelter_status"] == "street") & (homeless["years_homeless"] > 10)]\n'
-    'result = result.sort_values("years_homeless", ascending=False)'
+    'result = players[(players["ladder_status"] == "casual") & (players["years_playing"] > 10)]\n'
+    'result = result.sort_values("years_playing", ascending=False)'
 )
 
 Q5_INTRO_B = (
-    r"""Complete the code below to select all people in **"San Francisco"**
-with `monthly_support_usd` **below 100**, sorted by `monthly_support_usd`
+    r"""Complete the code below to select all players in **"Seoul"**
+with `monthly_earnings_usd` **below 100**, sorted by `monthly_earnings_usd`
 from lowest to highest.
 
 *Remember: the filter condition still goes inside the square brackets and
-must reference* `homeless` *again, e.g.* `homeless[homeless["Column"] ...]`."""
+must reference* `players` *again, e.g.* `players[players["Column"] ...]`."""
 )
 Q5_ANSWER_B = (
-    'result = homeless[(homeless["city"] == "San Francisco") & (homeless["monthly_support_usd"] < 100)]\n'
-    'result = result.sort_values("monthly_support_usd", ascending=True)'
+    'result = players[(players["city"] == "Seoul") & (players["monthly_earnings_usd"] < 100)]\n'
+    'result = result.sort_values("monthly_earnings_usd", ascending=True)'
 )
 
 
 def _q5_question(intro, answer_code):
     body = code_box([
-        "result = homeless[",
+        "result = players[",
         r"\hspace*{1.5em}" + blank_line("0.6\\linewidth"),
         "]",
         r'result = result.sort\_values("' + blank_line("2.6cm") + '", ascending=' + blank_line("1.6cm") + ")",
@@ -334,37 +375,37 @@ Q6_SKETCH_PROMPT = (
 )
 
 Q6_CODE_A = [
-    r'px.scatter(homeless, x="years\_homeless", y="monthly\_support\_usd",',
-    r'\hspace*{1.5em}symbol="shelter\_status", size="family\_size",',
-    r'\hspace*{1.5em}title="Years Homeless vs. Monthly Support")',
+    r'px.scatter(players, x="years\_playing", y="monthly\_earnings\_usd",',
+    r'\hspace*{1.5em}symbol="ladder\_status", size="sponsors",',
+    r'\hspace*{1.5em}title="Years Playing vs. Monthly Earnings")',
 ]
 Q6_ANSWERS_A = [
-    ("x-axis", "years_homeless -- Numerical"),
-    ("y-axis", "monthly_support_usd -- Numerical"),
-    ("symbol", "shelter_status -- Categorical"),
-    ("size", "family_size -- Numerical"),
+    ("x-axis", "years_playing -- Numerical"),
+    ("y-axis", "monthly_earnings_usd -- Numerical"),
+    ("symbol", "ladder_status -- Categorical"),
+    ("size", "sponsors -- Numerical"),
 ]
 Q6_CODE_PLAIN_A = (
-    'px.scatter(homeless, x="years_homeless", y="monthly_support_usd",\n'
-    '           symbol="shelter_status", size="family_size",\n'
-    '           title="Years Homeless vs. Monthly Support")'
+    'px.scatter(players, x="years_playing", y="monthly_earnings_usd",\n'
+    '           symbol="ladder_status", size="sponsors",\n'
+    '           title="Years Playing vs. Monthly Earnings")'
 )
 
 Q6_CODE_B = [
-    r'px.scatter(homeless, x="family\_size", y="monthly\_support\_usd",',
-    r'\hspace*{1.5em}symbol="education\_level", size="years\_homeless",',
-    r'\hspace*{1.5em}title="Family Size vs. Monthly Support")',
+    r'px.scatter(players, x="sponsors", y="monthly\_earnings\_usd",',
+    r'\hspace*{1.5em}symbol="skill\_level", size="years\_playing",',
+    r'\hspace*{1.5em}title="Sponsors vs. Monthly Earnings")',
 ]
 Q6_ANSWERS_B = [
-    ("x-axis", "family_size -- Numerical"),
-    ("y-axis", "monthly_support_usd -- Numerical"),
-    ("symbol", "education_level -- Categorical"),
-    ("size", "years_homeless -- Numerical"),
+    ("x-axis", "sponsors -- Numerical"),
+    ("y-axis", "monthly_earnings_usd -- Numerical"),
+    ("symbol", "skill_level -- Categorical"),
+    ("size", "years_playing -- Numerical"),
 ]
 Q6_CODE_PLAIN_B = (
-    'px.scatter(homeless, x="family_size", y="monthly_support_usd",\n'
-    '           symbol="education_level", size="years_homeless",\n'
-    '           title="Family Size vs. Monthly Support")'
+    'px.scatter(players, x="sponsors", y="monthly_earnings_usd",\n'
+    '           symbol="skill_level", size="years_playing",\n'
+    '           title="Sponsors vs. Monthly Earnings")'
 )
 
 
@@ -394,32 +435,41 @@ def _q6_question(code_lines, answers, code_plain):
 # Assemble
 # ---------------------------------------------------------------------------
 
+def _new_page(question):
+    """Start `question` on a fresh page. Pagination is fixed so both versions
+    match: p1 dataset + Q1, p2 Q2-Q3, p3 Q4-Q5, p4 Q6 (a tall table can't
+    split across pages, so leaving it to LaTeX strands headings/sketch space)."""
+    question.page_break_before = True
+    return question
+
+
 CONTENT = QuizContent(
     title=TITLE,
     subtitle=SUBTITLE,
     dataset_intro_md=DATASET_INTRO_MD,
     sample_columns=SAMPLE_COLUMNS,
+    sample_col_widths_cm=SAMPLE_COL_WIDTHS_CM,
     versions={
         "A": QuizVersion(
             rows=ROWS_A,
             questions=[
-                _q1_question(Q1_INTRO_A, Q1_CODE_A, Q1_ANSWER_A),
-                _q2_question(Q2_INTRO_A, Q2_CODE_A, Q2_CODE_ANSWER_A, Q2_TEXT_ANSWER_A),
+                _q1_question(ROWS_A, Q1_CODE_A, Q1_ANSWER_A, Q1_AFTER_A),
+                _new_page(_q2_question(Q2_INTRO_A, Q2_CODE_A, Q2_CODE_ANSWER_A)),
                 _q3_question(Q3_ROWS_A),
-                _q4_question(Q4_ITEMS_A),
+                _new_page(_q4_question(Q4_ITEMS_A)),
                 _q5_question(Q5_INTRO_A, Q5_ANSWER_A),
-                _q6_question(Q6_CODE_A, Q6_ANSWERS_A, Q6_CODE_PLAIN_A),
+                _new_page(_q6_question(Q6_CODE_A, Q6_ANSWERS_A, Q6_CODE_PLAIN_A)),
             ],
         ),
         "B": QuizVersion(
             rows=ROWS_B,
             questions=[
-                _q1_question(Q1_INTRO_B, Q1_CODE_B, Q1_ANSWER_B),
-                _q2_question(Q2_INTRO_B, Q2_CODE_B, Q2_CODE_ANSWER_B, Q2_TEXT_ANSWER_B),
+                _q1_question(ROWS_B, Q1_CODE_B, Q1_ANSWER_B, Q1_AFTER_B),
+                _new_page(_q2_question(Q2_INTRO_B, Q2_CODE_B, Q2_CODE_ANSWER_B, Q2_TEXT_ANSWER_B)),
                 _q3_question(Q3_ROWS_B),
-                _q4_question(Q4_ITEMS_B),
+                _new_page(_q4_question(Q4_ITEMS_B)),
                 _q5_question(Q5_INTRO_B, Q5_ANSWER_B),
-                _q6_question(Q6_CODE_B, Q6_ANSWERS_B, Q6_CODE_PLAIN_B),
+                _new_page(_q6_question(Q6_CODE_B, Q6_ANSWERS_B, Q6_CODE_PLAIN_B)),
             ],
         ),
     },

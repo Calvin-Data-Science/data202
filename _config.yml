@@ -18,5 +18,6 @@ exclude:
   - "**/*.h5p"
   - "weeks/**/quiz*.md"
   - "weeks/**/quiz*.pdf"
+  - "weeks/**/*_handout.md"   # handout sources; the built *_handout.pdf is published
   - "scripts/build_quiz.py"
   - "scripts/quiz_content/"

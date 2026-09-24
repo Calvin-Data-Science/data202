@@ -46,6 +46,7 @@ class Question:
     intro_md: str        # markdown/prose shown to students (may include tex_escape'd inline raw latex)
     body_latex: str      # a raw-latex block: the fillable table/code/sketch box (build with the helpers below)
     answer_md: str        # markdown shown in the answer-key .md, with the real answer filled in
+    page_break_before: bool = False  # start this question on a fresh page in the PDF
 
 
 @dataclass
@@ -61,6 +62,7 @@ class QuizContent:
     dataset_intro_md: str         # prose describing the dataset (shared across versions)
     sample_columns: list          # ordered column headers for the sample-rows table
     versions: dict                # {"A": QuizVersion, "B": QuizVersion}
+    sample_col_widths_cm: list = None  # optional per-column widths for the sample-rows table (default: even split)
 
 
 # ---------------------------------------------------------------------------
@@ -198,19 +200,23 @@ def blank_table(given_cols, blank_cols, rows) -> str:
     return raw_latex("\n".join(lines))
 
 
-def sample_table(columns, rows, total_width_cm: float = 16.0) -> str:
+def sample_table(columns, rows, total_width_cm: float = 16.0, col_widths_cm=None) -> str:
     """A grid table of sample data rows (no blanks), for the PDF. Raw LaTeX
-    with an even, wrapped column width per column (rather than pandoc's
+    with a wrapped column width per column (rather than pandoc's
     auto-width plain markdown table), so it can't overflow/overlap
     regardless of how many columns there are or how long their names are
     (e.g. long identifier-style headers like `monthly_support_usd`).
+    Columns are evenly wide by default; pass col_widths_cm (one width per
+    column) when some cells are wider than an even split allows, e.g. raw
+    uncleaned text like "SHELTERED".
     columns: ordered list of header strings. rows: list of dicts keyed by
     those header strings."""
     n = len(columns)
     tabcolsep_cm = 0.1  # shrunk from LaTeX's default ~0.21cm
-    col_width = f"{(total_width_cm - 2 * tabcolsep_cm * n) / n:.2f}cm"
+    if col_widths_cm is None:
+        col_widths_cm = [(total_width_cm - 2 * tabcolsep_cm * n) / n] * n
     col_spec = "|" + "|".join(
-        [r">{\raggedright\arraybackslash}p{%s}" % col_width] * n
+        r">{\raggedright\arraybackslash}p{%.2fcm}" % w for w in col_widths_cm
     ) + "|"
     lines = [
         r"{\setlength{\tabcolsep}{%.2fcm}" % tabcolsep_cm,
@@ -264,13 +270,14 @@ def build_version_md(content: QuizContent, version_letter: str) -> str:
     dataset = (
         content.dataset_intro_md
         + "\n\\footnotesize\n\n"
-        + sample_table(content.sample_columns, version.rows)
+        + sample_table(content.sample_columns, version.rows, col_widths_cm=content.sample_col_widths_cm)
         + "\n\n\\normalsize\n\n"
     )
 
     body = [dataset]
     for q in version.questions:
-        body.append("## %s\n\n%s\n\n%s\n" % (q.heading, q.intro_md, q.body_latex))
+        page_break = raw_latex(r"\newpage") + "\n" if q.page_break_before else ""
+        body.append("%s## %s\n\n%s\n\n%s\n" % (page_break, q.heading, q.intro_md, q.body_latex))
 
     return yaml_front + top + "".join(body)
 

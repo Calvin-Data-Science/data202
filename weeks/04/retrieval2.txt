@@ -3,71 +3,98 @@
 // Given at the start of the next class, testing retrieval of Monday's
 // class_w04d1 (melting and pivoting the plot_yields garden dataset, built
 // around the "what is one row about?" framing: row meaning after melt,
-// id_vars/value_vars mechanics, pivot_table's index/columns/values,
-// exploding a multi-value column, and why some questions are only
-// answerable once "which week" lives inside the data instead of inside
-// column names) plus one review question on named-aggregation syntax from
-// Week 3.
+// id_vars/value_vars mechanics, pivot_table's index/columns/values, and
+// exploding a multi-value column) plus 2 review questions carried over
+// from Retrieval 1 on Week 3's groupby/aggregation content (sums vs.
+// rates across group sizes; why a custom lambda aggregation was needed).
+// Code in every question is wrapped in <code>/<pre> tags for Moodle.
 // 6 questions, ~7 minutes.
 
 $CATEGORY: Week 04 / Retrieval 02
 
-// ── Section 1: What a Row Means, After Melting ───────────────────────────────
+// ── Section 1: Row Meaning After Melting ─────────────────────────────────────
 
 ::W04-R2-Q1 Row meaning after melting::
-In Monday's class, plot_yields starts with one row meaning "one plot's whole season." After pd.melt() unstacks the six Week*_lbs columns into a Week / Harvest_lbs pair, what does one row of the resulting long table mean?{
+In Monday's class, <code>plot_yields</code> starts with one row meaning "one plot's whole season." After <code>pd.melt()</code> unstacks the six <code>Week*_lbs</code> columns into a <code>Week</code> / <code>Harvest_lbs</code> pair, what does one row of the resulting long table mean?{
 =One plot, in one week #Correct. Melting turns column names into values of a new column, so each new row narrows down to a single plot-week combination instead of a whole season.
 ~Still one plot's whole season, just with fewer columns #Melting changes what a row means — it doesn't just trim columns while leaving the row's meaning the same.
-~One week, across every plot #That describes a groupby summary built from the long table, not what a single melted row means.
-~One plot, one crop #That's what exploding the Crops column produces, not what melting the week columns produces.
+~One week, across every plot #That describes a <code>groupby()</code> summary built from the long table, not what a single melted row means.
+~One plot, one crop #That's what exploding the <code>Crops</code> column produces, not what melting the week columns produces.
 }
 
 // ── Section 2: melt() Mechanics ───────────────────────────────────────────────
 
 ::W04-R2-Q2 id_vars vs. value_vars::
-In pd.melt(yields, id_vars=['Plot_ID', 'Gardener', 'Crops'], value_vars=['Week1_lbs', ..., 'Week6_lbs'], var_name='Week', value_name='Harvest_lbs'), what role do id_vars play?{
-=They are the columns that get repeated, unchanged, on every new row — they still identify which plot a row belongs to #Correct. id_vars stay fixed; they're what keeps each new row anchored to a specific plot.
-~They are the columns being unstacked into the new Week / Harvest_lbs pair #That's value_vars's job — id_vars are left alone, not unstacked.
-~They become the values inside the new Week column #id_vars stay as their own columns; it's value_vars' names that become Week's values.
-~They are dropped from the output entirely #id_vars are kept on every row, not dropped — melting only unstacks value_vars.
+Monday's class built this call to reshape <code>yields</code>:
+<pre>
+long = pd.melt(
+    yields,
+    id_vars=["Plot_ID", "Gardener", "Crops"],
+    value_vars=["Week1_lbs", "Week2_lbs", "Week3_lbs", "Week4_lbs", "Week5_lbs", "Week6_lbs"],
+    var_name="Week",
+    value_name="Harvest_lbs",
+)
+</pre>
+What role does <code>id_vars</code> play?{
+=They are the columns that get repeated, unchanged, on every new row — they still identify which plot a row belongs to #Correct. <code>id_vars</code> stays fixed; it's what keeps each new row anchored to a specific plot.
+~They are the columns being unstacked into the new <code>Week</code> / <code>Harvest_lbs</code> pair #That's <code>value_vars</code>'s job — <code>id_vars</code> is left alone, not unstacked.
+~They become the values inside the new <code>Week</code> column #<code>id_vars</code> stays as its own columns; it's <code>value_vars</code>'s names that become <code>Week</code>'s values.
+~They are dropped from the output entirely #<code>id_vars</code> is kept on every row, not dropped — melting only unstacks <code>value_vars</code>.
 }
 
 // ── Section 3: pivot_table() Mechanics ────────────────────────────────────────
 
 ::W04-R2-Q3 What columns= does in pivot_table::
-long.pivot_table(index=['Plot_ID', 'Gardener', 'Crops'], columns='Week', values='Harvest_lbs') reverses Monday's melt, giving back an (18, 9) table. What does the columns= argument specify?{
-=Which column's distinct values (e.g. "Week1", "Week2", ...) should become new column headers in the wide result #Correct. Each distinct Week value turns into its own column, exactly reversing what melt() did.
-~Which columns should be dropped before pivoting #Nothing is dropped here — pivot_table() rearranges every value it's given.
-~Which columns identify a row, staying fixed #That's what index= specifies, not columns=.
-~Which column supplies the numbers that fill in the new cells #That's what values= specifies, not columns=.
+This call reverses Monday's melt, giving back an (18, 9) table:
+<pre>
+back_to_wide = long.pivot_table(
+    index=["Plot_ID", "Gardener", "Crops"],
+    columns="Week",
+    values="Harvest_lbs",
+).reset_index()
+</pre>
+What does the <code>columns=</code> argument specify?{
+=Which column's distinct values (for example "Week1", "Week2", ...) should become new column headers in the wide result #Correct. Each distinct <code>Week</code> value turns into its own column, exactly reversing what <code>melt()</code> did.
+~Which columns should be dropped before pivoting #Nothing is dropped here — <code>pivot_table()</code> rearranges every value it's given.
+~Which columns identify a row, staying fixed #That's what the <code>index</code> argument specifies, not <code>columns</code>.
+~Which column supplies the numbers that fill in the new cells #That's what the <code>values</code> argument specifies, not <code>columns</code>.
 }
 
 // ── Section 4: Exploding and What value_counts() Then Means ─────────────────
 
 ::W04-R2-Q4 Reading value_counts() after exploding::
-After splitting Crops on commas and exploding it, one row of the result means "one plot, growing one crop." What does exploded['Crop_List'].value_counts() showing lettuce at 7 actually tell you?{
-=Lettuce is grown in 7 of the 18 plots #Correct. Since each row after exploding is one plot-crop pair, value_counts() is counting plots per crop, not pounds.
-~7 total pounds of lettuce were harvested across the season #Exploding multiplies rows, not harvest weight — no pounds are summed by value_counts() here.
-~Lettuce was harvested in 7 out of the 6 tracked weeks #Weeks aren't part of this table at all; Crops was never linked to the Week column.
-~7 different varieties of lettuce are grown in the garden #value_counts() counts rows matching the exact string "lettuce," not different varieties of it.
+After running:
+<pre>
+yields_crops["Crop_List"] = yields_crops["Crops"].str.split(", ")
+exploded = yields_crops.explode("Crop_List").reset_index(drop=True)
+</pre>
+one row of <code>exploded</code> means "one plot, growing one crop." What does <code>exploded['Crop_List'].value_counts()</code> showing lettuce at 7 actually tell you?{
+=Lettuce is grown in 7 of the 18 plots #Correct. Since each row after exploding is one plot-crop pair, <code>value_counts()</code> is counting plots per crop, not pounds.
+~7 total pounds of lettuce were harvested across the season #Exploding multiplies rows, not harvest weight — no pounds are summed by <code>value_counts()</code> here.
+~Lettuce was harvested in 7 out of the 6 tracked weeks #Weeks aren't part of this table at all; <code>Crops</code> was never linked to the <code>Week</code> column.
+~7 different varieties of lettuce are grown in the garden #<code>value_counts()</code> counts rows matching the exact string "lettuce," not different varieties of it.
 }
 
-// ── Section 5: Why Some Questions Need the Long Format ───────────────────────
+// ── Section 5: Review — groupby(): Totals vs. Rates (Week 3) ────────────────
 
-::W04-R2-Q5 A question the wide table couldn't answer::
-Only after melting could long.groupby('Week')['Harvest_lbs'].sum() reveal that the garden's harvest peaks in Week 3 (194.8 lbs) and tapers by Week 6 (67.5 lbs). Why couldn't this be answered directly from the original wide plot_yields table?{
-=The wide table has no single column that says "which week" — that information was split across six separate column names, so there was nothing to group by #Correct. groupby() needs a column to group on, and "week" only became a column once the table was melted.
-~The wide table didn't actually contain the Week 3 harvest numbers #The wide table has every one of those numbers — the problem is they're spread across separate columns, not missing.
-~groupby() only works on long tables, never wide ones #groupby() works on any table; the real issue is whether a usable "which week" column exists to group by.
-~Melting added new harvest data that the wide table was missing #Melting only rearranges existing data — it adds no new information, just a new shape.
+::W04-R2-Q5 Review: totals vs. rates across group sizes (from Retrieval 1)::
+Review from Retrieval 1: in Practice 02's <code>cards_by_age</code> (built with <code>groupby()</code>), the youngest age group's total yellow cards (634, from 278 players) was higher than the oldest group's (276, from just 103 players). Does that mean the youngest players get booked more often, on average, than the oldest?{
+=No — the youngest group simply has far more players, so its total is larger even though its per-player rate (634 / 278, about 2.3) is actually lower than the oldest group's (276 / 103, about 2.7) #Correct. A bigger total can reflect a bigger group, not a higher rate — the sums-favor-big-groups distortion <code>groupby().sum()</code> can hide.
+~Yes — a bigger total always means a higher rate per player #This is the exact misconception the notebook warns about; here the smaller group actually has the higher per-player rate.
+~Yes, because yellow cards can only increase over a career, so a bigger total means more cards every year #This reasoning doesn't follow from anything in the data and doesn't address why group size matters.
+~No, because totals and averages are always mathematically identical #Totals and averages can point in different directions, as this exact comparison shows — 634 is bigger than 276, but 634 / 278 is smaller than 276 / 103.
 }
 
-// ── Section 6: Review — Named Aggregation (Week 3) ───────────────────────────
+// ── Section 6: Review — groupby(): Custom Lambda Aggregation (Week 3) ───────
 
-::W04-R2-Q6 Review: named aggregation vs. dict-of-lists::
-From Week 3: .agg(avg_support=('monthly_support_usd', 'mean')) is named aggregation. What's its main advantage over the dict-of-lists style, e.g. .agg(\{'monthly_support_usd': ['mean']\})?{
-=It lets you assign custom, readable output column names directly, instead of ending up with a stacked column structure per statistic #Correct. Named aggregation produces one flat, clearly-named column per result, which is often easier to read than the dict style's output.
-~It is the only way to compute more than one statistic per group #Both styles can compute multiple statistics per group — dict-of-lists just does it with a list of function names per column.
-~It runs faster because it skips Python function calls entirely #Both styles ultimately call the same underlying aggregation functions — the difference is in output shape and naming, not speed.
-~It works only with numeric columns, while dict style works with any column type #Named aggregation works with any column and any valid aggregation function, same as the dict style.
+::W04-R2-Q6 Review: why a lambda for a custom aggregation (from Retrieval 1)::
+Review from Retrieval 1: Practice 02 found the age range per team (oldest minus youngest) with:
+<pre>
+age_range_by_team = players.groupby("Team")["Age"].agg(lambda x: x.max() - x.min())
+</pre>
+instead of just passing a built-in aggregation name like <code>'mean'</code> or <code>'sum'</code>. Why was a lambda needed here instead of a string?{
+=pandas doesn't ship a built-in "range" statistic, so a custom function has to compute it directly from each group's values #Correct. <code>.agg()</code> accepts any function, including a lambda, for exactly this situation — a statistic no built-in name covers.
+~Lambdas are required any time you group by more than one column, and <code>Team</code> is the only column here, so this is actually unnecessary #This isn't about how many columns you group by; a lambda is needed because "range" isn't a built-in statistic, regardless of grouping structure.
+~<code>.agg()</code> cannot accept built-in function names at all, only lambdas #This contradicts every named-aggregation and list-of-functions example used all week, like <code>.agg(['mean', 'sum'])</code>.
+~A lambda is needed because <code>Age</code> is a categorical column, not numeric #<code>Age</code> is a numeric column; <code>max()</code> and <code>min()</code> (and their difference) are ordinary numeric operations.
 }

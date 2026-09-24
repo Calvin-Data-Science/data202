@@ -14,6 +14,6 @@ week_number: 5
 
 ## Materials
 
-- [Monday class](class_w05d1.ipynb)
-- [Wednesday class](class_w05d2.ipynb)
+- [Monday class](class_w05d1.ipynb) · [handout (PDF)](class_w05d1_handout.pdf)
+- [Wednesday class](class_w05d2.ipynb) · [handout (PDF)](class_w05d2_handout.pdf)
 - [Forum 2 instructions]({{ '/weeks/05/forum2/' | relative_url }})

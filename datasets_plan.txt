@@ -44,8 +44,16 @@ WEEK 4 — Relational Tables (joins, reshaping)
 ---
 
 WEEK 5 — Clustering & Dimensionality Reduction (k-means, PCA)
-  Mon (class_mon):    [ ]
-  Wed (class_wed):    [ ]
+  Mon (class_w05d1):  [x] listeners.csv  (fake; 180 rows x 3 cols: listener_id + hours_per_week, distinct_artists;
+                          deliberately only TWO features -- PCA doesn't arrive until Wednesday. Four loose groups, two of
+                          them overlapping, so elbow (says 4) and silhouette (says 3) slightly disagree.
+                          Regenerate with: python scripts/make_listeners.py)
+  Wed (class_w05d2):  [x] sklearn load_digits (built in, no CSV) -- used for everything, incl. the scaling demo
+                          (pixel 42 stored x100 = "different units")
+  Reading (reading4): [x] applicants.csv  (fake, UNLABELED; 300 credit applicants x 5 numeric cols: income $, history yrs,
+                          late payments, utilization %, open accounts. Income in dollars swamps unscaled k-means/PCA.
+                          PC1 stretched to 300-850 = a pseudo credit score; 'new to credit' group ranks below 'stretched'
+                          despite ~0 late payments. Regenerate with: python scripts/make_applicants.py)
   Practice:           [ ]
 
 ---

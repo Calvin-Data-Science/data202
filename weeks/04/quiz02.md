@@ -8,63 +8,89 @@ generates `quiz02_A.pdf` and `quiz02_B.pdf`
 for printing. This file is NOT published on the course site -- see
 `_config.yml` exclude list.)*
 
-## The Dataset: People Experiencing Homelessness
+## The Dataset: Esports Players
 
-`homeless` contains 100 simulated records of people experiencing
-homelessness, cleaned the same way as in Monday's class: standardized city
-names, shelter status, and education levels.
+`players` contains simulated records of competitive video game players, one
+row per player. The rows below are the **raw** data, exactly as loaded from
+the CSV. Question 1 works with this raw data; Questions 2--6 assume `players`
+has already been cleaned (standardized city names, ladder status, and skill
+levels).
 
-**Columns:** `id`, `years_homeless`, `family_size`, `monthly_support_usd`
-(numerical) \textperiodcentered\ `name`, `city`, `shelter_status`,
-`education_level` (categorical/text)
+**Columns:** `id`, `years_playing`, `sponsors`, `monthly_earnings_usd`
+(numerical) \textperiodcentered\ `handle`, `city`, `ladder_status`,
+`skill_level` (categorical/text)
 
-**First few rows (already cleaned):**
+**First few rows (raw --- before any cleaning):**
 
 **Version A sample rows:**
 
-| id | name | city | shelter_status | years_homeless | family_size | monthly_support_usd | education_level |
+| id | handle | city | ladder_status | years_playing | sponsors | monthly_earnings_usd | skill_level |
 |---|---|---|---|---|---|---|---|
-| 1 | Peter | New York | shelter | 6 | 1 | 186 | None |
-| 5 | Joseph | San Francisco | shelter | 2 | 5 | 37 | Higher |
-| 11 | Miguel | Chicago | unsheltered | 9 | 5 | 195 | Higher |
-| 17 | Joseph | Los Angeles | unsheltered | 12 | 1 | 273 | Higher |
-| 27 | John | San Francisco | shelter | 9 | 2 | 464 | None |
+| 3 | NOVA | toronto | unranked | 10 | 4 | 422 | ADVANCED |
+| 4 | blaze | SEOUL. | CASUAL | 14 | 3 | 37 | novice |
+| 6 | viper | L.A. | ranked , pending | 9 | 5 | 552 | ADVANCED |
+| 9 | pixel. | berlin | Ranked | 13 | 1 | 74 | expert |
+| 44 | ghost | NEW-YORK | RANK | 13 | 1 | 171 | amateur |
 
 **Version B sample rows:**
 
-| id | name | city | shelter_status | years_homeless | family_size | monthly_support_usd | education_level |
+| id | handle | city | ladder_status | years_playing | sponsors | monthly_earnings_usd | skill_level |
 |---|---|---|---|---|---|---|---|
-| 2 | Joseph | Boston | street | 10 | 2 | 366 | None |
-| 8 | Lucas | San Francisco | shelter temporary | 8 | 2 | 25 | Primary |
-| 21 | Lucas | Boston | unsheltered | 9 | 5 | 84 | None |
-| 39 | Anna | Los Angeles | shelter | 12 | 5 | 556 | Primary |
-| 59 | David | San Francisco | shelter | 11 | 2 | 264 | Secondary |
+| 15 | kiRA | NEW-YORK | Ranked | 14 | 4 | 579 | ADVANCED |
+| 16 | ZEPHYR | SEOUL. | ranked , pending | 10 | 4 | 286 | AMATEUR |
+| 35 | echo | berlin | unranked | 9 | 4 | 375 | EXPERT |
+| 45 | mochi. | los Angeles | RANK | 5 | 2 | 90 | novice |
+| 49 | NEO | toronto | CASUAL | 10 | 1 | 399 | ADVANCED |
 
 ## Question 1 (SLO 03A)
 
 **Version A:**
 
-Answer:
 ```python
-homeless["shelter_status"] = (
-    homeless["shelter_status"]
+players["ladder_status"] = (
+    players["ladder_status"]
     .str.strip()
     .str.lower()
-    .str.replace(r"^sheltered$", "shelter", regex=True)
+    .str.replace(r"^rank$", "ranked", regex=True)
 )
 ```
+
+- `.str.strip()` removes leading/trailing whitespace.
+- `.str.lower()` lowercases everything (`"Ranked"` → `"ranked"`, `"CASUAL"` → `"casual"`, `"RANK"` → `"rank"`).
+- `.str.replace(r"^rank$", "ranked", regex=True)` rewrites values that are *exactly* `"rank"` to `"ranked"`. The `^` and `$` anchors matter: `"ranked"` and `"unranked"` both contain `"rank"`, so without them they would be mangled into `"rankeded"` and `"unrankeded"`.
+- The result is assigned back to the column.
+
+| id | ladder_status (raw) | ladder_status (after) |
+|---|---|---|
+| 3 | `unranked` | `unranked` |
+| 4 | `CASUAL` | `casual` |
+| 6 | `ranked , pending` | `ranked , pending` |
+| 9 | `Ranked` | `ranked` |
+| 44 | `RANK` | `ranked` |
 
 **Version B:**
 
-Answer:
 ```python
-homeless["shelter_status"] = (
-    homeless["shelter_status"]
+players["ladder_status"] = (
+    players["ladder_status"]
     .str.strip()
     .str.lower()
-    .str.replace(r"shelter\s*,\s*pending", "shelter pending", regex=True)
+    .str.replace(r"ranked\s*,\s*pending", "ranked pending", regex=True)
 )
 ```
+
+- `.str.strip()` removes leading/trailing whitespace.
+- `.str.lower()` lowercases everything (`"Ranked"` → `"ranked"`, `"CASUAL"` → `"casual"`, `"RANK"` → `"rank"`).
+- `.str.replace(r"ranked\s*,\s*pending", "ranked pending", regex=True)` matches `"ranked"`, then any spaces, a comma, any spaces, then `"pending"`, and rewrites it as `"ranked pending"` (so `"ranked , pending"` → `"ranked pending"`).
+- Nothing here turns `"rank"` into `"ranked"`, so `"RANK"` ends up as `"rank"`; `"unranked"` is untouched.
+
+| id | ladder_status (raw) | ladder_status (after) |
+|---|---|---|
+| 15 | `Ranked` | `ranked` |
+| 16 | `ranked , pending` | `ranked pending` |
+| 35 | `unranked` | `unranked` |
+| 45 | `RANK` | `rank` |
+| 49 | `CASUAL` | `casual` |
 
 ## Question 2 (SLO 03B)
 
@@ -73,22 +99,20 @@ homeless["shelter_status"] = (
 Answer:
 ```python
 result = (
-    homeless.groupby("city")["monthly_support_usd"]
+    players.groupby("city")["monthly_earnings_usd"]
     .mean()
     .reset_index()
-    .sort_values("monthly_support_usd", ascending=False)
+    .sort_values("monthly_earnings_usd", ascending=False)
 )
 ```
-
-With `ascending=True`, cities would be sorted from LOWEST average to HIGHEST instead of highest to lowest.
 
 **Version B:**
 
 Answer:
 ```python
-result = homeless.groupby("education_level").agg(
-    n_people=("id", "count"),
-    avg_years=("years_homeless", "mean"),
+result = players.groupby("skill_level").agg(
+    n_players=("id", "count"),
+    avg_years=("years_playing", "mean"),
 )
 ```
 
@@ -100,19 +124,19 @@ Median would be LESS sensitive to the outlier (it resists extreme values); mean 
 
 | Question | Answer |
 |---|---|
-| What's the distribution of `monthly_support_usd` across all people? | Histogram -- x=monthly_support_usd |
-| How do `years_homeless` and `monthly_support_usd` relate to each other? | Scatter -- x=years_homeless, y=monthly_support_usd |
-| How does average `monthly_support_usd` change as `years_homeless` increases? | Line -- x=years_homeless, y=avg(monthly_support_usd) |
-| How does average `monthly_support_usd` compare across `city` values? | Bar -- x=city, y=avg(monthly_support_usd) |
+| What's the distribution of `monthly_earnings_usd` across all players? | Histogram -- x=monthly_earnings_usd |
+| How do `years_playing` and `monthly_earnings_usd` relate to each other? | Scatter -- x=years_playing, y=monthly_earnings_usd |
+| How does average `monthly_earnings_usd` change as `years_playing` increases? | Line -- x=years_playing, y=avg(monthly_earnings_usd) |
+| How does average `monthly_earnings_usd` compare across `city` values? | Bar -- x=city, y=avg(monthly_earnings_usd) |
 
 **Version B:**
 
 | Question | Answer |
 |---|---|
-| What's the distribution of `years_homeless` across all people? | Histogram -- x=years_homeless |
-| How do `family_size` and `monthly_support_usd` relate to each other? | Scatter -- x=family_size, y=monthly_support_usd |
-| How does average `family_size` change as `years_homeless` increases? | Line -- x=years_homeless, y=avg(family_size) |
-| How does average `years_homeless` compare across `shelter_status` values? | Bar -- x=shelter_status, y=avg(years_homeless) |
+| What's the distribution of `years_playing` across all players? | Histogram -- x=years_playing |
+| How do `sponsors` and `monthly_earnings_usd` relate to each other? | Scatter -- x=sponsors, y=monthly_earnings_usd |
+| How does average `sponsors` change as `years_playing` increases? | Line -- x=years_playing, y=avg(sponsors) |
+| How does average `years_playing` compare across `ladder_status` values? | Bar -- x=ladder_status, y=avg(years_playing) |
 
 ## Question 4 (SLO 02A) --- Review from Quiz 1
 
@@ -120,21 +144,21 @@ Median would be LESS sensitive to the outlier (it resists extreme values); mean 
 
 | # | Command | Answer |
 |---|---|---|
-| 1 | `homeless["monthly_support_usd"]` | Access -- Column |
-| 2 | `homeless["high_support"] = homeless["monthly_support_usd"] > 400` | Add -- Column |
-| 3 | `homeless = pd.concat([homeless, pd.DataFrame([new_row])], ignore_index=True)` | Add -- Row |
-| 4 | `homeless = homeless[homeless["shelter_status"] != "street"]` | Delete -- Row(s) |
-| 5 | `homeless = homeless.drop(columns=["notes"])` | Delete -- Column |
+| 1 | `players["monthly_earnings_usd"]` | Access -- Column |
+| 2 | `players["high_earner"] = players["monthly_earnings_usd"] > 400` | Add -- Column |
+| 3 | `players = pd.concat([players, pd.DataFrame([new_row])], ignore_index=True)` | Add -- Row |
+| 4 | `players = players[players["ladder_status"] != "casual"]` | Delete -- Row(s) |
+| 5 | `players = players.drop(columns=["skill_level"])` | Delete -- Column |
 
 **Version B:**
 
 | # | Command | Answer |
 |---|---|---|
-| 1 | `homeless["years_homeless"]` | Access -- Column |
-| 2 | `homeless["long_term"] = homeless["years_homeless"] > 10` | Add -- Column |
-| 3 | `homeless = pd.concat([homeless, pd.DataFrame([new_row])], ignore_index=True)` | Add -- Row |
-| 4 | `homeless = homeless[homeless["city"] != "Boston"]` | Delete -- Row(s) |
-| 5 | `homeless = homeless.drop(columns=["family_size"])` | Delete -- Column |
+| 1 | `players["years_playing"]` | Access -- Column |
+| 2 | `players["veteran"] = players["years_playing"] > 10` | Add -- Column |
+| 3 | `players = pd.concat([players, pd.DataFrame([new_row])], ignore_index=True)` | Add -- Row |
+| 4 | `players = players[players["city"] != "Berlin"]` | Delete -- Row(s) |
+| 5 | `players = players.drop(columns=["sponsors"])` | Delete -- Column |
 
 ## Question 5 (SLO 02B) --- Review from Quiz 1
 
@@ -142,16 +166,16 @@ Median would be LESS sensitive to the outlier (it resists extreme values); mean 
 
 Answer:
 ```python
-result = homeless[(homeless["shelter_status"] == "street") & (homeless["years_homeless"] > 10)]
-result = result.sort_values("years_homeless", ascending=False)
+result = players[(players["ladder_status"] == "casual") & (players["years_playing"] > 10)]
+result = result.sort_values("years_playing", ascending=False)
 ```
 
 **Version B:**
 
 Answer:
 ```python
-result = homeless[(homeless["city"] == "San Francisco") & (homeless["monthly_support_usd"] < 100)]
-result = result.sort_values("monthly_support_usd", ascending=True)
+result = players[(players["city"] == "Seoul") & (players["monthly_earnings_usd"] < 100)]
+result = result.sort_values("monthly_earnings_usd", ascending=True)
 ```
 
 ## Question 6 (SLO 02C) --- Review from Quiz 1
@@ -159,34 +183,34 @@ result = result.sort_values("monthly_support_usd", ascending=True)
 **Version A:**
 
 ```python
-px.scatter(homeless, x="years_homeless", y="monthly_support_usd",
-           symbol="shelter_status", size="family_size",
-           title="Years Homeless vs. Monthly Support")
+px.scatter(players, x="years_playing", y="monthly_earnings_usd",
+           symbol="ladder_status", size="sponsors",
+           title="Years Playing vs. Monthly Earnings")
 ```
 
 | Channel | Answer |
 |---|---|
-| x-axis | years_homeless -- Numerical |
-| y-axis | monthly_support_usd -- Numerical |
-| symbol | shelter_status -- Categorical |
-| size | family_size -- Numerical |
+| x-axis | years_playing -- Numerical |
+| y-axis | monthly_earnings_usd -- Numerical |
+| symbol | ladder_status -- Categorical |
+| size | sponsors -- Numerical |
 
 Plus a blank sketch box for the student to draw their prediction of the chart.
 
 **Version B:**
 
 ```python
-px.scatter(homeless, x="family_size", y="monthly_support_usd",
-           symbol="education_level", size="years_homeless",
-           title="Family Size vs. Monthly Support")
+px.scatter(players, x="sponsors", y="monthly_earnings_usd",
+           symbol="skill_level", size="years_playing",
+           title="Sponsors vs. Monthly Earnings")
 ```
 
 | Channel | Answer |
 |---|---|
-| x-axis | family_size -- Numerical |
-| y-axis | monthly_support_usd -- Numerical |
-| symbol | education_level -- Categorical |
-| size | years_homeless -- Numerical |
+| x-axis | sponsors -- Numerical |
+| y-axis | monthly_earnings_usd -- Numerical |
+| symbol | skill_level -- Categorical |
+| size | years_playing -- Numerical |
 
 Plus a blank sketch box for the student to draw their prediction of the chart.
 
