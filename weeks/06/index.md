@@ -14,5 +14,5 @@ week_number: 6
 
 ## Materials
 
-- [Monday class](class_w06d1.ipynb)
-- [Wednesday class](class_w06d2.ipynb)
+- [Monday class](class_w06d1.ipynb) · [handout (PDF)](class_w06d1_handout.pdf)
+- [Wednesday class](class_w06d2.ipynb) · [handout (PDF)](class_w06d2_handout.pdf)

@@ -16,3 +16,4 @@ week_number: 4
 
 - [Monday class](class_w04d1.ipynb)
 - [Wednesday class](class_w04d2.ipynb)
+- [Practice 03](dist/student/practice03.ipynb)

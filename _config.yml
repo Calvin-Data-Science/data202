@@ -14,7 +14,11 @@ exclude:
   - "grades/messages.txt"
   - "grades/practices/"
   - "deploy.ps1"
-  - "weeks/**/dist/autograder/"
+  # otter-grader: the autograder folder and the practice source notebooks both hold solutions and
+  # hidden tests -- only dist/student/ is published. Jekyll matches these with fnmatch, where "*"
+  # and "**" also cross "/" and a trailing "/" never matches a folder, so "??" pins the week folder.
+  - "weeks/??/dist/autograder"
+  - "weeks/??/practice??.ipynb"
   - "**/*.h5p"
   - "weeks/**/quiz*.md"
   - "weeks/**/quiz*.pdf"

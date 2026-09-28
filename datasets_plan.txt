@@ -54,13 +54,26 @@ WEEK 5 — Clustering & Dimensionality Reduction (k-means, PCA)
                           late payments, utilization %, open accounts. Income in dollars swamps unscaled k-means/PCA.
                           PC1 stretched to 300-850 = a pseudo credit score; 'new to credit' group ranks below 'stretched'
                           despite ~0 late payments. Regenerate with: python scripts/make_applicants.py)
-  Practice:           [ ]
+  Practice (practice04): [x] birdsong.csv  (REAL; Xeno-canto via BirdCLEF 2021, from old Practice 10's 359 MB pickle.
+                          4,268 short clips cut from 377 recordings of 5 species (~11 clips each) x 72 cols: metadata +
+                          band_00..band_63 = each clip's spectrogram averaged over time, + loudest_band. CC BY-NC-ND
+                          recordings dropped; file shared CC BY-NC-SA 4.0. Clusters don't recover species (ARI ~0.02) --
+                          they group clips of the same recording (83% share a cluster vs 33% for a species).
+                          Regenerate with: python scripts/make_birdsong.py [birdsong.pkl])
 
 ---
 
 WEEK 6 — Classification Basics (kNN, metrics, train/test split)
-  Mon (class_mon):    [ ]
-  Wed (class_wed):    [ ]
+  Mon (class_w06d1):  [x] penguins.csv  (REAL; Palmer penguins, Gorman et al. 2014 via the palmerpenguins package, CC0;
+                          344 rows, 2 without measurements. Features: bill_length_mm, bill_depth_mm only (same unit, no
+                          scaling). The model learns from 2007-08 (223 "known") and is checked on 2009 (119 "new") --
+                          no train/test split yet. k=1: known 100% / new 91.6%; best new k=3-5 (94.1%); from k=95 no
+                          new penguin is called a Chinstrap. Mystery penguins A/B/C = 2009 rows (49.1,14.5) Gentoo,
+                          (44.1,18.0) Adelie [k=1 says Gentoo, k=5 Adelie], (50.8,18.5) Chinstrap)
+  Wed (class_w06d2):  [x] penguins.csv  (same; all 342, train_test_split(test_size=0.3, random_state=24), k=5: test
+                          95.1%; 30 splits range 92.2-100%. Confusion matrix [[46,2,0],[1,18,1],[0,1,34]]:
+                          Chinstrap recall 18/20, precision 18/21; lazy "never Chinstrap" = 80.6% accuracy, recall 0.
+                          Handout numbers are typed into class_w06d2_handout.md -- change them with the split.)
   Practice:           [ ]
 
 ---

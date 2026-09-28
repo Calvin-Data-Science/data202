@@ -1,0 +1,5 @@
+otter-grader
+pandas>=3.0
+plotly
+scikit-learn
+statsmodels

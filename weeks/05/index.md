@@ -16,4 +16,5 @@ week_number: 5
 
 - [Monday class](class_w05d1.ipynb) · [handout (PDF)](class_w05d1_handout.pdf)
 - [Wednesday class](class_w05d2.ipynb) · [handout (PDF)](class_w05d2_handout.pdf)
+- [Practice 04](dist/student/practice04.ipynb)
 - [Forum 2 instructions]({{ '/weeks/05/forum2/' | relative_url }})

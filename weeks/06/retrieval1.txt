@@ -1,0 +1,76 @@
+// Week 06 Retrieval Quiz 1 — PCA and Scaling (+ Week 5 review) — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 6's Monday class, testing retrieval of Week 5 Wednesday's
+// class_w05d2 (what PC1 is, scaling before PCA, how many components to keep, a 2-D view
+// as a shadow) plus 2 review questions: reading an elbow (carried over from Week 5's
+// Retrieval 2) and clusters that don't match the labels (Practice 04).
+// Every question is self-contained: small generic examples with all needed facts in the
+// stem, so nothing depends on remembering the class datasets.
+// Code in every question is wrapped in <code>/<pre> tags for Moodle.
+// 6 questions, ~7 minutes.
+
+$CATEGORY: Week 06 / Retrieval 01
+
+// ── Section 1: What PCA Finds ────────────────────────────────────────────────
+
+::W06-R1-Q1 What PC1 is::
+PCA is run on a table of 500 houses with four numeric columns, all already on the same scale. What is PC1, the first principal component?{
+=The direction through the data along which the houses are most spread out (the most variance) — found without using any labels #Correct. PC1 is the view that shows the most variation; PC2 is the most spread left over, at a right angle to PC1. PCA never looks at labels.
+~The one original column with the largest numbers #PC1 is usually a mix of all four columns — a new direction, not one of the originals. A big-unit column can take it over, but that's a scaling problem, not what PC1 means.
+~The direction that best separates the houses by a label, such as sold or not sold #PCA doesn't know about labels — it is unsupervised. It looks for spread, which may or may not separate any groups you care about.
+~The average of the four columns for each house #An average weights every column the same, whatever the data looks like. PC1 is picked by where the data varies most.
+}
+
+// ── Section 2: Scaling Before PCA ────────────────────────────────────────────
+
+::W06-R1-Q2 Why scale before PCA::
+A table has two columns: annual income in dollars (from about 20,000 to 200,000) and age in years (from 18 to 90). You run PCA without scaling, and PC1 keeps more than 99.9% of the variance. What is going on, and what fixes it?{
+=Income's numbers are thousands of times bigger, so its variance swamps age's and PC1 is basically just income — scaling each column first with <code>StandardScaler</code> (z \= (value − mean) ÷ standard deviation) puts both on one ruler #Correct. PCA chases variance, and variance depends on units. After scaling, every column has mean 0 and standard deviation 1, so no column dominates just because of its units.
+~PCA found that age doesn't matter for this data #Age may matter a lot; it only looks small because years are small numbers next to dollars. With income in cents it would look even smaller — the "finding" comes from the units.
+~Nothing is wrong — one component keeping 99.9% of the variance is the best possible result #Here that is a warning sign, not a success. It means one column's units swamp the other, not that the data is simple.
+~Drop the income column, since PCA only works on columns with small numbers #PCA works with any numbers. The problem is comparing columns in different units, and scaling fixes it without throwing information away.
+}
+
+// ── Section 3: How Many Components? ──────────────────────────────────────────
+
+::W06-R1-Q3 How many components to keep::
+PCA on a table with 6 columns gives
+<pre>
+pca.explained_variance_ratio_  →  [0.45, 0.25, 0.12, 0.08, 0.06, 0.04]
+</pre>
+What is the smallest number of components that keeps at least 80% of the variance?{
+=3 — the running total is 0.45, then 0.70, then 0.82, the first to reach 0.80 #Correct. That running total is what <code>np.cumsum()</code> of <code>explained_variance_ratio_</code> gives. Keep components until it first reaches your target.
+~2 — the first two components are the biggest #Two components keep 0.45 + 0.25 \= 0.70, which is short of 0.80.
+~4 — keep every component above 0.05 #Four components keep 0.90, more than needed. The rule is the first time the running total reaches the target, not a cutoff for each component.
+~5 — 80% of the 6 columns is about 5 #80% of the variance is not 80% of the columns. The first components hold far more variance than the last ones, so a few can keep most of it.
+}
+
+// ── Section 4: A 2-D View Is a Shadow ────────────────────────────────────────
+
+::W06-R1-Q4 A 2-D PCA plot is a shadow::
+You reduce a table with 64 columns to 2 principal components and plot PC1 against PC2. Together they keep 30% of the variance. When you color the points by their known group, two groups overlap in the plot. What can you conclude?{
+=Not much yet — the plot is a 2-D shadow that keeps only 30% of the variation, so groups that overlap here may still be apart in the full 64 columns #Correct. A projection can stack points that are far apart in the directions it leaves out. Always ask how much variance a 2-D view keeps.
+~The two groups are the same in all 64 columns #Overlap in a shadow doesn't mean overlap in the original data — 70% of the variation isn't in this picture at all.
+~PCA failed, because a good PCA plot always separates the groups #PCA looks for spread, not separation, and it never saw the groups. It did its job; this view just doesn't separate them.
+~More points would separate the groups #More points only fill in the same shadow. Seeing other differences needs other components — other views — not more data.
+}
+
+// ── Section 5: Review — Reading the Elbow (from Week 5 Retrieval 2) ─────────
+
+::W06-R1-Q5 Review: reading the elbow (from Week 5 Retrieval 2)::
+Review from Week 5: k-means is fit for k = 1 to 6. The inertia (sum of squared distances from each point to its centroid) for each k is 1,000 · 420 · 250 · 225 · 205 · 190. Which k does the elbow method suggest?{
+=k \= 3 — after it, one more cluster barely lowers the inertia (a drop of 25, after drops of 580 and 170) #Correct. The elbow is where the curve flattens — big improvements up to k \= 3, small ones after. Past the elbow, extra clusters mostly split groups that were already fine.
+~k \= 6 — it has the lowest inertia #Inertia always falls as k grows (with one cluster per point it would be 0), so the lowest value just points to the biggest k you tried.
+~k \= 1 — the biggest drop comes right after it #The big drop from k \= 1 to k \= 2 says one cluster is far too few, not that one is right.
+~k \= 2 — the drop from 1 to 2 is the largest #The next drop, from 2 to 3, is still large (170). The curve only flattens after k \= 3.
+}
+
+// ── Section 6: Review — Clusters vs. Labels (Week 5, Practice 04) ────────────
+
+::W06-R1-Q6 Review: what the clusters capture (Practice 04)::
+Review from Week 5's practice: you run k-means (k = 4) on 800 photos of 4 dog breeds, taken by 40 photographers (20 photos each), using only the photos' pixel colors. A crosstab shows that every cluster mixes all 4 breeds, but almost all of each photographer's photos land in the same cluster. What is k-means most likely grouping by?{
+=How the photos were taken — each photographer's camera, lighting and backgrounds — rather than the breed #Correct. k-means groups whatever makes the numbers similar. Here the photographer leaves a stronger mark on the pixel colors than the breed does — like the birdsong clips that clustered by recording in Practice 04.
+~The breed, just with the cluster numbers shuffled #If the clusters followed breed, each cluster would be mostly one breed. The crosstab shows every cluster mixing all four.
+~Nothing — clusters that don't match the breeds are random #They aren't random. Photos by the same photographer keep landing together, so the clusters capture a real pattern — just not the one we hoped for.
+~The dogs' size, since k-means sorts data from small to large #k-means doesn't sort anything. It groups by distance between the columns you give it — here, pixel colors — and size is not one of them.
+}

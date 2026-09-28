@@ -93,7 +93,14 @@ def parse_forum_md(path: Path):
         if m:
             questions.append(m.group(1))
 
-    return topic, reading_paras, time_hint, questions
+    # The "## Submission" paragraph (photograph/scan + Moodle deadline), printed at the
+    # end of the worksheet. Links become plain text -- on paper, "[Forum Instructions](...)"
+    # (whose URL is Jekyll/Liquid) should just read "Forum Instructions".
+    sub_match = re.search(r"^## Submission\s*\n(.*?)(?:\n##|\Z)", text, re.DOTALL | re.MULTILINE)
+    submission = " ".join(sub_match.group(1).split()) if sub_match else ""
+    submission = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", submission)
+
+    return topic, reading_paras, time_hint, questions, submission
 
 
 def build_worksheet_md(forum_number: int, week: int) -> str:
@@ -103,7 +110,7 @@ def build_worksheet_md(forum_number: int, week: int) -> str:
     chapter_title = entry.get("book_chapter_title", "")
 
     forum_path = ROOT / "weeks" / f"{week:02d}" / f"forum{forum_number}.md"
-    topic, reading_paras, time_hint, questions = parse_forum_md(forum_path)
+    topic, reading_paras, time_hint, questions, submission = parse_forum_md(forum_path)
     if not questions:
         raise SystemExit(f"No discussion questions found in {forum_path}")
 
@@ -145,6 +152,10 @@ def build_worksheet_md(forum_number: int, week: int) -> str:
         body_parts.append(sketch_box(box_height))
         body_parts.append(raw_latex(r"\end{minipage}"))
         body_parts.append("\n\n")
+
+    if submission:
+        body_parts.append(raw_latex(r"\noindent\rule{\linewidth}{0.4pt}"))
+        body_parts.append(f"**Submission.** {submission}\n")
 
     return yaml_front + "".join(body_parts)
 
