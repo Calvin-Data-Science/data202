@@ -30,7 +30,25 @@ Draw right on the plots. They show the same data as today's slides: 1,797 handwr
 3. **Circle** every image that doesn't belong in its row.
 4. Which clusters are the most mixed?
 
-## 2 · One ruler for every column
+## 2 · Two views of the same digits
+
+![](plot:views){width=100%}
+
+1. Each character is one image (300 of the 1,797), drawn as its **true digit**.
+2. **Circle the 0s** in both views. In which view do they form one group?
+3. In the PCA view, name two digits that still **overlap**: ____ and ____
+
+\newpage
+
+## 3 · How many components?
+
+![](plot:cumulative)
+
+1. The share of the variance kept by the first $n$ of the 64 components.
+2. Mark where the curve reaches **80%**: ____ components.
+3. Mark where it reaches **90%**: ____ components.
+
+## 4 · One ruler for every column
 
 Pixel 42 of the first image, measured two ways: the usual darkness scale (0–16), and a scanner that stores that pixel ×100 (0–1,600). Compute its z-score in both units: **z = (value − column mean) ÷ column standard deviation**.
 
@@ -42,21 +60,3 @@ Pixel 42 of the first image, measured two ways: the usual darkness scale (0–16
 | **z-score** | ____ | ____ |
 
 What do you notice?
-
-\newpage
-
-## 3 · Two views of the same digits
-
-![](plot:views){width=100%}
-
-1. Each character is one image (300 of the 1,797), drawn as its **true digit**.
-2. **Circle the 0s** in both views. In which view do they form one group?
-3. In the PCA view, name two digits that still **overlap**: ____ and ____
-
-## 4 · How many components?
-
-![](plot:cumulative)
-
-1. The share of the variance kept by the first $n$ of the 64 components.
-2. Mark where the curve reaches **80%**: ____ components.
-3. Mark where it reaches **90%**: ____ components.

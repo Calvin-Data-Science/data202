@@ -5,14 +5,12 @@ Rebuild the PDF after editing:   python scripts/make_w06d2_handout.py
 How this file becomes the PDF:
   - "# ..."            the title line at the top of page 1
   - "## ..."           one handout part
-  - ![](plot:NAME)     the part's plot: splits (drawn by the script from datasets/penguins.csv,
-                       same data as the slides); optional width, e.g. ![](plot:splits){width=55%};
-                       under 80% the plot sits left and the text right, 80% or more it spans the page
   - ____               4+ underscores = a blank to write on (longer run = longer blank);
                        a line with only underscores = a full-width writing line
   - \newpage           start a new page
   - $k = 5$, **bold**, *italic*, numbered lists, | tables |: normal markdown
-The numbers in parts 2 and 3 come from the notebook's split (random_state=24, k = 5);
+Part 1's scores come from the notebook's five-split loop (k = 5). The numbers in parts 2
+and 3 come from the notebook's split (random_state=24, k = 5);
 change them together with the notebook.
 This comment block is not printed.
 -->
@@ -21,16 +19,23 @@ This comment block is not printed.
 
 Same penguins as today's slides: 342 penguins, split at random into 239 for training and 103 for testing. Your professor will tell you when to do each part.
 
-## 1 · 30 splits, 30 scores
+## 1 · Five splits, five scores
 
-![](plot:splits){width=55%}
+Same model ($k = 5$), same penguins; only `random_state` changes.
 
-1. Each dot is one random split: same model ($k = 5$), same penguins. $\star$ = our split.
-2. Lowest score: ____ %
+| split | random_state | test accuracy |
+|:--|--:|--:|
+| **ours** | 24 | 95.1% |
+| another | 15 | 92.2% |
+| another | 1 | 93.2% |
+| another | 7 | 97.1% |
+| another | 19 | 100.0% |
+
+1. Lowest score: ____ %
 
    Highest score: ____ %
 
-3. **Circle** the split you'd be tempted to report.
+2. **Circle** the split you'd be tempted to report.
 
 ## 2 · Build the confusion matrix
 

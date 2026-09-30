@@ -16,3 +16,4 @@ week_number: 6
 
 - [Monday class](class_w06d1.ipynb) · [handout (PDF)](class_w06d1_handout.pdf)
 - [Wednesday class](class_w06d2.ipynb) · [handout (PDF)](class_w06d2_handout.pdf)
+- [Practice 05](dist/student/practice05.ipynb)
