@@ -3,24 +3,27 @@
 Turn a Gradescope quiz export (Quiz_NN_scores.csv) into mastery marks (A/P/N)
 on the Marks sheet of grades.xlsx.
 
-Each quiz CSV has one column per SLO, headed like "1: SLO 02A (2.0 pts)".
-The score in each column is already a mastery level:
+Each quiz CSV has one column per SLO, headed like "1: SLO 02A (2.0 pts)" or
+"1: 02A (1.0 pts)". The score is rescaled by the column's max points to a
+mastery level (so 0/1/2 out of 2 and 0/0.5/1 out of 1 both work):
 
-    0 -> N
-    1 -> P
-    2 -> A
+    0%   -> N
+    50%  -> P
+    100% -> A
 
 and is written to the "<SLO>-Quiz" column (e.g. "02A-Quiz") of the matching
-student's row, matched by First+Last name.
+student's row, matched by First+Last name. Two columns for the same SLO in one
+CSV is treated as an error (usually a mislabeled question in Gradescope).
 
 Only students with a graded submission are marked. Rows whose Status is
 "Missing" (no submission, blank scores) are left blank rather than marked N,
 same as the practice script leaves ungradable submissions for follow-up.
 Any score that isn't exactly 0, 1 or 2 is reported and left blank.
 
-Cells that already hold a value are left untouched, same policy as
-update_attendance_from_quiz.py and assign_practice_grades.py — pass --force
-to overwrite them with what the CSV says.
+Quizzes include retakes of earlier SLOs, and only the best attempt counts:
+a cell that already holds a mark is upgraded if the CSV is better
+(N < P < A) and otherwise kept. Re-running over every quiz CSV is therefore
+safe. Pass --force to overwrite with exactly what the CSV says instead.
 
 Usage:
     cd grades/
@@ -42,8 +45,10 @@ from datetime import datetime
 import openpyxl
 
 QUIZ_CSV_GLOB = "Quiz_*_scores.csv"
-SLO_COL_RE = re.compile(r"SLO\s+(\d{2}[A-Z])\b")
+SLO_COL_RE = re.compile(r"^\s*\d+:\s*(?:SLO\s+)?(\d{2}[A-Z])\b")
+PTS_RE = re.compile(r"\(([\d.]+)\s*pts?\)")
 LEVELS = {0: "N", 1: "P", 2: "A"}
+RANK = {"N": 0, "P": 1, "A": 2}
 
 
 def norm(s):
@@ -64,11 +69,17 @@ def load_quiz_marks(csv_path):
     if not rows:
         sys.exit(f"{csv_path}: no rows found")
 
-    slo_cols = {}
+    slo_cols, max_pts = {}, {}
     for col in rows[0].keys():
         m = SLO_COL_RE.search(col or "")
         if m:
-            slo_cols[m.group(1)] = col
+            slo = m.group(1)
+            if slo in slo_cols:
+                sys.exit(f"{csv_path}: SLO {slo} appears in two columns ({slo_cols[slo]!r} and {col!r}) "
+                         f"— fix the mislabeled header in the CSV")
+            slo_cols[slo] = col
+            p = PTS_RE.search(col)
+            max_pts[slo] = float(p.group(1)) if p else 2.0
     if not slo_cols:
         sys.exit(f"{csv_path}: no columns matching 'SLO NNX' found (headers: {list(rows[0].keys())})")
     slos = sorted(slo_cols)
@@ -90,7 +101,8 @@ def load_quiz_marks(csv_path):
                 per_slo[slo] = None
                 continue
             try:
-                level = LEVELS.get(float(raw)) if float(raw).is_integer() else None
+                scaled = float(raw) / max_pts[slo] * 2
+                level = LEVELS.get(round(scaled)) if abs(scaled - round(scaled)) < 1e-9 else None
             except ValueError:
                 level = None
             if level is None:
@@ -144,7 +156,12 @@ def process_csv(ws, header, csv_path, dry_run, force):
             cell = ws.cell(row_idx, col_idx)
             old_val = cell.value
             if old_val is not None and not force:
-                if old_val != new_val:
+                # Best attempt counts: upgrade a worse mark, keep an equal or better one.
+                if old_val in RANK and RANK[new_val] > RANK[old_val]:
+                    changes.append((row_idx, display[key], slo, old_val, new_val))
+                    if not dry_run:
+                        cell.value = new_val
+                elif old_val not in RANK and old_val != new_val:
                     skipped.append((row_idx, display[key], slo, old_val, new_val))
                 continue
             if old_val != new_val:
@@ -157,7 +174,7 @@ def process_csv(ws, header, csv_path, dry_run, force):
         print(f"    row {r:>2}  {name:<28} {slo}-Quiz  {old!r:>6} -> {new!r}")
 
     if skipped:
-        print(f"  {len(skipped)} cell(s) already had a different value and were left as-is "
+        print(f"  {len(skipped)} cell(s) held a non-A/P/N value and were left as-is "
               f"(pass --force to overwrite):")
         for r, name, slo, old, new in skipped:
             print(f"    row {r:>2}  {name:<28} {slo}-Quiz  kept {old!r} (CSV says {new!r})")

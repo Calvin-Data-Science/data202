@@ -14,5 +14,5 @@ week_number: 7
 
 ## Materials
 
-- [Monday class](class_w07d1.ipynb)
-- [Wednesday class](class_w07d2.ipynb)
+- [Monday class](class_w07d1.ipynb) · [handout (PDF)](class_w07d1_handout.pdf)
+- [Wednesday class](class_w07d2.ipynb) · [handout (PDF)](class_w07d2_handout.pdf)

@@ -1,0 +1,80 @@
+// Week 06 Retrieval Quiz 2 — k-Nearest Neighbors and Choosing k (+ Practice 04 review) — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 6's Wednesday class, testing retrieval of Monday's
+// class_w06d1 (the kNN recipe and k = 1 vs. k = 5, why k = 1 scores 100% on its own
+// data, reading over/underfitting from a k curve, large k outvoting a small group)
+// plus 2 review questions from Practice 04 (no elbow + low silhouette; scaling columns
+// that already share one unit).
+// Every question is self-contained: small generic examples with all needed facts in the
+// stem, so nothing depends on remembering the class datasets.
+// Code in every question is wrapped in <code>/<pre> tags for Moodle.
+// 6 questions, ~7 minutes.
+
+$CATEGORY: Week 06 / Retrieval 02
+
+// ── Section 1: Ask the Neighbors ─────────────────────────────────────────────
+
+::W06-R2-Q1 The kNN vote::
+A kNN model sorts fruit into lemons and oranges by weight and color. For a new fruit, its 5 nearest known fruits, from closest to farthest, are: lemon, orange, orange, lemon, orange. What do k = 1 and k = 5 predict?{
+=k \= 1 says lemon; k \= 5 says orange #Correct. k \= 1 copies the single closest fruit (a lemon). k \= 5 takes the 5 closest and votes — 3 oranges against 2 lemons, so orange wins.
+~Both say lemon, because the closest fruit counts the most #In plain kNN every one of the k neighbors gets one vote, however close it is. With k \= 5 the closest lemon is outvoted 3 to 2.
+~Both say orange, because orange is the majority #The majority only matters when k is bigger than 1. k \= 1 looks at one neighbor — the closest — and that one is a lemon.
+~k \= 1 says orange; k \= 5 says lemon #That's reversed. The single nearest neighbor is a lemon, and among the 5 nearest the oranges win 3 to 2.
+}
+
+// ── Section 2: Scored on What It Learned From ────────────────────────────────
+
+::W06-R2-Q2 Why k = 1 scores 100%::
+A kNN model with k = 1 is scored on the same 400 rows it learned from and gets 100% accuracy. On 150 new rows it gets 82%. Why the perfect score?{
+=Each of the 400 rows' nearest neighbor is itself, so the model just repeats the labels it memorized — that score says little about new rows #Correct. Scoring on the data a model learned from rewards memorizing. Only the new rows show how it does on cases it hasn't seen — the 82% is the honest number.
+~The model found the true pattern in the data, and the new rows must be mislabeled #A perfect score on seen data doesn't prove a true pattern. k \= 1 gets 100% on its own data whatever the data looks like, because each row votes for itself.
+~400 rows is enough data for any model to be perfect #The number of rows isn't the reason. With k \= 1, even 10 rows or 10,000 rows would score 100% on themselves.
+~k \= 1 is the best k, since no other k can beat 100% #The best k is judged on new data, not on the data it learned from. On new rows, k \= 1 often loses to a larger k.
+}
+
+// ── Section 3: Choosing k ────────────────────────────────────────────────────
+
+::W06-R2-Q3 Reading the k curve::
+kNN is fit with several values of k and scored two ways:
+<pre>
+  k    on data it learned from    on new data
+  1             1.00                 0.82
+  5             0.95                 0.90
+ 15             0.92                 0.91
+ 51             0.85                 0.84
+151             0.70                 0.70
+</pre>
+Which reading is right?{
+=k \= 15 fits best; k \= 1 is overfitting (great on known data, worse on new); k \= 151 is underfitting (poor on both) #Correct. Overfitting shows as a gap — high on the data it learned from, lower on new data. Underfitting is low everywhere. Pick k by the new-data column.
+~k \= 1 fits best, because it has the highest score #That 1.00 is on the data it learned from, where k \= 1 is always perfect. On new data, k \= 1 is the second worst.
+~k \= 151 fits best, because its two scores are equal #Equal scores mean no memorizing, but both are low — the model is too simple to catch the pattern. That's underfitting, not a good fit.
+~k \= 1 is underfitting and k \= 151 is overfitting #That's reversed. Small k is the most flexible model (every odd point gets its own island); large k is the most rigid.
+}
+
+::W06-R2-Q4 Large k and a small group::
+A kNN model learns from 500 people: 420 in group A, 60 in group B and 20 in group C. With k = 101, it never predicts group C for anyone — not even for the people right in the middle of group C's region. What is going on?{
+=With 101 neighbors, the bigger groups outvote group C almost everywhere — the model is too simple (underfitting), and the smallest group pays for it #Correct. Group C has only 20 people, so it can never win a vote of 101 by itself. A large k smooths the map until small groups disappear — harmless for penguins, but serious when the dots are people.
+~The model is overfitting group C #Overfitting is the opposite — too flexible, following every odd point. Never predicting a whole group is a sign of a model that is too simple.
+~Group C's people must be mislabeled #Nothing about the labels needs to be wrong. Any group with fewer than about half of 101 members will struggle to win the vote.
+~k \= 101 is too small; a larger k would find group C #A larger k makes it worse. More neighbors means more votes from the big groups — with k \= 500 the model would say group A for everyone.
+}
+
+// ── Section 4: Review — How Clear Are the Groups? (Week 5, Practice 04) ──────
+
+::W06-R2-Q5 Review: no elbow and a low silhouette (Practice 04)::
+Review from Week 5's practice: you fit k-means for k = 2 to 10 on a dataset you know has 5 categories. The inertia falls smoothly with no sharp elbow, and the silhouette score (from −1 to 1, higher is better) is highest at k = 2, where it is only 0.29. What do the two plots together say?{
+=The rows don't form clearly separated groups in these columns — any k is a judgment call, and knowing there are 5 categories doesn't mean the data has 5 clusters #Correct. A sharp elbow and a high silhouette would both point to clear groups. Neither shows up here, so k-means is cutting one fuzzy cloud wherever you tell it to.
+~k \= 2 is clearly right, because it has the best silhouette #It is the best of the k's tried, but 0.29 is low — the groups overlap a lot. "Best" doesn't mean "good."
+~k \= 5 is right, because the data has 5 categories #The categories are something we know from outside. Neither plot points to 5 — the columns may capture something other than the categories.
+~k \= 10 is right, because inertia is lowest there #Inertia always falls as k grows, so the lowest value just points to the biggest k you tried.
+}
+
+// ── Section 5: Review — Scale or Not? (Week 5, Practice 04) ──────────────────
+
+::W06-R2-Q6 Review: scaling columns in one unit (Practice 04)::
+Review from Week 5's practice: a table has 64 columns, all measuring loudness in the same unit, but some vary much more than others (standard deviations from 0.04 to 0.28). Should you use <code>StandardScaler</code> before PCA?{
+=It isn't needed — the columns already share one unit, and scaling would make the quiet, barely-varying columns count as much as the lively ones #Correct. Scaling fixes columns in different units (dollars next to years). When the units are the same, the differences in spread are real information, and PCA should be allowed to use them.
+~Yes, always — PCA never works without scaling #PCA works on any numbers. Scaling is a fix for mixing units, not a required step.
+~Yes, because the column with standard deviation 0.28 is a mistake #A column varying more isn't a mistake. In one shared unit, it just means that column changes more from row to row.
+~No, because scaling changes which rows are in the data #Scaling never adds or drops rows. It only re-expresses each column as (value − mean) ÷ standard deviation.
+}
