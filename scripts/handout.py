@@ -81,8 +81,8 @@ def parse(md_text):
 
 
 def build_md(title, intro, parts, plots):
-    preamble = (PREAMBLE % dict(header_left=tex_escape(title))).replace(
-        r"\usepackage[margin=1in]{geometry}", r"\usepackage[margin=0.6in]{geometry}" "\n" r"\usepackage{graphicx}")
+    preamble = (PREAMBLE % dict(header_left=tex_escape(title), margin="0.6in")).replace(
+        r"\usepackage[margin=0.6in]{geometry}", r"\usepackage[margin=0.6in]{geometry}" "\n" r"\usepackage{graphicx}")
     out = [
         "---\npapersize: letter\ngeometry: margin=0.6in\nfontsize: 11pt\nheader-includes:\n  - |\n"
         + "\n".join("    " + line for line in preamble.strip("\n").splitlines())

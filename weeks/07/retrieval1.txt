@@ -1,0 +1,93 @@
+// Week 07 Retrieval Quiz 1 — Train/Test Splits and Metrics (+ Week 6 review) — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 7's Monday class, testing retrieval of Week 6 Wednesday's
+// class_w06d2 (why shuffle before splitting, another split → another score, precision and
+// recall from a confusion matrix, a lazy model on a rare group) plus 2 carry-overs from
+// Week 6's Retrieval 2 (why k = 1 scores 100% on its own data; reading the k curve) and
+// 1 review from Practice 05 (fit the vectorizer on the training messages only).
+// Every question is self-contained: small generic examples with all needed facts in the
+// stem, so nothing depends on remembering the class datasets.
+// Code in every question is wrapped in <code>/<pre> tags for Moodle.
+// 7 questions, ~8 minutes.
+
+$CATEGORY: Week 07 / Retrieval 01
+
+// ── Section 1: Hold Some Rows Out ────────────────────────────────────────────
+
+::W07-R1-Q1 Why shuffle before splitting::
+A file of 600 patient records is sorted by diagnosis: the first 400 rows are healthy patients, the last 200 are sick. You train a model on the first 420 rows and test it on the last 180 rows, without shuffling. What goes wrong?{
+=The training set has 400 healthy patients and only 20 sick ones, while the test set is all sick patients — the two sets look nothing alike, so the score says little about new patients. <code>train_test_split</code> shuffles first to avoid this #Correct. Shuffling puts every kind of row on both sides, so the test set looks like the data the model learned from — and like the patients it will meet.
+~Nothing — 420 training rows and 180 test rows is the right 70/30 split #The sizes are right, but which rows land on each side matters too. Cutting a sorted file puts different kinds of patients on each side.
+~The model will memorize the test set #The test rows never go into <code>fit</code>, so the model can't memorize them. The problem is that the model barely saw a sick patient, and the test is only sick patients.
+~The test set is too small, so a 50/50 split is needed #A 50/50 cut of a sorted file still puts mostly healthy rows on one side and mostly sick rows on the other. The fix is shuffling, not a different size.
+}
+
+// ── Section 2: Another Split, Another Score ─────────────────────────────────
+
+::W07-R1-Q2 Five splits, five scores::
+The same kNN model (k = 5) is tested on five different random train/test splits of the same data, changing only <code>random_state</code>. The test accuracies are 0.86, 0.91, 0.83, 0.97 and 0.88. A report says "our model is 97% accurate." What is the problem?{
+=It picks the luckiest split — the same model scores anywhere from 83% to 97% depending on which rows land in the test set, so one number from one split oversells it #Correct. A test score comes from one split. Showing the range (or the average, about 0.89) is more honest, and Wednesday's cross-validation does this on purpose.
+~Nothing — 97% is a real score the model earned #It is a real score on those test rows, but the same model scored 83% on another split. Reporting only the best one hides how much the score depends on luck.
+~The model changed between the splits, so the scores can't be compared #The model and its settings stayed the same — only the rows chosen for the test set changed. That is exactly why the spread is a warning.
+~The 83% split must have had a mistake in it, so it should be dropped #Nothing went wrong in that split. Dropping the low scores and keeping the high ones is the same cherry-picking problem.
+}
+
+// ── Section 3: Precision and Recall ─────────────────────────────────────────
+
+::W07-R1-Q3 Precision and recall from the matrix::
+A model screens 200 test patients for a disease (rows are the true label, columns the prediction):
+<pre>
+                 predicted sick   predicted healthy
+truly sick             20                 5
+truly healthy          10               165
+</pre>
+What are the model's recall and precision for "sick"?{
+=Recall \= 20 ÷ 25 \= 0.80 (it found 20 of the 25 sick patients); precision \= 20 ÷ 30 ≈ 0.67 (of the 30 it called sick, 20 really are) #Correct. Recall reads across the "truly sick" row; precision reads down the "predicted sick" column. The 10 healthy patients called sick are false positives and lower precision; the 5 missed patients are false negatives and lower recall.
+~Recall ≈ 0.67 and precision \= 0.80 #That's reversed. Recall asks "of the truly sick, how many did we find?" (the row, 20 ÷ 25). Precision asks "of those we called sick, how many are?" (the column, 20 ÷ 30).
+~Both are 0.925, the share of patients classified correctly #0.925 \= (20 + 165) ÷ 200 is the accuracy. Precision and recall look only at the "sick" class, and here they are both lower.
+~Recall \= 20 ÷ 200 \= 0.10 #Recall divides by the number of truly sick patients (25), not by all 200 patients.
+}
+
+::W07-R1-Q4 A lazy model on a rare group::
+Out of 1,000 credit-card transactions in a test set, 30 are fraud. A lazy "model" says "not fraud" for every transaction. What are its accuracy and its recall for fraud?{
+=Accuracy 97%, recall 0 — it looks excellent while catching no fraud at all #Correct. When the group you care about is rare, saying "no" to everyone scores high accuracy. Recall shows what accuracy hides — of the 30 frauds, it found none.
+~Accuracy 3%, recall 0 #The lazy model is right on all 970 normal transactions, so its accuracy is 970 ÷ 1,000 \= 97%, not 3%.
+~Accuracy 97%, recall 97% #Recall asks "of the 30 real frauds, how many did we catch?" The lazy model caught none, so recall is 0.
+~It can't be scored, because it never predicts fraud #It can be scored, and that is the point. Its accuracy (97%) looks great; its recall (0) shows it is useless for finding fraud.
+}
+
+// ── Section 4: Review — Scored on What It Learned From (Week 6 Retrieval 2) ──
+
+::W07-R1-Q5 Review: why k = 1 scores 100% (from Week 6 Retrieval 2)::
+Review from Week 6: a teammate fits kNN with k = 1 on all 300 rows of a dataset, then scores it on the same 300 rows and gets 100% accuracy. They conclude the model is perfect. What should you tell them?{
+=Each row's nearest neighbor is itself, so k \= 1 just repeats the labels it memorized — to see how it does on new rows, score it on a test set that never went into <code>fit</code> #Correct. Scoring on the data a model learned from rewards memorizing. Hold some rows out first, then fit on the rest.
+~They're right — 100% means the model found the true pattern #k \= 1 scores 100% on its own data whatever the data looks like, even if the labels were random. That number can't tell a real pattern from memorizing.
+~Use k \= 300 instead, so every row is used #With k \= 300 every row gets the same vote of all 300 rows — the model predicts the majority label for everyone. That is underfitting, and it still doesn't test on new rows.
+~Score it on the same 300 rows again, with a different <code>random_state</code> #Re-scoring the same rows gives the same 100%. The fix is to score on rows the model has never seen.
+}
+
+::W07-R1-Q6 Review: reading the k curve (from Week 6 Retrieval 2)::
+Review from Week 6: kNN is fit with several values of k and scored two ways:
+<pre>
+  k    on data it learned from    on new data
+  1             1.00                 0.79
+  7             0.93                 0.88
+ 25             0.89                 0.87
+101             0.74                 0.73
+</pre>
+Which reading is right?{
+=k \= 7 fits best; k \= 1 is overfitting (perfect on known data, much worse on new); k \= 101 is underfitting (poor on both) #Correct. Overfitting shows as a gap between the two columns; underfitting is low in both. Choose k by the new-data column — and remember that column comes from one split.
+~k \= 1 fits best, because it has the highest score #Its 1.00 is on the data it learned from, where k \= 1 is always perfect. On new data it is the second worst.
+~k \= 101 fits best, because its two scores are almost equal #A small gap means no memorizing, but both scores are low — the model is too simple. That is underfitting.
+~k \= 1 is underfitting and k \= 101 is overfitting #That's reversed. A small k is the most flexible model; a large k is the most rigid.
+}
+
+// ── Section 5: Review — Test Messages Never Go Into fit (Practice 05) ────────
+
+::W07-R1-Q7 Review: fitting the vectorizer (Practice 05)::
+Review from Week 6's practice: to build a spam filter, a teammate runs the TF-IDF vectorizer's <code>fit_transform</code> on all 5,000 messages (it builds the word list and learns how rare each word is), and only then splits the messages into training and test sets. What is wrong?{
+=The test messages helped build the word list, so information from the "new" messages leaked into the model and the test score will likely be too optimistic — fit on the training messages, then only <code>transform</code> the test messages #Correct. A real filter meets tomorrow's messages with words it learned from past ones. The rule "test rows never go into <code>fit</code>" applies to every step that learns from data, not just the model.
+~Nothing — the vectorizer only counts words; it doesn't learn anything about spam #It doesn't see the labels, but it does learn from the data — which words exist and how rare they are. Learning that from the test messages lets them shape the model.
+~It is slower, but the scores will be the same #The scores can change. Words that appear only in test messages get columns (and rarity weights) they wouldn't get in real use.
+~The test messages should be vectorized with their own separate <code>fit_transform</code> #Fitting the test messages on their own would build a different word list, so their columns wouldn't match the training columns. Use the training vocabulary, with <code>transform</code>.
+}

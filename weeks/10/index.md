@@ -14,6 +14,6 @@ week_number: 10
 
 ## Materials
 
-- [Monday class](class_w10d1.ipynb)
-- [Wednesday class](class_w10d2.ipynb)
+- [Monday class](class_w10d1.ipynb) · [handout (PDF)](class_w10d1_handout.pdf)
+- [Wednesday class](class_w10d2.ipynb) · [handout (PDF)](class_w10d2_handout.pdf)
 - [Forum 4 instructions]({{ '/weeks/10/forum4/' | relative_url }})

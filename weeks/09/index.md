@@ -14,5 +14,5 @@ week_number: 9
 
 ## Materials
 
-- [Monday class](class_w09d1.ipynb)
-- [Wednesday class](class_w09d2.ipynb)
+- [Monday class](class_w09d1.ipynb) · [handout (PDF)](class_w09d1_handout.pdf)
+- [Wednesday class](class_w09d2.ipynb) · [handout (PDF)](class_w09d2_handout.pdf)

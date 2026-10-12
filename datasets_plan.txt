@@ -79,26 +79,46 @@ WEEK 6 — Classification Basics (kNN, metrics, train/test split)
 ---
 
 WEEK 7 — Decision Trees & Hyperparameter Tuning
-  Mon (class_mon):    [ ]
-  Wed (class_wed):    [ ]
-  Practice:           [ ]
+  Mon (class_w07d1):  [x] autism.csv  (REAL; Howsmon et al. 2017, CC BY 4.0; fGSH + GSSG only, ASD vs. NEU)
+  Wed (class_w07d2):  [x] autism.csv  (same split; cross-validation + grid search)
+  Practice:           -- no Friday class (Fall Break); Week 7's practice is Practice 06 in Week 8
 
 ---
 
-WEEK 8 — Fall Break (no class)
+WEEK 8 — Fall Break Mon–Wed; class meets Friday only
+  Fri:                [x] Practice 06 on species.csv  (SIMULATED by scripts/make_species.py; rectangle rules +
+                          25% out-of-place sightings, so the ceiling is ~0.80. Split test_size=0.2, stratify,
+                          random_state=42. Depth 2 test 0.63; best CV depth 4 = 0.781, test 0.805; full tree
+                          228 leaves, train 1.0 / CV 0.63 / test 0.655. Practices Week 7's SLOs 07A–07C.)
 
 ---
 
 WEEK 9 — Feature Engineering (scaling, encoding, pipelines, imputation)
-  Mon (class_mon):    [ ]
-  Wed (class_wed):    [ ]
+  Mon (class_w09d1):  [x] titanic.csv  (REAL; titanic3, T. Cason / Encyclopedia Titanica, via F. Harrell, Vanderbilt;
+                          built by scripts/make_titanic.py. Today: the 1,043 rows with age, fare, embarked;
+                          split test_size=0.25, stratify, random_state=1 -> 782/261. kNN 5 numeric: raw CV 0.633,
+                          scaled 0.682; tree depth 4: 0.684 both. + sex/embarked one-hot: 0.761. Grid k: best 25
+                          (CV 0.772, test 0.812); k=1 train 0.988 / CV 0.714. Handout A/B/C = Colley, Davies, Chaffee)
+  Wed (class_w09d2):  [x] titanic.csv  (same; all 1,309, same split recipe -> 981/328. Age blank: 1st 12%,
+                          2nd 6%, 3rd 29%; survival 41% with age vs 28% without. Dropping: 3rd class 54% -> 48%,
+                          survival 38.2% -> 40.7%. Mean fill: 189 training rows at 30.0, sd 14.7 -> 13.2. Pipeline
+                          k=25: drop 0.781 (790 rows), mean/median 0.785, median+indicator 0.787, KNNImputer 0.786;
+                          final test 0.771)
   Practice:           [ ]
 
 ---
 
 WEEK 10 — Linear Regression (Ridge/Lasso, MAE/RMSE/R²)
-  Mon (class_mon):    [ ]
-  Wed (class_wed):    [ ]
+  Mon (class_w10d1):  [x] ames.csv  (REAL; De Cock 2011, Ames City Assessor; built by scripts/make_ames.py,
+                          houses > 4,000 sq ft removed -> 2,925. Split test_size=0.25, random_state=1 -> 2,193/732.
+                          One line: price = 9,194 + 114.97 x area; test MAE $38,028, RMSE $55,055, R² 0.53
+                          (mean model RMSE $80,440). Bedrooms +$14,077 alone, -$31,152 with area. 47-column pipeline:
+                          test MAE $18,960, RMSE $27,193, R² 0.885; CV R² 0.870. % error by price fifth: one line
+                          +50% cheapest / -15% priciest; full +4% / -3%)
+  Wed (class_w10d2):  [x] ames.csv  (same split; + all products of two numeric columns -> 237 columns. OLS train
+                          RMSE $19,548 / CV $28,958 (Monday $27,069 / $27,876); coefficients ~1e15. Ridge best
+                          alpha 300, CV $25,106; Lasso best alpha 300, CV $24,222, 105 kept; alpha 1,000: $24,510,
+                          58 kept. Test RMSE: OLS $21,874, Ridge $22,093, Lasso $21,172)
   Practice:           [ ]
 
 ---

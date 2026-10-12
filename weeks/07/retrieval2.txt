@@ -1,0 +1,102 @@
+// Week 07 Retrieval Quiz 2 — Decision Trees and Pruning (+ Week 7 Retrieval 1 review) — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 7's Wednesday class, testing retrieval of Monday's
+// class_w07d1 (reading a node, following a tree, reading the depth curve, pruning to stop
+// overfitting, why choosing a setting by the test score is a problem) plus 2 carry-overs
+// from Week 7's Retrieval 1 (precision and recall from a matrix; five splits, five scores).
+// Every question is self-contained: small generic examples with all needed facts in the
+// stem, so nothing depends on remembering the class datasets.
+// Code in every question is wrapped in <code>/<pre> tags for Moodle.
+// 7 questions, ~8 minutes.
+
+$CATEGORY: Week 07 / Retrieval 02
+
+// ── Section 1: Reading a Tree ────────────────────────────────────────────────
+
+::W07-R2-Q1 Reading a node::
+A decision tree for loan applications has this box (node) in its plot:
+<pre>
+income <= 52.5
+gini = 0.469
+samples = 80
+value = [30, 50]
+class = approve
+</pre>
+The classes are in the order [deny, approve]. What does this box tell you?{
+=80 applicants reach this box — 30 denied and 50 approved, so it predicts "approve" (the majority) — and the gini of 0.469 says the box is still quite mixed. Next it asks whether income is at most 52.5 #Correct. <code>value</code> counts each class in the box, <code>class</code> is the majority (the prediction if the tree stopped here), and <code>gini</code> runs from 0 (all one class) to 0.5 (half and half, for two classes).
+~The tree is 46.9% accurate on these 80 applicants #Gini is not accuracy. It measures how mixed the box is — 0.469 is close to the 0.5 of a 50/50 box. If the tree stopped here, it would be right on 50 of 80 (62.5%).
+~Every applicant in this box is approved, because <code>class \= approve</code> #<code>class</code> is just the majority. 30 of the 80 applicants here were denied, and the tree would get them wrong if it stopped at this box.
+~Applicants with income at most 52.5 are approved #The first line is the question the box asks next, not a decision. Those applicants go left, where the tree asks more or makes its prediction.
+}
+
+::W07-R2-Q2 Following a tree::
+A decision tree predicts whether a student passes a course:
+<pre>
+hours <= 4.5 ?
+├─ yes → attendance <= 70 ?
+│         ├─ yes → FAIL
+│         └─ no  → PASS
+└─ no  → sleep <= 5.5 ?
+          ├─ yes → FAIL
+          └─ no  → PASS
+</pre>
+A student has hours = 6, attendance = 60 and sleep = 7. What does the tree predict?{
+=PASS — 6 is not ≤ 4.5, so go right; then 7 is not ≤ 5.5, so go right again #Correct. Each child answers only the questions on its own path. This student never meets the attendance question, so attendance \= 60 doesn't matter here.
+~FAIL, because attendance \= 60 is at most 70 #The attendance question is only asked on the left branch (hours ≤ 4.5). This student goes right at the first question, so attendance is never checked.
+~FAIL, because the student fails the first question #The first question isn't pass/fail — it only decides left or right. "No" sends the student down the right branch.
+~The tree can't decide, because the student answers yes to one question and no to another #Each student follows exactly one path from the top to a leaf, and every leaf gives a prediction.
+}
+
+// ── Section 2: Depth and Overfitting ─────────────────────────────────────────
+
+::W07-R2-Q3 Reading the depth curve::
+Decision trees with different <code>max_depth</code> are scored two ways:
+<pre>
+max_depth   on data it learned from   on new data
+    1                0.70                 0.68
+    3                0.86                 0.84
+    5                0.93                 0.81
+   10                1.00                 0.74
+</pre>
+Which reading is right?{
+=Depth 3 fits best; depth 1 is underfitting (poor on both); depth 10 is overfitting (perfect on known data, worse on new) — the opposite direction from kNN, where a small k overfit #Correct. More depth means more questions and smaller leaves, so a deep tree can carve out a rectangle for single rows. For trees a large knob overfits; for kNN a small one did.
+~Depth 10 fits best, because it has the highest score #Its 1.00 is on the data it learned from — every leaf is pure, so it is perfect there. On new data it is the second worst.
+~Depth 1 is overfitting and depth 10 is underfitting, just like k \= 1 and k \= 101 in kNN #The direction flips. A depth-1 tree asks one question — too simple. A depth-10 tree asks many — too flexible.
+~Depth 5 fits best, because it is in the middle #Being in the middle isn't the rule. Pick by the new-data column, where depth 3 is highest (0.84) — and remember that column comes from one split.
+}
+
+::W07-R2-Q4 Stopping a tree from memorizing::
+A decision tree grown with no limits has 40 leaves, many holding just one or two rows. It scores 100% on its training data and 71% on new data. Which change is most likely to help?{
+=Set <code>min_samples_leaf\=15</code>, so every leaf must hold at least 15 rows #Correct. That is pre-pruning — the tree can't make a tiny leaf for a single row, so it stops following noise. Limiting <code>max_depth</code> or raising <code>ccp_alpha</code> (cutting back the weakest branches after growing) works the same way.
+~Set <code>max_depth\=50</code>, so the tree can ask more questions #The tree is already too flexible. More depth means more and smaller leaves — more memorizing, not less.
+~Set <code>ccp_alpha\=0</code> #That is no post-pruning at all (it is the default). A bigger <code>ccp_alpha</code> cuts more branches.
+~Scale the columns with <code>StandardScaler</code> first #Each tree question looks at one column at a time, so units don't matter and scaling gives the same tree. The problem is how many questions it asks.
+}
+
+::W07-R2-Q5 Choosing a setting by the test score::
+You try a decision tree with <code>min_samples_leaf</code> = 1, 5, 10, 20 and 40. You score each on the test set, keep the one with the highest test score (0.88), and report "0.88 on unseen data." What is the problem?{
+=The test set was used to choose the setting, so it is no longer unseen — 0.88 is the best of five tries on those rows and is likely too optimistic #Correct. Picking the winner by the test score lets the test set shape the model, just like fitting on it would. A fair choice needs data kept apart from the final test, which is what today's class is about.
+~Nothing — the model was fit on the training set only, so the test score is honest #The fit didn't use the test rows, but the choice did. Five tries on the same test rows give the winner a lucky edge.
+~Five settings are too few; trying 100 settings would make 0.88 more trustworthy #More tries make it worse — the best of 100 scores on the same test rows is even more likely to be a lucky one.
+~<code>min_samples_leaf</code> doesn't change the tree, so all five scores should be the same #It changes the tree a lot — larger values force bigger leaves and a smaller tree. That is why it's worth choosing carefully.
+}
+
+// ── Section 3: Review — Precision and Recall (Week 7 Retrieval 1) ───────────
+
+::W07-R2-Q6 Review: precision and recall (from Week 7 Retrieval 1)::
+Review from Monday's quiz: a factory model flags defective parts. Among the test parts, 40 are truly defective. The model flags 50 parts as defective, and 30 of those really are. What are its recall and precision for "defective"?{
+=Recall \= 30 ÷ 40 \= 0.75 (it caught 30 of the 40 defective parts); precision \= 30 ÷ 50 \= 0.60 (of the 50 it flagged, 30 were defective) #Correct. Recall divides by the truly defective parts; precision divides by the parts the model flagged. The 20 good parts flagged are false positives (lower precision); the 10 missed defects are false negatives (lower recall).
+~Recall \= 0.60 and precision \= 0.75 #That's reversed. Recall asks "of the truly defective, how many did we catch?" (30 ÷ 40). Precision asks "of those we flagged, how many were defective?" (30 ÷ 50).
+~Recall \= 30 ÷ 50 and precision \= 40 ÷ 50 #40 ÷ 50 mixes up the counts — 40 is the number of truly defective parts, not the number flagged correctly. Both metrics put the 30 correct flags on top.
+~Both can't be found without the model's accuracy #Accuracy isn't needed. The correct flags (30), all flags (50) and all true defects (40) are enough for both.
+}
+
+// ── Section 4: Review — One Split, One Score (Week 7 Retrieval 1) ───────────
+
+::W07-R2-Q7 Review: five splits, five scores (from Week 7 Retrieval 1)::
+Review from Monday's quiz: the same decision tree (max_depth = 3) is tested on five random train/test splits of the same data. The test accuracies are 0.79, 0.85, 0.74, 0.88 and 0.82. Which is the most honest way to report how well it does?{
+=Report the spread — about 0.74 to 0.88, averaging about 0.82 — since each number comes from one luck-of-the-draw split #Correct. One split gives one score; another split gives another. Averaging over many splits is the idea behind cross-validation.
+~Report 0.88, since it shows what the model can do at its best #That is the luckiest split. Reporting only the best score oversells the model.
+~Report 0.74, to be safe #The worst split is just as much luck as the best one. Hiding the spread either way gives a misleading single number.
+~Report the first split's score, since it was the one planned in advance #The first split is no more "real" than the others. Any single split can land high or low by chance.
+}

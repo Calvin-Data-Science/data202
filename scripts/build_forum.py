@@ -118,7 +118,7 @@ def build_worksheet_md(forum_number: int, week: int) -> str:
     subtitle = f'Ch. {chapter_num} --- "{chapter_title}"' if chapter_num else topic
 
     header_left = f"{title} --- {subtitle}"
-    preamble = PREAMBLE % dict(header_left=tex_escape(header_left))
+    preamble = PREAMBLE % dict(header_left=tex_escape(header_left), margin="1in")
     yaml_front = (
         "---\n"
         "papersize: letter\n"

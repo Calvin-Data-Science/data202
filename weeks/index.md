@@ -83,11 +83,11 @@ title: Weekly Materials
 </div>
 
 <div class="wk" id="week-8">
-<div class="wk-head"><h2><a href="{{ '/weeks/08/' | relative_url }}">Week 8 — Fall Break</a></h2></div>
+<div class="wk-head"><h2><a href="{{ '/weeks/08/' | relative_url }}">Week 8 — Fall Break · Practice 6</a></h2></div>
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Oct 19</td><td class="off">Fall Break — no class</td></tr>
 <tr><td class="d">Wed Oct 21</td><td class="off">Fall Break — no class</td></tr>
-<tr><td class="d">Fri Oct 23</td><td>Practice 6 · <a href="{{ '/weeks/08/forum3/' | relative_url }}">Forum 3 instructions</a></td></tr>
+<tr><td class="d">Fri Oct 23</td><td>Practice 6 (trees, CV, grid search) · <a href="{{ '/weeks/08/forum3/' | relative_url }}">Forum 3 instructions</a></td></tr>
 </tbody></table>
 <div class="milestone-note">Milestone 1 due Sat Oct 24, midnight</div>
 </div>
@@ -95,7 +95,7 @@ title: Weekly Materials
 <div class="wk" id="week-9">
 <div class="wk-head"><h2><a href="{{ '/weeks/09/' | relative_url }}">Week 9 — Feature Engineering</a></h2></div>
 <table class="sessions"><tbody>
-<tr><td class="d">Mon Oct 26</td><td><a href="{{ '/weeks/09/class_w09d1.ipynb' | relative_url }}">Preprocessing</a></td></tr>
+<tr><td class="d">Mon Oct 26</td><td><a href="{{ '/weeks/09/class_w09d1.ipynb' | relative_url }}">Preprocessing and pipelines</a></td></tr>
 <tr><td class="d">Wed Oct 28</td><td><a href="{{ '/weeks/09/class_w09d2.ipynb' | relative_url }}">Missing data</a></td></tr>
 <tr><td class="d">Fri Oct 30</td><td>Practice 7 · Quiz 4 (in class)</td></tr>
 </tbody></table>
@@ -105,7 +105,7 @@ title: Weekly Materials
 <div class="wk-head"><h2><a href="{{ '/weeks/10/' | relative_url }}">Week 10 — Linear Regression</a></h2></div>
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 2</td><td><a href="{{ '/weeks/10/class_w10d1.ipynb' | relative_url }}">Linear Regression</a></td></tr>
-<tr><td class="d">Wed Nov 4</td><td><a href="{{ '/weeks/10/class_w10d2.ipynb' | relative_url }}">Regression validation</a></td></tr>
+<tr><td class="d">Wed Nov 4</td><td><a href="{{ '/weeks/10/class_w10d2.ipynb' | relative_url }}">Ridge and Lasso</a></td></tr>
 <tr><td class="d">Fri Nov 6</td><td>Practice 8 · <a href="{{ '/weeks/10/forum4/' | relative_url }}">Forum 4 instructions</a></td></tr>
 </tbody></table>
 <div class="milestone-note">Milestone 2 due Sat Nov 7, midnight</div>

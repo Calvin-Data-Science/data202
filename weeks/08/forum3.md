@@ -5,7 +5,7 @@ title: Forum 3 — Instructions
 
 # Forum 3 — Instructions
 
-*Week 8 — Fall Break*
+*Week 8 — Friday class, after Fall Break*
 
 For how this activity works in class and how to submit it, see [Forum Instructions]({{ '/forum/' | relative_url }}).
 
@@ -13,16 +13,17 @@ For how this activity works in class and how to submit it, see [Forum Instructio
 
 Read **Chapter 3: "How We Know What a Number Means"** from *Counting: How We Use Numbers to Decide What Matters* by Deborah Stone.
 
-Stone's argument: numbers don't speak for themselves — they need a "social anatomy," the imagined human situations that produced them, to mean anything. A child-mortality rate of 14 per 1,000 only tells you something once you picture clean water, food security, and literate mothers behind it. The same migrant-caravan numbers get framed as people "trudging, exhausted" or "surging, invading" depending on the words wrapped around them. Numbers live inside narrative plots — more/less, growing/declining — and those plots carry values whether or not anyone states them.
+Stone's argument: numbers don't speak for themselves — "more often than not, numbers are part of somebody's argument." To learn what a number means, ask Hans Rosling's question: "How would people have to live or what would people have to do to produce that number?" From a child mortality rate of 14 per 1,000, Rosling pictures Malaysian families with enough food, clean drinking water and mothers who can read. A French teacher knows that three 20-minute lessons are not two 30-minute ones, because school events keep cancelling the lessons. Authors dress their numbers in words and plots: the same migrant caravan was "trudging" or "surging," and Rosling's rising lines mean good news only because he tells us so. Measures of success carry their makers' values. The GDP counts a company that causes an oil spill as much as the company paid to clean it up, so "we tend to get what we measure so we should measure what we want." In Flint, Michigan, official cutoffs and words ("poisoned" or merely "exposed") shaped what the lead numbers meant, until residents and their allies used those numbers as witnesses against the officials who had hidden them.
+
+In Weeks 6–7 we turned models into numbers: accuracy, precision, recall, cross-validation scores. This forum asks what those numbers mean.
 
 ## Discussion Questions (~25 min)
 
-Discuss and write a response to **each** question below on your worksheet — this isn't a pick-one; plan on roughly 25 minutes total to work through all four.
+Discuss and write a response to **each** question below on your worksheet — this isn't a pick-one; plan on roughly 25 minutes total to work through all three.
 
-1. A confusion matrix reports four numbers — true positives, false positives, true negatives, false negatives. What "social anatomy" would you need to know before those numbers mean anything about a real classification task (e.g., a medical test, a spam filter, a fraud detector)?
-2. Stone shows the same numbers narrated as "surging" versus "trudging" produce completely different reactions. Take an accuracy or F1 score you've computed this semester and write two one-sentence narrations of it — one that makes the model sound impressive, one that makes it sound inadequate — using the same number both times.
-3. Rosling's graphs treat upward slopes as good and downward as bad. Is that always true for a metric you'd report from a machine learning model? Give an example where a rising number would actually be bad news, or a falling one would be good news.
-4. **Compare notes.** After discussing with a classmate, write down one point where their answer differed from yours, or one idea of theirs you hadn't considered — in their words, noting whose idea it was.
+1. Rosling asks of every number, "How would people have to live or what would people have to do to produce that number?" and Stone adds that "a number is only the period at the end of a life story." In Week 7, a two-question tree on a blood sample was right for 87.5% of the test children: 42 of 48, all from one study. Do Rosling's exercise for that 87.5%: what did children, parents, clinics, researchers and our train/test split have to do to produce it? Then tell the story of the other 6 children: what would the tree's answer mean for them and their families?
+2. Stone shows that the words around a number tell the story: the same migrant caravan was "trudging" in one report and "surging" in another. Our Week 6 spam filter caught 76% of the spam. Write two one-sentence headlines with that same number, one that makes the filter sound great and one that makes it sound bad. Which words did the work?
+3. "The GDP doesn't care whether you produce goods or bads as long as you make money doing it." Accuracy is similar: it counts every right answer the same and every mistake the same. That is how a lazy "never spam" filter scored 88% while catching no spam at all, and a lazy "never Chinstrap" model scored 81% while finding no Chinstraps. Stone quotes an economist: "We tend to get what we measure so we should measure what we want." Pick one model from Weeks 6–7 (spam filter, Chinstrap finder, autism blood test). What would you want to measure instead of accuracy, or next to it, and whose values does your choice put into the number?
 
 ## Submission
 

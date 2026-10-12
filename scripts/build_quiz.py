@@ -53,6 +53,10 @@ class Question:
 class QuizVersion:
     rows: list                  # sample-data rows for this version: list[dict], keyed by QuizContent.sample_columns
     questions: list              # list[Question]
+    extra_tables: list = field(default_factory=list)  # more sample tables shown after the main one, for
+                                                       # multi-table (relational) datasets: list of dicts with
+                                                       # keys title_md, columns, rows (list[dict]) and optional
+                                                       # col_widths_cm
 
 
 @dataclass
@@ -63,6 +67,8 @@ class QuizContent:
     sample_columns: list          # ordered column headers for the sample-rows table
     versions: dict                # {"A": QuizVersion, "B": QuizVersion}
     sample_col_widths_cm: list = None  # optional per-column widths for the sample-rows table (default: even split)
+    margin: str = "1in"           # page margin (LaTeX length); shrink to fit a longer quiz
+    fontsize: str = "11pt"        # base font size: 10pt, 11pt or 12pt
 
 
 # ---------------------------------------------------------------------------
@@ -70,10 +76,11 @@ class QuizContent:
 # ---------------------------------------------------------------------------
 
 PREAMBLE = r"""
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=%(margin)s]{geometry}
 \usepackage{array}
 \usepackage{fancyhdr}
 \usepackage{xcolor}
+\usepackage{tikz}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small %(header_left)s}
@@ -250,13 +257,13 @@ def sample_table_md(columns, rows) -> str:
 def build_version_md(content: QuizContent, version_letter: str) -> str:
     version = content.versions[version_letter]
     header_left = "%s --- %s" % (content.title, content.subtitle)
-    preamble = PREAMBLE % dict(header_left=tex_escape(header_left))
+    preamble = PREAMBLE % dict(header_left=tex_escape(header_left), margin=content.margin)
 
     yaml_front = (
         "---\n"
         "papersize: letter\n"
-        "geometry: margin=1in\n"
-        "fontsize: 11pt\n"
+        f"geometry: margin={content.margin}\n"
+        f"fontsize: {content.fontsize}\n"
         "header-includes:\n"
         "  - |\n"
         + "\n".join("    " + line for line in preamble.strip("\n").splitlines())
@@ -273,6 +280,13 @@ def build_version_md(content: QuizContent, version_letter: str) -> str:
         + sample_table(content.sample_columns, version.rows, col_widths_cm=content.sample_col_widths_cm)
         + "\n\n\\normalsize\n\n"
     )
+    for t in version.extra_tables:
+        dataset += (
+            t["title_md"]
+            + "\n\n\\footnotesize\n\n"
+            + sample_table(t["columns"], t["rows"], col_widths_cm=t.get("col_widths_cm"))
+            + "\n\n\\normalsize\n\n"
+        )
 
     body = [dataset]
     for q in version.questions:
@@ -319,6 +333,8 @@ def build_readable_md(content: QuizContent, quiz_number: int) -> str:
     for letter in ("A", "B"):
         version = content.versions[letter]
         lines += [f"**Version {letter} sample rows:**", "", sample_table_md(content.sample_columns, version.rows), ""]
+        for t in version.extra_tables:
+            lines += [f"**Version {letter}** -- {t['title_md']}", "", sample_table_md(t["columns"], t["rows"]), ""]
 
     # Interleave questions by heading, showing both versions under each.
     n_questions = len(content.versions["A"].questions)
