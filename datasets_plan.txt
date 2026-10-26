@@ -104,7 +104,13 @@ WEEK 9 — Feature Engineering (scaling, encoding, pipelines, imputation)
                           survival 38.2% -> 40.7%. Mean fill: 189 training rows at 30.0, sd 14.7 -> 13.2. Pipeline
                           k=25: drop 0.781 (790 rows), mean/median 0.785, median+indicator 0.787, KNNImputer 0.786;
                           final test 0.771)
-  Practice:           [ ]
+  Practice (practice07): [x] shelter.csv  (SIMULATED by scripts/make_shelter.py, seed 7; 2,000 animals. Blanks:
+                          weight 133 MCAR, age 386 MAR on intake_type (40% of strays), behavior 316 MNAR on its own
+                          score; shelter_hidden.csv = true values for the Answer Key. Complete rows 1,276 -> 957/319
+                          (0.25, stratify, rs=1). kNN15 numbers raw 0.660 / scaled 0.734 / behavior alone 0.672;
+                          pipeline 11 cols 0.777; grid best k=15, test 0.787. All rows 1,500/500: drop 0.770 (963
+                          rows), median 0.724, by mechanism (KNNImputer body + median+indicator behavior) 0.764,
+                          test 0.770; not-assessed test animals predicted adopted 3.8% vs actual 22.8%)
 
 ---
 

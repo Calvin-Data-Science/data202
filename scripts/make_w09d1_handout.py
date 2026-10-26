@@ -9,7 +9,8 @@ and embarked recorded, train_test_split(test_size=0.25, stratify=y, random_state
     closest  the training passengers by age and fare, once in years and pounds (same
              ruler on both axes) and once in standard deviations, with A, B, C marked
     pipe     the pipeline as boxes, with blanks for the columns in each branch
-    kcurve   the pipeline's accuracy vs. k on the learned-from folds and the held-out fold
+    kcurve   the grid search's accuracy vs. k: on the training folds and cross-validated
+             (5 folds of the training passengers; the test passengers are not used)
 
 Usage:  python scripts/make_w09d1_handout.py
 """
@@ -62,7 +63,7 @@ def make_plots(outdir):
     plots = {}
 
     # closest -- raw (equal ruler) and in standard deviations
-    mean, sd = X_train[["age", "fare"]].mean(), X_train[["age", "fare"]].std(ddof=0)
+    mean, sd = X_train[["age", "fare"]].mean(), X_train[["age", "fare"]].std()
     fig, axes = plt.subplots(1, 2, figsize=(7.4, 2.5))
     for ax, scaled in zip(axes, [False, True]):
         pts = (X_train[["age", "fare"]] - mean) / sd if scaled else X_train[["age", "fare"]]
@@ -106,17 +107,18 @@ def make_plots(outdir):
     ax.text(40, 39.5, "prep (ColumnTransformer)", ha="center", fontsize=8, style="italic")
     plots["pipe"] = outdir / "pipe.pdf"; save(fig, plots["pipe"])
 
-    # kcurve -- the grid search over k
+    # kcurve -- the notebook's grid search: 5-fold CV on the training passengers only
     preprocess = ColumnTransformer([("num", StandardScaler(), NUMERIC),
                                     ("cat", OneHotEncoder(drop="if_binary"), ["sex", "embarked"])])
     model = Pipeline([("prep", preprocess), ("knn", KNeighborsClassifier(n_neighbors=5))])
-    search = GridSearchCV(model, {"knn__n_neighbors": KS}, cv=5, return_train_score=True).fit(X_train, y_train)
-    res = search.cv_results_
+    grid = GridSearchCV(model, {"knn__n_neighbors": KS}, cv=5, return_train_score=True).fit(X_train, y_train)
+    train_acc = grid.cv_results_["mean_train_score"]
+    test_acc = grid.cv_results_["mean_test_score"]
     fig, ax = plt.subplots(figsize=(4.0, 2.7))
-    ax.plot(KS, res["mean_train_score"] * 100, color="black", lw=1.4, ls="--", marker="o", ms=3,
-            label="folds it learned from")
-    ax.plot(KS, res["mean_test_score"] * 100, color="#2a78d6", lw=1.8, marker="s", ms=3,
-            label="held-out fold")
+    ax.plot(KS, np.array(train_acc) * 100, color="black", lw=1.4, ls="--", marker="o", ms=3,
+            label="training folds")
+    ax.plot(KS, np.array(test_acc) * 100, color="#2a78d6", lw=1.8, marker="s", ms=3,
+            label="cross-validated")
     ax.set_xscale("log"); ax.set_xticks(KS); ax.set_xticklabels([str(k) for k in KS])
     ax.minorticks_off()
     ax.set_ylim(65, 101)

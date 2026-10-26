@@ -34,35 +34,27 @@ Share who survived:
 | 2nd | 44% | 25% |
 | 3rd | 26% | 24% |
 
-1. Which class lost the most ages? ________
-2. Inside each class, who survived more often: passengers with an age, or without? ________
-3. With a neighbor: one story that could explain **both** patterns:
-
-______________________________________________________________
+**Talk with your neighbor:** 3rd class lost the most ages, and in every class the passengers with no age survived less often. What story could explain **both** patterns?
 
 ## 2 · Name the mechanism
 
 **MCAR**: pure chance. **MAR**: explained by columns we *can* see. **MNAR**: depends on the missing value itself, or on something never recorded.
 
-For each blank, write MCAR, MAR or MNAR, and why.
+Write MCAR, MAR or MNAR in each blank.
 
-1. Two passengers have no port: a clerk smudged their line in the register.
+1. ________ A lab freezer breaks overnight and spoils a random rack of blood samples.
+2. ________ To keep an online survey short, a randomly chosen half of the people never see the income question.
+3. ________ Two *Titanic* passengers have no port: a clerk smudged their line in the register.
+4. ________ A weather station's thermometer stops working below −30 °C.
+5. ________ In a salary survey, the people with the highest salaries skip the salary question.
+6. ________ A fitness watch records no steps on the days its owner leaves it at home: mostly lazy days.
+7. ________ A clinic measures cholesterol only for patients over 40. Every patient's age is in the data.
+8. ________ Men skip the "hours of sleep" question more often than women, however much they sleep. Sex is in the data.
+9. ________ Cabin is blank for 98% of *Titanic* 3rd class: their tickets rarely listed one.
+10. ________ Students who were failing a course dropped it, so their final grade is blank. Their midterm grades are in the data.
+11. ________ The real missing *Titanic* ages from Part 1.
 
-   ______________________________________________________________
-
-2. Age is blank for 29% of 3rd class but 6% of 2nd class; within a class, which ages are blank is luck.
-
-   ______________________________________________________________
-
-3. *(Suppose)* older passengers left their age blank on purpose.
-
-   ______________________________________________________________
-
-4. Cabin is blank for 98% of 3rd class: their tickets rarely listed one.
-
-   ______________________________________________________________
-
-\newpage
+**Talk with your neighbor:** compare answers, then defend 10 and 11. For 10: what if the midterm column were missing? For 11: could the data ever settle it?
 
 ## 3 · The spike
 
@@ -71,6 +63,23 @@ For each blank, write MCAR, MAR or MNAR, and why.
 The 981 training passengers' ages: as recorded (top), and after filling every blank with the mean age (bottom).
 
 1. **Circle** what the imputer added.
-2. How many passengers are now exactly 30.0 years old? ______
-3. Standard deviation of age: before ______ years, after ______ years.
-4. Median age is 39 in 1st class and 24 in 3rd. Who gets a worse guess from the mean: a missing 1st-class age or a missing 3rd-class age? Why? ______________________
+2. **Talk with your neighbor:** median age is 39 in 1st class and 24 in 3rd. Whose blanks does one mean of 30 fit worse? What would you fill them with instead?
+
+## 4 · Pick the fix
+
+| | fix | what it assumes about the blank rows |
+|:-:|---|---|
+| **A** | drop the rows with blanks | they are like everyone else |
+| **B** | fill with one mean or median | they are like everyone else |
+| **C** | fill from similar rows | other columns explain who is blank |
+| **D** | C, plus a missing-indicator column | the blank itself says something |
+
+Write the best letter for each situation from Part 2.
+
+1. ________ The freezer spoiled a random rack of blood samples (#1).
+2. ________ Men skip the sleep question; sex is in the data (#8).
+3. ________ Failing students dropped the course; their midterms are in the data (#10).
+4. ________ The highest earners skip the salary question (#5).
+5. ________ The real missing *Titanic* ages (#11).
+
+**Talk with your neighbor:** for the salaries, does any letter bring the missing salaries back? What else could you do?

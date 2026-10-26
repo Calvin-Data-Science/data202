@@ -1,0 +1,160 @@
+// Week 09 Retrieval Quiz 1 — Quiz 4 warm-up (kNN, metrics, splits, trees, CV, grid search, keys, joins, melt) — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 9's Monday class. One multiple-choice question per Quiz 4 question,
+// in the same order and on the same SLO (06A, 06B, 06C, 07A, 07B, 07C, 04A, 04B, 04C), so students
+// see the shape of Friday's quiz. Every question is self-contained: small generic examples with all
+// needed facts in the stem (none use the Quiz 4 library dataset).
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed (its default
+// auto-format adds a line break to every line inside <pre>, which breaks the alignment).
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 9 questions, ~10 minutes.
+
+$CATEGORY: Week 09 / Retrieval 01
+
+// ── Section 1: kNN, Metrics and the Train/Test Split (Week 6) ────────────────
+
+::W09-R1-Q1 kNN by hand (06A)::[html]A clinic predicts whether a patient will <b>miss</b> an appointment, using one column: how far the patient lives from the clinic. The 7 training patients:
+<pre>
+km from clinic   0.4    0.9      1.6    1.9      2.3    2.8      4.0
+label            came   missed   came   missed   came   missed   missed
+</pre>
+A new patient lives <b>2.0 km</b> from the clinic. What does kNN with <b>k = 3</b> predict?{
+=came\: the 3 nearest patients are at 1.9, 2.3 and 1.6 km, and 2 of them came #Correct. The distances from 2.0 km are 0.1 (1.9 km, missed), 0.3 (2.3 km, came) and 0.4 (1.6 km, came). The vote is 2 came to 1 missed.
+~missed\: the nearest patient, at 1.9 km, missed #That is k \= 1, which copies only the single nearest neighbor. With k \= 3 the vote includes the next two, 2.3 km and 1.6 km, who both came.
+~missed\: 4 of the 7 patients missed #That vote uses all 7 patients (k \= 7). kNN with k \= 3 only looks at the 3 patients closest to 2.0 km.
+~came\: the 3 patients living closest to the clinic (0.4, 0.9 and 1.6 km) came twice #Distance is measured from the <b>new patient</b> (2.0 km), not from the clinic. The patient at 0.4 km is 1.6 km away from the new patient, too far to be among the 3 nearest.
+}
+
+::W09-R1-Q2 Recall from a confusion matrix (06B)::[html]A fraud model is scored on 500 test transactions, with <b>fraud</b> as the positive class:
+<pre>
+                 predicted OK   predicted fraud
+actually OK           430             10
+actually fraud         40             20
+</pre>
+What is the model's <b>recall</b>?{
+=20/60 ≈ 0.33 #Correct. Recall asks "of the real frauds, how many did we catch?" There are 40 + 20 \= 60 real frauds, and the model caught 20. It misses two out of three frauds.
+~20/30 ≈ 0.67 #That is precision\: of the 30 transactions flagged as fraud, 20 were fraud. Recall divides by the real frauds (the "actually fraud" row), not by the flagged ones.
+~450/500 \= 0.90 #That is accuracy\: all correct predictions (430 + 20) over all 500. A lazy model that always says OK already gets 440/500 \= 0.88.
+~20/500 \= 0.04 #Recall only looks at the 60 real frauds, not at all 500 transactions.
+}
+
+::W09-R1-Q3 What the scaler learns from (06C)::[html]The code should give a score that tells how the model does on <b>new</b> rows.
+<pre>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
+scaler = StandardScaler().fit( ______ )
+knn = KNeighborsClassifier(n_neighbors=5).fit(scaler.transform(X_train), y_train)
+knn.score(scaler.transform(X_test), y_test)
+</pre>
+What goes in the blank?{
+=<code>X_train</code> #Correct. Everything that is fit, the scaler included, learns from the training rows only. The test rows are used only at the end, to score, so they play the part of new data.
+~<code>X</code> #Fitting the scaler on all of <code>X</code> lets the test rows' means and spreads leak into the model. Then the test rows are no longer truly new.
+~<code>X_test</code> #The scaler would learn its means and spreads from the very rows we score on. Fit on the training rows, then use the same scaler to transform both.
+~<code>y_train</code> #The scaler rescales the feature columns, so it needs <code>X</code> rows. <code>y_train</code> holds the labels.
+}
+
+// ── Section 2: Trees, Cross-Validation and Grid Search (Week 7) ──────────────
+
+::W09-R1-Q4 Following a decision tree (07A)::[html]A decision tree predicts whether a student passes a course:
+<pre>
+hours_studied &lt;= 4.5 ?
+├─ yes → absences &lt;= 3 ?
+│         ├─ yes → pass
+│         └─ no  → fail
+└─ no  → absences &lt;= 8 ?
+          ├─ yes → pass
+          └─ no  → fail
+</pre>
+What does it predict for these three students?
+<pre>
+student   hours_studied   absences
+  P             3             5
+  Q             6             5
+  R             6            10
+</pre>{
+=P fail, Q pass, R fail #Correct. P\: 3 &lt;\= 4.5 (yes), then 5 &lt;\= 3 (no) → fail. Q\: 6 &lt;\= 4.5 (no), then 5 &lt;\= 8 (yes) → pass. R\: 6 &lt;\= 4.5 (no), then 10 &lt;\= 8 (no) → fail.
+~P pass, Q pass, R fail #P studied 3 hours, so it goes left and gets the question "absences &lt;\= 3". P has 5 absences → fail.
+~P fail, Q fail, R fail #P and Q have the same absences (5), but they go down different branches. Q studied 6 hours, so it gets "absences &lt;\= 8" → pass.
+~P fail, Q pass, R pass #R studied 6 hours (right branch), but has 10 absences, and 10 &lt;\= 8 is false → fail.
+}
+
+::W09-R1-Q5 Choosing a depth from cross-validation (07B)::[html]Trees of different depths are scored with 5-fold cross-validation on the training set:
+<pre>
+max_depth          1      2      3      4      6    no limit
+training folds   0.70   0.78   0.84   0.88   0.94    1.00
+held-out folds   0.68   0.76   0.81   0.79   0.74    0.71
+</pre>
+Which <code>max_depth</code> should we choose?{
+=3 #Correct. Choose by the held-out row, because it scores each tree on rows it was not fit on. Depth 3 has the best held-out score (0.81).
+~no limit #Its 1.00 is on the folds it learned from. On held-out folds it scores only 0.71. A perfect training score is a sign of overfitting.
+~1 #Its two rows are close, so it isn't overfitting. But it is poor on both, which is underfitting. We want the best held-out score.
+~6 #Depth 6 has the second-best training score, but the held-out row is what counts, and there it drops to 0.74.
+}
+
+::W09-R1-Q6 Counting a grid search (07C)::[html]A grid search tunes a decision tree:
+<pre>
+grid = \{"max_depth": [2, 4, 8],
+        "min_samples_leaf": [1, 5, 20, 50]\}
+search = GridSearchCV(DecisionTreeClassifier(), grid, cv=5)
+search.fit(X_train, y_train)
+</pre>
+How many trees does the search fit while choosing the best combination?{
+=60 #Correct. The grid tries every combination\: 3 depths × 4 leaf sizes \= 12. Each one is cross-validated with 5 folds, so 12 × 5 \= 60 trees. (After choosing, it refits the winner once on all the training rows.)
+~12 #12 is the number of combinations, but each one is fit once per fold, 5 times.
+~7 #3 + 4 counts the values, not the combinations. The grid pairs every depth with every leaf size\: 3 × 4 \= 12, then × 5 folds.
+~35 #That is (3 + 4) × 5. The grid tries every pair of values, so it is 3 × 4 \= 12 combinations, then × 5 folds \= 60.
+}
+
+// ── Section 3: Review — Keys, Joins and Melt (Quiz 3 retakes, SLOs 04A–04C) ──
+
+::W09-R1-Q7 Review: the foreign key (04A)::[html]An online shop has two tables:
+<pre>
+orders:     order_id, customer_id, quantity, order_date
+customers:  customer_id, city
+</pre>
+Each order has its own <code>order_id</code>, and one customer can place many orders. Which column of <code>orders</code> is a <b>foreign key</b>?{
+=<code>customer_id</code> #Correct. A foreign key points to another table's primary key. <code>orders.customer_id</code> points to <code>customers.customer_id</code>, and it can repeat (a customer with many orders).
+~<code>order_id</code> #<code>order_id</code> names each order once, so it is the <b>primary</b> key of <code>orders</code>. It doesn't point to another table.
+~<code>quantity</code> #Being a number doesn't make a column a key. <code>quantity</code> is a measurement, not an identifier.
+~<code>order_date</code> #Dates repeat, but they don't point to rows of another table. It is a measurement of the order, not a key.
+}
+
+::W09-R1-Q8 Review: name the join from its result (04B)::[html]Two small tables:
+<pre>
+orders                    customers
+order_id  customer_id     customer_id  city
+O1        C1              C1           Grand Rapids
+O2        C2              C2           Detroit
+O3        C2              C3           Lansing
+O4        C9
+</pre>
+<code>pd.merge(orders, customers, on="customer_id", how=???)</code> gives:
+<pre>
+order_id  customer_id  city
+O1        C1           Grand Rapids
+O2        C2           Detroit
+O3        C2           Detroit
+NaN       C3           Lansing
+</pre>
+Which <code>how</code> was used?{
+=<code>"right"</code> #Correct. Every customer is kept, even C3, who has no orders (so <code>order_id</code> is NaN). O4's customer C9 is not in <code>customers</code>, so it is dropped. Keeping all rows of the second table is a right join.
+~<code>"left"</code> #A left join keeps every row of <code>orders</code>, so O4 would appear with a NaN city, and C3 (no orders) would be missing.
+~<code>"inner"</code> #An inner join keeps only customers found in both tables, so it has 3 rows (O1, O2, O3) and no NaN at all.
+~<code>"outer"</code> #An outer join keeps everything from both sides\: it would have 5 rows, including O4 with a NaN city and C3 with a NaN order_id.
+}
+
+::W09-R1-Q9 Review: wide to long with melt (04C)::[html]<code>steps</code> is a wide table with one row per person:
+<pre>
+person   mon    tue    wed
+Ana      4000   6500   5200
+Ben      8000   3000   7100
+</pre>
+How many rows does this code return?
+<pre>
+pd.melt(steps, id_vars=["person"], value_vars=["mon", "tue", "wed"],
+        var_name="day", value_name="n_steps")
+</pre>{
+=6 #Correct. Melt turns each of the 3 day columns into rows\: 2 people × 3 days \= 6 rows, with columns <code>person</code>, <code>day</code> and <code>n_steps</code>, e.g. (Ana, tue, 6500).
+~2 #Melt doesn't keep one row per person. Each person gets one row per day column\: 2 × 3 \= 6.
+~3 #That would be one row per day, which is a pivot with people as columns, still wide. Melt makes one row per person <b>and</b> day.
+~9 #The <code>person</code> column is an id column (<code>id_vars</code>), so it isn't melted. Only the 3 day columns become rows\: 2 × 3 \= 6.
+}

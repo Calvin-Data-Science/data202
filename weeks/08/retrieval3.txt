@@ -1,0 +1,99 @@
+// Week 08 Retrieval Quiz 3 — Trees, Cross-Validation and Grid Search (Week 7 review) — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 8's Friday class (before Practice 06, after Fall Break), testing
+// retrieval of all of Week 7: class_w07d1 + Reading 6 (how a tree picks its question; depth and
+// overfitting, carried over from Week 7 Retrieval 2) and class_w07d2 (5-fold cross-validation,
+// counting a grid search's fits, the one-standard-error rule, selecting vs. estimating).
+// Every question is self-contained: small generic examples with all needed facts in the
+// stem, so nothing depends on remembering the class datasets.
+// Code in every question is wrapped in <code>/<pre> tags for Moodle.
+// 6 questions, ~7 minutes.
+
+$CATEGORY: Week 08 / Retrieval 03
+
+// ── Section 1: Decision Trees (Week 7 Monday) ────────────────────────────────
+
+::W08-R3-Q1 Which question goes first::
+A decision tree is about to make its first split on 100 patients (50 sick, 50 healthy). It compares three candidate questions by the weighted Gini of the two groups each one would create:
+<pre>
+question                  weighted Gini after the split
+age <= 50 ?                          0.42
+blood_pressure <= 130 ?              0.31
+smoker ?                             0.48
+</pre>
+Which question does the tree ask first, and why?{
+=<code>blood_pressure <\= 130</code>, because it has the lowest weighted Gini — its two groups are the least mixed #Correct. Gini measures how mixed a group is (0 \= all one class, 0.5 \= half and half for two classes). The tree tries the candidate questions and keeps the one whose groups come out purest. Then it repeats inside each group.
+~<code>smoker</code>, because it has the highest Gini #Higher Gini means more mixed groups — that question barely separates sick from healthy. The tree wants the lowest number, not the highest.
+~<code>age <\= 50</code>, because it is in the middle #The tree doesn't compromise. It takes the question with the purest groups (lowest weighted Gini).
+~Whichever column comes first in the DataFrame, because the tree reads the columns in order #Column order doesn't matter. At every split the tree compares all the candidate questions and picks the best one.
+}
+
+::W08-R3-Q2 Review: depth and the cross-validation curve (from Week 7 Retrieval 2)::
+Review from Week 7: decision trees with different <code>max_depth</code> are scored by 5-fold cross-validation on the training set. The test set has not been opened.
+<pre>
+max_depth    mean CV accuracy
+    1             0.68
+    2             0.79
+    3             0.84
+    5             0.82
+    8             0.77
+ no limit         0.75
+</pre>
+Which reading is right?{
+=Depth 3 is the best choice; depth 1 is underfitting; depth 8 and no limit are overfitting — and the test set is still locked, so it can give an honest score later #Correct. A deeper tree asks more questions and makes smaller leaves, so past depth 3 it starts memorizing the folds it fits on. Cross-validation chose the depth without using the test set.
+~No limit is best, because a tree with no limit scores 100% on the data it learned from #That 100% is on rows it has already seen. On the held-out folds it scores 0.75, the second worst.
+~Depth 1 is overfitting and no limit is underfitting, like k \= 1 and a huge k in kNN #The direction flips for trees. Depth 1 asks one question — too simple. No limit asks as many as it wants — too flexible.
+~Depths 3 and 5 are close, so we should open the test set and pick whichever scores higher there #Choosing with the test set is peeking (leakage). After that, its score is no longer about new data.
+}
+
+// ── Section 2: Cross-Validation (Week 7 Wednesday) ───────────────────────────
+
+::W08-R3-Q3 How 5-fold cross-validation works::
+A training set has 200 rows (and 80 test rows kept aside). You run 5-fold cross-validation on a tree with <code>max_depth\=3</code>. Which description is right?{
+=The 200 training rows are cut into 5 folds of 40. In each of 5 rounds a tree is fit on 160 rows and scored on the other 40. Every training row is scored exactly once, the 80 test rows are never touched, and the CV score is the mean of the 5 round scores #Correct. Each round's score comes from rows that round's tree never saw, and averaging 5 rounds evens out the luck of any one split.
+~One tree is fit on all 200 training rows and then scored 5 times on different 40-row slices of it #Then every score would be on rows the tree already learned from — the same mistake as scoring on the training set. Each round needs its own tree that never saw the scored fold.
+~The 80 test rows are cut into 5 folds, and the tree is scored on each fold in turn #Cross-validation works inside the training set. The test set stays locked until the very end.
+~It is the same as leave-one-out\: 200 rounds, each scoring a single row #That's leave-one-out, the limit with one fold per row (200 trees). 5-fold fits only 5 trees, each scored on 40 rows.
+}
+
+// ── Section 3: Grid Search (Week 7 Wednesday) ────────────────────────────────
+
+::W08-R3-Q4 Counting a grid search::
+How many trees does this grid search fit during cross-validation?
+<pre>
+param_grid = \{"max_depth": [2, 4, 6, 8],
+              "min_samples_leaf": [1, 5, 10]\}
+grid = GridSearchCV(DecisionTreeClassifier(), param_grid, cv=5)
+grid.fit(X_train, y_train)
+</pre>{
+=60 — 4 depths × 3 leaf sizes \= 12 combinations, and each combination is cross-validated with 5 folds (then one more refit of the winner on all the training rows) #Correct. Grid search tries every combination, and every combination gets the full 5-fold treatment. Adding one more value to a knob adds a whole row or column of combinations.
+~12 — one tree per combination #That counts the combinations, but each one is scored by 5-fold cross-validation, which fits 5 trees.
+~7 — 4 depths plus 3 leaf sizes #Grid search doesn't try each knob on its own. It tries every pairing of a depth with a leaf size\: 4 × 3, not 4 + 3.
+~5 — one tree per fold #Each fold is used once for every combination, not once overall.
+}
+
+::W08-R3-Q5 Near-ties in a grid::
+A grid search's best combinations (5-fold CV accuracy). One standard error of the best score is about 0.02.
+<pre>
+max_depth  min_samples_leaf  leaves  CV accuracy
+    2             1             4       0.840
+    3             5             7       0.851
+    6             5            12       0.858
+ no limit         1            31       0.801
+</pre>
+Following the one-standard-error rule, which tree do you choose?{
+=Depth 2 (4 leaves) — depths 2, 3 and 6 are all within 0.02 of the best (0.858), so the folds can't tell them apart, and depth 2 is the simplest #Correct. Differences smaller than one standard error are mostly the luck of which rows landed in which fold. Among near-ties, the simpler tree is less likely to be overfitting.
+~Depth 6 (12 leaves), because it has the highest CV score #That's what <code>GridSearchCV</code> picks by default, but 0.858 vs. 0.840 is within the noise. The highest of many scores is also a little optimistic — it's the best of many tries.
+~Depth 3 (7 leaves), because it is in the middle #Being in the middle isn't the rule. Among the combinations within one standard error, take the simplest.
+~Open the test set and keep whichever of the three scores best there #That turns the test set into a selection tool (peeking), and its score is no longer honest. Choose on the training folds, then open the test set once.
+}
+
+// ── Section 4: Selecting vs. Estimating (Week 7 Wednesday) ───────────────────
+
+::W08-R3-Q6 The best of many::
+A research team has 80 patients and 20 blood measurements. They try 5,000 different groups of measurements, score each group with leave-one-out cross-validation on all 80 patients, and report the best: "92% accuracy, cross-validated." Is 92% a fair estimate for the next patient?{
+=No — cross-validation was used to select the winner, so 92% is the best of 5,000 scores and is likely too optimistic. A fair estimate needs patients that played no part in the choice\: a locked test set, nested cross-validation, or new patients #Correct. Data that chose the model can't also give its honest score. With enough tries, some group of measurements fits these 80 patients by luck — even with random labels, the best of many beats a coin flip.
+~Yes — every one of the 5,000 scores was cross-validated, so each one is honest #Each score is a fair estimate for that one group. But picking the maximum of 5,000 favors groups that got lucky on these 80 patients.
+~Yes — leave-one-out trains on 79 of 80 patients each round, so it is the most accurate kind of cross-validation #Leave-one-out is fine for estimating one recipe. The problem is selecting\: reporting the best of 5,000 is optimistic whatever kind of cross-validation scored them.
+~No — they should have used 5-fold instead of leave-one-out, and then 92% would be fair #Switching the kind of cross-validation doesn't help. The best of 5,000 5-fold scores is just as optimistic. The fix is to keep the choosing and the scoring on different data.
+}

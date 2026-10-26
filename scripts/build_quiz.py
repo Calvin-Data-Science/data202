@@ -15,6 +15,9 @@ and writes into that week's folder:
     weeks/<week>/quizNN_A.pdf  -- printable Version A (blank, for students)
     weeks/<week>/quizNN_B.pdf  -- printable Version B (blank, for students)
 
+    python scripts/build_quiz.py <quiz_number> --keys
+builds only the grading keys, weeks/<week>/quizNN_A_key.pdf and _B_key.pdf.
+
 Requires: pandoc + a LaTeX engine (xelatex) on PATH.
 
 To add a new quiz: create scripts/quiz_content/quizNN.py exposing a
@@ -296,6 +299,30 @@ def build_version_md(content: QuizContent, version_letter: str) -> str:
     return yaml_front + top + "".join(body)
 
 
+def build_key_md(content: QuizContent, version_letter: str) -> str:
+    """A one-version answer key for grading: same page setup as the quiz,
+    each question's heading followed by its answer_md (no blanks, no data)."""
+    version = content.versions[version_letter]
+    header_left = "%s --- ANSWER KEY, Version %s" % (content.title, version_letter)
+    preamble = PREAMBLE % dict(header_left=tex_escape(header_left), margin=content.margin)
+    yaml_front = (
+        "---\n"
+        "papersize: letter\n"
+        f"geometry: margin={content.margin}\n"
+        f"fontsize: {content.fontsize}\n"
+        "header-includes:\n"
+        "  - |\n"
+        + "\n".join("    " + line for line in preamble.strip("\n").splitlines())
+        + "\n---\n\n"
+    )
+    top = raw_latex(
+        "\\begin{center}\n{\\LARGE \\textbf{%s}}\\\\[2pt]\n{\\large ANSWER KEY --- Version %s}\n\\end{center}\n"
+        "\\vspace{4pt}\\hrule\\vspace{6pt}\n" % (tex_escape(content.title), version_letter)
+    )
+    body = ["## %s\n\n%s\n" % (q.heading, q.answer_md) for q in version.questions]
+    return yaml_front + top + "\n".join(body)
+
+
 def render_pdf(md_text: str, out_pdf: Path):
     tmp_md = out_pdf.with_suffix(".tmp.md")
     tmp_md.write_text(md_text, encoding="utf-8")
@@ -363,6 +390,8 @@ def week_for_quiz(quiz_number: int) -> int:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("quiz_number", type=int, help="Quiz number, e.g. 1 for quiz01")
+    parser.add_argument("--keys", action="store_true",
+                        help="only build the answer keys quizNN_A_key.pdf / quizNN_B_key.pdf")
     args = parser.parse_args()
     quiz_number = args.quiz_number
 
@@ -381,6 +410,11 @@ def main():
     out_dir = ROOT / "weeks" / f"{week:02d}"
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = f"quiz{quiz_number:02d}"
+
+    if args.keys:
+        for letter in ("A", "B"):
+            render_pdf(build_key_md(content, letter), out_dir / f"{stem}_{letter}_key.pdf")
+        return
 
     for letter in ("A", "B"):
         md = build_version_md(content, letter)

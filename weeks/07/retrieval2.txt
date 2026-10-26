@@ -13,21 +13,6 @@ $CATEGORY: Week 07 / Retrieval 02
 
 // ── Section 1: Reading a Tree ────────────────────────────────────────────────
 
-::W07-R2-Q1 Reading a node::
-A decision tree for loan applications has this box (node) in its plot:
-<pre>
-income <= 52.5
-gini = 0.469
-samples = 80
-value = [30, 50]
-class = approve
-</pre>
-The classes are in the order [deny, approve]. What does this box tell you?{
-=80 applicants reach this box — 30 denied and 50 approved, so it predicts "approve" (the majority) — and the gini of 0.469 says the box is still quite mixed. Next it asks whether income is at most 52.5 #Correct. <code>value</code> counts each class in the box, <code>class</code> is the majority (the prediction if the tree stopped here), and <code>gini</code> runs from 0 (all one class) to 0.5 (half and half, for two classes).
-~The tree is 46.9% accurate on these 80 applicants #Gini is not accuracy. It measures how mixed the box is — 0.469 is close to the 0.5 of a 50/50 box. If the tree stopped here, it would be right on 50 of 80 (62.5%).
-~Every applicant in this box is approved, because <code>class \= approve</code> #<code>class</code> is just the majority. 30 of the 80 applicants here were denied, and the tree would get them wrong if it stopped at this box.
-~Applicants with income at most 52.5 are approved #The first line is the question the box asks next, not a decision. Those applicants go left, where the tree asks more or makes its prediction.
-}
 
 ::W07-R2-Q2 Following a tree::
 A decision tree predicts whether a student passes a course:
@@ -84,7 +69,7 @@ You try a decision tree with <code>min_samples_leaf</code> = 1, 5, 10, 20 and 40
 // ── Section 3: Review — Precision and Recall (Week 7 Retrieval 1) ───────────
 
 ::W07-R2-Q6 Review: precision and recall (from Week 7 Retrieval 1)::
-Review from Monday's quiz: a factory model flags defective parts. Among the test parts, 40 are truly defective. The model flags 50 parts as defective, and 30 of those really are. What are its recall and precision for "defective"?{
+Review from Monday's quiz: a factory model flags defective parts: it flags 50 parts as defective (TP+FP), and of these 50, 30 of those really are (TP). However, in the whole data, 40 are truly defective (TP+FN). What are its recall and precision for "defective"?{
 =Recall \= 30 ÷ 40 \= 0.75 (it caught 30 of the 40 defective parts); precision \= 30 ÷ 50 \= 0.60 (of the 50 it flagged, 30 were defective) #Correct. Recall divides by the truly defective parts; precision divides by the parts the model flagged. The 20 good parts flagged are false positives (lower precision); the 10 missed defects are false negatives (lower recall).
 ~Recall \= 0.60 and precision \= 0.75 #That's reversed. Recall asks "of the truly defective, how many did we catch?" (30 ÷ 40). Precision asks "of those we flagged, how many were defective?" (30 ÷ 50).
 ~Recall \= 30 ÷ 50 and precision \= 40 ÷ 50 #40 ÷ 50 mixes up the counts — 40 is the number of truly defective parts, not the number flagged correctly. Both metrics put the 30 correct flags on top.

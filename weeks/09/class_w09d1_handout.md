@@ -14,7 +14,7 @@ How this file becomes the PDF:
   - \newpage           start a new page
   - $k = 5$, **bold**, *italic*, numbered lists, | tables |: normal markdown
 Part 1's passengers A, B, C and part 2's four passengers are the notebook's (training set,
-random_state=1); the standard deviations 14.5 and 50.2 are the training set's. Change them
+random_state=1); the standard deviations 14.5 and 50.3 are the training set's. Change them
 together with the notebook.
 This comment block is not printed.
 -->
@@ -25,7 +25,7 @@ Same passengers as today's slides: the 1,043 *Titanic* passengers with age, fare
 
 ## 1 · Who is closest?
 
-![](plot:closest){width=100%}
+![](plot:closest){width=90%}
 
 | passenger | class | age | fare |
 |:--|:-:|--:|--:|
@@ -33,21 +33,21 @@ Same passengers as today's slides: the 1,043 *Titanic* passengers with age, fare
 | B — Davies, Mr. John | 3rd | 21 | £24.15 |
 | C — Chaffee, Mr. Herbert | 1st | 46 | £61.18 |
 
-1. **In years and pounds** (left plot): draw the lines A–B and A–C. Closer to A: ________
-2. **In standard deviations** (age ÷ 14.5, fare ÷ 50.2): A–B differ by ______ in age and ______ in fare; A–C by ______ and ______. Closer to A: ________
+1. On **both** plots, draw the lines A–B and A–C, and circle the passenger closer to A.
+2. **Talk with your neighbor:** the two plots disagree. Using the table too, which answer would you trust to find a passenger like A, and why?
 
-## 2 · Encode four passengers
+## 2 · One-hot encode four passengers
 
-The three port columns are `embarked_Cherbourg`, `embarked_Queenstown` and `embarked_Southampton`.
+**One-hot:** one 0/1 column per category, with a 1 only in the row's own category.
 
-| sex | embarked | sex_male | Cherbourg | Queenstown | Southampton |
-|:--|:--|:-:|:-:|:-:|:-:|
-| male | Southampton | ____ | ____ | ____ | ____ |
-| female | Cherbourg | ____ | ____ | ____ | ____ |
-| male | Queenstown | ____ | ____ | ____ | ____ |
-| female | Southampton | ____ | ____ | ____ | ____ |
+| # | sex | embarked | sex_male | Cherbourg | Queenstown | Southampton |
+|:-:|:--|:--|:-:|:-:|:-:|:-:|
+| 1 | male | Southampton | ____ | ____ | ____ | ____ |
+| 2 | female | Cherbourg | ____ | ____ | ____ | ____ |
+| 3 | male | Queenstown | ____ | ____ | ____ | ____ |
+| 4 | female | Southampton | ____ | ____ | ____ | ____ |
 
-Why is there no `sex_female` column? ______________________________
+**Talk with your neighbor:** one-hot makes every port *equally far* from every other. Is that fair to Southampton, Cherbourg and Queenstown? What would you want to know about them?
 
 \newpage
 
@@ -55,14 +55,13 @@ Why is there no `sex_female` column? ______________________________
 
 ![](plot:pipe){width=100%}
 
-1. In each branch, write the columns that go in.
-2. How many columns come out of `prep` and into kNN? ______
+In each branch, write the columns that go in. In the right box, write how many columns come out into kNN.
 
 ## 4 · Choose k
 
 ![](plot:kcurve){width=56%}
 
-1. Accuracy of the whole pipeline for each k: on the folds it learned from, and on the held-out fold.
-2. **Circle** the best k.
-3. **Label** the overfitting side and the underfitting side.
-4. k = 1: learned-from folds ______ %, held-out fold ______ %.
+Accuracy of the whole pipeline for each k, averaged over 5 folds of the training passengers: on the folds it trained on, and on the fold it was scored on (cross-validated). The test passengers were not used.
+
+1. **Circle** the best k.
+2. **Label** the overfitting side and the underfitting side.

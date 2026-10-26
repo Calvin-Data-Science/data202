@@ -58,7 +58,7 @@
           {% if wk_next.book_chapter %}<li><span class="deadline-type book">Book Ch. {{ wk_next.book_chapter }}</span>{% if wk_next.book_chapter_title and wk_next.book_chapter_title != "TBD" %} — {{ wk_next.book_chapter_title }}{% endif %} — read for Forum {{ wk_next.forum }}, Fri {{ next_friday | date: "%b %-d" }} <em>(next week)</em></li>{% endif %}
           {% if wk.quiz %}<li><span class="deadline-type quiz">Quiz {{ wk.quiz }}</span> Fri {{ this_friday | date: "%b %-d" }}, in class</li>{% endif %}
           {% if wk.forum %}<li><span class="deadline-type forum">Forum {{ wk.forum }}</span> Wed {{ next_wednesday | date: "%b %-d" }}, midnight</li>{% endif %}
-          {% if wk.milestone %}<li><span class="deadline-type milestone">Milestone {{ wk.milestone }}</span> {{ wk.milestone_date }}, midnight</li>{% endif %}
+          {% if wk.milestone %}<li><span class="deadline-type milestone">Milestone {{ wk.milestone }}</span> {{ wk.milestone_date }}{% unless wk.milestone_no_time %}, midnight{% endunless %}</li>{% endif %}
         </ul>
       </div>
       {% endif %}

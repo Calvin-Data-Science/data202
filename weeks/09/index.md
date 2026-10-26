@@ -16,3 +16,4 @@ week_number: 9
 
 - [Monday class](class_w09d1.ipynb) · [handout (PDF)](class_w09d1_handout.pdf)
 - [Wednesday class](class_w09d2.ipynb) · [handout (PDF)](class_w09d2_handout.pdf)
+- [Practice 07](dist/student/practice07.ipynb) — scaling, encoding, pipelines and missing data, on shelter animals

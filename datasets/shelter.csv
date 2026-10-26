@@ -1,0 +1,2001 @@
+animal_id,species,size,intake_type,age_years,weight_kg,behavior_score,adoption_fee,adopted
+A0001,Cat,Medium,Stray,0.2,3.5,5.0,250,1
+A0002,Cat,Small,Stray,2.3,3.2,7.0,110,1
+A0003,Cat,Small,Owner surrender,0.6,3.8,9.0,105,1
+A0004,Dog,Large,Stray,0.9,26.7,7.0,235,0
+A0005,Dog,Medium,Stray,6.1,17.8,6.0,110,0
+A0006,Cat,Medium,Stray,1.1,6.7,5.0,180,0
+A0007,Dog,Large,Transfer,1.7,33.3,8.0,215,1
+A0008,Cat,Small,Owner surrender,7.2,4.1,,50,0
+A0009,Cat,Small,Transfer,0.3,2.7,4.0,130,0
+A0010,Dog,Small,Stray,,7.7,6.0,125,1
+A0011,Dog,Small,Stray,1.1,7.6,,225,0
+A0012,Dog,Large,Owner surrender,0.9,40.7,8.0,290,0
+A0013,Dog,Large,Transfer,1.9,20.1,5.0,215,1
+A0014,Dog,Large,Stray,,,7.0,255,1
+A0015,Dog,Small,Transfer,8.5,6.3,5.0,15,0
+A0016,Cat,Medium,Owner surrender,17.0,6.7,5.0,40,0
+A0017,Rabbit,Small,Transfer,5.9,2.0,6.0,40,1
+A0018,Cat,Small,Transfer,3.7,4.7,,45,0
+A0019,Cat,Medium,Stray,1.1,4.8,4.0,120,0
+A0020,Rabbit,Small,Transfer,4.9,1.9,5.0,75,1
+A0021,Dog,Large,Stray,,34.7,10.0,180,1
+A0022,Dog,Large,Stray,,31.2,8.0,50,1
+A0023,Cat,Medium,Stray,4.2,5.6,7.0,85,0
+A0024,Dog,Small,Stray,5.7,7.2,4.0,110,0
+A0025,Dog,Large,Owner surrender,0.3,25.0,8.0,290,1
+A0026,Dog,Medium,Owner surrender,3.9,12.9,8.0,145,1
+A0027,Dog,Small,Stray,0.8,7.8,7.0,270,1
+A0028,Cat,Medium,Owner surrender,,6.2,10.0,160,1
+A0029,Cat,Medium,Owner surrender,10.9,5.2,,60,0
+A0030,Dog,Medium,Stray,1.9,19.6,4.0,155,1
+A0031,Dog,Large,Owner surrender,5.6,31.7,5.0,85,0
+A0032,Dog,Small,Stray,0.2,4.6,,330,1
+A0033,Dog,Small,Owner surrender,7.8,6.1,6.0,160,0
+A0034,Dog,Extra large,Owner surrender,0.3,30.6,7.0,320,1
+A0035,Cat,Small,Owner surrender,4.9,3.6,6.0,85,0
+A0036,Dog,Medium,Transfer,0.4,12.1,6.0,300,1
+A0037,Dog,Small,Transfer,0.2,4.3,7.0,290,1
+A0038,Dog,Small,Owner surrender,3.2,6.8,8.0,140,1
+A0039,Cat,Small,Stray,4.9,4.5,5.0,25,1
+A0040,Dog,Large,Stray,0.6,21.9,5.0,295,0
+A0041,Dog,Small,Owner surrender,3.0,8.1,8.0,160,1
+A0042,Cat,Small,Owner surrender,0.7,3.2,5.0,160,0
+A0043,Dog,Extra large,Owner surrender,3.0,39.8,4.0,115,0
+A0044,Cat,Small,Transfer,,4.1,7.0,105,1
+A0045,Cat,Medium,Owner surrender,1.1,5.9,5.0,120,1
+A0046,Cat,Small,Transfer,6.5,3.6,6.0,70,1
+A0047,Dog,Small,Owner surrender,3.3,7.8,6.0,125,1
+A0048,Dog,Medium,Owner surrender,10.2,17.4,7.0,105,0
+A0049,Dog,Large,Transfer,4.5,34.5,8.0,145,1
+A0050,Cat,Small,Owner surrender,,3.3,4.0,100,0
+A0051,Dog,Large,Owner surrender,2.0,25.9,4.0,140,0
+A0052,Cat,Small,Transfer,2.2,4.0,9.0,90,1
+A0053,Dog,Small,Stray,4.8,5.9,5.0,75,0
+A0054,Dog,Small,Owner surrender,3.8,6.8,,170,0
+A0055,Dog,Large,Stray,4.8,34.3,,80,0
+A0056,Dog,Large,Owner surrender,5.2,37.2,6.0,155,1
+A0057,Cat,Small,Transfer,1.0,5.2,,120,0
+A0058,Dog,Large,Transfer,4.6,35.4,,150,0
+A0059,Rabbit,Small,Transfer,0.3,1.1,4.0,70,0
+A0060,Cat,Small,Owner surrender,3.3,4.5,4.0,75,0
+A0061,Cat,Small,Transfer,2.1,,8.0,105,1
+A0062,Cat,Small,Transfer,11.6,4.5,6.0,55,0
+A0063,Cat,Small,Owner surrender,5.8,3.5,6.0,55,0
+A0064,Dog,Small,Stray,0.4,5.8,,305,0
+A0065,Dog,Large,Stray,,20.2,6.0,340,1
+A0066,Dog,Medium,Owner surrender,7.5,17.0,7.0,125,0
+A0067,Dog,Large,Owner surrender,2.5,25.7,6.0,140,0
+A0068,Dog,Large,Owner surrender,5.2,,8.0,45,1
+A0069,Rabbit,Small,Owner surrender,4.5,1.8,6.0,40,1
+A0070,Dog,Small,Owner surrender,4.5,7.2,7.0,20,1
+A0071,Cat,Medium,Owner surrender,4.0,5.3,7.0,95,1
+A0072,Dog,Small,Owner surrender,1.5,6.4,5.0,225,1
+A0073,Cat,Small,Owner surrender,5.8,4.5,9.0,20,1
+A0074,Cat,Medium,Stray,,7.4,7.0,120,1
+A0075,Dog,Small,Owner surrender,2.4,5.7,8.0,140,1
+A0076,Cat,Small,Owner surrender,4.2,4.0,,115,0
+A0077,Rabbit,Small,Owner surrender,6.7,2.1,4.0,5,0
+A0078,Cat,Small,Stray,0.5,2.8,6.0,140,1
+A0079,Cat,Medium,Stray,5.3,5.5,4.0,40,0
+A0080,Dog,Medium,Owner surrender,7.9,,7.0,105,0
+A0081,Dog,Small,Stray,,5.7,7.0,210,1
+A0082,Cat,Small,Owner surrender,6.3,4.4,8.0,135,1
+A0083,Cat,Small,Stray,,3.6,7.0,135,1
+A0084,Dog,Extra large,Owner surrender,3.8,43.7,,185,0
+A0085,Cat,Small,Stray,1.7,2.9,8.0,105,1
+A0086,Cat,Small,Transfer,12.9,4.7,5.0,45,0
+A0087,Cat,Small,Stray,,4.0,5.0,90,1
+A0088,Dog,Medium,Stray,0.3,9.2,6.0,275,0
+A0089,Dog,Large,Owner surrender,5.7,40.4,6.0,120,0
+A0090,Dog,Large,Owner surrender,4.6,30.2,8.0,155,0
+A0091,Dog,Large,Stray,2.0,28.7,10.0,180,1
+A0092,Cat,Small,Owner surrender,4.0,3.6,7.0,45,0
+A0093,Dog,Large,Owner surrender,12.2,37.0,9.0,100,1
+A0094,Dog,Large,Stray,,30.7,6.0,210,1
+A0095,Dog,Small,Stray,1.0,6.5,7.0,145,1
+A0096,Cat,Small,Owner surrender,8.5,3.4,5.0,60,0
+A0097,Dog,Small,Stray,,3.4,5.0,245,1
+A0098,Dog,Large,Stray,,29.4,9.0,230,1
+A0099,Dog,Large,Transfer,9.7,31.4,7.0,95,0
+A0100,Dog,Small,Stray,1.5,5.1,7.0,190,1
+A0101,Rabbit,Small,Transfer,3.3,1.7,4.0,30,1
+A0102,Cat,Small,Transfer,5.4,4.3,9.0,115,1
+A0103,Dog,Small,Stray,,10.3,6.0,250,1
+A0104,Dog,Medium,Transfer,5.0,15.8,5.0,160,1
+A0105,Cat,Small,Stray,1.4,3.0,6.0,135,0
+A0106,Dog,Medium,Owner surrender,3.8,19.9,7.0,135,1
+A0107,Cat,Small,Stray,3.7,3.8,7.0,140,1
+A0108,Cat,Small,Stray,6.6,3.4,9.0,40,1
+A0109,Dog,Large,Transfer,8.4,34.3,4.0,105,0
+A0110,Dog,Medium,Stray,,17.1,,200,0
+A0111,Cat,Small,Transfer,5.4,3.6,9.0,75,1
+A0112,Cat,Medium,Stray,0.2,2.7,10.0,205,1
+A0113,Dog,Large,Owner surrender,4.0,30.9,5.0,125,0
+A0114,Rabbit,Small,Stray,1.7,2.0,6.0,85,1
+A0115,Dog,Large,Owner surrender,11.7,24.1,,60,0
+A0116,Cat,Small,Transfer,2.7,4.8,4.0,110,1
+A0117,Cat,Medium,Owner surrender,2.4,4.9,4.0,60,0
+A0118,Dog,Medium,Stray,1.4,21.9,6.0,245,1
+A0119,Dog,Large,Stray,3.0,33.1,,175,0
+A0120,Cat,Medium,Owner surrender,1.2,5.7,8.0,125,1
+A0121,Dog,Medium,Owner surrender,0.9,17.8,6.0,225,1
+A0122,Cat,Medium,Stray,0.8,4.8,5.0,150,1
+A0123,Cat,Small,Transfer,,4.1,8.0,80,1
+A0124,Dog,Small,Transfer,10.5,8.8,5.0,40,1
+A0125,Cat,Small,Transfer,5.0,3.8,,30,0
+A0126,Dog,Small,Stray,,,6.0,260,1
+A0127,Dog,Small,Stray,2.0,6.0,10.0,170,1
+A0128,Dog,Large,Transfer,3.3,,6.0,90,0
+A0129,Dog,Large,Owner surrender,6.5,36.4,7.0,25,1
+A0130,Dog,Large,Stray,4.0,26.3,,105,0
+A0131,Rabbit,Small,Stray,,2.1,6.0,5,1
+A0132,Cat,Small,Stray,11.7,3.0,7.0,60,0
+A0133,Dog,Medium,Owner surrender,,14.9,,170,0
+A0134,Dog,Large,Owner surrender,6.6,29.6,,160,0
+A0135,Rabbit,Small,Stray,,2.2,5.0,5,0
+A0136,Dog,Large,Transfer,0.7,28.6,5.0,285,1
+A0137,Rabbit,Small,Owner surrender,0.3,1.0,9.0,50,1
+A0138,Dog,Small,Owner surrender,0.2,,10.0,270,1
+A0139,Dog,Large,Stray,11.5,32.4,7.0,85,0
+A0140,Cat,Medium,Stray,2.0,4.7,7.0,75,1
+A0141,Cat,Small,Stray,1.1,4.4,7.0,200,1
+A0142,Cat,Small,Transfer,6.8,5.1,9.0,55,1
+A0143,Dog,Large,Stray,1.2,38.0,,195,0
+A0144,Cat,Small,Stray,,3.8,5.0,195,0
+A0145,Dog,Medium,Stray,,16.7,6.0,185,0
+A0146,Cat,Small,Transfer,3.5,,7.0,65,1
+A0147,Dog,Large,Owner surrender,3.5,29.3,,125,0
+A0148,Dog,Medium,Stray,,11.6,7.0,260,1
+A0149,Dog,Medium,Stray,,12.7,,310,0
+A0150,Rabbit,Small,Owner surrender,10.2,2.0,8.0,65,1
+A0151,Dog,Large,Stray,1.3,27.4,8.0,170,1
+A0152,Cat,Small,Transfer,,4.7,,65,0
+A0153,Cat,Medium,Transfer,3.2,6.7,7.0,70,1
+A0154,Cat,Small,Stray,,3.8,6.0,75,1
+A0155,Cat,Small,Owner surrender,6.7,4.0,5.0,15,1
+A0156,Rabbit,Small,Stray,0.4,1.3,8.0,70,1
+A0157,Dog,Large,Stray,,24.6,10.0,60,0
+A0158,Dog,Large,Stray,,32.2,7.0,225,1
+A0159,Dog,Large,Stray,4.1,34.9,,145,0
+A0160,Dog,Medium,Owner surrender,6.6,23.7,,105,0
+A0161,Dog,Large,Stray,3.2,32.4,,145,0
+A0162,Cat,Small,Owner surrender,6.4,,4.0,25,0
+A0163,Cat,Small,Transfer,1.2,4.0,,110,1
+A0164,Dog,Large,Owner surrender,10.7,34.6,7.0,105,0
+A0165,Cat,Small,Stray,3.1,4.7,6.0,105,0
+A0166,Dog,Small,Stray,,6.1,8.0,130,1
+A0167,Cat,Small,Owner surrender,2.6,4.3,6.0,110,1
+A0168,Cat,Medium,Owner surrender,4.4,6.5,6.0,60,1
+A0169,Dog,Small,Owner surrender,0.9,4.7,,205,1
+A0170,Rabbit,Small,Stray,0.5,1.7,5.0,95,0
+A0171,Dog,Medium,Stray,,17.2,6.0,115,1
+A0172,Cat,Medium,Transfer,3.2,6.7,4.0,25,0
+A0173,Cat,Small,Owner surrender,8.9,,9.0,80,1
+A0174,Dog,Medium,Stray,,17.1,6.0,190,0
+A0175,Dog,Medium,Owner surrender,1.2,,5.0,245,0
+A0176,Dog,Small,Stray,,6.9,8.0,225,1
+A0177,Cat,Small,Owner surrender,4.2,4.7,,120,0
+A0178,Cat,Small,Owner surrender,2.1,4.0,8.0,120,1
+A0179,Cat,Small,Owner surrender,2.8,3.5,6.0,120,0
+A0180,Dog,Extra large,Stray,1.0,39.9,10.0,210,1
+A0181,Cat,Small,Transfer,4.3,3.6,5.0,60,1
+A0182,Cat,Small,Transfer,2.1,4.6,5.0,145,1
+A0183,Cat,Small,Transfer,3.1,3.6,4.0,80,1
+A0184,Dog,Extra large,Owner surrender,,55.7,,110,0
+A0185,Cat,Small,Stray,3.9,4.2,6.0,125,0
+A0186,Dog,Small,Transfer,1.2,6.8,,260,1
+A0187,Dog,Large,Owner surrender,9.9,,7.0,100,0
+A0188,Dog,Large,Owner surrender,5.0,29.9,5.0,170,0
+A0189,Dog,Large,Owner surrender,10.4,30.2,8.0,40,0
+A0190,Dog,Large,Stray,4.0,35.5,,120,0
+A0191,Dog,Medium,Transfer,,19.8,7.0,160,1
+A0192,Cat,Small,Owner surrender,2.3,3.6,6.0,145,1
+A0193,Dog,Medium,Stray,8.9,25.7,6.0,145,0
+A0194,Cat,Small,Stray,3.9,4.5,5.0,55,1
+A0195,Dog,Extra large,Stray,2.3,36.8,9.0,170,1
+A0196,Cat,Small,Stray,1.9,4.0,5.0,140,0
+A0197,Dog,Large,Transfer,3.5,36.3,,150,1
+A0198,Dog,Medium,Stray,3.2,18.4,5.0,145,0
+A0199,Rabbit,Small,Stray,1.6,2.2,5.0,90,0
+A0200,Dog,Small,Transfer,7.8,9.9,6.0,160,0
+A0201,Cat,Medium,Stray,,6.8,7.0,65,0
+A0202,Cat,Small,Stray,0.8,,,110,0
+A0203,Cat,Small,Owner surrender,5.7,4.6,5.0,55,0
+A0204,Dog,Small,Stray,,,,305,0
+A0205,Cat,Medium,Owner surrender,5.9,7.4,7.0,45,0
+A0206,Dog,Large,Transfer,7.9,28.5,4.0,115,0
+A0207,Cat,Small,Owner surrender,14.7,4.8,,75,0
+A0208,Rabbit,Small,Stray,0.9,2.0,7.0,100,1
+A0209,Cat,Small,Stray,4.8,3.7,6.0,80,0
+A0210,Dog,Small,Owner surrender,1.3,6.2,7.0,225,1
+A0211,Dog,Medium,Transfer,2.3,17.3,6.0,130,1
+A0212,Dog,Extra large,Owner surrender,1.1,47.3,7.0,215,1
+A0213,Dog,Extra large,Owner surrender,3.0,54.4,6.0,115,0
+A0214,Cat,Small,Owner surrender,3.2,4.2,4.0,90,0
+A0215,Cat,Small,Stray,,5.5,6.0,60,0
+A0216,Dog,Large,Owner surrender,3.7,36.1,5.0,125,0
+A0217,Cat,Small,Stray,5.8,3.8,5.0,80,0
+A0218,Cat,Small,Stray,2.7,3.8,7.0,80,1
+A0219,Dog,Medium,Transfer,1.3,18.1,5.0,250,1
+A0220,Cat,Small,Stray,0.7,3.3,,185,1
+A0221,Cat,Medium,Owner surrender,7.6,5.9,8.0,25,1
+A0222,Dog,Medium,Owner surrender,1.3,20.1,10.0,255,1
+A0223,Cat,Small,Stray,,4.3,5.0,60,0
+A0224,Cat,Small,Transfer,1.7,4.8,8.0,90,1
+A0225,Cat,Small,Stray,0.2,2.1,7.0,175,0
+A0226,Dog,Medium,Transfer,6.4,15.7,5.0,55,1
+A0227,Cat,Medium,Stray,,4.8,4.0,65,0
+A0228,Cat,Medium,Owner surrender,0.6,,5.0,200,1
+A0229,Cat,Small,Transfer,1.6,3.9,5.0,70,1
+A0230,Cat,Small,Transfer,1.8,4.2,5.0,125,1
+A0231,Dog,Medium,Owner surrender,14.5,17.4,6.0,110,0
+A0232,Cat,Medium,Stray,0.4,4.1,,190,0
+A0233,Cat,Small,Owner surrender,5.9,5.7,8.0,80,0
+A0234,Cat,Medium,Owner surrender,1.9,,4.0,120,0
+A0235,Dog,Medium,Stray,,17.2,4.0,80,0
+A0236,Dog,Extra large,Stray,1.5,41.6,8.0,230,1
+A0237,Cat,Small,Transfer,,3.6,7.0,70,1
+A0238,Dog,Large,Owner surrender,0.6,29.8,9.0,295,1
+A0239,Cat,Medium,Stray,3.8,5.9,6.0,85,0
+A0240,Rabbit,Small,Owner surrender,1.0,2.4,,60,1
+A0241,Dog,Medium,Owner surrender,8.3,15.1,8.0,90,1
+A0242,Dog,Small,Transfer,5.9,9.2,6.0,120,0
+A0243,Dog,Large,Owner surrender,4.1,44.7,6.0,155,1
+A0244,Cat,Small,Stray,,3.7,4.0,40,0
+A0245,Dog,Large,Stray,2.3,31.8,7.0,125,1
+A0246,Dog,Medium,Stray,,17.6,,150,0
+A0247,Dog,Extra large,Transfer,2.9,48.7,7.0,130,1
+A0248,Cat,Small,Stray,,3.4,,105,0
+A0249,Cat,Medium,Stray,,6.4,8.0,100,0
+A0250,Dog,Large,Transfer,2.8,35.5,,140,0
+A0251,Dog,Medium,Stray,2.6,16.4,7.0,200,1
+A0252,Dog,Extra large,Owner surrender,1.8,31.9,10.0,165,1
+A0253,Dog,Large,Transfer,2.0,28.8,5.0,150,0
+A0254,Dog,Large,Transfer,,25.1,4.0,230,0
+A0255,Dog,Medium,Stray,,20.1,10.0,130,1
+A0256,Dog,Extra large,Owner surrender,2.8,40.9,,155,1
+A0257,Dog,Small,Stray,2.0,5.9,4.0,160,1
+A0258,Cat,Medium,Owner surrender,7.1,6.6,8.0,25,0
+A0259,Cat,Small,Stray,1.0,4.4,,95,0
+A0260,Dog,Small,Stray,,7.0,3.0,255,0
+A0261,Dog,Large,Stray,2.4,32.1,,140,0
+A0262,Cat,Small,Stray,,4.9,5.0,90,0
+A0263,Dog,Medium,Owner surrender,0.9,18.6,,230,1
+A0264,Dog,Small,Stray,1.5,5.3,8.0,210,1
+A0265,Dog,Large,Stray,,32.9,8.0,240,0
+A0266,Dog,Small,Stray,7.8,7.8,6.0,145,0
+A0267,Cat,Small,Stray,4.0,4.2,5.0,45,0
+A0268,Dog,Large,Stray,4.5,39.7,,100,0
+A0269,Dog,Large,Stray,0.9,28.0,7.0,175,1
+A0270,Cat,Small,Owner surrender,3.6,4.6,5.0,10,0
+A0271,Cat,Small,Stray,,3.5,7.0,70,1
+A0272,Dog,Small,Owner surrender,1.4,7.0,8.0,240,1
+A0273,Dog,Large,Stray,0.6,23.4,6.0,260,1
+A0274,Cat,Medium,Stray,,5.1,,55,0
+A0275,Dog,Large,Stray,6.6,26.2,,75,0
+A0276,Cat,Medium,Transfer,6.9,6.2,9.0,40,1
+A0277,Dog,Small,Stray,,7.4,7.0,155,1
+A0278,Cat,Small,Stray,3.3,3.8,9.0,130,1
+A0279,Cat,Small,Transfer,,3.5,,10,0
+A0280,Cat,Small,Stray,5.4,3.7,6.0,45,0
+A0281,Cat,Small,Stray,1.5,4.7,6.0,130,1
+A0282,Dog,Small,Stray,,5.8,,220,0
+A0283,Dog,Medium,Transfer,7.5,21.3,5.0,20,1
+A0284,Dog,Small,Stray,0.8,5.0,8.0,250,1
+A0285,Cat,Medium,Transfer,6.3,6.2,7.0,15,0
+A0286,Dog,Medium,Stray,5.8,19.8,5.0,80,0
+A0287,Dog,Large,Owner surrender,5.9,38.3,7.0,50,1
+A0288,Dog,Small,Owner surrender,1.8,,8.0,210,1
+A0289,Cat,Medium,Owner surrender,3.8,5.3,,180,0
+A0290,Cat,Small,Owner surrender,5.2,3.4,7.0,95,0
+A0291,Dog,Large,Stray,,28.0,8.0,260,1
+A0292,Dog,Medium,Stray,0.3,10.4,5.0,240,1
+A0293,Cat,Small,Transfer,3.1,3.9,9.0,110,1
+A0294,Cat,Small,Stray,8.7,3.9,6.0,95,0
+A0295,Cat,Small,Owner surrender,9.7,4.4,8.0,15,0
+A0296,Rabbit,Small,Owner surrender,10.4,2.0,8.0,55,0
+A0297,Rabbit,Small,Transfer,,2.4,6.0,0,0
+A0298,Cat,Small,Stray,1.7,3.0,5.0,70,1
+A0299,Cat,Medium,Stray,0.3,4.2,5.0,180,1
+A0300,Dog,Medium,Transfer,10.7,16.6,6.0,45,0
+A0301,Cat,Small,Owner surrender,8.8,4.1,6.0,80,0
+A0302,Dog,Small,Owner surrender,7.5,6.7,9.0,140,0
+A0303,Cat,Small,Owner surrender,3.1,4.1,6.0,85,1
+A0304,Cat,Small,Owner surrender,0.2,2.6,7.0,200,1
+A0305,Cat,Small,Transfer,1.9,4.3,9.0,160,1
+A0306,Dog,Large,Owner surrender,4.6,25.7,7.0,130,1
+A0307,Dog,Small,Stray,0.3,4.3,7.0,335,0
+A0308,Dog,Small,Transfer,2.9,6.9,9.0,195,1
+A0309,Dog,Small,Stray,3.4,7.4,6.0,100,1
+A0310,Cat,Small,Transfer,1.6,4.2,7.0,190,1
+A0311,Dog,Small,Stray,,6.1,7.0,290,1
+A0312,Dog,Medium,Owner surrender,1.6,21.0,6.0,205,1
+A0313,Dog,Medium,Owner surrender,1.7,15.3,4.0,220,1
+A0314,Cat,Small,Stray,0.2,3.3,,195,1
+A0315,Dog,Extra large,Owner surrender,3.9,41.3,6.0,130,0
+A0316,Cat,Medium,Owner surrender,4.2,5.1,8.0,40,1
+A0317,Cat,Small,Stray,1.3,4.7,8.0,115,1
+A0318,Dog,Large,Transfer,5.1,37.6,9.0,95,1
+A0319,Dog,Large,Owner surrender,10.1,38.6,8.0,125,1
+A0320,Cat,Small,Owner surrender,4.8,,5.0,80,0
+A0321,Rabbit,Small,Transfer,0.2,1.2,,105,0
+A0322,Dog,Medium,Stray,,15.2,5.0,255,0
+A0323,Cat,Small,Stray,0.9,4.3,5.0,185,0
+A0324,Cat,Small,Transfer,6.7,4.2,4.0,0,0
+A0325,Cat,Medium,Stray,1.7,5.5,,85,0
+A0326,Dog,Large,Transfer,3.8,40.7,4.0,155,0
+A0327,Dog,Medium,Stray,,22.5,7.0,230,1
+A0328,Rabbit,Small,Transfer,,2.0,8.0,50,0
+A0329,Dog,Large,Stray,,30.9,2.0,265,0
+A0330,Dog,Medium,Owner surrender,3.3,16.7,5.0,160,1
+A0331,Cat,Small,Owner surrender,5.7,3.3,8.0,15,1
+A0332,Dog,Extra large,Stray,,31.6,8.0,260,0
+A0333,Cat,Medium,Owner surrender,3.7,5.6,6.0,40,0
+A0334,Dog,Extra large,Owner surrender,7.5,44.9,4.0,110,0
+A0335,Cat,Small,Stray,,,5.0,155,1
+A0336,Dog,Medium,Transfer,5.7,13.5,6.0,95,1
+A0337,Cat,Medium,Transfer,7.1,6.6,8.0,75,1
+A0338,Dog,Large,Stray,2.4,41.4,7.0,155,0
+A0339,Dog,Small,Stray,0.5,3.6,6.0,345,1
+A0340,Dog,Large,Stray,1.1,31.3,6.0,235,1
+A0341,Dog,Small,Owner surrender,12.4,8.0,8.0,100,0
+A0342,Dog,Small,Owner surrender,1.5,5.9,,220,0
+A0343,Cat,Medium,Stray,2.8,4.8,4.0,125,0
+A0344,Dog,Medium,Owner surrender,3.6,18.1,,150,0
+A0345,Dog,Large,Stray,,17.3,8.0,305,1
+A0346,Rabbit,Small,Owner surrender,3.6,1.8,8.0,40,1
+A0347,Cat,Small,Owner surrender,8.7,5.4,,75,0
+A0348,Cat,Small,Stray,2.1,5.3,6.0,125,0
+A0349,Dog,Large,Owner surrender,2.1,35.3,,160,0
+A0350,Dog,Large,Owner surrender,6.1,31.7,5.0,80,0
+A0351,Dog,Extra large,Transfer,6.1,42.9,6.0,95,1
+A0352,Dog,Large,Stray,,22.7,5.0,310,0
+A0353,Dog,Small,Owner surrender,2.5,6.8,5.0,145,1
+A0354,Dog,Medium,Transfer,2.4,22.5,4.0,130,1
+A0355,Dog,Medium,Stray,0.2,12.2,,295,0
+A0356,Dog,Medium,Transfer,,16.5,6.0,85,1
+A0357,Cat,Medium,Stray,1.4,6.7,6.0,145,1
+A0358,Dog,Large,Stray,1.6,40.6,7.0,180,1
+A0359,Dog,Small,Transfer,1.4,7.7,4.0,195,1
+A0360,Cat,Small,Stray,,3.7,5.0,170,0
+A0361,Dog,Large,Stray,2.5,30.8,8.0,175,1
+A0362,Dog,Small,Stray,3.2,6.7,7.0,110,0
+A0363,Dog,Medium,Owner surrender,4.2,18.4,8.0,160,1
+A0364,Dog,Extra large,Owner surrender,1.4,45.4,5.0,195,0
+A0365,Cat,Medium,Stray,,,5.0,50,0
+A0366,Dog,Medium,Owner surrender,17.0,20.6,,110,0
+A0367,Dog,Small,Stray,7.7,8.6,8.0,50,0
+A0368,Cat,Small,Transfer,15.2,3.9,4.0,50,0
+A0369,Cat,Medium,Stray,,4.8,,120,0
+A0370,Dog,Large,Owner surrender,1.7,34.0,4.0,215,0
+A0371,Dog,Small,Transfer,1.9,7.0,8.0,170,1
+A0372,Dog,Large,Stray,,34.3,6.0,185,1
+A0373,Rabbit,Small,Transfer,3.9,1.8,6.0,35,0
+A0374,Rabbit,Small,Owner surrender,3.7,2.1,6.0,80,0
+A0375,Dog,Medium,Owner surrender,6.3,15.8,,40,0
+A0376,Rabbit,Small,Stray,,2.4,6.0,70,0
+A0377,Dog,Small,Owner surrender,10.1,9.1,,100,0
+A0378,Dog,Medium,Owner surrender,3.1,15.8,9.0,185,1
+A0379,Dog,Large,Owner surrender,8.5,21.8,6.0,55,0
+A0380,Cat,Small,Transfer,3.2,3.9,8.0,120,1
+A0381,Dog,Large,Owner surrender,8.2,29.8,,65,0
+A0382,Dog,Large,Stray,,19.5,7.0,310,0
+A0383,Cat,Small,Transfer,1.4,4.3,,115,1
+A0384,Dog,Medium,Owner surrender,3.4,19.6,,50,1
+A0385,Dog,Large,Owner surrender,6.2,48.5,6.0,100,0
+A0386,Dog,Extra large,Owner surrender,12.3,41.8,8.0,105,0
+A0387,Cat,Small,Stray,,4.0,9.0,150,1
+A0388,Cat,Small,Stray,,4.5,9.0,110,1
+A0389,Cat,Small,Stray,,3.2,5.0,95,1
+A0390,Cat,Small,Owner surrender,4.7,4.8,8.0,90,1
+A0391,Cat,Small,Transfer,12.2,3.9,5.0,45,0
+A0392,Cat,Medium,Owner surrender,0.7,4.2,5.0,190,0
+A0393,Cat,Small,Transfer,3.9,3.7,6.0,120,0
+A0394,Cat,Small,Stray,,,6.0,90,0
+A0395,Dog,Medium,Stray,1.1,,8.0,225,1
+A0396,Dog,Medium,Stray,1.6,21.9,,175,0
+A0397,Cat,Medium,Stray,4.8,6.5,8.0,0,1
+A0398,Dog,Large,Stray,0.3,17.5,5.0,300,1
+A0399,Cat,Small,Stray,1.6,4.6,9.0,145,1
+A0400,Cat,Medium,Stray,2.2,6.0,8.0,135,1
+A0401,Dog,Small,Owner surrender,2.9,10.1,4.0,145,0
+A0402,Rabbit,Small,Owner surrender,6.5,1.5,6.0,90,0
+A0403,Dog,Medium,Transfer,6.7,23.2,7.0,80,1
+A0404,Dog,Extra large,Transfer,1.4,51.1,,210,1
+A0405,Dog,Medium,Stray,7.8,,4.0,75,0
+A0406,Rabbit,Small,Transfer,6.8,2.0,5.0,15,0
+A0407,Cat,Small,Owner surrender,2.1,3.9,7.0,95,1
+A0408,Cat,Small,Owner surrender,8.0,3.7,8.0,35,0
+A0409,Dog,Large,Transfer,14.4,,5.0,75,0
+A0410,Cat,Small,Owner surrender,4.7,5.8,8.0,80,1
+A0411,Cat,Small,Stray,,4.9,9.0,120,1
+A0412,Cat,Small,Stray,1.7,4.7,8.0,80,1
+A0413,Rabbit,Small,Stray,2.9,2.1,5.0,60,0
+A0414,Dog,Large,Owner surrender,13.6,24.3,4.0,65,0
+A0415,Dog,Large,Owner surrender,6.1,31.1,7.0,115,0
+A0416,Cat,Small,Owner surrender,3.6,,8.0,80,1
+A0417,Cat,Small,Stray,,5.1,7.0,0,0
+A0418,Dog,Small,Stray,1.2,6.1,5.0,190,1
+A0419,Cat,Medium,Owner surrender,2.8,6.3,,120,0
+A0420,Dog,Extra large,Owner surrender,7.9,44.1,8.0,75,0
+A0421,Cat,Small,Stray,4.1,4.3,6.0,50,0
+A0422,Cat,Small,Stray,,3.8,10.0,60,1
+A0423,Dog,Medium,Stray,,10.8,4.0,310,0
+A0424,Cat,Small,Owner surrender,7.1,4.3,5.0,80,0
+A0425,Dog,Medium,Owner surrender,2.5,13.8,5.0,150,1
+A0426,Rabbit,Small,Stray,1.3,2.4,10.0,120,1
+A0427,Dog,Medium,Transfer,,25.4,8.0,90,1
+A0428,Dog,Medium,Stray,2.8,16.0,5.0,135,0
+A0429,Cat,Small,Stray,,5.1,,65,0
+A0430,Dog,Medium,Stray,1.8,15.8,8.0,195,1
+A0431,Cat,Medium,Transfer,,5.6,6.0,165,1
+A0432,Dog,Large,Owner surrender,5.1,42.4,,185,0
+A0433,Cat,Small,Owner surrender,3.8,4.4,,65,0
+A0434,Cat,Small,Transfer,5.4,5.4,7.0,60,1
+A0435,Rabbit,Small,Stray,,2.1,6.0,90,0
+A0436,Dog,Small,Stray,2.3,8.3,6.0,160,1
+A0437,Dog,Medium,Stray,,17.9,7.0,185,1
+A0438,Cat,Small,Owner surrender,9.9,5.3,5.0,20,0
+A0439,Cat,Small,Stray,0.3,3.4,5.0,205,0
+A0440,Dog,Large,Stray,,36.1,7.0,135,1
+A0441,Cat,Small,Owner surrender,4.9,3.9,6.0,85,1
+A0442,Dog,Small,Transfer,4.0,,5.0,145,0
+A0443,Dog,Large,Transfer,,28.3,7.0,215,1
+A0444,Cat,Small,Stray,1.3,4.7,,100,0
+A0445,Dog,Large,Owner surrender,4.3,35.2,8.0,140,1
+A0446,Dog,Small,Transfer,7.3,6.4,7.0,120,1
+A0447,Cat,Small,Transfer,3.7,4.9,,45,0
+A0448,Cat,Medium,Stray,2.1,5.6,6.0,115,1
+A0449,Cat,Small,Transfer,12.5,5.6,8.0,25,0
+A0450,Cat,Small,Owner surrender,2.9,4.8,,50,1
+A0451,Dog,Small,Stray,0.7,7.7,,205,0
+A0452,Cat,Small,Owner surrender,2.2,3.8,,95,1
+A0453,Cat,Small,Stray,,3.7,6.0,40,1
+A0454,Cat,Small,Stray,10.9,3.3,10.0,0,1
+A0455,Cat,Small,Owner surrender,5.0,4.7,8.0,75,1
+A0456,Dog,Medium,Owner surrender,6.1,15.5,6.0,45,0
+A0457,Cat,Medium,Stray,0.4,4.9,7.0,195,1
+A0458,Dog,Large,Owner surrender,5.7,33.4,6.0,110,0
+A0459,Cat,Medium,Owner surrender,11.9,6.9,5.0,25,0
+A0460,Dog,Medium,Owner surrender,0.2,,7.0,255,1
+A0461,Dog,Medium,Owner surrender,5.7,16.8,,75,0
+A0462,Cat,Small,Owner surrender,2.9,4.4,8.0,40,1
+A0463,Dog,Large,Owner surrender,9.8,36.5,7.0,80,0
+A0464,Dog,Large,Owner surrender,1.3,26.9,5.0,205,0
+A0465,Cat,Small,Transfer,4.1,4.5,4.0,155,1
+A0466,Dog,Large,Stray,1.1,28.9,,160,0
+A0467,Cat,Small,Transfer,3.1,4.8,7.0,65,1
+A0468,Cat,Medium,Owner surrender,,5.9,6.0,155,1
+A0469,Dog,Extra large,Stray,1.8,43.9,6.0,225,0
+A0470,Cat,Medium,Owner surrender,2.9,6.5,9.0,135,1
+A0471,Dog,Medium,Stray,,21.9,,110,0
+A0472,Dog,Small,Owner surrender,4.8,6.9,5.0,140,0
+A0473,Cat,Medium,Owner surrender,3.1,7.4,4.0,0,0
+A0474,Cat,Small,Owner surrender,1.7,3.7,8.0,110,1
+A0475,Cat,Small,Owner surrender,2.1,,6.0,135,1
+A0476,Cat,Small,Owner surrender,3.4,3.6,,105,0
+A0477,Cat,Small,Stray,,4.4,6.0,80,1
+A0478,Cat,Small,Stray,1.5,3.7,7.0,95,1
+A0479,Dog,Large,Owner surrender,3.9,32.8,9.0,50,1
+A0480,Dog,Large,Transfer,7.3,35.9,7.0,70,1
+A0481,Dog,Large,Stray,2.3,28.3,5.0,120,0
+A0482,Dog,Medium,Transfer,13.4,14.1,5.0,100,0
+A0483,Dog,Small,Stray,,3.9,4.0,280,1
+A0484,Rabbit,Small,Owner surrender,0.8,1.9,7.0,95,1
+A0485,Dog,Extra large,Stray,4.3,47.6,8.0,115,0
+A0486,Dog,Large,Owner surrender,3.0,28.5,6.0,130,0
+A0487,Dog,Extra large,Stray,4.6,52.0,6.0,175,0
+A0488,Cat,Small,Owner surrender,17.0,4.1,9.0,95,0
+A0489,Rabbit,Small,Stray,2.3,2.3,6.0,5,0
+A0490,Cat,Medium,Stray,3.0,5.4,7.0,130,1
+A0491,Dog,Medium,Owner surrender,5.6,19.6,4.0,130,0
+A0492,Dog,Medium,Stray,,21.9,5.0,250,1
+A0493,Cat,Small,Transfer,,,,140,0
+A0494,Dog,Medium,Owner surrender,4.4,17.6,,55,0
+A0495,Cat,Small,Transfer,,4.7,7.0,55,1
+A0496,Dog,Small,Stray,,7.7,8.0,20,0
+A0497,Cat,Small,Owner surrender,9.1,,5.0,10,0
+A0498,Dog,Medium,Stray,,10.1,,285,0
+A0499,Dog,Large,Stray,2.8,25.8,6.0,195,0
+A0500,Dog,Large,Stray,,18.5,8.0,305,1
+A0501,Dog,Large,Owner surrender,0.8,23.4,6.0,260,1
+A0502,Cat,Small,Owner surrender,0.6,3.5,8.0,185,1
+A0503,Cat,Small,Owner surrender,0.4,2.0,6.0,140,1
+A0504,Dog,Medium,Stray,2.0,22.7,4.0,220,0
+A0505,Cat,Medium,Owner surrender,4.8,8.1,,75,0
+A0506,Dog,Large,Stray,,34.9,5.0,140,0
+A0507,Dog,Extra large,Stray,,40.4,10.0,100,1
+A0508,Dog,Small,Owner surrender,1.9,6.8,7.0,175,1
+A0509,Dog,Small,Owner surrender,3.5,8.1,6.0,150,1
+A0510,Dog,Extra large,Owner surrender,5.4,50.6,7.0,155,0
+A0511,Cat,Small,Transfer,8.5,3.9,6.0,45,1
+A0512,Cat,Small,Transfer,4.6,5.1,5.0,60,1
+A0513,Dog,Large,Stray,2.6,36.3,6.0,215,0
+A0514,Cat,Small,Transfer,7.4,4.6,5.0,165,0
+A0515,Cat,Small,Owner surrender,0.4,2.7,7.0,230,0
+A0516,Dog,Small,Owner surrender,7.9,7.1,9.0,100,1
+A0517,Dog,Medium,Stray,,11.3,9.0,270,1
+A0518,Cat,Small,Stray,,,5.0,140,0
+A0519,Dog,Small,Owner surrender,1.8,6.5,7.0,200,1
+A0520,Cat,Medium,Stray,,7.3,5.0,110,0
+A0521,Dog,Medium,Owner surrender,1.0,18.4,,280,1
+A0522,Cat,Small,Stray,5.0,4.4,6.0,155,0
+A0523,Dog,Large,Owner surrender,4.0,34.2,7.0,95,1
+A0524,Dog,Medium,Owner surrender,0.3,11.6,6.0,270,1
+A0525,Dog,Extra large,Owner surrender,1.7,37.1,8.0,175,1
+A0526,Cat,Small,Stray,,5.2,8.0,20,1
+A0527,Dog,Large,Owner surrender,14.2,33.1,8.0,120,0
+A0528,Rabbit,Small,Stray,0.5,,6.0,35,0
+A0529,Dog,Small,Owner surrender,6.8,6.2,,120,0
+A0530,Dog,Large,Owner surrender,6.3,,10.0,115,1
+A0531,Dog,Extra large,Owner surrender,6.1,41.8,5.0,125,0
+A0532,Dog,Large,Owner surrender,1.8,32.6,7.0,135,1
+A0533,Dog,Extra large,Stray,,27.4,7.0,290,1
+A0534,Cat,Small,Transfer,,4.3,5.0,95,0
+A0535,Cat,Small,Transfer,17.0,4.4,10.0,85,0
+A0536,Dog,Large,Transfer,1.1,29.4,7.0,240,1
+A0537,Dog,Large,Transfer,5.6,45.2,6.0,85,1
+A0538,Dog,Medium,Stray,1.4,18.0,5.0,250,1
+A0539,Cat,Small,Transfer,2.6,4.5,4.0,140,1
+A0540,Dog,Small,Owner surrender,3.6,7.2,,175,0
+A0541,Cat,Medium,Stray,1.8,6.0,7.0,85,1
+A0542,Cat,Small,Owner surrender,7.5,4.7,5.0,75,0
+A0543,Cat,Small,Transfer,3.1,5.2,5.0,55,1
+A0544,Cat,Medium,Owner surrender,2.5,6.0,7.0,90,1
+A0545,Cat,Small,Transfer,10.5,3.8,5.0,80,0
+A0546,Dog,Small,Stray,,7.3,7.0,195,1
+A0547,Dog,Large,Transfer,1.1,23.6,5.0,325,1
+A0548,Dog,Small,Transfer,2.6,7.3,5.0,195,1
+A0549,Dog,Small,Owner surrender,4.8,6.9,8.0,85,1
+A0550,Dog,Small,Transfer,6.7,7.5,5.0,80,0
+A0551,Dog,Medium,Stray,3.7,14.6,7.0,125,0
+A0552,Cat,Medium,Stray,1.5,5.7,7.0,120,0
+A0553,Dog,Large,Stray,5.5,27.9,6.0,65,1
+A0554,Dog,Large,Owner surrender,6.2,30.0,,95,0
+A0555,Dog,Extra large,Transfer,0.6,38.5,,215,1
+A0556,Dog,Large,Transfer,3.3,31.5,4.0,115,1
+A0557,Rabbit,Small,Stray,5.4,1.9,3.0,95,0
+A0558,Dog,Small,Owner surrender,1.1,8.5,8.0,225,1
+A0559,Dog,Extra large,Owner surrender,6.1,45.7,4.0,90,0
+A0560,Dog,Small,Stray,0.3,3.2,4.0,355,0
+A0561,Dog,Large,Transfer,0.4,18.2,5.0,300,1
+A0562,Dog,Medium,Owner surrender,9.7,19.4,6.0,115,0
+A0563,Dog,Large,Stray,6.4,34.6,,80,1
+A0564,Dog,Small,Stray,,7.3,7.0,140,1
+A0565,Dog,Medium,Owner surrender,0.6,14.6,7.0,260,1
+A0566,Cat,Medium,Transfer,3.6,5.3,5.0,110,1
+A0567,Dog,Large,Stray,0.8,27.9,8.0,275,1
+A0568,Cat,Small,Owner surrender,3.5,3.6,,140,0
+A0569,Dog,Large,Stray,,28.6,5.0,220,0
+A0570,Dog,Medium,Transfer,4.0,15.9,6.0,120,1
+A0571,Cat,Medium,Stray,6.9,5.3,6.0,20,0
+A0572,Dog,Large,Transfer,2.1,30.7,8.0,165,1
+A0573,Cat,Small,Owner surrender,8.4,4.1,5.0,30,1
+A0574,Cat,Medium,Owner surrender,6.0,5.4,4.0,115,0
+A0575,Cat,Small,Owner surrender,2.8,5.0,6.0,75,0
+A0576,Dog,Medium,Owner surrender,2.5,,6.0,80,1
+A0577,Cat,Small,Stray,,3.7,7.0,185,1
+A0578,Cat,Small,Stray,3.5,4.9,5.0,105,0
+A0579,Cat,Medium,Stray,5.1,5.0,6.0,35,1
+A0580,Dog,Medium,Stray,4.6,20.7,5.0,140,0
+A0581,Rabbit,Small,Stray,1.5,1.6,7.0,15,1
+A0582,Cat,Medium,Owner surrender,17.0,7.5,5.0,60,0
+A0583,Dog,Extra large,Owner surrender,3.5,47.5,5.0,125,0
+A0584,Dog,Large,Owner surrender,4.7,27.8,8.0,125,0
+A0585,Dog,Medium,Owner surrender,1.5,13.1,,220,1
+A0586,Cat,Medium,Transfer,4.7,5.7,6.0,45,0
+A0587,Cat,Small,Transfer,1.3,3.5,7.0,160,1
+A0588,Rabbit,Small,Stray,,2.4,5.0,45,0
+A0589,Cat,Small,Owner surrender,8.0,3.5,8.0,60,1
+A0590,Cat,Small,Transfer,,4.1,5.0,135,1
+A0591,Cat,Medium,Stray,0.2,3.6,8.0,150,1
+A0592,Cat,Small,Owner surrender,3.6,4.2,,80,0
+A0593,Rabbit,Small,Owner surrender,,,,100,0
+A0594,Cat,Small,Owner surrender,2.6,4.1,6.0,135,1
+A0595,Dog,Medium,Owner surrender,4.1,20.1,9.0,95,1
+A0596,Dog,Medium,Owner surrender,2.5,15.7,9.0,135,1
+A0597,Dog,Medium,Stray,2.4,,4.0,180,1
+A0598,Cat,Small,Transfer,8.9,3.5,6.0,35,0
+A0599,Cat,Small,Owner surrender,3.7,,,80,0
+A0600,Dog,Small,Stray,1.4,5.9,,160,0
+A0601,Cat,Small,Owner surrender,4.0,4.1,7.0,95,0
+A0602,Cat,Small,Owner surrender,2.7,4.6,5.0,35,1
+A0603,Dog,Medium,Transfer,4.6,21.6,9.0,120,1
+A0604,Dog,Extra large,Owner surrender,15.9,34.5,7.0,115,0
+A0605,Dog,Large,Owner surrender,3.3,28.6,5.0,115,1
+A0606,Dog,Large,Stray,,20.3,5.0,220,1
+A0607,Dog,Large,Stray,,38.3,6.0,70,1
+A0608,Dog,Extra large,Stray,,39.6,7.0,105,1
+A0609,Cat,Medium,Owner surrender,5.4,,5.0,125,0
+A0610,Dog,Medium,Transfer,5.9,16.7,10.0,35,1
+A0611,Cat,Medium,Owner surrender,2.1,4.8,6.0,60,1
+A0612,Cat,Small,Stray,,2.5,,190,1
+A0613,Cat,Medium,Stray,1.0,5.1,6.0,140,1
+A0614,Dog,Small,Transfer,4.5,7.8,8.0,150,1
+A0615,Dog,Small,Stray,,7.9,7.0,155,1
+A0616,Cat,Small,Owner surrender,2.0,5.1,5.0,125,0
+A0617,Dog,Medium,Transfer,2.7,15.5,5.0,150,1
+A0618,Dog,Medium,Transfer,5.9,22.7,4.0,85,1
+A0619,Cat,Medium,Owner surrender,3.9,,,70,1
+A0620,Cat,Medium,Transfer,3.3,4.6,5.0,115,1
+A0621,Dog,Extra large,Stray,2.5,62.4,7.0,180,0
+A0622,Dog,Medium,Transfer,,23.1,5.0,145,0
+A0623,Rabbit,Small,Owner surrender,0.2,1.0,9.0,35,1
+A0624,Dog,Small,Stray,2.0,7.3,7.0,150,1
+A0625,Cat,Small,Transfer,2.9,3.4,5.0,65,1
+A0626,Dog,Medium,Stray,0.2,10.2,6.0,285,1
+A0627,Cat,Small,Transfer,3.7,4.3,9.0,40,1
+A0628,Dog,Small,Stray,2.9,7.7,,170,0
+A0629,Dog,Small,Owner surrender,5.9,6.2,6.0,140,1
+A0630,Dog,Small,Stray,1.1,7.0,10.0,290,1
+A0631,Cat,Small,Owner surrender,7.0,3.7,8.0,40,0
+A0632,Cat,Medium,Stray,4.1,6.3,,70,0
+A0633,Dog,Medium,Transfer,1.4,19.8,6.0,210,1
+A0634,Dog,Large,Stray,0.6,24.4,6.0,270,0
+A0635,Cat,Small,Owner surrender,1.3,5.0,10.0,100,1
+A0636,Cat,Small,Transfer,5.9,4.7,5.0,90,1
+A0637,Dog,Small,Stray,1.6,7.4,5.0,125,1
+A0638,Cat,Small,Owner surrender,3.7,5.0,5.0,60,0
+A0639,Dog,Medium,Stray,,14.9,,135,0
+A0640,Cat,Medium,Owner surrender,5.5,,,85,0
+A0641,Dog,Medium,Transfer,2.6,13.8,6.0,105,1
+A0642,Cat,Small,Stray,,,7.0,60,0
+A0643,Cat,Medium,Transfer,2.4,5.6,5.0,95,1
+A0644,Cat,Small,Stray,10.5,4.7,7.0,20,0
+A0645,Dog,Medium,Stray,,16.8,7.0,165,0
+A0646,Cat,Small,Transfer,3.9,3.8,7.0,60,1
+A0647,Cat,Small,Stray,0.9,4.0,,215,0
+A0648,Dog,Medium,Stray,,17.6,9.0,75,1
+A0649,Dog,Medium,Stray,5.1,19.4,8.0,80,1
+A0650,Rabbit,Small,Transfer,8.3,1.8,8.0,50,0
+A0651,Cat,Small,Transfer,0.8,2.9,6.0,155,1
+A0652,Dog,Extra large,Owner surrender,5.5,35.5,6.0,120,0
+A0653,Cat,Small,Owner surrender,5.2,5.0,5.0,55,1
+A0654,Dog,Large,Owner surrender,2.3,,7.0,200,1
+A0655,Dog,Medium,Transfer,4.4,16.8,,130,1
+A0656,Cat,Small,Stray,2.7,3.6,,135,0
+A0657,Dog,Medium,Owner surrender,3.7,20.5,8.0,80,1
+A0658,Dog,Medium,Transfer,2.5,,5.0,170,1
+A0659,Dog,Medium,Stray,0.4,14.1,7.0,280,1
+A0660,Dog,Extra large,Stray,,40.5,6.0,235,0
+A0661,Dog,Medium,Transfer,1.9,18.8,8.0,150,1
+A0662,Dog,Small,Stray,,7.8,10.0,250,1
+A0663,Dog,Small,Stray,,7.8,6.0,195,1
+A0664,Dog,Large,Transfer,6.6,26.8,5.0,130,1
+A0665,Dog,Medium,Owner surrender,0.8,15.5,,265,1
+A0666,Dog,Small,Owner surrender,4.0,6.9,7.0,60,1
+A0667,Cat,Medium,Stray,,4.6,5.0,85,0
+A0668,Cat,Small,Owner surrender,0.9,4.3,8.0,80,1
+A0669,Dog,Medium,Stray,,10.7,7.0,325,1
+A0670,Cat,Small,Owner surrender,5.5,4.5,8.0,5,1
+A0671,Dog,Medium,Owner surrender,7.0,14.6,5.0,95,0
+A0672,Dog,Medium,Transfer,8.9,18.5,4.0,85,0
+A0673,Dog,Small,Owner surrender,6.4,7.5,5.0,45,0
+A0674,Cat,Small,Transfer,1.9,,7.0,45,1
+A0675,Dog,Medium,Stray,2.6,16.6,4.0,170,0
+A0676,Cat,Small,Owner surrender,8.7,4.6,7.0,40,0
+A0677,Dog,Large,Stray,4.4,42.8,2.0,155,0
+A0678,Cat,Small,Owner surrender,7.8,3.9,5.0,55,0
+A0679,Cat,Medium,Owner surrender,2.3,5.6,6.0,195,1
+A0680,Cat,Small,Stray,3.1,4.0,,90,0
+A0681,Dog,Small,Owner surrender,2.9,5.6,,210,0
+A0682,Dog,Medium,Transfer,0.2,9.5,,320,0
+A0683,Dog,Medium,Stray,0.4,15.8,6.0,285,1
+A0684,Cat,Small,Owner surrender,2.1,3.7,6.0,125,0
+A0685,Dog,Extra large,Transfer,,43.7,7.0,65,1
+A0686,Dog,Extra large,Stray,1.0,52.4,4.0,215,0
+A0687,Cat,Small,Stray,,3.3,3.0,225,0
+A0688,Dog,Medium,Owner surrender,6.9,18.6,5.0,90,0
+A0689,Dog,Small,Owner surrender,3.2,6.7,6.0,100,0
+A0690,Rabbit,Small,Transfer,2.5,2.0,6.0,65,1
+A0691,Dog,Small,Owner surrender,1.3,7.0,6.0,185,1
+A0692,Dog,Small,Owner surrender,2.8,7.7,8.0,150,1
+A0693,Dog,Small,Stray,,7.1,,190,0
+A0694,Dog,Medium,Transfer,6.7,20.7,6.0,145,1
+A0695,Dog,Medium,Transfer,2.4,13.6,4.0,225,0
+A0696,Cat,Small,Stray,,4.7,5.0,105,1
+A0697,Rabbit,Small,Owner surrender,,1.8,8.0,60,1
+A0698,Cat,Small,Transfer,2.5,4.2,7.0,115,1
+A0699,Cat,Medium,Owner surrender,5.0,5.6,,75,0
+A0700,Dog,Large,Transfer,1.8,,8.0,190,1
+A0701,Cat,Small,Stray,1.0,4.1,2.0,220,0
+A0702,Cat,Small,Owner surrender,4.6,4.6,5.0,65,0
+A0703,Cat,Medium,Owner surrender,3.8,5.3,8.0,135,1
+A0704,Cat,Medium,Stray,4.1,6.2,6.0,70,0
+A0705,Cat,Small,Owner surrender,4.1,5.0,7.0,115,0
+A0706,Dog,Small,Stray,,7.3,8.0,155,1
+A0707,Cat,Small,Owner surrender,2.8,4.0,7.0,95,1
+A0708,Dog,Large,Owner surrender,2.9,,4.0,125,0
+A0709,Dog,Small,Owner surrender,7.4,6.6,7.0,155,1
+A0710,Cat,Medium,Stray,,5.4,5.0,200,0
+A0711,Cat,Small,Stray,,4.2,,65,0
+A0712,Dog,Medium,Transfer,5.0,,5.0,110,0
+A0713,Dog,Large,Owner surrender,2.6,34.9,7.0,190,1
+A0714,Cat,Small,Stray,,4.7,6.0,160,1
+A0715,Dog,Medium,Stray,1.9,22.6,6.0,185,0
+A0716,Dog,Medium,Owner surrender,1.0,,9.0,270,1
+A0717,Dog,Large,Stray,1.7,33.5,7.0,150,1
+A0718,Dog,Large,Transfer,3.8,30.0,8.0,185,1
+A0719,Cat,Small,Stray,3.7,3.3,7.0,95,0
+A0720,Cat,Small,Transfer,4.1,3.6,9.0,0,1
+A0721,Dog,Large,Owner surrender,2.4,29.7,5.0,130,0
+A0722,Cat,Small,Owner surrender,9.6,5.4,8.0,55,1
+A0723,Cat,Small,Owner surrender,2.5,4.3,10.0,180,1
+A0724,Dog,Large,Owner surrender,8.5,31.1,5.0,95,0
+A0725,Dog,Medium,Stray,,17.9,8.0,120,1
+A0726,Dog,Large,Owner surrender,5.8,28.7,,155,0
+A0727,Cat,Small,Stray,,4.3,7.0,110,0
+A0728,Cat,Small,Stray,0.8,3.6,7.0,155,1
+A0729,Dog,Medium,Transfer,2.2,14.2,4.0,210,1
+A0730,Dog,Large,Transfer,7.5,29.6,,85,0
+A0731,Dog,Small,Owner surrender,3.7,11.5,6.0,125,0
+A0732,Dog,Large,Stray,2.5,35.2,5.0,200,0
+A0733,Cat,Small,Owner surrender,2.7,4.1,6.0,110,0
+A0734,Dog,Extra large,Owner surrender,1.3,49.7,7.0,255,1
+A0735,Dog,Medium,Stray,3.5,15.6,8.0,120,1
+A0736,Dog,Medium,Stray,,,9.0,240,1
+A0737,Dog,Extra large,Owner surrender,1.5,51.3,7.0,160,1
+A0738,Cat,Small,Stray,0.6,2.7,3.0,115,0
+A0739,Dog,Large,Owner surrender,1.5,28.7,7.0,225,1
+A0740,Dog,Medium,Stray,0.8,14.8,7.0,245,1
+A0741,Dog,Medium,Stray,4.3,17.3,6.0,130,0
+A0742,Rabbit,Small,Owner surrender,15.2,1.9,9.0,30,0
+A0743,Cat,Small,Stray,,4.4,7.0,135,1
+A0744,Dog,Medium,Transfer,1.1,20.9,5.0,190,1
+A0745,Cat,Medium,Transfer,8.4,6.3,7.0,70,0
+A0746,Dog,Large,Owner surrender,2.4,37.2,,210,0
+A0747,Cat,Medium,Owner surrender,1.4,7.0,8.0,100,1
+A0748,Dog,Small,Owner surrender,4.5,6.4,6.0,185,0
+A0749,Cat,Small,Stray,12.4,4.4,9.0,115,0
+A0750,Dog,Small,Transfer,,6.6,7.0,140,1
+A0751,Dog,Extra large,Stray,7.0,49.6,7.0,130,0
+A0752,Cat,Medium,Owner surrender,1.0,5.6,6.0,110,1
+A0753,Dog,Large,Owner surrender,2.6,31.2,4.0,155,0
+A0754,Dog,Medium,Stray,,23.1,6.0,115,1
+A0755,Dog,Small,Stray,0.8,6.0,7.0,235,1
+A0756,Dog,Small,Owner surrender,2.1,5.6,8.0,115,1
+A0757,Dog,Large,Transfer,1.1,32.6,7.0,230,1
+A0758,Dog,Small,Stray,11.8,7.3,7.0,60,0
+A0759,Dog,Large,Owner surrender,6.9,29.7,7.0,70,1
+A0760,Dog,Medium,Owner surrender,5.4,18.2,5.0,40,0
+A0761,Dog,Small,Owner surrender,3.5,,7.0,140,1
+A0762,Cat,Medium,Owner surrender,5.3,5.6,6.0,135,1
+A0763,Dog,Large,Owner surrender,1.6,,4.0,190,0
+A0764,Dog,Large,Owner surrender,5.4,28.9,3.0,105,0
+A0765,Dog,Medium,Transfer,0.6,14.3,8.0,235,1
+A0766,Cat,Small,Owner surrender,2.1,4.1,9.0,90,1
+A0767,Dog,Medium,Owner surrender,15.2,15.7,9.0,65,0
+A0768,Dog,Extra large,Stray,,44.1,4.0,45,0
+A0769,Cat,Small,Stray,,5.5,9.0,35,1
+A0770,Dog,Large,Transfer,1.0,24.5,9.0,225,1
+A0771,Cat,Medium,Stray,0.2,2.9,5.0,195,1
+A0772,Cat,Medium,Stray,0.8,5.7,7.0,140,1
+A0773,Dog,Medium,Transfer,8.1,14.7,9.0,110,1
+A0774,Cat,Small,Stray,1.7,5.6,6.0,165,1
+A0775,Dog,Medium,Owner surrender,12.0,14.5,8.0,125,0
+A0776,Dog,Large,Stray,2.9,,5.0,135,0
+A0777,Dog,Small,Owner surrender,0.3,4.1,5.0,235,1
+A0778,Cat,Small,Transfer,4.3,4.9,8.0,70,1
+A0779,Rabbit,Small,Transfer,3.2,2.3,6.0,50,1
+A0780,Dog,Medium,Owner surrender,1.3,19.6,6.0,255,0
+A0781,Cat,Medium,Owner surrender,7.6,6.3,6.0,65,1
+A0782,Dog,Extra large,Owner surrender,4.1,54.6,,225,0
+A0783,Dog,Medium,Stray,,9.5,9.0,275,1
+A0784,Rabbit,Small,Stray,,2.1,6.0,80,1
+A0785,Cat,Small,Owner surrender,,5.2,5.0,50,1
+A0786,Dog,Large,Stray,0.2,15.4,5.0,275,0
+A0787,Cat,Small,Transfer,13.6,4.4,6.0,45,0
+A0788,Dog,Large,Stray,4.4,38.4,4.0,125,0
+A0789,Dog,Medium,Owner surrender,3.3,21.7,8.0,165,1
+A0790,Dog,Small,Stray,,6.9,5.0,85,1
+A0791,Rabbit,Small,Owner surrender,1.7,2.6,8.0,100,1
+A0792,Dog,Small,Owner surrender,8.1,7.6,,150,0
+A0793,Cat,Medium,Stray,,7.0,4.0,120,0
+A0794,Cat,Small,Transfer,1.1,3.6,4.0,170,1
+A0795,Dog,Small,Owner surrender,1.8,6.3,7.0,185,1
+A0796,Cat,Medium,Owner surrender,3.2,5.4,,105,0
+A0797,Dog,Large,Owner surrender,1.3,41.5,8.0,260,1
+A0798,Cat,Small,Stray,0.2,1.7,5.0,155,1
+A0799,Cat,Small,Transfer,4.6,3.2,8.0,95,1
+A0800,Cat,Small,Stray,3.2,4.7,5.0,105,1
+A0801,Rabbit,Small,Stray,,,8.0,85,1
+A0802,Dog,Extra large,Owner surrender,2.8,29.2,4.0,215,0
+A0803,Cat,Medium,Transfer,1.7,5.7,4.0,95,1
+A0804,Dog,Small,Transfer,2.6,6.7,7.0,125,1
+A0805,Cat,Small,Owner surrender,6.7,5.0,5.0,60,0
+A0806,Cat,Small,Stray,2.4,3.2,8.0,80,1
+A0807,Rabbit,Small,Owner surrender,3.8,1.9,5.0,90,0
+A0808,Dog,Small,Owner surrender,3.2,8.2,7.0,85,1
+A0809,Dog,Medium,Transfer,4.0,20.2,4.0,80,0
+A0810,Rabbit,Small,Transfer,4.3,1.8,3.0,50,0
+A0811,Rabbit,Small,Owner surrender,5.1,,9.0,60,1
+A0812,Dog,Medium,Transfer,4.5,14.5,6.0,75,1
+A0813,Rabbit,Small,Owner surrender,2.6,2.4,8.0,95,1
+A0814,Dog,Small,Transfer,3.3,6.6,6.0,70,1
+A0815,Dog,Small,Owner surrender,,8.5,,190,0
+A0816,Cat,Small,Stray,4.7,4.7,7.0,40,0
+A0817,Dog,Medium,Owner surrender,4.3,15.9,8.0,105,1
+A0818,Dog,Large,Owner surrender,6.4,,9.0,165,1
+A0819,Dog,Large,Stray,1.0,,9.0,240,1
+A0820,Dog,Extra large,Stray,1.9,48.1,7.0,160,0
+A0821,Dog,Medium,Stray,1.9,22.5,6.0,195,0
+A0822,Dog,Large,Owner surrender,0.9,36.5,6.0,310,1
+A0823,Cat,Small,Stray,,4.4,4.0,100,0
+A0824,Cat,Medium,Stray,3.2,6.7,8.0,60,1
+A0825,Cat,Medium,Transfer,9.0,5.4,7.0,65,0
+A0826,Cat,Medium,Transfer,,5.5,7.0,45,1
+A0827,Dog,Medium,Transfer,2.5,19.7,5.0,140,1
+A0828,Dog,Large,Transfer,,32.9,7.0,220,1
+A0829,Dog,Small,Owner surrender,0.3,3.8,5.0,320,1
+A0830,Dog,Medium,Owner surrender,0.3,10.7,9.0,285,1
+A0831,Cat,Small,Owner surrender,4.7,3.8,5.0,85,0
+A0832,Dog,Small,Owner surrender,2.6,6.5,5.0,195,1
+A0833,Dog,Large,Stray,,38.8,5.0,270,1
+A0834,Cat,Medium,Stray,,5.2,4.0,40,0
+A0835,Dog,Extra large,Owner surrender,6.6,41.1,4.0,100,0
+A0836,Dog,Medium,Owner surrender,8.8,19.6,5.0,55,0
+A0837,Cat,Medium,Transfer,7.5,6.1,,80,0
+A0838,Cat,Small,Stray,2.4,4.3,10.0,110,1
+A0839,Dog,Medium,Stray,,8.6,7.0,305,1
+A0840,Cat,Medium,Stray,,6.0,7.0,80,1
+A0841,Dog,Large,Stray,1.5,30.4,4.0,170,0
+A0842,Dog,Large,Stray,8.9,28.6,6.0,35,0
+A0843,Cat,Small,Owner surrender,3.7,3.9,6.0,110,0
+A0844,Dog,Large,Transfer,4.3,30.8,6.0,115,1
+A0845,Dog,Medium,Stray,3.9,20.4,,130,0
+A0846,Cat,Medium,Stray,0.7,6.4,6.0,170,1
+A0847,Cat,Small,Owner surrender,3.5,4.3,2.0,110,0
+A0848,Dog,Extra large,Stray,1.4,,6.0,275,1
+A0849,Cat,Small,Stray,2.1,4.3,,100,0
+A0850,Dog,Large,Transfer,12.2,25.9,5.0,115,0
+A0851,Rabbit,Small,Stray,0.8,1.8,5.0,20,0
+A0852,Dog,Medium,Stray,7.7,21.8,8.0,85,0
+A0853,Dog,Large,Owner surrender,3.9,39.4,8.0,100,1
+A0854,Dog,Medium,Owner surrender,9.9,15.9,6.0,70,1
+A0855,Rabbit,Small,Transfer,4.9,2.8,,75,0
+A0856,Dog,Small,Owner surrender,15.1,6.3,9.0,95,0
+A0857,Cat,Medium,Stray,2.4,5.4,,100,0
+A0858,Rabbit,Small,Stray,,1.9,5.0,50,0
+A0859,Rabbit,Small,Owner surrender,2.4,2.5,6.0,45,1
+A0860,Dog,Medium,Owner surrender,12.7,19.2,5.0,85,0
+A0861,Dog,Small,Stray,4.0,8.0,9.0,100,1
+A0862,Cat,Small,Stray,,,7.0,70,1
+A0863,Cat,Medium,Stray,,3.7,8.0,165,1
+A0864,Dog,Medium,Stray,1.4,17.8,5.0,205,1
+A0865,Dog,Large,Stray,,35.6,8.0,30,1
+A0866,Dog,Medium,Stray,0.6,13.3,6.0,270,1
+A0867,Dog,Small,Owner surrender,4.1,8.4,6.0,120,0
+A0868,Cat,Medium,Owner surrender,2.2,5.5,7.0,120,1
+A0869,Dog,Large,Transfer,6.4,26.3,7.0,65,1
+A0870,Dog,Small,Owner surrender,4.5,5.5,7.0,85,1
+A0871,Dog,Small,Stray,5.7,8.5,6.0,135,0
+A0872,Dog,Large,Transfer,7.3,35.9,3.0,75,0
+A0873,Dog,Medium,Owner surrender,3.7,16.2,5.0,145,0
+A0874,Cat,Medium,Transfer,2.9,7.1,,65,0
+A0875,Dog,Medium,Stray,,17.7,5.0,115,1
+A0876,Dog,Large,Transfer,2.3,31.6,4.0,115,1
+A0877,Cat,Small,Owner surrender,7.7,3.4,8.0,35,1
+A0878,Dog,Medium,Stray,0.2,9.6,,290,0
+A0879,Dog,Medium,Stray,4.8,18.4,10.0,70,0
+A0880,Rabbit,Small,Stray,,2.1,5.0,85,0
+A0881,Cat,Small,Stray,2.7,3.9,,95,0
+A0882,Cat,Small,Stray,0.7,4.1,7.0,125,1
+A0883,Dog,Small,Stray,0.4,5.7,7.0,345,1
+A0884,Dog,Large,Owner surrender,12.6,28.6,7.0,120,0
+A0885,Dog,Large,Stray,2.7,34.1,10.0,125,1
+A0886,Dog,Small,Stray,,,,250,0
+A0887,Dog,Large,Stray,4.7,34.2,7.0,110,0
+A0888,Dog,Large,Stray,,26.9,6.0,270,1
+A0889,Cat,Small,Stray,1.3,4.1,5.0,80,1
+A0890,Dog,Extra large,Stray,4.7,46.5,7.0,155,0
+A0891,Dog,Medium,Owner surrender,9.1,17.5,,80,0
+A0892,Cat,Small,Stray,,4.9,4.0,100,0
+A0893,Dog,Small,Transfer,3.0,6.3,7.0,140,1
+A0894,Dog,Medium,Transfer,3.9,16.9,8.0,145,1
+A0895,Dog,Medium,Owner surrender,6.1,19.0,7.0,125,1
+A0896,Cat,Small,Stray,2.9,4.2,3.0,135,0
+A0897,Cat,Medium,Stray,3.6,6.3,7.0,55,1
+A0898,Dog,Medium,Owner surrender,2.3,17.6,5.0,230,0
+A0899,Cat,Medium,Transfer,3.1,5.4,8.0,40,1
+A0900,Dog,Medium,Transfer,2.7,20.0,6.0,165,1
+A0901,Dog,Medium,Owner surrender,0.8,16.2,10.0,275,1
+A0902,Cat,Small,Transfer,4.6,4.8,,70,0
+A0903,Rabbit,Small,Stray,,2.4,7.0,90,1
+A0904,Cat,Small,Owner surrender,1.6,4.0,,65,0
+A0905,Cat,Small,Owner surrender,3.3,3.8,10.0,80,1
+A0906,Dog,Large,Stray,,30.2,9.0,220,0
+A0907,Dog,Small,Owner surrender,2.6,6.4,,160,1
+A0908,Cat,Small,Owner surrender,5.4,3.2,7.0,25,1
+A0909,Dog,Large,Transfer,7.8,40.9,6.0,100,0
+A0910,Dog,Medium,Stray,,19.3,,110,0
+A0911,Cat,Small,Stray,0.4,3.9,,140,1
+A0912,Cat,Medium,Stray,,,6.0,110,1
+A0913,Cat,Small,Stray,,4.6,7.0,75,1
+A0914,Dog,Medium,Stray,,18.9,5.0,105,0
+A0915,Dog,Small,Stray,,7.0,7.0,140,1
+A0916,Dog,Small,Transfer,6.6,8.1,7.0,80,1
+A0917,Cat,Small,Stray,,3.7,7.0,150,0
+A0918,Rabbit,Small,Owner surrender,2.5,2.0,4.0,55,0
+A0919,Dog,Small,Stray,,7.2,6.0,120,1
+A0920,Cat,Medium,Stray,0.5,3.2,7.0,190,1
+A0921,Dog,Extra large,Stray,,40.9,,190,0
+A0922,Dog,Large,Owner surrender,7.0,29.0,9.0,140,0
+A0923,Dog,Extra large,Stray,3.0,57.6,9.0,110,1
+A0924,Dog,Large,Stray,2.7,35.1,6.0,155,0
+A0925,Dog,Medium,Owner surrender,,20.3,10.0,125,1
+A0926,Dog,Medium,Stray,7.7,19.9,4.0,105,0
+A0927,Cat,Small,Transfer,1.2,4.1,,60,1
+A0928,Dog,Medium,Stray,3.5,23.0,5.0,100,1
+A0929,Cat,Medium,Stray,1.7,5.9,5.0,130,0
+A0930,Cat,Small,Transfer,3.6,3.5,10.0,100,1
+A0931,Dog,Small,Stray,1.0,7.7,6.0,240,1
+A0932,Dog,Medium,Stray,6.2,21.5,6.0,110,0
+A0933,Rabbit,Small,Owner surrender,6.4,2.0,7.0,75,0
+A0934,Dog,Medium,Owner surrender,3.7,19.1,9.0,120,1
+A0935,Dog,Small,Stray,0.3,5.2,6.0,270,1
+A0936,Dog,Large,Stray,,39.2,5.0,295,1
+A0937,Rabbit,Small,Owner surrender,3.9,2.2,7.0,60,1
+A0938,Cat,Small,Owner surrender,7.2,5.4,9.0,55,1
+A0939,Dog,Large,Stray,2.0,33.7,6.0,155,1
+A0940,Dog,Medium,Owner surrender,,24.6,9.0,150,1
+A0941,Dog,Medium,Transfer,,13.5,7.0,240,1
+A0942,Dog,Large,Owner surrender,8.5,37.0,6.0,70,0
+A0943,Rabbit,Small,Stray,3.3,2.1,7.0,85,1
+A0944,Rabbit,Small,Owner surrender,3.7,2.1,10.0,0,1
+A0945,Dog,Medium,Owner surrender,0.8,13.2,6.0,250,1
+A0946,Dog,Medium,Stray,,21.2,9.0,165,1
+A0947,Dog,Medium,Transfer,,17.7,7.0,125,1
+A0948,Cat,Medium,Stray,,5.2,6.0,90,1
+A0949,Cat,Small,Owner surrender,1.2,3.9,6.0,150,1
+A0950,Cat,Small,Stray,,3.3,8.0,120,1
+A0951,Cat,Medium,Owner surrender,2.5,6.1,7.0,90,1
+A0952,Dog,Small,Owner surrender,2.9,6.2,7.0,175,1
+A0953,Cat,Medium,Transfer,4.7,5.3,7.0,30,0
+A0954,Dog,Medium,Owner surrender,1.5,,4.0,250,0
+A0955,Cat,Small,Stray,0.6,3.2,5.0,160,1
+A0956,Dog,Large,Owner surrender,7.1,42.9,4.0,95,0
+A0957,Dog,Extra large,Transfer,3.2,42.7,5.0,125,1
+A0958,Rabbit,Small,Owner surrender,3.9,2.2,6.0,60,1
+A0959,Dog,Extra large,Transfer,1.1,58.4,5.0,215,1
+A0960,Dog,Medium,Owner surrender,4.2,17.7,7.0,130,1
+A0961,Dog,Small,Transfer,0.8,7.4,4.0,295,1
+A0962,Cat,Small,Stray,5.7,4.4,6.0,110,0
+A0963,Dog,Medium,Transfer,9.5,18.3,8.0,40,1
+A0964,Dog,Large,Owner surrender,2.9,,9.0,195,1
+A0965,Dog,Medium,Transfer,2.3,15.7,6.0,150,1
+A0966,Dog,Small,Stray,,6.5,8.0,190,1
+A0967,Dog,Large,Owner surrender,0.2,14.0,9.0,315,1
+A0968,Dog,Medium,Transfer,1.9,17.9,4.0,195,0
+A0969,Dog,Large,Owner surrender,8.9,,6.0,75,0
+A0970,Cat,Small,Stray,,,4.0,160,0
+A0971,Dog,Large,Stray,,36.4,5.0,140,0
+A0972,Cat,Medium,Transfer,4.4,5.4,7.0,55,1
+A0973,Rabbit,Small,Owner surrender,1.9,2.4,4.0,55,0
+A0974,Dog,Medium,Stray,,11.8,7.0,320,1
+A0975,Dog,Small,Stray,0.4,4.4,6.0,325,1
+A0976,Cat,Small,Owner surrender,3.2,5.4,6.0,95,1
+A0977,Dog,Small,Stray,2.9,7.1,7.0,160,1
+A0978,Cat,Medium,Owner surrender,1.5,6.6,,140,0
+A0979,Dog,Small,Owner surrender,5.1,7.2,3.0,100,0
+A0980,Cat,Medium,Stray,2.8,6.7,6.0,105,1
+A0981,Dog,Large,Stray,4.5,32.9,5.0,110,0
+A0982,Cat,Small,Transfer,0.8,3.2,6.0,140,1
+A0983,Cat,Medium,Stray,1.1,6.3,4.0,60,1
+A0984,Dog,Extra large,Stray,,43.5,,190,0
+A0985,Cat,Small,Transfer,5.1,4.5,4.0,80,0
+A0986,Dog,Medium,Owner surrender,,17.6,,120,0
+A0987,Dog,Medium,Owner surrender,1.5,23.6,4.0,220,0
+A0988,Dog,Medium,Transfer,2.3,16.4,,175,1
+A0989,Dog,Medium,Stray,4.9,18.5,6.0,100,1
+A0990,Dog,Small,Stray,3.3,7.3,10.0,155,1
+A0991,Cat,Small,Transfer,7.2,3.6,5.0,45,0
+A0992,Dog,Large,Owner surrender,1.8,27.2,3.0,190,0
+A0993,Cat,Small,Stray,5.6,4.7,7.0,115,0
+A0994,Rabbit,Small,Owner surrender,8.4,2.2,,0,0
+A0995,Rabbit,Small,Stray,3.4,2.1,4.0,20,0
+A0996,Cat,Medium,Stray,1.7,4.8,5.0,110,0
+A0997,Cat,Medium,Owner surrender,3.1,5.8,6.0,20,1
+A0998,Dog,Large,Transfer,2.9,33.4,6.0,105,1
+A0999,Rabbit,Small,Stray,,,6.0,130,0
+A1000,Dog,Extra large,Stray,1.3,53.9,6.0,235,0
+A1001,Cat,Small,Stray,1.4,4.5,8.0,125,1
+A1002,Cat,Medium,Stray,1.2,7.0,8.0,180,1
+A1003,Cat,Small,Owner surrender,0.3,3.3,5.0,145,1
+A1004,Dog,Large,Owner surrender,8.0,23.1,6.0,160,0
+A1005,Dog,Extra large,Owner surrender,1.1,52.4,,225,1
+A1006,Dog,Small,Transfer,17.0,6.6,7.0,70,0
+A1007,Dog,Extra large,Owner surrender,5.2,48.7,6.0,145,1
+A1008,Dog,Medium,Owner surrender,3.2,18.7,10.0,160,1
+A1009,Dog,Large,Owner surrender,3.8,27.9,5.0,135,1
+A1010,Cat,Small,Owner surrender,1.9,3.7,9.0,110,1
+A1011,Cat,Small,Owner surrender,2.1,4.5,4.0,45,0
+A1012,Dog,Medium,Transfer,4.9,17.7,,40,0
+A1013,Dog,Small,Stray,1.4,,,210,0
+A1014,Dog,Medium,Owner surrender,1.8,17.2,7.0,220,1
+A1015,Dog,Small,Stray,5.0,9.6,8.0,85,1
+A1016,Dog,Medium,Stray,,17.5,,160,0
+A1017,Cat,Small,Transfer,8.3,5.7,8.0,5,1
+A1018,Dog,Extra large,Stray,1.7,40.7,5.0,145,0
+A1019,Dog,Large,Owner surrender,5.5,35.0,,105,0
+A1020,Dog,Large,Stray,0.5,27.8,5.0,300,1
+A1021,Cat,Medium,Owner surrender,2.0,5.0,9.0,135,1
+A1022,Dog,Medium,Stray,5.9,15.8,6.0,145,0
+A1023,Dog,Large,Owner surrender,0.6,27.1,7.0,240,1
+A1024,Dog,Small,Transfer,10.6,8.3,,85,0
+A1025,Cat,Medium,Owner surrender,,7.4,6.0,90,1
+A1026,Dog,Medium,Owner surrender,2.7,19.7,7.0,115,1
+A1027,Cat,Small,Owner surrender,6.2,4.9,9.0,50,1
+A1028,Dog,Medium,Stray,4.3,15.4,4.0,120,0
+A1029,Cat,Medium,Owner surrender,2.7,5.7,5.0,90,1
+A1030,Dog,Medium,Stray,3.3,22.3,4.0,170,0
+A1031,Dog,Medium,Stray,0.2,9.4,5.0,325,0
+A1032,Cat,Small,Owner surrender,8.4,4.1,7.0,40,0
+A1033,Cat,Small,Transfer,3.1,3.3,,5,1
+A1034,Dog,Small,Owner surrender,1.5,6.9,8.0,230,1
+A1035,Dog,Medium,Owner surrender,6.9,14.4,6.0,135,0
+A1036,Rabbit,Small,Stray,2.9,2.1,,65,0
+A1037,Dog,Medium,Transfer,6.4,22.4,5.0,115,1
+A1038,Dog,Medium,Stray,0.2,10.6,,325,1
+A1039,Rabbit,Small,Owner surrender,4.2,2.1,,80,0
+A1040,Dog,Small,Owner surrender,5.5,6.7,8.0,90,0
+A1041,Dog,Medium,Owner surrender,9.1,19.6,8.0,90,1
+A1042,Dog,Large,Stray,,19.9,4.0,245,0
+A1043,Dog,Medium,Stray,5.4,,5.0,100,0
+A1044,Dog,Large,Stray,0.5,32.8,9.0,245,0
+A1045,Cat,Small,Stray,1.7,3.5,5.0,85,0
+A1046,Dog,Small,Owner surrender,4.4,6.5,6.0,50,1
+A1047,Dog,Medium,Stray,3.8,,7.0,125,1
+A1048,Cat,Medium,Stray,6.3,7.2,6.0,95,1
+A1049,Cat,Small,Owner surrender,4.9,4.1,6.0,0,0
+A1050,Cat,Medium,Stray,0.8,4.5,5.0,195,1
+A1051,Dog,Extra large,Owner surrender,2.2,37.8,6.0,170,0
+A1052,Dog,Large,Stray,,37.8,3.0,120,0
+A1053,Cat,Small,Stray,1.7,4.7,6.0,125,1
+A1054,Dog,Large,Owner surrender,6.6,,6.0,90,0
+A1055,Cat,Small,Transfer,2.0,4.2,,105,1
+A1056,Dog,Small,Stray,1.4,8.0,7.0,260,1
+A1057,Dog,Medium,Stray,0.2,12.3,4.0,315,1
+A1058,Dog,Medium,Stray,5.2,19.9,,120,0
+A1059,Cat,Small,Owner surrender,8.8,3.4,,45,0
+A1060,Cat,Small,Transfer,3.4,3.2,6.0,75,1
+A1061,Cat,Medium,Stray,0.9,4.6,7.0,115,1
+A1062,Dog,Extra large,Stray,5.0,47.0,5.0,105,0
+A1063,Rabbit,Small,Stray,0.7,1.4,3.0,50,0
+A1064,Cat,Small,Stray,4.0,3.6,6.0,115,1
+A1065,Dog,Medium,Owner surrender,3.6,,8.0,120,1
+A1066,Dog,Medium,Owner surrender,5.9,15.9,6.0,130,1
+A1067,Cat,Small,Owner surrender,1.0,3.5,,185,0
+A1068,Dog,Large,Stray,,36.9,7.0,230,1
+A1069,Cat,Small,Stray,4.4,4.5,6.0,45,0
+A1070,Cat,Small,Transfer,7.6,4.7,6.0,115,1
+A1071,Dog,Small,Stray,1.0,8.0,6.0,165,1
+A1072,Cat,Medium,Stray,2.8,7.4,7.0,140,1
+A1073,Dog,Large,Stray,2.9,31.9,6.0,60,1
+A1074,Dog,Medium,Transfer,5.5,,,75,0
+A1075,Dog,Medium,Owner surrender,3.2,14.0,6.0,135,0
+A1076,Cat,Small,Owner surrender,14.7,4.1,6.0,30,0
+A1077,Dog,Medium,Owner surrender,6.0,16.6,,30,1
+A1078,Cat,Small,Transfer,7.5,4.9,4.0,5,0
+A1079,Dog,Large,Owner surrender,4.7,,6.0,120,1
+A1080,Rabbit,Small,Stray,,2.5,,0,0
+A1081,Rabbit,Small,Stray,,2.3,6.0,50,0
+A1082,Dog,Medium,Stray,0.6,17.1,,305,1
+A1083,Rabbit,Small,Stray,,2.2,,105,0
+A1084,Cat,Small,Transfer,,4.3,8.0,100,1
+A1085,Dog,Medium,Owner surrender,17.0,17.1,5.0,90,0
+A1086,Dog,Extra large,Stray,,45.0,4.0,195,0
+A1087,Dog,Medium,Owner surrender,2.8,15.7,3.0,245,0
+A1088,Dog,Large,Owner surrender,1.9,33.9,4.0,225,1
+A1089,Dog,Small,Owner surrender,4.0,6.9,,145,0
+A1090,Dog,Large,Transfer,4.0,23.9,6.0,135,0
+A1091,Dog,Large,Stray,4.4,21.7,6.0,155,0
+A1092,Cat,Small,Owner surrender,2.3,3.8,,35,1
+A1093,Cat,Small,Owner surrender,5.0,3.9,,95,0
+A1094,Rabbit,Small,Transfer,3.5,1.9,4.0,20,0
+A1095,Dog,Large,Stray,,32.5,7.0,180,1
+A1096,Cat,Small,Owner surrender,3.8,3.8,6.0,115,1
+A1097,Dog,Medium,Stray,,15.0,7.0,140,1
+A1098,Dog,Small,Owner surrender,7.3,7.4,7.0,110,1
+A1099,Rabbit,Small,Transfer,3.6,2.3,5.0,15,0
+A1100,Dog,Extra large,Owner surrender,4.6,57.0,8.0,100,1
+A1101,Cat,Small,Stray,2.3,3.6,7.0,155,1
+A1102,Cat,Medium,Transfer,1.7,5.8,5.0,130,1
+A1103,Dog,Small,Owner surrender,3.2,6.6,9.0,150,1
+A1104,Cat,Medium,Owner surrender,2.5,7.5,9.0,40,1
+A1105,Dog,Medium,Transfer,11.1,19.9,,120,0
+A1106,Cat,Small,Owner surrender,6.9,,,35,0
+A1107,Dog,Large,Stray,3.8,35.5,,140,0
+A1108,Dog,Medium,Stray,0.3,10.3,7.0,265,1
+A1109,Cat,Small,Owner surrender,4.2,4.1,8.0,85,1
+A1110,Dog,Medium,Stray,2.0,17.9,7.0,195,1
+A1111,Dog,Medium,Stray,0.9,15.8,6.0,195,1
+A1112,Dog,Medium,Stray,,17.3,8.0,210,1
+A1113,Dog,Small,Stray,0.2,4.1,7.0,275,1
+A1114,Dog,Medium,Stray,,18.3,5.0,280,1
+A1115,Cat,Small,Stray,2.9,5.2,6.0,100,1
+A1116,Cat,Small,Owner surrender,5.5,4.7,8.0,65,1
+A1117,Dog,Large,Stray,,31.6,5.0,325,1
+A1118,Cat,Medium,Stray,,4.4,5.0,125,0
+A1119,Rabbit,Small,Owner surrender,10.7,1.6,,15,0
+A1120,Dog,Large,Owner surrender,7.7,,9.0,125,1
+A1121,Cat,Medium,Transfer,4.8,5.7,7.0,75,1
+A1122,Dog,Small,Stray,1.1,5.8,8.0,275,1
+A1123,Cat,Small,Owner surrender,,4.0,5.0,50,0
+A1124,Cat,Small,Stray,,4.3,6.0,145,0
+A1125,Cat,Small,Owner surrender,5.3,,8.0,45,0
+A1126,Cat,Small,Stray,0.2,,5.0,170,1
+A1127,Cat,Small,Owner surrender,2.1,4.1,8.0,80,1
+A1128,Dog,Medium,Owner surrender,4.1,16.2,6.0,110,0
+A1129,Cat,Small,Transfer,11.1,3.7,6.0,120,0
+A1130,Dog,Small,Owner surrender,0.9,6.6,7.0,245,1
+A1131,Dog,Small,Stray,0.6,5.5,8.0,235,1
+A1132,Dog,Extra large,Owner surrender,4.2,38.6,9.0,115,1
+A1133,Cat,Small,Stray,0.7,2.6,5.0,165,0
+A1134,Cat,Small,Owner surrender,1.6,3.7,9.0,150,1
+A1135,Rabbit,Small,Owner surrender,1.0,2.1,,60,0
+A1136,Dog,Large,Stray,,25.3,,160,0
+A1137,Dog,Large,Owner surrender,4.3,36.4,,220,0
+A1138,Dog,Small,Stray,,6.4,8.0,185,1
+A1139,Cat,Small,Stray,1.3,4.3,9.0,135,1
+A1140,Dog,Medium,Stray,,16.0,4.0,75,1
+A1141,Dog,Small,Owner surrender,2.7,7.6,5.0,185,1
+A1142,Cat,Small,Owner surrender,1.9,4.2,5.0,95,1
+A1143,Cat,Medium,Stray,4.5,6.3,,135,0
+A1144,Dog,Medium,Owner surrender,2.5,13.6,,200,1
+A1145,Dog,Small,Transfer,3.7,7.7,7.0,155,1
+A1146,Dog,Large,Transfer,0.7,20.8,5.0,245,1
+A1147,Cat,Medium,Owner surrender,0.5,4.0,,155,0
+A1148,Cat,Medium,Stray,0.4,4.3,6.0,160,1
+A1149,Dog,Large,Owner surrender,4.4,31.0,7.0,120,1
+A1150,Dog,Large,Transfer,2.1,34.2,,165,0
+A1151,Dog,Medium,Transfer,7.3,,6.0,80,0
+A1152,Cat,Small,Transfer,2.6,4.2,7.0,95,1
+A1153,Cat,Small,Stray,,3.7,,90,0
+A1154,Rabbit,Small,Stray,,2.3,7.0,45,1
+A1155,Dog,Large,Stray,5.0,37.4,9.0,140,0
+A1156,Dog,Small,Owner surrender,11.8,6.5,,125,0
+A1157,Cat,Small,Transfer,1.9,3.7,9.0,90,1
+A1158,Cat,Small,Owner surrender,2.0,4.3,5.0,180,1
+A1159,Cat,Small,Stray,,3.8,7.0,75,1
+A1160,Dog,Medium,Owner surrender,1.8,18.3,6.0,230,0
+A1161,Cat,Small,Stray,2.7,4.7,,155,0
+A1162,Dog,Small,Owner surrender,3.8,7.7,,75,0
+A1163,Rabbit,Small,Stray,1.5,2.5,10.0,80,1
+A1164,Dog,Large,Stray,0.2,19.0,,340,0
+A1165,Dog,Medium,Stray,,,5.0,185,1
+A1166,Cat,Small,Stray,1.2,3.7,9.0,160,1
+A1167,Dog,Large,Stray,,34.4,7.0,205,1
+A1168,Cat,Medium,Transfer,3.4,7.8,6.0,30,1
+A1169,Cat,Medium,Owner surrender,10.3,5.7,,20,0
+A1170,Dog,Large,Stray,2.5,27.9,5.0,180,0
+A1171,Dog,Large,Transfer,8.3,38.8,,25,1
+A1172,Cat,Small,Stray,0.2,2.3,,165,0
+A1173,Dog,Small,Stray,1.1,7.7,7.0,225,1
+A1174,Rabbit,Small,Transfer,1.7,2.3,8.0,70,1
+A1175,Cat,Small,Transfer,5.8,3.6,4.0,95,1
+A1176,Dog,Small,Owner surrender,14.3,6.6,5.0,100,0
+A1177,Dog,Small,Stray,2.0,6.4,7.0,150,1
+A1178,Cat,Small,Owner surrender,7.7,4.5,8.0,25,1
+A1179,Dog,Small,Stray,0.6,6.1,,280,0
+A1180,Dog,Medium,Stray,,,8.0,180,1
+A1181,Dog,Medium,Transfer,5.9,19.4,8.0,115,1
+A1182,Dog,Large,Stray,,24.7,6.0,150,1
+A1183,Dog,Small,Stray,2.7,7.3,,155,0
+A1184,Cat,Small,Stray,,4.4,7.0,15,0
+A1185,Cat,Small,Owner surrender,1.4,4.2,7.0,125,1
+A1186,Cat,Small,Owner surrender,7.5,3.4,9.0,85,1
+A1187,Dog,Small,Stray,,6.9,,100,0
+A1188,Dog,Extra large,Stray,,38.4,9.0,125,1
+A1189,Dog,Medium,Transfer,2.1,22.0,5.0,200,1
+A1190,Rabbit,Small,Stray,0.8,1.7,7.0,160,1
+A1191,Dog,Large,Stray,,30.9,6.0,185,0
+A1192,Dog,Extra large,Owner surrender,2.9,44.0,6.0,140,1
+A1193,Cat,Medium,Stray,,,9.0,15,1
+A1194,Dog,Large,Owner surrender,4.5,,5.0,80,0
+A1195,Dog,Medium,Stray,,13.9,8.0,225,1
+A1196,Cat,Small,Stray,6.9,3.7,5.0,0,0
+A1197,Dog,Medium,Owner surrender,9.1,20.9,6.0,120,0
+A1198,Cat,Small,Owner surrender,3.0,3.9,5.0,85,0
+A1199,Dog,Large,Stray,,35.4,6.0,230,0
+A1200,Dog,Medium,Stray,1.5,18.5,2.0,150,0
+A1201,Dog,Large,Transfer,4.9,37.0,5.0,40,1
+A1202,Cat,Small,Stray,0.8,3.7,8.0,90,1
+A1203,Dog,Large,Stray,0.3,,8.0,350,1
+A1204,Cat,Small,Stray,1.5,3.6,,160,0
+A1205,Cat,Small,Stray,,,,85,1
+A1206,Rabbit,Small,Stray,2.7,2.4,5.0,50,0
+A1207,Dog,Extra large,Transfer,11.4,42.2,10.0,95,1
+A1208,Dog,Large,Stray,0.8,28.6,5.0,215,0
+A1209,Dog,Large,Transfer,8.3,38.0,6.0,70,1
+A1210,Rabbit,Small,Owner surrender,3.9,1.8,,70,0
+A1211,Cat,Medium,Stray,,4.9,7.0,185,0
+A1212,Dog,Medium,Stray,0.5,13.9,,305,0
+A1213,Cat,Medium,Owner surrender,5.3,5.5,6.0,75,1
+A1214,Cat,Medium,Owner surrender,2.9,6.2,7.0,90,1
+A1215,Rabbit,Small,Stray,1.9,2.3,8.0,75,0
+A1216,Cat,Small,Stray,0.7,4.1,4.0,150,1
+A1217,Cat,Small,Transfer,3.6,4.0,8.0,140,1
+A1218,Cat,Small,Owner surrender,0.4,4.4,10.0,180,1
+A1219,Dog,Small,Owner surrender,5.9,7.3,8.0,125,0
+A1220,Dog,Large,Transfer,13.5,30.6,7.0,90,0
+A1221,Cat,Small,Stray,2.9,3.8,,65,0
+A1222,Dog,Small,Stray,1.2,6.1,9.0,220,1
+A1223,Dog,Medium,Transfer,7.5,20.1,10.0,85,1
+A1224,Rabbit,Small,Stray,4.8,,8.0,5,1
+A1225,Cat,Small,Stray,,4.1,7.0,130,1
+A1226,Dog,Large,Transfer,7.3,26.2,8.0,165,1
+A1227,Rabbit,Small,Transfer,5.0,1.9,10.0,45,1
+A1228,Dog,Small,Transfer,12.2,6.9,5.0,90,0
+A1229,Rabbit,Small,Owner surrender,6.6,1.7,5.0,5,0
+A1230,Cat,Small,Stray,0.2,2.0,8.0,135,1
+A1231,Dog,Small,Owner surrender,9.4,8.3,6.0,115,1
+A1232,Dog,Small,Stray,1.7,,,215,0
+A1233,Dog,Medium,Stray,,17.9,6.0,180,0
+A1234,Cat,Medium,Stray,,4.7,7.0,160,1
+A1235,Dog,Small,Owner surrender,1.9,7.8,,155,0
+A1236,Dog,Large,Transfer,1.6,37.8,7.0,250,1
+A1237,Cat,Small,Owner surrender,9.1,4.8,6.0,60,1
+A1238,Cat,Small,Stray,,2.8,,195,0
+A1239,Cat,Small,Owner surrender,1.6,4.5,,180,0
+A1240,Cat,Small,Stray,9.7,3.5,10.0,0,1
+A1241,Dog,Large,Transfer,2.3,38.3,9.0,185,1
+A1242,Dog,Large,Owner surrender,11.1,29.4,4.0,100,0
+A1243,Dog,Small,Stray,,6.1,3.0,100,0
+A1244,Dog,Large,Stray,0.8,26.9,6.0,255,0
+A1245,Dog,Small,Stray,,6.2,7.0,245,1
+A1246,Cat,Small,Stray,,2.6,,160,0
+A1247,Cat,Small,Stray,2.9,4.6,5.0,65,0
+A1248,Cat,Medium,Owner surrender,5.4,7.1,9.0,125,1
+A1249,Dog,Large,Owner surrender,3.6,31.4,6.0,165,0
+A1250,Dog,Medium,Transfer,10.4,16.5,8.0,110,0
+A1251,Cat,Small,Transfer,2.3,4.0,6.0,130,1
+A1252,Dog,Large,Owner surrender,4.0,27.0,8.0,130,1
+A1253,Dog,Large,Stray,,28.7,5.0,110,0
+A1254,Dog,Medium,Stray,,23.7,,180,1
+A1255,Rabbit,Small,Owner surrender,8.6,1.8,,40,0
+A1256,Dog,Small,Stray,5.3,6.5,2.0,95,0
+A1257,Dog,Large,Stray,7.5,34.8,5.0,45,0
+A1258,Dog,Medium,Owner surrender,5.5,18.6,3.0,100,0
+A1259,Cat,Medium,Stray,5.3,6.6,,75,0
+A1260,Rabbit,Small,Transfer,3.3,1.8,6.0,40,1
+A1261,Cat,Medium,Owner surrender,10.7,5.1,6.0,80,1
+A1262,Dog,Medium,Owner surrender,11.3,21.5,7.0,105,0
+A1263,Dog,Medium,Transfer,1.9,16.3,5.0,220,0
+A1264,Cat,Small,Stray,,4.1,6.0,85,0
+A1265,Rabbit,Small,Stray,1.2,2.0,8.0,65,0
+A1266,Dog,Extra large,Owner surrender,1.1,34.5,6.0,250,1
+A1267,Cat,Medium,Transfer,2.0,5.8,6.0,140,1
+A1268,Dog,Medium,Stray,,15.2,,230,0
+A1269,Dog,Large,Owner surrender,0.8,29.6,4.0,225,0
+A1270,Dog,Medium,Transfer,3.8,17.1,8.0,175,1
+A1271,Cat,Small,Stray,0.2,1.7,,170,1
+A1272,Rabbit,Small,Owner surrender,0.8,2.0,,90,0
+A1273,Cat,Small,Owner surrender,1.4,2.9,8.0,110,0
+A1274,Dog,Small,Stray,2.9,6.6,4.0,155,0
+A1275,Cat,Medium,Owner surrender,8.0,5.4,8.0,105,1
+A1276,Dog,Small,Transfer,3.5,6.4,6.0,195,1
+A1277,Dog,Small,Owner surrender,11.2,6.9,,50,0
+A1278,Dog,Medium,Owner surrender,1.8,20.5,,140,1
+A1279,Dog,Medium,Owner surrender,1.1,15.8,9.0,115,1
+A1280,Dog,Medium,Stray,,16.4,,210,0
+A1281,Dog,Medium,Transfer,0.6,15.5,,325,0
+A1282,Dog,Medium,Stray,2.4,19.2,8.0,175,1
+A1283,Dog,Extra large,Transfer,5.1,49.5,,100,0
+A1284,Dog,Extra large,Transfer,3.5,46.9,7.0,160,1
+A1285,Cat,Medium,Transfer,3.9,5.8,6.0,45,1
+A1286,Cat,Small,Transfer,5.3,3.9,,90,0
+A1287,Dog,Large,Owner surrender,0.3,19.0,4.0,340,1
+A1288,Cat,Medium,Stray,1.3,6.8,5.0,175,0
+A1289,Cat,Small,Owner surrender,13.5,5.2,7.0,80,0
+A1290,Dog,Large,Owner surrender,7.8,42.1,,80,0
+A1291,Cat,Medium,Stray,4.2,5.2,7.0,65,1
+A1292,Dog,Large,Owner surrender,1.8,30.8,6.0,160,1
+A1293,Cat,Small,Stray,0.2,2.4,7.0,250,1
+A1294,Rabbit,Small,Owner surrender,6.7,1.9,6.0,75,0
+A1295,Dog,Small,Stray,0.2,3.3,7.0,305,0
+A1296,Rabbit,Small,Stray,2.4,2.7,7.0,50,1
+A1297,Cat,Small,Transfer,5.5,5.2,8.0,75,0
+A1298,Cat,Small,Owner surrender,3.9,4.1,7.0,55,1
+A1299,Cat,Medium,Stray,3.1,5.6,7.0,105,1
+A1300,Cat,Small,Owner surrender,1.9,4.2,,130,0
+A1301,Dog,Large,Transfer,2.9,26.8,,165,1
+A1302,Cat,Small,Owner surrender,2.6,4.0,6.0,100,0
+A1303,Dog,Small,Owner surrender,9.8,7.8,8.0,10,0
+A1304,Dog,Medium,Stray,3.4,22.6,,130,0
+A1305,Cat,Small,Owner surrender,7.1,4.7,,10,0
+A1306,Dog,Extra large,Stray,,53.7,5.0,100,1
+A1307,Dog,Medium,Transfer,2.5,15.4,7.0,240,1
+A1308,Cat,Small,Owner surrender,3.9,2.6,8.0,60,1
+A1309,Cat,Small,Stray,1.0,5.0,5.0,140,1
+A1310,Cat,Small,Transfer,2.1,4.3,4.0,95,0
+A1311,Dog,Large,Owner surrender,2.2,31.5,6.0,140,1
+A1312,Cat,Small,Stray,3.6,5.3,7.0,135,1
+A1313,Dog,Medium,Stray,,15.6,6.0,115,1
+A1314,Cat,Medium,Stray,3.1,,8.0,100,1
+A1315,Cat,Medium,Owner surrender,2.2,5.4,5.0,85,0
+A1316,Cat,Small,Stray,1.3,5.3,8.0,175,1
+A1317,Dog,Small,Stray,,8.0,9.0,265,1
+A1318,Dog,Small,Owner surrender,4.7,5.4,4.0,115,0
+A1319,Cat,Medium,Stray,0.6,5.8,4.0,110,0
+A1320,Dog,Small,Stray,,7.0,7.0,245,1
+A1321,Cat,Small,Stray,4.7,4.4,10.0,105,1
+A1322,Dog,Large,Stray,0.2,16.0,7.0,330,1
+A1323,Dog,Medium,Owner surrender,1.3,23.4,6.0,210,1
+A1324,Dog,Small,Stray,11.8,7.4,9.0,115,0
+A1325,Cat,Medium,Transfer,1.3,7.2,6.0,105,1
+A1326,Cat,Small,Stray,,3.6,,115,0
+A1327,Cat,Small,Stray,,4.3,,160,0
+A1328,Dog,Small,Stray,1.1,7.1,9.0,225,1
+A1329,Cat,Medium,Transfer,3.4,5.8,,45,0
+A1330,Dog,Medium,Owner surrender,7.3,15.9,,90,0
+A1331,Cat,Small,Stray,4.6,3.8,8.0,40,1
+A1332,Dog,Large,Stray,,27.0,6.0,80,0
+A1333,Dog,Small,Stray,1.3,6.3,8.0,250,1
+A1334,Dog,Large,Owner surrender,1.9,31.7,4.0,180,0
+A1335,Dog,Extra large,Owner surrender,3.5,48.6,4.0,115,0
+A1336,Cat,Medium,Owner surrender,0.9,4.4,,130,1
+A1337,Cat,Small,Owner surrender,5.1,3.6,,80,0
+A1338,Cat,Small,Owner surrender,6.1,3.8,5.0,50,0
+A1339,Dog,Small,Owner surrender,4.9,5.5,6.0,90,1
+A1340,Cat,Medium,Stray,,5.7,8.0,80,1
+A1341,Dog,Large,Owner surrender,3.5,30.6,6.0,140,0
+A1342,Cat,Small,Owner surrender,5.8,4.1,5.0,30,0
+A1343,Dog,Small,Owner surrender,1.5,7.4,7.0,165,1
+A1344,Cat,Medium,Stray,0.9,6.6,8.0,190,1
+A1345,Dog,Large,Stray,2.4,35.7,8.0,150,1
+A1346,Dog,Medium,Transfer,,18.6,7.0,195,1
+A1347,Dog,Extra large,Transfer,5.8,48.7,5.0,125,0
+A1348,Dog,Large,Owner surrender,1.8,28.4,5.0,185,1
+A1349,Dog,Extra large,Owner surrender,4.3,39.1,,110,0
+A1350,Cat,Small,Owner surrender,8.5,4.6,6.0,115,0
+A1351,Cat,Small,Transfer,2.5,,6.0,75,1
+A1352,Dog,Extra large,Owner surrender,13.7,61.2,9.0,80,0
+A1353,Dog,Small,Stray,0.8,5.9,6.0,225,0
+A1354,Cat,Medium,Owner surrender,5.0,5.2,7.0,60,1
+A1355,Dog,Small,Stray,1.0,7.3,9.0,205,1
+A1356,Cat,Small,Stray,1.2,3.9,2.0,135,0
+A1357,Dog,Small,Transfer,0.8,5.4,5.0,210,1
+A1358,Dog,Large,Owner surrender,1.3,38.7,5.0,240,1
+A1359,Dog,Medium,Owner surrender,2.6,23.6,6.0,170,1
+A1360,Dog,Large,Owner surrender,7.1,33.6,4.0,105,0
+A1361,Dog,Large,Transfer,4.6,29.0,8.0,95,1
+A1362,Dog,Extra large,Stray,7.0,46.4,8.0,140,0
+A1363,Cat,Small,Owner surrender,10.0,4.1,7.0,125,1
+A1364,Rabbit,Small,Stray,,,7.0,60,0
+A1365,Dog,Large,Stray,,35.9,4.0,180,0
+A1366,Cat,Small,Stray,,4.4,8.0,105,1
+A1367,Dog,Small,Owner surrender,1.2,8.3,5.0,215,1
+A1368,Cat,Small,Stray,1.9,3.9,,115,0
+A1369,Dog,Extra large,Owner surrender,6.7,44.7,6.0,120,0
+A1370,Dog,Large,Stray,4.6,31.3,7.0,70,1
+A1371,Cat,Medium,Stray,,3.3,5.0,195,1
+A1372,Cat,Medium,Transfer,7.4,8.5,,20,0
+A1373,Dog,Large,Stray,9.2,23.6,,50,0
+A1374,Dog,Medium,Owner surrender,0.4,,6.0,275,1
+A1375,Cat,Small,Stray,,4.0,,180,0
+A1376,Rabbit,Small,Stray,,1.6,8.0,15,1
+A1377,Cat,Small,Stray,3.9,4.4,,90,1
+A1378,Cat,Small,Transfer,8.1,3.9,6.0,25,1
+A1379,Rabbit,Small,Stray,1.8,2.0,8.0,80,0
+A1380,Cat,Small,Owner surrender,7.0,4.3,6.0,70,0
+A1381,Cat,Small,Stray,,4.2,4.0,100,0
+A1382,Dog,Extra large,Owner surrender,6.1,45.4,7.0,110,1
+A1383,Dog,Extra large,Owner surrender,9.2,43.9,7.0,95,0
+A1384,Cat,Small,Stray,,4.2,4.0,85,0
+A1385,Cat,Small,Transfer,,4.7,,85,0
+A1386,Dog,Large,Stray,2.7,30.7,4.0,180,0
+A1387,Dog,Extra large,Stray,0.6,31.8,8.0,280,1
+A1388,Dog,Large,Stray,1.5,30.1,5.0,215,1
+A1389,Cat,Small,Transfer,5.4,4.4,10.0,85,1
+A1390,Dog,Small,Transfer,13.4,6.6,5.0,120,0
+A1391,Cat,Small,Owner surrender,7.7,4.0,7.0,25,0
+A1392,Dog,Large,Stray,1.4,,7.0,210,1
+A1393,Cat,Small,Owner surrender,8.2,5.5,6.0,70,0
+A1394,Cat,Small,Stray,1.8,3.5,8.0,125,1
+A1395,Dog,Medium,Transfer,7.2,22.8,,65,1
+A1396,Dog,Medium,Stray,0.2,11.3,6.0,240,1
+A1397,Dog,Small,Stray,1.1,8.1,4.0,240,1
+A1398,Cat,Small,Stray,,4.3,,120,0
+A1399,Dog,Medium,Owner surrender,1.4,19.3,6.0,265,1
+A1400,Dog,Medium,Stray,2.3,18.7,4.0,180,1
+A1401,Dog,Large,Stray,9.3,34.8,3.0,65,0
+A1402,Dog,Small,Transfer,4.5,7.9,7.0,130,0
+A1403,Cat,Medium,Owner surrender,2.6,7.5,6.0,90,1
+A1404,Cat,Small,Stray,1.2,3.6,7.0,110,0
+A1405,Rabbit,Small,Transfer,9.7,2.1,9.0,0,1
+A1406,Cat,Small,Owner surrender,7.1,5.3,,0,0
+A1407,Cat,Small,Transfer,6.0,5.1,7.0,40,1
+A1408,Dog,Extra large,Stray,1.2,38.8,4.0,205,1
+A1409,Cat,Small,Stray,5.0,4.4,8.0,70,0
+A1410,Cat,Small,Owner surrender,5.8,,8.0,65,1
+A1411,Cat,Medium,Owner surrender,2.9,6.2,4.0,95,0
+A1412,Cat,Medium,Stray,,,7.0,165,1
+A1413,Cat,Small,Owner surrender,2.2,4.8,7.0,100,0
+A1414,Dog,Large,Owner surrender,6.5,25.4,6.0,145,0
+A1415,Cat,Small,Stray,0.9,5.4,6.0,120,1
+A1416,Dog,Small,Transfer,3.1,7.7,10.0,115,1
+A1417,Dog,Large,Owner surrender,0.6,24.2,5.0,250,1
+A1418,Dog,Medium,Owner surrender,1.8,19.7,5.0,125,1
+A1419,Dog,Small,Owner surrender,1.9,7.1,6.0,240,1
+A1420,Dog,Small,Stray,,3.6,6.0,315,1
+A1421,Dog,Large,Owner surrender,6.0,,,125,0
+A1422,Dog,Medium,Stray,,12.7,7.0,345,0
+A1423,Cat,Small,Stray,3.3,3.7,8.0,95,1
+A1424,Cat,Small,Owner surrender,2.8,4.7,9.0,145,1
+A1425,Cat,Small,Stray,0.2,2.8,5.0,105,0
+A1426,Rabbit,Small,Stray,0.5,1.8,3.0,125,0
+A1427,Dog,Large,Owner surrender,4.7,38.0,7.0,125,0
+A1428,Dog,Extra large,Transfer,1.1,54.4,4.0,210,0
+A1429,Dog,Large,Stray,2.0,35.5,6.0,220,1
+A1430,Dog,Medium,Stray,1.4,21.8,5.0,215,0
+A1431,Rabbit,Small,Stray,,2.0,6.0,15,0
+A1432,Dog,Extra large,Owner surrender,4.8,,5.0,45,0
+A1433,Cat,Small,Owner surrender,1.2,5.2,7.0,195,1
+A1434,Cat,Small,Owner surrender,14.2,5.6,4.0,0,0
+A1435,Dog,Large,Stray,,30.5,10.0,105,1
+A1436,Cat,Small,Owner surrender,9.5,3.4,8.0,110,1
+A1437,Dog,Large,Owner surrender,3.2,43.8,5.0,160,0
+A1438,Dog,Large,Owner surrender,1.6,37.9,,180,0
+A1439,Dog,Medium,Owner surrender,1.7,23.5,6.0,185,1
+A1440,Dog,Large,Transfer,2.8,36.6,5.0,130,1
+A1441,Dog,Medium,Stray,,17.9,,250,1
+A1442,Dog,Medium,Transfer,0.5,12.4,9.0,270,1
+A1443,Rabbit,Small,Stray,2.8,1.7,8.0,0,0
+A1444,Dog,Large,Owner surrender,7.9,39.6,4.0,45,0
+A1445,Dog,Large,Stray,,37.0,7.0,190,0
+A1446,Rabbit,Small,Stray,,1.4,6.0,40,0
+A1447,Dog,Small,Transfer,1.2,6.0,8.0,180,1
+A1448,Rabbit,Small,Transfer,4.5,1.9,5.0,115,1
+A1449,Cat,Small,Owner surrender,1.7,3.8,10.0,85,1
+A1450,Cat,Small,Stray,1.3,,6.0,85,0
+A1451,Dog,Large,Stray,,21.1,10.0,175,1
+A1452,Dog,Small,Transfer,9.7,7.3,5.0,120,0
+A1453,Dog,Medium,Stray,1.1,,9.0,205,1
+A1454,Dog,Large,Stray,1.0,29.6,6.0,230,1
+A1455,Dog,Medium,Transfer,3.9,18.1,9.0,45,1
+A1456,Dog,Large,Owner surrender,3.3,33.4,6.0,115,1
+A1457,Cat,Small,Stray,0.4,2.4,,175,0
+A1458,Dog,Small,Transfer,0.4,5.0,,290,1
+A1459,Rabbit,Small,Owner surrender,3.8,1.8,5.0,90,0
+A1460,Cat,Medium,Stray,1.9,5.6,7.0,125,1
+A1461,Dog,Small,Transfer,5.4,7.3,7.0,5,1
+A1462,Cat,Small,Owner surrender,9.5,4.2,6.0,0,0
+A1463,Dog,Medium,Stray,,10.3,8.0,275,1
+A1464,Dog,Large,Transfer,4.5,,9.0,105,1
+A1465,Rabbit,Small,Stray,4.0,2.2,4.0,40,0
+A1466,Dog,Small,Owner surrender,3.2,6.0,8.0,160,1
+A1467,Dog,Small,Owner surrender,3.1,7.9,10.0,80,1
+A1468,Dog,Extra large,Stray,0.5,30.0,5.0,200,0
+A1469,Cat,Small,Transfer,10.8,,5.0,80,0
+A1470,Dog,Large,Owner surrender,4.2,31.7,7.0,85,1
+A1471,Dog,Medium,Stray,,15.5,6.0,105,1
+A1472,Cat,Small,Owner surrender,5.0,3.9,5.0,30,1
+A1473,Dog,Medium,Stray,0.2,10.2,6.0,290,1
+A1474,Cat,Small,Transfer,12.0,4.7,9.0,10,1
+A1475,Dog,Small,Owner surrender,3.7,7.9,,85,1
+A1476,Dog,Large,Stray,1.4,34.4,4.0,245,0
+A1477,Dog,Small,Owner surrender,3.3,6.7,,95,0
+A1478,Cat,Medium,Owner surrender,4.0,4.8,,85,0
+A1479,Rabbit,Small,Owner surrender,3.5,1.9,6.0,45,0
+A1480,Cat,Small,Stray,,4.0,4.0,105,0
+A1481,Dog,Medium,Stray,2.7,,4.0,235,0
+A1482,Dog,Medium,Transfer,1.0,16.7,7.0,185,1
+A1483,Dog,Small,Transfer,0.6,5.2,5.0,355,1
+A1484,Dog,Large,Stray,,36.1,5.0,200,0
+A1485,Dog,Large,Stray,5.3,26.4,6.0,95,0
+A1486,Dog,Small,Stray,1.1,7.0,9.0,240,1
+A1487,Rabbit,Small,Stray,1.4,2.4,7.0,100,1
+A1488,Cat,Small,Transfer,11.1,3.8,7.0,80,0
+A1489,Cat,Small,Owner surrender,3.7,3.6,6.0,65,0
+A1490,Cat,Small,Owner surrender,4.0,4.1,9.0,60,1
+A1491,Dog,Medium,Owner surrender,4.7,17.2,4.0,155,0
+A1492,Dog,Small,Stray,3.3,7.3,,190,0
+A1493,Dog,Extra large,Stray,1.3,55.0,5.0,195,0
+A1494,Dog,Small,Stray,6.5,6.9,10.0,140,1
+A1495,Dog,Medium,Owner surrender,5.4,19.6,9.0,125,1
+A1496,Cat,Small,Owner surrender,11.2,3.9,4.0,65,0
+A1497,Dog,Medium,Transfer,9.3,16.8,5.0,55,0
+A1498,Dog,Small,Transfer,2.6,7.3,7.0,110,0
+A1499,Dog,Large,Owner surrender,5.2,29.1,6.0,120,0
+A1500,Cat,Medium,Stray,2.1,7.2,8.0,10,1
+A1501,Cat,Small,Stray,2.3,4.0,5.0,80,0
+A1502,Cat,Medium,Owner surrender,4.9,5.9,,80,0
+A1503,Dog,Extra large,Stray,0.3,24.3,7.0,235,0
+A1504,Dog,Extra large,Owner surrender,1.3,42.3,8.0,270,1
+A1505,Dog,Medium,Owner surrender,2.9,15.6,,205,1
+A1506,Dog,Large,Stray,,29.9,,90,0
+A1507,Cat,Small,Transfer,2.3,3.2,,95,1
+A1508,Rabbit,Small,Stray,0.7,1.7,,70,0
+A1509,Cat,Small,Stray,2.4,5.4,7.0,80,0
+A1510,Dog,Small,Transfer,,5.3,,110,0
+A1511,Dog,Large,Owner surrender,2.1,41.4,7.0,190,1
+A1512,Cat,Small,Transfer,5.7,4.1,5.0,120,1
+A1513,Cat,Small,Transfer,4.0,4.8,6.0,75,0
+A1514,Cat,Medium,Stray,0.5,3.8,7.0,170,1
+A1515,Dog,Extra large,Owner surrender,5.3,60.8,6.0,110,1
+A1516,Dog,Small,Stray,,6.0,4.0,180,1
+A1517,Cat,Small,Stray,0.2,2.3,8.0,205,1
+A1518,Cat,Small,Stray,2.3,5.3,,80,0
+A1519,Dog,Medium,Stray,,15.0,9.0,140,1
+A1520,Dog,Small,Owner surrender,1.1,5.0,5.0,250,1
+A1521,Dog,Extra large,Owner surrender,3.6,44.6,5.0,65,0
+A1522,Dog,Small,Transfer,1.6,6.3,7.0,175,1
+A1523,Cat,Small,Stray,1.6,3.6,7.0,105,1
+A1524,Cat,Small,Owner surrender,4.1,3.7,7.0,70,1
+A1525,Rabbit,Small,Stray,,0.9,3.0,40,1
+A1526,Dog,Large,Stray,2.7,39.4,,120,0
+A1527,Dog,Medium,Owner surrender,5.3,21.6,7.0,100,1
+A1528,Cat,Small,Stray,0.5,2.5,7.0,185,1
+A1529,Cat,Small,Transfer,5.8,4.1,6.0,60,0
+A1530,Dog,Medium,Stray,5.9,16.9,9.0,95,1
+A1531,Dog,Small,Stray,0.4,5.7,6.0,255,0
+A1532,Cat,Small,Transfer,2.0,3.7,8.0,105,1
+A1533,Cat,Medium,Transfer,6.2,7.6,8.0,0,1
+A1534,Dog,Medium,Stray,,18.0,7.0,220,1
+A1535,Dog,Small,Stray,,6.2,6.0,140,0
+A1536,Rabbit,Small,Owner surrender,6.3,2.0,7.0,30,1
+A1537,Dog,Small,Stray,0.4,4.3,7.0,250,1
+A1538,Cat,Medium,Stray,2.5,8.4,7.0,140,1
+A1539,Dog,Small,Owner surrender,2.5,7.2,4.0,135,0
+A1540,Dog,Medium,Owner surrender,0.5,11.9,7.0,325,1
+A1541,Dog,Medium,Stray,3.0,18.3,9.0,135,1
+A1542,Dog,Medium,Stray,0.7,19.1,5.0,230,0
+A1543,Dog,Medium,Stray,3.0,15.6,6.0,135,0
+A1544,Dog,Small,Owner surrender,6.4,5.5,6.0,75,1
+A1545,Dog,Large,Stray,,26.9,8.0,275,1
+A1546,Dog,Medium,Transfer,1.2,19.7,,240,0
+A1547,Dog,Medium,Stray,5.3,16.9,9.0,100,1
+A1548,Cat,Small,Owner surrender,2.3,4.2,7.0,85,1
+A1549,Dog,Medium,Owner surrender,2.3,21.2,6.0,165,0
+A1550,Dog,Large,Transfer,2.1,21.4,7.0,185,1
+A1551,Cat,Small,Owner surrender,7.7,5.1,8.0,55,1
+A1552,Dog,Medium,Transfer,9.7,17.6,7.0,110,0
+A1553,Dog,Medium,Owner surrender,6.7,19.9,7.0,120,0
+A1554,Dog,Medium,Stray,2.8,17.9,8.0,160,1
+A1555,Dog,Large,Stray,,41.4,6.0,285,0
+A1556,Dog,Medium,Owner surrender,2.0,16.4,7.0,180,1
+A1557,Cat,Medium,Owner surrender,4.5,7.1,9.0,110,1
+A1558,Cat,Small,Owner surrender,3.9,2.9,7.0,90,1
+A1559,Dog,Large,Owner surrender,9.7,32.2,5.0,120,0
+A1560,Dog,Small,Stray,0.2,4.4,8.0,300,1
+A1561,Cat,Small,Owner surrender,2.6,3.3,10.0,45,1
+A1562,Dog,Extra large,Owner surrender,6.1,33.3,5.0,85,0
+A1563,Cat,Small,Stray,,3.5,7.0,160,1
+A1564,Cat,Small,Stray,6.8,4.9,7.0,70,0
+A1565,Cat,Small,Owner surrender,5.6,5.0,8.0,60,1
+A1566,Cat,Small,Owner surrender,3.9,3.8,5.0,125,0
+A1567,Dog,Small,Stray,6.8,7.4,6.0,55,0
+A1568,Cat,Medium,Owner surrender,7.8,4.9,10.0,0,1
+A1569,Dog,Large,Owner surrender,2.8,41.6,7.0,145,1
+A1570,Dog,Extra large,Stray,3.6,41.3,5.0,105,1
+A1571,Dog,Large,Stray,,32.9,8.0,260,1
+A1572,Dog,Medium,Owner surrender,2.1,,6.0,195,1
+A1573,Cat,Small,Transfer,7.1,4.0,9.0,150,1
+A1574,Cat,Small,Owner surrender,1.2,5.4,,90,0
+A1575,Dog,Large,Stray,,28.1,6.0,85,0
+A1576,Dog,Extra large,Owner surrender,6.6,54.6,8.0,95,0
+A1577,Dog,Large,Owner surrender,6.0,30.4,4.0,50,0
+A1578,Dog,Large,Transfer,7.6,28.1,5.0,70,0
+A1579,Rabbit,Small,Stray,0.2,1.0,7.0,135,1
+A1580,Rabbit,Small,Owner surrender,7.0,2.4,6.0,25,0
+A1581,Rabbit,Small,Owner surrender,8.0,2.0,5.0,25,0
+A1582,Cat,Small,Transfer,,4.0,7.0,130,1
+A1583,Cat,Small,Owner surrender,9.2,3.4,,0,0
+A1584,Dog,Extra large,Stray,6.0,53.7,4.0,105,0
+A1585,Dog,Large,Owner surrender,5.4,37.5,9.0,105,0
+A1586,Dog,Small,Owner surrender,1.6,7.3,5.0,210,1
+A1587,Cat,Small,Stray,,2.6,7.0,150,1
+A1588,Dog,Medium,Stray,4.8,11.1,6.0,95,1
+A1589,Dog,Medium,Stray,,16.6,8.0,165,1
+A1590,Dog,Small,Owner surrender,6.5,7.2,7.0,125,1
+A1591,Dog,Small,Owner surrender,2.9,7.1,7.0,120,1
+A1592,Cat,Medium,Stray,2.0,,8.0,125,1
+A1593,Dog,Large,Stray,1.4,33.2,7.0,135,1
+A1594,Dog,Small,Owner surrender,3.4,6.3,,150,0
+A1595,Cat,Small,Owner surrender,5.3,3.8,5.0,90,0
+A1596,Cat,Small,Owner surrender,0.4,2.4,9.0,140,1
+A1597,Cat,Small,Stray,1.4,4.3,8.0,115,1
+A1598,Cat,Medium,Stray,,5.4,6.0,60,0
+A1599,Dog,Medium,Owner surrender,7.0,16.7,3.0,105,0
+A1600,Cat,Small,Stray,1.8,5.2,5.0,155,1
+A1601,Cat,Small,Stray,0.8,3.7,10.0,155,1
+A1602,Dog,Medium,Stray,0.8,16.4,8.0,240,1
+A1603,Dog,Large,Owner surrender,5.9,25.4,8.0,95,0
+A1604,Dog,Large,Stray,,29.6,,110,0
+A1605,Dog,Large,Transfer,3.4,,,160,1
+A1606,Dog,Small,Stray,0.6,5.9,,280,1
+A1607,Dog,Small,Stray,0.9,6.7,,225,0
+A1608,Dog,Medium,Owner surrender,3.7,17.5,6.0,115,0
+A1609,Dog,Extra large,Stray,3.8,45.4,,100,0
+A1610,Dog,Large,Stray,3.1,34.0,7.0,110,1
+A1611,Dog,Large,Stray,1.1,30.5,6.0,215,1
+A1612,Dog,Medium,Stray,0.7,10.6,5.0,235,1
+A1613,Dog,Extra large,Owner surrender,3.9,60.4,7.0,150,1
+A1614,Cat,Small,Stray,,5.0,7.0,25,0
+A1615,Dog,Medium,Owner surrender,3.7,17.6,6.0,130,1
+A1616,Dog,Large,Stray,,30.9,5.0,225,0
+A1617,Cat,Small,Owner surrender,4.7,3.5,6.0,95,1
+A1618,Dog,Large,Transfer,10.8,38.8,,100,0
+A1619,Dog,Medium,Owner surrender,6.4,18.5,,145,0
+A1620,Cat,Small,Transfer,1.3,4.8,5.0,145,1
+A1621,Cat,Medium,Owner surrender,3.9,5.7,6.0,40,1
+A1622,Cat,Small,Stray,,4.3,10.0,65,1
+A1623,Cat,Small,Stray,0.2,2.6,7.0,165,1
+A1624,Cat,Small,Owner surrender,1.6,,4.0,100,1
+A1625,Cat,Small,Stray,2.9,4.5,5.0,50,0
+A1626,Dog,Large,Owner surrender,4.1,34.2,,110,0
+A1627,Cat,Small,Stray,0.8,3.3,6.0,155,1
+A1628,Dog,Medium,Transfer,17.0,23.3,6.0,95,0
+A1629,Dog,Large,Stray,,28.2,,340,1
+A1630,Dog,Extra large,Stray,,43.5,7.0,210,0
+A1631,Dog,Medium,Stray,0.2,9.6,8.0,310,1
+A1632,Dog,Large,Owner surrender,2.6,,7.0,155,1
+A1633,Cat,Small,Transfer,4.0,3.8,4.0,65,0
+A1634,Cat,Medium,Owner surrender,7.9,4.8,8.0,45,1
+A1635,Cat,Small,Owner surrender,8.5,4.3,4.0,60,0
+A1636,Dog,Small,Owner surrender,14.3,6.9,7.0,85,0
+A1637,Cat,Small,Stray,1.5,4.3,6.0,145,1
+A1638,Cat,Small,Owner surrender,2.1,,9.0,120,1
+A1639,Dog,Extra large,Owner surrender,4.9,42.2,6.0,80,1
+A1640,Dog,Small,Owner surrender,9.3,6.4,6.0,90,0
+A1641,Dog,Small,Stray,,8.1,5.0,235,1
+A1642,Dog,Large,Stray,,25.6,8.0,125,1
+A1643,Dog,Large,Stray,,25.5,7.0,125,0
+A1644,Dog,Small,Stray,,8.5,6.0,115,0
+A1645,Dog,Large,Stray,,33.8,8.0,140,1
+A1646,Cat,Small,Stray,3.4,3.3,10.0,85,1
+A1647,Dog,Extra large,Owner surrender,4.3,55.1,9.0,100,1
+A1648,Cat,Small,Transfer,12.2,5.3,9.0,55,0
+A1649,Dog,Small,Owner surrender,2.3,8.3,5.0,205,1
+A1650,Cat,Medium,Owner surrender,3.6,4.4,6.0,45,1
+A1651,Cat,Small,Owner surrender,1.0,4.3,6.0,160,0
+A1652,Cat,Small,Stray,,3.7,,110,0
+A1653,Dog,Small,Stray,0.3,4.2,9.0,420,1
+A1654,Rabbit,Small,Owner surrender,10.6,1.6,3.0,50,0
+A1655,Cat,Small,Owner surrender,8.3,5.4,7.0,60,1
+A1656,Dog,Medium,Owner surrender,3.0,16.2,4.0,140,1
+A1657,Dog,Medium,Transfer,3.7,,6.0,80,1
+A1658,Dog,Medium,Owner surrender,4.7,20.3,,95,0
+A1659,Dog,Large,Transfer,,35.1,7.0,235,1
+A1660,Dog,Extra large,Stray,,47.9,4.0,240,0
+A1661,Dog,Medium,Transfer,3.4,17.0,5.0,125,1
+A1662,Dog,Small,Owner surrender,1.2,7.2,8.0,220,1
+A1663,Cat,Small,Owner surrender,1.2,4.1,6.0,135,1
+A1664,Dog,Small,Owner surrender,3.5,5.0,6.0,100,0
+A1665,Dog,Medium,Stray,3.7,20.9,8.0,130,1
+A1666,Dog,Medium,Stray,1.1,,,245,0
+A1667,Dog,Large,Transfer,2.7,29.6,7.0,105,1
+A1668,Dog,Medium,Owner surrender,1.3,16.9,9.0,205,1
+A1669,Rabbit,Small,Transfer,2.2,1.6,10.0,0,1
+A1670,Dog,Large,Stray,0.9,25.9,7.0,185,1
+A1671,Dog,Medium,Owner surrender,4.2,13.7,5.0,150,1
+A1672,Dog,Medium,Owner surrender,3.1,19.3,8.0,180,1
+A1673,Dog,Medium,Stray,,21.5,10.0,175,1
+A1674,Cat,Small,Owner surrender,5.2,4.2,5.0,20,0
+A1675,Rabbit,Small,Stray,,1.7,5.0,30,0
+A1676,Dog,Large,Stray,,38.9,6.0,80,0
+A1677,Dog,Medium,Stray,2.6,17.1,,190,0
+A1678,Dog,Medium,Owner surrender,4.1,14.2,,130,1
+A1679,Dog,Large,Owner surrender,,24.1,,120,0
+A1680,Cat,Small,Transfer,5.9,4.3,3.0,80,0
+A1681,Cat,Small,Transfer,2.7,5.2,5.0,75,1
+A1682,Cat,Medium,Transfer,1.1,5.7,7.0,170,1
+A1683,Cat,Small,Transfer,4.8,3.8,5.0,55,1
+A1684,Dog,Small,Owner surrender,3.8,6.7,6.0,160,0
+A1685,Dog,Large,Stray,0.2,15.8,9.0,315,0
+A1686,Dog,Medium,Owner surrender,1.4,16.6,10.0,215,1
+A1687,Cat,Medium,Stray,,6.2,8.0,80,1
+A1688,Dog,Large,Owner surrender,1.6,28.7,4.0,145,0
+A1689,Dog,Large,Stray,1.3,36.8,8.0,165,1
+A1690,Cat,Medium,Owner surrender,1.4,,6.0,140,0
+A1691,Dog,Large,Owner surrender,2.2,35.6,7.0,100,1
+A1692,Dog,Small,Stray,,7.4,8.0,220,1
+A1693,Dog,Medium,Transfer,4.3,17.0,8.0,105,1
+A1694,Rabbit,Small,Stray,,1.9,,0,0
+A1695,Dog,Small,Owner surrender,,6.7,4.0,220,0
+A1696,Dog,Medium,Stray,,23.1,7.0,55,0
+A1697,Dog,Extra large,Stray,,39.8,7.0,115,0
+A1698,Cat,Medium,Owner surrender,1.9,7.2,10.0,100,1
+A1699,Dog,Small,Stray,0.2,4.6,7.0,345,1
+A1700,Cat,Medium,Stray,2.9,5.7,5.0,115,0
+A1701,Dog,Medium,Transfer,10.1,22.9,5.0,125,0
+A1702,Cat,Medium,Stray,,3.4,5.0,145,1
+A1703,Dog,Medium,Transfer,0.9,17.2,3.0,290,0
+A1704,Cat,Small,Owner surrender,2.4,4.3,,95,0
+A1705,Dog,Medium,Stray,,11.1,5.0,300,0
+A1706,Cat,Medium,Stray,3.2,6.8,6.0,100,0
+A1707,Cat,Small,Transfer,1.1,4.0,5.0,145,0
+A1708,Dog,Small,Stray,1.3,6.8,6.0,175,0
+A1709,Dog,Extra large,Owner surrender,2.8,53.4,5.0,170,0
+A1710,Cat,Small,Owner surrender,10.3,4.1,6.0,0,0
+A1711,Dog,Extra large,Owner surrender,10.6,38.5,5.0,105,0
+A1712,Dog,Medium,Stray,1.3,,7.0,215,1
+A1713,Cat,Small,Stray,,2.3,6.0,185,1
+A1714,Dog,Large,Stray,0.8,26.2,1.0,215,0
+A1715,Dog,Small,Owner surrender,2.4,7.6,7.0,195,1
+A1716,Dog,Small,Owner surrender,12.9,6.2,6.0,85,0
+A1717,Dog,Medium,Stray,,15.5,5.0,125,0
+A1718,Dog,Small,Owner surrender,1.6,6.7,6.0,175,1
+A1719,Dog,Medium,Stray,,12.2,5.0,255,1
+A1720,Dog,Small,Owner surrender,1.9,7.0,6.0,185,1
+A1721,Dog,Medium,Stray,0.9,14.1,,280,0
+A1722,Dog,Medium,Stray,,23.3,7.0,185,1
+A1723,Cat,Small,Stray,2.2,4.6,7.0,85,1
+A1724,Dog,Medium,Transfer,8.7,18.4,3.0,75,0
+A1725,Dog,Medium,Transfer,1.9,18.6,5.0,175,1
+A1726,Dog,Large,Stray,,,7.0,135,1
+A1727,Dog,Small,Owner surrender,7.1,8.0,7.0,135,1
+A1728,Dog,Extra large,Stray,2.7,38.6,6.0,175,1
+A1729,Dog,Medium,Stray,0.3,11.8,,300,1
+A1730,Dog,Extra large,Transfer,0.5,26.3,5.0,310,1
+A1731,Cat,Small,Stray,,4.9,,105,0
+A1732,Rabbit,Small,Owner surrender,2.6,1.8,7.0,25,1
+A1733,Cat,Small,Transfer,1.0,,6.0,120,1
+A1734,Dog,Extra large,Stray,1.1,56.5,4.0,250,1
+A1735,Dog,Medium,Transfer,2.7,20.9,6.0,220,1
+A1736,Dog,Large,Owner surrender,2.3,26.0,,90,0
+A1737,Dog,Large,Stray,,21.8,,250,0
+A1738,Rabbit,Small,Stray,0.7,1.8,4.0,105,0
+A1739,Dog,Medium,Stray,,,4.0,140,0
+A1740,Dog,Medium,Stray,5.0,20.3,,140,0
+A1741,Cat,Medium,Stray,5.6,5.4,7.0,70,0
+A1742,Cat,Medium,Stray,1.5,4.5,8.0,80,1
+A1743,Dog,Small,Stray,1.0,6.0,8.0,220,1
+A1744,Rabbit,Small,Stray,,,4.0,65,0
+A1745,Dog,Medium,Stray,7.3,19.5,5.0,65,1
+A1746,Cat,Small,Owner surrender,4.1,4.7,7.0,90,1
+A1747,Dog,Large,Owner surrender,1.4,38.5,5.0,220,1
+A1748,Cat,Small,Owner surrender,,4.3,5.0,70,1
+A1749,Dog,Large,Owner surrender,9.1,31.0,5.0,105,0
+A1750,Dog,Medium,Transfer,8.7,20.1,,80,0
+A1751,Cat,Small,Owner surrender,3.5,4.1,8.0,85,1
+A1752,Rabbit,Small,Stray,1.4,1.9,,30,0
+A1753,Cat,Medium,Stray,,5.6,,150,0
+A1754,Cat,Small,Owner surrender,5.8,4.8,8.0,55,0
+A1755,Dog,Medium,Owner surrender,0.9,21.8,4.0,280,1
+A1756,Dog,Medium,Stray,,21.9,8.0,230,1
+A1757,Dog,Large,Owner surrender,4.5,25.1,7.0,170,0
+A1758,Dog,Extra large,Transfer,0.2,29.7,7.0,305,0
+A1759,Rabbit,Small,Owner surrender,2.0,1.7,5.0,60,0
+A1760,Dog,Extra large,Stray,4.9,42.7,,110,0
+A1761,Dog,Small,Transfer,5.5,7.6,,115,1
+A1762,Dog,Large,Stray,,26.2,6.0,110,0
+A1763,Dog,Medium,Stray,,11.3,6.0,210,1
+A1764,Dog,Medium,Stray,,16.1,,240,0
+A1765,Dog,Medium,Transfer,,23.2,,135,0
+A1766,Cat,Small,Stray,3.6,4.9,4.0,130,0
+A1767,Cat,Small,Owner surrender,5.4,3.7,6.0,125,0
+A1768,Dog,Large,Stray,,32.6,7.0,125,1
+A1769,Cat,Small,Stray,,4.3,8.0,100,1
+A1770,Cat,Medium,Stray,2.2,6.3,5.0,130,1
+A1771,Dog,Small,Stray,0.9,6.0,9.0,280,1
+A1772,Cat,Small,Stray,,,7.0,150,1
+A1773,Cat,Small,Stray,0.5,2.9,9.0,170,1
+A1774,Cat,Medium,Owner surrender,3.2,6.8,4.0,20,0
+A1775,Dog,Medium,Owner surrender,4.4,14.0,7.0,195,1
+A1776,Cat,Small,Stray,,2.7,8.0,155,1
+A1777,Rabbit,Small,Transfer,3.5,2.0,,60,0
+A1778,Dog,Extra large,Transfer,10.0,55.1,8.0,105,0
+A1779,Dog,Large,Owner surrender,1.4,21.7,7.0,180,0
+A1780,Cat,Small,Stray,1.3,4.6,,155,1
+A1781,Cat,Medium,Stray,0.6,5.2,6.0,210,1
+A1782,Dog,Large,Stray,4.5,30.7,8.0,115,1
+A1783,Cat,Small,Stray,,5.1,5.0,65,0
+A1784,Dog,Extra large,Stray,,61.6,5.0,190,0
+A1785,Cat,Small,Transfer,3.5,4.8,7.0,110,1
+A1786,Dog,Large,Owner surrender,8.3,36.1,7.0,125,0
+A1787,Dog,Large,Stray,0.2,21.9,,280,0
+A1788,Dog,Extra large,Owner surrender,1.8,48.0,8.0,155,1
+A1789,Dog,Large,Stray,,38.4,8.0,145,0
+A1790,Rabbit,Small,Transfer,2.6,2.2,8.0,0,1
+A1791,Dog,Small,Owner surrender,8.0,6.3,5.0,50,0
+A1792,Dog,Small,Owner surrender,6.0,6.0,8.0,95,1
+A1793,Rabbit,Small,Stray,,2.4,7.0,45,0
+A1794,Dog,Medium,Owner surrender,6.1,19.7,8.0,75,1
+A1795,Dog,Medium,Owner surrender,8.4,16.3,6.0,125,1
+A1796,Cat,Small,Stray,1.2,4.2,5.0,145,1
+A1797,Dog,Small,Stray,0.6,6.9,5.0,295,0
+A1798,Cat,Small,Owner surrender,1.6,3.2,5.0,115,1
+A1799,Cat,Small,Transfer,8.9,3.7,8.0,40,1
+A1800,Dog,Large,Owner surrender,2.1,35.5,5.0,145,0
+A1801,Cat,Small,Transfer,3.7,,5.0,85,0
+A1802,Cat,Small,Owner surrender,9.4,3.5,7.0,0,0
+A1803,Cat,Medium,Transfer,1.9,5.2,5.0,80,1
+A1804,Dog,Medium,Stray,,17.4,,265,0
+A1805,Dog,Medium,Owner surrender,7.3,22.2,5.0,125,0
+A1806,Dog,Small,Owner surrender,4.2,,5.0,115,0
+A1807,Dog,Medium,Stray,,7.6,9.0,260,1
+A1808,Dog,Medium,Transfer,5.7,21.0,7.0,125,1
+A1809,Cat,Small,Stray,1.9,,4.0,85,0
+A1810,Cat,Small,Owner surrender,9.9,3.9,4.0,50,0
+A1811,Dog,Medium,Stray,3.8,15.1,,95,0
+A1812,Cat,Small,Transfer,8.6,5.0,6.0,115,0
+A1813,Dog,Large,Owner surrender,,33.3,,180,1
+A1814,Dog,Medium,Stray,3.0,19.1,7.0,115,0
+A1815,Dog,Small,Stray,0.5,5.3,,240,1
+A1816,Rabbit,Small,Stray,,1.4,7.0,85,1
+A1817,Dog,Medium,Stray,1.9,20.4,8.0,205,1
+A1818,Cat,Small,Transfer,1.6,,1.0,160,0
+A1819,Rabbit,Small,Transfer,3.1,1.7,6.0,40,1
+A1820,Dog,Small,Owner surrender,1.3,6.9,6.0,175,1
+A1821,Cat,Small,Stray,,3.9,7.0,105,1
+A1822,Dog,Large,Owner surrender,4.0,41.2,6.0,130,0
+A1823,Cat,Small,Owner surrender,4.8,4.0,6.0,15,0
+A1824,Cat,Small,Transfer,,3.3,7.0,50,1
+A1825,Cat,Small,Stray,,4.2,6.0,115,0
+A1826,Rabbit,Small,Stray,2.8,1.8,6.0,10,0
+A1827,Cat,Medium,Owner surrender,1.1,5.4,9.0,145,1
+A1828,Rabbit,Small,Stray,1.3,1.9,8.0,100,1
+A1829,Dog,Medium,Transfer,1.3,14.8,8.0,250,1
+A1830,Dog,Medium,Stray,,13.5,5.0,90,0
+A1831,Dog,Large,Transfer,1.8,42.9,5.0,165,1
+A1832,Dog,Small,Stray,4.7,6.9,8.0,135,0
+A1833,Dog,Small,Stray,1.1,,4.0,220,0
+A1834,Cat,Small,Stray,2.2,4.6,8.0,90,1
+A1835,Cat,Small,Owner surrender,4.9,,,140,0
+A1836,Dog,Large,Transfer,5.8,24.6,10.0,20,1
+A1837,Rabbit,Small,Owner surrender,4.1,1.9,8.0,15,1
+A1838,Dog,Medium,Transfer,3.7,18.8,5.0,100,1
+A1839,Dog,Large,Transfer,6.1,28.2,5.0,100,0
+A1840,Cat,Small,Transfer,10.4,4.5,,110,0
+A1841,Cat,Small,Stray,0.7,2.9,6.0,150,1
+A1842,Cat,Medium,Owner surrender,4.1,5.4,8.0,65,1
+A1843,Dog,Large,Stray,1.7,31.4,7.0,200,1
+A1844,Dog,Medium,Stray,2.8,19.2,5.0,140,0
+A1845,Cat,Small,Stray,2.5,4.2,10.0,110,1
+A1846,Dog,Large,Stray,,,7.0,220,0
+A1847,Cat,Small,Transfer,15.4,4.0,7.0,30,0
+A1848,Cat,Small,Stray,,3.1,5.0,100,1
+A1849,Dog,Medium,Stray,1.9,24.8,7.0,180,1
+A1850,Cat,Small,Stray,,3.9,10.0,70,1
+A1851,Dog,Small,Stray,1.0,6.6,7.0,260,1
+A1852,Cat,Small,Owner surrender,0.5,3.1,,165,1
+A1853,Cat,Medium,Owner surrender,5.1,6.5,6.0,0,0
+A1854,Dog,Extra large,Owner surrender,7.9,47.3,10.0,85,1
+A1855,Dog,Small,Stray,,3.5,8.0,315,1
+A1856,Cat,Small,Transfer,2.1,3.3,5.0,75,1
+A1857,Dog,Small,Stray,,4.0,,340,1
+A1858,Dog,Medium,Owner surrender,3.5,16.0,3.0,110,0
+A1859,Rabbit,Small,Owner surrender,3.3,1.8,7.0,0,1
+A1860,Rabbit,Small,Transfer,1.6,2.0,4.0,85,1
+A1861,Dog,Medium,Transfer,5.3,18.6,5.0,100,0
+A1862,Rabbit,Small,Transfer,3.8,2.4,5.0,40,1
+A1863,Dog,Medium,Stray,,16.2,5.0,190,0
+A1864,Dog,Small,Transfer,4.6,5.4,9.0,70,1
+A1865,Cat,Small,Transfer,2.9,4.6,9.0,55,1
+A1866,Dog,Medium,Stray,,20.7,,190,1
+A1867,Cat,Medium,Transfer,0.4,3.2,6.0,165,1
+A1868,Cat,Small,Transfer,2.5,,9.0,140,1
+A1869,Dog,Medium,Owner surrender,2.5,18.5,5.0,210,1
+A1870,Dog,Medium,Owner surrender,1.5,16.6,5.0,210,1
+A1871,Cat,Small,Transfer,2.4,4.3,,95,1
+A1872,Cat,Small,Transfer,5.3,4.4,9.0,125,1
+A1873,Cat,Medium,Owner surrender,2.2,6.5,6.0,105,1
+A1874,Dog,Large,Stray,,34.7,6.0,280,1
+A1875,Cat,Medium,Stray,0.4,3.9,5.0,160,0
+A1876,Cat,Small,Stray,4.1,4.2,,70,0
+A1877,Dog,Small,Owner surrender,4.4,10.0,8.0,105,1
+A1878,Dog,Medium,Stray,2.1,,5.0,150,1
+A1879,Dog,Small,Owner surrender,,6.7,5.0,110,0
+A1880,Dog,Large,Transfer,4.3,30.3,,90,0
+A1881,Dog,Small,Transfer,2.9,7.8,4.0,145,1
+A1882,Dog,Medium,Stray,,21.2,,120,0
+A1883,Dog,Small,Owner surrender,7.9,5.7,5.0,165,0
+A1884,Cat,Small,Stray,,5.0,,10,0
+A1885,Dog,Small,Transfer,9.2,,5.0,95,0
+A1886,Cat,Medium,Stray,,7.1,6.0,180,1
+A1887,Dog,Large,Stray,,28.9,,180,0
+A1888,Dog,Medium,Stray,0.5,15.8,7.0,305,1
+A1889,Cat,Small,Stray,,4.0,5.0,120,1
+A1890,Dog,Medium,Owner surrender,6.7,20.0,,115,0
+A1891,Cat,Small,Stray,1.0,3.7,5.0,125,0
+A1892,Dog,Medium,Owner surrender,1.6,18.3,7.0,190,1
+A1893,Cat,Medium,Transfer,2.2,6.0,6.0,95,1
+A1894,Cat,Medium,Owner surrender,2.1,6.1,6.0,70,1
+A1895,Dog,Small,Owner surrender,10.7,7.9,6.0,95,0
+A1896,Dog,Small,Transfer,1.2,6.5,7.0,185,1
+A1897,Cat,Small,Stray,,4.0,,105,0
+A1898,Dog,Large,Transfer,3.4,26.2,5.0,85,0
+A1899,Rabbit,Small,Owner surrender,1.4,,7.0,100,1
+A1900,Dog,Medium,Stray,2.2,,6.0,150,1
+A1901,Dog,Medium,Stray,0.3,12.5,4.0,270,1
+A1902,Cat,Small,Owner surrender,1.6,4.6,5.0,145,1
+A1903,Cat,Small,Stray,0.3,2.3,5.0,165,0
+A1904,Cat,Small,Transfer,5.0,4.5,6.0,75,1
+A1905,Cat,Medium,Transfer,0.5,5.4,3.0,160,0
+A1906,Dog,Medium,Owner surrender,17.0,17.4,,100,0
+A1907,Dog,Extra large,Transfer,,37.7,,100,0
+A1908,Cat,Small,Owner surrender,0.9,5.6,6.0,75,1
+A1909,Cat,Small,Transfer,1.6,4.6,,165,1
+A1910,Cat,Medium,Owner surrender,0.8,5.8,8.0,185,1
+A1911,Cat,Medium,Stray,,8.4,8.0,95,1
+A1912,Dog,Small,Owner surrender,9.5,6.2,6.0,120,0
+A1913,Cat,Small,Owner surrender,2.8,,9.0,80,1
+A1914,Cat,Medium,Stray,,,7.0,115,1
+A1915,Cat,Small,Stray,,4.5,6.0,170,1
+A1916,Cat,Small,Stray,,4.5,8.0,90,1
+A1917,Cat,Small,Stray,2.2,3.7,,135,0
+A1918,Cat,Medium,Owner surrender,1.8,5.3,2.0,180,0
+A1919,Dog,Small,Owner surrender,2.8,6.8,4.0,185,1
+A1920,Cat,Small,Owner surrender,2.5,4.1,9.0,75,1
+A1921,Dog,Large,Transfer,1.9,40.6,8.0,140,1
+A1922,Cat,Small,Stray,2.7,4.0,6.0,120,1
+A1923,Dog,Large,Stray,1.2,31.2,6.0,170,1
+A1924,Dog,Medium,Transfer,0.7,14.6,6.0,245,1
+A1925,Cat,Small,Stray,1.7,3.3,7.0,105,1
+A1926,Dog,Medium,Owner surrender,8.9,16.7,4.0,70,0
+A1927,Dog,Medium,Owner surrender,0.8,,7.0,295,1
+A1928,Dog,Medium,Owner surrender,9.8,18.3,4.0,100,0
+A1929,Cat,Small,Owner surrender,1.8,3.0,9.0,105,1
+A1930,Dog,Medium,Owner surrender,3.1,15.2,5.0,170,1
+A1931,Cat,Small,Stray,4.4,4.4,4.0,55,0
+A1932,Dog,Medium,Stray,7.3,13.1,,135,0
+A1933,Dog,Small,Transfer,7.0,5.5,4.0,165,0
+A1934,Cat,Medium,Transfer,3.7,7.0,6.0,75,1
+A1935,Cat,Small,Owner surrender,1.4,3.4,2.0,120,0
+A1936,Cat,Small,Owner surrender,0.8,3.6,5.0,190,0
+A1937,Cat,Small,Stray,,4.4,6.0,0,0
+A1938,Dog,Large,Owner surrender,6.1,27.3,7.0,60,0
+A1939,Cat,Small,Owner surrender,8.1,3.3,5.0,20,0
+A1940,Cat,Small,Owner surrender,6.5,5.3,8.0,5,0
+A1941,Dog,Small,Stray,,5.3,,260,0
+A1942,Cat,Medium,Stray,2.0,6.5,6.0,115,1
+A1943,Cat,Medium,Transfer,6.0,5.3,5.0,60,1
+A1944,Dog,Small,Transfer,8.3,7.4,6.0,95,1
+A1945,Cat,Small,Stray,4.3,3.4,5.0,100,0
+A1946,Dog,Large,Transfer,2.5,26.0,9.0,195,1
+A1947,Dog,Large,Transfer,10.0,27.3,6.0,135,0
+A1948,Cat,Small,Stray,7.9,3.8,4.0,50,0
+A1949,Dog,Medium,Transfer,,16.4,10.0,145,1
+A1950,Cat,Small,Stray,0.8,3.6,,200,0
+A1951,Dog,Small,Stray,4.8,7.5,6.0,125,0
+A1952,Dog,Large,Stray,2.4,29.5,8.0,205,1
+A1953,Cat,Small,Owner surrender,8.6,4.8,5.0,40,0
+A1954,Cat,Medium,Owner surrender,2.6,5.4,6.0,90,0
+A1955,Dog,Medium,Owner surrender,3.3,19.9,8.0,115,1
+A1956,Dog,Medium,Stray,3.4,21.9,4.0,135,0
+A1957,Cat,Small,Owner surrender,,5.4,5.0,100,0
+A1958,Cat,Small,Stray,5.4,3.1,8.0,50,1
+A1959,Cat,Medium,Stray,,7.8,9.0,190,1
+A1960,Dog,Medium,Owner surrender,5.4,13.8,6.0,55,0
+A1961,Dog,Large,Stray,0.5,29.3,6.0,305,1
+A1962,Dog,Extra large,Transfer,,44.9,8.0,145,1
+A1963,Dog,Medium,Owner surrender,1.3,19.0,,230,0
+A1964,Dog,Extra large,Owner surrender,8.9,,5.0,65,0
+A1965,Dog,Large,Stray,5.6,36.8,4.0,105,0
+A1966,Dog,Large,Stray,2.6,35.4,2.0,160,0
+A1967,Dog,Small,Stray,2.0,6.4,,150,0
+A1968,Dog,Medium,Stray,,16.4,5.0,180,0
+A1969,Dog,Small,Stray,1.8,8.0,8.0,165,0
+A1970,Cat,Small,Owner surrender,2.5,4.9,7.0,95,1
+A1971,Cat,Small,Owner surrender,11.4,4.7,8.0,80,0
+A1972,Rabbit,Small,Transfer,5.8,,,85,0
+A1973,Cat,Medium,Stray,,6.0,6.0,20,0
+A1974,Cat,Small,Stray,,4.8,9.0,125,1
+A1975,Cat,Medium,Stray,,5.5,,145,1
+A1976,Dog,Medium,Transfer,0.4,14.4,,285,0
+A1977,Cat,Small,Stray,1.4,4.3,7.0,140,1
+A1978,Dog,Large,Owner surrender,,28.8,6.0,210,0
+A1979,Dog,Small,Owner surrender,8.0,7.3,7.0,110,0
+A1980,Rabbit,Small,Stray,0.9,2.0,6.0,70,0
+A1981,Cat,Small,Transfer,,3.9,8.0,170,1
+A1982,Dog,Extra large,Transfer,2.8,48.1,7.0,160,1
+A1983,Cat,Medium,Stray,,3.0,6.0,185,1
+A1984,Dog,Small,Stray,,7.3,5.0,185,1
+A1985,Cat,Small,Owner surrender,1.9,3.8,7.0,70,1
+A1986,Dog,Small,Owner surrender,0.9,8.9,5.0,215,1
+A1987,Dog,Small,Owner surrender,0.5,6.3,8.0,320,1
+A1988,Dog,Medium,Owner surrender,0.6,,8.0,260,1
+A1989,Dog,Small,Transfer,7.6,5.7,,35,0
+A1990,Rabbit,Small,Owner surrender,6.0,1.7,,55,0
+A1991,Dog,Large,Stray,1.5,35.5,7.0,245,1
+A1992,Dog,Extra large,Owner surrender,2.8,44.0,7.0,125,1
+A1993,Cat,Small,Stray,0.5,3.2,8.0,120,1
+A1994,Cat,Small,Transfer,6.3,,,60,0
+A1995,Cat,Small,Owner surrender,2.3,3.3,5.0,110,0
+A1996,Dog,Small,Stray,,4.0,6.0,285,1
+A1997,Dog,Medium,Transfer,11.4,17.4,9.0,60,0
+A1998,Cat,Small,Stray,2.5,3.4,5.0,110,0
+A1999,Dog,Medium,Transfer,3.0,15.9,8.0,160,1
+A2000,Dog,Medium,Owner surrender,8.5,20.2,6.0,40,1

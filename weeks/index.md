@@ -89,7 +89,6 @@ title: Weekly Materials
 <tr><td class="d">Wed Oct 21</td><td class="off">Fall Break — no class</td></tr>
 <tr><td class="d">Fri Oct 23</td><td>Practice 6 (trees, CV, grid search) · <a href="{{ '/weeks/08/forum3/' | relative_url }}">Forum 3 instructions</a></td></tr>
 </tbody></table>
-<div class="milestone-note">Milestone 1 due Sat Oct 24, midnight</div>
 </div>
 
 <div class="wk" id="week-9">
@@ -97,8 +96,9 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Oct 26</td><td><a href="{{ '/weeks/09/class_w09d1.ipynb' | relative_url }}">Preprocessing and pipelines</a></td></tr>
 <tr><td class="d">Wed Oct 28</td><td><a href="{{ '/weeks/09/class_w09d2.ipynb' | relative_url }}">Missing data</a></td></tr>
-<tr><td class="d">Fri Oct 30</td><td>Practice 7 · Quiz 4 (in class)</td></tr>
+<tr><td class="d">Fri Oct 30</td><td><a href="{{ '/weeks/09/dist/student/practice07.ipynb' | relative_url }}">Practice 7</a> · Quiz 4 (in class)</td></tr>
 </tbody></table>
+<div class="milestone-note">Milestone 1 due Sat Oct 31, midnight</div>
 </div>
 
 <div class="wk" id="week-10">
@@ -108,7 +108,6 @@ title: Weekly Materials
 <tr><td class="d">Wed Nov 4</td><td><a href="{{ '/weeks/10/class_w10d2.ipynb' | relative_url }}">Ridge and Lasso</a></td></tr>
 <tr><td class="d">Fri Nov 6</td><td>Practice 8 · <a href="{{ '/weeks/10/forum4/' | relative_url }}">Forum 4 instructions</a></td></tr>
 </tbody></table>
-<div class="milestone-note">Milestone 2 due Sat Nov 7, midnight</div>
 </div>
 
 <div class="wk" id="week-11">
@@ -118,6 +117,7 @@ title: Weekly Materials
 <tr><td class="d">Wed Nov 11</td><td><a href="{{ '/weeks/11/class_w11d2.ipynb' | relative_url }}">Ensembles</a></td></tr>
 <tr><td class="d">Fri Nov 13</td><td>Practice 9 · Quiz 5 (in class)</td></tr>
 </tbody></table>
+<div class="milestone-note">Milestone 2 due Sat Nov 14, midnight</div>
 </div>
 
 <div class="wk" id="week-12">
@@ -127,7 +127,6 @@ title: Weekly Materials
 <tr><td class="d">Wed Nov 18</td><td><a href="{{ '/weeks/12/class_w12d2.ipynb' | relative_url }}">Time-series data</a></td></tr>
 <tr><td class="d">Fri Nov 20</td><td>Practice 10 · <a href="{{ '/weeks/12/forum5/' | relative_url }}">Forum 5 instructions</a></td></tr>
 </tbody></table>
-<div class="milestone-note">Milestone 3 due Sat Nov 21, midnight</div>
 </div>
 
 <div class="wk" id="week-13">
@@ -137,6 +136,7 @@ title: Weekly Materials
 <tr><td class="d">Wed Nov 25</td><td class="off">Thanksgiving — no class</td></tr>
 <tr><td class="d">Fri Nov 27</td><td class="off">Thanksgiving — no class</td></tr>
 </tbody></table>
+<div class="milestone-note">Milestone 3 due Sat Nov 28, midnight</div>
 </div>
 
 <div class="wk" id="week-14">
@@ -146,7 +146,6 @@ title: Weekly Materials
 <tr><td class="d">Wed Dec 2</td><td><a href="{{ '/weeks/14/class_w14d2.ipynb' | relative_url }}">Interpretability methods</a></td></tr>
 <tr><td class="d">Fri Dec 4</td><td>Practice 11 · Quiz 6 (in class)</td></tr>
 </tbody></table>
-<div class="milestone-note">Milestone 4 due Sat Dec 5, midnight</div>
 </div>
 
 <div class="wk" id="week-15">
@@ -155,6 +154,7 @@ title: Weekly Materials
 <tr><td class="d">Mon Dec 7</td><td>Project progress check</td></tr>
 <tr><td class="d">Wed Dec 9</td><td>Book Club 6 &amp; Wrap Up · <a href="{{ '/weeks/15/forum6/' | relative_url }}">Forum 6 instructions</a></td></tr>
 </tbody></table>
+<div class="milestone-note">Milestone 4 due at your section's final presentation (exam period)</div>
 </div>
 
 <script>

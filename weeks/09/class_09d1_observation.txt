@@ -1,0 +1,173 @@
+CLASS OBSERVATION PROTOCOL
+DATA 202 (Introduction to Machine Learning), Calvin University
+Week 9, Monday: Preparing the Data. Scaling, Encoding and Pipelines
+Materials: class_w09d1.ipynb (projected; the professor runs all code)
+           class_w09d1_handout.pdf (printed, one per student; 4 parts)
+Data: the Titanic passenger list (1,043 passengers with age, fare and port)
+
+Learning objectives
+  09A  I can apply preprocessing steps (scaling and one-hot encoding) and
+       explain why each is needed before modeling.
+  09B  I can build a scikit-learn pipeline that chains preprocessing and
+       modeling steps into a single reproducible workflow.
+
+How the session works
+  - Students do not write code in class. The professor runs the notebook;
+    students work on the printed handout (drawing, filling in, labeling)
+    and talk in pairs. Coding practice happens in Friday's practice.
+  - Each part follows the same rhythm: a question or prediction first, a
+    short handout task with a partner, then the professor reveals the
+    answer in the notebook and draws out the general idea.
+  - Cues projected in the notebook: Predict First, Question, Pair Talk,
+    One split (a reminder that every score comes from one data split).
+
+Six chunks, about 55 minutes in all. Times are approximate.
+
+======================================================================
+CHUNK 0  Opening (about 15 min)
+======================================================================
+Teacher:
+  - Leads devotions and announcements (about 5 min).
+  - Gives the retrieval quiz on earlier material (about 5 min), then
+    goes over the answers with the class (about 5 min), asking students
+    to explain why the wrong choices are wrong.
+Students:
+  - Take the quiz individually and from memory, without notes.
+  - During the review, check their answers and explain or question the
+    reasoning behind them.
+What to look for:
+  - Do students try to retrieve before looking anything up?
+  - Does the review surface misconceptions, not just correct answers?
+
+======================================================================
+CHUNK 1  The passenger list: what can kNN use? (about 5 min)
+======================================================================
+Teacher:
+  - Introduces the Titanic passenger list and today's driving question:
+    "Can kNN learn who survived from a list that mixes years, pounds
+    and words?"
+  - Shows the first rows and the column table; splits the data into
+    training and test passengers.
+  - Asks the whole class: "kNN measures distances between rows of
+    numbers. Which columns can it use as they are?"
+Students:
+  - Read the table and answer aloud: the number columns can be used,
+    but sex and port are words. Some notice that the numbers are on
+    different rulers too.
+What to look for:
+  - Do students connect "distance" back to kNN from earlier weeks?
+  - Does anyone raise the problem of different units before it is shown?
+
+======================================================================
+CHUNK 2  Years vs. pounds: scaling (SLO 09A) (about 10 min)
+======================================================================
+Teacher:
+  - Shows a box plot of the five number columns: fares run to £512,
+    ages stop at 80.
+  - Launches Handout Part 1 (three real passengers, A, B and C, plotted
+    twice: in years and pounds, and in standard deviations).
+  - Circulates while pairs work; listens to their reasoning.
+  - Reveals the answer: in raw units B is closer to A; in standard
+    deviations C is closer. "Same three people, a different nearest
+    neighbor. The units chose it."
+  - Introduces StandardScaler (z = (value - mean) / standard deviation),
+    stressing that the mean and standard deviation come from the
+    training passengers only.
+  - Scales the columns by hand (fit on training, transform training and
+    test) and compares test accuracy: kNN 66.3% raw vs. 68.6% scaled; a
+    decision tree scores 71.6% either way. Explains why trees don't need
+    scaling.
+Students:
+  - Part 1: draw the lines A-B and A-C on both plots and circle the
+    closer passenger in each.
+  - Pair talk: the two plots disagree. Using the table (A and C are both
+    1st class and the same age), which answer would you trust, and why?
+  - Follow the reveal and the scaled vs. raw comparison.
+What to look for:
+  - Do pairs use the table (class, age) to justify trusting the scaled
+    answer, or only compare line lengths?
+  - Can students say in their own words why the tree is not affected?
+
+======================================================================
+CHUNK 3  Words to numbers: one-hot encoding (SLO 09A) (about 12 min)
+======================================================================
+Teacher:
+  - Predict First: "Quick fix: number the ports Southampton = 1,
+    Cherbourg = 2, Queenstown = 3. What would kNN now believe about the
+    three ports?" Takes a few answers, then reveals the invented order.
+  - Defines one-hot encoding (one 0/1 column per category, exactly one
+    "hot") with a three-port table; names "dummy variables".
+  - Launches Handout Part 2.
+  - Reveals the answer with OneHotEncoder on the same four passengers:
+    sex becomes one column (sex_male, because of drop="if_binary"); every
+    port is equally far from every other (1.41).
+  - Leads the fairness discussion: the ports were not alike (Cherbourg
+    62% 1st class, Queenstown 80% 3rd class), but kNN can learn that from
+    other columns; one-hot honestly says "we don't know how these differ".
+  - Reads the Ordinal Society quote (ranks vs. kinds) and asks: should
+    pclass stay one ranked column or become three one-hot columns?
+Students:
+  - Answer the prediction before the reveal.
+  - Part 2: fill in the 0s and 1s for sex and port for four passengers.
+  - Pair talk: is "equally far" fair to the three ports? What would you
+    want to know about them?
+  - Whole-class discussion: argue for treating pclass as a rank or as
+    kinds, and say what each choice tells kNN.
+What to look for:
+  - Do students fill exactly one 1 per port row, and only one sex column?
+  - Do students see encoding as a choice with consequences, not a fixed
+    rule (especially in the pclass discussion)?
+
+======================================================================
+CHUNK 4  One pipe for every step: pipelines and choosing k (SLO 09B)
+         (about 10 min)
+======================================================================
+Teacher:
+  - Shows the pipe image and builds a ColumnTransformer (numbers to the
+    scaler, words to the encoder) inside a Pipeline with kNN. Opens the
+    clickable pipeline diagram.
+  - Launches Handout Part 3, then reveals: 5 scaled numbers + sex_male
+    + 3 ports = 9 columns; test accuracy rises from 68.6% to 76.2%.
+  - Explains the three reasons for a pipeline: one object for fit and
+    predict (no scaling by hand as in Part 2), no leaks (every step
+    learns from the training rows only), and easy to change.
+  - Loops over k, refitting the whole pipeline, and plots training vs.
+    test accuracy; launches Handout Part 4; reveals: best k = 25 (81.2%
+    test); k = 1 overfits (98.3% training vs. 77.0% test); k = 201
+    underfits.
+  - Compares with the lazy "everyone died" model (59.4%) and adds the
+    "One split" reminder: k was chosen by looking at the test
+    passengers, so 81.2% is a bit optimistic.
+Students:
+  - Part 3: write which columns go into each branch of the pipe and how
+    many columns come out into kNN.
+  - Part 4: circle the best k; label the overfitting and underfitting
+    sides of the curve.
+  - Connect the curve to the over/underfitting idea from earlier weeks.
+What to look for:
+  - Can students trace a passenger's columns through the two branches?
+  - Do students label overfitting at small k (not at large k, as for
+    tree depth)?
+  - Do students see why choosing k on the test set makes its score
+    optimistic?
+
+======================================================================
+CHUNK 5  Who did we leave out? Wrap-up (about 3 min)
+======================================================================
+Teacher:
+  - Points out that the model never saw 266 of the 1,309 passengers
+    (those with a blank age, fare or port).
+  - Predict First for Wednesday: "Were the 266 like everyone else? If
+    not, who were they?"
+  - Summarizes the four wrap-up points: scale for distances (not for
+    trees); one-hot categories with no order and keep ranks only when
+    the order is real; pipelines fit every step on training rows only;
+    every score is one dataset, one split, and only the fully recorded
+    passengers.
+Students:
+  - Make a prediction about the missing passengers (aloud or with a
+    neighbor), to be checked in Wednesday's class.
+What to look for:
+  - Do students suspect the missing passengers were not random (for
+    example, more 3rd class)?
+  - Is the bridge to Wednesday's topic (missing data) clear?

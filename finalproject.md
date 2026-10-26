@@ -39,7 +39,7 @@ The specs are:
 
 ## Logistics
 
-**Individual or pairs.** You may work alone or in pairs; pairs are encouraged. If working in pairs, both partners are expected to contribute meaningfully to all parts of the project — not to divide it into independent halves.
+**Groups of 1, 2, or 3.** You may work alone or in a group of two or three; groups are encouraged. In a group, every member is expected to contribute meaningfully to all parts of the project — not to divide it into independent pieces.
 
 **Presentations.** The final class meeting (held during the designated final exam period) is devoted to project presentations. Giving and receiving peer feedback counts toward your grade, so attendance is mandatory. Because this course has two sections, there will be two presentation sessions — check the Calvin exam schedule for the exact dates and times.
 
@@ -119,6 +119,8 @@ Your project must include modeling — it should go beyond making visualizations
 - *Exploring an interpretable model.* Compare a newer interpretable model to a traditional one from class.
 
 **Finding inspiration:** Kaggle, TowardsDataScience, TidyTuesday, r-bloggers, GitHub, and YouTube are good starting points.
+
+**Tip — pick a cause you care about.** You can choose any topic you find important in terms of advocacy or activism: an issue where good data analysis could inform people, support a cause, or challenge a common claim. For ideas, look at the [advocacy websites that CS 336 students are building](https://cs.calvin.edu/courses/cs336/advocacy/). Their topics include student debt, disability, immigration, access to healthcare, food access, and belonging on campus. You could even contact one of those students: they may know which data would help their cause, and your analysis could give their site evidence to build on.
 
 Your notebook’s *Overview* section should open with the real-world question, explain why it is interesting, and include a 2–4 sentence description of the dataset (what it contains, where it came from).
 

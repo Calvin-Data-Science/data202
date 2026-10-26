@@ -8,7 +8,8 @@
 #   book_chapter        — Chapter number of "Counting" by Deborah Stone (read before writing the forum post)
 #   book_chapter_title  — Short chapter title; fill in when known
 #   milestone           — Project milestone number
-#   milestone_date      — Due date string for the milestone (e.g. "Sat Oct 24")
+#   milestone_date      — Due date string for the milestone (e.g. "Sat Oct 31")
+#   milestone_no_time   — true to drop the ", midnight" suffix (e.g. a date tied to the exam period)
 #   note                — Extra reminder line shown in the deadlines box
 
 - week: 1
@@ -54,14 +55,14 @@
   forum: 3
   book_chapter: 3
   book_chapter_title: "How We Know What a Number Means"
-  milestone: 1
-  milestone_date: "Sat Oct 24"
   note: "Fall Break Mon–Wed — class meets Friday only."
 
 - week: 9
   moodle_reading: true
   practice: 7
   quiz: 4
+  milestone: 1
+  milestone_date: "Sat Oct 31"
 
 - week: 10
   moodle_reading: true
@@ -69,13 +70,13 @@
   forum: 4
   book_chapter: 4
   book_chapter_title: "How Numbers Get Their Clout"
-  milestone: 2
-  milestone_date: "Sat Nov 7"
 
 - week: 11
   moodle_reading: true
   practice: 9
   quiz: 5
+  milestone: 2
+  milestone_date: "Sat Nov 14"
 
 - week: 12
   moodle_reading: true
@@ -83,20 +84,21 @@
   forum: 5
   book_chapter: 5
   book_chapter_title: "How Counting Changes Hearts and Minds"
-  milestone: 3
-  milestone_date: "Sat Nov 21"
 
 - week: 13
   note: "Thanksgiving week — class only on Monday."
+  milestone: 3
+  milestone_date: "Sat Nov 28"
 
 - week: 14
   moodle_reading: true
   practice: 11
   quiz: 6
-  milestone: 4
-  milestone_date: "Sat Dec 5"
 
 - week: 15
   forum: 6
   book_chapter: 6
   book_chapter_title: "The Ethics of Counting"
+  milestone: 4
+  milestone_date: "At your section's final presentation (exam period)"
+  milestone_no_time: true
