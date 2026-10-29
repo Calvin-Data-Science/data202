@@ -13,5 +13,5 @@ week_number: 11
 
 ## Materials
 
-- [Monday class](class_w11d1.ipynb)
-- [Wednesday class](class_w11d2.ipynb)
+- [Monday class](class_w11d1.ipynb) · [handout (PDF)](class_w11d1_handout.pdf)
+- [Wednesday class](class_w11d2.ipynb) · [handout (PDF)](class_w11d2_handout.pdf)

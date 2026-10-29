@@ -5,7 +5,7 @@ Rebuild the PDF after editing:   python scripts/make_w09d2_handout.py
 How this file becomes the PDF:
   - "# ..."            the title line at the top of page 1
   - "## ..."           one handout part
-  - ![](plot:NAME)     the part's plot: noage or spike
+  - ![](plot:NAME)     the part's plot: noage or spike (spike = ages by class, blanks filled with one mean)
                        (drawn by the script from datasets/titanic.csv, same passengers and split as the slides)
                        optional width, e.g. ![](plot:noage){width=46%}; under 80% the plot
                        sits left and the text right, 80% or more it spans the page, text below
@@ -38,7 +38,7 @@ Share who survived:
 
 ## 2 · Name the mechanism
 
-**MCAR**: pure chance. **MAR**: explained by columns we *can* see. **MNAR**: depends on the missing value itself, or on something never recorded.
+**MCAR**: pure chance. **MAR**: explained by columns we *can* see. **MNAR**: depends on the missing value itself, or on something never recorded. *MAR or MNAR?* Among rows alike in every column we can see, do the blank ones still differ? No: MAR. Yes: MNAR.
 
 Write MCAR, MAR or MNAR in each blank.
 
@@ -56,14 +56,14 @@ Write MCAR, MAR or MNAR in each blank.
 
 **Talk with your neighbor:** compare answers, then defend 10 and 11. For 10: what if the midterm column were missing? For 11: could the data ever settle it?
 
-## 3 · The spike
+## 3 · One age for everyone
 
 ![](plot:spike){width=100%}
 
-The 981 training passengers' ages: as recorded (top), and after filling every blank with the mean age (bottom).
+The 981 training passengers' ages, one panel per class. Gray: ages as recorded. Black: the blank ages, all filled with the mean age of the whole ship (30).
 
-1. **Circle** what the imputer added.
-2. **Talk with your neighbor:** median age is 39 in 1st class and 24 in 3rd. Whose blanks does one mean of 30 fit worse? What would you fill them with instead?
+1. In each panel, **draw an arrow** to where you would put that class's blank ages instead.
+2. **Talk with your neighbor:** one mean assumes the blank passengers are like everyone else. Is that true here? Which mechanism from Part 2 does it assume, and which one do our blanks follow?
 
 ## 4 · Pick the fix
 

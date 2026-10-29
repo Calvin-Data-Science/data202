@@ -229,36 +229,48 @@ Q3_HEADING = "Question 3 (SLO 06C)"
 Q3_TEST_SIZE = {"A": ("0.25", 200), "B": ("0.2", 160)}
 
 
-def _q3_code(test_size, answers=None):
-    a = answers or ["«2.2cm»"] * 5
-    return (
-        'X = data[["pages", "prior_late", "class_year"]]\n'
-        'y = data["late"]\n'
-        "X_train, X_test, y_train, y_test = train_test_split(\n"
-        f"    X, y, test_size={test_size}, random_state=1)\n"
-        f"scaler = StandardScaler().fit({a[0]})\n"
-        f"knn = KNeighborsClassifier(n_neighbors=5).fit(scaler.transform({a[1]}), {a[2]})\n"
-        f"knn.score(scaler.transform({a[3]}), {a[4]})   # accuracy on NEW loans"
-    )
+def _q3_diagram(test_size):
+    """The machine-learning flow: data -> split -> four pieces (word bank), then
+    1. fit, 2. predict, 3. score, each with blanks for the pieces it uses."""
+    b = r"\rule{1.4cm}{0.5pt}"
+    return "\n".join([
+        r"\begin{tikzpicture}[>=stealth, box/.style={draw, thick, rounded corners=3pt, align=center,"
+        r" inner sep=6pt, font=\small}]",
+        r"\node[box] (data) at (0,0) {\textbf{data}: 800 loans\\features \texttt{X}, label \texttt{y}};",
+        r"\node[box] (split) at (5.9,0) {\texttt{train\_test\_split(X, y,}\\\texttt{test\_size=%s)}};" % test_size,
+        r"\node[box, dashed] (bank) at (12.3,0) {\textbf{four pieces}\\\texttt{X\_train} \quad \texttt{X\_test}"
+        r"\\\texttt{y\_train} \quad \texttt{y\_test}};",
+        r"\draw[->, thick] (data) -- (split);",
+        r"\draw[->, thick] (split) -- (bank);",
+        r"\node[box] (fit) at (0,-2.3) {\textbf{1. learn}\\[3pt]\texttt{model.fit(}%s\texttt{,} %s\texttt{)}};" % (b, b),
+        r"\node[box] (pred) at (7.0,-2.3) {\textbf{2. predict}\\[3pt]\texttt{model.predict(}%s\texttt{)}};" % b,
+        r"\node[box] (score) at (13.0,-2.3) {\textbf{3. score}\\[3pt]compare the predictions\\with %s"
+        r" $\rightarrow$ accuracy};" % b,
+        r"\draw[->, thick] (fit) -- node[above, font=\scriptsize] {trained model} (pred);",
+        r"\draw[->, thick] (pred) -- node[above, font=\scriptsize] {predictions} (score);",
+        r"\end{tikzpicture}",
+    ])
 
 
 def _q3_question(letter):
     test_size, n_test = Q3_TEST_SIZE[letter]
     intro = (
-        "`data` holds all 800 loans. Fill in the blanks so that the score "
-        "estimates how well the model will do on **new** loans. Then say how "
-        "many loans end up in the test set."
+        "`data` holds all 800 loans. After the split, a model goes through three steps. Fill each "
+        "blank with one of the four pieces, **`X_train`, `X_test`, `y_train` or `y_test`**, so that "
+        "the accuracy tells how well the model will do on **new** loans. Each piece is used once. "
+        "Then say how many loans end up in the test set."
     )
-    body = (
-        _code(_q3_code(test_size)) + "\n"
-        + raw_latex(r"\noindent Number of loans in the test set: " + blank_line("2.5cm"))
+    body = raw_latex(
+        r"\begin{center}" + "\n" + _q3_diagram(test_size) + "\n" + r"\end{center}" + "\n"
+        + r"\noindent Number of loans in the test set: " + blank_line("2.5cm")
     )
-    filled = _q3_code(test_size, ["X_train", "X_train", "y_train", "X_test", "y_test"])
     answer = (
-        _md_code(filled) + "\n\n"
+        "1. **learn:** `model.fit(X_train, y_train)`\n"
+        "2. **predict:** `model.predict(X_test)`\n"
+        "3. **score:** compare the predictions with **`y_test`** → accuracy\n\n"
         f"Test set: **{n_test}** loans (800 × {test_size}).\n\n"
-        "The scaler and the model are fit on the training rows only; the test rows are "
-        "used only to score, playing the part of new loans."
+        "The model learns from the training rows only. The test rows play the part of new loans: "
+        "the model sees X_test only to predict, and y_test only to check its answers."
     )
     return Question(Q3_HEADING, intro, body, answer)
 

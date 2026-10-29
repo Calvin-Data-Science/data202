@@ -1,0 +1,62 @@
+// Week 09 Retrieval Quiz 2 — scaling, encoding, pipelines, and why CV uses only training data — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 9's Wednesday class. Three questions on Monday's class (w09d1: scaling 09A,
+// encoding 09A, pipelines 09B) and one on why cross-validation runs on the training set (07B, as in
+// Monday's grid search). Every question is self-contained: small generic examples with all needed facts
+// in the stem (none use the Titanic data).
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 4 questions, ~5 minutes.
+
+$CATEGORY: Week 09 / Retrieval 02
+
+// ── Section 1: Scaling and Encoding (09A) ───────────────────────────────────
+
+::W09-R2-Q1 Different rulers (09A)::[html]A gym uses kNN to predict whether a member renews, from two columns: <b>age</b> (years, standard deviation 12) and <b>yearly spending</b> (dollars, standard deviation $900). Three members:
+<pre>
+member   age   spending
+A         30     $1,200
+B         60     $1,250
+C         31     $1,600
+</pre>
+Without scaling, which member is A's nearest neighbor, and what changes after <code>StandardScaler</code>?{
+=B is nearest unscaled (distance about 58), because $1 counts as much as 1 year. After scaling, C is nearest. #Correct. Unscaled, A to B is √(30² + 50²) ≈ 58 and A to C is √(1² + 400²) ≈ 400, so the $400 gap swamps a 30-year gap. In standard deviations, A to B is about 2.5 (30 years ÷ 12) and A to C about 0.45 ($400 ÷ $900), so C, who is A's age, becomes the nearest.
+~C is nearest both ways, because scaling never changes who is nearest #Scaling can change the nearest neighbor, and here it does. Unscaled, the $400 difference between A and C is a bigger number than the 30-year difference between A and B, so B wins.
+~B is nearest both ways, because scaling keeps every column's order #Scaling keeps the order <i>within</i> a column, but it changes how much each column counts in the distance. In standard deviations, 30 years is 2.5 units and $400 is only 0.45, so C becomes nearest.
+~It doesn't matter\: kNN, like a decision tree, looks at one column at a time #That is true of a tree (each question asks about one column), which is why trees don't need scaling. kNN adds up the differences in all columns into one distance, so the units matter.
+}
+
+::W09-R2-Q2 Which preparation for which column (09A)::[html]A shop prepares four columns for a kNN model. Match each column to the step it needs.{
+=<b>payment method</b>\: card, cash or app -> OneHotEncoder\: one 0/1 column per category
+=<b>T-shirt size</b>\: S, M, L or XL -> OrdinalEncoder, with the order S &lt; M &lt; L &lt; XL given
+=<b>member</b>\: yes or no -> a single 0/1 column (drop\="if_binary")
+=<b>age</b>, in years -> StandardScaler
+}
+
+// ── Section 2: Pipelines (09B) ──────────────────────────────────────────────
+
+::W09-R2-Q3 What fit and predict do in a pipeline (09B)::[html]A model is built like this:
+<pre>
+prep = ColumnTransformer([
+    ("num", StandardScaler(), ["age", "income"]),
+    ("cat", OneHotEncoder(), ["city"]),
+])
+model = Pipeline([("prep", prep), ("knn", KNeighborsClassifier(n_neighbors=5))])
+model.fit(X_train, y_train)
+model.predict(X_test)
+</pre>
+What happens to the test rows when <code>model.predict(X_test)</code> runs?{
+=They are scaled with the means and standard deviations learned from the training rows, one-hot encoded with the training rows' cities, then kNN predicts #Correct. <code>fit</code> learned every step from the training rows only. <code>predict</code> just sends the test rows through the same steps (transform, then kNN), so nothing is learned from them.
+~The scaler is refit on the test rows, so they are scaled with their own mean and standard deviation #That would scale the two sets with different rulers, and let the test rows shape the model. In a pipeline, <code>predict</code> only transforms. The means and standard deviations come from <code>fit</code>, on the training rows.
+~Only the kNN step runs; the test rows must be scaled and encoded by hand first #Not needed. A pipeline runs every step in order on <code>predict</code> too. Doing it by hand is what the pipeline saves you from, and where mistakes creep in.
+~The OneHotEncoder adds a new column for each city that appears only in the test rows #The encoder learned its list of cities during <code>fit</code>, from the training rows. A city it never saw can't get its own column. By default it raises an error, and <code>handle_unknown\="ignore"</code> gives that row all 0s.
+}
+
+// ── Section 3: Cross-Validation and the Test Set (07B) ──────────────────────
+
+::W09-R2-Q4 Why cross-validate on the training set (07B)::[html]To choose k for a kNN model, a student tries k = 1, 5, 15, 25 and 51, scores each one <b>on the test set</b>, keeps the best one, and reports its test accuracy, 84%. Why should k be chosen with cross-validation on the <b>training</b> set instead?{
+=Choosing k by its test score turns the test set into part of the training. The 84% is then optimistic, and nothing is left that plays "new data" #Correct. The test set is there to stand in for data the model has never seen. If it helped pick k, the best of five scores on those same rows is partly luck. Cross-validation makes stand-in test sets out of the training rows (4 folds fit, 1 fold scored, 5 times), so the test set is used once, at the end.
+~Because the test set is too small to compute an accuracy #A test set can be small and still give an accuracy. The problem isn't its size but using it twice\: once to choose k and again to report the score.
+~Because cross-validation on the training set gives a higher accuracy #It usually gives a slightly <i>lower</i>, more honest estimate. The point isn't a higher number, but keeping the test set unseen until the end.
+~It makes no difference\: the test set has the same kind of rows as the training set #The rows are alike, but the test set's job is different. Once its scores have steered a choice, its final score no longer measures how the model does on new data.
+}

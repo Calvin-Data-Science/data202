@@ -7,8 +7,8 @@ passengers and split as the notebook (datasets/titanic.csv, all 1,309 passengers
 train_test_split(test_size=0.25, stratify=y, random_state=1)).
 
     noage    share of passengers with no recorded age, by ticket class
-    spike    the training passengers' ages as recorded, and after filling the
-             blanks with the training mean (SimpleImputer(strategy="mean"))
+    spike    the training passengers' ages, one panel per class: recorded, and the blanks
+             filled with ONE training mean for the whole ship (SimpleImputer(strategy="mean"))
 
 Usage:  python scripts/make_w09d2_handout.py
 """
@@ -57,18 +57,22 @@ def make_plots(outdir):
     ax.grid(axis="x", visible=False)
     plots["noage"] = outdir / "noage.pdf"; save(fig, plots["noage"])
 
-    # spike -- ages before and after mean imputation
+    # spike -- each class's ages, with the blanks filled by ONE mean of the whole ship
     filled = SimpleImputer(strategy="mean").fit_transform(X_train[["age"]])[:, 0]
+    blank = X_train["age"].isna().values
+    pclass = X_train["pclass"].values
     bins = np.arange(0, 82, 2)
-    fig, axes = plt.subplots(2, 1, figsize=(7.2, 3.6), sharex=True, sharey=True)
-    axes[0].hist(X_train["age"].dropna(), bins=bins, color="#2a78d6", edgecolor="white", linewidth=0.4)
-    axes[0].set_title("as recorded", loc="left", fontsize=9)
-    axes[1].hist(filled, bins=bins, color="#2a78d6", edgecolor="white", linewidth=0.4)
-    axes[1].set_title("blanks filled with the mean", loc="left", fontsize=9)
-    axes[1].set_xlabel("age (years)")
-    for ax in axes:
+    fig, axes = plt.subplots(3, 1, figsize=(7.2, 3.6), sharex=True)
+    for ax, c, name in zip(axes, [1, 2, 3], ["1st", "2nd", "3rd"]):
+        ax.hist([filled[(pclass == c) & ~blank], filled[(pclass == c) & blank]], bins=bins, stacked=True,
+                color=["#b8c4d6", "black"], edgecolor="white", linewidth=0.4,
+                label=["recorded", "blank, filled with the mean"])
+        ax.text(0.01, 0.92, f"{name} class", transform=ax.transAxes, fontsize=9, fontweight="bold", va="top")
         ax.set_ylabel("passengers")
         ax.set_xticks(range(0, 81, 10))
+    axes[0].legend(fontsize=7.5, loc="upper right")
+    axes[2].set_xlabel("age (years)")
+    fig.subplots_adjust(hspace=0.15)
     plots["spike"] = outdir / "spike.pdf"; save(fig, plots["spike"])
 
     return plots

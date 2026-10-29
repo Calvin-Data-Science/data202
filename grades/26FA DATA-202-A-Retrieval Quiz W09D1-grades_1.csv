@@ -1,0 +1,24 @@
+﻿"Last name","First name","ID number","Email address",Status,Started,Completed,Duration,Grade/100.00,"Q. 1 /16.67","Q. 2 /16.67","Q. 3 /16.67","Q. 4 /16.67","Q. 5 /16.67","Q. 6 /16.67"
+Lamppa,Bryn,10007578,bll9@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:29 AM","3 mins 18 secs",33.33,0.00,0.00,16.67,16.67,0.00,0.00
+Tatontos,Eirena,10022271,et38@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:30 AM","4 mins 2 secs",50.00,16.67,0.00,0.00,16.67,16.67,0.00
+Elsen,William,10006941,wte3@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:31 AM","5 mins 36 secs",83.33,0.00,16.67,16.67,16.67,16.67,16.67
+Olu-Silas,Zuriel,10009158,ozo2@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:41 AM","14 mins 55 secs",66.67,16.67,16.67,0.00,16.67,16.67,0.00
+Deters,Téa,10005803,mld52@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:29 AM","3 mins 14 secs",66.67,16.67,16.67,0.00,16.67,16.67,0.00
+Vandermolen,Parker,10008427,pwv6@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:31 AM","5 mins 10 secs",33.33,0.00,16.67,0.00,0.00,16.67,0.00
+Tatontos,Samuel,10006868,sjt32@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:32 AM","5 mins 41 secs",50.00,0.00,16.67,0.00,0.00,16.67,16.67
+Lamer,Alder,2428910,ajl92@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:30 AM","3 mins 45 secs",83.33,16.67,16.67,0.00,16.67,16.67,16.67
+Hong,Ayin,2611448,ah66@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:43 AM","16 mins 20 secs",100.00,16.67,16.67,16.67,16.67,16.67,16.67
+Birhanu,Naomi,2542532,nba4@calvin.edu,Finished,"October 26 2026  9:26 AM","October 26 2026  9:31 AM","5 mins 1 sec",83.33,16.67,16.67,0.00,16.67,16.67,16.67
+Brooks,Zac,10019180,zdb3@calvin.edu,Finished,"October 26 2026  9:27 AM","October 26 2026  9:32 AM","4 mins 59 secs",33.33,16.67,0.00,0.00,0.00,16.67,0.00
+Rogan,Joshua,10012072,jbr25@calvin.edu,Finished,"October 26 2026  9:27 AM","October 26 2026  9:33 AM","6 mins 29 secs",83.33,16.67,16.67,0.00,16.67,16.67,16.67
+Castellanos,Diego,10022738,dc64@calvin.edu,Finished,"October 26 2026  9:27 AM","October 26 2026  9:34 AM","7 mins 19 secs",16.67,0.00,0.00,0.00,0.00,0.00,16.67
+Abban,Kwesi,10017759,kga5@calvin.edu,Overdue,"October 26 2026  9:28 AM",-,-,-,-,-,-,-,-,-
+Sherbrooke,Andrew,10007728,ams324@calvin.edu,Finished,"October 26 2026  9:28 AM","October 26 2026  9:38 AM","10 mins 1 sec",83.33,16.67,16.67,16.67,16.67,16.67,0.00
+Mireku,Kwesi,10004722,kom6@calvin.edu,Finished,"October 26 2026  9:28 AM","October 26 2026  9:31 AM","3 mins 14 secs",100.00,16.67,16.67,16.67,16.67,16.67,16.67
+Reyes,Yolani,10012200,ymr2@calvin.edu,Finished,"October 26 2026  9:29 AM","October 26 2026  9:30 AM","38 secs",33.33,0.00,0.00,16.67,0.00,0.00,16.67
+Lamppa,Bryn,10007578,bll9@calvin.edu,Finished,"October 26 2026  9:29 AM","October 26 2026  9:30 AM","37 secs",100.00,16.67,16.67,16.67,16.67,16.67,16.67
+Reyes,Yolani,10012200,ymr2@calvin.edu,Finished,"October 26 2026  9:30 AM","October 26 2026  9:31 AM","58 secs",100.00,16.67,16.67,16.67,16.67,16.67,16.67
+Tatontos,Eirena,10022271,et38@calvin.edu,Finished,"October 26 2026  9:30 AM","October 26 2026  9:31 AM","28 secs",100.00,16.67,16.67,16.67,16.67,16.67,16.67
+Vandermolen,Parker,10008427,pwv6@calvin.edu,Finished,"October 26 2026  9:31 AM","October 26 2026  9:32 AM","23 secs",100.00,16.67,16.67,16.67,16.67,16.67,16.67
+Anang-La,"Naa Adjorkor",10008574,naa26@calvin.edu,Finished,"October 26 2026  9:44 AM","October 26 2026  9:45 AM","39 secs",0.00,0.00,0.00,0.00,0.00,0.00,0.00
+"Overall average",,,,,,,,66.67,11.11,11.90,7.94,11.90,13.49,10.32

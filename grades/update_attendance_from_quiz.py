@@ -25,6 +25,10 @@ Usage:
 
     # Preview without writing anything:
     python3 update_attendance_from_quiz.py --dry-run
+
+    # An in-class paper quiz exported from Gradescope (present = submission 'Graded'):
+    # its upload time isn't the class day, so give the date of the quiz.
+    python3 update_attendance_from_quiz.py Quiz_03_scores.csv --date 10/9/2026
 """
 
 import csv
@@ -53,9 +57,31 @@ def discover_quiz_csvs(script_dir):
     return sorted(glob.glob(os.path.join(script_dir, QUIZ_CSV_GLOB)))
 
 
-def load_finishers(csv_path):
+def load_gradescope(csv_path, quiz_date):
+    """Gradescope export of an in-class paper quiz (e.g. Quiz_03_scores.csv):
+    a student was present if their submission is 'Graded' (not 'Missing').
+    The Submission Time is when the scans were uploaded, not the class day,
+    so the date must be given with --date."""
+    if quiz_date is None:
+        sys.exit(f"{os.path.basename(csv_path)} is a Gradescope export: its Submission Time is the "
+                 f"upload date, not the class day. Pass the class date, e.g. --date 10/9/2026")
+    present = set()
+    with open(csv_path, encoding="utf-8-sig", newline="") as f:
+        for row in csv.DictReader(f):
+            if (row.get("Status") or "").strip() == "Graded":
+                present.add(((row.get("First Name") or "").strip().lower(),
+                             (row.get("Last Name") or "").strip().lower()))
+    return present, quiz_date
+
+
+def load_finishers(csv_path, quiz_date=None):
     """Return {(first_lower, last_lower)} of students with a Finished attempt,
-    plus the single quiz date (as it appears in most rows)."""
+    plus the single quiz date (as it appears in most rows). Gradescope exports
+    (column 'First Name', statuses Graded/Missing) go to load_gradescope."""
+    with open(csv_path, encoding="utf-8-sig", newline="") as f:
+        header = next(csv.reader(f), [])
+    if "First Name" in header and "Submission ID" in header:
+        return load_gradescope(csv_path, quiz_date)
     finishers = set()
     dates = Counter()
     with open(csv_path, encoding="utf-8-sig", newline="") as f:
@@ -88,12 +114,11 @@ def date_header_variants(d):
     return {f"{d.month}/{d.day}/{d.year}"}
 
 
-def process_csv(ws, csv_path, dry_run, force):
-    """Apply one quiz report's attendance to the already-open Attendance sheet.
+def process_date(ws, quiz_date, finishers, dry_run, force):
+    """Apply one class day's attendance (the finishers of every report for that
+    date, combined) to the already-open Attendance sheet.
     Returns True if any cell was (or would be) changed."""
-    finishers, quiz_date = load_finishers(csv_path)
-    print(f"Quiz date detected from CSV: {quiz_date.isoformat()}  "
-          f"({len(finishers)} unique students finished)")
+    print(f"Quiz date {quiz_date.isoformat()}: {len(finishers)} unique students finished")
 
     header = [c.value for c in ws[1]]
     candidates = date_header_variants(quiz_date)
@@ -160,6 +185,11 @@ def main():
     argv = sys.argv[1:]
     dry_run = "--dry-run" in argv
     force = "--force" in argv
+    given_date = None
+    if "--date" in argv:                       # e.g. --date 10/9/2026 (needed for Gradescope exports)
+        i = argv.index("--date")
+        given_date = datetime.strptime(argv[i + 1], "%m/%d/%Y").date()
+        del argv[i:i + 2]
     argv = [a for a in argv if a not in ("--dry-run", "--force")]
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -189,13 +219,23 @@ def main():
         sys.exit(f"No '{ATTENDANCE_SHEET}' sheet in {xlsx_path}")
     ws = wb[ATTENDANCE_SHEET]
 
+    # A class day's quiz can be split across several reports (e.g. ..._grades_1.csv and
+    # ..._grades_2.csv). Combine the finishers of all reports with the same date first, so a
+    # student in either file counts as present and only students in none are marked 'n'.
+    by_date = {}
+    for csv_path in csv_paths:
+        finishers, quiz_date = load_finishers(csv_path, given_date)
+        print(f"{os.path.basename(csv_path)}: {quiz_date.isoformat()}, {len(finishers)} finished")
+        by_date.setdefault(quiz_date, set()).update(finishers)
+    print()
+
     any_changes = False
-    for i, csv_path in enumerate(csv_paths):
-        if len(csv_paths) > 1:
-            print(f"=== {os.path.basename(csv_path)} ===")
-        if process_csv(ws, csv_path, dry_run=dry_run, force=force):
+    for i, (quiz_date, finishers) in enumerate(sorted(by_date.items())):
+        if len(by_date) > 1:
+            print(f"=== {quiz_date.isoformat()} ===")
+        if process_date(ws, quiz_date, finishers, dry_run=dry_run, force=force):
             any_changes = True
-        if i < len(csv_paths) - 1:
+        if i < len(by_date) - 1:
             print()
 
     if dry_run:

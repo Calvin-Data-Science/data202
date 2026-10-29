@@ -125,6 +125,12 @@ WEEK 10 — Linear Regression (Ridge/Lasso, MAE/RMSE/R²)
                           RMSE $19,548 / CV $28,958 (Monday $27,069 / $27,876); coefficients ~1e15. Ridge best
                           alpha 300, CV $25,106; Lasso best alpha 300, CV $24,222, 105 kept; alpha 1,000: $24,510,
                           58 kept. Test RMSE: OLS $21,874, Ridge $22,093, Lasso $21,172)
+  Reading (reading8): [x] abalone.csv  (REAL; UCI Abalone, Nash et al. 1994 Tasmania, CC BY 4.0; built by
+                          scripts/make_abalone.py: x200 back to mm/g, sex spelled out, age_years = rings + 1.5;
+                          4 impossible heights kept for the reading to drop. Lab = 400 sampled (rs=1) -> 300/100.
+                          Line 8.24 + 0.0716 x shell_g: test MAE 2.01 / RMSE 2.62 / R2 0.39, CV 2.50; 9 cols CV 2.19;
+                          37 product cols 1.70 / 2.53 (+-21 tug-of-war coefs); Ridge a=3 2.09; Lasso a=0.01 2.08
+                          (21 kept, test RMSE 2.17); abalone over 16 underpredicted by 4.3 years)
   Practice:           [ ]
 
 ---

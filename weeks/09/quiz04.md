@@ -107,35 +107,23 @@ Accuracy 77.0% beats the lazy model's 73.5% only a little, and recall shows the 
 
 **Version A:**
 
-```python
-X = data[["pages", "prior_late", "class_year"]]
-y = data["late"]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.25, random_state=1)
-scaler = StandardScaler().fit(X_train)
-knn = KNeighborsClassifier(n_neighbors=5).fit(scaler.transform(X_train), y_train)
-knn.score(scaler.transform(X_test), y_test)   # accuracy on NEW loans
-```
+1. **learn:** `model.fit(X_train, y_train)`
+2. **predict:** `model.predict(X_test)`
+3. **score:** compare the predictions with **`y_test`** → accuracy
 
 Test set: **200** loans (800 × 0.25).
 
-The scaler and the model are fit on the training rows only; the test rows are used only to score, playing the part of new loans.
+The model learns from the training rows only. The test rows play the part of new loans: the model sees X_test only to predict, and y_test only to check its answers.
 
 **Version B:**
 
-```python
-X = data[["pages", "prior_late", "class_year"]]
-y = data["late"]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=1)
-scaler = StandardScaler().fit(X_train)
-knn = KNeighborsClassifier(n_neighbors=5).fit(scaler.transform(X_train), y_train)
-knn.score(scaler.transform(X_test), y_test)   # accuracy on NEW loans
-```
+1. **learn:** `model.fit(X_train, y_train)`
+2. **predict:** `model.predict(X_test)`
+3. **score:** compare the predictions with **`y_test`** → accuracy
 
 Test set: **160** loans (800 × 0.2).
 
-The scaler and the model are fit on the training rows only; the test rows are used only to score, playing the part of new loans.
+The model learns from the training rows only. The test rows play the part of new loans: the model sees X_test only to predict, and y_test only to check its answers.
 
 ## Question 4 (SLO 07A)
 
