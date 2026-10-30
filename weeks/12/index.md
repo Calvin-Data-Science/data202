@@ -13,6 +13,6 @@ week_number: 12
 
 ## Materials
 
-- [Monday class](class_w12d1.ipynb)
-- [Wednesday class](class_w12d2.ipynb)
+- [Monday class](class_w12d1.ipynb) · [handout (PDF)](class_w12d1_handout.pdf)
+- [Wednesday class](class_w12d2.ipynb) · [handout (PDF)](class_w12d2_handout.pdf)
 - [Forum 5 instructions]({{ '/weeks/12/forum5/' | relative_url }})

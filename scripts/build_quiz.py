@@ -18,6 +18,11 @@ and writes into that week's folder:
     python scripts/build_quiz.py <quiz_number> --keys
 builds only the grading keys, weeks/<week>/quizNN_A_key.pdf and _B_key.pdf.
 
+    python scripts/build_quiz.py <quiz_number> --variant <name> [--keys]
+builds an extra quiz that belongs with quiz NN (e.g. a late retake), from
+scripts/quiz_content/quizNN_<name>.py, into the same week folder as
+quizNN_<name>.md / _A.pdf / _B.pdf (and _A_key.pdf / _B_key.pdf).
+
 Requires: pandoc + a LaTeX engine (xelatex) on PATH.
 
 To add a new quiz: create scripts/quiz_content/quizNN.py exposing a
@@ -342,15 +347,17 @@ def render_pdf(md_text: str, out_pdf: Path):
         tmp_md.unlink(missing_ok=True)
 
 
-def build_readable_md(content: QuizContent, quiz_number: int) -> str:
+def build_readable_md(content: QuizContent, quiz_number: int, variant: str = None) -> str:
+    stem = f"quiz{quiz_number:02d}" + (f"_{variant}" if variant else "")
+    command = f"python scripts/build_quiz.py {quiz_number}" + (f" --variant {variant}" if variant else "")
     lines = [
         f"# {content.title}",
         "",
         content.subtitle,
         "",
         "*(Source content for the printed quiz. Both versions (A/B) are shown",
-        f"below. Built via `python scripts/build_quiz.py {quiz_number}`, which",
-        f"generates `quiz{quiz_number:02d}_A.pdf` and `quiz{quiz_number:02d}_B.pdf`",
+        f"below. Built via `{command}`, which",
+        f"generates `{stem}_A.pdf` and `{stem}_B.pdf`",
         "for printing. This file is NOT published on the course site -- see",
         "`_config.yml` exclude list.)*",
         "",
@@ -392,24 +399,27 @@ def main():
     parser.add_argument("quiz_number", type=int, help="Quiz number, e.g. 1 for quiz01")
     parser.add_argument("--keys", action="store_true",
                         help="only build the answer keys quizNN_A_key.pdf / quizNN_B_key.pdf")
+    parser.add_argument("--variant", default=None,
+                        help="build quiz_content/quizNN_<variant>.py instead, e.g. a late retake")
     args = parser.parse_args()
     quiz_number = args.quiz_number
+    suffix = f"_{args.variant}" if args.variant else ""
 
     week = week_for_quiz(quiz_number)
-    module_name = f"quiz_content.quiz{quiz_number:02d}"
+    module_name = f"quiz_content.quiz{quiz_number:02d}{suffix}"
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     try:
         content_module = importlib.import_module(module_name)
     except ModuleNotFoundError as e:
         raise SystemExit(
-            f"Could not import scripts/quiz_content/quiz{quiz_number:02d}.py ({e}). "
+            f"Could not import scripts/quiz_content/quiz{quiz_number:02d}{suffix}.py ({e}). "
             "Create it with a module-level CONTENT: QuizContent."
         )
     content: QuizContent = content_module.CONTENT
 
     out_dir = ROOT / "weeks" / f"{week:02d}"
     out_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"quiz{quiz_number:02d}"
+    stem = f"quiz{quiz_number:02d}{suffix}"
 
     if args.keys:
         for letter in ("A", "B"):
@@ -420,7 +430,7 @@ def main():
         md = build_version_md(content, letter)
         render_pdf(md, out_dir / f"{stem}_{letter}.pdf")
 
-    (out_dir / f"{stem}.md").write_text(build_readable_md(content, quiz_number), encoding="utf-8")
+    (out_dir / f"{stem}.md").write_text(build_readable_md(content, quiz_number, args.variant), encoding="utf-8")
     print(f"Wrote {out_dir / (stem + '.md')}")
 
 

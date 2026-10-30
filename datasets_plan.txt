@@ -143,8 +143,19 @@ WEEK 11 — Other Models (logistic regression, random forest, gradient boosting)
 ---
 
 WEEK 12 — Other Techniques (imbalanced data, time-series features)
-  Mon (class_mon):    [ ]
-  Wed (class_wed):    [ ]
+  Mon (class_w12d1):  [x] pulsars.csv  (REAL; UCI HTRU2, Lyon et al. 2016 MNRAS, Parkes survey, CC BY 4.0; built by
+                          scripts/make_pulsars.py, 3 decimals. 17,898 candidates, 1,639 pulsars (9.2%). Split 0.25,
+                          stratify, rs=1 -> 13,423/4,475 (410 test pulsars). Lazy 0.908. Logistic (scaled, 8 cols):
+                          acc 0.980, recall 0.827, precision 0.947, CM [[4046,19],[71,339]]; threshold 0.1 on test:
+                          0.902 / 0.797, 464 flagged. CV (cross_val_predict) at 0.1: 0.914 / 0.795. CV rebalancing:
+                          nothing .817/.937, class weights .910/.792, oversample .910/.790, undersample .909/.798,
+                          SMOTE .910/.785. Forest SMOTE-then-split .971/.984 vs split-then-SMOTE .890/.863)
+  Wed (class_w12d2):  [x] bikes.csv  (REAL; UCI Bike Sharing, Fanaee-T & Gama 2013, Capital Bikeshare DC, CC BY 4.0;
+                          built by scripts/make_bikes.py: 17,544 hours 2011-2012, 165 missing hours added back as 0
+                          rentals, weather carried forward. Time split: learn < 2012-07-01, test Jul-Dec 2012 (4,416 h).
+                          Forest clock+weather: random split MAE 50 vs time split 82 (predicts 179/h vs 252 actual).
+                          Copy 1h/24h/1wk: 85/80/66. Forest + lags: 33. CV shuffled vs TimeSeriesSplit: 40 vs 57 (no
+                          lags), 22 vs 36 (lags). Horizon 1/2/3/6/12/24/48/72/168 h: 34/47/52/54/54/49/54/55/56)
   Practice:           [ ]
 
 ---
