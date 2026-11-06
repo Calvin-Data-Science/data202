@@ -1,0 +1,58 @@
+// Week 11 Retrieval Quiz 3 — ensembles: why a forest's vote beats one tree, how AdaBoost reweights, why stacking can gain little — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 11's Friday class (Practice 9 · Quiz 5). Three questions on Wednesday's class (w11d2, all 11B):
+// bagging's vote and why identical trees add nothing, AdaBoost's reweighting (boosting builds in a row), and why a
+// stacking ensemble gains little when its members share their mistakes.
+// Every question is self-contained: small generic examples with all needed facts in the stem (none use the pumpkin-seed data).
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 3 questions, ~4 minutes.
+
+$CATEGORY: Week 11 / Retrieval 03
+
+// ── Section 1: Bagging and the Vote (11B) ────────────────────────────────────
+
+::W11-R3-Q1 Many trees, one vote (11B)::[html]A music app classifies songs as <b>danceable</b> or not from 10 audio columns. Three models, all with no depth limit. Accuracy:
+<pre>
+model                                                  rows it learned from    held-out
+one tree                                                      100%               74%
+100 trees, each on its own bootstrap sample, voting           100%               85%
+100 trees, all on the same rows (bootstrap=False), voting     100%               74%
+</pre>
+Which reading is right?{
+=Each bootstrap tree memorizes the quirks of its own sample. The quirks differ from tree to tree and get outvoted, while the real pattern is shared and wins. Trees grown on the same rows are copies, and copies vote like one tree #Correct. The vote gains only from trees that are different\: each bootstrap sample repeats some songs and leaves out about a third, so each tree overfits in its own way. With bootstrap\=False, all 100 trees learn the same rows and make the same mistakes, so the vote is just the single tree again (74%).
+~The bootstrap trees are smaller and simpler, so each one overfits less than the single tree #The bootstrap trees are just as deep\: each reaches 100% on its own sample. Alone, each would score about like the single tree. The gain comes from the vote, not from simpler trees.
+~All three overfit equally\: each reaches 100% on the rows it learned from #The 100% only says each model memorized its rows. What matters is the held-out column, where the bootstrap vote gains 11 points. Many overfit trees, voting, overfit much less; that is why a forest rarely needs a depth limit.
+~The trees on the same rows should do best, since every tree sees all the data #Seeing the same rows, every tree learns the same thing, so 100 of them vote exactly like one. An ensemble needs members that are different, and the bootstrap samples are what make them different.
+}
+
+// ── Section 2: AdaBoost, Round by Round (11B) ────────────────────────────────
+
+::W11-R3-Q2 After the first stump (11B)::[html]AdaBoost learns to tell <b>chewy</b> from <b>crispy</b> cookies. It starts with 10 cookies of the same weight, 0.1 each. Stump 1 asks "baking time ≤ 11 minutes?" and gets 2 cookies wrong:
+<pre>
+stump 1 error  = 0.1 + 0.1 = 0.2
+stump 1 say    = ½ ln((1 − 0.2) ÷ 0.2) = 0.69
+</pre>
+Which statement about round 2 is right?{
+=The 2 missed cookies get heavier and the other 8 lighter, until the 2 hold half of the total weight (0.25 each). The best stump 2 gets them right, even if it misses some of the light ones #Correct. Reweighting is how boosting builds in a row\: each stump focuses on what the ones before it missed. A stump that missed both heavy cookies again would have an error of at least 0.5, and a say of 0 or less, so stump 2 asks a different question. In the final vote, each stump counts with its say.
+~The 2 missed cookies are dropped, so stump 2 learns only from the 8 that stump 1 got right #The opposite\: AdaBoost keeps every cookie and makes the missed ones heavier. Dropping them would teach stump 2 only the easy cases, the ones stump 1 already handles.
+~Stump 2 learns from its own bootstrap sample of the cookies, without knowing what stump 1 missed #That's bagging, whose trees grow side by side, each on its own. Boosting builds its models in a row\: the weights carry what stump 1 missed over to stump 2.
+~The weights stay at 0.1 each; only the say changes from round to round #If the weights stayed the same, stump 2 would face the same problem and choose the same cut as stump 1, and the vote would gain nothing. The reweighting is what makes each stump different from the last.
+}
+
+// ── Section 3: Stacking and Shared Mistakes (11B) ────────────────────────────
+
+::W11-R3-Q3 Why stacking gained so little (11B)::[html]A garden-center app predicts whether a houseplant <b>survives</b> its first month at home. Cross-validated results on 2,000 plants:
+<pre>
+model                                          accuracy    plants it gets wrong
+logistic regression                              84%              320
+kNN                                              83%              340
+random forest                                    85%              300
+stacking (the three, with a meta-learner)        85.5%            290
+</pre>
+260 of the plants fool all three base models. Why does stacking gain so little?{
+=The three models mostly miss the same plants. The meta-learner can only weigh what the base models say, and when all three are wrong about a plant, no weighting can fix it #Correct. The 260 shared mistakes survive any combination, so even a perfect meta-learner could get at most 1,740 of 2,000 right (87%). Stacking gains from members whose mistakes don't line up; here they mostly line up.
+~The meta-learner learned from the base models' predictions on plants they had memorized, so it trusted them too much #Stacking avoids that\: the meta-learner learns from <i>cross-validated</i> predictions, made by base models that never saw those plants. A model that memorized its rows can't fool it.
+~Add three more random forests, copies of the best model, and stacking will gain more #Copies make the same mistakes, so they add nothing new to weigh. A different kind of model, one that misses <i>other</i> plants, is what could help.
+~Drop kNN\: as the least accurate model, it only drags the stack down #The meta-learner already learns how much to trust each model, and gives a small slope to one that adds little. Being the least accurate doesn't make a model useless\: one whose mistakes differ from the others' can still help.
+}

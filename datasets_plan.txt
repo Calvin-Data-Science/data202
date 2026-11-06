@@ -121,23 +121,39 @@ WEEK 10 — Linear Regression (Ridge/Lasso, MAE/RMSE/R²)
                           (mean model RMSE $80,440). Bedrooms +$14,077 alone, -$31,152 with area. 47-column pipeline:
                           test MAE $18,960, RMSE $27,193, R² 0.885; CV R² 0.870. % error by price fifth: one line
                           +50% cheapest / -15% priciest; full +4% / -3%)
-  Wed (class_w10d2):  [x] ames.csv  (same split; + all products of two numeric columns -> 237 columns. OLS train
-                          RMSE $19,548 / CV $28,958 (Monday $27,069 / $27,876); coefficients ~1e15. Ridge best
-                          alpha 300, CV $25,106; Lasso best alpha 300, CV $24,222, 105 kept; alpha 1,000: $24,510,
-                          58 kept. Test RMSE: OLS $21,874, Ridge $22,093, Lasso $21,172)
+  Wed (class_w10d2):  [x] ames.csv  (rebuilt 2026-11-03: 25 houses X_train.sample(25, rs=19), 18 number columns
+                          (no neighborhood, no second_floor_area). Line: $15,508 on the 25 / $65,964 on 732 test;
+                          living_area +$106k, quality -$11.6k, garage_cars +$57.5k vs garage_area -$55.9k. Ridge a=10
+                          test $34,102; Lasso a=10,000 keeps 8, $38,523; elastic net a=100 l1=0.99 $34,928; degree-10
+                          curve aside; all 2,193 houses $28,869)
   Reading (reading8): [x] abalone.csv  (REAL; UCI Abalone, Nash et al. 1994 Tasmania, CC BY 4.0; built by
-                          scripts/make_abalone.py: x200 back to mm/g, sex spelled out, age_years = rings + 1.5;
-                          4 impossible heights kept for the reading to drop. Lab = 400 sampled (rs=1) -> 300/100.
-                          Line 8.24 + 0.0716 x shell_g: test MAE 2.01 / RMSE 2.62 / R2 0.39, CV 2.50; 9 cols CV 2.19;
-                          37 product cols 1.70 / 2.53 (+-21 tug-of-war coefs); Ridge a=3 2.09; Lasso a=0.01 2.08
-                          (21 kept, test RMSE 2.17); abalone over 16 underpredicted by 4.3 years)
-  Practice:           [ ]
+                          scripts/make_abalone.py. Lab = 400 sampled (rs=1) -> 300/100. Line test MAE 2.01 / RMSE 2.62 /
+                          R2 0.39; 9 cols CV 2.07/2.19. Pages 4-5 rebuilt 2026-11-03: 15 abalone (rs=9) 1.77 / 4.77 on
+                          the other 285, length +19.8 vs diameter -20.4; Ridge a=10 2.62, Lasso a=0.1 keeps 4, 2.42;
+                          elastic net; products aside 1.70/2.53 -> Lasso 2.08. Final: 9 cols on 300, test RMSE 2.21,
+                          R2 0.57; abalone over 16 underpredicted by 4.5 years)
+  Practice (practice08): [x] mpg.csv  (REAL; UCI Auto MPG, StatLib / 1983 ASA Exposition, CC BY 4.0; built by
+                          scripts/make_mpg.py: 398 cars 1970-82, 6 blank horsepower. Split 0.25 rs=1 -> 298/100.
+                          Line mpg = 46.59 - 0.00777 x weight (-7.8 mpg per 1,000 lb); test MAE 2.89, RMSE 3.78,
+                          R2 0.74 (lazy RMSE 7.41). Residual by era 1970-73 -2.26 / 1974-77 -0.96 / 1978-82 +2.32.
+                          Weight + year: -6.7 mpg per 1,000 lb, +0.79 per year. All columns CV 3.39/3.53.
+                          10 cars (sample rs=1, 6 numbers): 1.82 on them / 9.61 on other 288 (19 below 0 mpg);
+                          weight +15.0, cylinders +10.9, displacement -30.2. Ridge a=10 CV 4.22, others 4.10;
+                          Lasso a=1 keeps displacement + model_year, others 4.36; elastic net a=1 l1=0.1, 4.09;
+                          one line 4.52. Test: 298-car line 3.05, Ridge on 10 cars 3.25)
 
 ---
 
 WEEK 11 — Other Models (logistic regression, random forest, gradient boosting)
-  Mon (class_mon):    [ ]
-  Wed (class_wed):    [ ]
+  Mon (class_w11d1):  [x] mortgages.csv  (REAL; HMDA 2025, CFPB, public domain; built by scripts/make_mortgages.py from the
+                          Data Browser API, Kent County MI, actions 1-3, own single-family home, all purposes ->
+                          18,506 applications, 15.8% denied; race/ethnicity/sex/age/tract kept FOR WEEK 14 FAIRNESS.
+                          Complete on DTI/LTV/amount: 17,713 -> split 0.25 rs=1 stratify -> 13,284/4,429. DTI cliff:
+                          ~10% denied up to 49, 44% at 50-60, 95% >60. DTI alone: z = -5.47 + 0.090 x DTI, 50/50 at
+                          60.7, odds x2.5 per 10 pts, CV 0.889 vs approve-all 0.848. 6 cols + one-hot: CV 0.884;
+                          purchase -1.42, conventional -0.59, second lien -0.23 (raw 21% vs 12%), DTI +1.03.
+                          Test set untouched, kept for Week 14)
+  Wed (class_w11d2):  [x] pumpkin.csv  (Koklu 2021; ensembles; logistic C=100 .889 CV in the final comparison)
   Practice:           [ ]
 
 ---

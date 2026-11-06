@@ -1,0 +1,61 @@
+// Week 10 Retrieval Quiz 3 — regularization: slopes that overfit, choosing alpha, what a Lasso zero means — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 10's Friday class (Practice 08). Three questions on Wednesday's class (w10d2, SLO 10B):
+// spotting overfitting in a line's slopes (few rows, near-copy columns), reading Ridge's alpha curve, and what a
+// Lasso zero does and doesn't mean.
+// Every question is self-contained: small generic examples with all needed facts in the stem (none use the Ames data).
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 3 questions, ~4 minutes.
+
+$CATEGORY: Week 10 / Retrieval 03
+
+// ── Section 1: Slopes That Make No Sense (10B) ───────────────────────────────
+
+::W10-R3-Q1 Overfitting inside a line (10B)::[html]An ice-cream shop fits a straight line to predict a day's sales (in dollars) from 12 number columns, scaled first. It has only <b>15 days</b> of data. Two of the columns are near-copies: the day's high temperature and the temperature at 3 pm (correlation 0.96). Some slopes, per standard deviation, next to the same line fit on 600 days:
+<pre>
+column               slope from 15 days    slope from 600 days
+high temperature          +$410                 +$95
+3 pm temperature          −$365                 +$60
+sunny (1 = yes)           −$140                 +$45
+</pre>
+On its 15 days the line misses by $20 (RMSE). On 100 new days it misses by $230. Which reading is right?{
+=Overfitting\: 13 numbers fit from 15 days follow those days' quirks. The slopes are too big, one points the wrong way (sunny days sell less?), and the two temperatures fight a tug of war. A price on big slopes, like Ridge, is the fix #Correct. Least squares only minimizes the misses on the 15 days, and it doesn't care how big the slopes get. The +$410 and −$365 nearly cancel on those days, where the two temperatures move together. On a new day where they don't, the prediction swings. With 600 days, the slopes are small and point the sensible way.
+~The 15-day slopes are better\: they fit their days far more closely ($20 against $230) #The $20 is on the days the line learned from. On new days the same line misses by $230. Fitting the training days closely while missing new ones is exactly what overfitting looks like.
+~The two temperature slopes cancel (+410 − 365 \= +45), so together they are fine, and the line only needs more columns #They cancel only on the 15 days, where the two temperatures move together. On a new day where the high is warm but 3 pm is cool, the two slopes stop cancelling. And more columns would give the line even more freedom with the same 15 days, so it would overfit more.
+~Underfitting\: a straight line is too simple for ice-cream sales, so it needs curves made from powers of the temperature #Underfitting misses the training days too, but this line misses them by only $20. Twelve columns on 15 days make the line too flexible, not too simple. Powers of the temperature would add even more columns.
+}
+
+// ── Section 2: Choosing alpha (10B) ──────────────────────────────────────────
+
+::W10-R3-Q2 Reading the alpha curve (10B)::[html]A bike-rental company fits Ridge on <b>40 days</b> with 20 scaled columns, and cross-validates five alphas. RMSE, in bikes rented per day (lower is better):
+<pre>
+alpha     folds it learned from    held-out fold
+0.01               35                   410
+1                  60                   220
+10                120                   150
+100               250                   260
+1000              390                   395
+</pre>
+Which reading is right?{
+=alpha \= 10 is the best choice. The small alphas overfit (tiny misses on the folds they learned from, huge ones on the held-out fold), and alpha \= 1000 underfits (bad on both). For Ridge, a bigger knob means a simpler line #Correct. Choose by the held-out column, where alpha \= 10 is lowest (150). At 0.01 the slopes are barely charged for, and 35 against 410 is the overfitting gap. At 1000 every slope is squashed toward 0, so the line predicts almost the same number for every day and misses everywhere. Like k in kNN, and unlike max_depth, a larger alpha means a simpler model.
+~alpha \= 0.01, because its error is the smallest (35) #That 35 is on the folds the model learned from. On the held-out fold, the one that stands for new days, alpha \= 0.01 is the worst (410).
+~alpha \= 1000, because its two columns are the closest (390 and 395), so it doesn't overfit #A small gap means no overfitting, but alpha \= 1000 has the biggest misses on new days\: it underfits. Being equally bad on old and new days isn't the goal; being good on new days is.
+~The small alphas underfit and the big ones overfit, like max_depth for trees\: a bigger knob means a more complex model #The direction is reversed. alpha is the price of big slopes\: a bigger alpha means smaller slopes and a simpler line. For trees, a bigger max_depth meant a more complex model; for Ridge it's the other way around.
+}
+
+// ── Section 3: What a Lasso Zero Means (10B) ─────────────────────────────────
+
+::W10-R3-Q3 A slope of exactly 0 (10B)::[html]A music app predicts how many minutes a user listens per week. It fits Lasso on <b>30 users</b> with 10 scaled columns, alpha chosen by cross-validation. Three of the slopes:
+<pre>
+column                 Lasso slope
+playlists created         +38
+songs liked                 0
+friends followed          +12
+</pre>
+Among the 30 users, "songs liked" and "playlists created" are strongly correlated (0.9). Which statement is right?{
+=Next to "playlists created", "songs liked" adds little that is new on these 30 users, so Lasso set its slope to exactly 0. With another 30 users, Lasso might keep "songs liked" and drop "playlists created" instead #Correct. Lasso charges for the size of every slope, so from a set of near-copies it tends to keep one and drop the rest. A 0 means "nothing new next to the kept columns, in this sample", not "doesn't matter". With only 30 users, which near-copy survives can flip from one sample to the next.
+~Liking songs has nothing to do with how long people listen #On its own, "songs liked" would probably predict listening time well\: it is correlated 0.9 with "playlists created", which has a slope of +38. The 0 says what it adds next to the kept columns, not whether it is related to listening.
+~Ridge, on the same data, would also set "songs liked" to exactly 0 #Ridge charges for the <i>squared</i> slopes. It shrinks every slope toward 0 but almost never all the way, and near-copies tend to share the slope. Only Lasso's absolute-value penalty sends slopes to exactly 0.
+~Lasso made a mistake\: a column correlated 0.9 with a useful column should get a big slope too #Giving both near-copies big slopes is what plain least squares does, and with few rows they turn into a tug of war (one big positive, one big negative). Lasso's penalty makes the second copy cost more than the little it adds.
+}

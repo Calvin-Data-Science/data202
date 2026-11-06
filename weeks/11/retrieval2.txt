@@ -1,0 +1,55 @@
+// Week 11 Retrieval Quiz 2 — logistic regression: from a score to a chance, the borderline moves most, choosing the threshold — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 11's Wednesday class. Three questions on Monday's class (w11d1, all 11A): reading a
+// fitted score and its S-curve (direction, the 50/50 point, a score is not a chance), why the same push moves a
+// borderline case the most, and how the threshold trades recall for precision while accuracy hides it.
+// Every question is self-contained: small generic examples with all needed facts in the stem (none use the mortgage data).
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 3 questions, ~4 minutes.
+
+$CATEGORY: Week 11 / Retrieval 02
+
+// ── Section 1: From a Score to a Chance (11A) ────────────────────────────────
+
+::W11-R2-Q1 From a score to a chance (11A)::[html]Home bakers log 400 sourdough batches, in kitchens from 10 to 30 °C. A logistic regression predicts whether a batch <b>fails to rise</b> from the kitchen's temperature:
+<pre>
+score               z = 6 − 0.3 × temperature
+chance of failing   1 ÷ (1 + e^(−z))
+</pre>
+Which reading is right?{
+=The chance of failing falls as the kitchen gets warmer, and it is 50/50 at 20 °C, where the score is 0 #Correct. The slope is negative, so a warmer kitchen lowers the score, and the S-curve runs downhill. The curve crosses 50% where the score is 0\: 6 − 0.3 × 20 \= 0. Colder than 20 °C, the model leans "fails"; warmer, it leans "rises".
+~At 30 °C the chance of failing is −3, so the model is broken\: a chance can't be negative #−3 is the <i>score</i>, 6 − 0.3 × 30. It isn't a chance yet\: the logistic function squeezes it to 1 ÷ (1 + e³) ≈ 0.05. Any score, however negative, lands between 0 and 1.
+~The curve crosses 50% at 6 °C, the intercept #The intercept is the score at 0 °C, not where the curve crosses 50%. The crossing is where the score is 0\: 6 − 0.3 × temperature \= 0 at 20 °C.
+~Each extra degree lowers the chance of failing by 0.3, that is, by 30 percentage points #The slope moves the <i>score</i> by 0.3, not the chance. How much the chance moves depends on where the batch sits on the S\: the most near 50%, almost nothing near 0 or 1. A chance that fell 0.3 per degree would drop below 0 within a few degrees, the same problem as fitting a straight line to 0/1 labels.
+}
+
+// ── Section 2: The Borderline Moves Most (11A) ───────────────────────────────
+
+::W11-R2-Q2 The same push, three players (11A)::[html]A puzzle game predicts whether a player <b>quits</b> during a new level, and flags the player when the chance is 0.5 or more. The logistic function turns a score into a chance:
+<pre>
+score z                −3      −2      −0.5     +0.5     +4      +5
+chance 1 ÷ (1+e^(−z))  0.05    0.12    0.38     0.62     0.98    0.99
+</pre>
+Three players have scores of <b>−3</b> (A), <b>−0.5</b> (B) and <b>+4</b> (C). The designers make the level a little harder, which adds <b>1</b> to every player's score. Which statement is right?{
+=B's chance moves the most (0.38 → 0.62), and B's flag flips to "quits". A and C barely move\: the S-curve is steepest near 0.5 and flat at both ends #Correct. A moves 0.07 (0.05 → 0.12), B moves 0.24, C moves 0.01 (0.98 → 0.99). The same push on the score matters most for the borderline player. For a clear case, a small change in the data changes nothing; for a borderline case, it can flip the decision.
+~All three chances rise by the same amount, since every score rose by 1 #The scores rise by the same 1, but the chances don't. That would be true for a straight line. The logistic function bends, so the same step in the score moves the chance a lot near 0.5 and hardly at all near 0 or 1.
+~C's chance moves the most, because C has the biggest score #C is already at 0.98, on the flat top of the S. There is almost no room left, so +1 moves it only to 0.99.
+~No flag changes\: adding 1 to a score is too small to matter #For A and C, that's true. But B starts at 0.38, just below the 0.5 threshold, and +1 takes it to 0.62. On the steep middle of the S, a small push is enough to flip the decision.
+}
+
+// ── Section 3: Choosing the Threshold (11A) ──────────────────────────────────
+
+::W11-R2-Q3 Choosing the threshold (11A)::[html]A park's trail cameras took 10,000 photos last month, and 500 of them show a bear. A logistic regression gives each photo a chance of showing a bear, and rangers look at every photo it flags (a positive is a bear). Three thresholds:
+<pre>
+threshold    photos flagged    precision    recall    accuracy
+0.7               250             0.90        0.45      97.0%
+0.5               400             0.80        0.64      97.4%
+0.2               900             0.50        0.90      95.0%
+</pre>
+Which reading is right?{
+=Lowering the threshold finds more of the bears (recall 0.45 → 0.90), but more of the flagged photos are empty (precision 0.90 → 0.50). Which threshold is best depends on what a missed bear costs against a wasted look #Correct. A lower threshold flags more photos\: more bears, and more false alarms. No threshold is "correct". The rangers choose by weighing the two mistakes\: a bear near the campground that nobody sees (a false negative) against a ranger checking an empty photo (a false positive).
+~0.5, because its accuracy is the highest #With only 500 bears in 10,000 photos, a camera that never flags anything scores 95% accuracy. Accuracy rewards saying "no bear", so it hides the trade-off\: at 0.5 the rangers still miss 36% of the bears.
+~0.7, because when it flags a photo it's right 90% of the time #That's precision, and it is highest at 0.7. But at 0.7 the rangers miss 55% of the bears (recall 0.45). Precision says how trustworthy a flag is, not how many of the bears get found.
+~0.5, because it is the model's own answer\: any other threshold changes the model's chances #The threshold doesn't touch the chances. The model and its probabilities stay the same; the threshold only moves the line where a chance becomes the label "bear". 0.5 is just the default in <code>predict</code>, a choice like any other.
+}

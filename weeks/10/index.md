@@ -16,4 +16,5 @@ week_number: 10
 
 - [Monday class](class_w10d1.ipynb) · [handout (PDF)](class_w10d1_handout.pdf)
 - [Wednesday class](class_w10d2.ipynb) · [handout (PDF)](class_w10d2_handout.pdf)
+- [Practice 08](dist/student/practice08.ipynb) — linear regression, MAE/RMSE/R², Ridge, Lasso and elastic net, on 1970s cars
 - [Forum 4 instructions]({{ '/weeks/10/forum4/' | relative_url }})

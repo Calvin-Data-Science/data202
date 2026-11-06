@@ -26,7 +26,7 @@ Every square is labeled with one of **seven** kinds of tree cover:
 | ponderosa pine | big pines of the dry, lower slopes |
 | cottonwood/willow | trees along streams in the valleys |
 
-Every reading since Reading 5 has predicted one of **two** classes: heart disease or not, high income or not. This one predicts one of **seven**. Along the way we meet two new kinds of models: **logistic regression**, a line that predicts probabilities, and **ensembles**, which combine many models into one.
+Every reading since Reading 5 has predicted one of **two** classes: heart disease or not, high income or not. This one predicts one of **seven**. Along the way we meet two new kinds of models: **logistic regression**, a line that predicts probabilities, and **ensembles**, which combine many models into one, in three recipes: **bagging**, **boosting** and **stacking**.
 
 **📥 Download the dataset: [forest.csv](https://cs.calvin.edu/courses/data/202/26fa/datasets/forest.csv)**
 
@@ -58,7 +58,7 @@ The full dataset is far from even. Of the 581,012 squares, **211,840** are spruc
 
 That makes the full data a strange test. A lazy model that always says "lodgepole pine" is right 49% of the time, and a model that only ever learned the two big species could be right 85% of the time while knowing nothing about aspen or cottonwood. Blackard faced the same problem, and his solution is in the file: its first 11,340 rows hold **exactly 1,620 squares of each species**, and those were the rows he trained on.
 
-Our file follows his lead. It takes **500 squares of each species** from those rows, 3,500 in all. Now the lazy model is right only about **1 time in 7**, and every species counts the same. (The price: a model trained this way thinks every species is equally common. We come back to that on page 6.)
+Our file follows his lead. It takes **500 squares of each species** from those rows, 3,500 in all. Now the lazy model is right only about **1 time in 7**, and every species counts the same. (The price: a model trained this way thinks every species is equally common. We come back to that on page 8.)
 
 As always, the test set is locked away until the very end:
 
@@ -172,6 +172,13 @@ p = 1 / (1 + e^(−z))
 
 A score of 0 means 50/50. Big positive scores approach 1 but never reach it; big negative scores approach 0. Despite the word "regression" in its name, logistic regression is a **classifier**: it predicts the class whose probability is above 0.5.
 
+The two numbers in the score shape the S:
+
+- **b1 sets the steepness and the direction.** A bigger b1 makes the S steeper. A negative b1 flips it, so the probability *falls* as the column grows.
+- **b0 slides the curve** left or right. The 50/50 point is where the score is 0: where the column equals −b0 ÷ b1.
+
+Make b1 bigger and bigger, and the S turns into a step. A hard rule like "spruce/fir above 3,000 m" is an S-curve with an endless slope. Logistic regression is a softer rule: unsure near the cutoff, sure far from it.
+
 ```python
 from sklearn.linear_model import LogisticRegression
 
@@ -193,7 +200,7 @@ logit.predict(heights)                  # ['lodgepole pine', 'lodgepole pine', '
 
 A square at 3,000 m is 44% spruce/fir: the model says lodgepole pine, but barely. At 3,200 m it's 75% spruce/fir.
 
-> 🔁 **From Reading 5:** kNN also gave a probability: the share of the k neighbors with each label. And it, too, predicted the class above 50% unless we moved the cutoff.
+> 🔁 **From Reading 5:** kNN also gave a probability: the share of the k neighbors with each label. And it, too, predicted the class above 50% unless we moved the cutoff. Page 3 moves this one.
 
 ## Reading the Slope: Odds
 
@@ -204,7 +211,9 @@ In Reading 8, a slope meant "this many dollars more per square foot," the same e
 | probability of spruce/fir | 0.18 → 0.29 | 0.44 → 0.60 | 0.75 → 0.85 |
 | change | +0.11 | +0.16 | +0.10 |
 
-The curve is steepest in the middle and flattens at both ends. What *is* the same everywhere is the change in the **odds**. The odds are the probability of yes divided by the probability of no, p / (1 − p):
+The curve is steepest in the middle and flattens at both ends. So the same push to the score moves a **borderline** square the most: adding 1 to a score takes the probability from 0.50 to 0.73, but from 0.98 only to 0.99. For a borderline square, a small error in the map can flip the prediction. For a clear one, it changes nothing.
+
+What *is* the same everywhere is the change in the **odds**. The odds are the probability of yes divided by the probability of no, p / (1 − p):
 
 - At 3,000 m: 0.442 / 0.558 = **0.79**. Lodgepole pine is a bit more likely.
 - At 3,100 m: 0.604 / 0.396 = **1.53**. Now spruce/fir is more likely.
@@ -294,6 +303,82 @@ answer: false
 -->
 
 Going from 3,000 m to 3,100 m raises the probability of spruce/fir by the same amount as going from 3,200 m to 3,300 m.
+
+<!-- END QUESTION -->
+
+# Where to Draw the Line
+
+## The 0.5 Is a Choice
+
+`predict` says spruce/fir when the probability is at least **0.5**. That 0.5 is the **threshold**, and nothing forces it. Choosing it means choosing which mistakes to make.
+
+> 🔁 **From Reading 5:** a **positive** is the class we are looking for. **Precision** = TP ÷ (TP + FP): of the cases flagged, the share that really are positive. **Recall** = TP ÷ (TP + FN): of the real positives, the share flagged. Lowering kNN's bar raised recall and lowered precision.
+
+Picture a use for the model. Spruce beetles attack spruce, not pine. Suppose a forest crew plans to hike to every square the model flags as spruce/fir, to look for beetles. A positive is a spruce/fir square:
+
+- A **false positive** is a wasted hike: the crew climbs to a stand of lodgepole pine.
+- A **false negative** is a spruce/fir stand nobody checks, where an outbreak can grow unseen.
+
+Page 2's model, with all the columns, gives each of the 773 squares a probability. To keep the scores honest, each square's probability comes from a model trained on the **other** four folds:
+
+```python
+from sklearn.model_selection import cross_val_predict
+
+chance = cross_val_predict(model, X_two, y_two, cv=5, method="predict_proba")[:, 1]    # P(spruce/fir)
+spruce = (y_two == "spruce/fir").to_numpy()
+for threshold in [0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2]:
+    flagged = chance >= threshold
+    tp = (flagged & spruce).sum()
+    print(threshold, flagged.sum(), tp / flagged.sum(), tp / spruce.sum(), (flagged == spruce).mean())
+```
+
+| threshold | squares flagged (hikes) | precision | recall | accuracy |
+|---:|---:|---:|---:|---:|
+| 0.8 | 142 | 0.83 | 0.30 | 62.0% |
+| 0.7 | 233 | 0.80 | 0.48 | 68.0% |
+| 0.6 | 325 | 0.77 | 0.64 | 72.2% |
+| 0.5 | 397 | 0.74 | 0.76 | 74.3% |
+| 0.4 | 480 | 0.68 | 0.85 | 72.6% |
+| 0.3 | 555 | 0.65 | 0.93 | 71.4% |
+| 0.2 | 629 | 0.60 | 0.97 | 65.5% |
+
+Read down the table:
+
+- **Lower the threshold** to 0.3, and the crew hikes to 555 squares instead of 397. It finds 93% of the spruce/fir instead of 76% (**recall up**), but 35% of its hikes end in lodgepole pine instead of 26% (**precision down**).
+- **Raise it** to 0.7, and 4 hikes in 5 find spruce/fir, but more than half of the spruce/fir is never visited.
+
+Accuracy is highest at 0.5: 74.3%, page 2's cross-validation score. But accuracy hides the trade-off, because it counts a wasted hike and a missed stand as the same kind of mistake. They are not. The right threshold depends on what each mistake costs, and who pays: a day of hiking, against an outbreak spreading unseen. That is a decision about the forest and the crew, not a fact in the data.
+
+> 📌 **One split:** these counts come from cross-validation on 773 training squares. Another sample of squares would move each number by a few points.
+
+---
+
+## Check Your Understanding
+
+<!-- QUESTION:fill-in-the-blank -->
+
+Lowering the threshold flags more squares. That raises **[recall]** and lowers **[precision]**.
+
+<!-- END QUESTION -->
+
+---
+
+<!-- QUESTION:multiple-choice -->
+
+**The crew can afford only about 250 hikes this summer. Using the table, which threshold fits, and what is the price?**
+
+- [x] 0.7: about 233 hikes, 80% of them finding spruce/fir, but more than half of the spruce/fir squares go unchecked.
+- [ ] 0.5, because it is the default and has the highest accuracy.
+- [ ] 0.3, because it has the highest recall.
+- [ ] 0.2, because it flags the most squares.
+
+<!-- END QUESTION -->
+
+---
+
+<!-- QUESTION:fill-in-the-blank -->
+
+Six squares get these probabilities of spruce/fir: 0.9, 0.7, 0.6, 0.4, 0.3 and 0.1. Only the squares at 0.9, 0.6 and 0.4 really are spruce/fir. At a threshold of 0.35, the model flags **[4]** squares. Its precision is **[0.75/.75/75%]** and its recall is **[1/1.0/100%]**.
 
 <!-- END QUESTION -->
 
@@ -397,7 +482,7 @@ confusion_matrix(y_train, predicted, labels=mountain)      # rows and columns fr
 
 ![Two 7 by 7 confusion matrices side by side, rows = actual species, columns = predicted species, both in the order krummholz, spruce/fir, lodgepole pine, aspen, Douglas-fir, ponderosa pine, cottonwood/willow; darker blue = more squares. Left, logistic regression with C = 10, 67.6% right. Diagonal: 326, 240, 179, 276, 242, 174, 337. Biggest mistakes: lodgepole pine predicted as spruce/fir 96 and as aspen 83; ponderosa pine predicted as Douglas-fir 104 and as cottonwood/willow 61; Douglas-fir predicted as ponderosa pine 77; spruce/fir predicted as lodgepole pine 73 and as krummholz 54. The top-right and bottom-left corners are all zeros. Right, random forest with 100 trees, 76.3% right. Diagonal: 349, 249, 224, 315, 271, 229, 365. Biggest mistakes: lodgepole pine as spruce/fir 93; Douglas-fir as ponderosa pine 67; ponderosa pine as Douglas-fir 79; spruce/fir as lodgepole pine 73.](images/forest_confusion.png)
 
-For now, read the **left** matrix (the right one comes on page 4). Each row is one actual species; the diagonal counts the squares predicted correctly.
+For now, read the **left** matrix (the right one comes on page 5). Each row is one actual species; the diagonal counts the squares predicted correctly.
 
 | species | recall |
 |:---|---:|
@@ -475,28 +560,45 @@ With no depth limit, the tree grows **20 levels** deep with **534 leaves**. It g
 
 ## Many Trees, Each a Little Different
 
-A **random forest** (Leo Breiman, 2001) keeps the deep trees but grows **many** of them, and makes them **different on purpose**:
+**Bagging** (Leo Breiman, 1996) keeps the deep trees but grows **many** of them, each on its own sample:
 
 1. **Each tree gets its own sample.** Draw 2,625 squares **with replacement** from the 2,625 training squares: some squares get drawn twice or three times, others not at all. This is a **bootstrap sample**. With 10 squares numbered 1 to 10, one bootstrap draw might be 1, 1, 1, 2, 2, 3, 6, 9, 9, 9: squares 1 and 9 three times each, and squares 4, 5, 7, 8 and 10 left out. With 2,625 squares, each tree sees about **63%** of them; the other 37% are left out.
-2. **Each question looks at a few random columns.** At every split, a tree may choose only among a random handful of the columns, by default the square root of their number: with 14 columns (10 numbers and 4 wilderness 0/1 columns), about **3**. One tree might have to split without elevation; it finds the next-best question.
-3. **The trees vote.** Each tree predicts a species and the forest goes with the majority. (Technically, scikit-learn averages the trees' probabilities; for fully grown trees, that's the same as counting votes.)
+2. **The trees vote.** Each tree predicts a species and the majority wins. (Technically, scikit-learn averages the trees' probabilities; for fully grown trees, that's the same as counting votes.)
 
-Why make the trees different? Because a vote among identical trees is just one tree. Different trees make **different mistakes**, and a mistake that only a few trees make gets outvoted. This recipe, many models trained on bootstrap samples and then combined, is called **bagging** (short for *bootstrap aggregating*). A model built by combining many models is an **ensemble**.
+The name holds both steps: **b**ootstrap **agg**regat**ing**. A model built by combining many models is an **ensemble**.
+
+A **random forest** (Breiman, 2001) is bagging with one more twist: **each question looks at a few random columns.** At every split, a tree may choose only among a random handful of the columns, by default the square root of their number: with 14 columns (10 numbers and 4 wilderness 0/1 columns), about **3**. One tree might have to split without elevation; it finds the next-best question.
 
 ```python
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
 
+bagging = Pipeline([("prep", onehot),
+                    ("model", BaggingClassifier(DecisionTreeClassifier(), n_estimators=100, random_state=1))])
 rf = Pipeline([("prep", onehot), ("model", RandomForestClassifier(random_state=1))])    # 100 trees by default
 scores = cross_validate(rf, X_train, y_train, cv=5, return_train_score=True)
 ```
 
-The forest gets **100%** of the squares it learned from, like the single tree. But on the held-out squares it gets **76.3%**: 10 points better than one tree, and 9 better than logistic regression. More trees help, up to a point:
+Both get **100%** of the squares they learned from, like the single tree. But on the held-out squares, bagging gets **74.3%** and the forest **76.3%**: 9 and 11 points better than one tree, and the forest 9 better than logistic regression. The random columns make the forest's trees differ even more, and that helps.
+
+More trees help, up to a point:
 
 | trees in the forest | 1 | 3 | 10 | 30 | 100 | 300 | 1,000 |
 |:---|---:|---:|---:|---:|---:|---:|---:|
 | held-out accuracy | 61.5% | 66.2% | 72.8% | 75.7% | 76.3% | 76.8% | 77.1% |
 
 A forest of **one** tree (61.5%) is worse than a plain tree (65.6%): it learned from a bootstrap sample and was limited to 3 columns per question. Alone, each forest tree is a weaker model. Together, they win. And adding trees never makes the forest overfit; after a hundred or so, the gains are small, and more trees just take longer.
+
+## Why Make the Trees Different?
+
+Test it. Turn the bootstrap off, so all 100 trees learn from the **same** 2,625 squares:
+
+```python
+clones = Pipeline([("prep", onehot),
+                   ("model", BaggingClassifier(DecisionTreeClassifier(), n_estimators=100,
+                                               bootstrap=False, random_state=1))])
+```
+
+The 100 trees score **66.5%**: about one tree's 65.6%, and far below real bagging's 74.3%. Trees grown from the same squares make the same mistakes, and a vote among copies only repeats them. Different trees make **different mistakes**, and a mistake that only a few trees make gets outvoted. **An ensemble gains only from members that differ.**
 
 ## Why the Forest Doesn't Overfit
 
@@ -506,7 +608,7 @@ Now give both the single tree and the forest the knob from Reading 6, `max_depth
 
 Both models reach 100% on the squares they learned from: both memorize. But the single tree's held-out accuracy peaks at depth 8 and then **slips** (overfitting), while the forest's keeps **climbing** all the way to no limit. Each deep tree memorizes the quirks of its own bootstrap sample, and every sample has different quirks. In the vote, the quirks disagree and cancel out; the patterns that are real, like "krummholz grows at the top," are in every sample and win. **Many overfit trees, averaged, overfit much less than one.** That's why a random forest usually needs no depth limit.
 
-Look back at the **right** matrix of the confusion figure on page 3. The forest catches more of every species: lodgepole pine's recall goes from 46% to **58%**, ponderosa pine's from 49% to **64%**, aspen's from 76% to **87%**. The mistakes still stay among neighbors on the mountain; there are just fewer of them.
+Look back at the **right** matrix of the confusion figure on page 4. The forest catches more of every species: lodgepole pine's recall goes from 46% to **58%**, ponderosa pine's from 49% to **64%**, aspen's from 76% to **87%**. The mistakes still stay among neighbors on the mountain; there are just fewer of them.
 
 ## Which Columns Did the Forest Use?
 
@@ -535,7 +637,7 @@ cat__wilderness_Comanche Peak      0.02
 cat__wilderness_Neota              0.00
 ```
 
-Elevation first, by far. The **second** most important column is the distance to the nearest **road**. Hold on to that; page 6 asks what it means.
+Elevation first, by far. The **second** most important column is the distance to the nearest **road**. Hold on to that; page 8 asks what it means.
 
 ---
 
@@ -575,52 +677,125 @@ Adding more trees to a random forest makes it overfit, so the number of trees mu
 
 <!-- END QUESTION -->
 
-# Boosting, and the Final Comparison
+---
 
-## Trees in a Row
+<!-- QUESTION:multiple-choice -->
 
-A forest grows its trees **side by side**: each one on its own sample, none knowing about the others. **Gradient boosting** grows them **in a row**:
+**100 trees that all learn from the same 2,625 squares score 66.5%, about the same as one tree. Real bagging, with a bootstrap sample per tree, scores 74.3%. Why?**
 
-1. Start with a simple guess for every square.
-2. Build a **small** tree (3 levels by default) aimed at what the guesses still get **wrong**: for each square, how far its scores are from the truth.
-3. Add that tree's answer to the scores, shrunk by the **learning rate** (0.1 by default, so each tree only gets a tenth of a say).
-4. Repeat, each new tree working on the mistakes that are left.
+- [x] Trees grown from the same squares make the same mistakes, so the vote only repeats them; bootstrap samples make the trees differ, and mistakes that only a few trees make get outvoted.
+- [ ] Without bootstrap samples, each tree sees fewer squares.
+- [ ] 100 is too few; with 1,000 identical trees, the vote would beat bagging.
+- [ ] Bagging's trees are shallower, so they overfit less.
 
-A forest's trees each try to answer the whole question, and vote. A boosting tree only answers "what's still missing?", and the answers are **added up**. With seven species, each round builds one small tree for each species' score, so 300 rounds means 2,100 trees.
+<!-- END QUESTION -->
+
+# Boosting: Trees in a Row
+
+## One Mistake at a Time
+
+A forest grows its trees **side by side**: each one on its own sample, none knowing about the others. **Boosting** grows them **in a row**: each new tree focuses on what the ones before it got wrong. The classic recipe is **AdaBoost** (*adaptive boosting*), by Yoav Freund and Robert Schapire in the 1990s:
+
+1. Every training square starts with the same **weight**.
+2. Fit a small tree, by default a **stump**: a tree with a single question.
+3. The stump's **error** is the total weight of the squares it gets wrong. Its **say** is ½ ln((1 − error) ÷ error): the fewer its mistakes, the bigger its say.
+4. **Reweight:** the squares it got wrong get heavier, the rest lighter.
+5. Back to step 2 with the new weights. To predict, the stumps vote, each with its say.
+
+| the stump's error | 0.5 | 0.3 | 0.2 | 0.1 | 0.01 |
+|:---|---:|---:|---:|---:|---:|
+| its say | 0 | 0.42 | 0.69 | 1.10 | 2.30 |
+
+A stump that is wrong half the time is a coin flip, and gets no say at all.
+
+## Ten Squares, Three Stumps
+
+Here is AdaBoost by hand, on 10 of page 2's squares and two columns:
 
 ```python
-from sklearn.ensemble import GradientBoostingClassifier
+import numpy as np
 
-boost = Pipeline([("prep", onehot),
-                  ("model", GradientBoostingClassifier(n_estimators=300, random_state=1))])
-scores = cross_validate(boost, X_train, y_train, cv=5, return_train_score=True)    # about a minute
+few = X_two.sample(10, random_state=180)[["elevation_m", "water_dist_m"]]
+few_species = y_two[few.index]
 ```
 
-The knob is `n_estimators`, the number of rounds:
+| square | elevation (m) | distance to water (m) | species |
+|:---|---:|---:|:---|
+| A | 2,875 | 277 | lodgepole pine |
+| B | 2,925 | 787 | lodgepole pine |
+| C | 2,979 | 67 | spruce/fir |
+| D | 2,984 | 283 | lodgepole pine |
+| E | 2,997 | 30 | spruce/fir |
+| F | 2,999 | 551 | lodgepole pine |
+| G | 3,052 | 366 | spruce/fir |
+| H | 3,166 | 30 | spruce/fir |
+| I | 3,195 | 469 | spruce/fir |
+| J | 3,318 | 408 | spruce/fir |
 
-![Line chart of accuracy against the number of trees (1 to 1,000, log scale). Boosting, folds it learned from (blue dashed): 66.9% at 1 round, 72.9% at 10, 81.2% at 30, 93.7% at 100, and 100% at 300 and 1,000. Boosting, held-out folds (blue solid): 62.7% at 1, 67.1% at 10, 70.5% at 30, 72.5% at 100, 73.2% at 300, 73.0% at 1,000. Forest, held-out folds (orange): 61.5% with 1 tree, 72.8% with 10, 75.7% with 30, 76.3% with 100, 76.8% with 300, 77.1% with 1,000.](images/forest_more_trees.png)
+(Sorted by elevation, and lettered for this page.) One round of AdaBoost, steps 1 to 4:
 
-Boosting improves quickly at first, then levels off: **73.2%** at 300 rounds, 73.0% at 1,000. Meanwhile its score on the folds it learned from runs all the way to **100%**. That widening gap is the shape of overfitting: every new tree chases the mistakes that are left, and in the end those are the odd squares, the ones that look like a different species. Here the held-out score only stops improving; on other data it can fall. So `n_estimators` must be chosen with cross-validation, together with the learning rate. (A bigger learning rate, like 0.3, gets there in fewer rounds: 72.4% after 30, but the same 73.2% at the top.)
+```python
+weight = np.full(10, 1 / 10)                                              # step 1: all the same
+stump = DecisionTreeClassifier(max_depth=1).fit(few, few_species, sample_weight=weight)   # step 2
+wrong = (stump.predict(few) != few_species).to_numpy()
+error = weight[wrong].sum()                                               # step 3
+say = 0.5 * np.log((1 - error) / error)
+weight = weight * np.where(wrong, np.exp(say), np.exp(-say))              # step 4
+weight = weight / weight.sum()                                            # the weights add up to 1 again
+```
 
-On these squares, boosting lands **between** the single tree and the forest. Boosting is famous for winning machine learning competitions, especially in fast versions called **XGBoost**, **LightGBM** and **CatBoost**, but no model wins everywhere.
+Run it three times:
 
-## The Final Comparison
+- **Stump 1** asks "elevation ≤ 3,025 m?" and says lodgepole pine below, spruce/fir above. It misses **C** and **E**: two spruce/fir squares below the cut, both right beside a stream (67 m and 30 m away). Error 0.1 + 0.1 = 0.2, say **0.69**.
+- **Reweighting:** C and E now weigh **0.25** each, the other eight only 0.0625. Together, the two squares stump 1 missed hold **half** the weight. (That's always true in AdaBoost: after reweighting, the squares just missed hold exactly half.)
+- **Stump 2** is fit with the new weights, where C and E count for half of everything. So it asks a different question: "within 172 m of water?", and says spruce/fir if yes. C and E are now right. It misses G, I and J instead, spruce/fir far from water: error 3 × 0.0625 = 0.19, say **0.73**.
+- **Stump 3** goes back to elevation, with a lower cut, "elevation ≤ 2,952 m?". It misses D and F, the two highest lodgepole pine squares: error 0.08, say **1.24**.
 
-> 🔁 **From Reading 6:** choose with cross-validation on the training data. Open the test set **once**, at the very end, to estimate how the chosen model does on new data.
+Now the vote. Each stump backs its answer with its say. Square **D**: stumps 1 and 2 say lodgepole pine (0.69 + 0.73 = 1.42), stump 3 says spruce/fir (1.24). Lodgepole pine wins, 1.42 to 1.24, and it's right. Do this for all ten and the vote gets **every square right**, though each stump alone misses two or three. No square is missed by two stumps: each was trained to get right what the ones before it missed, so their mistakes don't line up.
 
-Each model with its knob chosen by cross-validation, then scored once on the 875 test squares:
+Spruce beside a stream, below its usual elevation, is a known pattern: cold air and moisture drain down the valleys, and spruce follows them down. Stump 1 knew only elevation; stump 2 learned about the streams because stump 1's mistakes pointed there.
 
-| model | 5-fold CV | test |
-|:---|---:|---:|
-| lazy model (always spruce/fir) | 14.8% | 12.8% |
-| logistic regression, C = 10 | 67.6% | 67.4% |
-| one tree, max_depth = 8 | 68.1% | 66.5% |
-| gradient boosting, 300 rounds | 73.2% | 73.6% |
-| random forest, 100 trees | 76.3% | 78.1% |
+## Seven Species: Stumps Are Too Weak
 
-The random forest wins, and by more than luck: in **each** of the five cross-validation folds it beats logistic regression, by 7 to 11 points. On the test squares it catches 97% of cottonwood/willow and 96% of krummholz, but only 60% of lodgepole pine and 61% of ponderosa pine. And **98** of the 875 test squares (11%) fool all four models: squares where the map says one species and the forest grew another.
+`AdaBoostClassifier` runs these rounds for you. With its default stumps, on all seven species:
 
-> 📌 **One split:** these scores come from one set of 875 squares, drawn from Blackard's training rows, with 125 of each species on average. A different split would move every number by a point or two. It wouldn't close a 10-point gap.
+```python
+from sklearn.ensemble import AdaBoostClassifier
+
+ada = Pipeline([("prep", onehot), ("model", AdaBoostClassifier(n_estimators=300, random_state=1))])
+cross_val_score(ada, X_train, y_train, cv=5).mean()      # 0.455
+```
+
+**45.5%**: worse than a single tree. A stump asks one question, so it can name only **two** species, and every stump leaves five out. No number of rounds fixes that: the stumps top out at 48%. That's **underfitting**: the members are too simple.
+
+The fix is to give each round a small tree instead of a stump. The depth of those trees becomes a second knob, next to the number of rounds, and cross-validation chooses both:
+
+```python
+ada = Pipeline([("prep", onehot), ("model", AdaBoostClassifier(DecisionTreeClassifier(), random_state=1))])
+grid = {"model__estimator__max_depth": [1, 2, 4, 6, 8, 10, 12],
+        "model__n_estimators": [30, 100, 300, 1000]}
+search = GridSearchCV(ada, grid, cv=5, return_train_score=True).fit(X_train, y_train)     # several minutes
+```
+
+Held-out accuracy:
+
+| depth of each tree | 30 rounds | 100 rounds | 300 rounds | 1,000 rounds |
+|:---|---:|---:|---:|---:|
+| 1 (stumps) | 48.1% | 48.0% | 45.5% | 42.2% |
+| 2 | 54.3% | 50.8% | 50.6% | 50.3% |
+| 4 | 63.6% | 66.4% | 67.8% | 70.0% |
+| 6 | 70.5% | 73.1% | 74.8% | 75.4% |
+| 8 | 74.3% | 75.5% | 76.8% | 76.5% |
+| 10 | 75.2% | 76.6% | **77.6%** | 77.0% |
+| 12 | 75.0% | 77.0% | 77.0% | 77.3% |
+
+The top rows underfit: stumps and 2-level trees can't sort seven species, however many rounds they get. Deeper trees climb. The best cell is **trees 10 levels deep, 300 rounds: 77.6%**. Past it, deeper trees or more rounds stop helping and slip a little: choose both knobs with cross-validation. (📌 The best few cells are within a point of each other, the size of the fold-to-fold noise.)
+
+![Line chart of held-out accuracy against the number of rounds (AdaBoost) or trees (forest), from 1 to 1,000 on a log scale. AdaBoost with trees 10 levels deep (blue circles): 66.6% with 1 tree, 67.8% with 3, 70.9% with 10, 75.2% with 30, 76.6% with 100, 77.6% with 300, 77.0% with 1,000. Random forest (orange triangles): 61.5%, 66.2%, 72.8%, 75.7%, 76.3%, 76.8%, 77.1%; the blue and orange lines run together from 30 on. AdaBoost with trees 4 levels deep (green squares): 62.2%, 59.8%, 62.3%, 63.6%, 66.4%, 67.8%, 70.0%. AdaBoost with stumps (amber diamonds): 29.2%, 25.6%, 36.6%, 48.1%, 48.0%, 45.5%, 42.2%.](images/forest_boosting.png)
+
+Next to the forest, AdaBoost with 10-level trees climbs the same way and ends in the same place. A 10-level tree is not a weak member: alone it gets 66.6%. Boosting still adds 11 points by putting 300 of them in a row. And like the forest's, its score on the squares it learned from is **100%** from 10 rounds on, while its held-out score keeps climbing to 300.
+
+The other famous family, **gradient boosting**, also grows trees in a row. Each new tree is fit to how far the scores still are from the truth, and its answer is added to the scores. Fast versions called **XGBoost**, **LightGBM** and **CatBoost** win many machine learning competitions. On these squares, scikit-learn's `GradientBoostingClassifier`, with 300 rounds of 3-level trees, gets 73.2%.
 
 ---
 
@@ -630,7 +805,15 @@ The random forest wins, and by more than luck: in **each** of the five cross-val
 answer: false
 -->
 
-In gradient boosting, each tree is trained independently on its own bootstrap sample, and the trees vote at the end.
+In boosting, each tree is trained independently on its own bootstrap sample, and the trees vote at the end.
+
+<!-- END QUESTION -->
+
+---
+
+<!-- QUESTION:fill-in-the-blank -->
+
+A stump misses 2 of 10 equally weighted squares, so its error is **[0.2/.2/0.20]**. After reweighting, the 2 squares it missed together hold **[half/50%/0.5]** of the weight, so the next stump focuses on them.
 
 <!-- END QUESTION -->
 
@@ -638,12 +821,86 @@ In gradient boosting, each tree is trained independently on its own bootstrap sa
 
 <!-- QUESTION:multiple-choice -->
 
-**Boosting's score on the folds it learned from reaches 100% at 300 rounds, while its held-out score stays near 73%. What should you take from that?**
+**AdaBoost with 300 stumps gets 45.5% on the seven species, worse than one tree, and about the same on the squares it learned from. What is going on?**
 
-- [x] The model is fitting the training squares far better than new ones, the pattern of overfitting; the number of rounds should be chosen by cross-validation, not by the training score.
-- [ ] Boosting is perfect: 100% is the best possible score.
-- [ ] The held-out folds must contain mislabeled squares.
-- [ ] More rounds will eventually bring the held-out score to 100% too.
+- [x] Underfitting: a stump asks one question, so it can name only two of the seven species. Giving each round a bigger tree fixes it.
+- [ ] Overfitting: 300 stumps memorize the training squares.
+- [ ] AdaBoost can only predict two classes.
+- [ ] The stumps' says are all 0, so they never vote.
+
+<!-- END QUESTION -->
+
+# Stacking, and the Final Comparison
+
+## Different Kinds of Models
+
+Bagging and boosting combine many copies of **one kind** of model: trees. **Stacking** combines **different kinds**:
+
+- Each **base model** predicts a probability for every species.
+- A **meta-learner**, here one more logistic regression, takes those probabilities as its columns and learns **how much to trust each model**.
+- It learns from **cross-validated** probabilities, so a base model that memorized its training squares (like the forest, at 100%) can't fool it.
+
+```python
+from sklearn.ensemble import StackingClassifier
+from sklearn.neighbors import KNeighborsClassifier
+
+stack = StackingClassifier(
+    estimators=[("logistic", Pipeline([("prep", prep), ("model", LogisticRegression(C=10, max_iter=5000))])),
+                ("knn", Pipeline([("prep", prep), ("model", KNeighborsClassifier(n_neighbors=15))])),
+                ("forest", Pipeline([("prep", onehot), ("model", RandomForestClassifier(random_state=1))]))],
+    final_estimator=LogisticRegression(), cv=5)
+cross_val_score(stack, X_train, y_train, cv=5).mean()      # 0.758, about a minute
+```
+
+Stacked: **75.8%**. The forest alone: 76.3%. No gain.
+
+Inside, the meta-learner has 21 columns: seven probabilities from each base model. Its slopes show whom it trusts. In each species' score, the slope on the forest's probability for that species averages **3.7**; on logistic regression's, **1.2**; on kNN's, **0.7** (kNN with 15 neighbors gets 61.1% alone). It has learned to lean on the forest.
+
+Why doesn't stacking beat the forest? Count the training squares each base model gets wrong in cross-validation: logistic regression misses 851, kNN 1,022, the forest 623. **389** squares fool all three. And where the forest is wrong, the other two are rarely both right: on just 46 squares. The others know little that the forest doesn't. (kNN's number of neighbors barely matters here: with 1 or 5, stacking lands within half a point.)
+
+## What Makes an Ensemble Work
+
+Page 5's 100 identical trees scored like one tree. Stacking's three models gained nothing because they mostly miss the same squares. An ensemble gains only from members that are **different**, so each recipe builds the differences in:
+
+| recipe | the members differ in |
+|:---|:---|
+| bagging, random forest | the squares each tree learns from (and, in a forest, the columns each question may use) |
+| boosting | what each tree focuses on: the squares the ones before it missed |
+| stacking | the kind of model |
+
+## The Final Comparison
+
+> 🔁 **From Reading 6:** choose with cross-validation on the training data. Open the test set **once**, at the very end, to estimate how the chosen model does on new data.
+
+Each model with its knobs chosen by cross-validation, then scored once on the 875 test squares:
+
+| model | 5-fold CV | test |
+|:---|---:|---:|
+| lazy model (always spruce/fir) | 14.8% | 12.8% |
+| logistic regression, C = 10 | 67.6% | 67.4% |
+| one tree, max_depth = 8 | 68.1% | 66.5% |
+| stacking: logistic + kNN + forest | 75.8% | 76.3% |
+| bagging: random forest, 100 trees | 76.3% | 78.1% |
+| boosting: AdaBoost, 300 rounds of 10-level trees | 77.6% | 79.3% |
+
+The ensembles win, and by more than luck: in **each** of the five cross-validation folds, the forest beats logistic regression by 7 to 11 points, and AdaBoost by 8 to 14. Among the ensembles, though, the order isn't settled. AdaBoost leads the forest in four folds and trails it in one, and the gap between them, about a point, is the size of the fold-to-fold noise. With a near-tie, prefer the simpler one: the forest needed no tuning at all, while AdaBoost needed a 28-cell grid.
+
+On the test squares, the forest catches 97% of cottonwood/willow and 96% of krummholz, but only 60% of lodgepole pine and 61% of ponderosa pine; AdaBoost's pattern is nearly the same. And **103** of the 875 test squares (12%) fool all five models: squares where the map says one species and the forest grew another. No vote can fix a mistake that every member makes.
+
+> 📌 **One split:** these scores come from one set of 875 squares, drawn from Blackard's training rows, with 125 of each species on average. A different split would move every number by a point or two. It could reorder the ensembles; it wouldn't close a 10-point gap to the line.
+
+---
+
+## Check Your Understanding
+
+<!-- QUESTION:multiple-choice -->
+
+**What does the meta-learner in a stacking classifier learn?**
+
+- [x] How much to trust each base model's probabilities, learned from cross-validated predictions.
+- [ ] Which columns of the original data each base model should use.
+- [ ] The best depth for each tree in the forest.
+- [ ] Nothing: it averages the base models' probabilities with equal weights.
 
 <!-- END QUESTION -->
 
@@ -651,12 +908,25 @@ In gradient boosting, each tree is trained independently on its own bootstrap sa
 
 <!-- QUESTION:multiple-choice -->
 
-**The forest beat logistic regression by about 9 points in cross-validation and 11 points on the test set, and won in every fold. Which conclusion is the most sensible?**
+**Stacking logistic regression, kNN and a forest scored 75.8%, no better than the forest alone (76.3%). What is the best explanation?**
 
-- [x] On this data the forest really is better: the gap is consistent and much bigger than the fold-to-fold noise. Its bendy, if-then boundaries fit how species sort on a mountain.
-- [ ] The two models are tied, because any gap could be luck.
-- [ ] Random forests are always better than logistic regression.
-- [ ] The test set must be easier than the training set.
+- [x] The three models mostly miss the same squares (389 fool all three), and where the forest is wrong the other two are rarely both right, so the meta-learner has little new to work with.
+- [ ] The meta-learner overfit, because it learned from the forest's 100% predictions on its own training squares.
+- [ ] Stacking always scores below its best base model.
+- [ ] kNN should have used a different number of neighbors.
+
+<!-- END QUESTION -->
+
+---
+
+<!-- QUESTION:multiple-choice -->
+
+**AdaBoost scored 77.6% in cross-validation and 79.3% on the test squares; the forest, 76.3% and 78.1%. AdaBoost led in four of the five folds and trailed in one. Which conclusion is the most sensible?**
+
+- [x] The two are about tied: a one-point gap is the size of the fold-to-fold noise. Both clearly beat logistic regression, by 7 to 14 points in every fold.
+- [ ] AdaBoost is better, because it won both in cross-validation and on the test set.
+- [ ] Boosting is always better than bagging.
+- [ ] Neither really beats logistic regression: any gap could be luck.
 
 <!-- END QUESTION -->
 
@@ -680,7 +950,7 @@ So why is logistic regression still everywhere? Mackenzie quotes a team of biome
 
 ## A Population of Models
 
-A random forest is a crowd of models. Mackenzie describes how machine learning increasingly treats its models this way, as "members of a population whose variations and uncertainties, whose tendencies and predispositions must be sampled, tested, and monitored." Bootstrap samples, random columns, votes: the forest takes that sentence literally.
+A random forest is a crowd of models. Mackenzie describes how machine learning increasingly treats its models this way, as "members of a population whose variations and uncertainties, whose tendencies and predispositions must be sampled, tested, and monitored." Bootstrap samples, random columns, votes: the forest takes that sentence literally. And page 5's 100 identical trees show why the *variations* matter: a population of copies is just one model, repeated.
 
 Breiman's 2001 paper introducing random forests is, Mackenzie notes, "perhaps the most cited journal paper in the machine learning literature." He also notices the datasets Breiman tested it on:
 
@@ -698,7 +968,7 @@ That was a careful choice: in a wilderness, the label reflects what the mountain
 
 Then there is the forest's second most important column: the distance to the nearest **road**. Trees don't care about roads. But roads are built along valleys and toward towns, so the distance to a road quietly stands in for things the map doesn't name: how low and accessible the land is, which wilderness area it's in, perhaps how it was used before it became wilderness. A column can carry information about something it doesn't measure, and an importance score can't tell you which. It says how much the forest **used** a column, not **why** the column helped.
 
-Finally, our 500 squares of each species. The model believes all seven species are equally common, so it will call a square cottonwood/willow far more often than the real forest, where cottonwood/willow covers half a percent of the land, would justify. Blackard's own neural network, trained on 1,620 squares of each species, was tested on the remaining **565,892** squares with their real mix. It got **70.58%** right, against **58.38%** for a line-based method called linear discriminant analysis. (Those numbers can't be compared with our 78%: different test squares, with a very different mix of species.) Even in 1998, the flexible model beat the line.
+Finally, our 500 squares of each species. The model believes all seven species are equally common, so it will call a square cottonwood/willow far more often than the real forest, where cottonwood/willow covers half a percent of the land, would justify. Blackard's own neural network, trained on 1,620 squares of each species, was tested on the remaining **565,892** squares with their real mix. It got **70.58%** right, against **58.38%** for a line-based method called linear discriminant analysis. (Those numbers can't be compared with our 78–79%: different test squares, with a very different mix of species.) Even in 1998, the flexible model beat the line.
 
 ## Questions Worth Asking About Any Classifier
 
@@ -706,6 +976,7 @@ Finally, our 500 squares of each species. The model believes all seven species a
 - **How were the rows chosen?** 500 of each species, not the real mix; wilderness, not managed land.
 - **What does the lazy model score?** One in seven here; 49% on the real mix.
 - **Which classes get confused, and how often is each caught?** One accuracy hides a 97% and a 60%.
+- **Where is the threshold, and who chose it?** 0.5 by default; the right one depends on which mistake costs more, and to whom.
 - **Can you read the model?** Odds per 100 m, or a hundred trees and a list of importances.
 - **Where will it be used?** On land like the land it learned from?
 

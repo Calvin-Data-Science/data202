@@ -1,13 +1,14 @@
 <!--
 Source for class_w11d2_handout.pdf, the printed activities for class_w11d2.ipynb.
-Rebuild the PDF after editing:   python scripts/make_w11d2_handout.py   (about 1 minute)
+Rebuild the PDF after editing:   python scripts/make_w11d2_handout.py   (about 30 seconds)
 
 How this file becomes the PDF:
   - "# ..."            the title line at the top of page 1
   - "## ..."           one handout part
-  - ![](plot:NAME)     the part's plot: treeforest, moretrees
-                       (drawn by the script from datasets/pumpkin.csv, same seeds and split as the slides)
-                       optional width, e.g. ![](plot:moretrees){width=56%}; under 80% the plot
+  - ![](plot:NAME)     the part's plot: treeforest, adaboost
+                       (drawn by the script from datasets/pumpkin.csv, same seeds and split as the slides;
+                       adaboost = the notebook's 20 seeds, X_train.sample(20, random_state=73))
+                       optional width, e.g. ![](plot:treeforest){width=56%}; under 80% the plot
                        sits left and the text right, 80% or more it spans the page, text below
   - ____               4+ underscores = a blank to write on (longer run = longer blank);
                        a line with only underscores = a full-width writing line
@@ -21,7 +22,7 @@ This comment block is not printed.
 
 # DATA 202 — Ensembles · Week 11 Wednesday
 
-Same pumpkin seeds as Monday. Ç = Çerçevelik, Ü = Ürgüp Sivrisi. Your professor will tell you when to do each part.
+Pumpkin seeds of two varieties, measured from photos. Ç = Çerçevelik, Ü = Ürgüp Sivrisi. Your professor will tell you when to do each part.
 
 ## 1 · Five trees vote
 
@@ -51,11 +52,12 @@ Five-fold cross-validation on the training seeds, as the trees grow deeper.
 
 \newpage
 
-## 3 · More trees
+## 3 · AdaBoost by hand
 
-![](plot:moretrees){width=58%}
+![](plot:adaboost){width=100%}
 
-Five-fold cross-validation on the training seeds, as we add trees. Boosting: small trees in a row, each learning from the mistakes left by the ones before it.
+Twenty training seeds, two columns. **Left:** stump 1 asks one question, "aspect ratio $\le$ 2.12?": left of the line it says Ç, right of it Ü. **Right:** the same seeds after reweighting, each drawn by its new weight.
 
-1. **Circle** where boosting starts to overfit.
-2. **Pair talk:** why can more trees hurt boosting but not the forest?
+1. **Left: circle** the seeds stump 1 gets wrong.
+2. **Right: draw** the single cut (one vertical or one horizontal line) that stump 2 should make.
+3. **Pair talk:** each stump alone misses several seeds, yet the weighted vote of three stumps gets all 20 right. How?

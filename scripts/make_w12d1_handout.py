@@ -6,7 +6,9 @@ engine is scripts/handout.py. This script only draws the plots, on the SAME
 candidates and split as the notebook (datasets/pulsars.csv, train_test_split(
 test_size=0.25, random_state=1, stratify=y): 13,423 training candidates).
 
-    line        training candidates, profile_mean vs. profile_sd, with logistic regression's 50% line
+    mix         the same 12 training pulsars with 12 noise candidates (left) and 120 (right, the real mix);
+                profile_mean vs. profile_sd, no line: students draw the fewest-mistakes line on each.
+                Same rows as the notebook's Handout 1 cell (sample(12, random_state=8), sample(120, random_state=40))
     thresholds  recall and precision vs. threshold, all 8 columns, 5-fold cross_val_predict on the training set
     smote       a zoom on a few training pulsars (A-H) among noise, for doing SMOTE by hand
 
@@ -54,23 +56,22 @@ def make_plots(outdir):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1, stratify=y)
     plots = {}
 
-    # line
-    model2 = LogisticRegression().fit(X_train[TWO], y_train)
-    b0 = model2.intercept_[0]
-    b_mean, b_sd = model2.coef_[0]
-    fig, ax = plt.subplots(figsize=(4.3, 3.3))
-    noise, pulsars = X_train[y_train == 0], X_train[y_train == 1]
-    ax.scatter(noise["profile_mean"], noise["profile_sd"], s=3, alpha=0.25, linewidths=0, label="noise", **NOISE)
-    ax.scatter(pulsars["profile_mean"], pulsars["profile_sd"], s=6, alpha=0.6, linewidths=0, label="pulsar", **PULSAR)
-    means = np.linspace(0, 200, 50)
-    ax.plot(means, -(b0 + b_mean * means) / b_sd, color="black", lw=1.6, label="50% line")
-    ax.set_xlim(0, 200)
-    ax.set_ylim(25, 85)
-    ax.set_xlabel("profile mean")
-    ax.set_ylabel("profile standard deviation")
-    ax.legend(loc="upper right", fontsize=7.5, markerscale=2)
-    plots["line"] = outdir / "line.pdf"
-    save(fig, plots["line"])
+    # mix
+    pulsars12 = X_train[y_train == 1].sample(12, random_state=8)
+    noise120 = X_train[y_train == 0].sample(120, random_state=40)
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.9), sharey=True)
+    panels = [(noise120.head(12), "12 pulsars, 12 noise"), (noise120, "the same 12 pulsars, 120 noise: the real mix")]
+    for ax, (noise, title) in zip(axes, panels):
+        ax.scatter(noise["profile_mean"], noise["profile_sd"], s=13, alpha=0.8, linewidths=0, label="noise", **NOISE)
+        ax.scatter(pulsars12["profile_mean"], pulsars12["profile_sd"], s=36, linewidths=0, zorder=3, label="pulsar", **PULSAR)
+        ax.set_xlim(0, 200)
+        ax.set_ylim(25, 85)
+        ax.set_title(title, fontsize=9.5)
+        ax.set_xlabel("profile mean")
+    axes[0].set_ylabel("profile standard deviation")
+    axes[0].legend(loc="upper left", fontsize=7.5)
+    plots["mix"] = outdir / "mix.pdf"
+    save(fig, plots["mix"])
 
     # thresholds
     model = make_pipeline(StandardScaler(), LogisticRegression())

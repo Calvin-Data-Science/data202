@@ -54,7 +54,7 @@ A typical abalone here is about 28 mm tall. Two have a height of **0 mm**, which
 clean = abalone[(abalone["height_mm"] > 0) & (abalone["height_mm"] < 60)]     # 4,173 abalone
 ```
 
-This is not a formality. On page 4 we'll build models with **products** of columns, and a single 226 mm height, multiplied by other columns, can send a prediction off by hundreds of years.
+This is not a formality. At the end of page 5 we'll glance at models with **products** of columns, where a single 226 mm height, multiplied by other columns, can send a prediction off by hundreds of years.
 
 ## A Small Lab
 
@@ -383,67 +383,75 @@ In this data, an abalone's sex can't be told while it is young, so the category 
 
 # Too Much Freedom: Overfitting Returns
 
-## Products of Columns
+## An Even Smaller Lab
 
-The 9-column model gives each column **one** slope, the same for every abalone. But the plot on page 1 bends: shell weight says a lot about young abalone and little about old ones. A straight line can't bend, unless we hand it new columns that can:
+Page 3's 9-column model didn't overfit: 2.07 years on the folds it learned from, 2.19 on the held-out fold. Three hundred abalone are plenty to set 9 coefficients. But counting rings is the slow part, and many labs age far fewer. Suppose ours had aged only **15**.
 
-- **Squares:** `shell_g²` lets the prediction curve.
-- **Products of two columns:** `length_mm × meat_g`, `height_mm × gut_g`, … let one column's slope depend on another.
-
-scikit-learn's `PolynomialFeatures(2)` makes all of them from the number columns. For our 7 number columns, that's 7 originals, 7 squares and 21 products of two different columns: **35**. Plus the 2 `sex` columns: **37 columns**.
+From here on we'll swap the last step of page 3's pipeline, so it goes in a small function:
 
 ```python
-from sklearn.preprocessing import PolynomialFeatures
-
-def abalone_model(regressor, products=False):
-    num = (Pipeline([("z", StandardScaler()), ("products", PolynomialFeatures(2, include_bias=False))])
-           if products else "passthrough")
+def abalone_model(regressor):
+    """Page 3's pipeline, with any regressor as its last step."""
     return Pipeline([
-        ("prep", ColumnTransformer([("num", num, numeric), ("words", OneHotEncoder(drop="first"), ["sex"])])),
+        ("prep", ColumnTransformer([
+            ("num", "passthrough", numeric),
+            ("words", OneHotEncoder(drop="first"), ["sex"]),
+        ])),
         ("scale", StandardScaler()),
         ("reg", regressor),
     ])
+
+few = X_train.sample(15, random_state=9)       # pretend the lab aged only these 15
+few_age = y_train[few.index]
+others = X_train.drop(few.index)                # the other 285 stand in for new abalone
+others_age = y_train[others.index]
+
+small = abalone_model(LinearRegression()).fit(few, few_age)
+root_mean_squared_error(few_age, small.predict(few))           # 1.77
+root_mean_squared_error(others_age, small.predict(others))     # 4.77
 ```
 
-(The numbers are standardized before the products, as in Reading 7, so a product of grams and millimeters doesn't produce one enormous column.)
+On the 15 abalone it learned from, the model misses by **1.77** years, closer than page 3's model ever got. On the other 285 it misses by **4.77**, almost twice as much as a single line through shell weight fitted to the same 15 (2.53). Its predictions for the 285 run from **−7.3 to 26.2 years**: six abalone are predicted to be younger than zero.
 
-## 37 Columns for 240 Abalone
+> 🔁 **From Readings 5 and 6:** great on the data the model learned from, much worse on new data: **overfitting**. kNN with k = 1 and a tree with no depth limit did the same.
+
+## Coefficients That Make No Sense
+
+The model chose 10 numbers (9 coefficients and the intercept) to fit 15 ages: almost one number per abalone. Here are its coefficients next to page 3's, which came from all 300. The columns are standardized, so each coefficient is in **years per standard deviation** of its column:
 
 ```python
-scores = cross_validate(abalone_model(LinearRegression(), products=True), X_train, y_train, cv=5,
-                        scoring="neg_root_mean_squared_error", return_train_score=True)
+small[-1].coef_        # the coefficients of the pipeline's last step
 ```
 
-| model | columns | training folds RMSE | held-out fold RMSE |
-|:---|---:|---:|---:|
-| one line | 1 | 2.50 | 2.50 |
-| all columns | 9 | 2.07 | 2.19 |
-| all columns + products | 37 | 1.70 | 2.53 |
+| column | from 300 abalone | from 15 abalone |
+|:---|---:|---:|
+| `length_mm` | −0.36 | **+19.78** |
+| `diameter_mm` | +1.11 | **−20.45** |
+| `height_mm` | +0.83 | −1.64 |
+| `whole_g` | +4.90 | +5.72 |
+| `meat_g` | −4.92 | **−11.37** |
+| `gut_g` | −1.36 | +1.79 |
+| `shell_g` | +1.29 | +6.37 |
+| `sex_infant` | −0.66 | −1.45 |
+| `sex_male` | −0.07 | +0.24 |
 
-On the folds it learned from, the 37-column model is the best by far: 1.70 years. On the held-out fold it is the **worst**: 2.53, worse even than one line.
+Three things are wrong with the second column:
 
-> 🔁 **From Readings 5 and 6:** great on the data the model learned from, worse on new data: **overfitting**. kNN with k = 1 and a tree with no depth limit did the same.
+- **Too big.** The abalone here are 4.5 to 24.5 years old. A coefficient of 20 years says that one typical step up in shell length adds more years than most abalone live.
+- **A tug of war.** Length gets +19.78 and diameter −20.45. In these 15 abalone, length and diameter have a correlation of **0.996**: they are practically the same column. The model pushes hard on one and pulls just as hard on the other, and the two almost cancel.
+- **Columns that add nothing new.** Diameter repeats length. Whole weight is mostly meat, gut and shell. Yet each gets its own large coefficient.
 
-## A Tug of War
+On the 15 training abalone, the tug of war balances out. But it balances on the **tiny differences** between near-twin columns, and in 15 abalone those differences are mostly luck. On a new abalone they are different, the two giant coefficients no longer cancel, and the prediction swings, all the way down to −7.3 years.
 
-Look inside the 37-column model and you find something strange. Its two biggest coefficients, in standard-deviation units:
+Why would least squares choose this? It has one goal: the smallest squared residuals **on the 15**. With near-copies, many pairs of coefficients fit almost equally well (+20 and −20, or +1 and 0), and least squares takes whichever pair wins on these 15, even by a hair, however big it is. Page 3's model shows a milder version with 300 abalone: whole weight +4.90 against meat −4.92, the meat puzzle. With 15 abalone, the meat coefficient more than doubles.
 
-| column | coefficient |
-|:---|---:|
-| length × whole weight | −20.8 |
-| diameter × whole weight | +20.6 |
+So overfitting in regression has a recognizable symptom: **coefficients that are too big, fight each other, and sit on columns that add nothing new**.
 
-Length and diameter go almost perfectly together (a longer shell is a wider shell), so these two products are nearly the same column. The model has learned to push hard on one and pull just as hard on the other, and the two almost cancel. Several other pairs do the same.
-
-On the training abalone the tug of war balances out. But it balances on the **tiny differences** between near-twin columns, and those differences are mostly luck in these 240 abalone (each cross-validation round fits on 4 folds of the 300). On a new abalone, the tiny differences are different, the two giant coefficients no longer cancel, and the prediction swings.
-
-So overfitting in regression has a recognizable symptom: **big coefficients that fight each other**. The seven measurements are all versions of "how big is this abalone" (whole weight and meat weight go together with a correlation of 0.97), and every product multiplies the overlap.
-
-This is the regression version of the semester's lesson. Every model has a dial of **freedom**: k in kNN, depth in a tree, and here, **how many columns** the line gets. Too little freedom: underfitting. Too much: overfitting.
+This is the regression version of the semester's lesson. Every model has a dial of **freedom**: k in kNN, depth in a tree, and here, **how many coefficients for how many rows**. Nine coefficients for 300 abalone is fine; nine for 15 is too many.
 
 ## Taking Freedom Back
 
-One fix: go back to 9 columns. But that throws away every square and product, including the ones that let the line bend for old abalone. The next page keeps all 37 columns and instead makes **big coefficients cost something**, so a tug of war becomes too expensive to play.
+The best fix is more abalone, but counting rings is the slow part. Another fix: drop some columns by hand. But which ones? The next page keeps all 9 and instead makes **big coefficients cost something**, so a tug of war becomes too expensive to play.
 
 ---
 
@@ -451,12 +459,12 @@ One fix: go back to 9 columns. But that throws away every square and product, in
 
 <!-- QUESTION:multiple-choice -->
 
-**The 37-column model has a training-fold RMSE of 1.70 years but a held-out RMSE of 2.53. What does that tell you?**
+**Fitted to 15 abalone, the 9-column model misses those 15 by 1.77 years and the other 285 by 4.77. What does that tell you?**
 
-- [x] It is overfitting: it fits the abalone it learned from closely, but its predictions for new abalone are worse than a simpler model's.
-- [ ] It is underfitting: 1.70 years is too high an error.
-- [ ] It is the best model, because 1.70 is the smallest error in the table.
-- [ ] The held-out folds must contain measurement mistakes.
+- [x] It is overfitting: it fits the abalone it learned from closely, but its predictions for new abalone are much worse than a simpler model's.
+- [ ] It is underfitting: 1.77 years is too high an error.
+- [ ] It is the best model so far, because 1.77 is the smallest error yet.
+- [ ] The other 285 abalone must contain measurement mistakes.
 
 <!-- END QUESTION -->
 
@@ -464,7 +472,7 @@ One fix: go back to 9 columns. But that throws away every square and product, in
 
 <!-- QUESTION:fill-in-the-blank -->
 
-`PolynomialFeatures(2)` on 3 number columns a, b and c makes the 3 originals, the 3 squares (a², b², c²) and the products ab, ac and bc: **[9]** columns in all.
+Fitted to 15 abalone, length gets +19.8 and diameter −20.4 (years per standard deviation). For an abalone one standard deviation above average in both, the two together change the prediction by about **[-0.6]** years (one decimal).
 
 <!-- END QUESTION -->
 
@@ -472,7 +480,7 @@ One fix: go back to 9 columns. But that throws away every square and product, in
 
 <!-- QUESTION:multiple-choice -->
 
-**Two coefficients of about −21 and +21 sit on two products that are nearly the same column. Why is that a problem for new abalone?**
+**Two coefficients of about +20 and −20 sit on length and diameter, which are nearly the same column in the 15 abalone. Why is that a problem for new abalone?**
 
 - [x] The two giant coefficients only cancel on the tiny differences seen in training; on a new abalone those differences change, the cancellation fails, and the prediction swings.
 - [ ] Coefficients larger than 20 are not allowed in linear regression.
@@ -481,91 +489,145 @@ One fix: go back to 9 columns. But that throws away every square and product, in
 
 <!-- END QUESTION -->
 
-# A Price on Big Coefficients: Ridge and Lasso
+# A Price on Big Coefficients: Ridge, Lasso and Elastic Net
 
 ## Ridge
 
 Least squares has one goal: small squared residuals. **Ridge regression** adds a second goal: small coefficients. It minimizes
 
 ```
-sum of squared residuals  +  α × (b1² + b2² + … + b37²)
+sum of squared residuals  +  α × (b1² + b2² + … + b9²)
 ```
 
 The second part is a **penalty**: every coefficient costs its square, times a number `α` ("alpha") that we choose.
 
 - **α = 0:** no penalty, plain least squares.
-- **Bigger α:** big coefficients get expensive, so every coefficient is pulled toward 0. A column keeps a big slope only if it lowers the squared residuals by enough to pay for it.
+- **Bigger α:** big coefficients get expensive, so every coefficient is pulled toward 0. A column keeps a big coefficient only if it lowers the squared residuals by enough to pay for it.
 
-That is exactly what breaks the tug of war. A −21 and a +21 that nearly cancel cost 21² + 21² = 882 in penalty, while barely lowering the residuals. Ridge would rather give both columns small, sensible slopes. (The intercept `b0` is not penalized; it just positions the surface.)
+That is exactly what breaks the tug of war. A +19.8 and a −20.4 that nearly cancel cost 19.8² + 20.4² ≈ 808 in penalty, while barely lowering the residuals. Ridge would rather give both columns small, sensible coefficients. (The intercept `b0` is not penalized; it just positions the surface.)
 
-The penalty compares the coefficients with each other, so they must be on the same ruler. A slope per gram and a slope per millimeter aren't comparable; a slope per **standard deviation** of each is. That's why `StandardScaler` comes right before the regressor, after the one-hot step, so even the 0/1 `sex` columns are scaled.
+The penalty compares the coefficients with each other, so they must be on the same ruler. A coefficient per gram and a coefficient per millimeter aren't comparable; a coefficient per **standard deviation** of each is. That's why `StandardScaler` comes right before the regressor, after the one-hot step, so even the 0/1 `sex` columns are scaled.
 
 ## Lasso
 
 **Lasso** charges the coefficients' **absolute values** instead of their squares:
 
 ```
-sum of squared residuals  +  α × (|b1| + |b2| + … + |b37|)
+sum of squared residuals  +  α × (|b1| + |b2| + … + |b9|)
 ```
 
 The difference looks small, but it changes what happens to weak columns. Under Ridge, a coefficient gets smaller and smaller but almost never reaches exactly 0. Under Lasso, many coefficients go **all the way to 0**, and those columns drop out of the model. So Lasso does two jobs at once: it shrinks the coefficients, and it **chooses columns**.
 
+(scikit-learn's `Lasso` divides the sum of squared residuals by 2 × the number of rows. Same idea; it only shifts the scale of α, which is one reason Lasso's α values below are so much smaller than Ridge's.)
+
+## Elastic Net: Both at Once
+
+**Elastic net** charges both penalties, mixed:
+
+```
+sum of squared residuals  +  α × [ r × (|b1| + … + |b9|)  +  (1 − r) × (b1² + … + b9²) ]
+```
+
+- **Two knobs.** `alpha` (α) sets **how strong** the whole penalty is. `l1_ratio` (r) sets **the balance**: 1 is pure Lasso, 0 is pure Ridge. ("L1" is the name for Lasso's penalty, "L2" for Ridge's.)
+- **Why mix?** Faced with near-copies like length and diameter, Lasso tends to keep one and drop the other, or drop both. Ridge keeps every column. Elastic net can drop some columns while letting near-copies **share** a coefficient.
+- **Watch the names.** In R's popular `glmnet` package, `alpha` is the *balance* and `lambda` the strength. In scikit-learn, `alpha` is always the strength.
+
+(Like `Lasso`, scikit-learn's `ElasticNet` divides the squared residuals by 2 × the number of rows, and it also halves the Ridge part.)
+
 ## Choosing α
 
-`α` is a knob like k or `max_depth`, so it's chosen the same way: grid search with cross-validation on the training abalone.
+`α` is a knob like k or `max_depth`, so it's chosen the same way: grid search with cross-validation, on the 15 abalone the lab has.
 
 ```python
 from sklearn.linear_model import Ridge, Lasso
 from sklearn.model_selection import GridSearchCV
 
-ridge_search = GridSearchCV(abalone_model(Ridge(), products=True),
+ridge_search = GridSearchCV(abalone_model(Ridge()),
                             {"reg__alpha": [0.1, 1, 3, 10, 30, 100, 300, 1000]},
                             cv=5, scoring="neg_root_mean_squared_error", return_train_score=True)
-ridge_search.fit(X_train, y_train)
+ridge_search.fit(few, few_age)
 
-lasso_search = GridSearchCV(abalone_model(Lasso(max_iter=200_000), products=True),
-                            {"reg__alpha": [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1]},
+lasso_search = GridSearchCV(abalone_model(Lasso(max_iter=200_000)),
+                            {"reg__alpha": [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1, 3]},
                             cv=5, scoring="neg_root_mean_squared_error", return_train_score=True)
-lasso_search.fit(X_train, y_train)
+lasso_search.fit(few, few_age)
 ```
 
 (`reg__alpha` is the `alpha` knob of the step named `reg`, as in Reading 7. `max_iter` lets Lasso's step-by-step search run long enough to settle.)
 
-![Two line charts side by side sharing a y-axis, RMSE in years from 1.5 to 2.9, against α on a log scale. Left, Ridge, α from 0.1 to 1,000: the training-fold RMSE (solid blue, circles) rises steadily from 1.72 to 2.57; the held-out RMSE (dashed orange, triangles) starts at 2.26, dips to a minimum of 2.09 at α = 3, then rises to 2.59, where the two lines meet. Right, Lasso, α from 0.001 to 1: the training-fold RMSE rises from 1.72 to 2.68; the held-out RMSE falls from 2.30 to a minimum of 2.08 at α = 0.01 and rises to 2.69. Numbers above the Lasso points give the columns kept: 32, 29, 21, 15, 9, 6, 2. A dotted gray line in both panels marks 2.19, the 9-column model without products.](images/abalone_alpha.png)
+![Two line charts side by side, RMSE in years against α on a log scale, from 5-fold cross-validation on the 15 abalone. Left, Ridge, α from 0.1 to 1,000: the training-fold RMSE (solid blue, circles) rises steadily from 1.73 to 3.35; the held-out RMSE (dashed orange, triangles) starts at 3.85, dips to a minimum of 2.75 at α = 10, then rises to 3.48. Right, Lasso, α from 0.001 to 3, on a taller scale up to 12: the training-fold RMSE rises from 1.03 to 3.43; the held-out RMSE falls from 10.69 to a minimum of 3.02 at α = 0.1, then rises to 3.57. Numbers above the Lasso points give the columns kept: 9, 9, 9, 7, 4, 4, 3, 0. A dotted gray line in both panels marks 3.08, one line through shell weight cross-validated on the same 15 abalone.](images/abalone_alpha.png)
 
 Read both panels from left to right:
 
-- **Small α (left edge):** almost no penalty. Training folds about 1.7, held-out about 2.3: the overfitting of page 4.
+- **Small α (left edge):** almost no penalty, so page 4's overfitting. Lasso's left edge is practically plain least squares: 1.03 years on the folds it learned from, **10.69** on the held-out fold. Each training fold has 12 abalone for 10 numbers.
 - **As α grows:** the training-fold error rises (the model can no longer chase every abalone), and the held-out error first **falls**. Taking back some freedom helps.
-- **Best α:** Ridge's held-out RMSE bottoms out at **2.09** (α = 3); Lasso's at **2.08** (α = 0.01), keeping **21** of the 37 columns. Both beat the 9-column model's 2.19, which no penalty could give.
-- **Large α (right edge):** the penalty flattens the slopes so much that both errors rise together: **underfitting**. Lasso at α = 1 keeps only 2 columns and misses by 2.69 years, worse than the single line.
+- **Best α:** Ridge bottoms out at **2.75** (α = 10). Lasso bottoms out at **3.02** (α = 0.1), keeping **4** of the 9 columns. The dotted line is one line through shell weight, cross-validated the same way: 3.08.
+- **Large α (right edge):** the penalty flattens the coefficients so much that both errors rise together: **underfitting**. Lasso at α = 3 keeps no columns at all and predicts the same age for every abalone.
 
 This is the same picture as k in kNN and depth in trees, with one twist: here a **bigger** knob means a **simpler** model.
 
+📌 **One sample:** each held-out fold here holds only 3 abalone. Another 15 abalone could pick another α, or another winner.
+
+Elastic net has two knobs, so its grid has two lists, and `GridSearchCV` tries every pair (6 × 4 = 24 of them):
+
+```python
+from sklearn.linear_model import ElasticNet
+
+net_search = GridSearchCV(abalone_model(ElasticNet(max_iter=200_000)),
+                          {"reg__alpha": [0.01, 0.03, 0.1, 0.3, 1, 3],
+                           "reg__l1_ratio": [0.1, 0.5, 0.9, 1]},
+                          cv=5, scoring="neg_root_mean_squared_error")
+net_search.fit(few, few_age)
+net_search.best_params_        # {'reg__alpha': 1, 'reg__l1_ratio': 0.1}
+```
+
+On these 15 abalone, cross-validation picks a mostly-Ridge balance (l1_ratio = 0.1) with a held-out RMSE of 2.81. Elastic net doesn't have to beat both of its parents to be useful: it lets cross-validation choose the balance too.
+
 ## What the Penalties Did
 
-The tug of war is gone. Ridge's biggest coefficient at α = 3 is 3.3, down from 20.8. Lasso's best model keeps 21 columns: shell weight, whole weight and meat weight (still with a negative sign: page 3's meat puzzle survives), the infant column, and a handful of squares and products, the bends a straight line couldn't make. It drops 16 columns, among them diameter itself and most of its products: once length is in, diameter adds little.
+| column | least squares | Ridge, α = 10 | Lasso, α = 0.1 | elastic net, α = 0.1, half and half |
+|:---|---:|---:|---:|---:|
+| `length_mm` | +19.78 | +0.22 | 0 | +0.14 |
+| `diameter_mm` | −20.45 | +0.28 | 0 | +0.14 |
+| `height_mm` | −1.64 | +0.35 | 0 | +0.58 |
+| `whole_g` | +5.72 | +0.03 | 0 | 0 |
+| `meat_g` | −11.37 | −0.38 | −2.55 | −1.82 |
+| `gut_g` | +1.79 | +0.08 | 0 | 0 |
+| `shell_g` | +6.37 | +0.38 | +3.31 | +1.74 |
+| `sex_infant` | −1.45 | −0.75 | −1.14 | −1.14 |
+| `sex_male` | +0.24 | +0.63 | +0.50 | +0.61 |
 
-Raise Lasso's price to α = 0.1 and it keeps just 9 columns, scoring 2.21, about as well as the 9-column model without products. At α = 1 it keeps two: shell weight and a whisper of height.
+- **Ridge** shrinks everything. The tug of war is gone: length and diameter now get +0.22 and +0.28, small and on the same side. The largest coefficient is 0.75, down from 20.45.
+- **Lasso** keeps 4 columns: shell weight, meat weight (still negative: page 3's meat puzzle survives) and the two `sex` columns. It drops length, diameter, height, whole weight and gut weight.
+- **Elastic net**, at a half-and-half balance (`l1_ratio=0.5`), drops whole and gut weight like Lasso, but keeps length and diameter **together**, sharing the same small coefficient (+0.14 each), instead of Lasso's all-or-nothing choice.
 
 ## The Final Comparison
 
-| model | columns used | held-out fold RMSE |
+The other 285 training abalone were never used to fit or tune these models, so they can stand in as new abalone:
+
+| model, learned from the 15 | columns used | RMSE on the other 285 |
 |:---|---:|---:|
-| one line (shell weight) | 1 | 2.50 |
-| all columns | 9 | 2.19 |
-| all columns + products | 37 | 2.53 |
-| Ridge, α = 3 | 37 (all shrunk) | 2.09 |
-| Lasso, α = 0.01 | 21 | 2.08 |
-| Lasso, α = 0.1 | 9 | 2.21 |
+| one line (shell weight) | 1 | 2.53 |
+| least squares, all columns | 9 | 4.77 |
+| Ridge, α = 10 | 9 (all shrunk) | 2.62 |
+| Lasso, α = 0.1 | 4 | 2.42 |
+| elastic net, α = 1, l1_ratio = 0.1 | 9 (all shrunk) | 2.65 |
+
+The penalties turned the worst model in the table (4.77) into models that miss by about 2.5 years, about what one well-chosen line manages. Notice that Lasso, which cross-validation ranked below Ridge, comes out slightly ahead here. With 3 abalone per fold, cross-validation can't really tell them apart.
 
 > 🔁 **From Reading 6:** the best of many scores is optimistic, and differences smaller than the disagreement between folds are noise. When scores tie, prefer the simpler model.
 
-The penalties turned the worst model in the table (2.53) into the best (2.08–2.09). Ridge and Lasso tie, and the gain over the 9-column model is about 0.1 years, a little over a month, while single folds disagree by much more (from 1.7 to 2.6 years for the 9-column model). Either penalized model is a reasonable choice; Lasso's has fewer columns to explain.
+The biggest improvement isn't in this table, though. Page 3's model, the same 9 columns with plain least squares, learned from **all 300** abalone and scored **2.19** on the held-out fold. With 300 abalone there is little left to fix: Lasso on all 300 picks α = 0.01 and scores 2.18, a tie. **More data is the best cure for overfitting.** A penalty is what you reach for when you can't get more, or when the columns keep multiplying.
 
-Only now, **once**, open the locked test set for the best Lasso: RMSE **2.17**, MAE **1.63**, R² **0.59** on the 100 test abalone. 71% of them are predicted within 2 years of their true age.
+## Zooming Out: Curves Overfit Too
 
-📌 **One split:** 2.17 is one set of 100 abalone from one random lab of 400.
+Columns can multiply. `PolynomialFeatures(2)` adds a square for every measurement (`shell_g²`, which lets the line bend into a curve) and a product for every pair (`length_mm × whole_g`, …): 7 measurements become 35 columns, 37 with `sex`. Even on all 300 abalone, those 37 coefficients overfit: 1.70 years on the folds the model learned from, 2.53 on the held-out fold, worse than one line. Inside, the same symptom: −20.8 on length × whole weight and +20.6 on diameter × whole weight, another tug of war between near-copies. And the same cure: Lasso keeps 21 of the 37 columns and brings the held-out error down to 2.08.
+
+Is 2.08 better than the 9 plain columns' 2.19? By 0.11 years, about six weeks, while single folds of the 9-column model disagree by much more (from 1.71 to 2.60). By Reading 6's rule that is a tie, and the simpler model wins.
+
+Only now, **once**, open the locked test set for the final model: page 3's 9 columns, plain least squares, all 300 training abalone. RMSE **2.21**, MAE **1.65**, R² **0.57** on the 100 test abalone. 74% of them are predicted within 2 years of their true age.
+
+📌 **One split:** 2.21 is one set of 100 abalone from one random lab of 400.
 
 ---
 
@@ -583,7 +645,7 @@ Ridge adds a penalty on the *[squares]* of the coefficients, so every coefficien
 
 <!-- QUESTION:multiple-choice -->
 
-**Why must the columns be standardized before Ridge or Lasso?**
+**Why must the columns be standardized before Ridge, Lasso or elastic net?**
 
 - [x] The penalty compares coefficients with each other, and a coefficient's size depends on its column's units; on one ruler, the penalty treats every column alike.
 - [ ] Ridge and Lasso can only read numbers between −1 and 1.
@@ -596,12 +658,25 @@ Ridge adds a penalty on the *[squares]* of the coefficients, so every coefficien
 
 <!-- QUESTION:multiple-choice -->
 
-**Ridge at α = 3 and Lasso at α = 0.01 have held-out RMSEs of 2.09 and 2.08 years. Which statement is the most sensible?**
+**In scikit-learn, what do the two numbers in `ElasticNet(alpha=1, l1_ratio=0.1)` control?**
 
-- [x] They are tied: a 0.01-year difference is far smaller than the disagreement between folds, so either is fine, and Lasso's has fewer columns to explain.
-- [ ] Lasso is clearly better, because 2.08 is smaller than 2.09.
-- [ ] Ridge is clearly better, because it keeps all 37 columns.
-- [ ] Neither works, because both errors are above 2 years.
+- [x] `alpha` sets how strong the whole penalty is; `l1_ratio` sets the balance between Lasso's penalty (1) and Ridge's (0), so 0.1 is mostly Ridge.
+- [ ] `alpha` sets the balance between Ridge and Lasso; `l1_ratio` sets how strong the penalty is.
+- [ ] `l1_ratio = 0.1` means that 10% of the columns are dropped.
+- [ ] `alpha` is the share of the rows used for cross-validation.
+
+<!-- END QUESTION -->
+
+---
+
+<!-- QUESTION:multiple-choice -->
+
+**On the 15 abalone, cross-validation prefers Ridge (2.75) to Lasso (3.02), but on the other 285 abalone Lasso does a little better (2.42 against 2.62). What is the most sensible reading?**
+
+- [x] With only 3 abalone per held-out fold, cross-validation scores are noisy; neither penalty is clearly better here, and both are far better than plain least squares.
+- [ ] Cross-validation is broken, so it should not be used to choose α.
+- [ ] Ridge is the better model, because cross-validation said so.
+- [ ] Lasso is always better than Ridge.
 
 <!-- END QUESTION -->
 
@@ -611,7 +686,7 @@ Ridge adds a penalty on the *[squares]* of the coefficients, so every coefficien
 answer: false
 -->
 
-In this grid, the largest α gave the best model, because a stronger penalty always reduces overfitting more.
+In these grids, the largest α gave the best model, because a stronger penalty always reduces overfitting more.
 
 <!-- END QUESTION -->
 
@@ -625,11 +700,11 @@ The straight line is much older than machine learning. Mackenzie notes that the 
 
 > "The importance of lines and flat surfaces can hardly be under-estimated in machine learning."
 
-Ridge and Lasso are part of how the line kept up. Mackenzie describes how, on genetic data with thousands of columns, the coefficients "are ranked by importance and then are either reduced (L2 regularization) or eliminated (L1 regularization) if they contribute little to the predictive accuracy of the machine learner." (L2 is Ridge's penalty, L1 is Lasso's.) In one cancer study he cites, Lasso kept 1,429 of 16,063 genes. His comment:
+Ridge and Lasso are part of how the line kept up. Mackenzie describes how, on genetic data with thousands of columns, the coefficients "are ranked by importance and then are either reduced (L2 regularization) or eliminated (L1 regularization) if they contribute little to the predictive accuracy of the machine learner." (L2 is Ridge's penalty, L1 is Lasso's.) In one cancer study he cites, Lasso kept 1,429 of 16,063 genes, and an elastic net only 384. His comment:
 
 > "Regularization sometimes radically changes the object."
 
-Our 37 columns became 21, then 9, then 2, depending on α, a number we chose from a grid. The penalty decided which measurements of an abalone this model looks at.
+In our small lab, the 9 columns became 7, then 4, then 3, then none, depending on α, a number we chose from a grid. The penalty decided which measurements of an abalone the model looks at.
 
 ## The Dataset Has a History Too
 
@@ -640,16 +715,16 @@ The file you downloaded isn't exactly what the biologists wrote down. Its docume
 
 ## Why Old Abalone Fool the Model
 
-Group the test abalone by their true age and look at the average residual of the best Lasso model:
+Group the test abalone by their true age and look at the average residual of the final model:
 
 | true age | test abalone | average residual (years) |
 |:---|---:|---:|
-| under 8 | 18 | −0.8 |
-| 8 to 12 | 51 | −0.6 |
+| under 8 | 18 | −1.0 |
+| 8 to 12 | 51 | −0.7 |
 | 12 to 16 | 21 | +0.7 |
-| over 16 | 10 | +4.3 |
+| over 16 | 10 | +4.5 |
 
-For young and middle-aged abalone, the misses are small and go both ways. But the 10 oldest are predicted **4.3 years too young**, on average. (The single line misses them by 5.5.)
+For young and middle-aged abalone, the misses are small and go both ways. But the 10 oldest are predicted **4.5 years too young**, on average. (The single line misses them by 5.5.)
 
 The reason is biology, not math. Abalone grow fast when young and slowly when old. Once growth slows, another five years add little shell or meat. To a model that sees only sizes and weights, a 15-year-old and a 22-year-old can look almost identical, so it predicts something in between. No penalty can fix that: the information simply isn't in the columns. The documentation says as much:
 
@@ -669,11 +744,11 @@ Deborah Stone's chapter 4 of *Counting*, "How Numbers Get Their Clout," includes
 
 Try it on our model. *"Advanced machine-learning models show that an abalone's age can be determined from its weight, with no need to cut the shell."* Every word is defensible, and the impression is wrong. Here is the same model, honestly:
 
-- It is typically **1.6 years** off (MAE), and 3 in 10 abalone are off by **more than 2 years**.
-- It explains about **59%** of the variation in age (R² 0.59) on one test set of 100.
-- It underestimates the oldest abalone by **4 years** on average, because their size stops changing.
+- It is typically **1.65 years** off (MAE), and about 1 in 4 abalone are off by **more than 2 years**.
+- It explains about **57%** of the variation in age (R² 0.57) on one test set of 100.
+- It underestimates the oldest abalone by **4.5 years** on average, because their size stops changing.
 - It learned from **400** abalone from one coast, chosen at random from a file whose label was missing for most of the rows that were dropped.
-- Someone chose the columns, the products, the penalty and α.
+- Someone chose the columns, the model, and whether to add products or a penalty.
 
 The mathematician John Ewing, Stone writes, calls the dressing-up strategies "mathematical intimidation." A prediction printed as "11.37 years" looks precise. With an RMSE of about 2 years, the honest version is "**somewhere between 9 and 14**."
 
@@ -692,7 +767,7 @@ The mathematician John Ewing, Stone writes, calls the dressing-up strategies "ma
 
 <!-- QUESTION:multiple-choice -->
 
-**The best model underestimates the oldest abalone by about 4 years on average. Why doesn't a stronger penalty or more products fix this?**
+**The final model underestimates the oldest abalone by about 4.5 years on average. Why doesn't a penalty or more columns fix this?**
 
 - [x] Old abalone barely grow, so their sizes and weights look like those of younger adults; the information needed to tell them apart isn't in the columns.
 - [ ] The penalty always hurts the oldest abalone the most.

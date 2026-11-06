@@ -5,7 +5,7 @@ Rebuild the PDF after editing:   python scripts/make_w12d1_handout.py
 How this file becomes the PDF:
   - "# ..."            the title line at the top of page 1
   - "## ..."           one handout part
-  - ![](plot:NAME)     the part's plot: line, thresholds, smote
+  - ![](plot:NAME)     the part's plot: mix, thresholds, smote
                        (drawn by the script from datasets/pulsars.csv, same candidates and split as the slides)
                        optional width, e.g. ![](plot:smote){width=56%}; under 80% the plot
                        sits left and the text right, 80% or more it spans the page, text below
@@ -21,15 +21,15 @@ This comment block is not printed.
 
 Candidate signals from the Parkes radio telescope: about 1 real pulsar for every 10 signals of interference or noise. Your professor will tell you when to do each part.
 
-## 1 · The model's line
+## 1 · Same pulsars, more noise
 
-![](plot:line){width=58%}
+![](plot:mix){width=100%}
 
-Training candidates by two of their eight columns. Logistic regression calls everything left of its 50% line a pulsar.
+Twelve training pulsars, by two of their eight columns. **Left:** as many noise candidates as pulsars. **Right:** the same pulsars among 120 noise candidates, the real mix of about 1 to 10.
 
-1. **Circle** the pulsars that the line calls noise.
-2. **Draw** a line that would catch more pulsars. What else does it catch? ______________
-3. **Pair talk:** there are 10 noise candidates for every pulsar. Why did the model put its line so close to the pulsars?
+1. On each panel, **draw** the straight line that makes the fewest mistakes: pulsars on one side, noise on the other.
+2. On the right, **circle** the pulsars your line calls noise.
+3. **Pair talk:** only noise was added. Why did your line move? On the right, what would it cost to catch every pulsar?
 
 ## 2 · Choose a threshold
 

@@ -1,0 +1,54 @@
+// Week 10 Retrieval Quiz 2 — linear regression: reading a slope, MAE vs. RMSE, holding the other columns fixed — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 10's Wednesday class. Three questions on Monday's class (w10d1): what a slope and
+// an intercept mean (10A), why RMSE reacts to one big miss and MAE doesn't (10C), and why a slope can flip
+// sign when another column joins the model (10A).
+// Every question is self-contained: small generic examples with all needed facts in the stem (none use the Ames data).
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 3 questions, ~4 minutes.
+
+$CATEGORY: Week 10 / Retrieval 02
+
+// ── Section 1: Slope and Intercept (10A) ─────────────────────────────────────
+
+::W10-R2-Q1 Reading a line (10A)::[html]A utility company fits a straight line to predict an apartment's monthly heating bill from its floor area, using a few hundred apartments of 400 to 1,500 square feet:
+<pre>
+predicted bill = 12 + 0.08 × area        (bill in dollars, area in square feet)
+</pre>
+Which statement is right?{
+=Each extra 100 square feet goes with about $8 more on the bill, on average. The $12 only positions the line\: no apartment has 0 square feet #Correct. The slope, 0.08, is dollars per square foot, so 100 more square feet go with 100 × 0.08 \= $8 more. The intercept is the prediction at area 0, far outside the 400 to 1,500 square feet the line learned from, so it is just where the line crosses the axis.
+~Each extra square foot adds $12 to the bill #That swaps the two numbers. The $12 is the intercept, the line's height at area 0. The slope, 0.08, is the amount per square foot.
+~An empty lot of 0 square feet would pay $12 a month, so every apartment pays at least $12 #The line learned only from apartments of 400 to 1,500 square feet. At 0 it is guessing far outside its data, so the intercept doesn't describe any real apartment.
+~Adding 100 square feet to an apartment will raise its bill by exactly $8 #The slope describes apartments that <i>are</i> 100 square feet apart, on average across the data. It doesn't say what remodeling one apartment would do, and individual bills scatter around the line, so "exactly" is too strong.
+}
+
+// ── Section 2: How Far Off? MAE and RMSE (10C) ───────────────────────────────
+
+::W10-R2-Q2 One big miss (10C)::[html]Two models predict the delivery time of the same 4 pizzas. Their residuals (actual − predicted, in minutes):
+<pre>
+pizza       1     2     3     4
+model A    +2    −2    +2    −2
+model B     0     0     0    +8
+</pre>
+Which statement is right?{
+=Both have an MAE of 2 minutes, but B's RMSE (4) is twice A's (2)\: RMSE squares the misses, so B's one 8-minute miss counts extra #Correct. MAE drops the signs and averages\: (2 + 2 + 2 + 2) ÷ 4 \= 2 and (0 + 0 + 0 + 8) ÷ 4 \= 2. RMSE squares first\: √(16 ÷ 4) \= 2 for A and √(64 ÷ 4) \= 4 for B. If one very late pizza is worse than several slightly late ones, RMSE is the score that notices.
+~B is better\: it gets three of the four pizzas exactly right #Counting exact hits is how we scored classifiers (accuracy). For a number, a prediction is rarely exact, and what matters is how far off it is. B's one miss is 8 minutes.
+~A is perfect\: its residuals add up to 0 #The +2s and −2s cancel in a plain sum, yet every one of A's predictions is 2 minutes off. That is why MAE drops the signs and RMSE squares them\: misses in opposite directions must not cancel.
+~They are equally good\: the same MAE always means the same RMSE #MAE and RMSE agree only when all the misses are the same size, as in A. Squaring makes B's 8-minute miss count 64, against 4 for each of A's misses, so B's RMSE is bigger.
+}
+
+// ── Section 3: Holding the Other Columns Fixed (10A) ─────────────────────────
+
+::W10-R2-Q3 A slope that flips sign (10A)::[html]Two linear regressions predict an apartment's monthly rent from the same few hundred apartments:
+<pre>
+columns in the model                slope for "number of rooms"
+number of rooms                     +$150 per room
+number of rooms and floor area      −$40 per room
+</pre>
+How can both slopes be right?{
+=Alone, more rooms stands in for a bigger apartment. Next to floor area, the slope compares apartments of the same size, where one more room means smaller rooms #Correct. Each slope means "holding the other columns fixed". The first slope compares apartments with more rooms, which are usually bigger, so the room count gets credit for the size. The second compares apartments with the same floor area, and among those, more rooms means each room is smaller.
+~They can't both be right\: adding a column never changes another column's sign, so the second model has a bug #Adding a column can shrink, grow or flip another slope, especially when the two columns overlap, as rooms and floor area do. Both models are fine; they answer different questions.
+~The second model overfits\: with more columns, its slopes become unreliable #Two columns for a few hundred apartments is far too little freedom to overfit. The sign changes because the question changes ("at the same floor area"), not because the model memorized noise.
+~The −$40 is the true effect of a room, and the +$150 was just chance #Neither slope is "the effect" of a room. The +$150 isn't chance either\: it includes the size that comes with more rooms. A coefficient is never a fact about one column alone; it depends on the other columns in the model.
+}

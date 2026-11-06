@@ -106,7 +106,7 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 2</td><td><a href="{{ '/weeks/10/class_w10d1.ipynb' | relative_url }}">Linear Regression</a></td></tr>
 <tr><td class="d">Wed Nov 4</td><td><a href="{{ '/weeks/10/class_w10d2.ipynb' | relative_url }}">Ridge and Lasso</a></td></tr>
-<tr><td class="d">Fri Nov 6</td><td>Practice 8 · <a href="{{ '/weeks/10/forum4/' | relative_url }}">Forum 4 instructions</a></td></tr>
+<tr><td class="d">Fri Nov 6</td><td><a href="{{ '/weeks/10/dist/student/practice08.ipynb' | relative_url }}">Practice 8</a> · <a href="{{ '/weeks/10/forum4/' | relative_url }}">Forum 4 instructions</a></td></tr>
 </tbody></table>
 </div>
 

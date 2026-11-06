@@ -1,0 +1,57 @@
+// Week 11 Retrieval Quiz 1 — Week 10 review: a slope that flips sign, reading the alpha curve, elastic net's two knobs — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 11's Monday class (Quiz 5 is on Friday). One carry-over from Week 10 Retrieval 2 (a slope that
+// flips sign, 10A), one from Week 10 Retrieval 3 (reading Ridge's alpha curve, 10B), both rewritten with new examples, and
+// one new question on something not yet quizzed (elastic net's two knobs, 10B).
+// Every question is self-contained: small generic examples with all needed facts in the stem (none use the class data).
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 3 questions, ~4 minutes.
+
+$CATEGORY: Week 11 / Retrieval 01
+
+// ── Section 1: Review From Week 10 Retrieval 2 (10A) ────────────────────────
+
+::W11-R1-Q1 Review: a slope that flips sign (from Week 10 Retrieval 2) (10A)::[html]Two linear regressions predict a phone's battery life (hours of video playback) from the same 200 phones:
+<pre>
+columns in the model                          slope for "screen size"
+screen size                                   +1.2 hours per inch
+screen size and battery capacity (mAh)        −2.5 hours per inch
+</pre>
+How can both slopes be right?{
+=Alone, a bigger screen stands in for a bigger battery, since bigger phones carry bigger batteries. Next to battery capacity, the slope compares phones with the same battery, where a bigger screen drains it faster #Correct. Each slope means "holding the other columns fixed". The first slope compares phones with bigger screens, which usually have bigger batteries, so screen size gets the credit for the battery. The second compares phones with the same battery capacity, and among those, a bigger screen means less playback.
+~They can't both be right\: adding a column never changes another column's sign, so the second model has a bug #Adding a column can shrink, grow or flip another slope, especially when the two columns overlap, as screen size and battery capacity do. Both models are fine; they answer different questions.
+~The second model overfits\: with more columns, its slopes become unreliable #Two columns for 200 phones is far too little freedom to overfit. The sign changes because the question changes ("at the same battery capacity"), not because the model memorized noise.
+~The −2.5 is the true effect of screen size, and the +1.2 was just chance #Neither slope is "the effect" of the screen. The +1.2 isn't chance either\: it includes the bigger battery that comes with a bigger phone. A slope is never a fact about one column alone; it depends on the other columns in the model.
+}
+
+// ── Section 2: Review From Week 10 Retrieval 3 (10B) ────────────────────────
+
+::W11-R1-Q2 Review: reading the alpha curve (from Week 10 Retrieval 3) (10B)::[html]A ski resort predicts how many lift tickets it sells each day. It fits Ridge on <b>30 days</b> with 15 scaled columns, and cross-validates five alphas. RMSE, in tickets per day (lower is better):
+<pre>
+alpha     folds it learned from    held-out fold
+0.1                40                   520
+3                  85                   260
+30                160                   190
+300               310                   320
+3000              450                   455
+</pre>
+Which reading is right?{
+=alpha \= 30 is the best choice. The small alphas overfit (tiny misses on the folds they learned from, huge ones on the held-out fold), and alpha \= 3000 underfits (bad on both). For Ridge, a bigger knob means a simpler line #Correct. Choose by the held-out column, where alpha \= 30 is lowest (190). At 0.1 the slopes are barely charged for, and 40 against 520 is the overfitting gap. At 3000 every slope is squashed toward 0, so the line predicts almost the same number of tickets every day and misses everywhere. Like k in kNN, and unlike max_depth, a larger alpha means a simpler model.
+~alpha \= 0.1, because its error is the smallest (40) #That 40 is on the folds the model learned from. On the held-out fold, the one that stands for new days, alpha \= 0.1 is the worst (520).
+~alpha \= 3000, because its two columns are the closest (450 and 455), so it doesn't overfit #A small gap means no overfitting, but alpha \= 3000 has the biggest misses on new days\: it underfits. Being equally bad on old and new days isn't the goal; being good on new days is.
+~The small alphas underfit and the big ones overfit, like max_depth for trees\: a bigger knob means a more complex model #The direction is reversed. alpha is the price of big slopes\: a bigger alpha means smaller slopes and a simpler line. For trees, a bigger max_depth meant a more complex model; for Ridge it's the other way around.
+}
+
+// ── Section 3: Elastic Net (10B) ─────────────────────────────────────────────
+
+::W11-R1-Q3 Elastic net's two knobs (10B)::[html]A student tunes scikit-learn's elastic net with <code>GridSearchCV</code> on scaled columns. The best pair:
+<pre>
+ElasticNet(alpha=5, l1_ratio=0.2)
+</pre>
+Which reading is right?{
+=<code>alpha</code> is how strong the penalty is, and <code>l1_ratio</code> is the balance between the two penalties\: 0.2 is mostly Ridge, with some Lasso #Correct. In scikit-learn, <code>alpha</code> is always the strength. <code>l1_ratio</code> sets the mix\: 0 \= all Ridge, 1 \= all Lasso. Both knobs are chosen together by cross-validation, every pair in the grid.
+~<code>alpha</code> is the balance between Ridge and Lasso, and <code>l1_ratio</code> is the strength #That's the naming in R's glmnet, where <code>alpha</code> is the balance and <code>lambda</code> the strength. In scikit-learn, <code>alpha</code> is the strength and <code>l1_ratio</code> the balance.
+~<code>l1_ratio\=0.2</code> means the model drops 20% of the columns #<code>l1_ratio</code> is the share of the penalty that comes from Lasso's absolute values, not a share of the columns. How many slopes reach 0 depends on the data and on <code>alpha</code>.
+~A bigger <code>alpha</code> would let the slopes grow bigger #The other way around\: <code>alpha</code> is the price of big slopes, so a bigger <code>alpha</code> means smaller slopes and a simpler model. A small <code>alpha</code> is close to plain least squares.
+}

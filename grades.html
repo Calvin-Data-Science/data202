@@ -441,7 +441,8 @@ async function run(){
 
   try {
     statusEl.textContent = 'Loading grades…';
-    const resp = await fetch(`grade-data/${encodeURIComponent(key)}.json`);
+    // no-cache: always check with the server, so a regenerated file shows up right away
+    const resp = await fetch(`grade-data/${encodeURIComponent(key)}.json`, { cache: 'no-cache' });
     if (resp.status === 404){
       statusEl.className   = 'g-status err';
       statusEl.textContent = 'Key not found. Check your personal grade link or contact your instructor.';

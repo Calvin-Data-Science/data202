@@ -1,0 +1,59 @@
+// Week 10 Retrieval Quiz 1 — missing data: MCAR/MAR/MNAR, filling blanks, which fix for which blank — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 10's Monday class. Three questions on Week 9's Wednesday class (w09d2, SLO 09C):
+// telling MAR from MNAR, what one mean does to MAR blanks, and choosing an imputer by mechanism, not by score.
+// Every question is self-contained: small generic examples with all needed facts in the stem (none use the Titanic data).
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 3 questions, ~4 minutes.
+
+$CATEGORY: Week 10 / Retrieval 01
+
+// ── Section 1: Three Ways to Go Missing (09C) ────────────────────────────────
+
+::W10-R1-Q1 MAR or MNAR? Look inside the groups (09C)::[html]A town library asks its members: "How many books did you read this year?" Many leave it blank. Later, volunteers interview every member and learn all the true answers, the blank ones included. Mean books read:
+<pre>
+                 left it blank   answered
+all members           5.0           9.0
+under 30              4.1           3.9
+30 and over          11.8          12.2
+</pre>
+Every member's age group is recorded. Which mechanism made these blanks?{
+=MAR\: the blanks are mostly under-30s, who read fewer books, and inside each age group the blank members read about as much as the others #Correct. Age, a column we can see, explains the blanks. Once you know a member's age group, a blank tells you nothing more about the books read. That is MAR\: "random <i>once you know</i> the other columns". So a fix can use age\: fill an under-30's blank from other under-30s.
+~MCAR\: inside each age group, who left it blank is random #The name misleads here. "Random once you know the age group" is MAR. MCAR means the blank members are like everyone else even overall, but here they read 5 books against 9, because under-30s skipped the question more.
+~MNAR\: the members who left it blank read fewer books (5 against 9), so the blank depends on the number of books #That overall gap comes from age\: most blanks belong to under-30s. The test is to compare members who are alike in the columns we see. Inside each age group there is no gap (4.1 vs. 3.9, 11.8 vs. 12.2). MNAR would leave a gap inside every group.
+~We can't tell\: MAR and MNAR can never be told apart from the data #True for real blanks, because the values we'd need are exactly the missing ones. Here the interviews brought them back, so we can run the test, and it says MAR.
+}
+
+// ── Section 2: Filling Blanks With One Mean (09C) ────────────────────────────
+
+::W10-R1-Q2 One mean for every blank (09C)::[html]A pet clinic records each dog's weight. About as many small dogs as large dogs visit, but the weight is blank on <b>40%</b> of small dogs' visits (quick nail trims, no scale) and only <b>5%</b> of large dogs' visits. Every visit records the dog's size, and among dogs of the same size, the ones with a blank weigh about the same as the others.
+<pre>
+recorded weights    mean
+small dogs          8 kg
+large dogs         30 kg
+all dogs           21 kg
+</pre>
+A student fills every blank weight with <b>21 kg</b>. Which statement is right?{
+=Most blanks belong to small dogs, so most filled weights are far too heavy. It would be better to fill each blank from similar dogs (dogs of the same size), e.g. with KNNImputer #Correct. With equal visits, 40% against 5% means about 8 of every 9 blanks are small dogs, who weigh around 8 kg, not 21. One mean assumes the blank dogs are like all the others (MCAR). Here size explains the blanks (MAR), so the fill is wrong in a predictable direction, and the fix should use size.
+~It's fine\: filling with the mean keeps the column's mean at 21 kg, so the weights are not biased #The column's mean does stay at 21 kg, but each filled dog is wrong\: the small ones get far too heavy. Every blank also sits at exactly 21 kg, a spike no real clinic has, so the spread shrinks and the data looks more certain than it is. (And 21 kg is already too heavy\: with equal small and large dogs, the true mean is about 19 kg.)
+~Most filled weights are too light, because 21 kg is below the large dogs' 30 kg #Only a few blanks belong to large dogs (5% of their visits). Most belong to small dogs (40%), and for them 21 kg is too heavy.
+~The blanks are MNAR, so no fill can help, and we should drop the visits with a blank instead #The blank depends on the dog's size, a column we can see, and inside each size the blank dogs weigh the same\: MAR. Dropping is safe only under MCAR. Here it would remove mostly small dogs and tilt the data toward the large ones.
+}
+
+// ── Section 3: Which Fix for Which Blank? (09C) ──────────────────────────────
+
+::W10-R1-Q3 Choose by mechanism, not by score (09C)::[html]A restaurant predicts whether a customer will come back. One column is the customer's rating of their last meal (1 to 5). Customers who disliked their meal often skip the rating, and even among customers alike in every other column, the ones who skipped would have rated lower. The same pipeline is cross-validated with four ways of handling the blank ratings:
+<pre>
+handling the blank ratings                          CV accuracy
+drop the customers with a blank                        0.803
+SimpleImputer(strategy="mean")                         0.815
+KNNImputer(n_neighbors=5)                              0.811
+KNNImputer(n_neighbors=5, add_indicator=True)          0.809
+</pre>
+In every row, the 5 folds' scores spread over about 0.07. Which one should we choose?{
+=<code>KNNImputer(n_neighbors\=5, add_indicator\=True)</code>\: the scores are too close to choose by, and the blanks are MNAR, so the model should see which ratings were skipped #Correct. Gaps of 0.01 are noise when the folds disagree by 0.07, so the score can't tell the four apart. The blank depends on the missing rating itself (MNAR). The indicator column lets the model use "skipped the rating" as a clue. It still doesn't bring the missing ratings back, so say that limit out loud.
+~<code>SimpleImputer(strategy\="mean")</code>\: it has the highest CV accuracy #Its lead (0.815 against 0.809) is far smaller than the 0.07 spread between folds\: noise. And one mean assumes MCAR\: every skipped rating gets the average rating, though those would have been low ones.
+~<code>KNNImputer(n_neighbors\=5)</code>\: it fills each blank from similar customers #Filling from similar rows fits MAR, when the other columns explain the blanks. Here even similar customers who rated are happier than the ones who skipped, so the fills come out too high, and without the indicator the model can't see which ratings were filled.
+~Drop the customers with a blank\: the model then learns only from true ratings #Dropping is safe only under MCAR. It removes mostly unhappy customers, so the model learns from a happier set than the real one. And it can't answer for a new customer who skips the rating.
+}
