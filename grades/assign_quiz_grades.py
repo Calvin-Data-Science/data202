@@ -25,12 +25,23 @@ a cell that already holds a mark is upgraded if the CSV is better
 (N < P < A) and otherwise kept. Re-running over every quiz CSV is therefore
 safe. Pass --force to overwrite with exactly what the CSV says instead.
 
+Attendance: the quiz is held in class, so the same CSV also fills that day's
+column on the Attendance sheet: 'p' for a graded submission, 'n' for anyone
+else on the roster (update_attendance_from_quiz.py does the writing). The day
+is the Friday of the quiz's week: the quiz number comes from the file name
+(Quiz_04_scores.csv -> 4), its week from _data/weeks.yml ("quiz: 4" -> week 9),
+counted from SEMESTER_START, as the site does. Only blank attendance cells are
+filled; --force does NOT apply to them, so a hand-entered value (an excused
+absence) always stays. Use --date M/D/YYYY (with one CSV) if a quiz moved to
+another day, and --no-attendance to leave the Attendance sheet alone.
+
 Usage:
     cd grades/
     python3 assign_quiz_grades.py                    # every Quiz_*_scores.csv found
     python3 assign_quiz_grades.py Quiz_01_scores.csv  # target specific file(s)
     python3 assign_quiz_grades.py --dry-run
     python3 assign_quiz_grades.py --force
+    python3 assign_quiz_grades.py Quiz_05_scores.csv --date 11/16/2026   # quiz held on another day
 """
 
 import csv
@@ -40,11 +51,18 @@ import re
 import shutil
 import sys
 import unicodedata
-from datetime import datetime
+from datetime import date, datetime, timedelta
 
 import openpyxl
+import yaml
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from update_attendance_from_quiz import ATTENDANCE_SHEET, load_gradescope, process_date
 
 QUIZ_CSV_GLOB = "Quiz_*_scores.csv"
+QUIZ_NUMBER_RE = re.compile(r"Quiz_(\d+)_scores", re.I)
+SEMESTER_START = date(2026, 8, 31)      # Monday of week 1: semester_start in _layouts/week.html
+WEEKS_YML = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "_data", "weeks.yml")
 SLO_COL_RE = re.compile(r"^\s*\d+:\s*(?:SLO\s+)?(\d{2}[A-Z])\b")
 PTS_RE = re.compile(r"\(([\d.]+)\s*pts?\)")
 LEVELS = {0: "N", 1: "P", 2: "A"}
@@ -56,6 +74,20 @@ def norm(s):
     s = unicodedata.normalize("NFKD", s or "")
     s = "".join(ch for ch in s if not unicodedata.combining(ch))
     return " ".join(s.split()).lower()
+
+
+def quiz_class_date(csv_path):
+    """The Friday the quiz was held (Quiz_04_scores.csv -> quiz 4 -> week 9 in weeks.yml -> Fri Oct 30),
+    or None if the file name has no quiz number or weeks.yml has no week with that quiz."""
+    m = QUIZ_NUMBER_RE.search(os.path.basename(csv_path))
+    if not m:
+        return None
+    with open(WEEKS_YML, encoding="utf-8") as f:
+        weeks = yaml.safe_load(f) or []
+    week = next((w["week"] for w in weeks if w.get("quiz") == int(m.group(1))), None)
+    if week is None:
+        return None
+    return SEMESTER_START + timedelta(weeks=week - 1, days=4)
 
 
 def load_quiz_marks(csv_path):
@@ -201,7 +233,15 @@ def main():
     argv = sys.argv[1:]
     dry_run = "--dry-run" in argv
     force = "--force" in argv
-    argv = [a for a in argv if a not in ("--dry-run", "--force")]
+    attendance = "--no-attendance" not in argv
+    given_date = None
+    if "--date" in argv:                       # e.g. --date 11/16/2026, for a quiz held on another day
+        i = argv.index("--date")
+        given_date = datetime.strptime(argv[i + 1], "%m/%d/%Y").date()
+        del argv[i:i + 2]
+    argv = [a for a in argv if a not in ("--dry-run", "--force", "--no-attendance")]
+    if given_date and len(argv) != 1:
+        sys.exit("--date is the day of one quiz: give exactly one CSV with it")
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     xlsx_path = os.path.join(script_dir, "grades.xlsx")
@@ -228,10 +268,24 @@ def main():
     if "First Name" not in header or "Last Name" not in header:
         sys.exit("Marks sheet needs 'First Name' and 'Last Name' columns")
 
+    if attendance and ATTENDANCE_SHEET not in wb.sheetnames:
+        print(f"WARNING: no '{ATTENDANCE_SHEET}' sheet in grades.xlsx — attendance not updated.\n")
+        attendance = False
+
     any_changes = False
     for i, csv_path in enumerate(csv_paths):
         if process_csv(ws, header, csv_path, dry_run=dry_run, force=force):
             any_changes = True
+        if attendance:
+            quiz_date = given_date or quiz_class_date(csv_path)
+            print(f"  Attendance ({os.path.basename(csv_path)}):")
+            if quiz_date is None:
+                print(f"  SKIPPED: couldn't find this quiz's week in {os.path.normpath(WEEKS_YML)}; "
+                      f"pass --date M/D/YYYY with this CSV")
+            else:
+                present, _ = load_gradescope(csv_path, quiz_date)
+                if process_date(wb[ATTENDANCE_SHEET], quiz_date, present, dry_run=dry_run, force=False):
+                    any_changes = True
         if i < len(csv_paths) - 1:
             print()
 

@@ -28,6 +28,8 @@ Usage:
 
     # An in-class paper quiz exported from Gradescope (present = submission 'Graded'):
     # its upload time isn't the class day, so give the date of the quiz.
+    # (assign_quiz_grades.py already does this for every Quiz_NN_scores.csv, finding the
+    # date in _data/weeks.yml; use this only to redo a day, e.g. with --force.)
     python3 update_attendance_from_quiz.py Quiz_03_scores.csv --date 10/9/2026
 """
 
@@ -36,6 +38,7 @@ import glob
 import os
 import shutil
 import sys
+import unicodedata
 from collections import Counter
 from datetime import datetime
 
@@ -43,6 +46,14 @@ import openpyxl
 
 ATTENDANCE_SHEET = "Attendance"
 QUIZ_CSV_GLOB = "26FA DATA-202*.csv"
+
+
+def name_key(first, last):
+    """(first, last), case/accents/whitespace-insensitive, so 'Téa' on the roster matches 'Tea' in a report."""
+    def norm(s):
+        s = unicodedata.normalize("NFKD", s or "")
+        return " ".join("".join(ch for ch in s if not unicodedata.combining(ch)).split()).lower()
+    return norm(first), norm(last)
 
 
 def parse_started_date(value):
@@ -69,8 +80,7 @@ def load_gradescope(csv_path, quiz_date):
     with open(csv_path, encoding="utf-8-sig", newline="") as f:
         for row in csv.DictReader(f):
             if (row.get("Status") or "").strip() == "Graded":
-                present.add(((row.get("First Name") or "").strip().lower(),
-                             (row.get("Last Name") or "").strip().lower()))
+                present.add(name_key(row.get("First Name"), row.get("Last Name")))
     return present, quiz_date
 
 
@@ -98,7 +108,7 @@ def load_finishers(csv_path, quiz_date=None):
                 dates[parse_started_date(started)] += 1
             except ValueError:
                 continue
-            finishers.add((first.lower(), last.lower()))
+            finishers.add(name_key(first, last))
     if not dates:
         sys.exit(f"No 'Finished' attempts with a parseable Started date found in {csv_path}.")
     quiz_date = dates.most_common(1)[0][0]
@@ -144,7 +154,7 @@ def process_date(ws, quiz_date, finishers, dry_run, force):
         ln = ws.cell(r, 2).value
         if fn is None and ln is None:
             continue
-        key = ((fn or "").strip().lower(), (ln or "").strip().lower())
+        key = name_key(fn, ln)
         present = key in finishers
         if present:
             matched_keys.add(key)
@@ -167,7 +177,8 @@ def process_date(ws, quiz_date, finishers, dry_run, force):
 
     if skipped:
         print(f"{len(skipped)} cell(s) already had a manually-entered value and were left "
-              f"as-is (the quiz report disagreed — pass --force to overwrite if that's wrong):")
+              f"as-is (the quiz report disagreed — if that's wrong, rerun update_attendance_from_quiz.py "
+              f"with --force, plus --date for a Gradescope export):")
         for r, name, old in skipped:
             print(f"  row {r:>2}  {name:<28} kept {old!r}")
 

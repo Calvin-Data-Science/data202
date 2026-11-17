@@ -5,7 +5,7 @@ Rebuild the PDF after editing:   python scripts/make_w12d1_handout.py
 How this file becomes the PDF:
   - "# ..."            the title line at the top of page 1
   - "## ..."           one handout part
-  - ![](plot:NAME)     the part's plot: mix, thresholds, smote
+  - ![](plot:NAME)     the part's plot: mix, thresholds, smote (Part 4 has no plot)
                        (drawn by the script from datasets/pulsars.csv, same candidates and split as the slides)
                        optional width, e.g. ![](plot:smote){width=56%}; under 80% the plot
                        sits left and the text right, 80% or more it spans the page, text below
@@ -13,6 +13,8 @@ How this file becomes the PDF:
                        a line with only underscores = a full-width writing line
   - \newpage           start a new page
   - $k = 5$, **bold**, *italic*, numbered lists, | tables |: normal markdown
+  - a table with 4+ dashes in a column of its |---| row (Part 4's) spans the page in small type;
+    its columns are as wide as their dashes
 The pulsars labeled A-H in the smote plot are set in scripts/make_w12d1_handout.py (ZOOM_PULSARS).
 This comment block is not printed.
 -->
@@ -54,3 +56,28 @@ All eight columns. Five-fold cross-validation on the training candidates, at eac
 3. **Draw** two more, each from a pulsar to one of its nearest pulsar neighbors.
 4. **Circle** every synthetic pulsar that landed among the noise.
 5. **Pair talk:** suppose we make synthetic pulsars *before* splitting into training and test sets. Where could a test pulsar come from? What would the test score really measure?
+
+## 4 · Pick the tool
+
+**Every time:** check the class shares, split with `stratify=y`, and score recall and precision.
+
+| | option | why it helps | when to use it | in code |
+|:-:|-----|--------|---------|----------|
+| **A** | move the threshold | trades precision for recall, with no retraining | first, for any model with probabilities; set it from the cost of each mistake | `predict_proba(X)[:, 1] >= t` |
+| **B** | class weights | each minority mistake counts more | models that have it; barely moves deep trees | `class_weight="balanced"` |
+| **C** | oversampling | copies minority rows | small data; not deep trees: they memorize copies | `RandomOverSampler` |
+| **D** | undersampling | drops majority rows | a huge majority; slow training | `RandomUnderSampler` |
+| **E** | SMOTE | new minority rows between minority neighbors | few minority rows; models with no class weights (kNN) | `SMOTE`; `SMOTENC` with word columns |
+| **F** | balanced forest | each tree learns from its own balanced sample | forests on large data | `BalancedRandomForestClassifier` |
+| **G** | rebalance after the split | resamples only the rows the model learns from | every time you use C--F | imblearn's `make_pipeline` |
+| **H** | question the label | a common stand-in for a rare outcome changes the question | before any modeling | |
+
+Write the letter of the option that fits best.
+
+1. ____ To find bridges that may collapse (none has in 30 years), a vendor's model predicts complaints.
+2. ____ A kNN model, 40 recordings of a rare bird call among 4,000. A low threshold still finds few.
+3. ____ A clinic's model sends 1 in 50 patients to a follow-up test. Now it can afford twice as many.
+4. ____ 50 million card payments, 1 in 1,000 of them fraud. A forest on all of them trains all night.
+5. ____ A teammate oversampled the whole dataset, then split it: test recall 0.99.
+
+**Pair talk:** 2 and 4 both have a rare class. Why add rows in one, and drop rows in the other?

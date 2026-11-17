@@ -15,3 +15,4 @@ week_number: 11
 
 - [Monday class](class_w11d1.ipynb) · [handout (PDF)](class_w11d1_handout.pdf)
 - [Wednesday class](class_w11d2.ipynb) · [handout (PDF)](class_w11d2_handout.pdf)
+- [Practice 09](dist/student/practice09.ipynb) — logistic regression, a random forest and AdaBoost, on Spotify songs from six genres

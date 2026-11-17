@@ -115,7 +115,7 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 9</td><td><a href="{{ '/weeks/11/class_w11d1.ipynb' | relative_url }}">Logistic Regression</a></td></tr>
 <tr><td class="d">Wed Nov 11</td><td><a href="{{ '/weeks/11/class_w11d2.ipynb' | relative_url }}">Ensembles</a></td></tr>
-<tr><td class="d">Fri Nov 13</td><td>Practice 9 · Quiz 5 (in class)</td></tr>
+<tr><td class="d">Fri Nov 13</td><td><a href="{{ '/weeks/11/dist/student/practice09.ipynb' | relative_url }}">Practice 9</a> · Quiz 5 (in class)</td></tr>
 </tbody></table>
 <div class="milestone-note">Milestone 2 due Sat Nov 14, midnight</div>
 </div>
@@ -125,7 +125,7 @@ title: Weekly Materials
 <table class="sessions"><tbody>
 <tr><td class="d">Mon Nov 16</td><td><a href="{{ '/weeks/12/class_w12d1.ipynb' | relative_url }}">Imbalanced data</a></td></tr>
 <tr><td class="d">Wed Nov 18</td><td><a href="{{ '/weeks/12/class_w12d2.ipynb' | relative_url }}">Time-series data</a></td></tr>
-<tr><td class="d">Fri Nov 20</td><td>Practice 10 · <a href="{{ '/weeks/12/forum5/' | relative_url }}">Forum 5 instructions</a></td></tr>
+<tr><td class="d">Fri Nov 20</td><td><a href="{{ '/weeks/12/dist/student/practice10.ipynb' | relative_url }}">Practice 10</a> · <a href="{{ '/weeks/12/forum5/' | relative_url }}">Forum 5 instructions</a></td></tr>
 </tbody></table>
 </div>
 

@@ -58,6 +58,7 @@ permalink: /grades/
   .att-badge { font-size:.78rem; padding:.15rem .45rem; border-radius:4px; font-weight:600; white-space:nowrap; }
   .att-P      { background:#d9f5d9; color:#1a5c1a; }
   .att-N      { background:#fde8e8; color:#900; }
+  .att-W      { background:#fdf1dc; color:#7a5200; }
   .att-future { background:var(--border); color:var(--muted); font-style:italic; font-weight:400; }
 </style>
 
@@ -135,19 +136,23 @@ const PROJECT_SPECS = [
 ];
 
 const THRESHOLDS = [
-  { grade:"A",  slo:28,   proj:9.5,  att:93, forum:5 },
-  { grade:"A−", slo:27,   proj:9.0,  att:90, forum:5 },
-  { grade:"B+", slo:26.5, proj:8.5,  att:87, forum:4 },
-  { grade:"B",  slo:25,   proj:8.0,  att:83, forum:4 },
-  { grade:"B−", slo:24,   proj:7.5,  att:80, forum:4 },
-  { grade:"C+", slo:23.5, proj:7.0,  att:77, forum:3 },
-  { grade:"C",  slo:22,   proj:6.5,  att:73, forum:3 },
-  { grade:"C−", slo:21,   proj:6.0,  att:70, forum:3 },
-  { grade:"D+", slo:20.5, proj:5.5,  att:67, forum:2 },
-  { grade:"D",  slo:19,   proj:5.0,  att:63, forum:2 },
+  { grade:"A",  slo:28,   proj:9.5,  att:93, forum:4 },
+  { grade:"A−", slo:27,   proj:9.0,  att:90, forum:4 },
+  { grade:"B+", slo:26.5, proj:8.5,  att:87, forum:3 },
+  { grade:"B",  slo:25,   proj:8.0,  att:83, forum:3 },
+  { grade:"B−", slo:24,   proj:7.5,  att:80, forum:3 },
+  { grade:"C+", slo:23.5, proj:7.0,  att:77, forum:2 },
+  { grade:"C",  slo:22,   proj:6.5,  att:73, forum:2 },
+  { grade:"C−", slo:21,   proj:6.0,  att:70, forum:2 },
+  { grade:"D+", slo:20.5, proj:5.5,  att:67, forum:1 },
+  { grade:"D",  slo:19,   proj:5.0,  att:63, forum:1 },
   { grade:"D−", slo:18,   proj:4.5,  att:60, forum:1 },
   { grade:"F",  slo:0,    proj:0,    att:0,  forum:0 }
 ];
+
+// The first ATT_WAIVED absences (earliest sessions first) count as attended,
+// so a student can miss up to 4 of 38 sessions and still reach the A threshold.
+const ATT_WAIVED = 2;
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 const esc = s => (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -212,11 +217,11 @@ function meter(cntA, cntP, cntN, max, hasPending=true){
   <div class="g-pending">${sc.toFixed(1)} achieved · ${cntN} missed${pendStr}</div>`;
 }
 
-function attMeter(present, absent, future){
+function attMeter(present, absent, future, waived){
   const tot  = present + absent + future;
   const pctP = tot ? Math.min(100, present / tot * 100) : 0;
   const pctN = tot ? Math.min(100, absent  / tot * 100) : 0;
-  const pct  = present + absent > 0 ? (present / (present + absent) * 100).toFixed(0) : null;
+  const pct  = present + absent > 0 ? ((present + waived) / (present + absent) * 100).toFixed(0) : null;
   return `<div class="g-meter">
     <div class="g-meter-track">
       <div class="g-meter-A" style="width:${pctP.toFixed(1)}%"></div>
@@ -224,7 +229,7 @@ function attMeter(present, absent, future){
     </div>
     <span class="g-meter-label">${pct !== null ? pct+'%' : 'N/A'}</span>
   </div>
-  <div class="g-pending">${present} present · ${absent} absent · ${future} upcoming</div>`;
+  <div class="g-pending">${present} present · ${absent} absent${waived ? ` (${waived} waived)` : ''} · ${future} upcoming</div>`;
 }
 
 function gradeForSLO(s)   { for (const t of THRESHOLDS){ if (s >= t.slo)   return t.grade; } return 'F'; }
@@ -278,7 +283,7 @@ function render(key, headers, studentRow, attendance){
     if (v === 'A') projA++; else if (v === 'P') projP++; else if (v === 'N') projN++;
   }
   const projScore = projA + projP * 0.5;
-  const attPct    = attendance ? attendance.pct : null;
+  const attWaived = attendance ? Math.min(ATT_WAIVED, attendance.absent || 0) : 0;
 
   const forumDone    = forumItems.filter(f => f.done).length;
   const forumNotDone = forumItems.filter(f => f.notDone).length;
@@ -287,9 +292,10 @@ function render(key, headers, studentRow, attendance){
 
   const sloEnables   = sloA + sloP + sloN > 0 ? gradeForSLO(sloScore + sloPending) : null;
   const projEnables  = projA + projP + projN > 0 ? gradeForProj(projScore) : null;
+  // best case: every remaining session attended, waived absences counted as attended
   const attOptPct    = attendance && attendance.happened + attendance.future > 0
-    ? (attendance.present + attendance.future) / (attendance.happened + attendance.future) * 100
-    : attPct;
+    ? (attendance.present + attWaived + attendance.future) / (attendance.happened + attendance.future) * 100
+    : null;
   const attEnables   = attendance && attOptPct !== null ? gradeForAtt(attOptPct) : null;
   const forumEnables = forumTotal > 0 ? gradeForForum(forumDone + forumPending) : null;
   const enablesLine  = g => g ? `<div class="grade-enables">enables up to <strong>${esc(g)}</strong></div>` : '';
@@ -301,7 +307,7 @@ function render(key, headers, studentRow, attendance){
       ${attendance.loadError || attendance.notFound
         ? `<div class="grade-card-sub" style="font-style:italic">${attendance.loadError ? 'Could not load' : 'ID not found in tab'}</div>`
         : `<div class="grade-card-value">${attendance.present}<span style="font-size:1rem;font-weight:400;color:var(--muted)"> / ${attendance.total} sessions</span></div>
-      ${attMeter(attendance.present, attendance.absent, attendance.future)}
+      ${attMeter(attendance.present, attendance.absent, attendance.future, attWaived)}
       ${enablesLine(attEnables)}`}
     </div>` : '';
 
@@ -412,11 +418,16 @@ function render(key, headers, studentRow, attendance){
       html += `<p class="g-status err">Attendance data not found. Contact your instructor if this seems wrong.</p>`;
     } else if (attendance.total > 0){
       html += `<p>You attended <strong>${attendance.present}</strong> of <strong>${attendance.total}</strong> sessions${attendance.happened > 0 ? ` (${attendance.happened} held so far)` : ''}.${attendance.future > 0 ? ` <em>${attendance.future} still ahead.</em>` : ''}</p>`;
+      html += `<p>Your first ${ATT_WAIVED} absences are waived: they count as attended in your attendance percentage.${attWaived ? ` Waived so far: <strong>${attWaived}</strong> of ${ATT_WAIVED}.` : ''}</p>`;
       html += `<div class="att-session-list">`;
+      let waivedShown = 0;
       attendance.sessions.forEach(s => {
-        const cls  = s.value === 'P' ? 'att-P' : s.value === 'N' ? 'att-N' : 'att-future';
-        const icon = s.value === 'P' ? '✓' : s.value === 'N' ? '✗' : '·';
-        html += `<span class="att-badge ${cls}" title="${esc(s.value||'upcoming')}">${icon} ${esc(s.label)}</span>`;
+        const isWaived = s.value === 'N' && waivedShown < attWaived;
+        if (isWaived) waivedShown++;
+        const cls   = s.value === 'P' ? 'att-P' : isWaived ? 'att-W' : s.value === 'N' ? 'att-N' : 'att-future';
+        const icon  = s.value === 'P' ? '✓' : s.value === 'N' ? '✗' : '·';
+        const title = s.value === 'P' ? 'present' : isWaived ? 'absent (waived)' : s.value === 'N' ? 'absent' : 'upcoming';
+        html += `<span class="att-badge ${cls}" title="${title}">${icon} ${esc(s.label)}${isWaived ? ' · waived' : ''}</span>`;
       });
       html += `</div>`;
     } else {

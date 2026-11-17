@@ -1,0 +1,52 @@
+// Week 12 Retrieval Quiz 3 — time series: a feature from the past, why a forest needs lags, shuffled vs rolling folds — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 12's Friday class (Practice 10). Three questions on Wednesday's class (w12d2, all 12B):
+// which lag or rolling feature doesn't leak the future, why a forest on calendar and weather can't follow growth (and
+// the naive forecast it must beat), and why shuffled folds promise a number that's too good while TimeSeriesSplit's
+// range is the honest report.
+// Every question is self-contained: small generic examples with all needed facts in the stem (none use the bike data).
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 3 questions, ~4 minutes.
+
+$CATEGORY: Week 12 / Retrieval 03
+
+// ── Section 1: Lag and Rolling Features (12B) ────────────────────────────────
+
+::W12-R3-Q1 A feature from the past (12B)::[html]A food truck predicts how many <b>tacos</b> it sells each hour. Its data has one row per hour, in time order, with a column <code>tacos</code>. A student tries four new features. Which one could the truck really know <b>before</b> the hour it predicts?{
+=<code>tacos.shift(1).rolling(3).mean()</code> #Correct. <code>shift(1)</code> moves each value down one row, so the window of 3 ends at the hour before the one predicted\: the average of the last 3 hours, which have all happened already. Shift first, then roll.
+~<code>tacos.rolling(3).mean()</code> #Without the shift, the window ends at the current row, so this hour's tacos, the answer itself, is one of the three numbers averaged. The model would look great in testing, but it could never have this number in time.
+~<code>tacos.shift(-1)</code> #A negative shift moves values <i>up</i>\: it puts the next hour's tacos in this row. That's the answer to the next question, handed over early; when the truck makes its prediction, that hour hasn't happened.
+~<code>tacos.shift(-24)</code>, for "the same hour yesterday" #The minus sign goes the wrong way\: <code>shift(-24)</code> puts the same hour <i>tomorrow</i> in this row. The same hour yesterday is <code>shift(24)</code>. A lag always shifts by 1 or more, never by a negative number.
+}
+
+// ── Section 2: Why a Forest Needs Lags (12B) ─────────────────────────────────
+
+::W12-R3-Q2 Too low all summer (12B)::[html]A climbing gym has kept growing since it opened. After learning from 2024 and 2025, three forecasts of its <b>visits per day</b> for summer 2026. Mean absolute error, in visits per day:
+<pre>
+forecast for summer 2026                          MAE
+random forest, calendar + weather                  48
+no model: copy the same day last week              31
+random forest, calendar + weather + lags           18
+</pre>
+The first forest is too low on almost every day. Which reading is right?{
+=A tree predicts averages of the days it learned from, so it can't forecast more visits than it saw on similar days. The same day last week already had this summer's bigger crowds, and lags hand that level to the forest #Correct. Calendar and weather give the shape (weekends, hot days); a lag like "the same day last week" gives the current level, which a forest can't extrapolate. And always compare with the naive forecast\: a model that can't beat "copy last week" isn't worth running.
+~The forest is too shallow\: with no depth limit, it could follow the growth #A deeper tree still predicts averages of the days it learned from. No tree, however deep, predicts more visits than its busiest training days.
+~Split the days at random instead, so the forest learns some 2026 days too #That leaks the future\: each test day would have learned days on both sides of it, and the score would look far better than any real forecast. When the gym makes its forecast, summer 2026 hasn't happened yet.
+~Copying last week isn't a model, so its 31 doesn't count; the fair comparison is between the two forests #The naive forecast is the first score any model must beat. Here the calendar-and-weather forest loses to it; only with lags does the forest earn its keep (18 against 31).
+}
+
+// ── Section 3: Test in Time Order (12B) ──────────────────────────────────────
+
+::W12-R3-Q3 Shuffled or rolling folds? (12B)::[html]An online game predicts how many players are <b>online each hour</b>, from three years of hourly data. A student cross-validates the same random forest (clock and lag features) two ways. Mean absolute error, in players per hour:
+<pre>
+folds                   fold 1   fold 2   fold 3   fold 4   fold 5
+KFold(shuffle=True)       31       30       31       32       30
+TimeSeriesSplit           74       45       38       52       61
+</pre>
+The next season, the real forecasts miss by 57 players an hour. Which reading is right?{
+=Each shuffled fold checks hours whose neighbors, before and after, are in the rows the forest learned from\: the future leaks in, so all five agree on a number that's too good. <code>TimeSeriesSplit</code> replays real forecasts, so report its range, 38 to 74 #Correct. Each rolling fold learns from everything before a date and checks the stretch right after it, the way the game would really forecast. Its folds differ because seasons differ; that range is the honest report, and the next season (57) fell inside it. Use <code>cv\=TimeSeriesSplit(...)</code> in <code>GridSearchCV</code> too, so knobs are chosen on honest folds.
+~The shuffled folds are more reliable\: their error is lower, and all five folds agree #They agree because every shuffled fold is the same mix of hours, each with learned hours on both sides. Low and steady isn't honest here\: the real forecasts missed by 57, not 31.
+~Report the rolling folds' best result, 38, since fold 1's 74 is an outlier #Fold 1 learned from the shortest past, so it met a season unlike any it had seen; real forecasts can meet those too. Reporting only the best fold hides that. The range, 38 to 74, is the honest report.
+~The rolling folds learn from fewer hours than the shuffled ones, so they are too pessimistic; the real error is about 31 #Some rolling folds do learn from less, but that's not why the gap is so big\: the shuffled folds peek at the hours around each checked hour. The next season missed by 57, close to the rolling folds and nowhere near 31.
+}

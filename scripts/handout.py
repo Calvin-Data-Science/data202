@@ -16,6 +16,9 @@ Markdown format (also explained in each .md's top comment):
                        a line with only underscores = a full-width writing line
   \\newpage             start a new page
   bold, italic, $math$, numbered lists and pipe tables are normal pandoc markdown.
+  A pipe table keeps its natural width, unless a column in its |---| row has 4+ dashes
+  (e.g. |:-:|----|--------|): then it spans the page in small type, its cells wrap,
+  and each column's width is in proportion to its dashes (a summary table).
 HTML comments (<!-- ... -->) are not printed.
 
 Requires: pandoc + xelatex (same as build_quiz.py).
@@ -40,6 +43,8 @@ PLOT_STYLE = {               # matplotlib rcParams shared by every handout's plo
 }
 
 PLOT_LINE = re.compile(r"^!\[[^\]]*\]\(plot:(\w+)\)(?:\{width=(\d+)%\})?\s*$")
+TABLE_RULE = re.compile(r"^\s*\|(\s*:?-+:?\s*\|)+\s*$")       # a pipe table's |:--|---| line
+WIDE_TABLE_DASHES = 4        # a column with this many dashes makes the table a full-width summary table
 
 
 def blanks(text):
@@ -52,6 +57,30 @@ def blanks(text):
         else:
             # `...`{=latex} = pandoc's explicit inline raw LaTeX; a bare \rule would become its own paragraph
             out.append(re.sub(r"_{4,}", lambda m: r"`\rule{%.1fcm}{0.4pt}`{=latex}" % max(1.2, 0.35 * len(m.group(0))), line))
+    return "\n".join(out)
+
+
+def wide_tables(text):
+    """Summary tables: a pipe table with a 4+ dash column spans the page, wraps its cells and uses small type.
+    Pandoc wraps a pipe table only when a source line is longer than --columns (1000 here, see render_pdf),
+    with column widths in proportion to the dashes, so the |---| line is stretched past 1000 characters."""
+    lines = text.split("\n")
+    out, i = [], 0
+    while i < len(lines):
+        rule = lines[i + 1] if i + 1 < len(lines) else ""
+        cells = rule.strip().strip("|").split("|")
+        if lines[i].lstrip().startswith("|") and TABLE_RULE.match(rule) and max(c.count("-") for c in cells) >= WIDE_TABLE_DASHES:
+            end = i + 2
+            while end < len(lines) and lines[end].lstrip().startswith("|"):
+                end += 1
+            stretch = 1000 // sum(c.count("-") for c in cells) + 1
+            rule = "|" + "|".join(c.strip().replace("-" * c.count("-"), "-" * (c.count("-") * stretch)) for c in cells) + "|"
+            out += ["", raw_latex(r"\begingroup\footnotesize\renewcommand{\arraystretch}{1.15}"),
+                    lines[i], rule, *lines[i + 2:end], "", raw_latex(r"\endgroup"), ""]
+            i = end
+        else:
+            out.append(lines[i])
+            i += 1
     return "\n".join(out)
 
 
@@ -98,17 +127,17 @@ def build_md(title, intro, parts, plots):
             if width >= FULL_WIDTH_FROM:
                 out.append(raw_latex(r"\noindent\includegraphics[width=%.2f\linewidth]{%s}\par\vspace{4pt}"
                                      % (width / 100, path)))
-                out.append(blanks(body) + "\n")
+                out.append(wide_tables(blanks(body)) + "\n")
             else:
                 out.append(raw_latex(
                     r"\noindent\begin{minipage}[t]{%.2f\linewidth}\vspace{0pt}" % (width / 100) + "\n"
                     + r"\includegraphics[width=\linewidth]{%s}" % path + "\n"
                     + r"\end{minipage}\hfill" + "\n"
                     + r"\begin{minipage}[t]{%.2f\linewidth}\vspace{0pt}\raggedright" % (0.97 - width / 100)))
-                out.append(blanks(body) + "\n")
+                out.append(wide_tables(blanks(body)) + "\n")
                 out.append(raw_latex(r"\end{minipage}\par\vspace{6pt}"))
         else:
-            out.append(blanks(body) + "\n")
+            out.append(wide_tables(blanks(body)) + "\n")
         if newpage:
             out.append(raw_latex(r"\newpage"))
     return "\n".join(out)

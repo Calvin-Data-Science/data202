@@ -213,6 +213,12 @@ Your notebook is both the code and the report — there is no separate document.
 - Use section headers, figure captions, and consistent variable names to help the reader navigate
 - Primary visualizations should be interpretable by a non-technical reader; the methods sections should use precise technical language
 
+**Examples of good notebook reports.** These Kaggle analyses show the kind of notebook we are aiming for: a clear narrative, informative plots, and modeling choices explained as they are made. Read them for structure and style, not as templates to copy, and cite any code you adapt.
+- [Titanic Data Science Solutions](https://www.kaggle.com/code/startupsci/titanic-data-science-solutions) — a full workflow, from question to model comparison
+- [Red Wine Quality: EDA + Classification](https://www.kaggle.com/code/walidkw/red-wine-quality-eda-classification-90)
+- [Credit Fraud: Dealing with Imbalanced Datasets](https://www.kaggle.com/code/janiobachmann/credit-fraud-dealing-with-imbalanced-datasets)
+- For these datasets, browse the top-voted notebooks in each page's **Code** tab: [New York City Airbnb Open Data](https://www.kaggle.com/datasets/dgomonov/new-york-city-airbnb-open-data), [Pokémon](https://www.kaggle.com/datasets/rounakbanik/pokemon), [Mushroom Classification](https://www.kaggle.com/datasets/uciml/mushroom-classification)
+
 You will also submit slides for the final presentation separately.
 
 ---

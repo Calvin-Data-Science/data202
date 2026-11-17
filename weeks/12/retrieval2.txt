@@ -1,0 +1,59 @@
+// Week 12 Retrieval Quiz 2 — imbalanced data: why a model gives up rare cases, rebalance after the split, class weights vs SMOTE on a grown forest — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 12's Wednesday class. Three questions on Monday's class (w12d1, all 12A): why a model
+// that makes the fewest mistakes gives up the rare cases near the majority, why SMOTE goes after the split (and never
+// on the test set), and why class weights barely move a fully grown forest while SMOTE trades precision for recall.
+// Every question is self-contained: small generic examples with all needed facts in the stem (none use the pulsar data).
+// Q1's counts come from a simulation (2-D Gaussians, logistic regression, seed 7): 38 vs 31 cheaters flagged, and the
+// first model's line flags 23 of the 400 honest players.
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 3 questions, ~4 minutes.
+
+$CATEGORY: Week 12 / Retrieval 02
+
+// ── Section 1: Same Rare Cases, More Majority (12A) ──────────────────────────
+
+::W12-R2-Q1 Same cheaters, more honest players (12A)::[html]A chess website flags players who cheat with a computer, using two columns that describe how they play. A logistic regression learns from the same <b>40 cheaters</b> twice, once next to 40 honest players and once next to 400:
+<pre>
+training rows                          cheaters it flags (of the 40)
+40 cheaters +  40 honest players                  38
+40 cheaters + 400 honest players                  31
+</pre>
+Nothing about the 40 cheaters changed. Why does the second model flag fewer of them?{
+=Some cheaters play like many honest players. Next to 400 honest players, flagging those cheaters would also flag several honest players for each one, so the line that makes the fewest mistakes gives them up #Correct. The model learns by keeping its total mistakes low. With 10 honest players for every cheater, the honest players crowd into the cheaters' corner, and catching a cheater there costs more mistakes than it saves. That is why a rare class is harder to learn, and why the model leans toward the majority even when its accuracy is high.
+~The second model overfits\: with 440 rows, it has more to memorize #More rows make memorizing harder, not easier, and a straight line has the same two slopes either way. The second model isn't memorizing; it's leaning toward the class that makes up 91% of its rows.
+~The 360 extra honest players are clutter\: drop them, and the model gives its true answer, 38 #On the real site, most players are honest, so they aren't clutter. Dropping them (undersampling) does move the line back toward 38, but that line flags 23 of the 400 honest players, against 5 for the second model. Neither line is the "true" one; each trades one mistake for the other.
+~Two columns can't tell cheaters from honest players; more columns would fix it #With the same two columns, the first model flags 38 of the 40. The columns didn't change; only the number of honest players around the cheaters did.
+}
+
+// ── Section 2: Rebalance After the Split (12A) ───────────────────────────────
+
+::W12-R2-Q2 SMOTE, then split? (12A)::[html]A nature app listens for a rare frog in 3,000 pond recordings; 150 of them have the frog (5%). Two students train the same random forest and score it on a test set:
+<pre>
+                                           recall   precision   test set
+A: SMOTE on all 3,000, then split           0.97      0.96      50% frogs
+B: split, then SMOTE the training rows      0.78      0.70       5% frogs
+</pre>
+Which reading is right?{
+=Believe B. In A, most test frogs are synthetic, made between frogs that are also in the training rows, so the forest has nearly seen them. And A's test set is half frogs, unlike any real pond #Correct. Rebalance only the rows the model learns from, after the split. A's score measures memory, like scoring a model on the rows it learned from\: overfitting, hidden by a leak. An <code>imblearn</code> pipeline does it in the right order, in cross-validation too.
+~Believe A\: its test set has many more frogs, so its scores are measured more precisely #More test frogs, but most are synthetic, made from the training frogs. A big test set of almost-seen rows measures memory precisely, not how the app will do in a real pond.
+~B should SMOTE its test set too, so both students are scored the same way #Never rebalance the test set\: it must keep the real mix, the 5% of frogs the app will really hear. Synthetic test rows would also be made from neighbors, bringing back A's problem.
+~Both are fine; the gap in recall is just the luck of the split #The gap isn't luck. In A, the test frogs are built from training frogs, so every split done this way scores too high. And precision on a test set that is half frogs says nothing about a pond where 1 recording in 20 has one.
+}
+
+// ── Section 3: Which Tool for Which Model (12A) ──────────────────────────────
+
+::W12-R2-Q3 Class weights and a grown forest (12A)::[html]A pizza app predicts which orders will be <b>sent back</b> (4% of orders), so a manager can double-check them before they leave. A random forest with no depth limit, three ways, cross-validated on the training orders:
+<pre>
+random forest, no depth limit             recall   precision
+nothing                                     0.52      0.80
+class_weight="balanced"                     0.51      0.81
+SMOTE, in an imblearn pipeline              0.66      0.62
+</pre>
+Which reading is right?{
+=Class weights barely move a fully grown forest\: its trees end in pure leaves, so the weights hardly change any vote. SMOTE changes the rows the trees learn from, and trades precision for recall, like a lower threshold #Correct. A tool that helps one model can do nothing for another\: for logistic regression, class weights work about as well as SMOTE. So try the tools inside an <code>imblearn</code> pipeline and compare them with cross-validation. Whether 0.66 and 0.62 beat 0.52 and 0.80 depends on what a sent-back pizza costs against a needless double-check.
+~SMOTE is the best\: its recall is the highest #Higher recall came with lower precision\: more double-checks of pizzas that were fine. That's a trade-off, not a win. Which point is best depends on what each mistake costs the shop.
+~The weights are too small\: set <code>class_weight\=\{1\: 100\}</code> by hand, and the forest will catch as many as SMOTE #A heavier weight meets the same pure leaves\: each tree still grows until every leaf holds one class, and a leaf that holds only good orders votes "good", whatever its weight. To move a grown forest, change its rows (SMOTE, a balanced forest) or lower the threshold.
+~Copying the sent-back orders (random oversampling) would beat SMOTE, since every copy is a real order #With no depth limit, the trees memorize the copies\: a leaf can hold the same order many times over. SMOTE's new rows fill the space between sent-back orders, so the trees learn a region, not a few points.
+}

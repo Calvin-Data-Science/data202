@@ -1,0 +1,57 @@
+// Week 12 Retrieval Quiz 1 — Week 11 review: choosing the threshold, why a forest's vote beats one tree, how AdaBoost reweights — GIFT format
+// Import into Moodle: Question bank > Import > GIFT format
+// Given at the start of Week 12's Monday class. Three Week 11 questions repeated word for word, so students can check
+// whether last week's feedback stuck: choosing the threshold (Week 11 Retrieval 2, Q3, 11A; it leads into today's class
+// on imbalanced data), and bagging's vote and AdaBoost's reweighting (Week 11 Retrieval 3, Q1 and Q2, 11B).
+// Only the question IDs changed (W11-… → W12-R1-…); stems, answers and feedback are identical to Week 11's.
+// Every question starts with [html] so Moodle keeps the <pre> tables exactly as typed.
+// Because of [html], a literal < or > in the text is written &lt; / &gt;.
+// 3 questions, ~4 minutes.
+
+$CATEGORY: Week 12 / Retrieval 01
+
+// ── Review: Choosing the Threshold (from Week 11 Retrieval 2) (11A) ─────────
+
+::W12-R1-Q1 Review: choosing the threshold (from Week 11 Retrieval 2) (11A)::[html]A park's trail cameras took 10,000 photos last month, and 500 of them show a bear. A logistic regression gives each photo a chance of showing a bear, and rangers look at every photo it flags (a positive is a bear). Three thresholds:
+<pre>
+threshold    photos flagged    precision    recall    accuracy
+0.7               250             0.90        0.45      97.0%
+0.5               400             0.80        0.64      97.4%
+0.2               900             0.50        0.90      95.0%
+</pre>
+Which reading is right?{
+=Lowering the threshold finds more of the bears (recall 0.45 → 0.90), but more of the flagged photos are empty (precision 0.90 → 0.50). Which threshold is best depends on what a missed bear costs against a wasted look #Correct. A lower threshold flags more photos\: more bears, and more false alarms. No threshold is "correct". The rangers choose by weighing the two mistakes\: a bear near the campground that nobody sees (a false negative) against a ranger checking an empty photo (a false positive).
+~0.5, because its accuracy is the highest #With only 500 bears in 10,000 photos, a camera that never flags anything scores 95% accuracy. Accuracy rewards saying "no bear", so it hides the trade-off\: at 0.5 the rangers still miss 36% of the bears.
+~0.7, because when it flags a photo it's right 90% of the time #That's precision, and it is highest at 0.7. But at 0.7 the rangers miss 55% of the bears (recall 0.45). Precision says how trustworthy a flag is, not how many of the bears get found.
+~0.5, because it is the model's own answer\: any other threshold changes the model's chances #The threshold doesn't touch the chances. The model and its probabilities stay the same; the threshold only moves the line where a chance becomes the label "bear". 0.5 is just the default in <code>predict</code>, a choice like any other.
+}
+
+// ── Review: Many Trees, One Vote (from Week 11 Retrieval 3) (11B) ───────────
+
+::W12-R1-Q2 Review: many trees, one vote (from Week 11 Retrieval 3) (11B)::[html]A music app classifies songs as <b>danceable</b> or not from 10 audio columns. Three models, all with no depth limit. Accuracy:
+<pre>
+model                                                  rows it learned from    held-out
+one tree                                                      100%               74%
+100 trees, each on its own bootstrap sample, voting           100%               85%
+100 trees, all on the same rows (bootstrap=False), voting     100%               74%
+</pre>
+Which reading is right?{
+=Each bootstrap tree memorizes the quirks of its own sample. The quirks differ from tree to tree and get outvoted, while the real pattern is shared and wins. Trees grown on the same rows are copies, and copies vote like one tree #Correct. The vote gains only from trees that are different\: each bootstrap sample repeats some songs and leaves out about a third, so each tree overfits in its own way. With bootstrap\=False, all 100 trees learn the same rows and make the same mistakes, so the vote is just the single tree again (74%).
+~The bootstrap trees are smaller and simpler, so each one overfits less than the single tree #The bootstrap trees are just as deep\: each reaches 100% on its own sample. Alone, each would score about like the single tree. The gain comes from the vote, not from simpler trees.
+~All three overfit equally\: each reaches 100% on the rows it learned from #The 100% only says each model memorized its rows. What matters is the held-out column, where the bootstrap vote gains 11 points. Many overfit trees, voting, overfit much less; that is why a forest rarely needs a depth limit.
+~The trees on the same rows should do best, since every tree sees all the data #Seeing the same rows, every tree learns the same thing, so 100 of them vote exactly like one. An ensemble needs members that are different, and the bootstrap samples are what make them different.
+}
+
+// ── Review: AdaBoost, Round by Round (from Week 11 Retrieval 3) (11B) ───────
+
+::W12-R1-Q3 Review: after the first stump (from Week 11 Retrieval 3) (11B)::[html]AdaBoost learns to tell <b>chewy</b> from <b>crispy</b> cookies. It starts with 10 cookies of the same weight, 0.1 each. Stump 1 asks "baking time ≤ 11 minutes?" and gets 2 cookies wrong:
+<pre>
+stump 1 error  = 0.1 + 0.1 = 0.2
+stump 1 say    = ½ ln((1 − 0.2) ÷ 0.2) = 0.69
+</pre>
+Which statement about round 2 is right?{
+=The 2 missed cookies get heavier and the other 8 lighter, until the 2 hold half of the total weight (0.25 each). The best stump 2 gets them right, even if it misses some of the light ones #Correct. Reweighting is how boosting builds in a row\: each stump focuses on what the ones before it missed. A stump that missed both heavy cookies again would have an error of at least 0.5, and a say of 0 or less, so stump 2 asks a different question. In the final vote, each stump counts with its say.
+~The 2 missed cookies are dropped, so stump 2 learns only from the 8 that stump 1 got right #The opposite\: AdaBoost keeps every cookie and makes the missed ones heavier. Dropping them would teach stump 2 only the easy cases, the ones stump 1 already handles.
+~Stump 2 learns from its own bootstrap sample of the cookies, without knowing what stump 1 missed #That's bagging, whose trees grow side by side, each on its own. Boosting builds its models in a row\: the weights carry what stump 1 missed over to stump 2.
+~The weights stay at 0.1 each; only the say changes from round to round #If the weights stayed the same, stump 2 would face the same problem and choose the same cut as stump 1, and the vote would gain nothing. The reweighting is what makes each stump different from the last.
+}

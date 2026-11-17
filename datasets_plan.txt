@@ -154,7 +154,13 @@ WEEK 11 — Other Models (logistic regression, random forest, gradient boosting)
                           purchase -1.42, conventional -0.59, second lien -0.23 (raw 21% vs 12%), DTI +1.03.
                           Test set untouched, kept for Week 14)
   Wed (class_w11d2):  [x] pumpkin.csv  (Koklu 2021; ensembles; logistic C=100 .889 CV in the final comparison)
-  Practice:           [ ]
+  Practice:           [x] songs.csv  (REAL; TidyTuesday 2020-01-21 Spotify songs, Kaylin Pavlik, CC0; built by
+                          scripts/make_songs.py: songs in 2+ playlist genres dropped (7%), profane titles dropped,
+                          1,000 per genre (edm/latin/pop/r&b/rap/rock), shuffled -> 6,000. 10 audio columns. Split
+                          0.25 stratify rs=1 -> 4,500/1,500. CV learned/held-out: logistic .464/.456, one tree
+                          1.000/.378, forest .999/.517, AdaBoost stumps .481/.456 (SAMME). Test: .468/.525/.449.
+                          Slopes: rap speechiness +.83, rock danceability -1.29; pop no slope beyond .37.
+                          Mi Gente -> edm .31, latin .16)
 
 ---
 
@@ -172,7 +178,19 @@ WEEK 12 — Other Techniques (imbalanced data, time-series features)
                           Forest clock+weather: random split MAE 50 vs time split 82 (predicts 179/h vs 252 actual).
                           Copy 1h/24h/1wk: 85/80/66. Forest + lags: 33. CV shuffled vs TimeSeriesSplit: 40 vs 57 (no
                           lags), 22 vs 36 (lags). Horizon 1/2/3/6/12/24/48/72/168 h: 34/47/52/54/54/49/54/55/56)
-  Practice:           [ ]
+  Reading (reading10): [x] weather.csv  (REAL; NOAA GHCN-Daily USW00094860, Grand Rapids airport, public domain; built by
+                          scripts/make_weather.py: every day 2001-2025 (9,131), high/low F, precip/snow/depth in, wind mph +
+                          direction of fastest wind; 7 blank wind_mph -> ffill. Learn < 2020, test 2020-2025. Highs: calendar
+                          forest 7.2 (1.2 F too cold), copy yesterday 5.4, forest + lags 4.7; LR day number 17.3 vs circle 7.1;
+                          date-only forest shuffled CV 5.3 vs TimeSeriesSplit 9.5. Big snow (>= 2 in) 325 days (3.6%): LR 0.5
+                          catches 3 of 65 test days at 97.0% = lazy; rebalancing ~ threshold 0.04; balanced forest .68/.11)
+  Practice (practice10): [x] pokemon.csv  (Barradas Kaggle "Pokemon with Stats", CC0, via KeithGalli/pandas mirror; built by
+                          scripts/make_pokemon.py: one row per species, 721, 46 legendary (6.4%); 6 stats. Split 0.25 stratify
+                          rs=1 -> 540/181 (34/12 legendary). LR acc .939 (lazy .934) rec .333 prec .571; CV thr 0.2 -> .97/.70,
+                          test 12/12 prec .75; kNN .52 -> SMOTE .97/.63; undersample prec .47. Label mixes mythicals.)
+                       [x] births.csv  (FiveThirtyEight US births 2000-2014 SSA, CC BY 4.0; scripts/make_births.py; lags 1/7/364
+                          + mean_last_7, dropna -> 5,115; learn < 2010, test 2010-2014. Naive 7d 452, 364d 378; forest calendar
+                          626 (+595 bias), + lags 299; date-only (with year) CV shuffled 277 vs rolling 410, test 595)
 
 ---
 

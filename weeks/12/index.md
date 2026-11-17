@@ -15,4 +15,5 @@ week_number: 12
 
 - [Monday class](class_w12d1.ipynb) · [handout (PDF)](class_w12d1_handout.pdf)
 - [Wednesday class](class_w12d2.ipynb) · [handout (PDF)](class_w12d2_handout.pdf)
+- [Practice 10](dist/student/practice10.ipynb) — imbalanced data on legendary Pokémon (thresholds, SMOTE, imblearn) and time series on U.S. daily births (lags, a time split, rolling-window cross-validation)
 - [Forum 5 instructions]({{ '/weeks/12/forum5/' | relative_url }})
